@@ -25,3 +25,6 @@ target
 ### mac ###
 .DS_Store
 */.DS_Store
+
+### project ###
+easy-logs
