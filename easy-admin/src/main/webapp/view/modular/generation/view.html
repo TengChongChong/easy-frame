@@ -1,0 +1,504 @@
+@layout("/common/container.html"){
+<style>
+    .table-field-set thead th{
+        font-weight: bold;
+    }
+    .table-field-set thead th,
+    .table-field-set .cell-list,
+    .table-field-set .cell-input{
+        text-align: center;
+    }
+    .table-field-set .cell-list .m-checkbox,
+    .table-field-set .cell-input .m-checkbox{
+        padding-left: 19px
+    }
+    .table-field-set th,
+    .table-field-set td{
+        white-space: nowrap;
+        border-color: #fff !important;
+    }
+    .table-field-set .cell-base{
+        background: rgba(61, 190, 163, 0.1);
+    }
+    .table-field-set .cell-list{
+        background: rgba(61, 165, 244, 0.1);
+    }
+    .table-field-set .cell-input{
+        background: rgba(33, 197, 218, 0.1);
+    }
+</style>
+<div class="m-portlet" m-portlet="true">
+    <#portlet:head title="代码生成" icon="la la-code-fork"/>
+    <div class="m-portlet__body">
+        <!--begin: 表单向导-->
+        <div class="m-wizard m-wizard--1 m-wizard--success" id="m_wizard">
+            <!--begin: 表单向导 Head -->
+            <div class="m-wizard__head m-portlet__padding-x">
+                <!--begin: 表单向导 Progress -->
+                <div class="m-wizard__progress">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <!--end: 表单向导 Progress -->
+
+                <!--begin: 表单向导 Nav -->
+                <div class="m-wizard__nav">
+                    <div class="m-wizard__steps">
+                        <div class="m-wizard__step m-wizard__step--current" m-wizard-target="m_wizard_form_step_1">
+                            <div class="m-wizard__step-info">
+                                <a href="#" class="m-wizard__step-number">
+                                    <span>
+                                        <span>1</span>
+                                    </span>
+                                </a>
+                                <div class="m-wizard__step-line">
+                                    <span></span>
+                                </div>
+                                <div class="m-wizard__step-label">
+                                    基本信息
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_2">
+                            <div class="m-wizard__step-info">
+                                <a href="#" class="m-wizard__step-number">
+                                    <span>
+                                        <span>2</span>
+                                    </span>
+                                </a>
+                                <div class="m-wizard__step-line">
+                                    <span></span>
+                                </div>
+                                <div class="m-wizard__step-label">
+                                    生成信息
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_3">
+                            <div class="m-wizard__step-info">
+                                <a href="#" class="m-wizard__step-number">
+                                    <span>
+                                        <span>3</span>
+                                    </span>
+                                </a>
+                                <div class="m-wizard__step-line">
+                                    <span></span>
+                                </div>
+                                <div class="m-wizard__step-label">
+                                    字段信息
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_4">
+                            <div class="m-wizard__step-info">
+                                <a href="#" class="m-wizard__step-number">
+                                    <span>
+                                        <span>4</span>
+                                    </span>
+                                </a>
+                                <div class="m-wizard__step-line">
+                                    <span></span>
+                                </div>
+                                <div class="m-wizard__step-label">
+                                    list 页面布局
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_5">
+                            <div class="m-wizard__step-info">
+                                <a href="#" class="m-wizard__step-number">
+                                    <span>
+                                        <span>5</span>
+                                    </span>
+                                </a>
+                                <div class="m-wizard__step-line">
+                                    <span></span>
+                                </div>
+                                <div class="m-wizard__step-label">
+                                    input 页面布局
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_6">
+                            <div class="m-wizard__step-info">
+                                <a href="#" class="m-wizard__step-number">
+                                    <span>
+                                        <span>6</span>
+                                    </span>
+                                </a>
+                                <div class="m-wizard__step-line">
+                                    <span></span>
+                                </div>
+                                <div class="m-wizard__step-label">
+                                    完成
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end: 表单向导 Nav -->
+            </div>
+            <!--end: 表单向导 Head -->
+
+            <!--begin: 表单向导 Form-->
+            <div class="m-wizard__form">
+                <form class="m-form m-form--label-align-left- m-form--state-" id="m_form">
+                    <!--begin: Form Body -->
+                    <div class="m-portlet__body">
+                        <!--begin: 表单向导 Step 1-->
+                        <div class="m-wizard__form-step m-wizard__form-step--current" id="m_wizard_form_step_1">
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <#form:select id="tableName" name="表名" required="true"
+                                    other="data-live-search='true'"/>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <#form:input id="businessName" name="业务名称" required="true"
+                                    tips="controller/entity/dao/service注释"/>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <#form:input id="modelName" name="实体类名称" />
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <#form:input id="author" name="作者" tips="注释中的 @author"/>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <label class="col-2 control-label" for="projectPath">
+                                            项目路径：
+                                            <i data-toggle="m-tooltip" data-placement="top"
+                                               data-original-title="idea中的项目绝对路径"
+                                               class="flaticon-questions-circular-button"></i>
+                                        </label>
+                                        <div class="col-10">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="projectPath"
+                                                       name="projectPath"/>
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-secondary dropdown-toggle"
+                                                            data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                        最近使用的路径
+                                                    </button>
+                                                    <div class="dropdown-menu" x-placement="bottom-start"
+                                                         id="lately-path"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end: 表单向导 Step 1-->
+
+                        <!--begin: 表单向导 Step 2-->
+                        <div class="m-wizard__form-step" id="m_wizard_form_step_2">
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <#form:select id="generatorTemplate" name="生成模板"
+                                    required="true" class="m-bootstrap-select select-picker"
+                                    value="default" other="data-dict-type='generatorTemplate'" tips=""/>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <#form:input id="menuName" name="菜单名称" tips="如填写会自动添加菜单及权限"/>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <#form:select id="module" name="所属模块" required="true"
+                                    class="m-bootstrap-select select-picker"
+                                    other="data-dict-type='module'" tips="com.**.modular.模块名"/>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <#form:input id="permissionsCode" name="权限代码"
+                                    tips="Controller方法中的@RequiresPermissions值前缀"/>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <#form:input id="controllerMapping" name="@RequestMapping"
+                                    tips="Controller的@RequestMapping值"/>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <#form:input id="viewPath" name="页面路径" tips="*.html存放路径"/>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <label class="col-2 control-label" for="projectPath">
+                                            需要生成的方法：
+                                        </label>
+                                        <div class="col-10">
+                                            <div class="m-checkbox-inline">
+                                                <#form:checkbox name="add" text="add" value="true"/>
+                                                <#form:checkbox name="delete" text="delete" value="true"/>
+                                                <#form:checkbox name="save" text="save" value="true"/>
+                                                <#form:checkbox name="select" text="select" value="true"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <label class="col-2 control-label" for="projectPath">
+                                            <span class="required">*</span> 需要生成的文件：
+                                        </label>
+                                        <div class="col-10">
+                                            <div class="m-checkbox-inline">
+                                                <label class="m-checkbox">
+                                                    <input type="checkbox" name="modelSwitch" value="true"
+                                                           required="true" checked onclick="return false;"> model
+                                                    <span></span>
+                                                </label>
+                                                <#form:checkbox name="daoSwitch" text="dao" value="true"/>
+                                                <#form:checkbox name="mappingSwitch" text="mapping" value="true"/>
+                                                <#form:checkbox name="serviceSwitch" text="service" value="true"/>
+                                                <#form:checkbox name="serviceImplSwitch" text="serviceImpl"
+                                                value="true"/>
+                                                <#form:checkbox name="controllerSwitch" text="controller" value="true"/>
+                                                <#form:checkbox name="listSwitch" text="list.html" value="true"/>
+                                                <#form:checkbox name="listJsSwitch" text="list.js?v=${project.getVersion()}" value="true"/>
+                                                <#form:checkbox name="inputSwitch" text="input.html" value="true"/>
+                                                <#form:checkbox name="inputJsSwitch" text="input.js?v=${project.getVersion()}" value="true"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end: 表单向导 Step 2-->
+
+                        <!--begin: 表单向导 Step 3-->
+                        <div class="m-wizard__form-step" id="m_wizard_form_step_3">
+                            <div id="field-set-scrollable">
+                                <table id="field-set" class="table table-bordered table-hover table-field-set">
+                                    <thead>
+                                    <tr>
+                                        <th class="cell-base" colspan="6">字段</th>
+                                        <th class="cell-list" colspan="4">列表</th>
+                                        <th class="cell-input" colspan="7">表单</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="cell-base">序号</th>
+                                        <th class="cell-base">列名</th>
+                                        <th class="cell-base">字段类型</th>
+                                        <th class="cell-base"><div style="max-width: 140px;">注释</div></th>
+                                        <th class="cell-base">属性</th>
+                                        <th class="cell-base">类型</th>
+                                        <th class="cell-list">显示</th>
+                                        <th class="cell-list"><div style="width: 100px;">列表</div></th>
+                                        <th class="cell-list">查询</th>
+                                        <th class="cell-list"><div style="width: 70px;">匹配方式</div></th>
+                                        <th class="cell-input">编辑</th>
+                                        <th class="cell-input"><div style="width: 100px;">label</div></th>
+                                        <th class="cell-input"><div style="width: 105px;">元素类型</div></th>
+                                        <th class="cell-input"><div style="width: 115px;">栅格</div></th>
+                                        <th class="cell-input">字典类型</th>
+                                        <th class="cell-input">必填</th>
+                                        <th class="cell-input"><div style="width: 180px;">字段验证</div></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!--end: 表单向导 Step 3-->
+
+                        <!--begin: 表单向导 Step 4-->
+                        <div class="m-wizard__form-step" id="m_wizard_form_step_4">
+                            <div class="m-portlet" m-portlet="true">
+                                <div class="m-portlet__head">
+                                    <div class="m-portlet__head-caption">
+                                        <div class="m-portlet__head-title">
+                                            <h3 class="m-portlet__head-text business-name">loading...</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="m-portlet__body">
+                                        <div class="m-stack m-stack--ver m-stack--general query-modular">
+                                            <div class="m-stack__item m-stack__item--fluid">
+                                                <div class="row" id=""></div>
+                                            </div>
+                                            <div class="m-stack__item query-btn-group">
+                                                <#btn:search />
+                                                <#btn:reset />
+                                            </div>
+                                        </div>
+                                        <div class="btn-row">
+                                            <#btn:add/>
+                                            <#btn:delete/>
+                                        </div>
+                                        <div class="m_datatable" id="list-body"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end: 表单向导 Step 4-->
+
+                        <!--begin: 表单向导 Step 5-->
+                        <div class="m-wizard__form-step" id="m_wizard_form_step_5">
+                            <div class="m-portlet" m-portlet="true">
+                                <div class="m-portlet__head">
+                                    <div class="m-portlet__head-caption">
+                                        <div class="m-portlet__head-title">
+                                            <h3 class="m-portlet__head-text business-name">loading...</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="m-portlet__body">
+
+                                </div>
+                                <div class="m-portlet__foot m-portlet__foot--fit">
+                                    <div class="m-form__actions text-center">
+                                        <#btn:save/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end: 表单向导 Step 5-->
+
+                        <!--begin: 表单向导 Step 6-->
+                        <div class="m-wizard__form-step" id="m_wizard_form_step_6">
+                            <div class="m-section m--margin-bottom-5">
+                                <h3 class="m-section__heading">
+                                    即将生成以下文件
+                                </h3>
+                                <div class="m-section__content">
+                                    <!--begin::Preview-->
+                                    <div class="m-demo">
+                                        <div class="m-demo__preview">
+                                            <div class="m-list-timeline">
+                                                <div class="m-list-timeline__items">
+                                                    <div class="m-list-timeline__item">
+                                                        <span class="m-list-timeline__badge"></span>
+                                                        <span class="m-list-timeline__icon fab fa-java"></span>
+                                                        <span class="m-list-timeline__text">
+                                                            /Users/tengchong/Workspaces/Idea/springboot/src/main/java/com/example/springboot/modular/sys/model/SysDict.java
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-list-timeline__item">
+                                                        <span class="m-list-timeline__badge"></span>
+                                                        <span class="m-list-timeline__icon fab fa-java"></span>
+                                                        <span class="m-list-timeline__text">
+                                                            /Users/tengchong/Workspaces/Idea/springboot/src/main/java/com/example/springboot/modular/sys/service/SysDictService.java
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-list-timeline__item">
+                                                        <span class="m-list-timeline__badge"></span>
+                                                        <span class="m-list-timeline__icon fab fa-java"></span>
+                                                        <span class="m-list-timeline__text">
+                                                            /Users/tengchong/Workspaces/Idea/springboot/src/main/java/com/example/springboot/modular/sys/service/impl/SysDictServiceImpl.java
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-list-timeline__item">
+                                                        <span class="m-list-timeline__badge"></span>
+                                                        <span class="m-list-timeline__icon fab fa-java"></span>
+                                                        <span class="m-list-timeline__text">
+                                                            /Users/tengchong/Workspaces/Idea/springboot/src/main/java/com/example/springboot/modular/sys/controller/SysDictController.java
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-list-timeline__item">
+                                                        <span class="m-list-timeline__badge"></span>
+                                                        <span class="m-list-timeline__icon fab fa-java"></span>
+                                                        <span class="m-list-timeline__text">
+                                                            /Users/tengchong/Workspaces/Idea/springboot/src/main/java/com/example/springboot/modular/sys/dao/SysDictMapper.java
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-list-timeline__item">
+                                                        <span class="m-list-timeline__badge"></span>
+                                                        <span class="m-list-timeline__icon fa fa-file-excel"></span>
+                                                        <span class="m-list-timeline__text">
+                                                            /Users/tengchong/Workspaces/Idea/springboot/src/main/java/com/example/springboot/modular/sys/dao/mapping/SysDictMapper.xml
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-list-timeline__item">
+                                                        <span class="m-list-timeline__badge"></span>
+                                                        <span class="m-list-timeline__icon fab fa-html5"></span>
+                                                        <span class="m-list-timeline__text">
+                                                            /Users/tengchong/Workspaces/Idea/springboot/src/main/webapp/view/modular/sys/dict/list.html
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-list-timeline__item">
+                                                        <span class="m-list-timeline__badge"></span>
+                                                        <span class="m-list-timeline__icon fab fa-html5"></span>
+                                                        <span class="m-list-timeline__text">
+                                                            /Users/tengchong/Workspaces/Idea/springboot/src/main/webapp/view/modular/sys/dict/input.html
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-list-timeline__item">
+                                                        <span class="m-list-timeline__badge"></span>
+                                                        <span class="m-list-timeline__icon fab fa-js-square"></span>
+                                                        <span class="m-list-timeline__text">
+                                                            /Users/tengchong/Workspaces/Idea/springboot/src/main/webapp/static/modular/sys/dict/list.js
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-list-timeline__item">
+                                                        <span class="m-list-timeline__badge"></span>
+                                                        <span class="m-list-timeline__icon fab fa-js-square"></span>
+                                                        <span class="m-list-timeline__text">
+                                                            /Users/tengchong/Workspaces/Idea/springboot/src/main/webapp/static/modular/sys/dict/input.js
+                                                        </span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end::Preview-->
+                                </div>
+                            </div>
+                        </div>
+                        <!--end: 表单向导 Step 6-->
+                    </div>
+                    <!--end: Form Body -->
+
+                    <!--begin: Form Actions -->
+                    <div class="m-portlet__foot m-portlet__foot--fit">
+                        <div class="m-form__actions m-form__actions">
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-4 col-md-6 m--align-left">
+                                    <button class="btn btn-sm btn-secondary m-btn m-btn--custom m-btn--icon"
+                                            data-wizard-action="prev">
+                                        <span>
+                                            <i class="la la-arrow-left"></i>
+                                            <span>上一步</span>
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="col-lg-4 col-md-6 m--align-right">
+                                    <button class="btn btn-sm btn-success m-btn m-btn--custom m-btn--icon"
+                                            data-wizard-action="submit">
+                                        <span>
+                                            <i class="la la-check"></i>
+                                            <span>生成</span>
+                                        </span>
+                                    </button>
+                                    <button class="btn btn-sm btn-info m-btn m-btn--custom m-btn--icon"
+                                            data-wizard-action="next">
+                                        <span>
+                                            <span>下一步</span>
+                                            <i class="la la-arrow-right"></i>
+                                        </span>
+                                    </button>
+                                    <label class="m-checkbox">
+                                        <input type="checkbox" name="replace" value="true">
+                                        覆盖已有文件
+                                        <span></span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-2">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end: Form Actions -->
+                </form>
+            </div>
+            <!--end: 表单向导 Form-->
+        </div>
+        <!--end: 表单向导-->
+    </div>
+</div>
+<!--begin::页面脚本 -->
+<script src="${ctxPath}/static/modular/generation/view.js?v=${project.getVersion()}"></script>
+<script src="${ctxPath}/static/modular/generation/preference-setting.js?v=${project.getVersion()}"></script>
+<!--end::页面脚本 -->
+@}

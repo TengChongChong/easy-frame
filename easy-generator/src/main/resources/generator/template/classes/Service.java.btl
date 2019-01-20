@@ -1,0 +1,56 @@
+package ${config.servicePackage};
+
+<% for(import in service.imports!){ %>
+import ${import};
+<% } %>
+
+/**
+ * ${config.businessName}
+ *
+ * @Author ${config.author}
+ * @Date ${config.date}
+ */
+public interface ${config.modelName}Service {
+    <% if(config.genSelect){ %>
+    /**
+     * 列表
+     * @param object 查询条件
+     * @return 数据集合
+     */
+    Object select(${config.modelName} object);
+
+    /**
+     * 详情
+     *
+     * @param id id
+     * @return 详细信息
+     */
+    ${config.modelName} input(Long id);
+    <% } %>
+    <% if(config.genAdd){ %>
+    /**
+     * 新增
+     *
+     * @return 默认值
+     */
+    ${config.modelName} add();
+    <% } %>
+    <% if(config.genDelete){ %>
+    /**
+     * 删除
+     *
+     * @param id id
+     * @return 是否成功
+     */
+    boolean delete(String id);
+    <% } %>
+    <% if(config.genSave){ %>
+    /**
+     * 保存
+     *
+     * @param object 表单内容
+     * @return 保存后信息
+     */
+    ${config.modelName} saveData(${config.modelName} object);
+    <% } %>
+}

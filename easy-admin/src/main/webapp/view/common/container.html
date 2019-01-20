@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- begin::Head -->
+<head>
+    <meta charset="utf-8"/>
+    <meta name="description" content="Latest updates and statistic charts">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+    <title>${project.getName()}</title>
+    <!--begin::Base Styles -->
+    <link href="${ctxPath}/static/vendors/base/vendors.bundle.css?v=${project.getVersion()}" rel="stylesheet" type="text/css"/>
+    <link href="${ctxPath}/static/themes/default/base/style.bundle.css?v=${project.getVersion()}" rel="stylesheet" type="text/css"/>
+    <!--end::Base Styles -->
+    <link rel="shortcut icon" href="${ctxPath}/static/themes/default/media/img/logo/favicon.ico"/>
+    <script>
+        let basePath = '${ctxPath}';
+    </script>
+    <!--begin::Base Scripts -->
+    <script src="${ctxPath}/static/data/js/sys-dict.js?v=${project.getVersion()}"></script>
+    <script src="${ctxPath}/static/vendors/base/vendors.bundle.js?v=${project.getVersion()}"></script>
+    <script src="${ctxPath}/static/themes/default/base/scripts.bundle.js?v=${project.getVersion()}"></script>
+    <!--end::Base Scripts -->
+</head>
+<!-- end::Head -->
+
+<!-- begin::Body -->
+<body class="m-page--fluid m--skin- m-content--skin-light2">
+<!-- begin:: Page -->
+<div class="m-grid m-grid--hor m-grid--root m-page">
+    <div class="m-body">
+        <div class="m-grid__item m-grid__item--fluid m-wrapper">
+            <div class="m-content">
+                ${layoutContent}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end:: Page -->
+</body>
+<!-- end::Body -->
+</html>

@@ -1,0 +1,36 @@
+@layout("/common/container.html"){
+@include("/common/plugins/css/datatables.html"){}
+@include("/common/plugins/js/datatables.html"){}
+<div class="m-portlet" m-portlet="true">
+    <#portlet:head title="${config.businessName}" icon="la la-bars"/>
+    <div class="m-portlet__body">
+        <form class="m-form">
+            <div class="m-stack m-stack--ver m-stack--general query-modular">
+                <div class="m-stack__item m-stack__item--fluid">
+                    <div class="row">
+                        <!--str:查询条件区域-->
+                        <!--end:查询条件区域-->
+                    </div>
+                </div>
+                <div class="m-stack__item query-btn-group">
+                    <#btn:search />
+                    <#btn:reset />
+                </div>
+            </div>
+            <div class="btn-row">
+                <% if(config.permissionsCode != null && config.permissionsCode != '') { %>
+                <#btn:add permission="${config.permissionsCode}:add"/>
+                <#btn:delete permission="${config.permissionsCode}:delete"/>
+                <% } else { %>
+                <#btn:add/>
+                <#btn:delete/>
+                <% } %>
+            </div>
+            <div class="m_datatable" id="${config.tableName}-list"></div>
+        </form>
+    </div>
+</div>
+<!--begin::页面脚本 -->
+<script src="\${ctxPath}/static/${config.viewPath}/list.js" type="text/javascript"></script>
+<!--end::页面脚本 -->
+@}

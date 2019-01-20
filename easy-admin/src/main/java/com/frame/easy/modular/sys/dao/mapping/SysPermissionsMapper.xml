@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frame.easy.modular.sys.dao.SysPermissionsMapper">
+    <resultMap id="BaseResultMap" type="com.frame.easy.modular.sys.model.SysPermissions">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <id column="p_id" jdbcType="BIGINT" property="pId"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="p_code" jdbcType="VARCHAR" property="pCode"/>
+        <result column="p_codes" jdbcType="VARCHAR" property="pCodes"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="order_no" jdbcType="INTEGER" property="orderNo"/>
+        <result column="levels" jdbcType="INTEGER" property="levels"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="is_open" jdbcType="INTEGER" property="isOpen"/>
+        <result column="tips" jdbcType="VARCHAR" property="tips"/>
+        <result column="color" jdbcType="VARCHAR" property="color"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="edit_user" jdbcType="BIGINT" property="editUser"/>
+        <result column="edit_date" jdbcType="TIMESTAMP" property="editDate"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+    </resultMap>
+
+    <resultMap id="JsTree" type="com.frame.easy.common.jstree.JsTree">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="text" jdbcType="VARCHAR" property="text"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
+        <result column="status" jdbcType="VARCHAR" property="data"/>
+        <result column="children" jdbcType="VARCHAR" property="children"/>
+    </resultMap>
+    <update id="updateLevels">
+        update sys_permissions set levels = #{levels} where id = #{id};
+        <if test="levels == 1 or levels == 2 or levels == 3">
+            update sys_permissions set levels = (#{levels} + 1) where p_id = #{id};
+        </if>
+        <if test="levels == 1 or levels == 2">
+            update sys_permissions set levels = (#{levels} + 2) where p_id in (select id from (select id from
+            sys_permissions where p_id = #{id}) t);
+        </if>
+        <if test="levels == 1">
+            update sys_permissions set levels = (#{levels} + 3) where p_id in (select a.id from (select t.id from
+            sys_permissions t left join sys_permissions p on p.id = t.p_id where p.p_id = #{id}) a);
+        </if>
+    </update>
+
+    <select id="selectData" resultMap="JsTree">
+        select t.id,t.name as text,t.icon,
+          (case when (select count(1) from sys_permissions where p_id = t.id) > 0 then 'true' else 'false' end ) as children
+        from sys_permissions t where t.p_id = #{pId} order by t.order_no
+    </select>
+    <select id="selectInfo" resultType="com.frame.easy.modular.sys.model.SysPermissions">
+        select t.id,t.code,t.p_code,t.name,t.icon,t.url,t.levels,t.type,t.status,t.tips,t.p_id,t.color,p.name as pName
+          from sys_permissions t
+          left join sys_permissions p on p.id = t.p_id
+        where t.id= #{id}
+    </select>
+    <select id="selectOrderInfo" resultType="com.frame.easy.modular.sys.model.SysPermissions">
+        select t.id,t.name,t.order_no from sys_permissions t where t.p_id = #{pId} order by t.order_no
+        <if test="str != null and length != null">
+            limit #{str},#{length}
+        </if>
+    </select>
+    <select id="search" resultType="com.frame.easy.common.jstree.JsTree">
+        select t.id,t.name as text,t.icon
+        from sys_permissions t where t.name like #{title} order by t.p_id,t.order_no
+    </select>
+    <select id="getMaxOrderNo" resultType="java.lang.Integer">
+        select ifnull(max(order_no), 0) from sys_permissions t where t.p_id = #{pId}
+    </select>
+    <select id="selectAll" resultType="com.frame.easy.common.jstree.JsTree">
+        select t.id,t.name as text,t.icon,t.p_id as parent from sys_permissions t where t.status = #{status} order by t.levels, t.order_no
+    </select>
+</mapper>

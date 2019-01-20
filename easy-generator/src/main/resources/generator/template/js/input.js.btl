@@ -1,0 +1,14 @@
+//== ${config.businessName}-详情页
+var m${config.modelName}Input = function () {
+
+    return {
+        //== 初始化页面
+        init: function () {
+            mTool.setBaseUrl(basePath + '${config.controllerMapping}');
+        }
+    };
+}();
+//== 初始化
+\$(document).ready(function () {
+    m${config.modelName}Input.init();
+});

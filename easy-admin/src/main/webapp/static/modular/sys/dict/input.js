@@ -1,0 +1,70 @@
+//== 字典管理-新增/修改
+let mDictInput = function () {
+    /**
+     * 加载上级字典列表
+     *
+     * @param dictType 字典类别
+     */
+    let loadUpDicts = function (dictType) {
+        let $pCode = $('#pCode');
+        if (mUtil.isNotBlank(dictType)) {
+            mUtil.ajax({
+                url: mTool.getBaseUrl() + dictType + '/dicts',
+                success: function (res) {
+                    console.log(res);
+                    $pCode.empty();
+                    if (res.data.length > 0) {
+                        $pCode.append('<option value=""></option>');
+                        $(res.data).each(function (index, data) {
+                            $pCode.append('<option value="' + data.value + '">' + data.text + '</option>');
+                        });
+                    } else {
+                        $pCode.html('<option value="">暂无父字典</option>')
+                    }
+                    if (mUtil.isNotBlank($pCode.attr('data-value'))) {
+                        $pCode.val($pCode.attr('data-value'));
+                    }
+                    $pCode.selectpicker('refresh');
+                }
+            });
+        } else {
+            $pCode.html('<option value="">请选择字典类型</option>').selectpicker('refresh');
+        }
+    };
+    /**
+     * 绑定点击图标事件
+     * 用于选择字典图标
+     */
+    let bindIconClick = function f() {
+        $('#icon_modal').on('shown.bs.modal', function (e) {
+            $('.m-demo-icon').click(function () {
+                let icon = $(this).find('i').attr('class');
+                $('#dict-icon > i').removeClass().addClass(icon);
+                $('#icon').val(icon);
+                $('#icon_modal').modal('hide');
+            });
+        });
+    };
+    /**
+     * 绑定事件
+     */
+    let bind = function () {
+        $('#dictType').change(function () {
+            let dictType = $(this).val();
+            loadUpDicts(dictType);
+        }).change();
+        bindIconClick();
+    };
+    return {
+        //== 初始化页面
+        init: function () {
+            mTool.setBaseUrl(basePath + '/auth/sys/dict/');
+            bind();
+        },
+    };
+}();
+
+//== 初始化
+$(document).ready(function () {
+    mDictInput.init();
+});

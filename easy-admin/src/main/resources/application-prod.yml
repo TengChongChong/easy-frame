@@ -1,0 +1,24 @@
+project:
+    version: 1.0
+    login:
+        remember: true # 是否开启记住我功能,安全性要求比较高的系统请改为false
+        remember-invalidate-time: 2592000 # 记住我过期时间 默认30天 单位: 秒
+        remember-security: true # 开启记住我功能,敏感操作仍要客户登录 比如 支付/删除/审核
+        verification-code: true # 是否开启验证码
+        attempts: 5 # 登录是密码错误尝试次数,超过5次后会被锁定
+        lock-length: 600 # 锁定时长 单位：秒
+    file-upload-path: /server/data/spring-boot # 文件上传路径&静态文件存放路径
+    session-invalidate-time: 1800 # session失效时间 单位：秒
+    session-validation-interval: 1800 # 设置session失效的扫描时间, 清理用户直接关闭浏览器造成的孤立会话 默认为 30分钟
+server:
+    port: 80
+spring:
+    datasource:
+        druid:
+            driver-class-name: com.mysql.cj.jdbc.Driver
+            password: 123456
+            url: jdbc:mysql://localhost:3306/springboot?useUnicode=true&characterEncoding=utf-8&useSSL=false
+            username: root
+# beetl
+beetl:
+    resource-auto-check: false #是否检测文件变化

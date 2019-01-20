@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frame.easy.modular.sys.dao.SysDepartmentTypeMapper">
+
+    <resultMap id="BaseResultMap" type="com.frame.easy.modular.sys.model.SysDepartmentType">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="p_id" jdbcType="BIGINT" property="pId"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="tips" jdbcType="VARCHAR" property="tips"/>
+        <result column="order_no" jdbcType="INTEGER" property="orderNo"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="edit_user" jdbcType="BIGINT" property="editUser"/>
+        <result column="edit_date" jdbcType="TIMESTAMP" property="editDate"/>
+    </resultMap>
+    <resultMap id="JsTree" type="com.frame.easy.common.jstree.JsTree">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="text" jdbcType="VARCHAR" property="text"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
+        <result column="status" jdbcType="VARCHAR" property="data"/>
+        <result column="children" jdbcType="VARCHAR" property="children"/>
+    </resultMap>
+
+    <select id="selectData" resultMap="JsTree">
+        select t.id,t.name as text,(case when t.status = 2 then 'disabled' end) as type,
+          (case when (select count(1) from sys_department_type where p_id = t.id) > 0 then 'true' else 'false' end ) as children
+        from sys_department_type t where t.p_id = #{pId} order by t.order_no
+    </select>
+    <select id="selectInfo" resultType="com.frame.easy.modular.sys.model.SysDepartmentType">
+        select t.id,t.code,t.name,t.status,t.tips,t.p_id,p.name as p_name,
+        (select group_concat(role_id) from sys_department_type_role tr where tr.dept_type_id = t.id) as roles
+        from sys_department_type t
+        left join sys_department_type p on p.id = t.p_id
+        where t.id= #{id}
+    </select>
+    <select id="selectOrderInfo" resultType="com.frame.easy.modular.sys.model.SysDepartmentType">
+        select t.id,t.name,t.order_no from sys_department_type t where t.p_id = #{pId} order by t.order_no
+        <if test="str != null and length != null">
+            limit #{str},#{length}
+        </if>
+    </select>
+    <select id="search" resultType="com.frame.easy.common.jstree.JsTree">
+        select t.id,t.name as text,(case when t.status = 2 then 'disabled' end) as type,t.code as data
+        from sys_department_type t where t.name like #{title} order by t.p_id,t.order_no
+    </select>
+    <select id="getMaxOrderNo" resultType="java.lang.Integer">
+        select ifnull(max(order_no), 0) from sys_department_type t where t.p_id = #{pId}
+    </select>
+    <select id="selectAll" resultType="com.frame.easy.common.jstree.JsTree">
+        select t.id,t.name as text,t.p_id as parent,t.code as data from sys_department_type t where t.status = #{status} order by t.order_no
+    </select>
+    <select id="selectOptionBySameLevel" resultType="com.frame.easy.common.select.Select">
+        select t.code as value,t.name as text from sys_department_type t
+        where t.p_id = (select p_id from sys_department_type where code = #{code})
+    </select>
+    <select id="selectOptionByParentCode" resultType="com.frame.easy.common.select.Select">
+        select t.code as value,t.name as text from sys_department_type t
+          left join sys_department_type pdt on pdt.id = t.p_id
+        where pdt.code = #{parentCode}
+    </select>
+</mapper>

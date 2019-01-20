@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+    <title>Demo &raquo; Add widgets dynamically &raquo; gridster.js</title>
+    <link rel="stylesheet" type="text/css"
+          href="http://127.0.0.1:9080/static/dsmorse-gridster/demos/assets/css/demo.css">
+    <link rel="stylesheet" type="text/css"
+          href="http://127.0.0.1:9080/static/dsmorse-gridster/dist/jquery.gridster.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="http://127.0.0.1:9080/static/dsmorse-gridster/dist/jquery.gridster.js" type="text/javascript"
+            charset="utf-8"></script>
+
+</head>
+
+<body>
+<div class="gridster">
+    <ul id="form"></ul>
+</div>
+
+<div class="gridster">
+    <ul id="table"></ul>
+</div>
+<script type="text/javascript" id="code">
+    var gridster;
+    var table;
+    $(function () {
+
+        var widgets = [
+            ['<li>0</li>', 3, 1, 1, 1],
+            ['<li>1</li>', 3, 1, 4, 1],
+            ['<li>2</li>', 3, 1, 7, 1],
+            ['<li>3</li>', 3, 1, 10, 1],
+            ['<li>4</li>', 4, 1, 1, 2],
+            ['<li>5</li>', 4, 1, 5, 2],
+            ['<li>6</li>', 4, 1, 9, 2],
+            ['<li>7</li>', 6, 1, 1, 3],
+            ['<li>8</li>', 6, 1, 7, 3],
+            ['<li>9</li>', 12, 1, 1, 4],
+
+            // ['<li>3</li>', 3, 1, 3, 1],
+            // ['<li>4</li>', 3, 1, 3, 1]
+
+        ];
+        var tableWidgets = [];
+        for (var i = 0; i < 15; i++) {
+            tableWidgets.push(['<li>标题' + (i + 1) + '</li>', 1, 1, (i + 1), 1]);
+        }
+        gridster = $("#form").gridster({
+            min_cols: 12,
+            max_cols: 12,
+            namespace: '#form',
+            widget_margins: [10, 10],
+            widget_base_dimensions: [80, 30]
+        }).data('gridster');
+
+        table = $("#table").gridster({
+            min_cols: tableWidgets.length,
+            max_cols: tableWidgets.length,
+            max_rows: 1,
+            namespace: '#table',
+            widget_margins: [5, 5],
+            widget_base_dimensions: [100, 30]
+        }).data('gridster');
+
+        $.each(widgets, function (i, widget) {
+            // .add_widget( html, [size_x], [size_y], [col], [row] )
+            gridster.add_widget.apply(gridster, widget)
+        });
+        $.each(tableWidgets, function (i, widget) {
+            // .add_widget( html, [size_x], [size_y], [col], [row] )
+            table.add_widget.apply(table, widget)
+        });
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frame.easy.modular.sys.dao.SysRoleMapper">
+    <resultMap id="BaseResultMap" type="com.frame.easy.modular.sys.model.SysRole">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="order_no" jdbcType="INTEGER" property="orderNo"/>
+        <result column="p_id" jdbcType="BIGINT" property="pId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="dept_id" jdbcType="BIGINT" property="deptId"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="tips" jdbcType="VARCHAR" property="tips"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="edit_user" jdbcType="BIGINT" property="editUser"/>
+        <result column="edit_date" jdbcType="TIMESTAMP" property="editDate"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+    </resultMap>
+
+    <resultMap id="JsTree" type="com.frame.easy.common.jstree.JsTree">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="text" jdbcType="VARCHAR" property="text"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
+        <result column="status" jdbcType="VARCHAR" property="data"/>
+        <result column="children" jdbcType="VARCHAR" property="children"/>
+    </resultMap>
+
+    <select id="selectData" resultMap="JsTree">
+        select t.id,t.name as text,(case when t.status = 2 then 'disabled' end) as type,
+          (case when (select count(1) from sys_role where p_id = t.id) > 0 then 'true' else 'false' end ) as children
+        from sys_role t where t.p_id = #{pId} order by t.order_no
+    </select>
+    <select id="selectAll" resultType="com.frame.easy.common.jstree.JsTree">
+        select t.id,t.name as text,t.p_id as parent from sys_role t where t.status = #{status} order by t.order_no
+    </select>
+    <select id="selectInfo" resultType="com.frame.easy.modular.sys.model.SysRole">
+        select t.id,t.p_id,t.name,t.code,t.dept_id,t.status,p.name as p_name,t.tips,
+        (select group_concat(permissions_id) from sys_role_permissions rp where rp.role_id = t.id) as permissions
+        from sys_role t
+          left join sys_role p on p.id = t.p_id
+        where t.id= #{id}
+    </select>
+    <select id="selectOrderInfo" resultType="com.frame.easy.modular.sys.model.SysRole">
+        select t.id,t.name,t.order_no from sys_role t where t.p_id = #{pId} order by t.order_no
+        <if test="str != null and length != null">
+            limit #{str},#{length}
+        </if>
+    </select>
+    <select id="search" resultType="com.frame.easy.common.jstree.JsTree">
+        select t.id,t.name as text,'la la-group' as icon
+        from sys_role t where t.name like #{title} order by t.p_id,t.order_no
+    </select>
+    <select id="getMaxOrderNo" resultType="java.lang.Integer">
+        select ifnull(max(order_no), 0) from sys_role t where t.p_id = #{pId}
+    </select>
+</mapper>

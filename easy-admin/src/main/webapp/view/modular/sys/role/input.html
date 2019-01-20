@@ -1,0 +1,66 @@
+<form class="m-form">
+    <input type="hidden" id="id" name="id" value="${object.id}">
+    <input type="hidden" name="pId" value="${object.pId}">
+    <input type="hidden" id="permissions" name="permissions" value="${object.permissions}">
+    @var isSysRole = object.id != 0;
+
+    <div class="row">
+        <div class="col-md-6 col-12">
+            @if(isSysRole){
+            <#form:input name="上级角色" value="${object.pName}" readonly="${isSysRole}"/>
+            @}
+            <#form:input id="name" name="角色名称" value="${object.name}" required="true"/>
+            @if(isSysRole){
+                <div class="form-group row">
+                    <label class="col-4 control-label">
+                        <span class="required">*</span>
+                        角色状态：
+                    </label>
+                    <div class="col-8">
+                        <div class="m-radio-inline">
+                            <#form:radio name="status" text="启用" value="1" checked="${object.status}" required="true"/>
+                            <#form:radio name="status" text="禁用" value="2" checked="${object.status}"/>
+                        </div>
+                    </div>
+                </div>
+                <#form:input id="slug" name="角色标识" value="${object.code}" tips="controller中定义的角色标识"/>
+                <div class="form-group row">
+                    <label class="col-4 control-label">
+                        备注：
+                    </label>
+                    <div class="col-8">
+                        <textarea class="form-control" id="tips" name="tips">${object.tips}</textarea>
+                    </div>
+                </div>
+            @}
+        </div>
+        <div class="col-md-6 col-12">
+            @if(isSysRole){
+            <div class="form-group row">
+                <label class="col-4 control-label">
+                    权限：
+                </label>
+                <div class="col-8">
+                    <div class="m-scrollable" data-scrollable="true" style="max-height: 250px">
+                        <div id="permissions-tree"></div>
+                    </div>
+                </div>
+            </div>
+            @}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            @if(isSysRole){
+                <#button btnType="info" btnClass="" name="保存" icon="la la-save" click="mRoleView.saveData(this)" permission="sys:role:save"/>
+            @}
+
+            @if(isNotEmpty(object.id)){
+                @if(isSysRole){
+                    <#button btnType="danger" btnClass="" name="删除" icon="la la-remove" click="mRoleView.deleteRole(this, '${object.id}')" permission="sys:role:delete"/>
+                @}
+                <#button btnType="info" btnClass="" name="新增下级" icon="la la-plus" click="mRoleView.addRole()" permission="sys:role:add"/>
+            @}
+        </div>
+    </div>
+</form>

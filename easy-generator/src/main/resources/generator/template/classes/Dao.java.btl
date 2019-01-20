@@ -1,0 +1,15 @@
+package ${config.daoPackage};
+
+<% for(import in dao.imports!){ %>
+import ${import};
+<% } %>
+
+/**
+ * ${config.businessName}
+ *
+ * @Author ${config.author}
+ * @Date ${config.date}
+ */
+public interface ${config.modelName}Mapper extends BaseMapper<${config.modelName}> {
+
+}

@@ -1,0 +1,65 @@
+package ${config.modelPackage};
+
+<% for(import in tableInfo.importPackages){ %>
+import ${import};
+<% } %>
+<% if(config.genSelect){ %>
+<% for(import in model.imports){ %>
+import ${import};
+<% } %>
+<% } %>
+
+/**
+ * ${config.businessName}
+ *
+ * @Author ${config.author}
+ * @Date ${config.date}
+ */
+ @TableName("${tableInfo.name}")
+public class ${config.modelName} extends Model<${config.modelName}> implements Serializable{
+    private static final long serialVersionUID = 1L;
+
+    <% for(field in tableInfo.fields){ %>
+    <% if(field.comment != null && field.comment != "") { %>
+    /*
+     * ${field.comment}
+     */
+    <% }else if(commonComment[field.propertyName] != null){ %>
+    /*
+     * ${commonComment[field.propertyName]}
+     */
+    <% } %>
+    <% if(field.keyIdentityFlag) { %>
+    @TableId(value = "${field.name}", type = IdType.AUTO)
+    <% } %>
+    private ${field.propertyType} ${field.propertyName};
+
+    <% } %>
+    //
+    <% if(config.genSelect){ %>
+    /**
+     * 分页&排序信息
+     */
+    @TableField(exist=false)
+    private Page page;
+    <% } %>
+
+    <% for(field in tableInfo.fields){ %>
+    public ${field.propertyType} get${field.capitalName}() {
+        return ${field.propertyName};
+    }
+
+    public void set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
+        this.${field.propertyName} = ${field.propertyName};
+    }
+    <% } %>
+    <% if(config.genSelect){ %>
+    public Page getPage() {
+        return page;
+    }
+
+    public void setPage(Page page) {
+        this.page = page;
+    }
+    <% } %>
+}

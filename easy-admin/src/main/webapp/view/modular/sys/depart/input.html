@@ -1,0 +1,87 @@
+@layout("/common/container.html"){
+<form class="m-form">
+    <div class="m-portlet" m-portlet="true">
+        <#portlet:head title="机构管理" icon="la la-bars"/>
+        <div class="m-portlet__body">
+
+            <input type="hidden" id="id" name="id" value="${object.id}">
+            <div class="row">
+                <div class="col-md-6 col-12">
+                    <div class="form-group row">
+                        <label class="col-4 control-label">
+                            <span class="required">*</span>
+                            机构类型：
+                        </label>
+                        <div class="col-8">
+                            <select class="form-control m-bootstrap-select select-picker auto-params"
+                                    required
+                                    data-live-search="true" id="typeCode" name="typeCode"
+                                    data-value="${object.typeCode}">
+                                @for(type in departTypes){
+                                <option value="${type.value}">${type.text}</option>
+                                @}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="form-group row">
+                        <label class="col-4 control-label">
+                            上级机构：
+                        </label>
+                        <div class="col-8">
+                            <select class="form-control m-bootstrap-select select-picker auto-params"
+                                    data-live-search="true" id="pId" name="pId" data-value="${object.pId}">
+                                @if(isEmpty(parentDeparts)){
+                                    <option value="">无</option>
+                                @}else{
+                                    @for(type in parentDeparts){
+                                        <option value="${type.value}">${type.text}</option>
+                                    @}
+                                @}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <#form:input id="name" value="${object.name}" name="机构名称" required="true"/>
+                </div>
+                <div class="col-md-6 col-12">
+                    <#form:input id="code" value="${object.code}" name="机构编码" placeholder="字母或数字"/>
+                </div>
+                <div class="col-md-6 col-12">
+                    <#form:input id="simpleName" value="${object.simpleName}" name="机构简称"/>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="form-group row">
+                        <label class="col-4 control-label">
+                            <span class="required">*</span>
+                            状态：
+                        </label>
+                        <div class="col-8">
+                            <div class="m-radio-inline">
+                                <#form:radio name="status" text="启用" value="1" checked="${object.status}" required="true"/>
+                                <#form:radio name="status" text="禁用" value="2" checked="${object.status}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <#form:input id="orderNo" value="${object.orderNo}" name="排序值" type="number" tips="按照升序排列" />
+                </div>
+                <div class="col-12">
+                    <#form:textarea id="tips" value="${object.tips}" name="备注"/>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__foot m-portlet__foot--fit">
+            <div class="m-form__actions text-center">
+                <#btn:save permission="sys:depart:save"/>
+            </div>
+        </div>
+    </div>
+</form>
+<!--begin::页面脚本 -->
+<script src="${ctxPath}/static/modular/sys/depart/input.js?v=${project.getVersion()}"></script>
+<!--end::页面脚本 -->
+@}

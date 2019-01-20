@@ -1,0 +1,112 @@
+package com.frame.easy.util;
+
+import com.frame.easy.common.constant.SessionConst;
+import com.frame.easy.modular.sys.model.SysUser;
+import com.frame.easy.modular.sys.service.ShiroService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Shiro工具类
+ *
+ * @Author tengchong
+ * @Date 2018/9/11
+ */
+public class ShiroUtil {
+    private static Logger logger = LoggerFactory.getLogger(ShiroService.class);
+
+    /**
+     * 获取当前用户session
+     *
+     * @return Session
+     */
+    public static Session getSession() {
+        Session session = null;
+        try {
+            Subject subject = SecurityUtils.getSubject();
+            session = subject.getSession();
+        } catch (Exception e) {
+            logger.warn("获取当前用户session发生异常", e);
+        }
+        return session;
+    }
+
+    /**
+     * 将数据放到session中
+     */
+    public static void setAttribute(String key, Object value) {
+        try {
+            Session session = getSession();
+            session.setAttribute(key, value);
+        } catch (Exception e) {
+            logger.warn("将放key:" + key + "到session中发生异常", e);
+            throw e;
+        }
+    }
+
+    /**
+     * 获取session中的数据
+     *
+     * @param key key
+     * @return Object
+     */
+    public static Object getAttribute(Object key) {
+        Object value = null;
+        try {
+            Session session = getSession();
+            value = session.getAttribute(key);
+        } catch (Exception e) {
+            logger.warn("从session获取key:" + key + "发生异常", e);
+            throw e;
+        }
+        return value;
+    }
+
+    /**
+     * 删除session中的数据
+     *
+     * @param key key
+     */
+    public static void removeAttribute(Object key) {
+        try {
+            Session session = getSession();
+            session.removeAttribute(key);
+        } catch (Exception e) {
+            logger.warn("从session删除key:" + key + "发生异常", e);
+            throw e;
+        }
+    }
+
+    /**
+     * 设置当前用户
+     *
+     * @param sysUser 当前用户
+     */
+    public static void setCurrentUser(SysUser sysUser) {
+        setAttribute(SessionConst.USER_SESSION_KEY, sysUser);
+    }
+
+    /**
+     * 获取当前用户
+     *
+     * @return SysUser
+     */
+    public static SysUser getCurrentUser() {
+        SysUser user = (SysUser) getAttribute(SessionConst.USER_SESSION_KEY);
+        if (user == null) {
+            user = (SysUser) SecurityUtils.getSubject().getPrincipals().getPrimaryPrincipal();
+        }
+        return user;
+    }
+
+    /**
+     * 删除当前用户
+     */
+    public static void removeCurrentUser() {
+        removeAttribute(SessionConst.USER_SESSION_KEY);
+    }
+
+}

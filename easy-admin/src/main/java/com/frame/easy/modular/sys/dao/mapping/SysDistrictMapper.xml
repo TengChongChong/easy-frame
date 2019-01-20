@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frame.easy.modular.sys.dao.SysDistrictMapper">
+    <resultMap id="BaseResultMap" type="com.frame.easy.modular.sys.model.SysDistrict">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="p_id" jdbcType="BIGINT" property="pId"/>
+        <result column="initial" jdbcType="VARCHAR" property="initial"/>
+        <result column="initials" jdbcType="VARCHAR" property="initials"/>
+        <result column="pinyin" jdbcType="VARCHAR" property="pinyin"/>
+        <result column="extra" jdbcType="VARCHAR" property="extra"/>
+        <result column="suffix" jdbcType="VARCHAR" property="suffix"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="area_code" jdbcType="VARCHAR" property="areaCode"/>
+        <result column="order_no" jdbcType="INTEGER" property="orderNo"/>
+    </resultMap>
+
+    <select id="selectData" resultType="com.frame.easy.common.jstree.JsTree">
+        select t.id,concat(t.name, t.extra, t.suffix) as text,'la la-bars' as icon,
+          (case when (select count(1) from sys_district where p_id = t.id) > 0 then 'true' else 'false' end ) as children
+        from sys_district t where t.p_id = #{pId} order by t.order_no
+    </select>
+    <select id="selectInfo" resultType="com.frame.easy.modular.sys.model.SysDistrict">
+        select * from sys_district t where t.id= #{id}
+    </select>
+    <select id="selectOrderInfo" resultType="com.frame.easy.modular.sys.model.SysDistrict">
+        select t.id,t.name,t.order_no from sys_district t where t.p_id = #{pId} order by t.order_no
+        <if test="str != null and length != null">
+            limit #{str},#{length}
+        </if>
+    </select>
+    <select id="search" resultType="com.frame.easy.common.jstree.JsTree">
+        select t.id,t.name as text
+        from sys_district t where t.name like #{title} order by t.p_id,t.order_no
+    </select>
+    <select id="getMaxOrderNo" resultType="java.lang.Integer">
+        select ifnull(max(orderNo), 0) from sys_district t where t.p_id = #{pId}
+    </select>
+    <select id="selectAll" resultType="com.frame.easy.common.jstree.JsTree">
+        select t.id,concat(t.name, t.extra, t.suffix) as text,t.p_id as parent from sys_district t order by t.levels, t.order_no
+    </select>
+    <select id="selectByPId" resultType="com.frame.easy.common.select.Select">
+        select id as value, name as text from sys_district where p_id = #{pId}
+    </select>
+</mapper>
