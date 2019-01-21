@@ -9019,7 +9019,7 @@ var DateComponent = /** @class */ (function (_super) {
     // Hit Areas
     // ---------------------------------------------------------------------------------------------------------------
     // just because all DateComponents support this interface
-    // doesn't mean they need to have their own internal coord sys. they can defer to sub-components.
+    // doesn't mean they need to have their own internal coord system. they can defer to sub-components.
     DateComponent.prototype.hitsNeeded = function () {
         if (!(this.hitsNeededDepth++)) {
             this.prepareHits();
