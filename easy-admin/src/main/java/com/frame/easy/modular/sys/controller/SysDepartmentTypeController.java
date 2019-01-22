@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 机构类型管理
  *
- * @Author tengchong
- * @Date 2018/12/3
+ * @author tengchong
+ * @date 2018/12/3
  */
 @Controller
 @RequestMapping("/auth/sys/depart/type")

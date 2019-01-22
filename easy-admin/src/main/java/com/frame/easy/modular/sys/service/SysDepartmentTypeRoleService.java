@@ -7,8 +7,8 @@ import java.util.List;
 /**
  * 机构类型可选择的角色
  *
- * @Author tengchong
- * @Date 2018/12/3
+ * @author tengchong
+ * @date 2018/12/3
  */
 public interface SysDepartmentTypeRoleService {
     /**

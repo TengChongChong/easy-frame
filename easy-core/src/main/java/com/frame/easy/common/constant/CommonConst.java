@@ -9,8 +9,8 @@ import java.io.File;
 /**
  * 公用常量
  *
- * @Author tengchong
- * @Date 2018/9/4
+ * @author tengchong
+ * @date 2018/9/4
  */
 @Component
 public class CommonConst {
@@ -48,8 +48,10 @@ public class CommonConst {
 
     /**
      * 静态资源后缀,用于优化性能
+     * 请求静态资源不会 read/update redis 中的 session 信息
      */
-    public static String[] STATIC_FILE_SUFFIX = new String[]{".css", ".js", ".png", ".jpg", ".gif", ".jpeg", ".bmp", ".ico", ".swf", ".map", ".ico"};
+    public static String[] STATIC_FILE_SUFFIX = new String[]{".css", ".js", ".png", ".jpg", ".gif", ".jpeg", ".bmp",
+            ".ico", ".swf", ".map", ".ico", ".woff", ".woff2"};
 
     @Autowired
     public void setProjectProperties(ProjectProperties projectProperties) {

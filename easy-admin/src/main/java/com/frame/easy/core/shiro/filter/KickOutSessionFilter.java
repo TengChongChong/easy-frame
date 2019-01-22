@@ -15,8 +15,8 @@ import javax.servlet.ServletResponse;
 /**
  * 检查被踢出用户
  *
- * @Author tengchong
- * @Date 2018/9/17
+ * @author tengchong
+ * @date 2018/9/17
  */
 public class KickOutSessionFilter extends AccessControlFilter {
 

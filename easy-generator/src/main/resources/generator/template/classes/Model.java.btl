@@ -12,8 +12,8 @@ import ${import};
 /**
  * ${config.businessName}
  *
- * @Author ${config.author}
- * @Date ${config.date}
+ * @author ${config.author}
+ * @date ${config.date}
  */
  @TableName("${tableInfo.name}")
 public class ${config.modelName} extends Model<${config.modelName}> implements Serializable{

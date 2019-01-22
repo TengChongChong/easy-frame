@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * 代码生成
  *
- * @Author tengchong
- * @Date 2019-01-09
+ * @author tengchong
+ * @date 2019-01-09
  */
 @Controller
 @RequestMapping("/auth/generation")

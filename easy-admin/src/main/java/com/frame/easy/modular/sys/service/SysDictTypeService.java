@@ -7,8 +7,8 @@ import java.util.List;
 /**
  * 字典类型
  *
- * @Author tengchong
- * @Date 2018/11/4
+ * @author tengchong
+ * @date 2018/11/4
  */
 public interface SysDictTypeService {
     /**

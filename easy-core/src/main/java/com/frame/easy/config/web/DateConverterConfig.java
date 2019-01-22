@@ -3,6 +3,8 @@ package com.frame.easy.config.web;
 import cn.hutool.core.date.DateException;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Validator;
+import com.frame.easy.core.exception.EasyException;
+import com.frame.easy.core.exception.ExceptionEnum;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -11,8 +13,8 @@ import java.util.Date;
 /**
  * 全局日期格式转换
  *
- * @Author tengchong
- * @Date 2018/12/7
+ * @author tengchong
+ * @date 2018/12/7
  */
 @Component
 public class DateConverterConfig implements Converter<String, Date> {
@@ -22,7 +24,7 @@ public class DateConverterConfig implements Converter<String, Date> {
         if (str != null) {
             str = str.trim();
             if (Validator.isNotEmpty(str)) {
-                try{
+                try {
                     /**
                      * 会自动匹配以下格式
                      * 其他格式会抛出DateException
@@ -39,8 +41,8 @@ public class DateConverterConfig implements Converter<String, Date> {
                      * HHmmss
                      */
                     return DateUtil.parse(str).toJdkDate();
-                }catch (DateException e){
-                    throw new DateException("未知的日期格式[" + str + "]");
+                } catch (DateException e) {
+                    throw new EasyException("无效的日期格式[" + str + "]");
                 }
             }
         }

@@ -12,8 +12,8 @@ import java.io.Serializable;
 /**
  * 字典类型
  *
- * @Author tengchong
- * @Date 2018/11/4
+ * @author tengchong
+ * @date 2018/11/4
  */
 @TableName("sys_dict_type")
 public class SysDictType extends Model<SysDictType>{

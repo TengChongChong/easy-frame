@@ -29109,7 +29109,8 @@ input:-webkit-autofill {
 
 .m-login.m-login--6 .m-login__aside {
   padding: 3.64rem 3.35rem 3.64rem 3.64rem;
-  padding-right: 500px; }
+  padding-right: 550px;
+  width: 100%; }
   .m-login.m-login--6 .m-login__aside .m-grid__item .m-grid__item > span {
     display: block; }
   .m-login.m-login--6 .m-login__aside .m-grid__item .m-grid__item .m-login__title {
@@ -29147,12 +29148,7 @@ input:-webkit-autofill {
 .m-login.m-login--6 .m-login__wrapper {
   padding: 3rem 3rem;
   min-width: 0;
-  width: 500px;
-  position: absolute;
-  right: 0;
-  top: 0;
-  background: #fff;
-  height: 100%; }
+  background: #fff; }
   .m-login.m-login--6 .m-login__wrapper .m-login__head {
     right: 3.5rem;
     position: absolute;
@@ -29261,11 +29257,16 @@ input:-webkit-autofill {
   .m-login.m-login--6 .m-login__aside {
     -webkit-box-flex: 1;
     -ms-flex: 1;
-    flex: 1; } }
+    flex: 1; }
+  .m-login.m-login--6 .m-login__wrapper {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%; } }
 
 @media (min-width: 1025px) and (max-width: 1200px) {
   .m-login.m-login--6 .m-login__aside {
-    padding-right: 500px; } }
+    padding-right: 550px; } }
 
 @media (max-width: 1024px) {
   .m-login.m-login--6 .m-login__aside {
@@ -29418,9 +29419,14 @@ body.m-content--skin-light2 {
     display: none; }
   .m-brand .m-brand__logo {
     vertical-align: middle;
-    line-height: 0; }
-    .m-brand .m-brand__logo .m-brand__logo-wrapper {
-      display: inline-block; }
+    line-height: 0;
+    display: inline-block;
+    width: 165px;
+    overflow: hidden; }
+    .m-brand .m-brand__logo a.m-brand__logo-wrapper {
+      font-size: 20px;
+      line-height: 24px;
+      color: #d6d7e1; }
   .m-brand .m-brand__tools {
     line-height: 0;
     vertical-align: middle;
@@ -29953,9 +29959,6 @@ body.m-content--skin-light2 {
     background-color: #2c2e3e; }
   .m-aside-left.m-aside-left--skin-light {
     background-color: #ffffff; }
-
-.m-aside-left.m-aside-left-offcanvas-default .m-aside-left {
-  top: !important; }
 
 .m-aside-left.m-aside-left-offcanvas-default .m-body {
   padding-left: 0 !important; }

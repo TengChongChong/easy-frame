@@ -330,7 +330,7 @@ public class ConfigBuilder {
                 // 自定义字段查询
                 String[] fcs = dbQuery.fieldCustom();
                 if (null != fcs) {
-                    Map<String, Object> customMap = new HashMap<>();
+                    Map<String, Object> customMap = new HashMap<>(fcs.length);
                     for (String fc : fcs) {
                         customMap.put(fc, results.getObject(fc));
                     }

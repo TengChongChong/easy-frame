@@ -15,8 +15,8 @@ import java.util.Properties;
 /**
  * 模板引擎
  *
- * @Author tengchong
- * @Date 2019-01-08
+ * @author tengchong
+ * @date 2019-01-08
  */
 public abstract class BaseTemplateEngine extends AbstractTemplateEngine{
     private GroupTemplate groupTemplate;

@@ -9,7 +9,7 @@ import com.frame.easy.generator.model.Generator;
  * 代码生成器
  *
  * @author tengchong
- * @Date 2019-01-08
+ * @date 2019-01-08
  */
 public class CodeGenerator {
 
@@ -20,7 +20,7 @@ public class CodeGenerator {
         generator.setDriverName("com.mysql.cj.jdbc.Driver");
         generator.setUsername("root");
         generator.setPassword("123456");
-        generator.setUrl("jdbc:mysql://localhost:3306/springboot?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMulQueries=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai");
+        generator.setUrl("jdbc:mysql://localhost:3306/easy-frame?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMulQueries=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai");
         // 生成参数
         generator.setProjectPath("/Users/tengchong/Desktop/test/");
         generator.setAuthor("tengchong");

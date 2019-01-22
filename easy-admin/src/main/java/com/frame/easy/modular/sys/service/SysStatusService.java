@@ -3,8 +3,8 @@ package com.frame.easy.modular.sys.service;
 /**
  * 系统状态
  *
- * @Author tengchong
- * @Date 2018/11/9
+ * @author tengchong
+ * @date 2018/11/9
  */
 public interface SysStatusService {
 

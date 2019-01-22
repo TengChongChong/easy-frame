@@ -12,8 +12,8 @@ import java.util.List;
 /**
  * 自定义分页
  *
- * @Author tengchong
- * @Date 2019-01-14
+ * @author tengchong
+ * @date 2019-01-14
  */
 @Component
 public class Page<T> implements IPage<T> {

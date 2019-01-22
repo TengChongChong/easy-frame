@@ -3,8 +3,8 @@ package com.frame.easy.modular.sys.service;
 /**
  * 角色权限管理
  *
- * @Author tengchong
- * @Date 2018/11/27
+ * @author tengchong
+ * @date 2018/11/27
  */
 public interface SysRolePermissionsService {
     /**

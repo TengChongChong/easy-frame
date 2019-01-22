@@ -11,8 +11,8 @@ import java.util.List;
 /**
  * 用户管理
  *
- * @Author tengchong
- * @Date 2018/12/6
+ * @author tengchong
+ * @date 2018/12/6
  */
 public interface SysUserMapper extends BaseMapper<SysUser> {
     /**

@@ -13,8 +13,8 @@ import java.util.Date;
 /**
  * 字典
  *
- * @Author tengchong
- * @Date 2018/11/4
+ * @author tengchong
+ * @date 2018/11/4
  */
 @TableName("sys_dict")
 public class SysDict extends Model<SysDict>{

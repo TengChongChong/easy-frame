@@ -11,8 +11,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * redis 工具类
  *
- * @Author tengchong
- * @Date 2018/9/11
+ * @author tengchong
+ * @date 2018/9/11
  */
 
 @Component

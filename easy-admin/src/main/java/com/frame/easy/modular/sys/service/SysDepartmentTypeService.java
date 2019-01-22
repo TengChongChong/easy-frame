@@ -9,8 +9,8 @@ import java.util.List;
 /**
  * 机构类型管理
  *
- * @Author tengchong
- * @Date 2018/12/3
+ * @author tengchong
+ * @date 2018/12/3
  */
 public interface SysDepartmentTypeService {
     /**

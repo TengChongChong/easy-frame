@@ -1,5 +1,5 @@
 //== 机构管理-列表页
-let mDepartInput = function () {
+var mDepartInput = function () {
 
     return {
         //== 初始化页面

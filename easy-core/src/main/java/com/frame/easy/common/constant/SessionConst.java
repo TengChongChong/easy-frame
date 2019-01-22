@@ -3,8 +3,8 @@ package com.frame.easy.common.constant;
 /**
  * Session常量
  *
- * @Author tengchong
- * @Date 2018/9/4
+ * @author tengchong
+ * @date 2018/9/4
  */
 public class SessionConst {
     /**

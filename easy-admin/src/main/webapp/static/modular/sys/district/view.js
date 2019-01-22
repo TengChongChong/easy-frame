@@ -1,7 +1,7 @@
 //== 行政区划-列表页
-let mDistrictView = function () {
-    let initDistrictTree = function () {
-        let option = {
+var mDistrictView = function () {
+    var initDistrictTree = function () {
+        var option = {
             types: {
                 '#': {
                     'max_children': 1 // //根节点只能有一个
@@ -14,7 +14,7 @@ let mDistrictView = function () {
                 check_callback: true,
                 data: {
                     url: function (node) {
-                        let url = mTool.getBaseUrl() + 'select/data';
+                        var url = mTool.getBaseUrl() + 'select/data';
                         if ('#' != node.id) {
                             url += '?pId=' + node.id;
                         }
@@ -29,7 +29,7 @@ let mDistrictView = function () {
                 select_node: false,
                 show_at_node: true,
                 items: function () {
-                    let _items = {};
+                    var _items = {};
                     if (mTool.hasPermissions('sys:district:add')) {
                         _items.add = {
                             label: '新增下级',
@@ -44,7 +44,7 @@ let mDistrictView = function () {
                             label: '修改',
                             icon: 'la la-edit',
                             _disabled: function (data) {
-                                let node = mTool.getClickNode(data);
+                                var node = mTool.getClickNode(data);
                                 return node.id == '1';
                             },
                             action: function (data) {
@@ -57,7 +57,7 @@ let mDistrictView = function () {
                             label: '删除',
                             icon: 'la la-trash',
                             _disabled: function (data) {
-                                let node = mTool.getClickNode(data);
+                                var node = mTool.getClickNode(data);
                                 return node.id == '1';
                             },
                             action: function (data) {
@@ -70,7 +70,7 @@ let mDistrictView = function () {
                             label: '复制',
                             icon: 'la la-copy',
                             _disabled: function (data) {
-                                let node = mTool.getClickNode(data);
+                                var node = mTool.getClickNode(data);
                                 return node.id == '1';
                             },
                             action: function (data) {
@@ -93,7 +93,7 @@ let mDistrictView = function () {
                             label: '启用',
                             icon: 'la la-check',
                             _disabled: function (data) {
-                                let node = mTool.getClickNode(data);
+                                var node = mTool.getClickNode(data);
                                 return node.id == '1';
                             },
                             action: function (data) {
@@ -104,7 +104,7 @@ let mDistrictView = function () {
                             label: '禁用',
                             icon: 'la la-ban',
                             _disabled: function (data) {
-                                let node = mTool.getClickNode(data);
+                                var node = mTool.getClickNode(data);
                                 return node.id == '1';
                             },
                             action: function (data) {
@@ -125,7 +125,7 @@ let mDistrictView = function () {
             activateNode(data.node)
         }).on('move_node.jstree', function (e, data) {
             //拖拽节点事件
-            let moveData = {
+            var moveData = {
                 id: data.node.id,
                 parent: data.parent,
                 position: data.position,
@@ -148,8 +148,8 @@ let mDistrictView = function () {
     /**
      * 搜索
      */
-    let searchDistrict = function () {
-        let permissionsTitle = $('#district-title').val();
+    var searchDistrict = function () {
+        var permissionsTitle = $('#district-title').val();
         if (mUtil.isNotBlank(permissionsTitle)) {
             $('#district-tree').addClass('m--hide');
             $('#search-permissions').removeClass('m--hide');
@@ -161,7 +161,7 @@ let mDistrictView = function () {
                 },
                 url: mTool.getBaseUrl() + 'search',
                 success: function (res) {
-                    let $tree = $('#search-permissions').find('.tree');
+                    var $tree = $('#search-permissions').find('.tree');
                     if ($tree.jstree(true)) {
                         $tree.jstree(true).destroy();
                     }
@@ -182,11 +182,11 @@ let mDistrictView = function () {
      * @param tree {object} jsTree对象
      * @param nodeIds {array} 数组
      */
-    let copyNode = function (tree, nodeIds) {
+    var copyNode = function (tree, nodeIds) {
         if (mUtil.isArray(nodeIds)) {
-            let nodes = [];
+            var nodes = [];
             $(nodeIds).each(function (i, id) {
-                let _node = tree.get_node(id);
+                var _node = tree.get_node(id);
                 if (_node != null && _node) {
                     nodes.push(_node);
                 }
@@ -202,10 +202,10 @@ let mDistrictView = function () {
      * @param tree {object} jsTree对象
      * @param node {object} 粘贴到的节点
      */
-    let pasteNode = function (tree, node) {
-        let buffer = tree.get_buffer();
+    var pasteNode = function (tree, node) {
+        var buffer = tree.get_buffer();
         if (mUtil.isArray(buffer.node)) {
-            let ids = [];
+            var ids = [];
             $(buffer.node).each(function (i, _node) {
                 ids.push(_node.id);
             });
@@ -232,7 +232,7 @@ let mDistrictView = function () {
      *
      * @param node
      */
-    let activateNode = function (node) {
+    var activateNode = function (node) {
         mUtil.ajax({
             type: 'get',
             dataType: 'html',
@@ -250,7 +250,7 @@ let mDistrictView = function () {
      *
      * @param el {object} html 元素
      */
-    let saveData = function (el) {
+    var saveData = function (el) {
         mTool.saveData(el, null, null, null, function (res) {
             mTool.saveNode('#district-tree', {
                 id: res.data.id,
@@ -264,8 +264,8 @@ let mDistrictView = function () {
      *
      * @param el 删除按钮
      */
-    let deleteById = function (el) {
-        let id = $('#id').val();
+    var deleteById = function (el) {
+        var id = $('#id').val();
         mTool.deleteById(el, id, null, false, function (res) {
             console.log(res);
             $('#district-info').html('');
@@ -278,14 +278,14 @@ let mDistrictView = function () {
      * @param ids {string} 要设置状态的id
      * @param status {number} 状态
      */
-    let setStatus = function (ids, status) {
+    var setStatus = function (ids, status) {
         if (mUtil.isNotBlank(ids)) {
             mUtil.ajax({
                 wait: '#district-tree',
                 url: mTool.getBaseUrl() + 'set/' + ids + '/status/' + status,
                 success: function (res) {
-                    let type = status == 1 ? 'default' : 'disabled';
-                    let _id = $('#id').val();
+                    var type = status == 1 ? 'default' : 'disabled';
+                    var _id = $('#id').val();
                     $(ids.split(',')).each(function (i, id) {
                         // 如果节点已经在右侧打开,要更新状态
                         if (id == _id) {
@@ -307,7 +307,7 @@ let mDistrictView = function () {
      *
      * @param ids {string} 要删除的节点id
      */
-    let batchDelete = function (ids) {
+    var batchDelete = function (ids) {
         if (mUtil.isNotBlank(ids)) {
             mUtil.alertConfirm(mTool.commonTips.delete.title, mTool.commonTips.delete.subtitle, function () {
                 mUtil.ajax({
@@ -316,7 +316,7 @@ let mDistrictView = function () {
                     success: function (res) {
                         mTool.deleteNode('#district-tree', ids);
                         // 如果删除的ids,已在右边打开,则清空
-                        let _id = $('#id').val();
+                        var _id = $('#id').val();
                         $(ids.split(',')).each(function (i, id) {
                             if (id == _id) {
                                 $('#district-info').html('');
@@ -335,7 +335,7 @@ let mDistrictView = function () {
      *
      * @param pId {string} 上级id
      */
-    let addDistrict = function (pId) {
+    var addDistrict = function (pId) {
         if (mUtil.isBlank(pId)) {
             pId = $('#id').val();
         }
@@ -354,10 +354,10 @@ let mDistrictView = function () {
      * 绑定点击图标事件
      * 用于选择菜单/权限图标
      */
-    let bindIconClick = function f() {
+    var bindIconClick = function f() {
         $('#icon_modal').on('shown.bs.modal', function (e) {
             $('.m-demo-icon').click(function () {
-                let icon = $(this).find('i').attr('class');
+                var icon = $(this).find('i').attr('class');
                 $('#district-icon > i').removeClass().addClass(icon);
                 $('#icon').val(icon);
                 $('#icon_modal').modal('hide');

@@ -7,8 +7,8 @@ import ${import};
 /**
  * ${config.businessName} controller
  *
- * @Author ${config.author}
- * @Date ${config.date}
+ * @author ${config.author}
+ * @date ${config.date}
  */
 @Controller
 @RequestMapping("${config.controllerMapping}")

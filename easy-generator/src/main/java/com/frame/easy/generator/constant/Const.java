@@ -5,8 +5,8 @@ import java.io.File;
 /**
  * 默认常量
  *
- * @Author tengchong
- * @Date 2019-01-08
+ * @author tengchong
+ * @date 2019-01-08
  */
 public class Const {
     private static String BASE_PATH = File.separator + "src" + File.separator + "main" + File.separator;

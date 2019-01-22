@@ -1,14 +1,14 @@
 //== 系统状态
-let mStatusList = function () {
+var mStatusList = function () {
     /**
      * 初始化图表
      *
      * @param selector {string} 选择器
      * @param data {array} 数据
      */
-    let initCharts = function (selector, data) {
-        let myChart = echarts.init($(selector)[0], 'westeros');
-        let option = {
+    var initCharts = function (selector, data) {
+        var myChart = echarts.init($(selector)[0], 'westeros');
+        var option = {
 
             xAxis: {
                 type: 'category',

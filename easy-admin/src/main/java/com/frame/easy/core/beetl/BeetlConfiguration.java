@@ -14,8 +14,8 @@ import java.util.Map;
 /**
  * beetl拓展配置,绑定一些工具类/配置,方便在beetl中直接调用
  *
- * @Author tengchong
- * @Date 2018/9/4
+ * @author tengchong
+ * @date 2018/9/4
  */
 public class BeetlConfiguration extends BeetlGroupUtilConfiguration {
 

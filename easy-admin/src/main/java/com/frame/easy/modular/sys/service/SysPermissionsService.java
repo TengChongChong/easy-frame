@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * 权限/菜单管理
  *
- * @Author tengchong
- * @Date 2018/11/27
+ * @author tengchong
+ * @date 2018/11/27
  */
 public interface SysPermissionsService {
     /**

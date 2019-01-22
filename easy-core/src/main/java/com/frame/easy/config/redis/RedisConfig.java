@@ -25,6 +25,7 @@ import java.lang.reflect.Method;
 
 /**
  * redis config
+ *
  * @author tengchong
  */
 @Configuration

@@ -3,8 +3,8 @@ package com.frame.easy.common.constant.status;
 /**
  * 模式
  *
- * @Author tengchong
- * @Date 2018/10/23
+ * @author tengchong
+ * @date 2018/10/23
  */
 public enum ProfilesActiveStatus {
     // 开发模式

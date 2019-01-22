@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 权限管理
  *
- * @Author tengchong
- * @Date 2018/10/30
+ * @author tengchong
+ * @date 2018/10/30
  */
 @Controller
 @RequestMapping("/auth/sys/permissions")

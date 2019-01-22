@@ -9,8 +9,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * session监听
  *
- * @Author tengchong
- * @Date 2018/9/11
+ * @author tengchong
+ * @date 2018/9/11
  */
 public class SessionListener implements org.apache.shiro.session.SessionListener {
 

@@ -1,14 +1,14 @@
 //== 首页
-let mIndex = function () {
-    let rootId = 0; // 根菜单id
-    let currentUser = null;
+var mIndex = function () {
+    var rootId = 0; // 根菜单id
+    var currentUser = null;
     /**
      * 加载菜单
      */
-    let loadMenu = function () {
-        let menus = currentUser.menus;
+    var loadMenu = function () {
+        var menus = currentUser.menus;
         if (typeof menus !== 'undefined') {
-            let $menuNav = $('#m_ver_menu > ul');
+            var $menuNav = $('#m_ver_menu > ul');
             if (menus.length > 0) {
                 $menuNav.append(initMenu(buildTree(menus), true));
             } else {
@@ -26,13 +26,13 @@ let mIndex = function () {
      * @param  {[type]} list 一维数组，数组中每一个元素需包含id和pId两个属性
      * @return {[type]} tree 多层级树状结构
      */
-    let buildTree = function (list) {
-        let temp = {};
-        let tree = {};
-        for (let i in list) {
+    var buildTree = function (list) {
+        var temp = {};
+        var tree = {};
+        for (var i in list) {
             temp[list[i].id] = list[i];
         }
-        for (let i in temp) {
+        for (var i in temp) {
             if (temp[i].pId != rootId || temp[temp[i].pId]) {
                 if (!temp[temp[i].pId].children) {
                     temp[temp[i].pId].children = new Object();
@@ -53,8 +53,8 @@ let mIndex = function () {
      * @param isBase {boolean} 是否是一级菜单
      * @returns {string} html
      */
-    let initMenu = function (menus, isBase) {
-        let _html = '';
+    var initMenu = function (menus, isBase) {
+        var _html = '';
         $(objectToArray(menus)).each(function (i, menu) {
             _html += getMenuHtml(menu, isBase);
         });
@@ -66,8 +66,8 @@ let mIndex = function () {
      * @param menus
      * @returns {*}
      */
-    let objectToArray = function (menus) {
-        let array = Object.values(menus);
+    var objectToArray = function (menus) {
+        var array = Object.values(menus);
         array.sort(function (a, b) {
             return a.orderNo - b.orderNo
         });
@@ -80,7 +80,7 @@ let mIndex = function () {
      * @param isBase {boolean} 是否是一级菜单
      * @returns {string}
      */
-    let getMenuIcon = function (menu, isBase) {
+    var getMenuIcon = function (menu, isBase) {
         if (isBase) {
             return '<i class="m-menu__link-icon ' + menu.icon + '"></i>';
         } else {
@@ -93,7 +93,7 @@ let mIndex = function () {
      * @param menu {object} 菜单
      * @returns {string} html
      */
-    let getMenuText = function (menu) {
+    var getMenuText = function (menu) {
         return '<span class="m-menu__link-text">' + menu.name + '</span>';
     };
     /**
@@ -102,7 +102,7 @@ let mIndex = function () {
      * @param url {string} url
      * @returns {string} url
      */
-    let getMenuUrl = function (url) {
+    var getMenuUrl = function (url) {
         return basePath + (mUtil.isNotBlank(url) ? url : '');
     };
     /**
@@ -111,7 +111,7 @@ let mIndex = function () {
      * @param submenu {object} 子菜单
      * @returns {boolean}
      */
-    let hasSubMenu = function (submenu) {
+    var hasSubMenu = function (submenu) {
         return typeof submenu !== 'undefined';
     };
     /**
@@ -121,7 +121,7 @@ let mIndex = function () {
      * @param menu {object} 菜单
      * @returns {string} html
      */
-    let getMenuLink = function (content, menu) {
+    var getMenuLink = function (content, menu) {
         return '<a href="javascript:;" class="m-menu__link ' + (hasSubMenu(menu.children) ? 'm-menu__toggle' : '') + '" data-url="' + getMenuUrl(menu.url) + '">' + content + '</a>';
     };
     /**
@@ -131,10 +131,10 @@ let mIndex = function () {
      * @param isBase {boolean} 是否是一级菜单
      * @returns {string} html
      */
-    let getMenuHtml = function (menu, isBase) {
-        let menuArrow = '<i class="m-menu__ver-arrow la la-angle-right"></i>';
+    var getMenuHtml = function (menu, isBase) {
+        var menuArrow = '<i class="m-menu__ver-arrow la la-angle-right"></i>';
         if (typeof menu !== 'undefined') {
-            let _html = '<li class="m-menu__item ' + (hasSubMenu(menu.children) ? 'm-menu__item--submenu' : '') + '" aria-haspopup="true">';
+            var _html = '<li class="m-menu__item ' + (hasSubMenu(menu.children) ? 'm-menu__item--submenu' : '') + '" aria-haspopup="true">';
             if (hasSubMenu(menu.children)) {
                 _html += getMenuLink(getMenuIcon(menu, isBase) + getMenuText(menu) + menuArrow, menu) +
                     '<div class="m-menu__submenu ">\
@@ -164,7 +164,7 @@ let mIndex = function () {
     /**
      * 添加点击菜单事件
      */
-    let bindMenuClick = function () {
+    var bindMenuClick = function () {
         mLayout.getAsideMenu().on('linkClick', function (obj, menu) {
             mApp.openPage(menu.innerText, menu.attributes['data-url'].nodeValue);
             return false;

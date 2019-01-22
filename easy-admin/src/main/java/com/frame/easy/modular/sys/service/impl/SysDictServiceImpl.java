@@ -30,8 +30,8 @@ import java.util.List;
 /**
  * 字典管理
  *
- * @Author tengchong
- * @Date 2018/11/4
+ * @author tengchong
+ * @date 2018/11/4
  */
 @Service
 public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> implements SysDictService {

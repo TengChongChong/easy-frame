@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 /**
  * JsTree 插件数据
  *
- * @Author tengchong
- * @Date 2018/10/31
+ * @author tengchong
+ * @date 2018/10/31
  */
 public class JsTree {
 

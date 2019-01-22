@@ -5,8 +5,8 @@ import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 
 /**
  * 密码工具
- * @Author tengchong
- * @Date 2018/9/4
+ * @author tengchong
+ * @date 2018/9/4
  */
 public class PasswordUtil {
 

@@ -10,8 +10,8 @@ import java.io.Serializable;
 /**
  * 用户角色
  *
- * @Author tengchong
- * @Date 2018/9/4
+ * @author tengchong
+ * @date 2018/9/4
  */
 
 @TableName("sys_user_role")

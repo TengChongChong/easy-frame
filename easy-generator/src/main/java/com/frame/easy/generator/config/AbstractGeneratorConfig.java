@@ -15,8 +15,8 @@ import java.util.List;
 /**
  * 代码生成的抽象配置
  *
- * @Author tengchong
- * @Date 2019-01-08
+ * @author tengchong
+ * @date 2019-01-08
  */
 public abstract class AbstractGeneratorConfig {
     /**

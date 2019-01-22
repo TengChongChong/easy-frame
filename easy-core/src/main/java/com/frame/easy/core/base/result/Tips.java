@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * 返回数据提示
  * json格式
  *
- * @Author tengchong
- * @Date 2018/10/22
+ * @author tengchong
+ * @date 2018/10/22
  */
 public class Tips {
     /**

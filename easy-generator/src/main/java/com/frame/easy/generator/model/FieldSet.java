@@ -3,8 +3,8 @@ package com.frame.easy.generator.model;
 /**
  * 列配置
  *
- * @Author tengchong
- * @Date 2019-01-10
+ * @author tengchong
+ * @date 2019-01-10
  */
 public class FieldSet {
     /**

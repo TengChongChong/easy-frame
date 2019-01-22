@@ -11,8 +11,8 @@ import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 /**
  * 验证密码有效性
  *
- * @Author tengchong
- * @Date 2018/9/4
+ * @author tengchong
+ * @date 2018/9/4
  */
 public class CredentialsMatcher extends SimpleCredentialsMatcher {
 

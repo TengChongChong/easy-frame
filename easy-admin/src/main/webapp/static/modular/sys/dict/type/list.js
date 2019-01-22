@@ -1,7 +1,7 @@
 //== 字典管理-列表页
-let mDictTypeList = function () {
-    let initTable = function () {
-        let options = {
+var mDictTypeList = function () {
+    var initTable = function () {
+        var options = {
             // 列配置
             columns: [
                 {
@@ -58,7 +58,7 @@ let mDictTypeList = function () {
                         }
                     },
                     template: function (row, index, datatable) {
-                        let _btn = '';
+                        var _btn = '';
                         if (mTool.hasPermissions('sys:dict:type:save')) {
                             _btn += '<a href="#" onclick="mDictTypeList.editDictType(this)" class="' + mTool.ACTIONS_SUCCESS + '" title="编辑">\
                                 <i class="la la-edit"></i>\
@@ -81,8 +81,8 @@ let mDictTypeList = function () {
      * @param row {element} 数据所在行
      * @param data {object} 数据
      */
-    let saveDictType = function (row, data) {
-        let ajaxParams = {
+    var saveDictType = function (row, data) {
+        var ajaxParams = {
             wait: row,
             data: data,
             needAlert: false,
@@ -101,7 +101,7 @@ let mDictTypeList = function () {
     /**
      * 添加字典类别
      */
-    let addDictType = function () {
+    var addDictType = function () {
         mDictTypeList.dataTable.addRow();
     };
 
@@ -110,7 +110,7 @@ let mDictTypeList = function () {
      *
      * @param element {object} 编辑按钮
      */
-    let editDictType = function (element) {
+    var editDictType = function (element) {
         $(element).tooltip('hide');
         mDictTypeList.dataTable.editRow(element);
     };
@@ -121,10 +121,10 @@ let mDictTypeList = function () {
      * @param element {object} 删除按钮
      * @param id {string} 要删除的数据id
      */
-    let deleteDictType = function (element, id) {
+    var deleteDictType = function (element, id) {
         mUtil.alertConfirm(mTool.commonTips.delete.title, mTool.commonTips.delete.subtitle, function () {
-            let row = $(element).parents('tr.m-datatable__row');
-            let ajaxParams = {
+            var row = $(element).parents('tr.m-datatable__row');
+            var ajaxParams = {
                 wait: row,
                 needAlert: false,
                 url: mTool.getBaseUrl() + mTool.urlSuffix.deleteById + id,

@@ -1,12 +1,12 @@
 //== 字典管理-新增/修改
-let mDictInput = function () {
+var mDictInput = function () {
     /**
      * 加载上级字典列表
      *
      * @param dictType 字典类别
      */
-    let loadUpDicts = function (dictType) {
-        let $pCode = $('#pCode');
+    var loadUpDicts = function (dictType) {
+        var $pCode = $('#pCode');
         if (mUtil.isNotBlank(dictType)) {
             mUtil.ajax({
                 url: mTool.getBaseUrl() + dictType + '/dicts',
@@ -35,10 +35,10 @@ let mDictInput = function () {
      * 绑定点击图标事件
      * 用于选择字典图标
      */
-    let bindIconClick = function f() {
+    var bindIconClick = function f() {
         $('#icon_modal').on('shown.bs.modal', function (e) {
             $('.m-demo-icon').click(function () {
-                let icon = $(this).find('i').attr('class');
+                var icon = $(this).find('i').attr('class');
                 $('#dict-icon > i').removeClass().addClass(icon);
                 $('#icon').val(icon);
                 $('#icon_modal').modal('hide');
@@ -48,9 +48,9 @@ let mDictInput = function () {
     /**
      * 绑定事件
      */
-    let bind = function () {
+    var bind = function () {
         $('#dictType').change(function () {
-            let dictType = $(this).val();
+            var dictType = $(this).val();
             loadUpDicts(dictType);
         }).change();
         bindIconClick();

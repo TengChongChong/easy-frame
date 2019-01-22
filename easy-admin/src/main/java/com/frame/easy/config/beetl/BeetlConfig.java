@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 /**
  * beetl的配置
  *
- * @Author tengchong
- * @Date 2018/9/4
+ * @author tengchong
+ * @date 2018/9/4
  */
 
 @Configuration

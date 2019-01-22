@@ -16,8 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * 自定义 Realm
  *
- * @Author tengchong
- * @Date 2018/9/4
+ * @author tengchong
+ * @date 2018/9/4
  */
 public class ShiroRealm extends AuthorizingRealm {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());

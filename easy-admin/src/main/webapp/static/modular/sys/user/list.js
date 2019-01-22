@@ -1,7 +1,7 @@
 //== 用户管理-列表页
-let mUserList = function () {
-    let firstClick = true;
-    let initDepartTree = function () {
+var mUserList = function () {
+    var firstClick = true;
+    var initDepartTree = function () {
         $('#depart-tree').jstree({
             types: {
                 default: {
@@ -13,7 +13,7 @@ let mUserList = function () {
                 check_callback: true,
                 data: {
                     url: function (node) {
-                        let url = basePath + '/auth/sys/depart/select/data';
+                        var url = basePath + '/auth/sys/depart/select/data';
                         if ('#' !== node.id) {
                             url += '?pId=' + node.id;
                         }
@@ -28,8 +28,8 @@ let mUserList = function () {
     /**
      * 搜索
      */
-    let search = function () {
-        let permissionsTitle = $('#depart-title').val();
+    var search = function () {
+        var permissionsTitle = $('#depart-title').val();
         if (mUtil.isNotBlank(permissionsTitle)) {
             $('#depart-tree').addClass('m--hide');
             $('#search-depart').removeClass('m--hide');
@@ -41,7 +41,7 @@ let mUserList = function () {
                 },
                 url: basePath + '/auth/sys/depart/search',
                 success: function (res) {
-                    let $tree = $('#search-depart').find('.tree');
+                    var $tree = $('#search-depart').find('.tree');
                     if ($tree.jstree(true)) {
                         $tree.jstree(true).destroy();
                     }
@@ -69,7 +69,7 @@ let mUserList = function () {
      *
      * @param node
      */
-    let activateNode = function (node) {
+    var activateNode = function (node) {
         if (mUtil.isNotBlank(node.id) && node.id != 0) {
             $('#deptId').val(node.id);
             if (firstClick) {
@@ -88,11 +88,11 @@ let mUserList = function () {
      * @param ids {string} 数据id
      * @returns {*}
      */
-    let checkParams = function (el, ids) {
+    var checkParams = function (el, ids) {
         if (mUtil.isBlank(ids)) {
-            let $dataTable = $(el).parents('.m-form').find('.m_datatable');
+            var $dataTable = $(el).parents('.m-form').find('.m_datatable');
             if (typeof $dataTable !== 'undefined' && $dataTable.length > 0) {
-                let _ids = mTool.getSelectData($dataTable);
+                var _ids = mTool.getSelectData($dataTable);
                 if (mTool.checkSelectDataIsNotEmpty(_ids, true)) {
                     ids = _ids.join(',');
                 }
@@ -106,7 +106,7 @@ let mUserList = function () {
      *
      * @param ids 用户ids
      */
-    let disableUser = function (el, ids) {
+    var disableUser = function (el, ids) {
         ids = checkParams(el, ids);
         if (ids) {
             mUtil.alertConfirm('确定要禁用用户吗？', '禁用后用户无法登录', function () {
@@ -124,7 +124,7 @@ let mUserList = function () {
      *
      * @param ids 用户ids
      */
-    let enableUser = function (el, ids) {
+    var enableUser = function (el, ids) {
         ids = checkParams(el, ids);
         if (ids) {
             mUtil.ajax({
@@ -140,7 +140,7 @@ let mUserList = function () {
      *
      * @param ids 用户ids
      */
-    let resetPassword = function (el, ids) {
+    var resetPassword = function (el, ids) {
         ids = checkParams(el, ids);
         if (ids) {
             mUtil.alertConfirm('确定要重置密码吗？', '重置后用户无法使用旧密码登录', function () {
@@ -157,8 +157,8 @@ let mUserList = function () {
     /**
      * 初始化列表
      */
-    let initTable = function () {
-        let options = {
+    var initTable = function () {
+        var options = {
             // 列配置
             columns: [
                 {
@@ -211,7 +211,7 @@ let mUserList = function () {
                         right: 'md'
                     },
                     template: function (row, index, datatable) {
-                        let _btn = '';
+                        var _btn = '';
                         if (mTool.hasPermissions('sys:user:save')) {
                             _btn += '<a href="#" onclick="mTool.editById(this, ' + row.id + ', \'' + row.username + '\')" class="' + mTool.ACTIONS_ACCENT + '" title="编辑">\
                                 <i class="la la-edit"></i>\
@@ -248,7 +248,7 @@ let mUserList = function () {
     /**
      * 新增
      */
-    let addUser = function () {
+    var addUser = function () {
         mApp.openPage('新增用户', mTool.getBaseUrl() + 'add/' + $('#deptId').val());
     };
 

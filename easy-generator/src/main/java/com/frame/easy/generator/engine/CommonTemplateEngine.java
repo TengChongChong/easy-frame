@@ -8,8 +8,8 @@ import java.io.File;
 /**
  * 通用模板生成引擎
  *
- * @Author tengchong
- * @Date 2019-01-08
+ * @author tengchong
+ * @date 2019-01-08
  */
 public class CommonTemplateEngine extends BaseTemplateEngine {
 

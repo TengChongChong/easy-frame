@@ -49,8 +49,8 @@ import static springfox.documentation.builders.RequestHandlerSelectors.withMetho
 /**
  * Swagger 配置
  *
- * @Author tengchong
- * @Date 2018/11/8
+ * @author tengchong
+ * @date 2018/11/8
  */
 @Configuration
 @EnableSwagger2

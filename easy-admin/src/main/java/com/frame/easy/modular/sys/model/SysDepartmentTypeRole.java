@@ -10,8 +10,8 @@ import java.io.Serializable;
 /**
  * 配置机构类型可以选择那些角色
  *
- * @Author tengchong
- * @Date 2018/9/4
+ * @author tengchong
+ * @date 2018/9/4
  */
 @TableName("sys_department_type_role")
 public class SysDepartmentTypeRole extends Model<SysDepartmentTypeRole> {

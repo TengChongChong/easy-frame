@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 字典
  *
- * @Author tengchong
- * @Date 2018/11/4
+ * @author tengchong
+ * @date 2018/11/4
  */
 @Controller
 @RequestMapping("/auth/sys/dict")

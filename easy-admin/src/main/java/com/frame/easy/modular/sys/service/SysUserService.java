@@ -5,8 +5,8 @@ import com.frame.easy.modular.sys.model.SysUser;
 /**
  * 用户管理
  *
- * @Author tengchong
- * @Date 2018/12/25
+ * @author tengchong
+ * @date 2018/12/25
  */
 public interface SysUserService {
     /**

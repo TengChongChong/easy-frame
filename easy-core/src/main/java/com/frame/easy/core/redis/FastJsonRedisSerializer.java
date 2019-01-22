@@ -8,8 +8,8 @@ import org.springframework.data.redis.serializer.SerializationException;
 import java.nio.charset.Charset;
 
 /**
- * @Author tengchong
- * @Date 2018/12/13
+ * @author tengchong
+ * @date 2018/12/13
  */
 public class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
 

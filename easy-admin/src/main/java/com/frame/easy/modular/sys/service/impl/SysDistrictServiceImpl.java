@@ -25,8 +25,8 @@ import java.util.List;
 /**
  * 行政区划
  *
- * @Author tengchong
- * @Date 2018/12/18
+ * @author tengchong
+ * @date 2018/12/18
  */
 @Service
 public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDistrict> implements SysDistrictService {

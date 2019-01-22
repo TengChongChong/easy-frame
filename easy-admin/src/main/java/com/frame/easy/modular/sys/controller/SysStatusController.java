@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * 系统状态
  *
- * @Author tengchong
- * @Date 2018/11/8
+ * @author tengchong
+ * @date 2018/11/8
  */
 @Controller
 @RequestMapping("/auth/sys/status")

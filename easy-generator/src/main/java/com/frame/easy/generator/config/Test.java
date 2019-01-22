@@ -12,8 +12,8 @@ import com.frame.easy.generator.config.builder.ConfigBuilder;
 import java.util.List;
 
 /**
- * @Author tengchong
- * @Date 2019-01-15
+ * @author tengchong
+ * @date 2019-01-15
  */
 public class Test {
     private static GlobalConfig globalConfig() {
@@ -39,7 +39,7 @@ public class Test {
         dataSourceConfig.setDriverName("com.mysql.cj.jdbc.Driver");
         dataSourceConfig.setUsername("root");
         dataSourceConfig.setPassword("123456");
-        dataSourceConfig.setUrl("jdbc:mysql://localhost:3306/springboot?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMulQueries=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai");
+        dataSourceConfig.setUrl("jdbc:mysql://localhost:3306/easy-frame?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMulQueries=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai");
         return dataSourceConfig;
     }
 

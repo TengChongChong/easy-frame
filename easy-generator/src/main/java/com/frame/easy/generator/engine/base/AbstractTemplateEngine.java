@@ -7,8 +7,8 @@ import com.frame.easy.generator.model.Generator;
 /**
  * 配置类
  *
- * @Author tengchong
- * @Date 2019-01-08
+ * @author tengchong
+ * @date 2019-01-08
  */
 public class AbstractTemplateEngine {
     /**

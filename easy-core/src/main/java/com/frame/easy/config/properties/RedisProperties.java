@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Configuration;
 /**
  * redis属性配置文件
  *
- * @Author tengchong
- * @Date 2018/9/4
+ * @author tengchong
+ * @date 2018/9/4
  */
 @Configuration
 @ConfigurationProperties(prefix = "spring.redis")

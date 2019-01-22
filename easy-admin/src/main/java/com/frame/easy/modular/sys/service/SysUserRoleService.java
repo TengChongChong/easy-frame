@@ -7,8 +7,8 @@ import java.util.List;
 /**
  * 用户角色管理
  *
- * @Author tengchong
- * @Date 2018/12/6
+ * @author tengchong
+ * @date 2018/12/6
  */
 public interface SysUserRoleService {
     /**

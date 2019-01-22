@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * 角色管理
  *
- * @Author tengchong
- * @Date 2018/11/2
+ * @author tengchong
+ * @date 2018/11/2
  */
 public interface SysRoleService {
 

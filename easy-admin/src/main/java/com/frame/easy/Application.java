@@ -6,10 +6,10 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * tomcat容器下启动类
+ * 启动类
  *
- * @Author tengchong
- * @Date 2018/11/22
+ * @author tengchong
+ * @date 2018/11/22
  */
 @EnableCaching
 @EnableTransactionManagement

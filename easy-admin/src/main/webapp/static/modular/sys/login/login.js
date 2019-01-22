@@ -1,7 +1,7 @@
 //== 登录 Class
-let Login = function () {
-    let showErrorMsg = function (form, type, msg) {
-        let alert = $('<div class="m-alert alert alert-' + type + ' alert-dismissible" role="alert">\
+var Login = function () {
+    var showErrorMsg = function (form, type, msg) {
+        var alert = $('<div class="m-alert alert alert-' + type + ' alert-dismissible" role="alert">\
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>\
 			<span></span>\
 		</div>');
@@ -13,11 +13,11 @@ let Login = function () {
     };
 
     //== 私有函数
-    let handleSignInFormSubmit = function () {
+    var handleSignInFormSubmit = function () {
         $('#m_login_signin_submit').click(function (e) {
             e.preventDefault();
-            let btn = $(this);
-            let form = $('.m-login__form');
+            var btn = $(this);
+            var form = $('.m-login__form');
 
             form.validate({
                 rules: {

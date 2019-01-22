@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * 会话管理
  *
- * @Author tengchong
- * @Date 2018/9/12
+ * @author tengchong
+ * @date 2018/9/12
  */
 @Controller
 @RequestMapping("/auth/sys/online")

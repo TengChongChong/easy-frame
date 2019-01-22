@@ -13,8 +13,8 @@ import java.util.List;
 /**
  * 机构管理
  *
- * @Author tengchong
- * @Date 2018/12/3
+ * @author tengchong
+ * @date 2018/12/3
  */
 public interface SysDepartmentMapper extends BaseMapper<SysDepartment> {
 

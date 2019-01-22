@@ -29,8 +29,8 @@ import java.util.List;
 /**
  * 权限/菜单
  *
- * @Author tengchong
- * @Date 2018/10/31
+ * @author tengchong
+ * @date 2018/10/31
  */
 @Service
 public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper, SysPermissions> implements SysPermissionsService {

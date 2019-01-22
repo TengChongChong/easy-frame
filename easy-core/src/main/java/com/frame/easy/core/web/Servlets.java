@@ -14,8 +14,8 @@ import java.util.Objects;
 /**
  * Servlets 工具类
  *
- * @Author tengchong
- * @Date 2018/9/13
+ * @author tengchong
+ * @date 2018/9/13
  */
 public class Servlets {
     private static Logger logger = LoggerFactory.getLogger(Servlets.class);

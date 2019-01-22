@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
 /**
  * Shiro工具类
  *
- * @Author tengchong
- * @Date 2018/9/11
+ * @author tengchong
+ * @date 2018/9/11
  */
 public class ShiroUtil {
     private static Logger logger = LoggerFactory.getLogger(ShiroService.class);

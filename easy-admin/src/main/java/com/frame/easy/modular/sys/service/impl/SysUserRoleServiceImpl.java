@@ -22,8 +22,8 @@ import java.util.List;
 /**
  * 用户角色管理
  *
- * @Author tengchong
- * @Date 2018/12/7
+ * @author tengchong
+ * @date 2018/12/7
  */
 @Service
 public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUserRole> implements SysUserRoleService {

@@ -9,8 +9,8 @@ import java.util.List;
 /**
  * 代码生成
  *
- * @Author tengchong
- * @Date 2019-01-09
+ * @author tengchong
+ * @date 2019-01-09
  */
 public interface GenerationMapper {
     /**

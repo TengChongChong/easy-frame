@@ -3,8 +3,8 @@ package com.frame.easy.common.constant.type;
 /**
  * 权限类型
  *
- * @Author tengchong
- * @Date 2018/10/31
+ * @author tengchong
+ * @date 2018/10/31
  **/
 public enum PermissionsType {
     // 菜单

@@ -11,8 +11,8 @@ import java.util.Date;
 /**
  * 登录日志
  *
- * @Author tengchong
- * @Date 2018/9/7
+ * @author tengchong
+ * @date 2018/9/7
  */
 @TableName("sys_login_log")
 public class SysLoginLog extends Model<SysLoginLog> {

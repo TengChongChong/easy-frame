@@ -5,8 +5,8 @@ import com.frame.easy.core.exception.ExceptionEnum;
 /**
  * 工具类
  *
- * @Author tengchong
- * @Date 2018/9/4
+ * @author tengchong
+ * @date 2018/9/4
  */
 public class ToolUtil {
     public static String getTmpDir() {

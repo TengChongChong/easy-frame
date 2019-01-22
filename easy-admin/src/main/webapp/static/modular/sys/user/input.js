@@ -1,12 +1,12 @@
 //== 用户管理-列表页
-let mUserInput = function () {
+var mUserInput = function () {
     /**
      * 保存数据
      *
      * @param el {object} html 元素
      */
-    let save = function (el) {
-        let checked = mTool.getCheckedNodes('#roles-tree', 'id');
+    var save = function (el) {
+        var checked = mTool.getCheckedNodes('#roles-tree', 'id');
         $('#roles').val(checked.join(','));
         mTool.saveData(el, null, null, null, function (res) {
             // 如果改的是自己的账户,刷新缓存用户数据
@@ -18,7 +18,7 @@ let mUserInput = function () {
     /**
      * 初始化权限tree
      */
-    let initRolesTree = function () {
+    var initRolesTree = function () {
         mUtil.ajax({
             url: basePath + '/auth/sys/depart/type/role/select/role/' + $('#deptId').val(),
             success: function (res) {
@@ -58,8 +58,8 @@ let mUserInput = function () {
      * @param id {number|string} id
      * @returns {*}
      */
-    let selectDataById = function (data, id) {
-        let _data = null;
+    var selectDataById = function (data, id) {
+        var _data = null;
         $(data).each(function (i, obj) {
             if(obj.id == id){
                 _data = obj;

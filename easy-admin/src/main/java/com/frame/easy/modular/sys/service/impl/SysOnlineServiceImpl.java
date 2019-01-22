@@ -16,8 +16,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * @Author tengchong
- * @Date 2018/9/12
+ * @author tengchong
+ * @date 2018/9/12
  */
 @Service
 public class SysOnlineServiceImpl implements SysUserOnlineService {

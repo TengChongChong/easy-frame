@@ -17,8 +17,8 @@ import java.util.List;
 /**
  * 角色权限
  *
- * @Author tengchong
- * @Date 2018/11/27
+ * @author tengchong
+ * @date 2018/11/27
  */
 @Service
 public class SysRolePermissionsServiceImpl extends ServiceImpl<SysRolePermissionsMapper, SysRolePermissions> implements SysRolePermissionsService {

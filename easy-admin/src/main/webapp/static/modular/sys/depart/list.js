@@ -1,7 +1,7 @@
 //== 机构管理-列表页
-let mDepartList = function () {
-    let firstClick = true;
-    let initDepartTypeTree = function () {
+var mDepartList = function () {
+    var firstClick = true;
+    var initDepartTypeTree = function () {
         $('#depart-type-tree').jstree({
             types: {
                 default: {
@@ -13,7 +13,7 @@ let mDepartList = function () {
                 check_callback: true,
                 data: {
                     url: function (node) {
-                        let url = basePath + '/auth/sys/depart/type/select/all';
+                        var url = basePath + '/auth/sys/depart/type/select/all';
                         if ('#' != node.id) {
                             url += '?pId=' + node.id;
                         }
@@ -28,8 +28,8 @@ let mDepartList = function () {
     /**
      * 搜索
      */
-    let search = function () {
-        let permissionsTitle = $('#depart-type-title').val();
+    var search = function () {
+        var permissionsTitle = $('#depart-type-title').val();
         if (mUtil.isNotBlank(permissionsTitle)) {
             $('#depart-type-tree').addClass('m--hide');
             $('#search-depart-type').removeClass('m--hide');
@@ -41,7 +41,7 @@ let mDepartList = function () {
                 },
                 url: basePath + '/auth/sys/depart/type/search',
                 success: function (res) {
-                    let $tree = $('#search-depart-type').find('.tree');
+                    var $tree = $('#search-depart-type').find('.tree');
                     if ($tree.jstree(true)) {
                         $tree.jstree(true).destroy();
                     }
@@ -69,7 +69,7 @@ let mDepartList = function () {
      *
      * @param node
      */
-    let activateNode = function (node) {
+    var activateNode = function (node) {
         if (mUtil.isNotBlank(node.data)) {
             $('#typeCode').val(node.data);
             if (firstClick) {
@@ -85,8 +85,8 @@ let mDepartList = function () {
     /**
      * 初始化列表
      */
-    let initTable = function () {
-        let options = {
+    var initTable = function () {
+        var options = {
             // 列配置
             columns: [
                 {
@@ -131,7 +131,7 @@ let mDepartList = function () {
                         right: 'md'
                     },
                     template: function (row, index, datatable) {
-                        let _btn = '';
+                        var _btn = '';
                         if (mTool.hasPermissions('sys:depart:save')) {
                             _btn += '<a href="#" onclick="mTool.addData(this, \'新增机构\', null,  ' + row.id + ')" class="' + mTool.ACTIONS_SUCCESS + '" title="新增下级">\
                                 <i class="la la-plus"></i>\
@@ -156,7 +156,7 @@ let mDepartList = function () {
     /**
      * 新增
      */
-    let addDepart = function () {
+    var addDepart = function () {
         mApp.openPage('新增机构', mTool.getBaseUrl() + 'add?typeCode=' + $('#typeCode').val());
     };
     /**
@@ -164,7 +164,7 @@ let mDepartList = function () {
      *
      * @param pId {string} 上级id
      */
-    let addSubDepart = function (pId) {
+    var addSubDepart = function (pId) {
         mApp.openPage('新增机构', mTool.getBaseUrl() + 'add/' + pId);
     };
 

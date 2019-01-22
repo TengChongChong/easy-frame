@@ -7,8 +7,8 @@ import com.frame.easy.generator.constant.Const;
 /**
  * 代码生成
  *
- * @Author tengchong
- * @Date 2019-01-08
+ * @author tengchong
+ * @date 2019-01-08
  */
 public class Generator {
     /**

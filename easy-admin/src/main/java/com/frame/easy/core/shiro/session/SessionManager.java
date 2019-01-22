@@ -19,8 +19,8 @@ import java.util.Date;
 /**
  * web 会话管理
  *
- * @Author tengchong
- * @Date 2018/9/13
+ * @author tengchong
+ * @date 2018/9/13
  */
 public class SessionManager extends DefaultWebSessionManager {
 

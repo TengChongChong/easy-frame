@@ -5,8 +5,8 @@ import java.util.Date;
 /**
  * 当前在线用户
  *
- * @Author tengchong
- * @Date 2018/9/12
+ * @author tengchong
+ * @date 2018/9/12
  */
 public class SysUserOnline extends SysUser{
     /**

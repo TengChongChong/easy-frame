@@ -7,8 +7,8 @@ import java.util.List;
 /**
  * 会话管理
  *
- * @Author tengchong
- * @Date 2018/9/12
+ * @author tengchong
+ * @date 2018/9/12
  */
 public interface SysUserOnlineService {
     /**

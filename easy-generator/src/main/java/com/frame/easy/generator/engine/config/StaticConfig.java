@@ -8,8 +8,8 @@ import java.io.File;
 /**
  * 静态文件 模板生成的配置
  *
- * @Author tengchong
- * @Date 2019-01-09
+ * @author tengchong
+ * @date 2019-01-09
  */
 public class StaticConfig {
 

@@ -3,8 +3,8 @@ package com.frame.easy.common.constant.status;
 /**
  * 通用状态
  *
- * @Author tengchong
- * @Date 2018/11/14
+ * @author tengchong
+ * @date 2018/11/14
  */
 
 public enum CommonStatus {

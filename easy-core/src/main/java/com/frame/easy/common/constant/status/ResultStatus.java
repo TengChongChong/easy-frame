@@ -3,8 +3,8 @@ package com.frame.easy.common.constant.status;
 /**
  * 响应状态码
  *
- * @Author tengchong
- * @Date 2018/10/22
+ * @author tengchong
+ * @date 2018/10/22
  **/
 public enum ResultStatus {
     // 成功

@@ -1,7 +1,7 @@
 //== 角色管理-列表页
-let mRoleView = function () {
-    let initRolesTree = function () {
-        let option = {
+var mRoleView = function () {
+    var initRolesTree = function () {
+        var option = {
             types: {
                 '#': {
                     max_children: 1 // //根节点只能有一个
@@ -17,7 +17,7 @@ let mRoleView = function () {
                 check_callback: true,
                 data: {
                     url: function (node) {
-                        let url = mTool.getBaseUrl() + 'select/data';
+                        var url = mTool.getBaseUrl() + 'select/data';
                         if ('#' != node.id) {
                             url += '?pId=' + node.id;
                         }
@@ -32,7 +32,7 @@ let mRoleView = function () {
                 select_node: false,
                 show_at_node: true,
                 items: function (){
-                    let _items = {};
+                    var _items = {};
                     if (mTool.hasPermissions('sys:role:add')) {
                         _items.add = {
                             label: '新增下级',
@@ -89,7 +89,7 @@ let mRoleView = function () {
             activateNode(data.node)
         }).on('move_node.jstree', function (e, data) {
             //拖拽节点事件
-            let moveData = {
+            var moveData = {
                 id: data.node.id,
                 parent: data.parent,
                 position: data.position,
@@ -112,8 +112,8 @@ let mRoleView = function () {
     /**
      * 搜索角色
      */
-    let searchRoles = function () {
-        let roleTitle = $('#role-title').val();
+    var searchRoles = function () {
+        var roleTitle = $('#role-title').val();
         if (mUtil.isNotBlank(roleTitle)) {
             $('#roles-tree').addClass('m--hide');
             $('#search-role').removeClass('m--hide');
@@ -125,7 +125,7 @@ let mRoleView = function () {
                 },
                 url: mTool.getBaseUrl() + 'search',
                 success: function (res) {
-                    let $tree = $('#search-role').find('.tree');
+                    var $tree = $('#search-role').find('.tree');
                     if ($tree.jstree(true)) {
                         $tree.jstree(true).destroy();
                     }
@@ -145,7 +145,7 @@ let mRoleView = function () {
      *
      * @param node
      */
-    let activateNode = function (node) {
+    var activateNode = function (node) {
         mUtil.ajax({
             type: 'get',
             dataType: 'html',
@@ -163,14 +163,14 @@ let mRoleView = function () {
      * @param ids {string} 要设置状态的id
      * @param status {number} 状态
      */
-    let setStatus = function (ids, status) {
+    var setStatus = function (ids, status) {
         if (mUtil.isNotBlank(ids)) {
             mUtil.ajax({
                 wait: '#roles-tree',
                 url: mTool.getBaseUrl() + 'set/' + ids + '/status/' + status,
                 success: function (res) {
-                    let type = status == 1 ? 'default' : 'disabled';
-                    let _id = $('#id').val();
+                    var type = status == 1 ? 'default' : 'disabled';
+                    var _id = $('#id').val();
                     $(ids.split(',')).each(function (i, id) {
                         // 如果节点已经在右侧打开,要更新状态
                         if (id == _id) {
@@ -193,8 +193,8 @@ let mRoleView = function () {
      *
      * @param el {object} html 元素
      */
-    let saveData = function (el) {
-        let checked = mTool.getCheckedNodes('#permissions-tree', 'id');
+    var saveData = function (el) {
+        var checked = mTool.getCheckedNodes('#permissions-tree', 'id');
         $('#permissions').val(checked.join(','));
         mTool.saveData(el, null, null, null, function (res) {
             mTool.saveNode('#roles-tree', {
@@ -213,7 +213,7 @@ let mRoleView = function () {
      * @param el 删除按钮
      * @param id 要删除的数据id
      */
-    let deleteById = function (el, id) {
+    var deleteById = function (el, id) {
         mTool.deleteById(el, id, null, false, function (res) {
             $('#role-info').html('');
             mTool.deleteNode('#roles-tree', id);
@@ -224,7 +224,7 @@ let mRoleView = function () {
      *
      * @param ids {string} 要删除的节点id
      */
-    let batchDelete = function (ids) {
+    var batchDelete = function (ids) {
         if (mUtil.isNotBlank(ids)) {
             mUtil.alertConfirm(mTool.commonTips.delete.title, mTool.commonTips.delete.subtitle, function () {
                 mUtil.ajax({
@@ -233,7 +233,7 @@ let mRoleView = function () {
                     success: function (res) {
                         mTool.deleteNode('#roles-tree', ids);
                         // 如果删除的ids,已在右边打开,则清空
-                        let _id = $('#id').val();
+                        var _id = $('#id').val();
                         $(ids.split(',')).each(function (i, id) {
                             if (id == _id) {
                                 $('#role-info').html('');
@@ -251,7 +251,7 @@ let mRoleView = function () {
      *
      * @param pId {string} 上级id
      */
-    let addRole = function (pId) {
+    var addRole = function (pId) {
         if (mUtil.isBlank(pId)) {
             pId = $('#id').val();
         }
@@ -270,7 +270,7 @@ let mRoleView = function () {
     /**
      * 初始化权限tree
      */
-    let initPermissionsTree = function () {
+    var initPermissionsTree = function () {
         mUtil.ajax({
             url: basePath + '/auth/sys/permissions/select/all',
             success: function (res) {

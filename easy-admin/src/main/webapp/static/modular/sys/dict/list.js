@@ -1,7 +1,7 @@
 //== 字典管理-列表页
-let mDictList = function () {
-    let initTable = function () {
-        let options = {
+var mDictList = function () {
+    var initTable = function () {
+        var options = {
             // 列配置
             columns: [
                 {
@@ -57,7 +57,7 @@ let mDictList = function () {
                         right: 'md'
                     },
                     template: function (row, index, datatable) {
-                        let _btn = '';
+                        var _btn = '';
                         if (mTool.hasPermissions('sys:dict:add')) {
                             _btn += '<a href="#" onclick="mTool.addData(this, \'新增字典\', null,  ' + row.id + ')" class="' + mTool.ACTIONS_SUCCESS + '" title="新增下级">\
                                 <i class="la la-plus"></i>\
@@ -83,7 +83,7 @@ let mDictList = function () {
     /**
      * 生成静态文件
      */
-    let generateDictData = function () {
+    var generateDictData = function () {
         mUtil.alertConfirm('确定要生成静态文件吗？', '此操作会将数据库中字典数据生成js文件', function () {
             mUtil.ajax({
                 url: mTool.getBaseUrl() + 'generate/dict/data',

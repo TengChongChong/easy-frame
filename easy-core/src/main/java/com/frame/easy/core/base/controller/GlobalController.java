@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * 通用错误页
  *
- * @Author tengchong
- * @Date 2018/10/22
+ * @author tengchong
+ * @date 2018/10/22
  */
 @Controller
 @RequestMapping("/global")

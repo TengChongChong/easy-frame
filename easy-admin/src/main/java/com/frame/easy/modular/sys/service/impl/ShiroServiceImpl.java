@@ -25,8 +25,8 @@ import java.util.List;
 /**
  * Shiro 相关接口
  *
- * @Author tengchong
- * @Date 2018/9/4
+ * @author tengchong
+ * @date 2018/9/4
  */
 @Service
 public class ShiroServiceImpl implements ShiroService {
@@ -57,17 +57,18 @@ public class ShiroServiceImpl implements ShiroService {
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", username);
         SysUser sysUser = userMapper.selectOne(queryWrapper);
-        sysUser.setDepartment(departmentMapper.selectById(sysUser.getDeptId()));
         // 账号不存在
         if (sysUser == null) {
             throw new UnknownAccountException("账号或密码不正确！");
+        } else {
+            sysUser.setDepartment(departmentMapper.selectById(sysUser.getDeptId()));
         }
         // 账号被禁用
         if (sysUser.getStatus() == UserStatus.DISABLE.getCode()) {
             throw new DisabledAccountException("账号被禁用，请联系管理员！");
         }
         // 部门被移除
-        if(sysUser.getDepartment() == null){
+        if (sysUser.getDepartment() == null) {
             throw new DisabledAccountException("部门不存在，请联系管理员！");
         }
         // 部门被禁用

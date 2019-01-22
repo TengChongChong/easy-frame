@@ -17,13 +17,13 @@ import java.util.Map;
 /**
  * 自定义容器级错误响应内容
  *
- * @Author tengchong
- * @Date 2018/10/22
+ * @author tengchong
+ * @date 2018/10/22
  */
 @Controller
-public class MyErrorController extends BasicErrorController {
+public class EasyErrorController extends BasicErrorController {
 
-    public MyErrorController() {
+    public EasyErrorController() {
         super(new DefaultErrorAttributes(), new ErrorProperties());
     }
 

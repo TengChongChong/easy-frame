@@ -3,8 +3,8 @@ package com.frame.easy.common.select;
 /**
  * select
  *
- * @Author tengchong
- * @Date 2018/11/16
+ * @author tengchong
+ * @date 2018/11/16
  */
 public class Select {
     private String value;

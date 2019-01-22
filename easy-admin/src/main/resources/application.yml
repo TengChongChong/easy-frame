@@ -1,5 +1,5 @@
 project:
-    name: SpringBoot
+    name: Easy Frame
     cache-type: redis
     debug:
         package: com.frame.easy # 项目包路径,页面打印错误堆栈高亮显示项目内class

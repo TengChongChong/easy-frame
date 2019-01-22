@@ -3,8 +3,8 @@ package com.frame.easy.common.jstree;
 /**
  * 对象类型，一个节点的状态有一下几种:
  *
- * @Author tengchong
- * @Date 2018/10/31
+ * @author tengchong
+ * @date 2018/10/31
  */
 public class State {
     /**

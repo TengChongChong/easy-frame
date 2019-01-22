@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * 部门类型与角色关系
  *
- * @Author tengchong
- * @Date 2018/12/18
+ * @author tengchong
+ * @date 2018/12/18
  */
 @Controller
 @RequestMapping("/auth/sys/depart/type/role")

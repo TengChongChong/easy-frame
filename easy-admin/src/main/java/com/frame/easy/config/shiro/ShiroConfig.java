@@ -10,8 +10,6 @@ import com.frame.easy.core.shiro.session.RedisSessionDAO;
 import com.frame.easy.core.shiro.session.SessionListener;
 import com.frame.easy.core.shiro.check.RetryLimitCredentialsMatcher;
 import com.frame.easy.core.shiro.session.SessionManager;
-import org.apache.shiro.cache.CacheManager;
-import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.eis.MemorySessionDAO;
@@ -36,8 +34,8 @@ import java.util.*;
 /**
  * Shiro配置
  *
- * @Author tengchong
- * @Date 2018/9/4
+ * @author tengchong
+ * @date 2018/9/4
  */
 
 @Configuration

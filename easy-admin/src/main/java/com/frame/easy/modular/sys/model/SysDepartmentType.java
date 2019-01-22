@@ -12,8 +12,8 @@ import java.util.Date;
 /**
  * 机构类型
  *
- * @Author tengchong
- * @Date 2018/9/4
+ * @author tengchong
+ * @date 2018/9/4
  */
 @TableName("sys_department_type")
 public class SysDepartmentType extends Model<SysDepartmentType> {

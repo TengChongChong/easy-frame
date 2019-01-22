@@ -19,8 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 默认开启,连续输错5次后账号会被锁定10分钟
  * 可在 application.yml 中 修改 project.login.attempts/project.login.lock-length
  *
- * @Author tengchong
- * @Date 2018/9/6
+ * @author tengchong
+ * @date 2018/9/6
  */
 public class RetryLimitCredentialsMatcher extends CredentialsMatcher {
 

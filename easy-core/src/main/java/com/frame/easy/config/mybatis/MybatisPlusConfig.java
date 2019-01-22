@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * MybatisPlus Config
- * @Author tengchong
- * @Date 2019-01-15
+ * @author tengchong
+ * @date 2019-01-15
  */
 @Configuration
 @MapperScan("com.frame.easy.modular.*.dao")

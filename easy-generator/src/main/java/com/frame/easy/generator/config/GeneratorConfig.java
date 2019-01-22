@@ -8,8 +8,8 @@ import com.frame.easy.generator.constant.Const;
  * 配置生成参数
  * 用于main方法直接调用生成
  *
- * @Author tengchong
- * @Date 2019-01-09
+ * @author tengchong
+ * @date 2019-01-09
  */
 public class GeneratorConfig extends AbstractGeneratorConfig {
     private void globalConfig() {

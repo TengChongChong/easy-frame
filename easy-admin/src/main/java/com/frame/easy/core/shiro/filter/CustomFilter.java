@@ -8,8 +8,8 @@ import javax.servlet.ServletResponse;
 /**
  * 自定义拦截器
  *
- * @Author tengchong
- * @Date 2018/10/17
+ * @author tengchong
+ * @date 2018/10/17
  */
 public class CustomFilter extends AccessControlFilter {
 

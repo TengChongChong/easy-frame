@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 用户管理
  *
- * @Author tengchong
- * @Date 2018/12/6
+ * @author tengchong
+ * @date 2018/12/6
  */
 @Controller
 @RequestMapping("/auth/sys/user")

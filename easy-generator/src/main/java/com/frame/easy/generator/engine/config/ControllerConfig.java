@@ -10,8 +10,8 @@ import java.util.List;
 /**
  * controller 模板生成的配置
  *
- * @Author tengchong
- * @Date 2019-01-08
+ * @author tengchong
+ * @date 2019-01-08
  */
 public class ControllerConfig {
 

@@ -17,8 +17,8 @@ import java.util.List;
 /**
  * Mybatis Config
  *
- * @Author tengchong
- * @Date 2018/11/3
+ * @author tengchong
+ * @date 2018/11/3
  */
 
 @EnableTransactionManagement
