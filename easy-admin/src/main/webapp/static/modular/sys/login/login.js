@@ -1,6 +1,14 @@
 //== 登录 Class
 var Login = function () {
-    var showErrorMsg = function (form, type, msg) {
+    //== 私有函数
+    /**
+     * 显示提示信息
+     *
+     * @param form 表单
+     * @param type 提示类型
+     * @param msg 文字
+     */
+    var showMsg = function (form, type, msg) {
         var alert = $('<div class="m-alert alert alert-' + type + ' alert-dismissible" role="alert">\
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>\
 			<span></span>\
@@ -11,49 +19,62 @@ var Login = function () {
         mUtil.animateClass(alert[0], 'fadeIn animated');
         alert.find('span').html(msg);
     };
-
-    //== 私有函数
-    var handleSignInFormSubmit = function () {
-        $('#m_login_signin_submit').click(function (e) {
-            e.preventDefault();
-            var btn = $(this);
-            var form = $('.m-login__form');
-
-            form.validate({
-                rules: {
-                    username: {
-                        required: true
-                    },
-                    password: {
-                        required: true
-                    }
-                }
-            });
-
-            if (!form.valid()) {
-                return;
-            }
-            // 设置登录按钮状态
-            btn.addClass('m-loader m-loader--right m-loader--light').attr('disabled', true);
-            form.ajaxSubmit({
+    /**
+     * 表单验证
+     * @param $form {object} 表单对象
+     * @param data {object} 表单内容
+     * @return {boolean} true/false
+     */
+    var validate = function ($form, data) {
+        if(mUtil.isNotBlank(data.username)){
+            showMsg($form, 'danger', '请输入用户名');
+            return false;
+        }
+        if(mUtil.isNotBlank(data.password)){
+            showMsg($form, 'danger', '请输入密码');
+            return false;
+        }
+        return true;
+    };
+    /**
+     * 登录
+     */
+    var login = function () {
+        var $form = $('form');
+        var data = {
+            username: $form.find('[name="username"]').val(),
+            password: $form.find('[name="password"]').val()
+        };
+        if(validate($form, data)){
+            data.password = $.md5(data.password);
+            var $btnLogin = $('#btn-login');
+            mUtil.setButtonWait($btnLogin);
+            $.ajax({
                 url: basePath + '/login',
                 type: 'post',
-                success: function (response, status, xhr, $form) {
-                    if (response.code == 200) {
-                        window.location.href = "/";
-                    } else {
-                        btn.removeClass('m-loader m-loader--right m-loader--light').attr('disabled', false);
-                        showErrorMsg(form, 'danger', response.message);
-                    }
+                data: data,
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    mUtil.offButtonWait($btnLogin);
+                    showMsg($form, 'danger', '网络异常，请稍后重试');
+                },
+                fail: function (res) {
+                    mUtil.offButtonWait($btnLogin);
+                    showMsg($form, 'danger', res.message);
+                },
+                success: function (res) {
+                    showMsg($form, 'success', '登录成功');
+                    window.location.href = "/";
                 }
             });
-        });
+        }
     };
 
     //== 公开函数
     return {
         init: function () {
-            handleSignInFormSubmit();
+            $('#btn-login').click(function () {
+                login();
+            });
         }
     };
 }();
