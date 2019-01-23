@@ -21,6 +21,13 @@
          id="m_login">
         <div class="m-grid__item m-grid__item--order-tablet-and-mobile-2 m-grid m-grid--hor m-login__aside "
              style="background-image: url(${ctxPath}/static/app/media/img/bg/bg-5.jpg);">
+            <div class="m-grid__item">
+                <div class="m-login__logo">
+                    <a href="#">
+                        <img src="${ctxPath}/static/app/media/img/logos/logo-fill.png">
+                    </a>
+                </div>
+            </div>
             <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver">
                 <div class="m-grid__item m-grid__item--middle">
                     <span class="m-login__title">Easy Frame <small>v ${project.getVersion()}</small></span>
@@ -94,7 +101,7 @@
 
                     <!--begin::Action-->
                     <div class="m-login__action">
-                        <button id="m_login_signin_submit"
+                        <button id="btn-login"
                                 class="btn btn-primary btn-block m-btn m-btn--custom m-btn--air m-login__btn m-login__btn--primary">
                             登录 <i class="fa fa-chevron-circle-right"></i>
                         </button>
