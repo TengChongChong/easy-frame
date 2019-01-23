@@ -1,4 +1,4 @@
-package com.frame.easy.core.redis;
+package com.frame.easy.redis;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -11,13 +11,13 @@ import java.nio.charset.Charset;
  * @author tengchong
  * @date 2018/12/13
  */
-public class FastJson2JsonRedisSerializer<T> implements RedisSerializer<T> {
+public class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
 
     public static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 
     private Class<T> clazz;
 
-    public FastJson2JsonRedisSerializer(Class<T> clazz) {
+    public FastJsonRedisSerializer(Class<T> clazz) {
         super();
         this.clazz = clazz;
     }
@@ -36,7 +36,7 @@ public class FastJson2JsonRedisSerializer<T> implements RedisSerializer<T> {
             return null;
         }
         String str = new String(bytes, DEFAULT_CHARSET);
-
         return (T) JSON.parseObject(str, clazz);
     }
+
 }

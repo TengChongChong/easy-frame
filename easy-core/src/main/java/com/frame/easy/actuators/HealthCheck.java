@@ -1,4 +1,4 @@
-package com.frame.easy.core.actuators;
+package com.frame.easy.actuators;
 
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;

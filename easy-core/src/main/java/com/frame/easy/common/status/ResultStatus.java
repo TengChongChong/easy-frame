@@ -1,4 +1,4 @@
-package com.frame.easy.common.constant.status;
+package com.frame.easy.common.status;
 
 /**
  * 响应状态码

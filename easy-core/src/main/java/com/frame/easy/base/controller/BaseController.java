@@ -1,6 +1,6 @@
-package com.frame.easy.core.base.controller;
+package com.frame.easy.base.controller;
 
-import com.frame.easy.core.base.result.Tips;
+import com.frame.easy.base.result.Tips;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

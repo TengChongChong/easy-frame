@@ -1,4 +1,4 @@
-package com.frame.easy.core.util;
+package com.frame.easy.util;
 
 import com.frame.easy.config.properties.RedisProperties;
 import org.springframework.beans.factory.annotation.Autowired;

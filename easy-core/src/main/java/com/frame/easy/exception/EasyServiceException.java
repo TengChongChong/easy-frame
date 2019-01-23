@@ -1,4 +1,4 @@
-package com.frame.easy.core.exception;
+package com.frame.easy.exception;
 
 /**
  * 接口

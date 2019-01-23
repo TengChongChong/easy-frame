@@ -1,4 +1,4 @@
-package com.frame.easy.core.util;
+package com.frame.easy.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

@@ -1,6 +1,6 @@
-package com.frame.easy.core.base.result;
+package com.frame.easy.base.result;
 
-import com.frame.easy.common.constant.status.ResultStatus;
+import com.frame.easy.common.status.ResultStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**

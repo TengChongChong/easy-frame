@@ -1,6 +1,4 @@
-package com.frame.easy.core.exception;
-
-import cn.hutool.http.HttpStatus;
+package com.frame.easy.exception;
 
 /**
  * 常用异常
@@ -12,13 +10,7 @@ public enum ExceptionEnum implements EasyServiceException {
     // 获取数据失败
     FAILED_TO_GET_DATA(500, "获取数据失败，请重试！"),
     // 未知错误
-    UNKNOWN_ERROR(500, "未知错误，请联系管理员！"),
-    // 要删除的信息包含子节点
-    EXIST_CHILD(500, "要删除的信息包含子节点，请移除子节点后重试！"),
-    /**
-     * 无效的日期格式
-     */
-    INVALID_DATE_FORMAT(HttpStatus.HTTP_INTERNAL_ERROR, "无效的日期格式");
+    UNKNOWN_ERROR(500, "未知错误，请联系管理员！");
 
     ExceptionEnum(Integer code, String message) {
         this.code = code;
