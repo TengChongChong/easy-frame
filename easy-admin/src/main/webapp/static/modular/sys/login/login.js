@@ -26,11 +26,11 @@ var Login = function () {
      * @return {boolean} true/false
      */
     var validate = function ($form, data) {
-        if(mUtil.isNotBlank(data.username)){
+        if (mUtil.isBlank(data.username)) {
             showMsg($form, 'danger', '请输入用户名');
             return false;
         }
-        if(mUtil.isNotBlank(data.password)){
+        if (mUtil.isBlank(data.password)) {
             showMsg($form, 'danger', '请输入密码');
             return false;
         }
@@ -43,16 +43,18 @@ var Login = function () {
         var $form = $('form');
         var data = {
             username: $form.find('[name="username"]').val(),
-            password: $form.find('[name="password"]').val()
+            password: $form.find('[name="password"]').val(),
+            rememberMe: $form.find('[name="rememberMe"]').prop('checked')
         };
-        if(validate($form, data)){
+        if (validate($form, data)) {
             data.password = $.md5(data.password);
             var $btnLogin = $('#btn-login');
             mUtil.setButtonWait($btnLogin);
-            $.ajax({
+            mUtil.ajax({
                 url: basePath + '/login',
                 type: 'post',
                 data: data,
+                needAlert: false,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     mUtil.offButtonWait($btnLogin);
                     showMsg($form, 'danger', '网络异常，请稍后重试');
