@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : easy-frame
+ Source Server         : WordPress - 本地 - wp_site
  Source Server Type    : MySQL
  Source Server Version : 50718
  Source Host           : 127.0.0.1:3306
@@ -11,7 +11,7 @@
  Target Server Version : 50718
  File Encoding         : 65001
 
- Date: 21/01/2019 10:16:48
+ Date: 23/01/2019 13:29:32
 */
 
 SET NAMES utf8mb4;
@@ -101,9 +101,6 @@ INSERT INTO `sys_department_type_role` VALUES (14, 3, 4);
 INSERT INTO `sys_department_type_role` VALUES (32, 2, 0);
 INSERT INTO `sys_department_type_role` VALUES (33, 2, 3);
 INSERT INTO `sys_department_type_role` VALUES (34, 2, 4);
-INSERT INTO `sys_department_type_role` VALUES (35, 2, 5);
-INSERT INTO `sys_department_type_role` VALUES (36, 2, 6);
-INSERT INTO `sys_department_type_role` VALUES (37, 2, 7);
 COMMIT;
 
 -- ----------------------------
@@ -3864,17 +3861,17 @@ INSERT INTO `sys_permissions` VALUES (6, 'sys:permissions:select', '', NULL, '�
 INSERT INTO `sys_permissions` VALUES (7, 'sys:dict:select', '', NULL, '字典管理', 'la la-bars', '/auth/sys/dict/list', 14, 2, 1, 1, NULL, '', 1, '2018-11-01 08:42:06', 126, '2019-01-05 18:01:06', NULL, 4, '');
 INSERT INTO `sys_permissions` VALUES (8, 'sys:district:select', '', NULL, '行政区划', 'la la-bars', '/auth/sys/district/view', 13, 2, 1, 1, NULL, '', 1, '2018-11-01 08:51:36', 1, '2018-12-20 13:25:24', NULL, 4, '');
 INSERT INTO `sys_permissions` VALUES (9, '', '', NULL, '参数设置', 'la la-bars', '', 9, 2, 1, 1, NULL, '', 1, '2018-11-01 09:31:37', 1, '2018-11-01 09:31:37', NULL, 4, '');
-INSERT INTO `sys_permissions` VALUES (13, '', '', NULL, '访问日志', 'la la-bars', '', 23, 2, 1, 1, NULL, '', 1, '2018-11-01 09:34:50', 1, '2018-11-01 09:34:50', NULL, 5, '');
+INSERT INTO `sys_permissions` VALUES (13, '', '', NULL, '访问日志', 'la la-file-text', '', 29, 2, 1, 1, NULL, '', 1, '2018-11-01 09:34:50', 126, '2019-01-21 21:56:57', NULL, 5, '');
 INSERT INTO `sys_permissions` VALUES (14, 'sys:role:select', '', NULL, '角色管理', 'la la-bars', '/auth/sys/role/view', 15, 2, 1, 1, NULL, '', 1, '2018-11-01 09:36:22', 1, '2018-12-13 15:55:26', NULL, 2, '');
-INSERT INTO `sys_permissions` VALUES (15, 'druid', '', NULL, '数据监控', 'la la-bars', '/druid', 24, 2, 1, 1, NULL, '', 1, '2018-11-01 09:40:36', 1, '2018-11-08 01:56:00', NULL, 5, '');
-INSERT INTO `sys_permissions` VALUES (16, '', '', NULL, '缓存监控', 'la la-bars', '', 20, 2, 1, 1, NULL, '', 1, '2018-11-01 09:40:51', 1, '2018-11-01 09:40:51', NULL, 5, '');
-INSERT INTO `sys_permissions` VALUES (17, '', '', NULL, '服务器监控', 'la la-bars', '', 19, 2, 1, 1, NULL, '', 1, '2018-11-01 09:41:01', 1, '2018-11-01 09:41:01', NULL, 5, '');
-INSERT INTO `sys_permissions` VALUES (18, '', '', NULL, '作业监控', 'la la-bars', '', 24, 2, 1, 1, NULL, '', 1, '2018-11-01 09:41:36', 1, '2018-11-01 09:41:36', NULL, 5, '');
-INSERT INTO `sys_permissions` VALUES (19, 'sys:online:select', '', NULL, '在线用户', 'la la-bars', '', 25, 2, 1, 1, NULL, '', 1, '2018-11-01 09:41:42', 126, '2019-01-07 15:27:57', NULL, 5, '');
+INSERT INTO `sys_permissions` VALUES (15, 'druid', '', NULL, '数据监控', 'la la-database', '/druid', 30, 2, 1, 1, NULL, '', 1, '2018-11-01 09:40:36', 126, '2019-01-21 21:57:14', NULL, 5, '');
+INSERT INTO `sys_permissions` VALUES (16, '', '', NULL, '缓存监控', 'la la-sellsy', '', 28, 2, 1, 1, NULL, '', 1, '2018-11-01 09:40:51', 126, '2019-01-21 21:56:27', NULL, 5, '');
+INSERT INTO `sys_permissions` VALUES (17, 'sys:status:select', '', NULL, '服务器状态', 'la la-dashboard', '/auth/sys/status/view', 32, 2, 1, 1, NULL, '', 1, '2018-11-01 09:41:01', 126, '2019-01-21 21:58:23', NULL, 5, '');
+INSERT INTO `sys_permissions` VALUES (18, '', '', NULL, '作业监控', 'la la-list', '', 33, 2, 1, 1, NULL, '', 1, '2018-11-01 09:41:36', 126, '2019-01-21 21:58:42', NULL, 5, '');
+INSERT INTO `sys_permissions` VALUES (19, 'sys:online:select', '', NULL, '在线用户', 'la la-user', '', 34, 2, 1, 1, NULL, '', 1, '2018-11-01 09:41:42', 126, '2019-01-21 21:59:05', NULL, 5, '');
 INSERT INTO `sys_permissions` VALUES (20, 'sys:depart:select', '', NULL, '机构管理', 'la la-bars', '/auth/sys/depart/list', 11, 2, 1, 1, NULL, '', 1, '2018-11-01 09:41:59', 1, '2018-12-03 00:11:02', NULL, 2, '');
 INSERT INTO `sys_permissions` VALUES (21, 'sys:user:select', '', NULL, '用户管理', 'la la-bars', '/auth/sys/user/list', 14, 2, 1, 1, NULL, '', 1, '2018-11-01 09:42:04', 1, '2018-12-10 14:53:18', NULL, 2, '');
 INSERT INTO `sys_permissions` VALUES (32, 'sys:dict:type:select', '', NULL, '字典类型管理', 'la la-bars', '/auth/sys/dict/type/list', 11, 3, 2, 1, NULL, '', 1, '2018-11-04 01:37:10', 126, '2018-12-25 16:31:10', NULL, 7, '');
-INSERT INTO `sys_permissions` VALUES (33, 'swagger', '', NULL, '在线文档', 'la la-bars', '/auth/swagger', 18, 2, 1, 1, NULL, '', 1, '2018-11-08 03:42:37', 1, '2018-11-08 03:42:37', NULL, 5, '');
+INSERT INTO `sys_permissions` VALUES (33, 'swagger', '', NULL, '在线文档', 'la la-book', '/auth/swagger', 35, 2, 1, 1, NULL, '', 1, '2018-11-08 03:42:37', 126, '2019-01-21 21:59:23', NULL, 5, '');
 INSERT INTO `sys_permissions` VALUES (51, 'sys:dict:type:add', '', NULL, '新增', 'la la-plus', '', 8, 4, 2, 1, NULL, '', 1, '2018-12-03 00:12:42', 1, '2018-12-03 00:17:43', NULL, 32, '');
 INSERT INTO `sys_permissions` VALUES (52, 'sys:dict:type:delete', '', NULL, '删除', 'la la-trash', '', 9, 4, 2, 1, NULL, '', 1, '2018-12-03 00:14:18', 1, '2018-12-03 00:17:47', NULL, 32, '');
 INSERT INTO `sys_permissions` VALUES (53, 'sys:dict:type:save', '', NULL, '保存/修改', 'la la-save', '', 10, 4, 2, 1, NULL, '', 1, '2018-12-03 00:14:51', 1, '2018-12-03 00:17:51', NULL, 32, '');
@@ -3912,55 +3909,6 @@ INSERT INTO `sys_permissions` VALUES (93, 'sys:district:add', '', NULL, '新增'
 INSERT INTO `sys_permissions` VALUES (94, 'sys:district:delete', '', NULL, '删除', 'la la-trash', '', 7, 3, 2, 1, NULL, '', 1, '2018-12-20 13:24:33', 1, '2018-12-20 13:24:53', NULL, 8, '');
 INSERT INTO `sys_permissions` VALUES (95, 'sys:district:save', '', NULL, '保存/修改', 'la la-save', '', 8, 3, 2, 1, NULL, '', 1, '2018-12-20 13:24:33', 1, '2018-12-20 13:24:57', NULL, 8, '');
 INSERT INTO `sys_permissions` VALUES (97, 'sys:district:move', '', NULL, '拖动', 'la la-arrows-v', '', 9, 3, 2, 1, NULL, '', 1, '2018-12-20 13:24:33', 1, '2018-12-20 13:25:02', NULL, 8, '');
-INSERT INTO `sys_permissions` VALUES (98, '', '', NULL, '1', 'la la-bars', '', 19, 1, 1, 1, NULL, '', 1, '2018-12-20 14:50:16', 1, '2018-12-20 14:50:16', NULL, 0, '');
-INSERT INTO `sys_permissions` VALUES (99, '', '', NULL, '2', 'la la-bars', '', 21, 1, 1, 1, NULL, '', 1, '2018-12-20 14:50:21', 1, '2018-12-20 14:50:21', NULL, 0, '');
-INSERT INTO `sys_permissions` VALUES (100, '3.1', '', NULL, '3', 'la la-bars', '', 22, 1, 1, 1, NULL, '', 1, '2018-12-20 14:50:25', 1, '2018-12-20 14:50:39', NULL, 0, '');
-INSERT INTO `sys_permissions` VALUES (101, '', '', NULL, '4', 'la la-bars', '', 23, 1, 1, 1, NULL, '', 1, '2018-12-20 14:50:29', 1, '2018-12-20 14:50:29', NULL, 0, '');
-INSERT INTO `sys_permissions` VALUES (102, '', '', NULL, '2.1', 'la la-bars', '', 1, 2, 1, 1, NULL, '', 1, '2018-12-20 14:50:34', 1, '2018-12-20 14:50:34', NULL, 99, '');
-INSERT INTO `sys_permissions` VALUES (103, '', '3.1', NULL, '3.1', 'la la-bars', '', 1, 2, 1, 1, NULL, '', 1, '2018-12-20 14:50:58', 1, '2018-12-20 14:50:58', NULL, 100, '');
-INSERT INTO `sys_permissions` VALUES (104, '', '', NULL, '2.2', 'la la-bars', '', 2, 2, 1, 1, NULL, '', 1, '2018-12-20 14:51:04', 1, '2018-12-20 14:51:04', NULL, 99, '');
-INSERT INTO `sys_permissions` VALUES (105, '', '3.1', NULL, '3.2', 'la la-bars', '', 2, 2, 1, 1, NULL, '', 1, '2018-12-20 14:51:10', 1, '2018-12-20 14:51:10', NULL, 100, '');
-INSERT INTO `sys_permissions` VALUES (106, '', '3.1', NULL, '3.3', 'la la-bars', '', 3, 2, 1, 1, NULL, '', 1, '2018-12-20 14:51:14', 1, '2018-12-20 14:51:14', NULL, 100, '');
-INSERT INTO `sys_permissions` VALUES (107, '', '', NULL, '3.1.1', 'la la-bars', '', 1, 3, 1, 1, NULL, '', 1, '2018-12-20 14:51:21', 1, '2018-12-20 14:51:21', NULL, 103, '');
-INSERT INTO `sys_permissions` VALUES (110, '', '', NULL, '3.2.1', 'la la-bars', '', 1, 3, 1, 1, NULL, '', 1, '2018-12-20 14:51:58', 1, '2018-12-20 14:51:58', NULL, 105, '');
-INSERT INTO `sys_permissions` VALUES (111, '', '', NULL, '3.2.2', 'la la-bars', '', 2, 3, 1, 1, NULL, '', 1, '2018-12-20 14:52:03', 1, '2018-12-20 14:52:03', NULL, 105, '');
-INSERT INTO `sys_permissions` VALUES (112, '', '', NULL, '3.3.1', 'la la-bars', '', 1, 3, 1, 1, NULL, '', 1, '2018-12-20 14:52:13', 1, '2018-12-20 14:52:13', NULL, 106, '');
-INSERT INTO `sys_permissions` VALUES (113, '', '', NULL, '3.3.2', 'la la-bars', '', 2, 3, 1, 1, NULL, '', 1, '2018-12-20 14:52:18', 1, '2018-12-20 14:52:18', NULL, 106, '');
-INSERT INTO `sys_permissions` VALUES (114, '', '', NULL, '3.3.3', 'la la-bars', '', 3, 3, 1, 1, NULL, '', 1, '2018-12-20 14:52:24', 1, '2018-12-20 14:52:24', NULL, 106, '');
-INSERT INTO `sys_permissions` VALUES (115, '', '', NULL, '4.1', 'la la-bars', '', 1, 2, 1, 1, NULL, '', 1, '2018-12-20 14:52:36', 1, '2018-12-20 14:52:36', NULL, 101, '');
-INSERT INTO `sys_permissions` VALUES (116, '4.2.1', '', NULL, '4.2', 'la la-bars', '', 3, 2, 1, 1, NULL, '', 1, '2018-12-20 14:52:41', 1, '2018-12-20 14:53:05', NULL, 101, '');
-INSERT INTO `sys_permissions` VALUES (117, '', '', NULL, '4.3', 'la la-bars', '', 4, 2, 1, 1, NULL, '', 1, '2018-12-20 14:52:46', 1, '2018-12-20 14:52:46', NULL, 101, '');
-INSERT INTO `sys_permissions` VALUES (118, '', '', NULL, '4.4', 'la la-bars', '', 5, 2, 1, 1, NULL, '', 1, '2018-12-20 14:52:51', 1, '2018-12-20 14:52:51', NULL, 101, '');
-INSERT INTO `sys_permissions` VALUES (119, '', '', NULL, '4.1.1', 'la la-bars', '', 1, 3, 1, 1, NULL, '', 1, '2018-12-20 14:52:56', 1, '2018-12-20 14:52:56', NULL, 115, '');
-INSERT INTO `sys_permissions` VALUES (120, '', '4.2.1', NULL, '4.2.1', 'la la-bars', '', 1, 3, 1, 1, NULL, '', 1, '2018-12-20 14:53:25', 1, '2018-12-20 14:53:25', NULL, 116, '');
-INSERT INTO `sys_permissions` VALUES (121, '', '4.2.1', NULL, '4.2.2', 'la la-bars', '', 2, 3, 1, 1, NULL, '', 1, '2018-12-20 14:53:31', 1, '2018-12-20 14:53:31', NULL, 116, '');
-INSERT INTO `sys_permissions` VALUES (122, '', '', NULL, '4.3.1', 'la la-bars', '', 1, 3, 1, 1, NULL, '', 1, '2018-12-20 14:53:40', 1, '2018-12-20 14:53:40', NULL, 117, '');
-INSERT INTO `sys_permissions` VALUES (123, '', '', NULL, '4.3.2', 'la la-bars', '', 2, 3, 1, 1, NULL, '', 1, '2018-12-20 14:53:45', 1, '2018-12-20 14:53:45', NULL, 117, '');
-INSERT INTO `sys_permissions` VALUES (124, '', '', NULL, '4.3.3', 'la la-bars', '', 3, 3, 1, 1, NULL, '', 1, '2018-12-20 14:53:52', 1, '2018-12-20 14:53:52', NULL, 117, '');
-INSERT INTO `sys_permissions` VALUES (125, '', '', NULL, '4.4.1', 'la la-bars', '', 1, 3, 1, 1, NULL, '', 1, '2018-12-20 14:53:59', 1, '2018-12-20 14:53:59', NULL, 118, '');
-INSERT INTO `sys_permissions` VALUES (126, '', '', NULL, '4.4.2', 'la la-bars', '', 6, 3, 1, 1, NULL, '', 1, '2018-12-20 14:54:05', 1, '2018-12-20 14:56:13', NULL, 118, '');
-INSERT INTO `sys_permissions` VALUES (127, '', '', NULL, '4.4.3', 'la la-bars', '', 3, 3, 1, 1, NULL, '', 1, '2018-12-20 14:54:13', 1, '2018-12-20 14:54:13', NULL, 118, '');
-INSERT INTO `sys_permissions` VALUES (128, '', '', NULL, '4.4.4', 'la la-bars', '', 4, 3, 1, 1, NULL, '', 1, '2018-12-20 14:54:18', 1, '2018-12-20 14:54:18', NULL, 118, '');
-INSERT INTO `sys_permissions` VALUES (129, '', '', NULL, '4.1.1.1', 'la la-bars', '', 1, 4, 1, 1, NULL, '', 1, '2018-12-20 14:54:26', 1, '2018-12-20 14:54:26', NULL, 119, '');
-INSERT INTO `sys_permissions` VALUES (130, '', '', NULL, '4.2.1.1', 'la la-bars', '', 1, 4, 1, 1, NULL, '', 1, '2018-12-20 14:54:39', 1, '2018-12-20 14:54:39', NULL, 120, '');
-INSERT INTO `sys_permissions` VALUES (131, '', '', NULL, '4.2.2.1', 'la la-bars', '', 1, 4, 1, 1, NULL, '', 1, '2018-12-20 14:54:57', 1, '2018-12-20 14:54:57', NULL, 121, '');
-INSERT INTO `sys_permissions` VALUES (132, '', '', NULL, '4.2.2.2', 'la la-bars', '', 2, 4, 1, 1, NULL, '', 1, '2018-12-20 14:55:02', 1, '2018-12-20 14:55:02', NULL, 121, '');
-INSERT INTO `sys_permissions` VALUES (133, '', '', NULL, '4.3.1.1', 'la la-bars', '', 1, 4, 1, 1, NULL, '', 1, '2018-12-20 14:55:15', 1, '2018-12-20 14:55:15', NULL, 122, '');
-INSERT INTO `sys_permissions` VALUES (134, '', '', NULL, '4.3.2.1', 'la la-bars', '', 1, 4, 1, 1, NULL, '', 1, '2018-12-20 14:55:21', 1, '2018-12-20 14:55:21', NULL, 123, '');
-INSERT INTO `sys_permissions` VALUES (135, '', '', NULL, '4.3.2.2', 'la la-bars', '', 2, 4, 1, 1, NULL, '', 1, '2018-12-20 14:55:26', 1, '2018-12-20 14:55:26', NULL, 123, '');
-INSERT INTO `sys_permissions` VALUES (136, '', '', NULL, '4.3.3.1', 'la la-bars', '', 1, 4, 1, 1, NULL, '', 1, '2018-12-20 14:55:38', 1, '2018-12-20 14:55:38', NULL, 124, '');
-INSERT INTO `sys_permissions` VALUES (137, '', '', NULL, '4.3.3.2', 'la la-bars', '', 2, 4, 1, 1, NULL, '', 1, '2018-12-20 14:55:42', 1, '2018-12-20 14:55:42', NULL, 124, '');
-INSERT INTO `sys_permissions` VALUES (138, '', '', NULL, '4.3.3.3', 'la la-bars', '', 3, 4, 1, 1, NULL, '', 1, '2018-12-20 14:55:46', 1, '2018-12-20 14:55:46', NULL, 124, '');
-INSERT INTO `sys_permissions` VALUES (139, '', '', NULL, '4.4.1.1', 'la la-bars', '', 1, 4, 1, 1, NULL, '', 1, '2018-12-20 14:56:03', 1, '2018-12-20 14:56:03', NULL, 125, '');
-INSERT INTO `sys_permissions` VALUES (140, '', '', NULL, '4.4.2.1', 'la la-bars', '', 1, 4, 1, 1, NULL, '', 1, '2018-12-20 14:56:16', 1, '2018-12-20 14:56:16', NULL, 126, '');
-INSERT INTO `sys_permissions` VALUES (141, '', '', NULL, '4.4.2.2', 'la la-bars', '', 2, 4, 1, 1, NULL, '', 1, '2018-12-20 14:56:21', 1, '2018-12-20 14:56:21', NULL, 126, '');
-INSERT INTO `sys_permissions` VALUES (142, '', '', NULL, '4.4.3.1', 'la la-bars', '', 1, 4, 1, 1, NULL, '', 1, '2018-12-20 14:56:36', 1, '2018-12-20 14:56:36', NULL, 127, '');
-INSERT INTO `sys_permissions` VALUES (143, '', '', NULL, '4.4.3.2', 'la la-bars', '', 2, 4, 1, 1, NULL, '', 1, '2018-12-20 14:56:41', 1, '2018-12-20 14:56:41', NULL, 127, '');
-INSERT INTO `sys_permissions` VALUES (144, '', '', NULL, '4.4.3.3', 'la la-bars', '', 3, 4, 1, 1, NULL, '', 1, '2018-12-20 14:56:45', 1, '2018-12-20 14:56:45', NULL, 127, '');
-INSERT INTO `sys_permissions` VALUES (145, '', '', NULL, '4.4.4.1', 'la la-bars', '', 1, 4, 1, 1, NULL, '', 1, '2018-12-20 14:56:55', 1, '2018-12-20 14:56:55', NULL, 128, '');
-INSERT INTO `sys_permissions` VALUES (146, '', '', NULL, '4.4.4.2', 'la la-bars', '', 2, 4, 1, 1, NULL, '', 1, '2018-12-20 14:57:00', 1, '2018-12-20 14:57:00', NULL, 128, '');
-INSERT INTO `sys_permissions` VALUES (147, '', '', NULL, '4.4.4.3', 'la la-bars', '', 3, 4, 1, 1, NULL, '', 1, '2018-12-20 14:57:04', 1, '2018-12-20 14:57:04', NULL, 128, '');
-INSERT INTO `sys_permissions` VALUES (148, '', '', NULL, '4.4.4.4', 'la la-bars', '', 4, 4, 1, 1, NULL, '', 1, '2018-12-20 14:57:08', 1, '2018-12-20 14:57:08', NULL, 128, '');
 INSERT INTO `sys_permissions` VALUES (149, '', '', NULL, '代码生成', 'la la-code-fork', '/auth/generation/view', 15, 1, 1, 1, NULL, '', 126, '2019-01-10 17:14:02', 126, '2019-01-10 17:14:02', NULL, 0, '');
 COMMIT;
 
@@ -4003,10 +3951,7 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_role` VALUES (3, 67, 0, '系统管理员', NULL, 'sys:admin', '2018-11-26 23:14:42', 1, 126, '2019-01-14 20:38:28', '1', NULL, '拥有至高无上的权利');
-INSERT INTO `sys_role` VALUES (4, 63, 0, '演示', NULL, 'demonstration', '2018-11-27 07:48:43', 1, 1, '2018-12-18 15:08:12', '1', NULL, '');
-INSERT INTO `sys_role` VALUES (5, 1, 3, '1.1', NULL, NULL, '2018-12-18 16:20:18', 1, 1, '2018-12-18 16:20:18', '1', NULL, '');
-INSERT INTO `sys_role` VALUES (6, 1, 4, '2.1', NULL, NULL, '2018-12-18 16:20:23', 1, 1, '2018-12-18 16:20:23', '1', NULL, '');
-INSERT INTO `sys_role` VALUES (7, 1, 5, '1.1.1', NULL, NULL, '2018-12-18 16:20:30', 1, 1, '2018-12-18 16:20:30', '1', NULL, '');
+INSERT INTO `sys_role` VALUES (4, 68, 0, '演示', NULL, 'demonstration', '2018-11-27 07:48:43', 1, 126, '2019-01-21 20:48:46', '1', NULL, '');
 COMMIT;
 
 -- ----------------------------
@@ -4024,11 +3969,6 @@ CREATE TABLE `sys_role_permissions` (
 -- Records of sys_role_permissions
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role_permissions` VALUES (4, 0, 3049);
-INSERT INTO `sys_role_permissions` VALUES (4, 2, 3050);
-INSERT INTO `sys_role_permissions` VALUES (4, 14, 3051);
-INSERT INTO `sys_role_permissions` VALUES (4, 20, 3052);
-INSERT INTO `sys_role_permissions` VALUES (4, 21, 3053);
 INSERT INTO `sys_role_permissions` VALUES (3, 0, 3314);
 INSERT INTO `sys_role_permissions` VALUES (3, 2, 3315);
 INSERT INTO `sys_role_permissions` VALUES (3, 4, 3316);
@@ -4085,27 +4025,6 @@ INSERT INTO `sys_role_permissions` VALUES (3, 93, 3366);
 INSERT INTO `sys_role_permissions` VALUES (3, 94, 3367);
 INSERT INTO `sys_role_permissions` VALUES (3, 95, 3368);
 INSERT INTO `sys_role_permissions` VALUES (3, 97, 3369);
-INSERT INTO `sys_role_permissions` VALUES (3, 98, 3370);
-INSERT INTO `sys_role_permissions` VALUES (3, 99, 3371);
-INSERT INTO `sys_role_permissions` VALUES (3, 100, 3372);
-INSERT INTO `sys_role_permissions` VALUES (3, 101, 3373);
-INSERT INTO `sys_role_permissions` VALUES (3, 102, 3374);
-INSERT INTO `sys_role_permissions` VALUES (3, 103, 3375);
-INSERT INTO `sys_role_permissions` VALUES (3, 104, 3376);
-INSERT INTO `sys_role_permissions` VALUES (3, 105, 3377);
-INSERT INTO `sys_role_permissions` VALUES (3, 106, 3378);
-INSERT INTO `sys_role_permissions` VALUES (3, 107, 3379);
-INSERT INTO `sys_role_permissions` VALUES (3, 110, 3380);
-INSERT INTO `sys_role_permissions` VALUES (3, 111, 3381);
-INSERT INTO `sys_role_permissions` VALUES (3, 112, 3382);
-INSERT INTO `sys_role_permissions` VALUES (3, 113, 3383);
-INSERT INTO `sys_role_permissions` VALUES (3, 114, 3384);
-INSERT INTO `sys_role_permissions` VALUES (3, 116, 3385);
-INSERT INTO `sys_role_permissions` VALUES (3, 120, 3386);
-INSERT INTO `sys_role_permissions` VALUES (3, 121, 3387);
-INSERT INTO `sys_role_permissions` VALUES (3, 130, 3388);
-INSERT INTO `sys_role_permissions` VALUES (3, 131, 3389);
-INSERT INTO `sys_role_permissions` VALUES (3, 132, 3390);
 INSERT INTO `sys_role_permissions` VALUES (3, 149, 3391);
 COMMIT;
 
@@ -4140,7 +4059,7 @@ CREATE TABLE `sys_user` (
 -- Records of sys_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user` VALUES (126, 'admin', '914da82b7af076fdb21c55d631513fe1', 'dxzhbko9i5', 'admin', NULL, 'tengchongchong@foxmail.com', NULL, NULL, 1, 1, NULL, '2019-01-20 20:35:42', '/avatar/126', NULL, NULL, 126, '2019-01-14 20:50:28', NULL);
+INSERT INTO `sys_user` VALUES (126, 'admin', '914da82b7af076fdb21c55d631513fe1', 'dxzhbko9i5', 'admin', NULL, 'tengchongchong@foxmail.com', NULL, NULL, 1, 1, NULL, '2019-01-23 12:54:51', '/avatar/126', NULL, NULL, 126, '2019-01-14 20:50:28', NULL);
 COMMIT;
 
 -- ----------------------------
