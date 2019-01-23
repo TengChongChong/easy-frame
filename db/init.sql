@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : WordPress - 本地 - wp_site
+ Source Server         : easy-frame
  Source Server Type    : MySQL
  Source Server Version : 50718
  Source Host           : 127.0.0.1:3306
