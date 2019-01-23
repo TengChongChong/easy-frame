@@ -1,7 +1,7 @@
 package com.frame.easy.modular.sys.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.frame.easy.common.CommonConst;
+import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.modular.sys.service.SysStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.metrics.MetricsEndpoint;

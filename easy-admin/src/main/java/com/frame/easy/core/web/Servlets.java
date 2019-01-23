@@ -1,6 +1,6 @@
 package com.frame.easy.core.web;
 
-import com.frame.easy.common.CommonConst;
+import com.frame.easy.common.constant.CommonConst;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;

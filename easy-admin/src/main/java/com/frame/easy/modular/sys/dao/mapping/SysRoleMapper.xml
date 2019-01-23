@@ -51,6 +51,7 @@
         from sys_role t where t.name like #{title} order by t.p_id,t.order_no
     </select>
     <select id="getMaxOrderNo" resultType="java.lang.Integer">
+
         select ifnull(max(order_no), 0) from sys_role t where t.p_id = #{pId}
     </select>
 </mapper>

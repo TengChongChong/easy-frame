@@ -1,7 +1,7 @@
 package com.frame.easy.common.jstree;
 
 
-import com.frame.easy.common.CommonConst;
+import com.frame.easy.common.constant.CommonConst;
 
 /**
  * jstree 工具

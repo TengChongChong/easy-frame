@@ -5,7 +5,7 @@ import cn.hutool.core.util.PinyinUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.frame.easy.common.CommonConst;
+import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.jstree.JsTree;
 import com.frame.easy.common.jstree.JsTreeUtil;
 import com.frame.easy.common.jstree.State;

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.frame.easy.common.jstree.JsTreeUtil;
 import com.frame.easy.common.page.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.frame.easy.common.CommonConst;
+import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.status.CommonStatus;
 import com.frame.easy.common.jstree.JsTree;
 import com.frame.easy.common.select.Select;

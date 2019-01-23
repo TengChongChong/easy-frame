@@ -3,7 +3,7 @@ package com.frame.easy.modular.sys.service.impl;
 import cn.hutool.core.lang.Validator;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.frame.easy.common.CommonConst;
+import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.status.PermissionsStatus;
 import com.frame.easy.common.type.PermissionsType;
 import com.frame.easy.common.jstree.JsTree;

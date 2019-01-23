@@ -4,7 +4,7 @@ import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.frame.easy.common.CommonConst;
+import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.constant.SessionConst;
 import com.frame.easy.common.redis.RedisPrefix;
 import com.frame.easy.common.status.UserStatus;
@@ -69,7 +69,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             }
             if (Validator.isNotEmpty(sysUser.getDeptId())) {
                 queryWrapper.eq("dept_id", sysUser.getDeptId());
-//                queryWrapper.eq("deptId", sysUser.getDeptId());
             }
         }
         mapper.selectPage(page, queryWrapper);

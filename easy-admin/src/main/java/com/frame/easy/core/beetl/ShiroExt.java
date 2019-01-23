@@ -3,7 +3,7 @@ package com.frame.easy.core.beetl;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.frame.easy.common.CommonConst;
+import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.util.ShiroUtil;
 import org.apache.shiro.SecurityUtils;
