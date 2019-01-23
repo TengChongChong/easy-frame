@@ -1,17 +1,14 @@
 package com.frame.easy.modular.sys.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.frame.easy.config.properties.ProjectProperties;
+import com.frame.easy.common.CommonConst;
 import com.frame.easy.modular.sys.service.SysStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.env.EnvironmentEndpoint;
 import org.springframework.boot.actuate.metrics.MetricsEndpoint;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * 系统状态
@@ -24,9 +21,6 @@ public class SysStatusServiceImpl implements SysStatusService {
 
     @Autowired
     private MetricsEndpoint metricsEndpoint;
-
-    @Autowired
-    private ProjectProperties properties;
 
     @Override
     public Object getSysStatus() {
@@ -44,14 +38,14 @@ public class SysStatusServiceImpl implements SysStatusService {
         systemProperties.put("userDir", System.getProperty("user.dir"));
         systemProperties.put("userName", System.getProperty("user.name"));
 
-        projectProperties.put("projectName", properties.getName());
-        projectProperties.put("projectLoginRemember", properties.getLoginRemember());
-        projectProperties.put("projectLoginRememberInvalidateTime", properties.getLoginRememberInvalidateTime() / 60 / 60 / 24);
-        projectProperties.put("projectLoginAttempts", properties.getLoginAttempts());
-        projectProperties.put("projectLoginLockLength", properties.getLoginLockLength() / 60);
-        projectProperties.put("projectFileUploadPath", properties.getFileUploadPath());
-        projectProperties.put("projectSessionInvalidateTime", properties.getSessionInvalidateTime() / 60);
-        projectProperties.put("projectLoginVerificationCode", properties.getLoginVerificationCode());
+        projectProperties.put("projectName", CommonConst.projectProperties.getName());
+        projectProperties.put("projectLoginRemember", CommonConst.projectProperties.getLoginRemember());
+        projectProperties.put("projectLoginRememberInvalidateTime", CommonConst.projectProperties.getLoginRememberInvalidateTime() / 60 / 60 / 24);
+        projectProperties.put("projectLoginAttempts", CommonConst.projectProperties.getLoginAttempts());
+        projectProperties.put("projectLoginLockLength", CommonConst.projectProperties.getLoginLockLength() / 60);
+        projectProperties.put("projectFileUploadPath", CommonConst.projectProperties.getFileUploadPath());
+        projectProperties.put("projectSessionInvalidateTime", CommonConst.projectProperties.getSessionInvalidateTime() / 60);
+        projectProperties.put("projectLoginVerificationCode", CommonConst.projectProperties.getLoginVerificationCode());
 
         status.put("systemProperties", systemProperties);
         status.put("projectProperties", projectProperties);

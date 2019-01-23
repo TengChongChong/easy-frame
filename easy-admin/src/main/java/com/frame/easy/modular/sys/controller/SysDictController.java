@@ -1,8 +1,8 @@
 package com.frame.easy.modular.sys.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.frame.easy.core.base.controller.BaseController;
-import com.frame.easy.core.base.result.Tips;
+import com.frame.easy.base.controller.BaseController;
+import com.frame.easy.base.result.Tips;
 import com.frame.easy.modular.sys.model.SysDict;
 import com.frame.easy.modular.sys.service.SysDictService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

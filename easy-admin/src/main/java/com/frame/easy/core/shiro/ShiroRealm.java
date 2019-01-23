@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Arrays;
+
 /**
  * 自定义 Realm
  *
@@ -28,23 +30,23 @@ public class ShiroRealm extends AuthorizingRealm {
     /**
      * 认证
      *
-     * @param authenticationToken
-     * @return
+     * @param authenticationToken token
+     * @return AuthenticationInfo
      * @throws AuthenticationException
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         logger.info("=============> 认证");
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
-        SysUser sysUser = shiroService.getSysUserByUserName(token.getUsername());
+        SysUser sysUser = shiroService.validateUser(token.getUsername(), String.valueOf(token.getPassword()));
         return new SimpleAuthenticationInfo(sysUser, sysUser.getPassword().toCharArray(), ByteSource.Util.bytes(sysUser.getSalt()), getName());
     }
 
     /**
      * 授权
      *
-     * @param principalCollection
-     * @return
+     * @param principalCollection principal
+     * @return AuthorizationInfo
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
@@ -54,7 +56,7 @@ public class ShiroRealm extends AuthorizingRealm {
         SysUser sysUser = shiroService.queryUserPermissions((SysUser) principalCollection.getPrimaryPrincipal());
 
         // 会导致用户在线时,修改权限无法立即生效
-//        SysUser sysUser = (SysUser) principalCollection.getPrimaryPrincipal();
+        // SysUser sysUser = (SysUser) principalCollection.getPrimaryPrincipal();
 
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         // 赋予权限

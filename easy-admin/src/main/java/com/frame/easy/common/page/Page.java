@@ -3,7 +3,7 @@ package com.frame.easy.common.page;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.frame.easy.common.constant.CommonConst;
+import com.frame.easy.common.CommonConst;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;

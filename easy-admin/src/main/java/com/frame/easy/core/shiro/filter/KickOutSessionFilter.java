@@ -1,7 +1,8 @@
 package com.frame.easy.core.shiro.filter;
 
 import com.frame.easy.common.constant.SessionConst;
-import com.frame.easy.core.util.RedisUtil;
+import com.frame.easy.common.redis.RedisPrefix;
+import com.frame.easy.util.RedisUtil;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
@@ -55,10 +56,10 @@ public class KickOutSessionFilter extends AccessControlFilter {
             redirectToLogin(servletRequest, servletResponse);
             return false;
         }
-        Session session = (Session) RedisUtil.get(SessionConst.SHIRO_SESSION_PREFIX + subject.getSession().getId());
+        Session session = (Session) RedisUtil.get(RedisPrefix.SHIRO_SESSION + subject.getSession().getId());
         // 判断是否被踢出
         if (session.getAttribute(SessionConst.FORCE_LOGOUT) != null && (boolean) session.getAttribute(SessionConst.FORCE_LOGOUT)) {
-            RedisUtil.del(SessionConst.SHIRO_SESSION_PREFIX + session.getId());
+            RedisUtil.del(RedisPrefix.SHIRO_SESSION + session.getId());
             String loginUrl = getLoginUrl() + (getLoginUrl().contains("?") ? "&" : "?") + SessionConst.FORCE_LOGOUT + "=1";
             // 重定向到登录
             WebUtils.issueRedirect(servletRequest, servletResponse, loginUrl);
@@ -67,7 +68,7 @@ public class KickOutSessionFilter extends AccessControlFilter {
         // 判断是否在他处登录
 
         if (session.getAttribute(SessionConst.LOGIN_ELSEWHERE) != null && (boolean) session.getAttribute(SessionConst.LOGIN_ELSEWHERE)) {
-            RedisUtil.del(SessionConst.SHIRO_SESSION_PREFIX + session.getId());
+            RedisUtil.del(RedisPrefix.SHIRO_SESSION + session.getId());
             String loginUrl = getLoginUrl() + (getLoginUrl().contains("?") ? "&" : "?") + SessionConst.LOGIN_ELSEWHERE + "=1";
             // 重定向到登录
             WebUtils.issueRedirect(servletRequest, servletResponse, loginUrl);

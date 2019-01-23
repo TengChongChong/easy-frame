@@ -4,15 +4,15 @@ import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.frame.easy.common.constant.CommonConst;
+import com.frame.easy.common.CommonConst;
 import com.frame.easy.common.constant.SessionConst;
-import com.frame.easy.common.constant.status.UserStatus;
+import com.frame.easy.common.redis.RedisPrefix;
+import com.frame.easy.common.status.UserStatus;
 import com.frame.easy.common.page.Page;
-import com.frame.easy.config.properties.ProjectProperties;
-import com.frame.easy.core.util.PasswordUtil;
-import com.frame.easy.core.util.RedisUtil;
+import com.frame.easy.util.PasswordUtil;
+import com.frame.easy.util.RedisUtil;
 import com.frame.easy.util.ShiroUtil;
-import com.frame.easy.core.util.ToolUtil;
+import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysUserMapper;
 import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.service.ShiroService;
@@ -43,9 +43,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Autowired
     private ShiroService shiroService;
-
-    @Autowired
-    private ProjectProperties projectProperties;
 
     @Override
     public Object select(SysUser sysUser) {
@@ -90,7 +87,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         ToolUtil.checkParams(deptId);
         SysUser sysUser = new SysUser();
         sysUser.setDeptId(deptId);
-        sysUser.setPassword(projectProperties.getDefaultPassword());
+        sysUser.setPassword(CommonConst.projectProperties.getDefaultPassword());
         sysUser.setStatus(UserStatus.ENABLE.getCode());
         return sysUser;
     }
@@ -126,7 +123,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (object.getId() == null && Validator.isEmpty(object.getPassword())) {
             // 生成随机的盐
             object.setSalt(RandomUtil.randomString(10));
-            object.setPassword(PasswordUtil.generatingPasswords(projectProperties.getDefaultPassword(), object.getSalt()));
+            object.setPassword(PasswordUtil.generatingPasswords(CommonConst.projectProperties.getDefaultPassword(), object.getSalt()));
         } else if (Validator.isNotEmpty(object.getPassword())) {
             // 生成随机的盐
             object.setSalt(RandomUtil.randomString(10));
@@ -147,7 +144,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (isSuccess) {
             sysUserRoleService.saveUserRole(object.getId(), object.getRoles());
             // 删除授权信息,下次请求资源重新授权
-            RedisUtil.del(SessionConst.SHIRO_AUTHORIZATION_PREFIX + object.toString());
+            RedisUtil.del(RedisPrefix.SHIRO_AUTHORIZATION + object.toString());
         }
         return (SysUser) ToolUtil.checkResult(isSuccess, object);
     }
@@ -158,7 +155,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
         // 生成随机的盐
         String salt = RandomUtil.randomString(10);
-        String password = PasswordUtil.generatingPasswords(projectProperties.getDefaultPassword(), salt);
+        String password = PasswordUtil.generatingPasswords(CommonConst.projectProperties.getDefaultPassword(), salt);
         queryWrapper.in("id", ids.split(CommonConst.SPLIT));
         int count = mapper.resetPassword(password, salt, queryWrapper);
         return ToolUtil.checkResult(count > 0);

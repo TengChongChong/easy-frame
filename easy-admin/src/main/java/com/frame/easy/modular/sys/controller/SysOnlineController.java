@@ -1,7 +1,7 @@
 package com.frame.easy.modular.sys.controller;
 
-import com.frame.easy.core.base.controller.BaseController;
-import com.frame.easy.core.base.result.Tips;
+import com.frame.easy.base.controller.BaseController;
+import com.frame.easy.base.result.Tips;
 import com.frame.easy.modular.sys.service.SysUserOnlineService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

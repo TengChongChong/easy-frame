@@ -3,16 +3,18 @@ package com.frame.easy.modular.sys.service.impl;
 import cn.hutool.core.lang.Validator;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.frame.easy.common.constant.CommonConst;
+import com.frame.easy.common.CommonConst;
 import com.frame.easy.common.constant.SessionConst;
-import com.frame.easy.common.constant.status.CommonStatus;
+import com.frame.easy.common.redis.RedisPrefix;
+import com.frame.easy.common.status.CommonStatus;
 import com.frame.easy.common.jstree.JsTree;
+import com.frame.easy.common.jstree.JsTreeUtil;
 import com.frame.easy.common.jstree.State;
-import com.frame.easy.config.properties.ProjectProperties;
-import com.frame.easy.core.exception.ExceptionEnum;
-import com.frame.easy.core.util.RedisUtil;
+import com.frame.easy.exception.BusinessException;
+import com.frame.easy.exception.ExceptionEnum;
+import com.frame.easy.util.RedisUtil;
 import com.frame.easy.util.ShiroUtil;
-import com.frame.easy.core.util.ToolUtil;
+import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysRoleMapper;
 import com.frame.easy.modular.sys.model.SysRole;
 import com.frame.easy.modular.sys.model.SysUser;
@@ -43,9 +45,6 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     private SysRoleMapper mapper;
 
     @Autowired
-    private ProjectProperties projectProperties;
-
-    @Autowired
     private SysRolePermissionsService sysRolePermissionsService;
 
     @Autowired
@@ -53,26 +52,16 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Autowired
     private SysDepartmentTypeRoleService sysDepartmentTypeRoleService;
-    /**
-     * 根节点id
-     */
-    private Long baseId = 0L;
 
     @Override
     public List<JsTree> selectData(Long pId) {
         List<JsTree> jsTrees;
         // 第一次请求,返回项目名称 + 一级角色 数据
-        if (pId == null || pId.equals(baseId)) {
+        if (pId == null || pId.equals(JsTreeUtil.baseId)) {
             jsTrees = new ArrayList<>();
-            JsTree jsTree = new JsTree();
-            // 项目名称
-            jsTree.setText(projectProperties.getName());
-            jsTree.setId(baseId);
-            jsTree.setIcon(CommonConst.DEFAULT_FOLDER_ICON);;
-            jsTree.setChildren(mapper.selectData(baseId));
-            State state = new State();
-            state.setOpened(true);
-            jsTree.setState(state);
+            // 根节点
+            JsTree jsTree = JsTreeUtil.getBaseNode();
+            jsTree.setChildren(mapper.selectData(JsTreeUtil.baseId));
             jsTrees.add(jsTree);
         } else {
             jsTrees = mapper.selectData(pId);
@@ -85,10 +74,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         List<JsTree> jsTrees = mapper.selectAll(CommonStatus.ENABLE.getCode());
         JsTree jsTree = new JsTree();
         State state = new State();
-        jsTree.setId(baseId);
+        jsTree.setId(JsTreeUtil.baseId);
         jsTree.setParent("#");
-        jsTree.setIcon(CommonConst.DEFAULT_FOLDER_ICON);;
-        jsTree.setText(projectProperties.getName());
+        jsTree.setIcon(CommonConst.DEFAULT_FOLDER_ICON);
+        jsTree.setText(CommonConst.projectProperties.getName());
         state.setOpened(true);
         jsTree.setState(state);
         jsTrees.add(jsTree);
@@ -99,14 +88,14 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public SysRole input(Long id) {
         SysRole sysRole;
         // 表示点击的是根目录
-        if (id == null || id.equals(baseId)) {
+        if (id == null || id.equals(JsTreeUtil.baseId)) {
             sysRole = new SysRole();
-            sysRole.setId(baseId);
-            sysRole.setName(projectProperties.getName());
+            sysRole.setId(JsTreeUtil.baseId);
+            sysRole.setName(CommonConst.projectProperties.getName());
         } else {
             sysRole = mapper.selectInfo(id);
-            if (sysRole != null && sysRole.getpId().equals(baseId)) {
-                sysRole.setpName(projectProperties.getName());
+            if (sysRole != null && sysRole.getpId().equals(JsTreeUtil.baseId)) {
+                sysRole.setpName(CommonConst.projectProperties.getName());
             }
         }
         return sysRole;
@@ -118,8 +107,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             SysRole sysRole = new SysRole();
             sysRole.setpId(pId);
             sysRole.setStatus(CommonStatus.ENABLE.getCode());
-            if (baseId.equals(pId)) {
-                sysRole.setpName(projectProperties.getName());
+            if (JsTreeUtil.baseId.equals(pId)) {
+                sysRole.setpName(CommonConst.projectProperties.getName());
             } else {
                 SysRole parentSysRole = mapper.selectInfo(pId);
                 if (parentSysRole != null) {
@@ -143,7 +132,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         queryWrapper.eq("p_id", id);
         int count = mapper.selectCount(queryWrapper);
         if(count > 0){
-            throw new RuntimeException(ExceptionEnum.EXIST_CHILD.getMessage());
+            throw new RuntimeException(BusinessException.EXIST_CHILD.getMessage());
         }
         boolean isSuccess = removeById(id);
         if(isSuccess){
@@ -164,7 +153,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         queryWrapper.in("p_id", ids.split(CommonConst.SPLIT));
         int count = count(queryWrapper);
         if(count > 0){
-            throw new RuntimeException(ExceptionEnum.EXIST_CHILD.getMessage());
+            throw new RuntimeException(BusinessException.EXIST_CHILD.getMessage());
         }
         List<String> idList = Arrays.asList(ids.split(CommonConst.SPLIT));
         boolean isSuccess = removeByIds(idList);
@@ -210,7 +199,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         boolean isSuccess = saveOrUpdate(object);
         if(isSuccess){
             // 删除授权信息,下次请求资源重新授权
-            RedisUtil.delByPrefix(SessionConst.SHIRO_AUTHORIZATION_PREFIX);
+            RedisUtil.delByPrefix(RedisPrefix.SHIRO_AUTHORIZATION);
             sysRolePermissionsService.saveRolePermissions(object.getId(), object.getPermissions());
         }
         return (SysRole)ToolUtil.checkResult(isSuccess, object);

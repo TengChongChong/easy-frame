@@ -3,15 +3,16 @@ package com.frame.easy.modular.sys.service.impl;
 import cn.hutool.core.lang.Validator;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.frame.easy.common.constant.CommonConst;
-import com.frame.easy.common.constant.status.PermissionsStatus;
-import com.frame.easy.common.constant.type.PermissionsType;
+import com.frame.easy.common.CommonConst;
+import com.frame.easy.common.status.PermissionsStatus;
+import com.frame.easy.common.type.PermissionsType;
 import com.frame.easy.common.jstree.JsTree;
+import com.frame.easy.common.jstree.JsTreeUtil;
 import com.frame.easy.common.jstree.State;
-import com.frame.easy.config.properties.ProjectProperties;
-import com.frame.easy.core.exception.ExceptionEnum;
+import com.frame.easy.exception.BusinessException;
+import com.frame.easy.exception.ExceptionEnum;
 import com.frame.easy.util.ShiroUtil;
-import com.frame.easy.core.util.ToolUtil;
+import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysPermissionsMapper;
 import com.frame.easy.modular.sys.model.SysPermissions;
 import com.frame.easy.modular.sys.model.SysUser;
@@ -41,29 +42,15 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
     @Autowired
     private SysRolePermissionsService sysRolePermissionsService;
 
-    @Autowired
-    private ProjectProperties projectProperties;
-
-    /**
-     * 根节点id
-     */
-    private Long baseId = 0L;
-
     @Override
     public List<JsTree> selectData(Long pId) {
         List<JsTree> jsTrees;
         // 第一次请求,返回项目名称 + 一级菜单 数据
-        if (pId == null || pId.equals(baseId)) {
+        if (pId == null || pId.equals(JsTreeUtil.baseId)) {
             jsTrees = new ArrayList<>();
-            JsTree jsTree = new JsTree();
-            // 项目名称
-            jsTree.setText(projectProperties.getName());
-            jsTree.setId(baseId);
-            jsTree.setIcon(CommonConst.DEFAULT_FOLDER_ICON);;
-            jsTree.setChildren(mapper.selectData(baseId));
-            State state = new State();
-            state.setOpened(true);
-            jsTree.setState(state);
+            // 根节点
+            JsTree jsTree = JsTreeUtil.getBaseNode();
+            jsTree.setChildren(mapper.selectData(JsTreeUtil.baseId));
             jsTrees.add(jsTree);
         } else {
             jsTrees = mapper.selectData(pId);
@@ -76,10 +63,10 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
         List<JsTree> jsTrees = mapper.selectAll(PermissionsStatus.ENABLE.getCode());
         JsTree jsTree = new JsTree();
         State state = new State();
-        jsTree.setId(baseId);
+        jsTree.setId(JsTreeUtil.baseId);
         jsTree.setParent("#");
-        jsTree.setIcon(CommonConst.DEFAULT_FOLDER_ICON);;
-        jsTree.setText(projectProperties.getName());
+        jsTree.setIcon(CommonConst.DEFAULT_FOLDER_ICON);
+        jsTree.setText(CommonConst.projectProperties.getName());
         state.setOpened(true);
         jsTree.setState(state);
         jsTrees.add(jsTree);
@@ -90,15 +77,15 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
     public SysPermissions input(Long id) {
         SysPermissions sysPermissions;
         // 表示点击的是根目录
-        if (id == null || id.equals(baseId)) {
+        if (id == null || id.equals(JsTreeUtil.baseId)) {
             sysPermissions = new SysPermissions();
-            sysPermissions.setId(baseId);
+            sysPermissions.setId(JsTreeUtil.baseId);
             sysPermissions.setLevels(1);
-            sysPermissions.setName(projectProperties.getName());
+            sysPermissions.setName(CommonConst.projectProperties.getName());
         } else {
             sysPermissions = mapper.selectInfo(id);
-            if (sysPermissions != null && sysPermissions.getpId().equals(baseId)) {
-                sysPermissions.setpName(projectProperties.getName());
+            if (sysPermissions != null && sysPermissions.getpId().equals(JsTreeUtil.baseId)) {
+                sysPermissions.setpName(CommonConst.projectProperties.getName());
             }
         }
         if (Validator.isEmpty(sysPermissions.getIcon())) {
@@ -114,9 +101,9 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
             sysPermissions.setpId(pId);
             sysPermissions.setStatus(PermissionsStatus.ENABLE.getCode());
             sysPermissions.setType(PermissionsType.ENABLE.getCode());
-            if (baseId.equals(pId)) {
+            if (JsTreeUtil.baseId.equals(pId)) {
                 sysPermissions.setLevels(1);
-                sysPermissions.setpName(projectProperties.getName());
+                sysPermissions.setpName(CommonConst.projectProperties.getName());
             } else {
                 SysPermissions parentSysPermissions = mapper.selectInfo(pId);
                 if (parentSysPermissions != null && parentSysPermissions.getLevels() != null) {
@@ -144,7 +131,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
         queryWrapper.eq("p_id", id);
         int count = count(queryWrapper);
         if(count > 0){
-            throw new RuntimeException(ExceptionEnum.EXIST_CHILD.getMessage());
+            throw new RuntimeException(BusinessException.EXIST_CHILD.getMessage());
         }
         boolean isSuccess = removeById(id);
         if(isSuccess){
@@ -164,7 +151,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
         queryWrapper.in("p_id", ids.split(CommonConst.SPLIT));
         int count = count(queryWrapper);
         if(count > 0){
-            throw new RuntimeException(ExceptionEnum.EXIST_CHILD.getMessage());
+            throw new RuntimeException(BusinessException.EXIST_CHILD.getMessage());
         }
         List<String> idList = Arrays.asList(ids.split(CommonConst.SPLIT));
         boolean isSuccess = removeByIds(idList);

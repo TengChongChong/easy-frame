@@ -1,4 +1,4 @@
-package com.frame.easy.common.constant;
+package com.frame.easy.common;
 
 import com.frame.easy.config.properties.ProjectProperties;
 import org.springframework.beans.factory.annotation.Autowired;

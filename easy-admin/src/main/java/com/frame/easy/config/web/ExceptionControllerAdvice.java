@@ -1,23 +1,21 @@
 package com.frame.easy.config.web;
 
-import com.frame.easy.common.constant.status.ProfilesActiveStatus;
+import com.frame.easy.common.status.ProfilesActiveStatus;
 import com.frame.easy.config.properties.ProjectProperties;
-import com.frame.easy.core.base.result.Tips;
-import com.frame.easy.core.exception.EasyException;
+import com.frame.easy.base.result.Tips;
+import com.frame.easy.exception.EasyException;
 import com.frame.easy.core.web.Servlets;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * 通用异常处理(应用级异常)
@@ -43,6 +41,7 @@ public class ExceptionControllerAdvice {
      */
     @ExceptionHandler(RuntimeException.class)
     public Object handleException(HttpServletRequest request, RuntimeException e) {
+        e.printStackTrace();
         Tips tips = new Tips();
         if (e instanceof UnauthorizedException) {
             tips.setCode(HttpStatus.UNAUTHORIZED.value());
@@ -51,6 +50,15 @@ public class ExceptionControllerAdvice {
             logger.error("业务异常:", e);
             tips.setCode(((EasyException) e).getCode());
             tips.setMessage(e.getMessage());
+        } else if (e instanceof AuthenticationException) {
+            tips.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            if (e.getCause() != null) {
+                logger.error("登录异常:", e.getCause().getMessage());
+                tips.setMessage(e.getCause().getMessage());
+            } else {
+                logger.error("登录异常:", e.getMessage());
+                tips.setMessage(e.getMessage());
+            }
         } else {
             tips.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
             tips.setMessage(e.getMessage());

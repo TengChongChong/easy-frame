@@ -1,9 +1,9 @@
 package com.frame.easy.core.shiro.session;
 
 import cn.hutool.core.lang.Validator;
-import com.frame.easy.common.constant.SessionConst;
+import com.frame.easy.common.redis.RedisPrefix;
 import com.frame.easy.config.properties.ProjectProperties;
-import com.frame.easy.core.util.RedisUtil;
+import com.frame.easy.util.RedisUtil;
 import com.frame.easy.core.web.Servlets;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
@@ -38,7 +38,7 @@ public class RedisSessionDAO extends AbstractSessionDAO {
 
 
     public String getKey(String originalKey) {
-        return SessionConst.SHIRO_SESSION_PREFIX + originalKey;
+        return RedisPrefix.SHIRO_SESSION + originalKey;
     }
 
     /**
@@ -136,7 +136,7 @@ public class RedisSessionDAO extends AbstractSessionDAO {
     @Override
     public Collection<Session> getActiveSessions() {
         logger.debug("activeSession");
-        Set<String> sessionKeys = RedisUtil.getKeysByPrefix(SessionConst.SHIRO_SESSION_PREFIX);
+        Set<String> sessionKeys = RedisUtil.getKeysByPrefix(RedisPrefix.SHIRO_SESSION);
         if (sessionKeys != null && sessionKeys.size() > 0) {
             Collection<Session> sessions = new ArrayList<>();
             for (String sessionKey : sessionKeys) {

@@ -1,6 +1,6 @@
-package com.frame.easy.core.util;
+package com.frame.easy.util;
 
-import com.frame.easy.core.exception.ExceptionEnum;
+import com.frame.easy.exception.ExceptionEnum;
 
 /**
  * 工具类

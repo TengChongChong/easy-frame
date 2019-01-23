@@ -5,12 +5,14 @@ import cn.hutool.core.util.PinyinUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.frame.easy.common.constant.CommonConst;
+import com.frame.easy.common.CommonConst;
 import com.frame.easy.common.jstree.JsTree;
+import com.frame.easy.common.jstree.JsTreeUtil;
 import com.frame.easy.common.jstree.State;
 import com.frame.easy.common.select.Select;
-import com.frame.easy.core.exception.ExceptionEnum;
-import com.frame.easy.core.util.ToolUtil;
+import com.frame.easy.exception.BusinessException;
+import com.frame.easy.exception.ExceptionEnum;
+import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysDistrictMapper;
 import com.frame.easy.modular.sys.model.SysDistrict;
 import com.frame.easy.modular.sys.service.SysDistrictService;
@@ -34,27 +36,17 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
     @Autowired
     private SysDistrictMapper mapper;
 
-    /**
-     * 根节点id
-     */
-    private Long baseId = 0L;
-
     @Override
     public List<JsTree> selectData(Long pId) {
         List<JsTree> jsTrees;
         // 第一次请求,返回行政区划 + 一级 数据
-        if (pId == null || pId.equals(baseId)) {
+        if (pId == null || pId.equals(JsTreeUtil.baseId)) {
             jsTrees = new ArrayList<>();
-            JsTree jsTree = new JsTree();
+            // 根节点
+            JsTree jsTree = JsTreeUtil.getBaseNode();
             // 项目名称
             jsTree.setText("行政区划");
-            jsTree.setId(baseId);
-            jsTree.setIcon(CommonConst.DEFAULT_FOLDER_ICON);
-            ;
-            jsTree.setChildren(mapper.selectData(baseId));
-            State state = new State();
-            state.setOpened(true);
-            jsTree.setState(state);
+            jsTree.setChildren(mapper.selectData(JsTreeUtil.baseId));
             jsTrees.add(jsTree);
         } else {
             jsTrees = mapper.selectData(pId);
@@ -67,7 +59,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
         List<JsTree> jsTrees = mapper.selectAll();
         JsTree jsTree = new JsTree();
         State state = new State();
-        jsTree.setId(baseId);
+        jsTree.setId(JsTreeUtil.baseId);
         jsTree.setParent("#");
         jsTree.setIcon(CommonConst.DEFAULT_FOLDER_ICON);
         jsTree.setText("行政区划");
@@ -81,9 +73,9 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
     public SysDistrict input(Long id) {
         SysDistrict sysDistrict;
         // 表示点击的是根目录
-        if (id == null || id.equals(baseId)) {
+        if (id == null || id.equals(JsTreeUtil.baseId)) {
             sysDistrict = new SysDistrict();
-            sysDistrict.setId(baseId);
+            sysDistrict.setId(JsTreeUtil.baseId);
             sysDistrict.setName("行政区划");
         } else {
             sysDistrict = mapper.selectInfo(id);
@@ -111,7 +103,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
         queryWrapper.eq("p_id", id);
         int count = count(queryWrapper);
         if (count > 0) {
-            throw new RuntimeException(ExceptionEnum.EXIST_CHILD.getMessage());
+            throw new RuntimeException(BusinessException.EXIST_CHILD.getMessage());
         }
         return ToolUtil.checkResult(removeById(id));
     }
@@ -125,7 +117,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
         queryWrapper.in("p_id", ids.split(CommonConst.SPLIT));
         int count = count(queryWrapper);
         if (count > 0) {
-            throw new RuntimeException(ExceptionEnum.EXIST_CHILD.getMessage());
+            throw new RuntimeException(BusinessException.EXIST_CHILD.getMessage());
         }
         List<String> idList = Arrays.asList(ids.split(CommonConst.SPLIT));
         return ToolUtil.checkResult(removeByIds(idList));

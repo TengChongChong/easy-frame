@@ -3,15 +3,16 @@ package com.frame.easy.modular.sys.service.impl;
 import cn.hutool.core.lang.Validator;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.frame.easy.common.constant.CommonConst;
-import com.frame.easy.common.constant.status.CommonStatus;
+import com.frame.easy.common.CommonConst;
+import com.frame.easy.common.status.CommonStatus;
 import com.frame.easy.common.jstree.JsTree;
+import com.frame.easy.common.jstree.JsTreeUtil;
 import com.frame.easy.common.jstree.State;
 import com.frame.easy.common.select.Select;
-import com.frame.easy.config.properties.ProjectProperties;
-import com.frame.easy.core.exception.ExceptionEnum;
+import com.frame.easy.exception.BusinessException;
+import com.frame.easy.exception.ExceptionEnum;
 import com.frame.easy.util.ShiroUtil;
-import com.frame.easy.core.util.ToolUtil;
+import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysDepartmentTypeMapper;
 import com.frame.easy.modular.sys.model.SysDepartmentType;
 import com.frame.easy.modular.sys.model.SysUser;
@@ -40,34 +41,20 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
     private SysDepartmentTypeMapper mapper;
 
     @Autowired
-    private ProjectProperties projectProperties;
-
-    @Autowired
     private SysDepartmentTypeRoleService departmentTypeRoleService;
 
     @Autowired
     private SysDepartmentService sysDepartmentService;
 
-    /**
-     * 根节点id
-     */
-    private Long baseId = 0L;
-
     @Override
     public List<JsTree> selectData(Long pId) {
         List<JsTree> jsTrees;
         // 第一次请求,返回项目名称 + 一级节点 数据
-        if (pId == null || pId.equals(baseId)) {
+        if (pId == null || pId.equals(JsTreeUtil.baseId)) {
             jsTrees = new ArrayList<>();
-            JsTree jsTree = new JsTree();
-            // 项目名称
-            jsTree.setText(projectProperties.getName());
-            jsTree.setId(baseId);
-            jsTree.setIcon(CommonConst.DEFAULT_FOLDER_ICON);;
-            jsTree.setChildren(mapper.selectData(baseId));
-            State state = new State();
-            state.setOpened(true);
-            jsTree.setState(state);
+            // 根节点
+            JsTree jsTree = JsTreeUtil.getBaseNode();
+            jsTree.setChildren(mapper.selectData(JsTreeUtil.baseId));
             jsTrees.add(jsTree);
         } else {
             jsTrees = mapper.selectData(pId);
@@ -80,10 +67,10 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
         List<JsTree> jsTrees = mapper.selectAll(CommonStatus.ENABLE.getCode());
         JsTree jsTree = new JsTree();
         State state = new State();
-        jsTree.setId(baseId);
+        jsTree.setId(JsTreeUtil.baseId);
         jsTree.setParent("#");
-        jsTree.setIcon(CommonConst.DEFAULT_FOLDER_ICON);;
-        jsTree.setText(projectProperties.getName());
+        jsTree.setIcon(CommonConst.DEFAULT_FOLDER_ICON);
+        jsTree.setText(CommonConst.projectProperties.getName());
         state.setOpened(true);
         jsTree.setState(state);
         jsTrees.add(jsTree);
@@ -94,14 +81,14 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
     public SysDepartmentType input(Long id) {
         SysDepartmentType sysDepartmentType;
         // 表示点击的是根目录
-        if (id == null || id.equals(baseId)) {
+        if (id == null || id.equals(JsTreeUtil.baseId)) {
             sysDepartmentType = new SysDepartmentType();
-            sysDepartmentType.setId(baseId);
-            sysDepartmentType.setName(projectProperties.getName());
+            sysDepartmentType.setId(JsTreeUtil.baseId);
+            sysDepartmentType.setName(CommonConst.projectProperties.getName());
         } else {
             sysDepartmentType = mapper.selectInfo(id);
-            if (sysDepartmentType != null && sysDepartmentType.getpId().equals(baseId)) {
-                sysDepartmentType.setpName(projectProperties.getName());
+            if (sysDepartmentType != null && sysDepartmentType.getpId().equals(JsTreeUtil.baseId)) {
+                sysDepartmentType.setpName(CommonConst.projectProperties.getName());
             }
         }
         return sysDepartmentType;
@@ -113,8 +100,8 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
             SysDepartmentType sysDepartmentType = new SysDepartmentType();
             sysDepartmentType.setpId(pId);
             sysDepartmentType.setStatus(CommonStatus.ENABLE.getCode());
-            if (baseId.equals(pId)) {
-                sysDepartmentType.setpName(projectProperties.getName());
+            if (JsTreeUtil.baseId.equals(pId)) {
+                sysDepartmentType.setpName(CommonConst.projectProperties.getName());
             } else {
                 SysDepartmentType parentSysDepartmentType = getById(pId);
                 if (parentSysDepartmentType != null) {
@@ -136,7 +123,7 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
         queryWrapper.eq("p_id", id);
         int count = count(queryWrapper);
         if (count > 0) {
-            throw new RuntimeException(ExceptionEnum.EXIST_CHILD.getMessage());
+            throw new RuntimeException(BusinessException.EXIST_CHILD.getMessage());
         }
         // 检查机构类型下是否有机构
         count = sysDepartmentService.selectCountByTypeIds(String.valueOf(id));
@@ -159,7 +146,7 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
         queryWrapper.in("p_id", ids.split(CommonConst.SPLIT));
         int count = count(queryWrapper);
         if (count > 0) {
-            throw new RuntimeException(ExceptionEnum.EXIST_CHILD.getMessage());
+            throw new RuntimeException(BusinessException.EXIST_CHILD.getMessage());
         }
         // 检查机构类型下是否有机构
         count = sysDepartmentService.selectCountByTypeIds(ids);

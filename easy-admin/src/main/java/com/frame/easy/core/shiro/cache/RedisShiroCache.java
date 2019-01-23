@@ -1,13 +1,12 @@
-package com.frame.easy.core.redis;
+package com.frame.easy.core.shiro.cache;
 
-import com.frame.easy.common.constant.SessionConst;
+import com.frame.easy.common.redis.RedisPrefix;
 import com.frame.easy.config.properties.RedisProperties;
 import com.frame.easy.config.redis.RedisConfig;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.ArrayList;
@@ -17,16 +16,17 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
- * redis
+ * session redis
+ *
  * @author tengchong
  */
 public class RedisShiroCache<K, V> implements Cache<K, V> {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private RedisConfig redisConfig;
-
     private RedisProperties redisProperties;
+
+    private RedisConfig redisConfig;
 
     private String cacheKey;
 
@@ -35,7 +35,7 @@ public class RedisShiroCache<K, V> implements Cache<K, V> {
     @SuppressWarnings("rawtypes")
     public RedisShiroCache(String name, RedisTemplate client, RedisConfig redisConfig, RedisProperties redisProperties) {
         this.redisConfig = redisConfig;
-        this.cacheKey = SessionConst.SHIRO_AUTHORIZATION_PREFIX;
+        this.cacheKey = RedisPrefix.SHIRO_AUTHORIZATION;
         this.redisTemplate = client;
         this.redisProperties = redisProperties;
     }

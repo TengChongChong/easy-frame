@@ -1,9 +1,9 @@
 package com.frame.easy.config.shiro;
 
-import com.frame.easy.common.constant.CommonConst;
+import com.frame.easy.common.CommonConst;
 import com.frame.easy.common.constant.SessionConst;
 import com.frame.easy.config.properties.ProjectProperties;
-import com.frame.easy.core.redis.RedisCacheManager;
+import com.frame.easy.core.shiro.cache.RedisCacheManager;
 import com.frame.easy.core.shiro.ShiroRealm;
 import com.frame.easy.core.shiro.filter.KickOutSessionFilter;
 import com.frame.easy.core.shiro.session.RedisSessionDAO;

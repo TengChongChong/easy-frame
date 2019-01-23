@@ -1,6 +1,6 @@
 package com.frame.easy.modular.sys.controller;
 
-import com.frame.easy.core.base.result.Tips;
+import com.frame.easy.base.result.Tips;
 import com.frame.easy.modular.sys.service.SysDepartmentTypeRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

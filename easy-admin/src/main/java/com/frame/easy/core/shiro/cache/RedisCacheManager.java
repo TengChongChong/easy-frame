@@ -1,4 +1,4 @@
-package com.frame.easy.core.redis;
+package com.frame.easy.core.shiro.cache;
 
 import com.frame.easy.config.properties.RedisProperties;
 import com.frame.easy.config.redis.RedisConfig;
@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Repository;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

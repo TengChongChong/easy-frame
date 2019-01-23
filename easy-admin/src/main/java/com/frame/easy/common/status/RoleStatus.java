@@ -1,23 +1,22 @@
-package com.frame.easy.common.constant.status;
+package com.frame.easy.common.status;
 
 /**
- * 用户状态
+ * 角色状态
+ *
  * @author tengchong
  * @date 2018/9/4
  */
 
-public enum UserStatus {
+public enum RoleStatus {
     // 启用
     ENABLE(1, "启用"),
     // 禁用
-    DISABLE(2, "禁用"),
-    // 已删除
-    DELETED(0, "已删除");
+    DISABLE(2, "禁用");
 
     int code;
     String message;
 
-    UserStatus(int code, String message) {
+    RoleStatus(int code, String message) {
         this.code = code;
         this.message = message;
     }

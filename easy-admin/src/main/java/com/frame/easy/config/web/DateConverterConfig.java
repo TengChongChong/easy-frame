@@ -3,8 +3,7 @@ package com.frame.easy.config.web;
 import cn.hutool.core.date.DateException;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Validator;
-import com.frame.easy.core.exception.EasyException;
-import com.frame.easy.core.exception.ExceptionEnum;
+import com.frame.easy.exception.EasyException;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

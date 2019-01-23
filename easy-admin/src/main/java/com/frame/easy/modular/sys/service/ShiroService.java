@@ -12,8 +12,19 @@ import java.util.List;
  * @date 2018/9/4
  */
 public interface ShiroService {
+
+    /**
+     * 验证用户
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return 用户信息
+     */
+    SysUser validateUser(String username, String password);
+
     /**
      * 根据用户名获取用户
+     *
      * @param username 用户名
      * @return 用户信息
      */
@@ -21,6 +32,7 @@ public interface ShiroService {
 
     /**
      * 查询用户权限
+     *
      * @param sysUser 用户信息
      * @return 用户信息
      */
@@ -28,12 +40,14 @@ public interface ShiroService {
 
     /**
      * 更新用户最后登录时间
+     *
      * @param userId 用户id
      */
     void updateUserLastLoginDate(Long userId);
 
     /**
      * 根据用户获取相同账号会话
+     *
      * @param user 正在登录的用户
      * @return 会话列表
      */
@@ -41,6 +55,7 @@ public interface ShiroService {
 
     /**
      * 根据用户踢出相同账号其他会话
+     *
      * @param user 正在登录的用户
      * @return boolean
      */

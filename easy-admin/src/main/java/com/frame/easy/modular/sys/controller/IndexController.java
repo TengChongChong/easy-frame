@@ -1,6 +1,6 @@
 package com.frame.easy.modular.sys.controller;
 
-import com.frame.easy.core.base.controller.BaseController;
+import com.frame.easy.base.controller.BaseController;
 import com.frame.easy.util.ShiroUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

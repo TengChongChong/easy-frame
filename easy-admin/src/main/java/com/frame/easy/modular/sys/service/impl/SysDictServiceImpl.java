@@ -7,12 +7,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.frame.easy.common.page.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.frame.easy.common.constant.CommonConst;
-import com.frame.easy.common.constant.status.CommonStatus;
+import com.frame.easy.common.CommonConst;
+import com.frame.easy.common.status.CommonStatus;
 import com.frame.easy.common.select.Select;
-import com.frame.easy.config.properties.ProjectProperties;
 import com.frame.easy.util.ShiroUtil;
-import com.frame.easy.core.util.ToolUtil;
+import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysDictMapper;
 import com.frame.easy.modular.sys.dao.SysDictTypeMapper;
 import com.frame.easy.modular.sys.model.SysDict;
@@ -41,9 +40,6 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 
     @Autowired
     private SysDictTypeMapper dictTypeMapper;
-
-    @Autowired
-    private ProjectProperties projectProperties;
 
     @Override
     public Object select(SysDict sysDict) {
@@ -156,7 +152,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
                 temp.add(sysDict);
             }
             sysDictData.put(oldDictType, temp);
-            String dir = projectProperties.getFileUploadPath() + CommonConst.STATIC_DATA_PATH + File.separator + "js";
+            String dir = CommonConst.projectProperties.getFileUploadPath() + CommonConst.STATIC_DATA_PATH + File.separator + "js";
             FileUtil.writeString("var sysDict = " + sysDictData.toJSONString(), dir + File.separator + "sys-dict.js", "utf-8");
         }
         return true;

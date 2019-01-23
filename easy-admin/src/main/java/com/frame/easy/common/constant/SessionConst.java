@@ -15,14 +15,7 @@ public class SessionConst {
      * 记住我cookie
      */
     public static final String REMEMBER_ME = "rememberMe";
-    /**
-     * shiro session前缀
-     */
-    public static final String SHIRO_SESSION_PREFIX = "shiro_session:";
-    /**
-     * shiro session前缀
-     */
-    public static final String SHIRO_AUTHORIZATION_PREFIX = "shiro_authorization:";
+
     /**
      * 管理员强制退出
      */

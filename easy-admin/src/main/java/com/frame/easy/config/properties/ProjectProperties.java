@@ -1,7 +1,7 @@
 package com.frame.easy.config.properties;
 
 import cn.hutool.core.lang.Validator;
-import com.frame.easy.core.util.ToolUtil;
+import com.frame.easy.util.ToolUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

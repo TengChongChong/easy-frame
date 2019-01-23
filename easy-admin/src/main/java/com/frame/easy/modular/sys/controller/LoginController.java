@@ -1,8 +1,8 @@
 package com.frame.easy.modular.sys.controller;
 
 import com.frame.easy.common.constant.SessionConst;
-import com.frame.easy.core.base.controller.BaseController;
-import com.frame.easy.core.base.result.Tips;
+import com.frame.easy.base.controller.BaseController;
+import com.frame.easy.base.result.Tips;
 import com.frame.easy.core.web.Servlets;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * 登录
+ *
  * @author tengchong
  */
 @Controller
@@ -63,22 +64,9 @@ public class LoginController extends BaseController {
         logger.debug("/login");
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
-        String message;
-        try {
-            logger.debug("用户登录=>" + username);
-            subject.login(token);
-            return SUCCESS_TIPS;
-        } catch (UnknownAccountException e) {
-            message = e.getMessage();
-        } catch (DisabledAccountException e) {
-            message = e.getMessage();
-        } catch (AccountException e) {
-            message = e.getMessage();
-        } catch (Exception e) {
-            e.printStackTrace();
-            message = "未知错误！";
-        }
-        return Tips.getErrorTips(message);
+        logger.debug("用户登录=>" + username);
+        subject.login(token);
+        return Tips.getSuccessTips("登录成功");
     }
 
     /**

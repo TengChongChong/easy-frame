@@ -1,4 +1,4 @@
-package com.frame.easy.common.constant.type;
+package com.frame.easy.common.type;
 
 /**
  * 权限类型
