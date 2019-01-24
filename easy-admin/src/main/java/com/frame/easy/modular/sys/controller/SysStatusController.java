@@ -25,25 +25,41 @@ public class SysStatusController extends BaseController {
     @Autowired
     private SysStatusService service;
 
+    /**
+     * view
+     *
+     * @param model model
+     * @return view
+     */
     @RequestMapping("/view")
     @RequiresPermissions("sys:status:select")
-    public String view(Model model){
+    public String view(Model model) {
         logger.debug("/auth/sys/status/view");
         model.addAttribute("object", service.getSysStatus());
         return PREFIX + "view";
     }
 
+    /**
+     * 获取系统状态
+     *
+     * @return Tips
+     */
     @RequestMapping("/get/sys/status")
     @ResponseBody
     @RequiresPermissions("sys:status:select")
-    public Object getSysStatus(){
+    public Tips getSysStatus() {
         return Tips.getSuccessTips(service.getSysStatus());
     }
 
+    /**
+     * 获取实时数据
+     *
+     * @return Tips
+     */
     @RequestMapping("/get/real/time/status")
     @ResponseBody
     @RequiresPermissions("sys:status:select")
-    public Object getRealTimeStatus(){
+    public Tips getRealTimeStatus() {
         return Tips.getSuccessTips(service.getRealTimeStatus());
     }
 }

@@ -47,8 +47,8 @@ public interface SysDepartmentTypeService {
     /**
      * 删除
      *
-     * @param id
-     * @return
+     * @param id 机构类型id
+     * @return true/false
      */
     boolean delete(Long id);
 
@@ -56,16 +56,16 @@ public interface SysDepartmentTypeService {
      * 批量删除
      *
      * @param ids String ids 示例 1,2,3,4
-     * @return boolean
+     * @return true/false
      */
     boolean batchDelete(String ids);
 
     /**
      * 设置状态
      *
-     * @param ids 角色id
+     * @param ids    角色id
      * @param status 状态
-     * @return
+     * @return true/false
      */
     boolean setStatus(String ids, Integer status);
 
@@ -85,7 +85,7 @@ public interface SysDepartmentTypeService {
      * @param oldParent   拖动前的id
      * @param position    拖动前的下标
      * @param oldPosition 拖动后的下标
-     * @return boolean
+     * @return true/false
      */
     boolean move(Long id, Long parent, Long oldParent, Integer position, Integer oldPosition);
 
@@ -101,7 +101,7 @@ public interface SysDepartmentTypeService {
      * 根据同级代码获取类型数据
      *
      * @param code 代码
-     * @return option
+     * @return List<Select>
      */
     List<Select> selectOptionBySameLevel(String code);
 
@@ -109,7 +109,7 @@ public interface SysDepartmentTypeService {
      * 根据父代码获取子类型数据
      *
      * @param parentCode 父代码
-     * @return option
+     * @return List<Select>
      */
     List<Select> selectOptionByParentCode(String parentCode);
 }

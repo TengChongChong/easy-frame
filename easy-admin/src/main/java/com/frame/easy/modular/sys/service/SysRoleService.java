@@ -47,8 +47,8 @@ public interface SysRoleService {
     /**
      * 删除
      *
-     * @param id
-     * @return
+     * @param id 角色id
+     * @return true/false
      */
     boolean delete(Long id);
 
@@ -56,16 +56,16 @@ public interface SysRoleService {
      * 批量删除
      *
      * @param ids String ids 示例 1,2,3,4
-     * @return boolean
+     * @return true/false
      */
     boolean batchDelete(String ids);
 
     /**
      * 设置状态
      *
-     * @param ids 角色id
+     * @param ids    角色id
      * @param status 状态
-     * @return
+     * @return true/false
      */
     boolean setStatus(String ids, Integer status);
 
@@ -85,7 +85,7 @@ public interface SysRoleService {
      * @param oldParent   拖动前的id
      * @param position    拖动前的下标
      * @param oldPosition 拖动后的下标
-     * @return boolean
+     * @return true/false
      */
     boolean move(Long id, Long parent, Long oldParent, Integer position, Integer oldPosition);
 

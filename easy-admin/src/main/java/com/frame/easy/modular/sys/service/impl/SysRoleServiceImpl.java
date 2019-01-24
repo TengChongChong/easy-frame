@@ -10,6 +10,7 @@ import com.frame.easy.common.jstree.JsTree;
 import com.frame.easy.common.jstree.JsTreeUtil;
 import com.frame.easy.common.jstree.State;
 import com.frame.easy.exception.BusinessException;
+import com.frame.easy.exception.EasyException;
 import com.frame.easy.exception.ExceptionEnum;
 import com.frame.easy.util.RedisUtil;
 import com.frame.easy.util.ShiroUtil;
@@ -113,12 +114,12 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
                 if (parentSysRole != null) {
                     sysRole.setpName(parentSysRole.getName());
                 } else {
-                    throw new RuntimeException("获取父角色信息失败，请重试！");
+                    throw new EasyException("获取父角色信息失败，请重试");
                 }
             }
             return sysRole;
         } else {
-            throw new RuntimeException("获取父角色信息失败，请重试！");
+            throw new EasyException("获取父角色信息失败，请重试");
         }
     }
 
@@ -130,11 +131,11 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("p_id", id);
         int count = mapper.selectCount(queryWrapper);
-        if(count > 0){
+        if (count > 0) {
             throw new RuntimeException(BusinessException.EXIST_CHILD.getMessage());
         }
         boolean isSuccess = removeById(id);
-        if(isSuccess){
+        if (isSuccess) {
             // 删除已经分配给用户的角色
             sysUserRoleService.deleteUserRole(String.valueOf(id));
             // 删除部门类型可分配的角色
@@ -151,12 +152,12 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>();
         queryWrapper.in("p_id", ids.split(CommonConst.SPLIT));
         int count = count(queryWrapper);
-        if(count > 0){
+        if (count > 0) {
             throw new RuntimeException(BusinessException.EXIST_CHILD.getMessage());
         }
         List<String> idList = Arrays.asList(ids.split(CommonConst.SPLIT));
         boolean isSuccess = removeByIds(idList);
-        if(isSuccess){
+        if (isSuccess) {
             // 删除已经分配给用户的角色
             sysUserRoleService.deleteUserRole(ids);
             // 删除部门类型可分配的角色
@@ -171,7 +172,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         ToolUtil.checkParams(status);
         List<SysRole> roleList = new ArrayList<>();
         SysRole sysRole;
-        for(String id: ids.split(CommonConst.SPLIT)){
+        for (String id : ids.split(CommonConst.SPLIT)) {
             sysRole = new SysRole();
             sysRole.setId(Long.parseLong(id));
             sysRole.setStatus(status);
@@ -196,12 +197,12 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             object.setOrderNo(mapper.getMaxOrderNo(object.getpId()) + 1);
         }
         boolean isSuccess = saveOrUpdate(object);
-        if(isSuccess){
+        if (isSuccess) {
             // 删除授权信息,下次请求资源重新授权
             RedisUtil.delByPrefix(RedisPrefix.SHIRO_AUTHORIZATION);
             sysRolePermissionsService.saveRolePermissions(object.getId(), object.getPermissions());
         }
-        return (SysRole)ToolUtil.checkResult(isSuccess, object);
+        return (SysRole) ToolUtil.checkResult(isSuccess, object);
     }
 
     @Transactional(rollbackFor = RuntimeException.class)
@@ -271,7 +272,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             }
             return isSuccess;
         } else {
-            throw new RuntimeException(ExceptionEnum.FAILED_TO_GET_DATA.getMessage());
+            throw new EasyException(ExceptionEnum.FAILED_TO_GET_DATA.getMessage());
         }
     }
 
@@ -280,7 +281,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         if (Validator.isNotEmpty(title)) {
             return mapper.search("%" + title + "%");
         } else {
-            throw new RuntimeException("请输入关键字后重试！");
+            throw new EasyException("请输入关键字后重试！");
         }
     }
 }

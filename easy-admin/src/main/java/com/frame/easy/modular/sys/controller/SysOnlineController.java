@@ -28,7 +28,7 @@ public class SysOnlineController extends BaseController {
     private SysUserOnlineService service;
 
     @RequestMapping("list/view")
-    public String listView(){
+    public String listView() {
         logger.debug("/auth/sys/online/list/view");
         return "list-view";
     }
@@ -37,7 +37,7 @@ public class SysOnlineController extends BaseController {
     @PostMapping("select")
     @ResponseBody
     @RequiresPermissions("sys:online:select")
-    public Object select(){
+    public Object select() {
         logger.debug("/auth/sys/online/select");
         return Tips.getSuccessTips(service.select());
     }
@@ -45,7 +45,7 @@ public class SysOnlineController extends BaseController {
     @RequestMapping("force/logout/{sessionId}")
     @ResponseBody
     @RequiresPermissions("sys:online:force")
-    public Object forceLogin(@PathVariable("sessionId") String sessionId){
+    public Object forceLogin(@PathVariable("sessionId") String sessionId) {
         logger.debug("/auth/sys/online/force/logout/" + sessionId);
         return Tips.getSuccessTips(service.forceLogout(sessionId));
     }

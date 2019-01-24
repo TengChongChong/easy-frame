@@ -10,6 +10,7 @@ import com.frame.easy.common.jstree.JsTree;
 import com.frame.easy.common.jstree.JsTreeUtil;
 import com.frame.easy.common.jstree.State;
 import com.frame.easy.exception.BusinessException;
+import com.frame.easy.exception.EasyException;
 import com.frame.easy.exception.ExceptionEnum;
 import com.frame.easy.util.ShiroUtil;
 import com.frame.easy.util.ToolUtil;
@@ -112,13 +113,13 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
                     // 父权限标识
                     sysPermissions.setpCode(parentSysPermissions.getCode());
                 } else {
-                    throw new RuntimeException("获取父权限等级失败，请重试！");
+                    throw new EasyException("获取父权限等级失败，请重试");
                 }
             }
             sysPermissions.setIcon(JsTree.DEFAULT_ICON);
             return sysPermissions;
         } else {
-            throw new RuntimeException("获取父权限信息失败，请重试！");
+            throw new EasyException("获取父权限信息失败，请重试");
         }
     }
 
@@ -131,7 +132,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
         queryWrapper.eq("p_id", id);
         int count = count(queryWrapper);
         if(count > 0){
-            throw new RuntimeException(BusinessException.EXIST_CHILD.getMessage());
+            throw new EasyException(BusinessException.EXIST_CHILD.getMessage());
         }
         boolean isSuccess = removeById(id);
         if(isSuccess){
@@ -151,7 +152,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
         queryWrapper.in("p_id", ids.split(CommonConst.SPLIT));
         int count = count(queryWrapper);
         if(count > 0){
-            throw new RuntimeException(BusinessException.EXIST_CHILD.getMessage());
+            throw new EasyException(BusinessException.EXIST_CHILD.getMessage());
         }
         List<String> idList = Arrays.asList(ids.split(CommonConst.SPLIT));
         boolean isSuccess = removeByIds(idList);
@@ -325,15 +326,10 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
             }
             return isSuccess;
         } else {
-            throw new RuntimeException(ExceptionEnum.FAILED_TO_GET_DATA.getMessage());
+            throw new EasyException(ExceptionEnum.FAILED_TO_GET_DATA.getMessage());
         }
     }
 
-    /**
-     * 更改菜单等级
-     * @param parent
-     * @param id
-     */
     private void updateMenuLevels(Long parent, Long id){
         int parentLev;
         if (parent == 1) {
@@ -352,7 +348,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
         if (Validator.isNotEmpty(title)) {
             return mapper.search("%" + title + "%");
         } else {
-            throw new RuntimeException("请输入关键字后重试！");
+            throw new EasyException("请输入关键字后重试！");
         }
     }
 }

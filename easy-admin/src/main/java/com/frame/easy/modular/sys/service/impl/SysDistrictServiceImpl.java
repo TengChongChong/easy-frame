@@ -11,6 +11,7 @@ import com.frame.easy.common.jstree.JsTreeUtil;
 import com.frame.easy.common.jstree.State;
 import com.frame.easy.common.select.Select;
 import com.frame.easy.exception.BusinessException;
+import com.frame.easy.exception.EasyException;
 import com.frame.easy.exception.ExceptionEnum;
 import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysDistrictMapper;
@@ -90,7 +91,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
             sysDistrict.setpId(pId);
             return sysDistrict;
         } else {
-            throw new RuntimeException("获取父权限信息失败，请重试！");
+            throw new EasyException("获取父权限信息失败，请重试！");
         }
     }
 
@@ -103,7 +104,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
         queryWrapper.eq("p_id", id);
         int count = count(queryWrapper);
         if (count > 0) {
-            throw new RuntimeException(BusinessException.EXIST_CHILD.getMessage());
+            throw new EasyException(BusinessException.EXIST_CHILD.getMessage());
         }
         return ToolUtil.checkResult(removeById(id));
     }
@@ -117,7 +118,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
         queryWrapper.in("p_id", ids.split(CommonConst.SPLIT));
         int count = count(queryWrapper);
         if (count > 0) {
-            throw new RuntimeException(BusinessException.EXIST_CHILD.getMessage());
+            throw new EasyException(BusinessException.EXIST_CHILD.getMessage());
         }
         List<String> idList = Arrays.asList(ids.split(CommonConst.SPLIT));
         return ToolUtil.checkResult(removeByIds(idList));
@@ -142,7 +143,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
             }
             return (SysDistrict) ToolUtil.checkResult(saveOrUpdate(object), object);
         } else {
-            throw new RuntimeException("请输入行政区划名称后重试");
+            throw new EasyException("请输入行政区划名称后重试");
         }
     }
 
@@ -213,7 +214,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
             }
             return isSuccess;
         } else {
-            throw new RuntimeException(ExceptionEnum.FAILED_TO_GET_DATA.getMessage());
+            throw new EasyException(ExceptionEnum.FAILED_TO_GET_DATA.getMessage());
         }
     }
 
@@ -222,7 +223,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
         if (Validator.isNotEmpty(title)) {
             return mapper.search("%" + title + "%");
         } else {
-            throw new RuntimeException("请输入关键字后重试！");
+            throw new EasyException("请输入关键字后重试！");
         }
     }
 
@@ -231,7 +232,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
         // 父id不是最顶级
         if (pId != 0L) {
             SysDistrict district = getById(pId);
-            if(district != null){
+            if (district != null) {
                 return mapper.selectByPId(district.getpId());
             }
         }

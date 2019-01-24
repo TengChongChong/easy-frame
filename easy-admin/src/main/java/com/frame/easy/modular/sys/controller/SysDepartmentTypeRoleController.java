@@ -26,11 +26,11 @@ public class SysDepartmentTypeRoleController {
      * 根据部门类型
      *
      * @param deptId 部门id
-     * @return
+     * @return Tips
      */
     @RequestMapping("/select/role/{deptId}")
     @ResponseBody
-    public Object selectRoleByDepart(@PathVariable("deptId") String deptId){
+    public Object selectRoleByDepart(@PathVariable("deptId") String deptId) {
         return Tips.getSuccessTips(service.selectRoleByDepart(deptId));
     }
 

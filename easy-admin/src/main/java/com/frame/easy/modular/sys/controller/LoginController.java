@@ -36,11 +36,11 @@ public class LoginController extends BaseController {
     public String login(Model model) {
         logger.debug("/login");
         HttpServletRequest request = Servlets.getRequest();
-        if((request != null ? request.getParameter(SessionConst.FORCE_LOGOUT) : null) != null){
+        if ((request != null ? request.getParameter(SessionConst.FORCE_LOGOUT) : null) != null) {
             model.addAttribute("message", "您已经被管理员强制退出，请重新登录！");
             return PREFIX + "login";
         }
-        if((request != null ? request.getParameter(SessionConst.LOGIN_ELSEWHERE) : null) != null){
+        if ((request != null ? request.getParameter(SessionConst.LOGIN_ELSEWHERE) : null) != null) {
             model.addAttribute("message", "您的账号在其他地方登录，您被迫退出，请重新登录！");
             return PREFIX + "login";
         }
@@ -72,7 +72,7 @@ public class LoginController extends BaseController {
     /**
      * 退出
      *
-     * @return
+     * @return view
      */
     @RequestMapping("/logout")
     public String logout() {

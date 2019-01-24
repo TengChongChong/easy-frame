@@ -2,6 +2,7 @@ package com.frame.easy.modular.sys.service.impl;
 
 import cn.hutool.core.lang.Validator;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.status.CommonStatus;
@@ -10,6 +11,7 @@ import com.frame.easy.common.jstree.JsTreeUtil;
 import com.frame.easy.common.jstree.State;
 import com.frame.easy.common.select.Select;
 import com.frame.easy.exception.BusinessException;
+import com.frame.easy.exception.EasyException;
 import com.frame.easy.exception.ExceptionEnum;
 import com.frame.easy.util.ShiroUtil;
 import com.frame.easy.util.ToolUtil;
@@ -110,7 +112,7 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
             }
             return sysDepartmentType;
         } else {
-            throw new RuntimeException("获取父机构类型信息失败，请重试！");
+            throw new EasyException("获取父机构类型信息失败，请重试！");
         }
     }
 
@@ -123,20 +125,21 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
         queryWrapper.eq("p_id", id);
         int count = count(queryWrapper);
         if (count > 0) {
-            throw new RuntimeException(BusinessException.EXIST_CHILD.getMessage());
+            throw new EasyException(BusinessException.EXIST_CHILD.getMessage());
         }
         // 检查机构类型下是否有机构
         count = sysDepartmentService.selectCountByTypeIds(String.valueOf(id));
         if (count > 0) {
-            throw new RuntimeException("要删除的类型中包含机构信息，请删除机构信息后重试！");
+            throw new EasyException("要删除的类型中包含 " + count + " 个机构信息，请删除机构信息后重试！");
         }
         boolean isSuccess = removeById(id);
-        if(isSuccess){
+        if (isSuccess) {
             // 删除部门类型可选择的角色
             departmentTypeRoleService.deleteDepartTypeRole(String.valueOf(id));
         }
         return ToolUtil.checkResult(isSuccess);
     }
+
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
     public boolean batchDelete(String ids) {
@@ -146,18 +149,18 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
         queryWrapper.in("p_id", ids.split(CommonConst.SPLIT));
         int count = count(queryWrapper);
         if (count > 0) {
-            throw new RuntimeException(BusinessException.EXIST_CHILD.getMessage());
+            throw new EasyException(BusinessException.EXIST_CHILD.getMessage());
         }
         // 检查机构类型下是否有机构
         count = sysDepartmentService.selectCountByTypeIds(ids);
         if (count > 0) {
-            throw new RuntimeException("要删除的类型中包含机构信息，请删除机构信息后重试！");
+            throw new EasyException("要删除的类型中包含 " + count + " 个机构信息，请删除机构信息后重试！");
         }
         List<String> idList = Arrays.asList(ids.split(CommonConst.SPLIT));
         boolean isSuccess = removeByIds(idList);
-        if(isSuccess){
+        if (isSuccess) {
             // 删除部门类型可选择的角色
-            departmentTypeRoleService.deleteDepartTypeRole(ids);
+            departmentTypeRoleService.deleteDepartTypeRoleByDepartTypeIds(ids);
         }
         return ToolUtil.checkResult(isSuccess);
     }
@@ -166,15 +169,18 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
     public boolean setStatus(String ids, Integer status) {
         ToolUtil.checkParams(ids);
         ToolUtil.checkParams(status);
-        List<SysDepartmentType> permissionsList = new ArrayList<>();
-        SysDepartmentType sysDepartmentType;
-        for (String id : ids.split(CommonConst.SPLIT)) {
-            sysDepartmentType = new SysDepartmentType();
-            sysDepartmentType.setId(Long.parseLong(id));
-            sysDepartmentType.setStatus(status);
-            permissionsList.add(sysDepartmentType);
-        }
-        return ToolUtil.checkResult(updateBatchById(permissionsList));
+//        List<SysDepartmentType> permissionsList = new ArrayList<>();
+//        SysDepartmentType sysDepartmentType;
+//        for (String id : ids.split(CommonConst.SPLIT)) {
+//            sysDepartmentType = new SysDepartmentType();
+//            sysDepartmentType.setId(Long.parseLong(id));
+//            sysDepartmentType.setStatus(status);
+//            permissionsList.add(sysDepartmentType);
+//        }
+        UpdateWrapper<SysDepartmentType> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.in("id", ids.split(CommonConst.SPLIT));
+        updateWrapper.set("status", status);
+        return ToolUtil.checkResult(update(updateWrapper));
     }
 
 
@@ -191,7 +197,7 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
             object.setCreateUser(sysUser.getId());
         } else {
             oldDepartType = getById(object.getId());
-            isModifyCode = !oldDepartType.equals(object.getCode());
+            isModifyCode = !oldDepartType.getCode().equals(object.getCode());
         }
         object.setEditDate(new Date());
         object.setEditUser(sysUser.getId());
@@ -203,7 +209,7 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
         }
         int count = mapper.selectCount(queryWrapper);
         if (count > 0) {
-            throw new RuntimeException("结构类型代码[" + object.getCode() + "]已存在！");
+            throw new EasyException("机构类型代码 " + object.getCode() + " 已存在");
         }
 
         if (object.getOrderNo() == null) {
@@ -231,9 +237,10 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
         if (Validator.isNotEmpty(id) && Validator.isNotEmpty(parent) && Validator.isNotEmpty(oldParent) &&
                 Validator.isNotEmpty(position) && Validator.isNotEmpty(oldPosition)) {
             // 如机构类型下有机构信息,不允许拖动
+            // 会导致机构数据上下层级错误
             int count = sysDepartmentService.selectCountByTypeIds(String.valueOf(id));
             if (count > 0) {
-                throw new RuntimeException("要拖动的类型中包含机构信息，请删除机构信息后重试！");
+                throw new EasyException("要拖动的类型中包含 " + count + " 个机构信息，请删除机构信息后重试");
             }
 
             boolean isSuccess;
@@ -298,7 +305,7 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
             }
             return isSuccess;
         } else {
-            throw new RuntimeException(ExceptionEnum.FAILED_TO_GET_DATA.getMessage());
+            throw new EasyException(ExceptionEnum.FAILED_TO_GET_DATA.getMessage());
         }
     }
 
@@ -307,24 +314,24 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
         if (Validator.isNotEmpty(title)) {
             return mapper.search("%" + title + "%");
         } else {
-            throw new RuntimeException("请输入关键字后重试！");
+            throw new EasyException("请输入关键字后重试");
         }
     }
 
     @Override
     public List<Select> selectOptionBySameLevel(String code) {
-        if(Validator.isNotEmpty(code)){
+        if (Validator.isNotEmpty(code)) {
             return mapper.selectOptionBySameLevel(code);
-        }else{
+        } else {
             return null;
         }
     }
 
     @Override
     public List<Select> selectOptionByParentCode(String parentCode) {
-        if(Validator.isNotEmpty(parentCode)){
+        if (Validator.isNotEmpty(parentCode)) {
             return mapper.selectOptionByParentCode(parentCode);
-        }else{
+        } else {
             return null;
         }
     }

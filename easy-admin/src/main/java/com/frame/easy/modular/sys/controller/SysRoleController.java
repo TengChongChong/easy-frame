@@ -26,7 +26,7 @@ public class SysRoleController extends BaseController {
     private SysRoleService service;
 
     @GetMapping("/view")
-    public String view(){
+    public String view() {
         logger.debug("/auth/sys/role/view");
         return PREFIX + "view";
     }
@@ -34,7 +34,8 @@ public class SysRoleController extends BaseController {
     /**
      * 获取角色列表
      *
-     * @return
+     * @param pId 父角色id
+     * @return List<JsTree>
      */
     @RequestMapping("/select/data")
     @ResponseBody
@@ -47,20 +48,21 @@ public class SysRoleController extends BaseController {
     /**
      * 获取全部数据
      *
-     * @return
+     * @return List<JsTree>
      */
     @RequestMapping("/select/all")
     @ResponseBody
     @RequiresPermissions("sys:role:select")
-    public Object selectAll() {
+    public Tips selectAll() {
         logger.debug("/auth/sys/permissions/select/all");
         return Tips.getSuccessTips(service.selectAll());
     }
+
     /**
      * 新增
      *
      * @param pId 上级菜单/权限 id
-     * @return
+     * @return view
      */
     @GetMapping("/add/{id}")
     public String add(Model model, @PathVariable("id") Long pId) {
@@ -72,7 +74,8 @@ public class SysRoleController extends BaseController {
     /**
      * 删除权限/菜单
      *
-     * @return
+     * @param id 角色id
+     * @return Tips
      */
     @RequestMapping("/delete/{id}")
     @ResponseBody
@@ -81,10 +84,12 @@ public class SysRoleController extends BaseController {
         logger.debug("/auth/sys/role/delete/" + id);
         return Tips.getSuccessTips(service.delete(id));
     }
+
     /**
      * 批量删除
      *
-     * @return
+     * @param ids 角色ids
+     * @return Tips
      */
     @RequestMapping("/batch/delete/{id}")
     @ResponseBody
@@ -97,12 +102,14 @@ public class SysRoleController extends BaseController {
     /**
      * 设置状态
      *
-     * @return
+     * @param ids    角色ids
+     * @param status 状态
+     * @return Tips
      */
     @RequestMapping("/set/{id}/status/{status}")
     @ResponseBody
     @RequiresPermissions("sys:role:status")
-    public Object setStatus(@PathVariable("id") String ids,@PathVariable("status") Integer status) {
+    public Object setStatus(@PathVariable("id") String ids, @PathVariable("status") Integer status) {
         logger.debug("/auth/sys/role/set/" + ids + "/status/" + status);
         return Tips.getSuccessTips(service.setStatus(ids, status));
     }
@@ -111,12 +118,12 @@ public class SysRoleController extends BaseController {
      * 保存
      *
      * @param object 表单内容
-     * @return
+     * @return Tips
      */
     @PostMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sys:role:save")
-    public Object saveData(SysRole object){
+    public Object saveData(SysRole object) {
         logger.debug("/auth/sys/role/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }
@@ -125,7 +132,7 @@ public class SysRoleController extends BaseController {
      * 详情
      *
      * @param id 菜单/权限 id
-     * @return
+     * @return view
      */
     @GetMapping("/input/{id}")
     public String input(Model model, @PathVariable("id") Long id) {
@@ -134,6 +141,12 @@ public class SysRoleController extends BaseController {
         return PREFIX + "input";
     }
 
+    /**
+     * 搜索
+     *
+     * @param title 标题
+     * @return Tips
+     */
     @RequestMapping("/search")
     @ResponseBody
     @RequiresPermissions("sys:role:select")
@@ -146,21 +159,21 @@ public class SysRoleController extends BaseController {
     /**
      * 拖动菜单/权限改变目录或顺序
      *
-     * @param id 拖动的菜单/权限id
-     * @param parent 拖动后的父id
-     * @param oldParent 拖动前的id
-     * @param position 拖动前的下标
+     * @param id          拖动的菜单/权限id
+     * @param parent      拖动后的父id
+     * @param oldParent   拖动前的id
+     * @param position    拖动前的下标
      * @param oldPosition 拖动后的下标
-     * @return {Tips}
+     * @return Tips
      */
     @RequestMapping("/move")
     @ResponseBody
     @RequiresPermissions("sys:role:move")
     public Object move(@RequestParam(name = "id", required = false) Long id,
-                                  @RequestParam(name = "parent", required = false) Long parent,
-                                  @RequestParam(name = "oldParent", required = false) Long oldParent,
-                                  @RequestParam(name = "position", required = false) Integer position,
-                                  @RequestParam(name = "oldPosition", required = false) Integer oldPosition) {
+                       @RequestParam(name = "parent", required = false) Long parent,
+                       @RequestParam(name = "oldParent", required = false) Long oldParent,
+                       @RequestParam(name = "position", required = false) Integer position,
+                       @RequestParam(name = "oldPosition", required = false) Integer oldPosition) {
         logger.debug("/auth/sys/role/move");
         return Tips.getSuccessTips(service.move(id, parent, oldParent, position, oldPosition));
     }

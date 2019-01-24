@@ -23,7 +23,7 @@ public class SysStatusServiceImpl implements SysStatusService {
     private MetricsEndpoint metricsEndpoint;
 
     @Override
-    public Object getSysStatus() {
+    public JSONObject getSysStatus() {
         JSONObject status = new JSONObject();
         JSONObject systemProperties = new JSONObject();
         JSONObject projectProperties = new JSONObject();
@@ -53,7 +53,7 @@ public class SysStatusServiceImpl implements SysStatusService {
     }
 
     @Override
-    public Object getRealTimeStatus() {
+    public JSONObject getRealTimeStatus() {
         JSONObject rtStatus = new JSONObject();
         JSONObject jvm = new JSONObject();
         JSONObject cpu = new JSONObject();
@@ -75,7 +75,7 @@ public class SysStatusServiceImpl implements SysStatusService {
         return rtStatus;
     }
 
-    private Object getMetricsVal(String key) {
+    private Double getMetricsVal(String key) {
         List<MetricsEndpoint.Sample> list = metricsEndpoint.metric(key, null).getMeasurements();
         if (list != null && list.size() > 0) {
             return list.get(0).getValue();

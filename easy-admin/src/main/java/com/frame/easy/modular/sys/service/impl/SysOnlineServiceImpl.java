@@ -16,6 +16,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
+ * 会话管理
+ *
  * @author tengchong
  * @date 2018/9/12
  */

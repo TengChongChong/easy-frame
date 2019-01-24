@@ -48,8 +48,8 @@ public interface SysDistrictService {
     /**
      * 删除
      *
-     * @param id
-     * @return
+     * @param id 行政区划id
+     * @return true/false
      */
     boolean delete(Long id);
 
@@ -57,7 +57,7 @@ public interface SysDistrictService {
      * 批量删除
      *
      * @param ids String ids 示例 1,2,3,4
-     * @return boolean
+     * @return true/false
      */
     boolean batchDelete(String ids);
 
@@ -77,7 +77,7 @@ public interface SysDistrictService {
      * @param oldParent   拖动前的id
      * @param position    拖动前的下标
      * @param oldPosition 拖动后的下标
-     * @return boolean
+     * @return true/false
      */
     boolean move(Long id, Long parent, Long oldParent, Integer position, Integer oldPosition);
 
@@ -91,6 +91,7 @@ public interface SysDistrictService {
 
     /**
      * 根据父id获取数据
+     *
      * @param pId 父id
      * @return List<Select>
      */

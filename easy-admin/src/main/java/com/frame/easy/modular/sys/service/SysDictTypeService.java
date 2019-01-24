@@ -1,5 +1,6 @@
 package com.frame.easy.modular.sys.service;
 
+import com.frame.easy.common.page.Page;
 import com.frame.easy.modular.sys.model.SysDictType;
 
 import java.util.List;
@@ -13,13 +14,15 @@ import java.util.List;
 public interface SysDictTypeService {
     /**
      * 列表
+     *
      * @param sysDict 查询条件
      * @return Page
      */
-    Object select(SysDictType sysDict);
+    Page select(SysDictType sysDict);
 
     /**
-     * 列表 (无分页)
+     * 查询所有
+     *
      * @return List<SysDictType>
      */
     List<SysDictType> selectAll();
@@ -27,8 +30,8 @@ public interface SysDictTypeService {
     /**
      * 删除
      *
-     * @param id 数据id
-     * @return boolean
+     * @param id 字典类型ids
+     * @return true/false
      */
     boolean delete(String id);
 

@@ -28,7 +28,7 @@ public class SysDistrictController extends BaseController {
     /**
      * view
      *
-     * @return String
+     * @return view
      */
     @GetMapping("/view")
     public String view() {
@@ -40,7 +40,7 @@ public class SysDistrictController extends BaseController {
      * 新增
      *
      * @param pId 上级行政区划 id
-     * @return String
+     * @return view
      */
     @GetMapping("/add/{id}")
     public String add(Model model, @PathVariable("id") Long pId) {
@@ -53,6 +53,7 @@ public class SysDistrictController extends BaseController {
     /**
      * 删除
      *
+     * @param id 行政区划id
      * @return Tips
      */
     @RequestMapping("/delete/{id}")
@@ -66,6 +67,7 @@ public class SysDistrictController extends BaseController {
     /**
      * 批量删除
      *
+     * @param ids 行政区划ids
      * @return Tips
      */
     @RequestMapping("/batch/delete/{id}")
@@ -85,7 +87,7 @@ public class SysDistrictController extends BaseController {
     @PostMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sys:district:save")
-    public Tips saveData(SysDistrict object){
+    public Tips saveData(SysDistrict object) {
         logger.debug("/auth/sys/district/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }
@@ -94,7 +96,7 @@ public class SysDistrictController extends BaseController {
      * 详情
      *
      * @param id 行政区划 id
-     * @return String
+     * @return view
      */
     @GetMapping("/input/{id}")
     public String input(Model model, @PathVariable("id") Long id) {
@@ -108,6 +110,7 @@ public class SysDistrictController extends BaseController {
     /**
      * 根据pId获取数据
      *
+     * @param pId 上级id
      * @return List<jsTree>
      */
     @RequestMapping("/select/data")
@@ -133,6 +136,7 @@ public class SysDistrictController extends BaseController {
 
     /**
      * 搜索
+     *
      * @param title 标题
      * @return Tips
      */
@@ -148,10 +152,10 @@ public class SysDistrictController extends BaseController {
     /**
      * 拖动改变目录或顺序
      *
-     * @param id 拖动的行政区划id
-     * @param parent 拖动后的父id
-     * @param oldParent 拖动前的id
-     * @param position 拖动前的下标
+     * @param id          拖动的行政区划id
+     * @param parent      拖动后的父id
+     * @param oldParent   拖动前的id
+     * @param position    拖动前的下标
      * @param oldPosition 拖动后的下标
      * @return Tips
      */

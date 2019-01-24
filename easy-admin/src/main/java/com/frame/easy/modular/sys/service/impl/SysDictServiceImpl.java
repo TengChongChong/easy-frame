@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.status.CommonStatus;
 import com.frame.easy.common.select.Select;
+import com.frame.easy.exception.EasyException;
 import com.frame.easy.util.ShiroUtil;
 import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysDictMapper;
@@ -42,7 +43,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     private SysDictTypeMapper dictTypeMapper;
 
     @Override
-    public Object select(SysDict sysDict) {
+    public Page select(SysDict sysDict) {
         Page page = sysDict.getPage();
         QueryWrapper<SysDict> queryWrapper = new QueryWrapper<>();
         if(sysDict != null){
@@ -59,7 +60,8 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
                 queryWrapper.eq("t.code", sysDict.getCode());
             }
         }
-        page.setRecords(mapper.select(page, queryWrapper));
+        mapper.selectPage(page, queryWrapper);
+//        page.setRecords(mapper.select(page, queryWrapper));
         return page;
     }
 
@@ -113,7 +115,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         }
         int count = mapper.selectCount(queryWrapper);
         if (count > 0) {
-            throw new RuntimeException("字典类型[" + object.getDictType() + "]中已存在编码为[" + object.getCode() + "]的字典，请修改后重试！");
+            throw new EasyException("字典类型 " + object.getDictType() + " 中已存在编码为 " + object.getCode() + " 的字典，请修改后重试");
         }
         SysUser sysUser = ShiroUtil.getCurrentUser();
         object.setEditDate(new Date());
@@ -157,5 +159,4 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         }
         return true;
     }
-
 }

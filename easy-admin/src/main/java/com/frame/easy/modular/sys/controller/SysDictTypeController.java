@@ -23,13 +23,14 @@ public class SysDictTypeController extends BaseController {
 
     @Autowired
     private SysDictTypeService service;
+
     /**
      * 列表
      *
-     * @return 视图
+     * @return view
      */
     @GetMapping("list")
-    public String list(){
+    public String list() {
         logger.debug("/auth/sys/dict/type/list");
         return PREFIX + "list";
     }
@@ -37,25 +38,26 @@ public class SysDictTypeController extends BaseController {
     /**
      * 列表
      *
+     * @param object 查询条件
      * @return Tips
      */
     @RequestMapping("select")
     @ResponseBody
     @RequiresPermissions("sys:dict:type:select")
-    public Tips select(@RequestBody SysDictType object){
+    public Tips select(@RequestBody SysDictType object) {
         logger.debug("/auth/sys/dict/type/select");
         return Tips.getSuccessTips(service.select(object));
     }
 
     /**
-     * 列表 (无分页)
+     * 查询所有
      *
      * @return Tips
      */
     @RequestMapping("select/all")
     @ResponseBody
     @RequiresPermissions("sys:dict:type:select")
-    public Tips selectAll(){
+    public Tips selectAll() {
         logger.debug("/auth/sys/dict/type/select/all");
         return Tips.getSuccessTips(service.selectAll());
     }
@@ -63,6 +65,7 @@ public class SysDictTypeController extends BaseController {
     /**
      * 删除
      *
+     * @param ids 字典类型ids
      * @return Tips
      */
     @RequestMapping("/delete/{ids}")
@@ -82,7 +85,7 @@ public class SysDictTypeController extends BaseController {
     @PostMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sys:dict:type:save")
-    public Tips saveData(SysDictType object){
+    public Tips saveData(SysDictType object) {
         logger.debug("/auth/sys/dict/type/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }

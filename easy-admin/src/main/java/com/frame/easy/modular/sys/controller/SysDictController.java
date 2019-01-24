@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 字典
+ * 字典管理
  *
  * @author tengchong
  * @date 2018/11/4
@@ -26,13 +26,14 @@ public class SysDictController extends BaseController {
 
     @Autowired
     private SysDictService service;
+
     /**
      * 列表
      *
-     * @return 视图
+     * @return view
      */
     @GetMapping("list")
-    public String list(Model model){
+    public String list(Model model) {
         logger.debug("/auth/sys/dict/list");
         model.addAttribute("dictTypes", JSON.toJSON(service.getDictType()));
         return PREFIX + "list";
@@ -46,7 +47,7 @@ public class SysDictController extends BaseController {
     @RequestMapping("generate/dict/data")
     @ResponseBody
     @RequiresRoles("sys:admin")
-    public Tips select(){
+    public Tips select() {
         logger.debug("/auth/sys/dict/generate/dict/data");
         return Tips.getSuccessTips(service.generateDictData());
     }
@@ -54,12 +55,13 @@ public class SysDictController extends BaseController {
     /**
      * 列表
      *
+     * @param object 查询条件
      * @return Tips
      */
     @RequestMapping("select")
     @ResponseBody
     @RequiresPermissions("sys:dict:select")
-    public Tips select(@RequestBody SysDict object){
+    public Tips select(@RequestBody SysDict object) {
         logger.debug("/auth/sys/dict/select");
         return Tips.getSuccessTips(service.select(object));
     }
@@ -67,12 +69,13 @@ public class SysDictController extends BaseController {
     /**
      * 列表
      *
+     * @param dictType 字典类型
      * @return Tips
      */
     @PostMapping("/{dictType}/dicts")
     @ResponseBody
     @RequiresPermissions("sys:dict:select")
-    public Tips dictTypeDicts(@PathVariable("dictType") String dictType){
+    public Tips dictTypeDicts(@PathVariable("dictType") String dictType) {
         logger.debug("/auth/sys/dict/" + dictType + "/dicts");
         return Tips.getSuccessTips(service.dictTypeDicts(dictType));
     }
@@ -80,9 +83,9 @@ public class SysDictController extends BaseController {
     /**
      * 新增
      *
-     * @param pId 上级 id
+     * @param pId      上级 id
      * @param dictType 字典类型
-     * @return 视图
+     * @return view
      */
     @GetMapping({"/add/{id}", "/add"})
     public String add(Model model, @PathVariable(value = "id", required = false) Long pId,
@@ -96,6 +99,7 @@ public class SysDictController extends BaseController {
     /**
      * 删除
      *
+     * @param ids 字典ids
      * @return Tips
      */
     @RequestMapping("/delete/{ids}")
@@ -115,7 +119,7 @@ public class SysDictController extends BaseController {
     @PostMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sys:dict:save")
-    public Tips saveData(SysDict object){
+    public Tips saveData(SysDict object) {
         logger.debug("/auth/sys/dict/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }
@@ -123,8 +127,8 @@ public class SysDictController extends BaseController {
     /**
      * 详情
      *
-     * @param id id
-     * @return 视图
+     * @param id 字典id
+     * @return view
      */
     @GetMapping("/input/{id}")
     public String input(Model model, @PathVariable("id") Long id) {
@@ -142,7 +146,7 @@ public class SysDictController extends BaseController {
     @GetMapping("/generate/dict/data")
     @ResponseBody
     @RequiresPermissions("sys:dict:generate")
-    public Tips generateDictData(){
+    public Tips generateDictData() {
         logger.debug("/auth/sys/dict/generate/dict/data");
         return Tips.getSuccessTips(service.generateDictData());
     }

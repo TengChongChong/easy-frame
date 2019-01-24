@@ -10,6 +10,8 @@ import com.frame.easy.common.status.CommonStatus;
 import com.frame.easy.common.jstree.JsTree;
 import com.frame.easy.common.select.Select;
 import com.frame.easy.exception.BusinessException;
+import com.frame.easy.exception.EasyException;
+import com.frame.easy.modular.sys.service.SysUserService;
 import com.frame.easy.util.ShiroUtil;
 import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysDepartmentMapper;
@@ -41,6 +43,9 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
     @Autowired
     private SysDepartmentTypeService sysDepartmentTypeService;
 
+    @Autowired
+    private SysUserService sysUserService;
+
     @Override
     public List<JsTree> selectData(Long pId) {
         List<JsTree> jsTrees;
@@ -67,12 +72,12 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
     }
 
     @Override
-    public Object select(SysDepartment sysDepartment) {
+    public Page select(SysDepartment sysDepartment) {
         Page page = sysDepartment.getPage();
         QueryWrapper<SysDepartment> queryWrapper = new QueryWrapper<>();
         if (sysDepartment != null) {
             if (Validator.isNotEmpty(sysDepartment.getName())) {
-                    queryWrapper.like("t.name", sysDepartment.getName());
+                queryWrapper.like("t.name", sysDepartment.getName());
             }
             if (Validator.isNotEmpty(sysDepartment.getTypeCode())) {
                 queryWrapper.eq("t.type_code", sysDepartment.getTypeCode());
@@ -127,7 +132,12 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
         queryWrapper.in("p_id", ids.split(CommonConst.SPLIT));
         int count = count(queryWrapper);
         if (count > 0) {
-            throw new RuntimeException(BusinessException.EXIST_CHILD.getMessage());
+            throw new EasyException(BusinessException.EXIST_CHILD.getMessage());
+        }
+        // 检查部门下是否有用户
+        int userCount = sysUserService.countUser(ids);
+        if (userCount > 0) {
+            throw new EasyException("所选部门中包含 " + userCount + " 个用户，请移除后重试");
         }
         List<String> idList = Arrays.asList(ids.split(CommonConst.SPLIT));
         return ToolUtil.checkResult(removeByIds(idList));
@@ -138,7 +148,7 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
     public SysDepartment saveData(SysDepartment object) {
         ToolUtil.checkParams(object);
         // 部门编码不能重复
-        if(Validator.isNotEmpty(object.getCode())){
+        if (Validator.isNotEmpty(object.getCode())) {
             QueryWrapper<SysDepartment> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("code", object.getCode());
             if (object.getId() != null) {
@@ -146,10 +156,10 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
             }
             int count = mapper.selectCount(queryWrapper);
             if (count > 0) {
-                throw new RuntimeException("已存在编码为[" + object.getCode() + "]的机构，请修改后重试！");
+                throw new EasyException("已存在编码为[" + object.getCode() + "]的机构，请修改后重试");
             }
         }
-        if(object.getpId() == null){
+        if (object.getpId() == null) {
             object.setpId(JsTreeUtil.baseId);
         }
         SysUser sysUser = ShiroUtil.getCurrentUser();

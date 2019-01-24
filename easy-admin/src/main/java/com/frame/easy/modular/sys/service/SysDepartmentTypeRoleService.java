@@ -15,16 +15,16 @@ public interface SysDepartmentTypeRoleService {
      * 保存机构类型可选择的角色
      *
      * @param deptTypeId 机构类型id
-     * @param roles 角色ids 1,2,3,4,5
-     * @return boolean
+     * @param roles      角色ids 1,2,3,4,5
+     * @return true/false
      */
     boolean saveDepartTypeRole(Long deptTypeId, String roles);
 
     /**
      * 删除机构类型可选择的角色
      *
-     * @param deptTypeIds 机构类型id
-     * @return boolean
+     * @param deptTypeIds 机构类型ids
+     * @return true/false
      */
     boolean deleteDepartTypeRoleByDepartTypeIds(String deptTypeIds);
 
@@ -32,7 +32,7 @@ public interface SysDepartmentTypeRoleService {
      * 删除机构类型可选择的角色
      *
      * @param roles 角色ids 1,2,3,4,5
-     * @return boolean
+     * @return true/false
      */
     boolean deleteDepartTypeRole(String roles);
 

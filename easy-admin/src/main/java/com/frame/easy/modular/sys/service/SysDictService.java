@@ -1,5 +1,6 @@
 package com.frame.easy.modular.sys.service;
 
+import com.frame.easy.common.page.Page;
 import com.frame.easy.common.select.Select;
 import com.frame.easy.modular.sys.model.SysDict;
 
@@ -14,22 +15,24 @@ import java.util.List;
 public interface SysDictService {
     /**
      * 列表
-     * @param sysDict
-     * @return
+     *
+     * @param sysDict 查询条件
+     * @return Page
      */
-    Object select(SysDict sysDict);
+    Page select(SysDict sysDict);
 
     /**
      * 根据字典类型获取字典
      *
      * @param dictType 字典类型
-     * @return
+     * @return List<SysDict>
      */
     List<SysDict> dictTypeDicts(String dictType);
+
     /**
      * 详情
      *
-     * @param id id
+     * @param id 字典id
      * @return SysDict
      */
     SysDict input(Long id);
@@ -37,7 +40,7 @@ public interface SysDictService {
     /**
      * 新增
      *
-     * @param pId 上级id
+     * @param pId      上级id
      * @param dictType 字典类型
      * @return SysDict
      */
@@ -46,10 +49,10 @@ public interface SysDictService {
     /**
      * 删除
      *
-     * @param id
-     * @return
+     * @param ids 字典ids
+     * @return true/false
      */
-    boolean delete(String id);
+    boolean delete(String ids);
 
     /**
      * 保存
@@ -69,7 +72,7 @@ public interface SysDictService {
     /**
      * 将数据库中字典数据生成成js文件
      *
-     * @return
+     * @return true/false
      */
     boolean generateDictData();
 

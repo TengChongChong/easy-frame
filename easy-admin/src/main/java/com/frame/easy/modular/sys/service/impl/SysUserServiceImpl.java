@@ -9,6 +9,7 @@ import com.frame.easy.common.constant.SessionConst;
 import com.frame.easy.common.redis.RedisPrefix;
 import com.frame.easy.common.status.UserStatus;
 import com.frame.easy.common.page.Page;
+import com.frame.easy.exception.EasyException;
 import com.frame.easy.util.PasswordUtil;
 import com.frame.easy.util.RedisUtil;
 import com.frame.easy.util.ShiroUtil;
@@ -45,7 +46,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private ShiroService shiroService;
 
     @Override
-    public Object select(SysUser sysUser) {
+    public Page select(SysUser sysUser) {
         Page page = sysUser.getPage();
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
         if (sysUser != null) {
@@ -115,7 +116,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             }
             int count = mapper.selectCount(queryWrapper);
             if (count > 0) {
-                throw new RuntimeException("已存在用户名为[" + object.getUsername() + "]的用户，请修改后重试！");
+                throw new EasyException("已存在用户名为[" + object.getUsername() + "]的用户，请修改后重试！");
             }
         }
         // 新增时密码如果为空,则使用默认密码
@@ -207,5 +208,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             ShiroUtil.setAttribute(SessionConst.USER_SESSION_KEY, sysUser);
         }
         return sysUser;
+    }
+
+    @Override
+    public int countUser(String deptIds) {
+        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("dept_id", deptIds.split(CommonConst.SPLIT));
+        return mapper.selectCount(queryWrapper);
     }
 }

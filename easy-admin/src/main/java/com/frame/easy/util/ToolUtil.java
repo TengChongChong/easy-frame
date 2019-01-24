@@ -1,5 +1,6 @@
 package com.frame.easy.util;
 
+import com.frame.easy.exception.EasyException;
 import com.frame.easy.exception.ExceptionEnum;
 
 /**
@@ -13,26 +14,44 @@ public class ToolUtil {
         return System.getProperty("java.io.tmpdir");
     }
 
-    public static boolean checkParams(Object object) throws RuntimeException {
+    /**
+     * 检查参数是否为空
+     * @param object 参数
+     * @return true/false
+     * @throws EasyException
+     */
+    public static boolean checkParams(Object object) throws EasyException {
         if (object != null) {
             return true;
         } else {
-            throw new RuntimeException(ExceptionEnum.FAILED_TO_GET_DATA.getMessage());
+            throw new EasyException(ExceptionEnum.FAILED_TO_GET_DATA.getMessage());
         }
     }
 
-    public static boolean checkResult(boolean isSuccess) throws RuntimeException {
-        if((Boolean) checkResult(isSuccess, true)){
-            return true;
-        }else{
-            return false;
-        }
+    /**
+     * 检查结果
+     *
+     * @param isSuccess 是否成功
+     * @return true/false
+     * @throws EasyException
+     */
+    public static boolean checkResult(boolean isSuccess) throws EasyException {
+        return (Boolean) checkResult(isSuccess, true);
     }
-    public static Object checkResult(boolean isSuccess, Object object) throws RuntimeException {
+
+    /**
+     * 检查结果
+     *
+     * @param isSuccess 是否成功
+     * @param object 返回数据
+     * @return object
+     * @throws EasyException
+     */
+    public static Object checkResult(boolean isSuccess, Object object) throws EasyException {
         if (isSuccess) {
             return object;
         } else {
-            throw new RuntimeException(ExceptionEnum.UNKNOWN_ERROR.getMessage());
+            throw new EasyException(ExceptionEnum.UNKNOWN_ERROR.getMessage());
         }
     }
 }

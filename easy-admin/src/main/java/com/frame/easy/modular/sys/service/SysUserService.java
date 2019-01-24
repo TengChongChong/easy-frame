@@ -1,5 +1,6 @@
 package com.frame.easy.modular.sys.service;
 
+import com.frame.easy.common.page.Page;
 import com.frame.easy.modular.sys.model.SysUser;
 
 /**
@@ -12,10 +13,10 @@ public interface SysUserService {
     /**
      * 列表
      *
-     * @param object
-     * @return
+     * @param object 查询条件
+     * @return Page
      */
-    Object select(SysUser object);
+    Page select(SysUser object);
 
     /**
      * 详情
@@ -37,7 +38,7 @@ public interface SysUserService {
      * 删除
      *
      * @param ids 要删除的id 1,2,3 或 1
-     * @return
+     * @return true/false
      */
     boolean delete(String ids);
 
@@ -54,7 +55,7 @@ public interface SysUserService {
      * 重置密码
      *
      * @param ids 用户ids
-     * @return
+     * @return true/false
      */
     boolean resetPassword(String ids);
 
@@ -62,7 +63,7 @@ public interface SysUserService {
      * 禁用用户
      *
      * @param ids 用户ids
-     * @return
+     * @return true/false
      */
     boolean disableUser(String ids);
 
@@ -70,7 +71,7 @@ public interface SysUserService {
      * 启用用户
      *
      * @param ids 用户ids
-     * @return
+     * @return true/false
      */
     boolean enableUser(String ids);
 
@@ -78,7 +79,7 @@ public interface SysUserService {
      * 根据用户名查询用户
      *
      * @param username 用户名
-     * @return
+     * @return SysUser
      */
     SysUser getSysUserByUserName(String username);
 
@@ -86,14 +87,21 @@ public interface SysUserService {
      * 更新用户最后登录时间
      *
      * @param userId 用户id
-     * @return
+     * @return true/false
      */
     boolean updateUserLastLoginDate(Long userId);
 
     /**
      * 获取当前登录用户
      *
-     * @return
+     * @return SysUser
      */
     SysUser getCurrentUser();
+
+    /**
+     * 根据机构id查询用户数量
+     * @param deptIds 机构ids
+     * @return int
+     */
+    int countUser(String deptIds);
 }

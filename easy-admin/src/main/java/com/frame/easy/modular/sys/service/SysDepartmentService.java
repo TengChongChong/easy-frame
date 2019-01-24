@@ -1,6 +1,7 @@
 package com.frame.easy.modular.sys.service;
 
 import com.frame.easy.common.jstree.JsTree;
+import com.frame.easy.common.page.Page;
 import com.frame.easy.common.select.Select;
 import com.frame.easy.modular.sys.model.SysDepartment;
 
@@ -32,10 +33,10 @@ public interface SysDepartmentService {
     /**
      * 列表
      *
-     * @param object
-     * @return
+     * @param object 查询条件
+     * @return page
      */
-    Object select(SysDepartment object);
+    Page select(SysDepartment object);
 
     /**
      * 详情
@@ -48,7 +49,7 @@ public interface SysDepartmentService {
     /**
      * 新增
      *
-     * @param pId 上级id
+     * @param pId        上级id
      * @param departType 类型
      * @return SysDepartment
      */
@@ -58,10 +59,9 @@ public interface SysDepartmentService {
      * 删除
      *
      * @param ids 要删除的id 1,2,3 或 1
-     * @return
+     * @return true/false
      */
     boolean delete(String ids);
-
 
     /**
      * 保存
@@ -75,7 +75,7 @@ public interface SysDepartmentService {
      * 根据机构类型id获取机构数量
      *
      * @param typeIds 1,2,3 或 1
-     * @return
+     * @return int
      */
     int selectCountByTypeIds(String typeIds);
 
@@ -84,13 +84,14 @@ public interface SysDepartmentService {
      *
      * @param oldCode 原代码
      * @param newCode 新代码
-     * @return
+     * @return true/false
      */
     boolean updateDepartmentTypeCode(String oldCode, String newCode);
+
     /**
      * 新增/修改页面获取机构类型option
      *
-     * @param pId 上级id
+     * @param pId        上级id
      * @param departType 类型
      * @return option
      */
@@ -99,9 +100,9 @@ public interface SysDepartmentService {
     /**
      * 新增/修改页面获取父机构option
      *
-     * @param pId
-     * @param departType
-     * @return
+     * @param pId 上级机构id
+     * @param departType 机构类型
+     * @return List<Select>
      */
     List<Select> selectUpDepartmentOption(Long pId, String departType);
 }

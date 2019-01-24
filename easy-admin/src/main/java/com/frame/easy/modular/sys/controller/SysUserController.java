@@ -28,30 +28,35 @@ public class SysUserController extends BaseController {
 
     /**
      * 列表
+     *
+     * @return view
      */
     @GetMapping("list")
-    public String list(){
+    public String list() {
         ShiroUtil.setAttribute("test", "test message");
         logger.debug("/auth/sys/user/list");
         return PREFIX + "list";
     }
+
     /**
      * 列表
      *
-     * @return
+     * @param object 查询条件
+     * @return Tips
      */
     @RequestMapping("select")
     @ResponseBody
     @RequiresPermissions("sys:user:select")
-    public Object select(@RequestBody SysUser object){
+    public Object select(@RequestBody SysUser object) {
         logger.debug("/auth/sys/user/select");
         return Tips.getSuccessTips(service.select(object));
     }
+
     /**
      * 新增
      *
-     * @param deptId 机构id
-     * @return
+     * @param deptId 用户id
+     * @return view
      */
     @GetMapping({"/add/{id}"})
     public String add(Model model, @PathVariable(value = "id", required = false) Long deptId) {
@@ -63,7 +68,8 @@ public class SysUserController extends BaseController {
     /**
      * 删除
      *
-     * @return
+     * @param id 用户id
+     * @return Tips
      */
     @RequestMapping("/delete/{id}")
     @ResponseBody
@@ -77,7 +83,7 @@ public class SysUserController extends BaseController {
      * 禁用用户
      *
      * @param ids 用户ids
-     * @return
+     * @return Tips
      */
     @RequestMapping("/disable/user/{ids}")
     @ResponseBody
@@ -91,7 +97,7 @@ public class SysUserController extends BaseController {
      * 启用账号
      *
      * @param ids 用户ids
-     * @return
+     * @return Tips
      */
     @RequestMapping("/enable/user/{ids}")
     @ResponseBody
@@ -105,7 +111,7 @@ public class SysUserController extends BaseController {
      * 重置密码
      *
      * @param ids 用户ids
-     * @return
+     * @return Tips
      */
     @RequestMapping("/reset/password/{ids}")
     @ResponseBody
@@ -119,12 +125,12 @@ public class SysUserController extends BaseController {
      * 保存
      *
      * @param object 表单内容
-     * @return
+     * @return Tips
      */
     @PostMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sys:user:save")
-    public Object saveData(SysUser object){
+    public Object saveData(SysUser object) {
         logger.debug("/auth/sys/user/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }
@@ -133,7 +139,7 @@ public class SysUserController extends BaseController {
      * 详情
      *
      * @param id id
-     * @return
+     * @return view
      */
     @GetMapping("/input/{id}")
     public String input(Model model, @PathVariable("id") Long id) {
@@ -146,12 +152,12 @@ public class SysUserController extends BaseController {
     /**
      * 获取当前登录用户
      *
-     * @return
+     * @return Tips
      */
     @RequestMapping("/current")
     @ResponseBody
     @RequiresPermissions("sys:current:user")
-    public Object getCurrent(){
+    public Object getCurrent() {
         logger.debug("/current");
         return Tips.getSuccessTips(service.getCurrentUser());
     }

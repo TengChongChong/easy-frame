@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.frame.easy.common.page.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.frame.easy.common.constant.CommonConst;
+import com.frame.easy.exception.EasyException;
 import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysDictTypeMapper;
 import com.frame.easy.modular.sys.model.SysDictType;
@@ -29,7 +30,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
     private SysDictTypeMapper mapper;
 
     @Override
-    public Object select(SysDictType sysDictType) {
+    public Page select(SysDictType sysDictType) {
         Page page = sysDictType.getPage();
         QueryWrapper<SysDictType> queryWrapper = new QueryWrapper<>();
         if (sysDictType != null) {
@@ -60,7 +61,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
         QueryWrapper<SysDictType> queryWrapper = new QueryWrapper<>();
         queryWrapper.in("dt.id", idList);
         if (mapper.countDict(queryWrapper) > 0) {
-            throw new RuntimeException("所选字典类型中包含字典，请删除字典后重试！");
+            throw new EasyException("所选字典类型中包含字典，请删除字典后重试");
         }
         return ToolUtil.checkResult(removeByIds(idList));
     }
@@ -70,10 +71,10 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
     public SysDictType saveData(SysDictType object) {
         ToolUtil.checkParams(object);
         if (Validator.isEmpty(object.getName())) {
-            throw new RuntimeException("字典类型不能为空！");
+            throw new EasyException("字典类型不能为空");
         }
         if (Validator.isEmpty(object.getType())) {
-            throw new RuntimeException("字典类型名称不能为空！");
+            throw new EasyException("字典类型名称不能为空");
         }
         QueryWrapper<SysDictType> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("type", object.getType());
@@ -82,7 +83,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
         }
         int count = mapper.selectCount(queryWrapper);
         if (count > 0) {
-            throw new RuntimeException("字典类别代码[" + object.getType() + "]已存在！");
+            throw new EasyException("字典类别代码 " + object.getType() + " 已存在");
         }
         return (SysDictType) ToolUtil.checkResult(saveOrUpdate(object), object);
     }

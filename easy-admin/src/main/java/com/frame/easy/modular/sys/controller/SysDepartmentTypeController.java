@@ -28,7 +28,7 @@ public class SysDepartmentTypeController extends BaseController {
     /**
      * view
      *
-     * @return
+     * @return view
      */
     @GetMapping("/view")
     public String view() {
@@ -40,7 +40,7 @@ public class SysDepartmentTypeController extends BaseController {
      * 新增
      *
      * @param pId 上级菜单/权限 id
-     * @return
+     * @return view
      */
     @GetMapping("/add/{id}")
     public String add(Model model, @PathVariable("id") Long pId) {
@@ -52,7 +52,8 @@ public class SysDepartmentTypeController extends BaseController {
     /**
      * 删除
      *
-     * @return
+     * @param id 机构类型id
+     * @return Tips
      */
     @RequestMapping("/delete/{id}")
     @ResponseBody
@@ -65,7 +66,8 @@ public class SysDepartmentTypeController extends BaseController {
     /**
      * 批量删除
      *
-     * @return
+     * @param ids 机构类型ids
+     * @return Tips
      */
     @RequestMapping("/batch/delete/{id}")
     @ResponseBody
@@ -78,12 +80,13 @@ public class SysDepartmentTypeController extends BaseController {
     /**
      * 设置状态
      *
-     * @return
+     * @param ids 机构类型ids
+     * @return Tips
      */
     @RequestMapping("/set/{id}/status/{status}")
     @ResponseBody
     @RequiresPermissions("sys:depart:type:status")
-    public Object setStatus(@PathVariable("id") String ids,@PathVariable("status") Integer status) {
+    public Object setStatus(@PathVariable("id") String ids, @PathVariable("status") Integer status) {
         logger.debug("/auth/sys/depart/type/set/" + ids + "/status/" + status);
         return Tips.getSuccessTips(service.setStatus(ids, status));
     }
@@ -92,12 +95,12 @@ public class SysDepartmentTypeController extends BaseController {
      * 保存
      *
      * @param object 表单内容
-     * @return
+     * @return Tips
      */
     @PostMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sys:depart:type:save")
-    public Object saveData(SysDepartmentType object){
+    public Object saveData(SysDepartmentType object) {
         logger.debug("/auth/sys/depart/type/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }
@@ -105,8 +108,8 @@ public class SysDepartmentTypeController extends BaseController {
     /**
      * 详情
      *
-     * @param id 菜单/权限 id
-     * @return
+     * @param id 机构类型 id
+     * @return view
      */
     @GetMapping("/input/{id}")
     public String input(Model model, @PathVariable("id") Long id) {
@@ -118,7 +121,8 @@ public class SysDepartmentTypeController extends BaseController {
     /**
      * 根据pId获取数据
      *
-     * @return
+     * @param pId 上级机构类型id
+     * @return List<JsTree>
      */
     @RequestMapping("/select/data")
     @ResponseBody
@@ -131,7 +135,7 @@ public class SysDepartmentTypeController extends BaseController {
     /**
      * 获取全部数据
      *
-     * @return
+     * @return List<JsTree>
      */
     @RequestMapping("/select/all")
     @ResponseBody
@@ -141,6 +145,12 @@ public class SysDepartmentTypeController extends BaseController {
         return service.selectAll();
     }
 
+    /**
+     * 搜索
+     *
+     * @param title 名称
+     * @return Tips
+     */
     @RequestMapping("/search")
     @ResponseBody
     @RequiresPermissions("sys:depart:type:select")
@@ -153,12 +163,12 @@ public class SysDepartmentTypeController extends BaseController {
     /**
      * 拖动改变目录或顺序
      *
-     * @param id 拖动的菜单/权限id
-     * @param parent 拖动后的父id
-     * @param oldParent 拖动前的id
-     * @param position 拖动前的下标
+     * @param id          拖动的菜单/权限id
+     * @param parent      拖动后的父id
+     * @param oldParent   拖动前的id
+     * @param position    拖动前的下标
      * @param oldPosition 拖动后的下标
-     * @return {Tips}
+     * @return Tips
      */
     @RequestMapping("/move")
     @ResponseBody
@@ -171,7 +181,4 @@ public class SysDepartmentTypeController extends BaseController {
         logger.debug("/auth/sys/depart/type/move");
         return Tips.getSuccessTips(service.move(id, parent, oldParent, position, oldPosition));
     }
-
-
-
 }

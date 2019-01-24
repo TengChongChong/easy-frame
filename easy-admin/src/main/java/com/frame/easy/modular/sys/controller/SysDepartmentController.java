@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ * 机构管理
+ *
  * @author tengchong
  * @date 2018/12/3
  */
@@ -26,7 +28,7 @@ public class SysDepartmentController extends BaseController {
     /**
      * 根据pId获取数据
      *
-     * @return
+     * @return jstree data
      */
     @RequestMapping("/select/data")
     @ResponseBody
@@ -40,7 +42,7 @@ public class SysDepartmentController extends BaseController {
      * 搜索
      *
      * @param title 名称
-     * @return
+     * @return Tips
      */
     @RequestMapping("/search")
     @ResponseBody
@@ -54,28 +56,30 @@ public class SysDepartmentController extends BaseController {
      * 列表
      */
     @GetMapping("list")
-    public String list(){
+    public String list() {
         logger.debug("/auth/sys/depart/list");
         return PREFIX + "list";
     }
+
     /**
      * 列表
      *
-     * @return
+     * @return Tips
      */
     @RequestMapping("select")
     @ResponseBody
     @RequiresPermissions("sys:depart:select")
-    public Object select(@RequestBody SysDepartment object){
+    public Object select(@RequestBody SysDepartment object) {
         logger.debug("/auth/sys/depart/select");
         return Tips.getSuccessTips(service.select(object));
     }
+
     /**
      * 新增
      *
-     * @param pId 上级 id
+     * @param pId      上级 id
      * @param typeCode 字典类型
-     * @return
+     * @return view
      */
     @GetMapping({"/add/{id}", "/add"})
     public String add(Model model, @PathVariable(value = "id", required = false) Long pId,
@@ -90,7 +94,7 @@ public class SysDepartmentController extends BaseController {
     /**
      * 删除
      *
-     * @return
+     * @return Tips
      */
     @RequestMapping("/delete/{id}")
     @ResponseBody
@@ -104,12 +108,12 @@ public class SysDepartmentController extends BaseController {
      * 保存
      *
      * @param object 表单内容
-     * @return
+     * @return Tips
      */
     @PostMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sys:depart:save")
-    public Object saveData(SysDepartment object){
+    public Object saveData(SysDepartment object) {
         logger.debug("/auth/sys/depart/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }
@@ -118,7 +122,7 @@ public class SysDepartmentController extends BaseController {
      * 详情
      *
      * @param id id
-     * @return
+     * @return view
      */
     @GetMapping("/input/{id}")
     public String input(Model model, @PathVariable("id") Long id) {

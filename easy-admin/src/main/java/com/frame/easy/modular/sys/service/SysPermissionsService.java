@@ -30,7 +30,7 @@ public interface SysPermissionsService {
     /**
      * 详情
      *
-     * @param id id
+     * @param id 权限id
      * @return SysPermissions
      */
     SysPermissions input(Long id);
@@ -46,8 +46,8 @@ public interface SysPermissionsService {
     /**
      * 删除
      *
-     * @param id
-     * @return
+     * @param id 权限id
+     * @return true/false
      */
     boolean delete(Long id);
 
@@ -55,23 +55,23 @@ public interface SysPermissionsService {
      * 批量删除
      *
      * @param ids String ids 示例 1,2,3,4
-     * @return boolean
+     * @return true/false
      */
     boolean batchDelete(String ids);
 
     /**
      * 设置状态
      *
-     * @param ids 角色id
+     * @param ids    角色id
      * @param status 状态
-     * @return
+     * @return true/false
      */
     boolean setStatus(String ids, Integer status);
 
     /**
      * 复制节点到目标id
      *
-     * @param nodeIds String 复制的节点ids [1,2,3]
+     * @param nodeIds  String 复制的节点ids [1,2,3]
      * @param targetId Long 目标节点id
      * @return List<SysPermissions>
      */
@@ -93,7 +93,7 @@ public interface SysPermissionsService {
      * @param oldParent   拖动前的id
      * @param position    拖动前的下标
      * @param oldPosition 拖动后的下标
-     * @return boolean
+     * @return true/false
      */
     boolean move(Long id, Long parent, Long oldParent, Integer position, Integer oldPosition);
 

@@ -29,7 +29,7 @@ public class SysPermissionsController extends BaseController {
     /**
      * view
      *
-     * @return
+     * @return view
      */
     @GetMapping("/view")
     public String view() {
@@ -41,7 +41,7 @@ public class SysPermissionsController extends BaseController {
      * 新增
      *
      * @param pId 上级菜单/权限 id
-     * @return
+     * @return view
      */
     @GetMapping("/add/{id}")
     public String add(Model model, @PathVariable("id") Long pId) {
@@ -53,7 +53,8 @@ public class SysPermissionsController extends BaseController {
     /**
      * 删除
      *
-     * @return
+     * @param id 权限id
+     * @return Tips
      */
     @RequestMapping("/delete/{id}")
     @ResponseBody
@@ -66,7 +67,8 @@ public class SysPermissionsController extends BaseController {
     /**
      * 批量删除
      *
-     * @return
+     * @param ids 权限ids
+     * @return Tips
      */
     @RequestMapping("/batch/delete/{id}")
     @ResponseBody
@@ -79,12 +81,14 @@ public class SysPermissionsController extends BaseController {
     /**
      * 设置状态
      *
-     * @return
+     * @param ids    权限ids
+     * @param status 状态
+     * @return Tips
      */
     @RequestMapping("/set/{id}/status/{status}")
     @ResponseBody
     @RequiresPermissions("sys:permissions:status")
-    public Object setStatus(@PathVariable("id") String ids,@PathVariable("status") Integer status) {
+    public Object setStatus(@PathVariable("id") String ids, @PathVariable("status") Integer status) {
         logger.debug("/auth/sys/permissions/set/" + ids + "/status/" + status);
         return Tips.getSuccessTips(service.setStatus(ids, status));
     }
@@ -92,30 +96,28 @@ public class SysPermissionsController extends BaseController {
     /**
      * 复制节点到目标id
      *
-     * @param nodeIds String 复制的节点ids [1,2,3]
-     * @param targetId Long 目标节点id
-     * @return
+     * @param nodeIds  复制的节点ids [1,2,3]
+     * @param targetId 目标节点id
+     * @return Tips
      */
     @RequestMapping("/copy/{nodeIds}/to/{targetId}")
     @ResponseBody
     @RequiresPermissions("sys:permissions:save")
-    public Object copyNodes(@PathVariable("nodeIds") String nodeIds,@PathVariable("targetId") Long targetId) {
+    public Object copyNodes(@PathVariable("nodeIds") String nodeIds, @PathVariable("targetId") Long targetId) {
         logger.debug("/auth/sys/permissions/copy/" + nodeIds + "/to/" + targetId);
         return Tips.getSuccessTips(service.copyNode(nodeIds, targetId));
     }
-
-
 
     /**
      * 保存
      *
      * @param object 表单内容
-     * @return
+     * @return Tips
      */
     @PostMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sys:permissions:save")
-    public Object saveData(SysPermissions object){
+    public Object saveData(SysPermissions object) {
         logger.debug("/auth/sys/permissions/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }
@@ -124,7 +126,7 @@ public class SysPermissionsController extends BaseController {
      * 详情
      *
      * @param id 菜单/权限 id
-     * @return
+     * @return view
      */
     @GetMapping("/input/{id}")
     public String input(Model model, @PathVariable("id") Long id) {
@@ -136,7 +138,8 @@ public class SysPermissionsController extends BaseController {
     /**
      * 根据pId获取数据
      *
-     * @return
+     * @param pId 父权限id
+     * @return List<JsTree>
      */
     @RequestMapping("/select/data")
     @ResponseBody
@@ -149,7 +152,7 @@ public class SysPermissionsController extends BaseController {
     /**
      * 获取全部数据
      *
-     * @return
+     * @return List<JsTree>
      */
     @RequestMapping("/select/all")
     @ResponseBody
@@ -159,6 +162,12 @@ public class SysPermissionsController extends BaseController {
         return Tips.getSuccessTips(service.selectAll());
     }
 
+    /**
+     * 搜索
+     *
+     * @param title 标题
+     * @return List<JsTree>
+     */
     @RequestMapping("/search")
     @ResponseBody
     @RequiresPermissions("sys:permissions:select")
@@ -171,21 +180,21 @@ public class SysPermissionsController extends BaseController {
     /**
      * 拖动改变目录或顺序
      *
-     * @param id 拖动的菜单/权限id
-     * @param parent 拖动后的父id
-     * @param oldParent 拖动前的id
-     * @param position 拖动前的下标
+     * @param id          拖动的菜单/权限id
+     * @param parent      拖动后的父id
+     * @param oldParent   拖动前的id
+     * @param position    拖动前的下标
      * @param oldPosition 拖动后的下标
-     * @return {Tips}
+     * @return Tips
      */
     @RequestMapping("/move")
     @ResponseBody
     @RequiresPermissions("sys:permissions:move")
     public Object move(@RequestParam(name = "id", required = false) Long id,
-                                  @RequestParam(name = "parent", required = false) Long parent,
-                                  @RequestParam(name = "oldParent", required = false) Long oldParent,
-                                  @RequestParam(name = "position", required = false) Integer position,
-                                  @RequestParam(name = "oldPosition", required = false) Integer oldPosition) {
+                       @RequestParam(name = "parent", required = false) Long parent,
+                       @RequestParam(name = "oldParent", required = false) Long oldParent,
+                       @RequestParam(name = "position", required = false) Integer position,
+                       @RequestParam(name = "oldPosition", required = false) Integer oldPosition) {
         logger.debug("/auth/sys/permissions/move");
         return Tips.getSuccessTips(service.move(id, parent, oldParent, position, oldPosition));
     }

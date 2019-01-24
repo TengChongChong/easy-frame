@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * 首页
+ *
  * @author tengchong
  */
 @Controller
@@ -28,7 +29,7 @@ public class IndexController extends BaseController {
         if (SecurityUtils.getSubject().isAuthenticated() || SecurityUtils.getSubject().isRemembered()) {
             model.addAttribute("user", ShiroUtil.getCurrentUser());
             return PREFIX + "index";
-        }else{
+        } else {
             return REDIRECT + "/login";
         }
     }
