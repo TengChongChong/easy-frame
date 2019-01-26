@@ -20,9 +20,6 @@ import org.springframework.data.redis.serializer.*;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-import org.springframework.cache.interceptor.KeyGenerator;
-import java.lang.reflect.Method;
-
 /**
  * redis config
  *
