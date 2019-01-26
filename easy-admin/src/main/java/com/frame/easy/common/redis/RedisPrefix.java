@@ -8,16 +8,18 @@ package com.frame.easy.common.redis;
  */
 public class RedisPrefix {
     /**
-     * 登录尝试次数
+     * 用户登录尝试次数以及锁定账号
      */
     public static final String ACCOUNT = "account:";
 
     /**
-     * shiro session前缀
+     * shiro session
      */
-    public static final String SHIRO_SESSION = "shiro_session:";
+    public static final String SHIRO_SESSION = "shiro:session:";
+
     /**
-     * shiro session前缀
+     * shiro 授权
      */
-    public static final String SHIRO_AUTHORIZATION = "shiro_authorization:";
+    public static final String SHIRO_AUTHORIZATION = "shiro:authorization:";
+
 }

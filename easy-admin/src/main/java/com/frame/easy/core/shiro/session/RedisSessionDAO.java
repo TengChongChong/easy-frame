@@ -1,6 +1,7 @@
 package com.frame.easy.core.shiro.session;
 
 import cn.hutool.core.lang.Validator;
+import com.alibaba.fastjson.JSON;
 import com.frame.easy.common.redis.RedisPrefix;
 import com.frame.easy.config.properties.ProjectProperties;
 import com.frame.easy.util.RedisUtil;
@@ -60,6 +61,7 @@ public class RedisSessionDAO extends AbstractSessionDAO {
         Serializable sessionId = this.generateSessionId(session);
         this.assignSessionId(session, sessionId);
         logger.debug("createSession:", sessionId.toString());
+        System.out.println(JSON.toJSONString(session));
         RedisUtil.set(getKey(sessionId.toString()), session, projectProperties.getSessionInvalidateTime());
         return sessionId;
     }
@@ -136,7 +138,7 @@ public class RedisSessionDAO extends AbstractSessionDAO {
     @Override
     public Collection<Session> getActiveSessions() {
         logger.debug("activeSession");
-        Set<String> sessionKeys = RedisUtil.getKeysByPrefix(RedisPrefix.SHIRO_SESSION);
+        Set<String> sessionKeys = RedisUtil.selectKeysByPrefix(RedisPrefix.SHIRO_SESSION);
         if (sessionKeys != null && sessionKeys.size() > 0) {
             Collection<Session> sessions = new ArrayList<>();
             for (String sessionKey : sessionKeys) {
@@ -147,7 +149,7 @@ public class RedisSessionDAO extends AbstractSessionDAO {
         return null;
     }
 
-    public boolean checkSession(Session session) {
+    private boolean checkSession(Session session) {
         return session != null && Validator.isNotEmpty(session.getId());
     }
 }
