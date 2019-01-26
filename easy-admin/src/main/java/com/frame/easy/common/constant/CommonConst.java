@@ -40,7 +40,7 @@ public class CommonConst {
      * 静态数据存放路径
      * 例如: 字典数据
      */
-    public static String STATIC_DATA_PATH = "static" + File.separator + "data";
+    public static String STATIC_DATA_PATH = File.separator + "data";
     /**
      * 默认文件夹图标
      */
