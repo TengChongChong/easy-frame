@@ -1,4 +1,4 @@
-package com.frame.easy.modular.sys.controller;
+package com.frame.easy.modular.sample.controller;
 
 import com.frame.easy.modular.sys.model.SysDict;
 import org.springframework.stereotype.Controller;

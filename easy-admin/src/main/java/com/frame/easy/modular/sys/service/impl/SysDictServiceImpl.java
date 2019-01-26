@@ -60,8 +60,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
                 queryWrapper.eq("t.code", sysDict.getCode());
             }
         }
-        mapper.selectPage(page, queryWrapper);
-//        page.setRecords(mapper.select(page, queryWrapper));
+        page.setRecords(mapper.select(page, queryWrapper));
         return page;
     }
 
