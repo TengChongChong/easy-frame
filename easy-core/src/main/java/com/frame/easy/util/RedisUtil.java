@@ -42,7 +42,7 @@ public class RedisUtil {
      *
      * @param key    键
      * @param val    值
-     * @param expire 过期时间 单位: 秒
+     * @param expire 过期时间 单位: 秒 (-1 永不过期)
      */
     public static void set(String key, Object val, long expire) {
         redisTemplate.opsForValue().set(key, val, expire, TimeUnit.SECONDS);
@@ -75,17 +75,20 @@ public class RedisUtil {
     public static void delByPrefix(String keyPrefix) {
         keyPrefix = keyPrefix + "*";
         Set<String> keyArraySet = redisTemplate.keys(keyPrefix);
-        for (String key : keyArraySet) {
-            redisTemplate.delete(key);
+        if (keyArraySet != null) {
+            for (String key : keyArraySet) {
+                redisTemplate.delete(key);
+            }
         }
     }
 
     /**
      * 根据前缀获取key列表
+     *
      * @param keyPrefix key前缀
      * @return Set<String>
      */
-    public static Set<String> getKeysByPrefix(String keyPrefix){
+    public static Set<String> selectKeysByPrefix(String keyPrefix) {
         keyPrefix = keyPrefix + "*";
         return redisTemplate.keys(keyPrefix);
     }
@@ -93,37 +96,40 @@ public class RedisUtil {
     /**
      * 根据key设置缓存过期时间
      *
-     * @param key 键
+     * @param key    键
      * @param expire 过期时间 单位: 秒
      */
-    public static void setExpire(String key, long expire){
+    public static void setExpire(String key, long expire) {
         redisTemplate.expire(key, expire, TimeUnit.SECONDS);
     }
 
     /**
      * 递增
+     *
      * @param key
      * @param increment 递增数
      */
-    public static void increment(String key, int increment){
+    public static void increment(String key, int increment) {
         redisTemplate.opsForValue().increment(key, increment);
     }
 
     /**
      * redis中是否有指定key
+     *
      * @param key
      * @return true/false
      */
-    public static boolean hasKey(String key){
+    public static boolean hasKey(String key) {
         return redisTemplate.hasKey(key);
     }
 
     /**
      * 获取指定key有效期剩余时间
+     *
      * @param key
      * @return
      */
-    public static long getExpire(String key){
+    public static long getExpire(String key) {
         return redisTemplate.getExpire(key);
     }
 
