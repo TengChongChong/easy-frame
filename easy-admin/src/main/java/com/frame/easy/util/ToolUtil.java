@@ -1,7 +1,9 @@
 package com.frame.easy.util;
 
+import com.frame.easy.common.page.Page;
 import com.frame.easy.exception.EasyException;
 import com.frame.easy.exception.ExceptionEnum;
+import com.frame.easy.core.base.IModel;
 
 /**
  * 工具类
@@ -12,6 +14,23 @@ import com.frame.easy.exception.ExceptionEnum;
 public class ToolUtil {
     public static String getTmpDir() {
         return System.getProperty("java.io.tmpdir");
+    }
+
+    /**
+     * 获取分页信息
+     *
+     * @param model 实体类
+     * @return page
+     */
+    public static Page getPage(IModel model){
+        Page page = null;
+        if(model != null){
+            page = model.getPage();
+        }
+        if(page == null){
+            page = new Page();
+        }
+        return page;
     }
 
     /**
@@ -54,4 +73,5 @@ public class ToolUtil {
             throw new EasyException(ExceptionEnum.UNKNOWN_ERROR.getMessage());
         }
     }
+
 }
