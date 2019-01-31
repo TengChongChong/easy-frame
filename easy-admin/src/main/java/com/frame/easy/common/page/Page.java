@@ -3,6 +3,7 @@ package com.frame.easy.common.page;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.frame.easy.common.constant.CommonConst;
 import org.springframework.stereotype.Component;
 
@@ -45,6 +46,7 @@ public class Page<T> implements IPage<T> {
     /**
      * 是否进行 count 查询
      */
+    @JsonIgnore
     private boolean isSearchCount = true;
 
     public Page() {
