@@ -2,6 +2,7 @@ package com.frame.easy.config.shiro;
 
 import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.constant.SessionConst;
+import com.frame.easy.common.key.Key;
 import com.frame.easy.config.properties.ProjectProperties;
 import com.frame.easy.core.shiro.cache.RedisCacheManager;
 import com.frame.easy.core.shiro.ShiroRealm;
@@ -181,8 +182,7 @@ public class ShiroConfig {
      */
     @Bean
     public RedisCacheManager redisCacheManager() {
-        RedisCacheManager redisCacheManager = new RedisCacheManager();
-        return redisCacheManager;
+        return new RedisCacheManager();
     }
 
 //    @Bean
@@ -192,14 +192,11 @@ public class ShiroConfig {
 //        return em;
 //    }
 //
-//    @Bean("cacheManager2")
+//    @Bean
 //    CacheManager cacheManager() {
 //        return CacheManager.create();
 //    }
 
-    /**
-     * sessionDAO
-     */
     @Bean
     public SessionDAO sessionDAO() {
         if (CommonConst.CACHE_TYPE_REDIS.equals(projectProperties.getCacheType())) {
@@ -242,7 +239,7 @@ public class ShiroConfig {
      *
      * @return
      */
-    public SimpleCookie rememberMeCookie() {
+    private SimpleCookie rememberMeCookie() {
         // 这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
         SimpleCookie simpleCookie = new SimpleCookie(SessionConst.REMEMBER_ME);
         // 防止跨站脚本
@@ -257,11 +254,11 @@ public class ShiroConfig {
      *
      * @return
      */
-    public CookieRememberMeManager rememberMeManager() {
+    private CookieRememberMeManager rememberMeManager() {
         CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
         cookieRememberMeManager.setCookie(rememberMeCookie());
-        //rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
-        cookieRememberMeManager.setCipherKey(Base64.decode("1QWLxg+NYmxraMoxAXu/Iw=="));
+        //rememberMe
+        cookieRememberMeManager.setCipherKey(Base64.decode(Key.REMEMBER_ME));
         return cookieRememberMeManager;
     }
 }
