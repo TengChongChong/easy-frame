@@ -1,4 +1,4 @@
-package com.frame.easy.base.result;
+package com.frame.easy.result;
 
 import com.frame.easy.common.status.ResultStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
