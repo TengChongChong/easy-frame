@@ -8,18 +8,36 @@ var mRedisView = function () {
      * 删除
      */
     var deleteKey = function () {
+        var _delKey = function (key) {
+            mUtil.ajax({
+                wait: '.m-portlet',
+                url: mTool.getBaseUrl() + 'delete/' + key,
+                success: function (res) {
+                    resetDetails();
+                    $('[data-key="' + key + '"]').remove();
+                }
+            });
+        };
         var key = $('#key').val();
         if (mUtil.isNotBlank(key)) {
-            mUtil.alertConfirm('删除key', '删除将会造成不可预计问题，确定要删除吗？', function () {
-                mUtil.ajax({
-                    wait: '.m-portlet',
-                    url: mTool.getBaseUrl() + 'delete/' + key,
-                    success: function (res) {
-                        resetDetails();
-                        $('[data-key="' + key + '"]').remove();
-                    }
-                })
-            });
+            var subTitle;
+            // 登录次数累计
+            if (key.indexOf('account:') > -1) {
+                subTitle = null;
+            } else if (key.indexOf('shiro:authorization:') > -1) {
+                subTitle = null;
+            } else if (key.indexOf('shiro:session:') > -1) {
+                subTitle = '删除将会导致用户会话失效';
+            } else {
+                subTitle = '删除将会造成不可预计问题';
+            }
+            if (mUtil.isNotBlank(subTitle)) {
+                mUtil.alertConfirm('删除key', subTitle + '，确定要删除吗？', function () {
+                    _delKey(key);
+                });
+            } else {
+                _delKey(key);
+            }
         } else {
             mTool.warnTip('删除失败', '请先选择要删除的key');
         }
