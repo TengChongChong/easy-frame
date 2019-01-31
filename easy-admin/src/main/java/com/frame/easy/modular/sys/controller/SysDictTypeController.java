@@ -1,7 +1,8 @@
 package com.frame.easy.modular.sys.controller;
 
 import com.frame.easy.base.controller.BaseController;
-import com.frame.easy.base.result.Tips;
+import com.frame.easy.common.page.Page;
+import com.frame.easy.result.Tips;
 import com.frame.easy.modular.sys.model.SysDictType;
 import com.frame.easy.modular.sys.service.SysDictTypeService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -44,7 +45,7 @@ public class SysDictTypeController extends BaseController {
     @RequestMapping("select")
     @ResponseBody
     @RequiresPermissions("sys:dict:type:select")
-    public Tips select(@RequestBody SysDictType object) {
+    public Tips select(@RequestBody(required = false) SysDictType object) {
         logger.debug("/auth/sys/dict/type/select");
         return Tips.getSuccessTips(service.select(object));
     }

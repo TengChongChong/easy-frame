@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.frame.easy.common.page.Page;
+import com.frame.easy.core.base.IModel;
 
 import java.io.Serializable;
 
@@ -16,7 +18,7 @@ import java.io.Serializable;
  * @date 2018/11/4
  */
 @TableName("sys_dict_type")
-public class SysDictType extends Model<SysDictType>{
+public class SysDictType extends Model<SysDictType> implements IModel {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
@@ -39,6 +41,7 @@ public class SysDictType extends Model<SysDictType>{
      * 分页&排序信息
      */
     @TableField(exist=false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Page page;
 
     public Long getId() {
@@ -72,7 +75,7 @@ public class SysDictType extends Model<SysDictType>{
     public void setStatus(Integer status) {
         this.status = status;
     }
-
+    @Override
     public Page getPage() {
         return page;
     }

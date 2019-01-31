@@ -1,7 +1,7 @@
 package com.frame.easy.modular.sys.controller;
 
 import com.frame.easy.base.controller.BaseController;
-import com.frame.easy.base.result.Tips;
+import com.frame.easy.result.Tips;
 import com.frame.easy.modular.sys.service.SysUserOnlineService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,15 +24,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Api(description = "会话管理")
 public class SysOnlineController extends BaseController {
 
+    private static String PREFIX = "modular/sys/online/";
+
     @Autowired
     private SysUserOnlineService service;
 
-    @RequestMapping("list/view")
+    /**
+     * 在线用户列表
+     *
+     * @return view
+     */
+    @RequestMapping("list")
     public String listView() {
-        logger.debug("/auth/sys/online/list/view");
-        return "list-view";
+        logger.debug("/auth/sys/online/list");
+        return PREFIX + "list";
     }
 
+    /**
+     * 获取在线用户
+     *
+     * @return Tips
+     */
     @ApiOperation(value = "获取在线用户", notes = "获取当前在线用户列表")
     @PostMapping("select")
     @ResponseBody
@@ -42,6 +54,13 @@ public class SysOnlineController extends BaseController {
         return Tips.getSuccessTips(service.select());
     }
 
+    /**
+     * 踢出用户
+     *
+     * @param sessionId 会话id
+     * @return Tips
+     */
+    @ApiOperation(value = "踢出用户", notes = "清除会话信息")
     @RequestMapping("force/logout/{sessionId}")
     @ResponseBody
     @RequiresPermissions("sys:online:force")

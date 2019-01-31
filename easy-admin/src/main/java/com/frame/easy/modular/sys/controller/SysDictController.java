@@ -2,7 +2,7 @@ package com.frame.easy.modular.sys.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.frame.easy.base.controller.BaseController;
-import com.frame.easy.base.result.Tips;
+import com.frame.easy.result.Tips;
 import com.frame.easy.modular.sys.model.SysDict;
 import com.frame.easy.modular.sys.service.SysDictService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -61,7 +61,7 @@ public class SysDictController extends BaseController {
     @RequestMapping("select")
     @ResponseBody
     @RequiresPermissions("sys:dict:select")
-    public Tips select(@RequestBody SysDict object) {
+    public Tips select(@RequestBody(required = false) SysDict object) {
         logger.debug("/auth/sys/dict/select");
         return Tips.getSuccessTips(service.select(object));
     }

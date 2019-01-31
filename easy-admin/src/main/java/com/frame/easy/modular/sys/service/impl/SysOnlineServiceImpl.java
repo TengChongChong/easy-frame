@@ -43,6 +43,7 @@ public class SysOnlineServiceImpl implements SysUserOnlineService {
                     sysUser = (SysUser) principalCollection.getPrimaryPrincipal();
                     sysUserOnline.setUsername(sysUser.getUsername());
                     sysUserOnline.setNickname(sysUser.getNickname());
+                    sysUserOnline.setPhone(sysUser.getPhone());
                     sysUserOnline.setId(sysUser.getId());
                 }
                 sysUserOnline.setSessionId((String) session.getId());
@@ -55,6 +56,9 @@ public class SysOnlineServiceImpl implements SysUserOnlineService {
                     sysUserOnline.setStatus(1);
                 }
                 sysUserOnline.setTimeout(session.getTimeout());
+//                for(int i = 0;i< 3000;i++){
+//                    sysUserOnlineList.add(sysUserOnline);
+//                }
                 sysUserOnlineList.add(sysUserOnline);
             }
         }

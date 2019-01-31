@@ -1,7 +1,8 @@
 package com.frame.easy.modular.sys.controller;
 
 import com.frame.easy.base.controller.BaseController;
-import com.frame.easy.base.result.Tips;
+import com.frame.easy.common.page.Page;
+import com.frame.easy.result.Tips;
 import com.frame.easy.modular.sys.model.SysDepartment;
 import com.frame.easy.modular.sys.service.SysDepartmentService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -69,7 +70,7 @@ public class SysDepartmentController extends BaseController {
     @RequestMapping("select")
     @ResponseBody
     @RequiresPermissions("sys:depart:select")
-    public Object select(@RequestBody SysDepartment object) {
+    public Object select(@RequestBody(required = false) SysDepartment object) {
         logger.debug("/auth/sys/depart/select");
         return Tips.getSuccessTips(service.select(object));
     }

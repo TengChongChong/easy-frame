@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.frame.easy.common.page.Page;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.frame.easy.core.base.IModel;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -19,7 +21,7 @@ import java.util.List;
  * @date 2018/9/4
  */
 @TableName("sys_user")
-public class SysUser extends Model<SysUser> implements Serializable{
+public class SysUser extends Model<SysUser> implements Serializable, IModel {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,6 +38,7 @@ public class SysUser extends Model<SysUser> implements Serializable{
     /**
      * 密码
      */
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     /**
      * md5密码盐
@@ -100,6 +103,7 @@ public class SysUser extends Model<SysUser> implements Serializable{
      * 分页&排序信息
      */
     @TableField(exist = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Page page;
     /**
      * 用户拥有的角色
@@ -293,7 +297,7 @@ public class SysUser extends Model<SysUser> implements Serializable{
     public void setEditDate(Date editDate) {
         this.editDate = editDate;
     }
-
+    @Override
     public Page getPage() {
         return page;
     }

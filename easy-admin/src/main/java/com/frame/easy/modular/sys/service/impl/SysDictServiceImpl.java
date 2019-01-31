@@ -44,7 +44,6 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 
     @Override
     public Page select(SysDict sysDict) {
-        Page page = sysDict.getPage();
         QueryWrapper<SysDict> queryWrapper = new QueryWrapper<>();
         if(sysDict != null){
             if (Validator.isNotEmpty(sysDict.getName())) {
@@ -60,6 +59,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
                 queryWrapper.eq("t.code", sysDict.getCode());
             }
         }
+        Page page = ToolUtil.getPage(sysDict);
         page.setRecords(mapper.select(page, queryWrapper));
         return page;
     }

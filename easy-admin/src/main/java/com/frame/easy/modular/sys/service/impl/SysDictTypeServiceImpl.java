@@ -31,7 +31,6 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
 
     @Override
     public Page select(SysDictType sysDictType) {
-        Page page = sysDictType.getPage();
         QueryWrapper<SysDictType> queryWrapper = new QueryWrapper<>();
         if (sysDictType != null) {
             if (Validator.isNotEmpty(sysDictType.getName())) {
@@ -44,8 +43,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
                 queryWrapper.eq("status", sysDictType.getStatus());
             }
         }
-        mapper.selectPage(page, queryWrapper);
-        return page;
+        return (Page)page(ToolUtil.getPage(sysDictType), queryWrapper);
     }
 
     @Override

@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.frame.easy.common.page.Page;
+import com.frame.easy.core.base.IModel;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,7 +19,7 @@ import java.util.Date;
  * @date 2018/9/4
  */
 @TableName("sys_department")
-public class SysDepartment extends Model<SysDepartment> {
+public class SysDepartment extends Model<SysDepartment> implements IModel {
 
     private static final long serialVersionUID = 1L;
 
@@ -82,6 +84,7 @@ public class SysDepartment extends Model<SysDepartment> {
      * 分页&排序信息
      */
     @TableField(exist=false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Page page;
 
     @Override
@@ -216,7 +219,7 @@ public class SysDepartment extends Model<SysDepartment> {
     public void setStatus(Integer status) {
         this.status = status;
     }
-
+    @Override
     public Page getPage() {
         return page;
     }

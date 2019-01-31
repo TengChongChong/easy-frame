@@ -73,7 +73,6 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
 
     @Override
     public Page select(SysDepartment sysDepartment) {
-        Page page = sysDepartment.getPage();
         QueryWrapper<SysDepartment> queryWrapper = new QueryWrapper<>();
         if (sysDepartment != null) {
             if (Validator.isNotEmpty(sysDepartment.getName())) {
@@ -92,6 +91,7 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
                 queryWrapper.like("p.name", sysDepartment.getpName());
             }
         }
+        Page page = ToolUtil.getPage(sysDepartment);
         page.setRecords(mapper.select(page, queryWrapper));
         return page;
     }

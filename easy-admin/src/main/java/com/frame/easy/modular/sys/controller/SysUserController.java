@@ -1,7 +1,7 @@
 package com.frame.easy.modular.sys.controller;
 
 import com.frame.easy.base.controller.BaseController;
-import com.frame.easy.base.result.Tips;
+import com.frame.easy.result.Tips;
 import com.frame.easy.util.ShiroUtil;
 import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.service.SysUserService;
@@ -47,7 +47,7 @@ public class SysUserController extends BaseController {
     @RequestMapping("select")
     @ResponseBody
     @RequiresPermissions("sys:user:select")
-    public Object select(@RequestBody SysUser object) {
+    public Object select(@RequestBody(required = false) SysUser object) {
         logger.debug("/auth/sys/user/select");
         return Tips.getSuccessTips(service.select(object));
     }

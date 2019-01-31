@@ -1,7 +1,7 @@
 package com.frame.easy.modular.sys.controller;
 
 import com.frame.easy.base.controller.BaseController;
-import com.frame.easy.base.result.Tips;
+import com.frame.easy.result.Tips;
 import com.frame.easy.modular.sys.model.SysPermissions;
 import com.frame.easy.modular.sys.service.SysPermissionsService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

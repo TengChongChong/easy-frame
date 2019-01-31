@@ -47,7 +47,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public Page select(SysUser sysUser) {
-        Page page = sysUser.getPage();
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
         if (sysUser != null) {
             if (Validator.isNotEmpty(sysUser.getUsername())) {
@@ -72,8 +71,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 queryWrapper.eq("dept_id", sysUser.getDeptId());
             }
         }
-        mapper.selectPage(page, queryWrapper);
-        return page;
+        return (Page)page(ToolUtil.getPage(sysUser), queryWrapper);
     }
 
     @Override
@@ -91,6 +89,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUser.setStatus(UserStatus.ENABLE.getCode());
         return sysUser;
     }
+
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
     public boolean delete(String ids) {
@@ -203,7 +202,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUser.setPassword(null);
         sysUser.setSalt(null);
         // 如果没有授权,从数据库查询权限
-        if(sysUser.getPermissionList() == null){
+        if (sysUser.getPermissionList() == null) {
             sysUser = shiroService.queryUserPermissions(sysUser);
             ShiroUtil.setAttribute(SessionConst.USER_SESSION_KEY, sysUser);
         }
