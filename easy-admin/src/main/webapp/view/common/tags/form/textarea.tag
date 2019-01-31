@@ -41,7 +41,7 @@
 @}
 
 <div class="form-group row">
-    <label class="col-2 ${labelClass}" for="${id}">
+    <label class="col-md-2 col-4 ${labelClass}" for="${id}">
         @if(isNotEmpty(required) && 'true' == required){
             <span class="required">*</span>
         @}
@@ -50,7 +50,7 @@
             <i data-toggle="m-tooltip" data-placement="top" data-original-title="${tips}" class="flaticon-questions-circular-button"></i>
         @}
     </label>
-    <div class="col-10">
+    <div class="col-md-10 col-8">
         <textarea class="${elementClass}" id="${id}" name="${id}" style="${style!}" placeholder="${placeholder!}" ${validateRule!}
                 @if(isNotEmpty(readonly)){
                     readonly="${readonly}"
