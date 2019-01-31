@@ -1,0 +1,37 @@
+@layout("/common/container.html"){
+@include("/common/plugins/css/datatables.html"){}
+@include("/common/plugins/js/datatables.html"){}
+<div class="m-portlet" m-portlet="true">
+    <#portlet:head title="在线用户管理" icon="la la-users"/>
+    <div class="m-portlet__body">
+        <form class="m-form">
+            <div class="m-stack m-stack--ver m-stack--general query-modular">
+                <div class="m-stack__item m-stack__item--fluid">
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="username" name="用户名"/>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="nickname" name="昵称"/>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="phone" name="手机号"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-stack__item query-btn-group">
+                    <#btn:search />
+                    <#btn:reset />
+                </div>
+            </div>
+            <div class="btn-row">
+                <#button btnType="info" name="踢出" icon="la la-sign-out" click="mOnlineList.forceLogin()" permission="sys:online:force"/>
+            </div>
+            <div class="m_datatable" id="dict-list"></div>
+        </form>
+    </div>
+</div>
+<!--begin::页面脚本 -->
+<script src="${ctxPath}/static/modular/sys/online/list.js?v=${project.getVersion()}"></script>
+<!--end::页面脚本 -->
+@}
