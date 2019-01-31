@@ -1,7 +1,7 @@
 package com.frame.easy.modular.generator.controller;
 
 import com.frame.easy.base.controller.BaseController;
-import com.frame.easy.base.result.Tips;
+import com.frame.easy.result.Tips;
 import com.frame.easy.generator.model.Generator;
 import com.frame.easy.modular.generator.service.GenerationService;
 import org.apache.shiro.authz.annotation.RequiresRoles;
