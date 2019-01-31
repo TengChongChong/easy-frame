@@ -2,7 +2,7 @@ package com.frame.easy.config.web;
 
 import com.frame.easy.common.status.ProfilesActiveStatus;
 import com.frame.easy.config.properties.ProjectProperties;
-import com.frame.easy.base.result.Tips;
+import com.frame.easy.result.Tips;
 import com.frame.easy.exception.EasyException;
 import com.frame.easy.core.web.Servlets;
 import org.apache.shiro.authc.AuthenticationException;
