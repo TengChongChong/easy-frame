@@ -1,6 +1,7 @@
 package com.frame.easy.util;
 
 import cn.hutool.crypto.SecureUtil;
+import com.frame.easy.common.key.Key;
 
 /**
  * 密码工具
@@ -11,13 +12,6 @@ import cn.hutool.crypto.SecureUtil;
 public class PasswordUtil {
 
     /**
-     * 安全密码 作为盐值用于用户密码的加密
-     * 注: 修改后会导致所有密码失效
-     */
-    private static final String UUID = "e89aadbe-b052-11e8-96f8-529269fb1459";
-
-
-    /**
      * 加密密码 用于登录
      *
      * @param password 密码(经过一次md5)
@@ -25,7 +19,7 @@ public class PasswordUtil {
      * @return 加密后密码
      */
     public static String encryptedPasswords(String password, String salt) {
-        return SecureUtil.md5((SecureUtil.md5(salt + UUID) + password));
+        return SecureUtil.md5((SecureUtil.md5(salt + Key.PASSWORD) + password));
     }
 
     /**
@@ -36,7 +30,7 @@ public class PasswordUtil {
      * @return 加密后密码
      */
     public static String generatingPasswords(String password, String salt) {
-        return SecureUtil.md5((SecureUtil.md5(salt + UUID) + SecureUtil.md5(password)));
+        return SecureUtil.md5((SecureUtil.md5(salt + Key.PASSWORD) + SecureUtil.md5(password)));
     }
 
     public static void main(String[] arges) {
