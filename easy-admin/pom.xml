@@ -36,15 +36,6 @@
     </dependencies>
 
     <build>
-        <plugins>
-            <!--<plugin>-->
-                <!--<groupId>org.springframework.boot</groupId>-->
-                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<fork>true</fork>&lt;!&ndash; 如果没有该项配置，肯呢个devtools不会起作用，即应用不会restart &ndash;&gt;-->
-                <!--</configuration>-->
-            <!--</plugin>-->
-        </plugins>
         <resources>
             <resource>
                 <directory>src/main/webapp</directory>
