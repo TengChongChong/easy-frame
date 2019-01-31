@@ -169,7 +169,7 @@ var mUtil = function () {
         },
 
         /**
-         * 触发窗口大小调整时间
+         * 触发窗口大小调整事件
          */
         runResizeHandlers: function () {
             _runResizeHandlers();
@@ -2209,20 +2209,20 @@ var mApp = function () {
 $(document).ready(function () {
     mApp.init({});
 });
-let mDropdown = function(elementId, options) {
+var mDropdown = function(elementId, options) {
     //== Main object
-    let the = this;
+    var the = this;
 
     //== 获取元素
-    let element = mUtil.get(elementId);
-    let body = mUtil.get('body');
+    var element = mUtil.get(elementId);
+    var body = mUtil.get('body');
 
     if (!element) {
         return;
     }
 
     //== 默认选项
-    let defaultOptions = {
+    var defaultOptions = {
         toggle: 'click',
         hoverTimeout: 300,
         skin: 'light',
@@ -2237,7 +2237,7 @@ let mDropdown = function(elementId, options) {
     // **     私有方法      ** //
     ////////////////////////////
 
-    let Plugin = {
+    var Plugin = {
         /**
          * Run plugin
          * @returns {mdropdown}
@@ -2352,9 +2352,9 @@ let mDropdown = function(elementId, options) {
             mUtil.addClass(element, 'm-dropdown--open');
 
             if (mUtil.isMobileDevice() && the.options.mobileOverlay) {
-                let zIndex = mUtil.css(element, 'z-index') - 1;
+                var zIndex = mUtil.css(element, 'z-index') - 1;
 
-                let dropdownoff = mUtil.insertAfter(document.createElement('DIV'), element );
+                var dropdownoff = mUtil.insertAfter(document.createElement('DIV'), element );
 
                 mUtil.addClass(dropdownoff, 'm-dropdown__dropoff');
                 mUtil.css(dropdownoff, 'z-index', zIndex);
@@ -2384,7 +2384,7 @@ let mDropdown = function(elementId, options) {
          * Clear dropdown hover
          */
         clearHovered: function() {
-            let timeout = mUtil.attr(element, 'timeout');
+            var timeout = mUtil.attr(element, 'timeout');
 
             mUtil.removeAttr(element, 'hover');            
             mUtil.removeAttr(element, 'timeout');
@@ -2414,7 +2414,7 @@ let mDropdown = function(elementId, options) {
                     return;
                 }
 
-                let timeout = setTimeout(function() {
+                var timeout = setTimeout(function() {
                     if (mUtil.attr(element, 'hover')) {
                         Plugin.clearHovered();
                         mUtil.removeClass(element, 'm-dropdown--open');
@@ -2478,10 +2478,10 @@ let mDropdown = function(elementId, options) {
          * Hide opened dropdowns
          */
         hideOpened: function() {
-            let query = mUtil.findAll(body, '.m-dropdown.m-dropdown--open');
+            var query = mUtil.findAll(body, '.m-dropdown.m-dropdown--open');
             
-            for (let i = 0, j = query.length; i < j; i++) {
-                let dropdown = query[i];
+            for (var i = 0, j = query.length; i < j; i++) {
+                var dropdown = query[i];
                 mUtil.data(dropdown).get('dropdown').hide(true);
             }
         },
@@ -2490,10 +2490,10 @@ let mDropdown = function(elementId, options) {
          * Adjust dropdown arrow positions
          */
         adjustArrowPos: function() {
-            let width = mUtil.outerWidth(element); // ?
+            var width = mUtil.outerWidth(element); // ?
 
-            let alignment = mUtil.hasClass(the.layout.arrow, 'm-dropdown__arrow--right') ? 'right' : 'left';
-            let pos = 0;
+            var alignment = mUtil.hasClass(the.layout.arrow, 'm-dropdown__arrow--right') ? 'right' : 'left';
+            var pos = 0;
 
             if (the.layout.arrow) {
                 if ( mUtil.isInResponsiveRange('mobile') && mUtil.hasClass(element, 'm-dropdown--mobile-full-width') ) {
@@ -2535,8 +2535,8 @@ let mDropdown = function(elementId, options) {
          * Get zindex
          */
         setZindex: function() {
-            let zIndex = 101; //mUtil.css(the.layout.wrapper, 'z-index');
-            let newZindex = mUtil.getHighestZindex(element);
+            var zIndex = 101; //mUtil.css(the.layout.wrapper, 'z-index');
+            var newZindex = mUtil.getHighestZindex(element);
             if (newZindex >= zIndex) {
                 zIndex = newZindex + 1;
             }
@@ -2562,8 +2562,8 @@ let mDropdown = function(elementId, options) {
          * Trigger events
          */
         eventTrigger: function(name, args) {
-            for (let i = 0; i < the.events.length; i++) {
-                let event = the.events[i];
+            for (var i = 0; i < the.events.length; i++) {
+                var event = the.events[i];
                 if (event.name == name) {
                     if (event.one == true) {
                         if (event.fired == false) {
@@ -2677,8 +2677,8 @@ let mDropdown = function(elementId, options) {
 
 //== Plugin global lazy initialization
 mUtil.on(document, '[m-dropdown-toggle="click"] .m-dropdown__toggle', 'click', function(e) {
-    let element = this.closest('.m-dropdown');  
-    let dropdown;
+    var element = this.closest('.m-dropdown');  
+    var dropdown;
 
     if (element) {
         if (mUtil.data(element).has('dropdown')) {
@@ -2699,8 +2699,8 @@ mUtil.on(document, '[m-dropdown-toggle="hover"] .m-dropdown__toggle', 'click', f
             e.preventDefault();
         }
     } else if (mUtil.isMobileDevice()) {
-        let element = this.closest('.m-dropdown');
-        let dropdown;
+        var element = this.closest('.m-dropdown');
+        var dropdown;
 
         if (element) {
             if (mUtil.data(element).has('dropdown')) {
@@ -2718,8 +2718,8 @@ mUtil.on(document, '[m-dropdown-toggle="hover"] .m-dropdown__toggle', 'click', f
 
 mUtil.on(document, '[m-dropdown-toggle="hover"]', 'mouseover', function(e) {
     if (mUtil.isDesktopDevice()) {
-        let element = this;
-        let dropdown;
+        var element = this;
+        var dropdown;
 
         if (element) {
             if (mUtil.data(element).has('dropdown')) {
@@ -2736,20 +2736,20 @@ mUtil.on(document, '[m-dropdown-toggle="hover"]', 'mouseover', function(e) {
 });
 
 document.addEventListener("click", function(e) {
-    let query;
-    let body = mUtil.get('body');
-    let target = e.target;
+    var query;
+    var body = mUtil.get('body');
+    var target = e.target;
 
     //== Handle dropdown close
     if (query = body.querySelectorAll('.m-dropdown.m-dropdown--open')) {
-        for (let i = 0, len = query.length; i < len; i++) {
-            let element = query[i];
+        for (var i = 0, len = query.length; i < len; i++) {
+            var element = query[i];
             if (mUtil.data(element).has('dropdown') === false) {
                 return;
             }
 
-            let the = mUtil.data(element).get('dropdown');
-            let toggle = mUtil.find(element, '.m-dropdown__toggle');
+            var the = mUtil.data(element).get('dropdown');
+            var toggle = mUtil.find(element, '.m-dropdown__toggle');
 
             if (mUtil.hasClass(element, 'm-dropdown--disable-close')) {
                 e.preventDefault();
@@ -2784,21 +2784,21 @@ document.addEventListener("click", function(e) {
 String.prototype.replaceAll = function (s1, s2) {
     return this.replace(new RegExp(s1, "gm"), s2);
 };
-let mHeader = function(elementId, options) {
+var mHeader = function(elementId, options) {
     //== Main object
-    let the = this;
-    let init = false;
+    var the = this;
+    var init = false;
 
     //== 获取元素
-    let element = mUtil.get(elementId);
-    let body = mUtil.get('body');
+    var element = mUtil.get(elementId);
+    var body = mUtil.get('body');
 
     if (element === undefined) {
         return;
     }
 
     //== 默认选项
-    let defaultOptions = {
+    var defaultOptions = {
         classic: false,
         offset: {
             mobile: 150,
@@ -2814,7 +2814,7 @@ let mHeader = function(elementId, options) {
     // **    私有方法     ** //
     ////////////////////////////
 
-    let Plugin = {
+    var Plugin = {
         /**
          * Run plugin
          * @returns {mHeader}
@@ -2851,14 +2851,14 @@ let mHeader = function(elementId, options) {
          * @returns {mHeader}
          */
         build: function() {
-            let lastScrollTop = 0;
+            var lastScrollTop = 0;
 
             if (the.options.minimize.mobile === false && the.options.minimize.desktop === false) {
                 return;
             }
 
             window.addEventListener('scroll', function() {
-                let offset = 0, on, off, st;
+                var offset = 0, on, off, st;
 
                 if (mUtil.isInResponsiveRange('desktop')) {
                     offset = the.options.offset.desktop;
@@ -2902,8 +2902,8 @@ let mHeader = function(elementId, options) {
          * Trigger events
          */
         eventTrigger: function(name, args) {
-            for (let i = 0; i < the.events.length; i++) {
-                let event = the.events[i];
+            for (var i = 0; i < the.events.length; i++) {
+                var event = the.events[i];
                 if (event.name == name) {
                     if (event.one == true) {
                         if (event.fired == false) {
@@ -2959,21 +2959,21 @@ let mHeader = function(elementId, options) {
     // Return plugin instance
     return the;
 };
-let mMenu = function(elementId, options) {
+var mMenu = function(elementId, options) {
     //== Main object
-    let the = this;
-    let init = false;
+    var the = this;
+    var init = false;
 
     //== 获取元素
-    let element = mUtil.get(elementId);
-    let body = mUtil.get('body');
+    var element = mUtil.get(elementId);
+    var body = mUtil.get('body');
 
     if (!element) {
         return;
     }
 
     //== 默认选项
-    let defaultOptions = {
+    var defaultOptions = {
         // accordion submenu mode
         accordion: {
             slideSpeed: 200, // 滑动速度 (单位: 毫秒)
@@ -2992,7 +2992,7 @@ let mMenu = function(elementId, options) {
     // **     私有方法      ** //
     ////////////////////////////
 
-    let Plugin = {
+    var Plugin = {
         /**
          * Run plugin
          * @returns {mMenu}
@@ -3210,7 +3210,7 @@ let mMenu = function(elementId, options) {
                 return;
             }
 
-            let item = this;
+            var item = this;
 
             if ( item.getAttribute('data-hover') == '1' ) {
                 item.removeAttribute('data-hover');
@@ -3235,10 +3235,10 @@ let mMenu = function(elementId, options) {
                 return;
             }
 
-            let item = this;
-            let time = the.options.dropdown.timeout;
+            var item = this;
+            var time = the.options.dropdown.timeout;
 
-            let timeout = setTimeout(function() {
+            var timeout = setTimeout(function() {
                 if ( item.getAttribute('data-hover') == '1' ) {
                     Plugin.hideSubmenuDropdown(item, true);
                 } 
@@ -3257,7 +3257,7 @@ let mMenu = function(elementId, options) {
                 return;
             }
  
-            let item = this.closest('.m-menu__item');
+            var item = this.closest('.m-menu__item');
 
             if ( item.getAttribute('m-menu-submenu-mode') == 'accordion' ) {
                 return;
@@ -3283,7 +3283,7 @@ let mMenu = function(elementId, options) {
                 return;
             }
 
-            let item = this.closest('.m-menu__item');
+            var item = this.closest('.m-menu__item');
 
             if (item.getAttribute('m-menu-submenu-mode') == 'accordion') {
                 return;
@@ -3307,12 +3307,12 @@ let mMenu = function(elementId, options) {
                 return;
             }
 
-            let shown = element.querySelectorAll('.m-menu__item.m-menu__item--submenu.m-menu__item--hover:not(.m-menu__item--tabs)');
+            var shown = element.querySelectorAll('.m-menu__item.m-menu__item--submenu.m-menu__item--hover:not(.m-menu__item--tabs)');
 
             // check if currently clicked link's parent item ha
             if (shown.length > 0 && mUtil.hasClass(el, 'm-menu__toggle') === false && el.querySelectorAll('.m-menu__toggle').length === 0) {
                 // 关闭打开的子菜单
-                for (let i = 0, len = shown.length; i < len; i++) {
+                for (var i = 0, len = shown.length; i < len; i++) {
                     Plugin.hideSubmenuDropdown(shown[0], true);
                 }
             }
@@ -3324,8 +3324,8 @@ let mMenu = function(elementId, options) {
          * @returns {mMenu}
          */
         handleSubmenuAccordion: function(e, el) {
-            let query;
-            let item = el ? el : this;
+            var query;
+            var item = el ? el : this;
 
             if ( Plugin.getSubmenuMode(el) === 'dropdown' && (query = item.closest('.m-menu__item') ) ) {
                 if (query.getAttribute('m-menu-submenu-mode') != 'accordion' ) {
@@ -3334,8 +3334,8 @@ let mMenu = function(elementId, options) {
                 }
             }
 
-            let li = item.closest('.m-menu__item');
-            let submenu = mUtil.child(li, '.m-menu__submenu, .m-menu__inner');
+            var li = item.closest('.m-menu__item');
+            var submenu = mUtil.child(li, '.m-menu__submenu, .m-menu__inner');
 
             if (mUtil.hasClass(item.closest('.m-menu__item'), 'm-menu__item--open-always')) {
                 return;
@@ -3343,19 +3343,19 @@ let mMenu = function(elementId, options) {
 
             if ( li && submenu ) {
                 e.preventDefault();
-                let speed = the.options.accordion.slideSpeed;
-                let hasClosables = false;
+                var speed = the.options.accordion.slideSpeed;
+                var hasClosables = false;
 
                 if ( mUtil.hasClass(li, 'm-menu__item--open') === false ) {
                     // hide other accordions                    
                     if ( the.options.accordion.expandAll === false ) {
-                        let subnav = item.closest('.m-menu__nav, .m-menu__subnav');
-                        let closables = mUtil.children(subnav, '.m-menu__item.m-menu__item--open.m-menu__item--submenu:not(.m-menu__item--expanded):not(.m-menu__item--open-always)');
+                        var subnav = item.closest('.m-menu__nav, .m-menu__subnav');
+                        var closables = mUtil.children(subnav, '.m-menu__item.m-menu__item--open.m-menu__item--submenu:not(.m-menu__item--expanded):not(.m-menu__item--open-always)');
 
                         if ( subnav && closables ) {
-                            for (let i = 0, len = closables.length; i < len; i++) {
-                                let el_ = closables[0];
-                                let submenu_ = mUtil.child(el_, '.m-menu__submenu');
+                            for (var i = 0, len = closables.length; i < len; i++) {
+                                var el_ = closables[0];
+                                var submenu_ = mUtil.child(el_, '.m-menu__submenu');
                                 if ( submenu_ ) {
                                     mUtil.slideUp(submenu_, speed, function() {
                                         Plugin.scrollerUpdate();
@@ -3415,7 +3415,7 @@ let mMenu = function(elementId, options) {
                 mUtil.removeClass(body, item.getAttribute('m-menu-dropdown-toggle-class'));
             }
 
-            let timeout = item.getAttribute('data-timeout');
+            var timeout = item.getAttribute('data-timeout');
             item.removeAttribute('data-timeout');
             clearTimeout(timeout);
         },
@@ -3426,11 +3426,11 @@ let mMenu = function(elementId, options) {
          */
         showSubmenuDropdown: function(item) {
             // close active submenus
-            let list = element.querySelectorAll('.m-menu__item--submenu.m-menu__item--hover, .m-menu__item--submenu.m-menu__item--active-tab');
+            var list = element.querySelectorAll('.m-menu__item--submenu.m-menu__item--hover, .m-menu__item--submenu.m-menu__item--active-tab');
 
             if ( list ) {
-                for (let i = 0, len = list.length; i < len; i++) {
-                    let el = list[i];
+                for (var i = 0, len = list.length; i < len; i++) {
+                    var el = list[i];
                     if ( item !== el && el.contains(item) === false && item.contains(el) === false ) {
                         Plugin.hideSubmenuDropdown(el, true);
                     }
@@ -3453,10 +3453,10 @@ let mMenu = function(elementId, options) {
          * @returns {mMenu}
          */
         createSubmenuDropdownClickDropoff: function(el) {
-            let query;
-            let zIndex = (query = mUtil.child(el, '.m-menu__submenu') ? mUtil.css(query, 'z-index') : 0) - 1;
+            var query;
+            var zIndex = (query = mUtil.child(el, '.m-menu__submenu') ? mUtil.css(query, 'z-index') : 0) - 1;
 
-            let dropoff = document.createElement('<div class="m-menu__dropoff" style="background: transparent; position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: ' + zIndex + '"></div>');
+            var dropoff = document.createElement('<div class="m-menu__dropoff" style="background: transparent; position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: ' + zIndex + '"></div>');
 
             body.appendChild(dropoff);
 
@@ -3473,13 +3473,13 @@ let mMenu = function(elementId, options) {
          * @returns {mMenu}
          */
         adjustSubmenuDropdownArrowPos: function(item) {
-            let submenu = mUtil.child(item, '.m-menu__submenu');
-            let arrow = mUtil.child( submenu, '.m-menu__arrow.m-menu__arrow--adjust');
-            let subnav = mUtil.child( submenu, '.m-menu__subnav');
+            var submenu = mUtil.child(item, '.m-menu__submenu');
+            var arrow = mUtil.child( submenu, '.m-menu__arrow.m-menu__arrow--adjust');
+            var subnav = mUtil.child( submenu, '.m-menu__subnav');
 
             if ( arrow ) { 
-                let pos = 0;
-                let link = mUtil.child(item, '.m-menu__link');
+                var pos = 0;
+                var link = mUtil.child(item, '.m-menu__link');
 
                 if ( mUtil.hasClass(submenu, 'm-menu__submenu--classic') || mUtil.hasClass(submenu, 'm-menu__submenu--fixed') ) {
                     if ( mUtil.hasClass(submenu, 'm-menu__submenu--right')) {
@@ -3527,7 +3527,7 @@ let mMenu = function(elementId, options) {
          * @returns {mMenu}
          */
         pauseDropdownHover: function(time) {
-            let date = new Date();
+            var date = new Date();
 
             the.pauseDropdownHoverTime = date.getTime() + time;
         },
@@ -3537,7 +3537,7 @@ let mMenu = function(elementId, options) {
          * @returns {mMenu}
          */
         resumeDropdownHover: function() {
-            let date = new Date();
+            var date = new Date();
 
             return (date.getTime() > the.pauseDropdownHoverTime ? true : false);
         },
@@ -3547,19 +3547,19 @@ let mMenu = function(elementId, options) {
          * @returns {mMenu}
          */
         resetActiveItem: function(item) {
-            let list;
-            let parents;
+            var list;
+            var parents;
 
             list = element.querySelectorAll('.m-menu__item--active');
             
-            for (let i = 0, len = list.length; i < len; i++) {
-                let el = list[0];
+            for (var i = 0, len = list.length; i < len; i++) {
+                var el = list[0];
                 mUtil.removeClass(el, 'm-menu__item--active');
                 mUtil.hide( mUtil.child(el, '.m-menu__submenu') );
                 parents = mUtil.parents(el, '.m-menu__item--submenu');
 
-                for (let i_ = 0, len_ = parents.length; i_ < len_; i_++) {
-                    let el_ = parents[i];
+                for (var i_ = 0, len_ = parents.length; i_ < len_; i_++) {
+                    var el_ = parents[i];
                     mUtil.removeClass(el_, 'm-menu__item--open');
                     mUtil.hide( mUtil.child(el_, '.m-menu__submenu') );
                 }
@@ -3568,7 +3568,7 @@ let mMenu = function(elementId, options) {
             // 关闭打开的子菜单
             if ( the.options.accordion.expandAll === false ) {
                 if ( list = element.querySelectorAll('.m-menu__item--open') ) {
-                    for (let i = 0, len = list.length; i < len; i++) {
+                    for (var i = 0, len = list.length; i < len; i++) {
                         mUtil.removeClass(parents[0], 'm-menu__item--open');
                     }
                 }
@@ -3585,8 +3585,8 @@ let mMenu = function(elementId, options) {
 
             mUtil.addClass(item, 'm-menu__item--active');
             
-            let parents = mUtil.parents(item, '.m-menu__item--submenu');
-            for (let i = 0, len = parents.length; i < len; i++) {
+            var parents = mUtil.parents(item, '.m-menu__item--submenu');
+            for (var i = 0, len = parents.length; i < len; i++) {
                 mUtil.addClass(parents[i], 'm-menu__item--open');
             }
         },
@@ -3596,9 +3596,9 @@ let mMenu = function(elementId, options) {
          * @returns {mMenu}
          */
         getBreadcrumbs: function(item) {
-            let query;
-            let breadcrumbs = [];
-            let link = mUtil.child(item, '.m-menu__link');
+            var query;
+            var breadcrumbs = [];
+            var link = mUtil.child(item, '.m-menu__link');
             query = mUtil.child(link, '.m-menu__link-text');
 
             breadcrumbs.push({
@@ -3607,9 +3607,9 @@ let mMenu = function(elementId, options) {
                 href: link.getAttribute('href')
             });
 
-            let parents = mUtil.parents(item, '.m-menu__item--submenu');
-            for (let i = 0, len = parents.length; i < len; i++) {
-                let submenuLink = mUtil.child(parents[i], '.m-menu__link');
+            var parents = mUtil.parents(item, '.m-menu__item--submenu');
+            for (var i = 0, len = parents.length; i < len; i++) {
+                var submenuLink = mUtil.child(parents[i], '.m-menu__link');
 
                 breadcrumbs.push({
                     text: (query = mUtil.child(submenuLink, '.m-menu__link-text') ? query.innerHTML : ''),
@@ -3626,7 +3626,7 @@ let mMenu = function(elementId, options) {
          * @returns {mMenu}
          */
         getPageTitle: function(item) {
-            let query;
+            var query;
 
             return (query = mUtil.child(item, '.m-menu__link-text') ? query.innerHTML : '');
         },
@@ -3635,8 +3635,8 @@ let mMenu = function(elementId, options) {
          * 触发事件
          */
         eventTrigger: function(name, args) {
-            for (let i = 0; i < the.events.length; i++ ) {
-                let event = the.events[i];
+            for (var i = 0; i < the.events.length; i++ ) {
+                var event = the.events[i];
                 if ( event.name == name ) {
                     if ( event.one == true ) {
                         if ( event.fired == false ) {
@@ -3810,14 +3810,14 @@ let mMenu = function(elementId, options) {
 
 // 插件全局懒初始化
 document.addEventListener("click", function (e) {
-    let body = mUtil.get('body');
-    let query;
+    var body = mUtil.get('body');
+    var query;
     if ( query = body.querySelectorAll('.m-menu__nav .m-menu__item.m-menu__item--submenu.m-menu__item--hover:not(.m-menu__item--tabs)[m-menu-submenu-toggle="click"]') ) {
-        for (let i = 0, len = query.length; i < len; i++) {
-            let element = query[i].closest('.m-menu__nav').parentNode;
+        for (var i = 0, len = query.length; i < len; i++) {
+            var element = query[i].closest('.m-menu__nav').parentNode;
 
             if ( element ) {
-                let the = mUtil.data(element).get('menu');
+                var the = mUtil.data(element).get('menu');
 
                 if ( !the ) {
                     break;
@@ -3828,9 +3828,9 @@ document.addEventListener("click", function (e) {
                 }
 
                 if ( e.target !== element && element.contains(e.target) === false ) {
-                    let items;
+                    var items;
                     if ( items = element.querySelectorAll('.m-menu__item--submenu.m-menu__item--hover:not(.m-menu__item--tabs)[m-menu-submenu-toggle="click"]') ) {
-                        for (let j = 0, cnt = items.length; j < cnt; j++) {
+                        for (var j = 0, cnt = items.length; j < cnt; j++) {
                             the.hideDropdown(items[j]);
                         }
                     }
@@ -3839,27 +3839,27 @@ document.addEventListener("click", function (e) {
         }
     } 
 });
-let mOffcanvas = function(elementId, options) {
+var mOffcanvas = function(elementId, options) {
     //== Main object
-    let the = this;
-    let init = false;
+    var the = this;
+    var init = false;
 
     //== 获取元素
-    let element = mUtil.get(elementId);
-    let body = mUtil.get('body');
+    var element = mUtil.get(elementId);
+    var body = mUtil.get('body');
 
     if (!element) {
         return;
     }
 
     //== 默认选项
-    let defaultOptions = {};
+    var defaultOptions = {};
 
     ////////////////////////////
     // **    私有方法     ** //
     ////////////////////////////
 
-    let Plugin = {
+    var Plugin = {
         /**
          * Run plugin
          * @returns {moffcanvas}
@@ -3904,7 +3904,7 @@ let mOffcanvas = function(elementId, options) {
                 if (typeof the.options.toggleBy === 'string') { 
                     mUtil.addEvent( the.options.toggleBy, 'click', Plugin.toggle); 
                 } else if (the.options.toggleBy && the.options.toggleBy[0] && the.options.toggleBy[0].target) {
-                    for (let i in the.options.toggleBy) {
+                    for (var i in the.options.toggleBy) {
                         mUtil.addEvent( the.options.toggleBy[i].target, 'click', Plugin.toggle); 
                     }
                 } else if (the.options.toggleBy && the.options.toggleBy.target) {
@@ -3913,7 +3913,7 @@ let mOffcanvas = function(elementId, options) {
             }
 
             //== offcanvas close
-            let closeBy = mUtil.get(the.options.closeBy);
+            var closeBy = mUtil.get(the.options.closeBy);
             if (closeBy) {
                 mUtil.addEvent(closeBy, 'click', Plugin.hide);
             }
@@ -3993,11 +3993,11 @@ let mOffcanvas = function(elementId, options) {
          */
         togglerClass: function(target, mode) {
             //== Toggler
-            let id = mUtil.attr(target, 'id');
-            let toggleBy;
+            var id = mUtil.attr(target, 'id');
+            var toggleBy;
 
             if (the.options.toggleBy && the.options.toggleBy[0] && the.options.toggleBy[0].target) {
-                for (let i in the.options.toggleBy) {
+                for (var i in the.options.toggleBy) {
                     if (the.options.toggleBy[i].target === id) {
                         toggleBy = the.options.toggleBy[i];
                     }        
@@ -4007,7 +4007,7 @@ let mOffcanvas = function(elementId, options) {
             }
 
             if (toggleBy) {                
-                let el = mUtil.get(toggleBy.target);
+                var el = mUtil.get(toggleBy.target);
                 
                 if (mode === 'show') {
                     mUtil.addClass(el, toggleBy.state);
@@ -4023,8 +4023,8 @@ let mOffcanvas = function(elementId, options) {
          * Trigger events
          */
         eventTrigger: function(name, args) {
-            for (let i = 0; i < the.events.length; i++) {
-                let event = the.events[i];
+            for (var i = 0; i < the.events.length; i++) {
+                var event = the.events[i];
                 if (event.name == name) {
                     if (event.one == true) {
                         if (event.fired == false) {
@@ -4103,21 +4103,21 @@ let mOffcanvas = function(elementId, options) {
     return the;
 };
 // plugin setup
-let mPortlet = function(elementId, options) {
+var mPortlet = function(elementId, options) {
     //== Main object
-    let the = this;
-    let init = false;
+    var the = this;
+    var init = false;
 
     //== 获取元素
-    let element = mUtil.get(elementId);
-    let body = mUtil.get('body');
+    var element = mUtil.get(elementId);
+    var body = mUtil.get('body');
 
     if (!element) {
         return;
     }
 
     //== 默认选项
-    let defaultOptions = {
+    var defaultOptions = {
         bodyToggleSpeed: 400,
         tooltips: true,
         tools: {
@@ -4142,7 +4142,7 @@ let mPortlet = function(elementId, options) {
     // **    私有方法     ** //
     ////////////////////////////
 
-    let Plugin = {
+    var Plugin = {
         /**
          * Construct
          */
@@ -4187,7 +4187,7 @@ let mPortlet = function(elementId, options) {
          */
         build: function() {
             //== Remove
-            let remove = mUtil.find(the.head, '[m-portlet-tool=remove]');
+            var remove = mUtil.find(the.head, '[m-portlet-tool=remove]');
             if (remove) {
                 mUtil.addEvent(remove, 'click', function(e) {
                     e.preventDefault();
@@ -4196,7 +4196,7 @@ let mPortlet = function(elementId, options) {
             }
 
             //== Reload
-            let reload = mUtil.find(the.head, '[m-portlet-tool=reload]');
+            var reload = mUtil.find(the.head, '[m-portlet-tool=reload]');
             if (reload) {
                 mUtil.addEvent(reload, 'click', function(e) {
                     e.preventDefault();
@@ -4205,7 +4205,7 @@ let mPortlet = function(elementId, options) {
             }
 
             //== Toggle
-            let toggle = mUtil.find(the.head, '[m-portlet-tool=toggle]');
+            var toggle = mUtil.find(the.head, '[m-portlet-tool=toggle]');
             if (toggle) {
                 mUtil.addEvent(toggle, 'click', function(e) {
                     e.preventDefault();
@@ -4214,7 +4214,7 @@ let mPortlet = function(elementId, options) {
             }
 
             //== Fullscreen
-            let fullscreen = mUtil.find(the.head, '[m-portlet-tool=fullscreen]');
+            var fullscreen = mUtil.find(the.head, '[m-portlet-tool=fullscreen]');
             if (fullscreen) {
                 mUtil.addEvent(fullscreen, 'click', function(e) {
                     e.preventDefault();
@@ -4229,8 +4229,8 @@ let mPortlet = function(elementId, options) {
          * Window scroll handle event for sticky portlet
          */
         onScrollSticky: function() {
-            let st = window.pageYOffset;
-            let offset = the.options.sticky.offset;
+            var st = window.pageYOffset;
+            var offset = the.options.sticky.offset;
 
 
             if (st > offset) {
@@ -4273,7 +4273,7 @@ let mPortlet = function(elementId, options) {
                 return;
             }
 
-            let top;
+            var top;
 
             if (mUtil.hasClass(body, 'm-portlet--sticky')) {
                 if (the.options.sticky.position.top instanceof Function) {
@@ -4282,14 +4282,14 @@ let mPortlet = function(elementId, options) {
                     top = parseInt(the.options.sticky.position.top);
                 }
 
-                let left;
+                var left;
                 if (the.options.sticky.position.left instanceof Function) {
                     left = parseInt(the.options.sticky.position.left.call());
                 } else {
                     left = parseInt(the.options.sticky.position.left);
                 }
 
-                let right;
+                var right;
                 if (the.options.sticky.position.right instanceof Function) {
                     right = parseInt(the.options.sticky.position.right.call());
                 } else {
@@ -4386,14 +4386,14 @@ let mPortlet = function(elementId, options) {
          */
         setupTooltips: function() {
             if (the.options.tooltips) {
-                let collapsed = mUtil.hasClass(element, 'm-portlet--collapse') || mUtil.hasClass(element, 'm-portlet--collapsed');
-                let fullscreenOn = mUtil.hasClass(body, 'm-portlet--fullscreen') && mUtil.hasClass(element, 'm-portlet--fullscreen');
+                var collapsed = mUtil.hasClass(element, 'm-portlet--collapse') || mUtil.hasClass(element, 'm-portlet--collapsed');
+                var fullscreenOn = mUtil.hasClass(body, 'm-portlet--fullscreen') && mUtil.hasClass(element, 'm-portlet--fullscreen');
 
                 //== Remove
-                let remove = mUtil.find(the.head, '[m-portlet-tool=remove]');
+                var remove = mUtil.find(the.head, '[m-portlet-tool=remove]');
                 if (remove) {
-                    let placement = (fullscreenOn ? 'bottom' : 'top');
-                    let tip = new Tooltip(remove, {
+                    var placement = (fullscreenOn ? 'bottom' : 'top');
+                    var tip = new Tooltip(remove, {
                         title: the.options.tools.remove,
                         placement: placement,
                         offset: (fullscreenOn ? '0,10px,0,0' : '0,5px'),
@@ -4408,10 +4408,10 @@ let mPortlet = function(elementId, options) {
                 }
 
                 //== Reload
-                let reload = mUtil.find(the.head, '[m-portlet-tool=reload]');
+                var reload = mUtil.find(the.head, '[m-portlet-tool=reload]');
                 if (reload) {
-                    let placement = (fullscreenOn ? 'bottom' : 'top');
-                    let tip = new Tooltip(reload, {
+                    var placement = (fullscreenOn ? 'bottom' : 'top');
+                    var tip = new Tooltip(reload, {
                         title: the.options.tools.reload,
                         placement: placement,
                         offset: (fullscreenOn ? '0,10px,0,0' : '0,5px'),
@@ -4426,10 +4426,10 @@ let mPortlet = function(elementId, options) {
                 }
 
                 //== Toggle
-                let toggle = mUtil.find(the.head, '[m-portlet-tool=toggle]');
+                var toggle = mUtil.find(the.head, '[m-portlet-tool=toggle]');
                 if (toggle) {
-                    let placement = (fullscreenOn ? 'bottom' : 'top');
-                    let tip = new Tooltip(toggle, {
+                    var placement = (fullscreenOn ? 'bottom' : 'top');
+                    var tip = new Tooltip(toggle, {
                         title: (collapsed ? the.options.tools.toggle.expand : the.options.tools.toggle.collapse),
                         placement: placement,
                         offset: (fullscreenOn ? '0,10px,0,0' : '0,5px'),
@@ -4444,10 +4444,10 @@ let mPortlet = function(elementId, options) {
                 }
 
                 //== Fullscreen
-                let fullscreen = mUtil.find(the.head, '[m-portlet-tool=fullscreen]');
+                var fullscreen = mUtil.find(the.head, '[m-portlet-tool=fullscreen]');
                 if (fullscreen) {
-                    let placement = (fullscreenOn ? 'bottom' : 'top');
-                    let tip = new Tooltip(fullscreen, {
+                    var placement = (fullscreenOn ? 'bottom' : 'top');
+                    var tip = new Tooltip(fullscreen, {
                         title: (fullscreenOn ? the.options.tools.fullscreen.off : the.options.tools.fullscreen.on),
                         placement: placement,
                         offset: (fullscreenOn ? '0,10px,0,0' : '0,5px'),
@@ -4469,25 +4469,25 @@ let mPortlet = function(elementId, options) {
         removeTooltips: function() {
             if (the.options.tooltips) {
                 //== Remove
-                let remove = mUtil.find(the.head, '[m-portlet-tool=remove]');
+                var remove = mUtil.find(the.head, '[m-portlet-tool=remove]');
                 if (remove && mUtil.data(remove).has('tooltip')) {
                     mUtil.data(remove).get('tooltip').dispose();
                 }
 
                 //== Reload
-                let reload = mUtil.find(the.head, '[m-portlet-tool=reload]');
+                var reload = mUtil.find(the.head, '[m-portlet-tool=reload]');
                 if (reload && mUtil.data(reload).has('tooltip')) {
                     mUtil.data(reload).get('tooltip').dispose();
                 }
 
                 //== Toggle
-                let toggle = mUtil.find(the.head, '[m-portlet-tool=toggle]');
+                var toggle = mUtil.find(the.head, '[m-portlet-tool=toggle]');
                 if (toggle && mUtil.data(toggle).has('tooltip')) {
                     mUtil.data(toggle).get('tooltip').dispose();
                 }
 
                 //== Fullscreen
-                let fullscreen = mUtil.find(the.head, '[m-portlet-tool=fullscreen]');
+                var fullscreen = mUtil.find(the.head, '[m-portlet-tool=fullscreen]');
                 if (fullscreen && mUtil.data(fullscreen).has('tooltip')) {
                     mUtil.data(fullscreen).get('tooltip').dispose();
                 }
@@ -4526,7 +4526,7 @@ let mPortlet = function(elementId, options) {
 
             mUtil.addClass(element, 'm-portlet--collapse');
 
-            let toggle = mUtil.find(the.head, '[m-portlet-tool=toggle]');
+            var toggle = mUtil.find(the.head, '[m-portlet-tool=toggle]');
             if (toggle && mUtil.data(toggle).has('tooltip')) {
                 mUtil.data(toggle).get('tooltip').updateTitleContent(the.options.tools.toggle.expand);
             }
@@ -4547,7 +4547,7 @@ let mPortlet = function(elementId, options) {
             mUtil.removeClass(element, 'm-portlet--collapse');
             mUtil.removeClass(element, 'm-portlet--collapsed');
 
-            let toggle = mUtil.find(the.head, '[m-portlet-tool=toggle]');
+            var toggle = mUtil.find(the.head, '[m-portlet-tool=toggle]');
             if (toggle && mUtil.data(toggle).has('tooltip')) {
                 mUtil.data(toggle).get('tooltip').updateTitleContent(the.options.tools.toggle.collapse);
             }
@@ -4557,8 +4557,8 @@ let mPortlet = function(elementId, options) {
          * Toggle
          */
         fullscreen: function(mode) {
-            let d = {};
-            let speed = 300;
+            var d = {};
+            var speed = 300;
 
             if (mode === 'off' || (mUtil.hasClass(body, 'm-portlet--fullscreen') && mUtil.hasClass(element, 'm-portlet--fullscreen'))) {
                 Plugin.eventTrigger('beforeFullscreenOff');
@@ -4586,8 +4586,8 @@ let mPortlet = function(elementId, options) {
 
 
                 if (the.foot) {
-                    let height1 = parseInt(mUtil.css(the.foot, 'height'));
-                    let height2 = parseInt(mUtil.css(the.foot, 'height')) + parseInt(mUtil.css(the.head, 'height'));
+                    var height1 = parseInt(mUtil.css(the.foot, 'height'));
+                    var height2 = parseInt(mUtil.css(the.foot, 'height')) + parseInt(mUtil.css(the.head, 'height'));
                     mUtil.css(the.body, 'margin-bottom', height1 + 'px');
                     mUtil.css(the.foot, 'margin-top', '-' + height2 + 'px');
                 }
@@ -4602,7 +4602,7 @@ let mPortlet = function(elementId, options) {
         eventTrigger: function(name) {
             //mUtil.triggerCustomEvent(name);
             for (i = 0; i < the.events.length; i++) {
-                let event = the.events[i];
+                var event = the.events[i];
                 if (event.name == name) {
                     if (event.one == true) {
                         if (event.fired == false) {
@@ -4772,21 +4772,21 @@ let mPortlet = function(elementId, options) {
     return the;
 };
 // plugin setup
-let mQuicksearch = function(elementId, options) {
+var mQuicksearch = function(elementId, options) {
     //== Main object
-    let the = this;
-    let init = false;
+    var the = this;
+    var init = false;
 
     //== 获取元素
-    let element = mUtil.get(elementId);
-    let body = mUtil.get('body');
+    var element = mUtil.get(elementId);
+    var body = mUtil.get('body');
 
     if (!element) {
         return;
     }
 
     //== 默认选项
-    let defaultOptions = {
+    var defaultOptions = {
         mode: 'default', //'default/dropdown'
         minLength: 1,
         maxHeight: 300,
@@ -4808,7 +4808,7 @@ let mQuicksearch = function(elementId, options) {
     // **    私有方法     ** //
     ////////////////////////////
 
-    let Plugin = {
+    var Plugin = {
         /**
          * Construct
          */
@@ -5009,7 +5009,7 @@ let mQuicksearch = function(elementId, options) {
         eventTrigger: function(name) {
             //mUtil.triggerCustomEvent(name);
             for (i = 0; i < the.events.length; i++) {
-                let event = the.events[i];
+                var event = the.events[i];
                 if (event.name == name) {
                     if (event.one == true) {
                         if (event.fired == false) {
@@ -5062,7 +5062,7 @@ let mQuicksearch = function(elementId, options) {
     };
 
     the.showError = function(text) {
-        let msg = the.options.templates.error.replace('{{message}}', text);
+        var msg = the.options.templates.error.replace('{{message}}', text);
         the.dropdown.setContent(msg);
         Plugin.showDropdown();
 
@@ -5108,21 +5108,21 @@ let mQuicksearch = function(elementId, options) {
 
     return the;
 };
-let mScrollTop = function(elementId, options) {
+var mScrollTop = function(elementId, options) {
     //== Main object
-    let the = this;
-    let init = false;
+    var the = this;
+    var init = false;
 
     //== 获取元素
-    let element = mUtil.get(elementId);
-    let body = mUtil.get('body');
+    var element = mUtil.get(elementId);
+    var body = mUtil.get('body');
 
     if (!element) {
         return;
     }
 
     //== 默认选项
-    let defaultOptions = {
+    var defaultOptions = {
         offset: 300,
         speed: 600
     };
@@ -5131,7 +5131,7 @@ let mScrollTop = function(elementId, options) {
     // **    私有方法     ** //
     ////////////////////////////
 
-    let Plugin = {
+    var Plugin = {
         /**
          * Run plugin
          * @returns {mscrolltop}
@@ -5191,7 +5191,7 @@ let mScrollTop = function(elementId, options) {
          * Handles scrolltop click scrollTop
          */
         handle: function() {
-            let pos = window.pageYOffset; // current vertical position
+            var pos = window.pageYOffset; // current vertical position
             if (pos > the.options.offset) {
                 mUtil.addClass(body, 'm-scroll-top--shown');
             } else {
@@ -5213,8 +5213,8 @@ let mScrollTop = function(elementId, options) {
          * Trigger events
          */
         eventTrigger: function(name, args) {
-            for (let i = 0; i < the.events.length; i++) {
-                let event = the.events[i];
+            for (var i = 0; i < the.events.length; i++) {
+                var event = the.events[i];
                 if (event.name == name) {
                     if (event.one == true) {
                         if (event.fired == false) {
@@ -5281,9 +5281,9 @@ let mScrollTop = function(elementId, options) {
 /**
  * @class mTabs tab工具条
  */
-let mTabs = function (selector, options) {
-    let the = this;
-    let element = $(selector);
+var mTabs = function (selector, options) {
+    var the = this;
+    var element = $(selector);
     if (element.length > 0) {
         return;
     }
@@ -5292,7 +5292,7 @@ let mTabs = function (selector, options) {
      * 默认设置
      * @type {{}}
      */
-    let defaultOptions = {
+    var defaultOptions = {
         tabNameLength: 10,
         toLeft: $('.to-left'),
         toRight: $('.to-right'),
@@ -5310,7 +5310,7 @@ let mTabs = function (selector, options) {
     /**
      * 私有方法
      */
-    let Plugin = {
+    var Plugin = {
         index: 1,
         /**
          * Construct
@@ -5325,10 +5325,10 @@ let mTabs = function (selector, options) {
         build: function () {
             // 点击向左按钮
             defaultOptions.toLeft.click(function () {
-                let marginLeft = Number(defaultOptions.conTabs.css('margin-left').replace('px', ''));
+                var marginLeft = Number(defaultOptions.conTabs.css('margin-left').replace('px', ''));
                 if (marginLeft != 0) {
-                    let tabsScorllWidth = Plugin.calcWidth(defaultOptions.contabsScorll); // tab 工具条可视宽度
-                    let targetMarginLeft = marginLeft + (tabsScorllWidth * 0.8);
+                    var tabsScorllWidth = Plugin.calcWidth(defaultOptions.contabsScorll); // tab 工具条可视宽度
+                    var targetMarginLeft = marginLeft + (tabsScorllWidth * 0.8);
                     if (targetMarginLeft > 0) {
                         targetMarginLeft = 0;
                     }
@@ -5337,10 +5337,10 @@ let mTabs = function (selector, options) {
             });
             // 点击向右按钮
             defaultOptions.toRight.click(function () {
-                let marginLeft = Number(defaultOptions.conTabs.css('margin-left').replace('px', ''));
-                let tabsScorllWidth = Plugin.calcWidth(defaultOptions.contabsScorll); // tab 工具条可视宽度
-                let conTabsWidth = Plugin.calcWidth(defaultOptions.conTabs.children()); // tab 总宽
-                let targetMarginLeft = marginLeft - (tabsScorllWidth * 0.8);
+                var marginLeft = Number(defaultOptions.conTabs.css('margin-left').replace('px', ''));
+                var tabsScorllWidth = Plugin.calcWidth(defaultOptions.contabsScorll); // tab 工具条可视宽度
+                var conTabsWidth = Plugin.calcWidth(defaultOptions.conTabs.children()); // tab 总宽
+                var targetMarginLeft = marginLeft - (tabsScorllWidth * 0.8);
 
                 if (Math.abs(targetMarginLeft) > (conTabsWidth - tabsScorllWidth)) {
                     targetMarginLeft = (conTabsWidth - tabsScorllWidth) * -1;
@@ -5356,10 +5356,10 @@ let mTabs = function (selector, options) {
             });
             // 关闭全部 (只关闭允许关闭的tab)
             defaultOptions.tool.closeAll.click(function () {
-                let retainTab = null;
+                var retainTab = null;
                 defaultOptions.conTabs.children().each(function () {
-                    let $this = $(this);
-                    let $tabClose = $this.find('.tab-close');
+                    var $this = $(this);
+                    var $tabClose = $this.find('.tab-close');
                     if ($tabClose != null && $tabClose.length > 0) {
                         Plugin.closeTab($this);
                     } else {
@@ -5374,8 +5374,8 @@ let mTabs = function (selector, options) {
             // 关闭其他
             defaultOptions.tool.closeOther.click(function () {
                 defaultOptions.conTabs.children().each(function () {
-                    let $this = $(this);
-                    let $tabClose = $this.find('.tab-close');
+                    var $this = $(this);
+                    var $tabClose = $this.find('.tab-close');
                     if ($tabClose != null && $tabClose.length > 0 && !$this.hasClass('active')) {
                         Plugin.closeTab($this);
                     }
@@ -5402,9 +5402,9 @@ let mTabs = function (selector, options) {
          * 点击tab事件
          */
         bindClickTab: function () {
-            let alreadyClickedTimeout;
+            var alreadyClickedTimeout;
             defaultOptions.conTabs.on('click', 'a.btn', function () {
-                let $tab = $(this);
+                var $tab = $(this);
                 if ($tab.data('alreadyClicked')) {
                     // 双击
                     console.log('dblclick');
@@ -5439,7 +5439,7 @@ let mTabs = function (selector, options) {
          */
         refreshActivePage: function () {
             // Plugin.showWaitTip();
-            let url = defaultOptions.conTabs.children('.active').find('a.btn').attr('data-url');
+            var url = defaultOptions.conTabs.children('.active').find('a.btn').attr('data-url');
             defaultOptions.pageContainer.find('iframe.page-frame[src="' + url + '"]').attr('src', url);
             // 这里暂时写假的
             // setTimeout(function () {
@@ -5470,7 +5470,7 @@ let mTabs = function (selector, options) {
          * @param $tab (a.btn)
          */
         setTabState: function ($tab, isShow) {
-            let url = $tab.attr('data-url');
+            var url = $tab.attr('data-url');
             if (isShow) {
                 defaultOptions.pageContainer.find('iframe.page-frame[src="' + url + '"]').addClass('active');
                 $tab.parent().addClass('active');
@@ -5484,8 +5484,8 @@ let mTabs = function (selector, options) {
          * @param $tab 标签页 (li)
          */
         closeTab: function ($tab) {
-            let url = $tab.find('a').attr('data-url');
-            let nextTab;
+            var url = $tab.find('a').attr('data-url');
+            var nextTab;
             if ($tab.hasClass('active')) { // 如果关闭的是当前激活tab,自动切换到前/后的标签
                 nextTab = $tab.prev();
                 if (nextTab == null || nextTab.length == 0) {
@@ -5505,7 +5505,7 @@ let mTabs = function (selector, options) {
          * @param url 页面url
          */
         closeTabByUrl: function (url) {
-            let a = defaultOptions.conTabs.find('a.btn[data-url="' + url + '"]');
+            var a = defaultOptions.conTabs.find('a.btn[data-url="' + url + '"]');
             if (a != null && a.length > 0) {
                 Plugin.closeTab(a.parent());
             } else {
@@ -5522,10 +5522,10 @@ let mTabs = function (selector, options) {
             if (mUtil.isBlank(url)) return;
             if (Plugin.needOpen(url)) {
                 Plugin.index++;
-                let _tab = '<li class="active">' +
+                var _tab = '<li class="active">' +
                     '<a class="btn btn-default tab" href="javascript:;" data-url="' + url + '" title="' + name + '" target="iframe-1" data-alreadyClicked="false">' +
                     Plugin.getTabName(name) + ((typeof canClose === 'undefined' || canClose) ? '<i class="tab-close la la-close"></i>' : '') + '</a></li>';
-                let _iframe = '<iframe src="' + url + '" frameborder="0" name="iframe-' + Plugin.index + '" class="page-frame active animation-fade"></iframe>';
+                var _iframe = '<iframe src="' + url + '" frameborder="0" name="iframe-' + Plugin.index + '" class="page-frame active animation-fade"></iframe>';
                 defaultOptions.conTabs.children('.active').removeClass('active');
                 defaultOptions.pageContainer.children('.active').removeClass('active');
                 defaultOptions.conTabs.append(_tab);
@@ -5543,7 +5543,7 @@ let mTabs = function (selector, options) {
          * 执行自定义回调
          */
         customCallback: function () {
-            let iframe = defaultOptions.pageContainer.children('.active');
+            var iframe = defaultOptions.pageContainer.children('.active');
             if (iframe.length > 0) {
                 // 检查是否需要刷新页面
                 if (mUtil.isFunction(iframe[0].contentWindow.mTab.needRefresh) && iframe[0].contentWindow.mTab.needRefresh()) {
@@ -5551,8 +5551,8 @@ let mTabs = function (selector, options) {
                 }
                 // 检查是否需要提交表单
                 if (mUtil.isFunction(iframe[0].contentWindow.mTab.needSubmitForm) && iframe[0].contentWindow.mTab.needSubmitForm()) {
-                    // let form_element = $($(iframe[0].contentDocument).find('.m-form')[0]);
-                    let $btn = $(iframe[0].contentDocument).find('.btn.btn-search');
+                    // var form_element = $($(iframe[0].contentDocument).find('.m-form')[0]);
+                    var $btn = $(iframe[0].contentDocument).find('.btn.btn-search');
                     if ($btn.length > 0) {
                         $btn.click();
                     }
@@ -5563,14 +5563,14 @@ let mTabs = function (selector, options) {
          * 跳转到当前激活
          */
         toActiveTab: function () {
-            let $activeTab = defaultOptions.conTabs.find('.active');
-            let activeWdith = Plugin.calcWidth($activeTab); // 当前激活tab宽度
-            let prevAllWidth = Plugin.calcWidth($activeTab.prevAll()); // 当前激活tab前面tabs总宽
+            var $activeTab = defaultOptions.conTabs.find('.active');
+            var activeWdith = Plugin.calcWidth($activeTab); // 当前激活tab宽度
+            var prevAllWidth = Plugin.calcWidth($activeTab.prevAll()); // 当前激活tab前面tabs总宽
             //let nextAllWidth = Plugin.calcWidth($activeTab.nextAll());// 当前激活tab后面tabs总宽
-            let tabsScorllWidth = Plugin.calcWidth(defaultOptions.contabsScorll); // tab 工具条可视宽度
-            // let totalWidth = Plugin.calcWidth(defaultOptions.siteContabs); // 总宽
-            let conTabsWidth = Plugin.calcWidth(defaultOptions.conTabs.children()); // tab 总宽
-            let marginLeft = Number(defaultOptions.conTabs.css('margin-left').replace('px', ''));
+            var tabsScorllWidth = Plugin.calcWidth(defaultOptions.contabsScorll); // tab 工具条可视宽度
+            // var totalWidth = Plugin.calcWidth(defaultOptions.siteContabs); // 总宽
+            var conTabsWidth = Plugin.calcWidth(defaultOptions.conTabs.children()); // tab 总宽
+            var marginLeft = Number(defaultOptions.conTabs.css('margin-left').replace('px', ''));
             if (conTabsWidth > tabsScorllWidth) {
                 if (Math.abs(marginLeft) > prevAllWidth) { // 目标标签页隐藏在左侧
                     marginLeft = prevAllWidth * -1;
@@ -5589,7 +5589,7 @@ let mTabs = function (selector, options) {
          */
         calcWidth: function ($tabs) {
             if ($tabs != null && $tabs.length > 0) {
-                let width = 0;
+                var width = 0;
                 $($tabs).each(function () {
                     width += $(this).outerWidth(true);
                 });
@@ -5616,7 +5616,7 @@ let mTabs = function (selector, options) {
          */
         needOpen: function (url) {
             if (mUtil.isNotBlank(url)) {
-                let $tab = defaultOptions.conTabs.find('[data-url="' + url + '"]');
+                var $tab = defaultOptions.conTabs.find('[data-url="' + url + '"]');
                 return $tab.length == 0;
             }
             return false;
@@ -5649,21 +5649,21 @@ let mTabs = function (selector, options) {
     return the;
 };
 // plugin setup
-let mToggle = function(elementId, options) {
+var mToggle = function(elementId, options) {
     //== Main object
-    let the = this;
-    let init = false;
+    var the = this;
+    var init = false;
 
     //== 获取元素
-    let element = mUtil.get(elementId);
-    let body = mUtil.get('body');
+    var element = mUtil.get(elementId);
+    var body = mUtil.get('body');
 
     if (!element) {
         return;
     }
 
     //== 默认选项
-    let defaultOptions = {
+    var defaultOptions = {
         togglerState: '',
         targetState: ''
     };    
@@ -5672,7 +5672,7 @@ let mToggle = function(elementId, options) {
     // **    私有方法     ** //
     ////////////////////////////
 
-    let Plugin = {
+    var Plugin = {
         /**
          * Construct
          */
@@ -5779,7 +5779,7 @@ let mToggle = function(elementId, options) {
          */
         eventTrigger: function(name) {
             for (i = 0; i < the.events.length; i++) {
-                let event = the.events[i];
+                var event = the.events[i];
 
                 if (event.name == name) {
                     if (event.one == true) {
@@ -5870,11 +5870,11 @@ let mToggle = function(elementId, options) {
 /**
  * 业务工具类
  */
-let mTool = function () {
+var mTool = function () {
     /**
      * 默认设置
      */
-    let defaultOptions = {
+    var defaultOptions = {
         currentUser: 'current_user', // 缓存中当前登录用户key
         httpCode: {
             SUCCESS: 200, // 成功
@@ -5944,13 +5944,13 @@ let mTool = function () {
     /**
      * controller 根路径
      */
-    let baseUrl = null;
+    var baseUrl = null;
     /**
      * 设置业务通用url部分
      *
      * @param url {string} 访问地址
      */
-    let setBaseUrl = function (url) {
+    var setBaseUrl = function (url) {
         baseUrl = url;
     };
     /**
@@ -5960,14 +5960,14 @@ let mTool = function () {
      * @param url {string|null} 请求地址 (非必要,默认规则生成)
      * @param pId {string|null} 父Id (非必要)
      */
-    let addData = function (element, name, url, pId) {
+    var addData = function (element, name, url, pId) {
         if (typeof element !== 'undefined') {
             mUtil.setButtonWait(element);
         }
         // 检查&获取请求地址
         url = getUrl(url, 'add', pId);
         if (mUtil.isBlank(url)) return;
-        let params = getAutoParams(element);
+        var params = getAutoParams(element);
         if (mUtil.isNotBlank(params)) {
             url += '?' + params;
         }
@@ -5988,7 +5988,7 @@ let mTool = function () {
      * @param element {object} html 元素对象
      * @returns {*}
      */
-    let getAutoParams = function (element) {
+    var getAutoParams = function (element) {
         if (typeof element !== 'undefined') {
             return $(element).parents('.m-form').find('.auto-params').serialize();
         } else {
@@ -6004,13 +6004,13 @@ let mTool = function () {
      * @param needAlert {boolean|null} 是否需要弹出处理结果提示 (非必要,默认true)
      * @param callback {function|null}  回调函数 (非必要)
      */
-    let deleteData = function (element, id, url, needAlert, callback) {
-        let $dataTable = $(element).parents('.m-form').find('.m_datatable');
+    var deleteData = function (element, id, url, needAlert, callback) {
+        var $dataTable = $(element).parents('.m-form').find('.m_datatable');
         // 检查&获取数据id
         if (mUtil.isBlank(id)) {
             if (typeof $dataTable !== 'undefined' && $dataTable.length > 0) {
                 // 从表格中获取已选中select
-                let ids = getSelectData($dataTable);
+                var ids = getSelectData($dataTable);
                 if (checkSelectDataIsNotEmpty(ids, true)) {
                     id = ids.join(',');
                 } else {
@@ -6050,7 +6050,7 @@ let mTool = function () {
                     }
                     // 删除表格中数据
                     if (typeof $dataTable !== 'undefined' && $dataTable.length > 0) {
-                        let dataTable = $dataTable.mDatatable();
+                        var dataTable = $dataTable.mDatatable();
                         dataTable.removeRows(dataTable.getSelectedRecords());
                     }
                     // 回调函数
@@ -6071,10 +6071,10 @@ let mTool = function () {
      * @param needAlert {boolean|null} 是否需要弹出处理结果提示 (非必要,默认true)
      * @param callback {function|null}  回调函数 (非必要)
      */
-    let deleteById = function (element, id, url, needAlert, callback) {
+    var deleteById = function (element, id, url, needAlert, callback) {
         mUtil.alertConfirm(mTool.commonTips.delete.title, mTool.commonTips.delete.subtitle, function () {
-            let row = $(element).parents('tr.m-datatable__row');
-            let $dataTable = $(element).parents('.m-form').find('.m_datatable');
+            var row = $(element).parents('tr.m-datatable__row');
+            var $dataTable = $(element).parents('.m-form').find('.m_datatable');
             // 检查&获取请求地址
             url = getUrl(url, 'deleteById', id);
             if (mUtil.isBlank(url)) return;
@@ -6092,7 +6092,7 @@ let mTool = function () {
                     }
                     // 删除表格中数据
                     if (typeof $dataTable !== 'undefined' && $dataTable.length > 0) {
-                        let dataTable = $dataTable.mDatatable();
+                        var dataTable = $dataTable.mDatatable();
                         dataTable.setActive(id);
                         dataTable.removeRows(dataTable.getSelectedRecords());
                     }
@@ -6113,7 +6113,7 @@ let mTool = function () {
      * @param url {string|null} 请求地址 (非必要,默认规则生成)
      * @param callback {function|null}  回调函数 (非必要)
      */
-    let editById = function (element, id, name, url, callback) {
+    var editById = function (element, id, name, url, callback) {
         url = getUrl(url, 'input', id);
         if (mUtil.isBlank(url)) return;
         if (mUtil.isBlank(name)) {
@@ -6137,10 +6137,10 @@ let mTool = function () {
      * @param needValidate {boolean|null} 是否需要表单验证 (非必要,默认true)
      * @param callback {function|null} 回调函数 (非必要)
      */
-    let saveData = function (element, url, needAlert, needValidate, callback) {
+    var saveData = function (element, url, needAlert, needValidate, callback) {
         if (needAlert == null) needAlert = true;
         if (needValidate == null) needValidate = true;
-        let $form = $(element).parents('.m-form');
+        var $form = $(element).parents('.m-form');
         // 如果不需要验证或者表单验证通过
         if (!needValidate || $form.valid()) {
             mUtil.setButtonWait(element);
@@ -6168,7 +6168,7 @@ let mTool = function () {
                     success: function (res) {
                         mUtil.offButtonWait(element);
                         if (needAlert) {
-                            let $id = $form.find('#id');
+                            var $id = $form.find('#id');
                             if ($id != null && $id.length > 0) {
                                 if (mUtil.isBlank($id.val())) {
                                     successTip(mTool.commonTips.success, mTool.commonTips.save.add);
@@ -6195,8 +6195,8 @@ let mTool = function () {
      *
      * @param element {object} html 元素对象
      */
-    let selectData = function (element) {
-        let $dataTable = $(element).parents('.m-form').find('.m_datatable');
+    var selectData = function (element) {
+        var $dataTable = $(element).parents('.m-form').find('.m_datatable');
         if (typeof $dataTable !== 'undefined' && $dataTable.length > 0) {
             $dataTable.mDatatable().reload();
         }
@@ -6207,16 +6207,16 @@ let mTool = function () {
      * @param options 配置
      * @returns {*|jQuery}
      */
-    let initDataTable = function (options) {
+    var initDataTable = function (options) {
         // 检查&获取请求地址
-        let url = getUrl(options.url, 'select', null);
+        var url = getUrl(options.url, 'select', null);
         delete options['url'];
         if (mUtil.isBlank(url)) return;
 
         /**
          * 默认设置
          */
-        let _defaultOptions = {
+        var _defaultOptions = {
             selector: '.m_datatable',
             // 数据源
             data: {
@@ -6270,21 +6270,21 @@ let mTool = function () {
         // 合并配置
         options = $.extend(true, {}, _defaultOptions, options);
 
-        let $form = $(options.selector).parents('form.m-form');
+        var $form = $(options.selector).parents('form.m-form');
         if (typeof $form !== 'undefined' && $form.length > 0) {
             // 如果有查询按钮,绑定点击重新加载数据事件
-            let $searchBtn = $form.find('.btn-search');
+            var $searchBtn = $form.find('.btn-search');
             if (typeof $searchBtn !== 'undefined' && $searchBtn.length > 0) {
                 $searchBtn.click(function () {
                     selectData(this);
                 });
             }
             // 如果有重置按钮,绑定点击重置事件
-            let $resetBtn = $form.find('.btn-reset');
+            var $resetBtn = $form.find('.btn-reset');
             if (typeof $resetBtn !== 'undefined' && $resetBtn.length > 0) {
                 $resetBtn.click(function () {
                     $form.resetForm();
-                    let $selectPicker = $form.find('.select-picker');
+                    var $selectPicker = $form.find('.select-picker');
                     if (typeof $selectPicker !== 'undefined' && $selectPicker.length > 0) {
                         $form.find('.select-picker').trigger("change");
                     }
@@ -6307,7 +6307,7 @@ let mTool = function () {
      * @param suffix {string|null} 后缀
      * @returns {string|*}
      */
-    let getUrl = function (url, method, suffix) {
+    var getUrl = function (url, method, suffix) {
         if (mUtil.isBlank(url)) {
             if (checkBaseUrl()) {
                 url = baseUrl + mTool.urlSuffix[method] + (mUtil.isNotBlank(suffix) ? suffix : '');
@@ -6325,7 +6325,7 @@ let mTool = function () {
      * @param tip {boolean} 是否需要弹出提示
      * @returns {boolean}
      */
-    let checkSelectDataIsNotEmpty = function (ids, tip) {
+    var checkSelectDataIsNotEmpty = function (ids, tip) {
         if (ids == null || ids.length === 0) {
             if (tip) {
                 warnTip(mTool.commonTips.fail, mTool.commonTips.noIds);
@@ -6341,7 +6341,7 @@ let mTool = function () {
      * @param $dataTable {object} dataTable 对象
      * @returns {Array}
      */
-    let getSelectData = function ($dataTable) {
+    var getSelectData = function ($dataTable) {
         return $dataTable.mDatatable().getValue();
     };
 
@@ -6350,7 +6350,7 @@ let mTool = function () {
      *
      * @returns {boolean}
      */
-    let checkBaseUrl = function () {
+    var checkBaseUrl = function () {
         if (mUtil.isNotBlank(baseUrl)) {
             return true;
         } else {
@@ -6365,11 +6365,11 @@ let mTool = function () {
      * @param $form 表单
      * @returns {null|object}
      */
-    let queryParams = function ($form) {
-        let data = $form.serializeArray();
+    var queryParams = function ($form) {
+        var data = $form.serializeArray();
         if (typeof data !== 'undefined' && data.length > 0) {
-            let params = {};
-            for (let i = 0; i < data.length; i++) {
+            var params = {};
+            for (var i = 0; i < data.length; i++) {
                 if (mUtil.isNotBlank(data[i].value)) {
                     params[data[i].name] = data[i].value;
                 }
@@ -6385,7 +6385,7 @@ let mTool = function () {
      * @param type {string} 按钮类型
      * @returns {string}
      */
-    let getActionsBtnClass = function (type) {
+    var getActionsBtnClass = function (type) {
         if (mUtil.isBlank(type)) {
             type = 'success';
         }
@@ -6399,7 +6399,7 @@ let mTool = function () {
      * @param separate {string} 分隔符
      * @returns {*}
      */
-    let getObject = function (path, object, separate) {
+    var getObject = function (path, object, separate) {
         if (mUtil.isBlank(separate)) {
             separate = '.';
         }
@@ -6417,8 +6417,8 @@ let mTool = function () {
      * @param cache {boolean|null} 是否使用缓存数据
      * @return {Object}
      */
-    let getUser = function (cache) {
-        let user = null;
+    var getUser = function (cache) {
+        var user = null;
         if (typeof cache === 'undefined' || cache) {
             user = cacheGet(defaultOptions.currentUser);
             if (user == null) {
@@ -6438,22 +6438,22 @@ let mTool = function () {
      *
      * @returns {*}
      */
-    let _getUser = function () {
-        let data = {};
+    var _getUser = function () {
+        var data = {};
 
         /**
          * 将attr:attr数组转为对象
          * @param data
          * @returns {object}
          */
-        let arrayToObject = function (data) {
-            let obj = {};
+        var arrayToObject = function (data) {
+            var obj = {};
             if (mUtil.isArray(data)) {
                 $(data).each(function (i, _obj) {
-                    let levels = _obj.split(':'), _i = 0;
+                    var levels = _obj.split(':'), _i = 0;
 
                     function createLevel(child) {
-                        let name = levels[_i++];
+                        var name = levels[_i++];
                         if (typeof child[name] !== 'undefined' && child[name] !== null) {
                             if (typeof child[name] !== 'object') {
                                 child[name] = {};
@@ -6498,8 +6498,8 @@ let mTool = function () {
      * @param code 权限标识
      * @return {boolean}
      */
-    let hasPermissions = function (code) {
-        let user = getUser(true);
+    var hasPermissions = function (code) {
+        var user = getUser(true);
         return checkPermissions(code, user.permissions);
     };
     /**
@@ -6508,7 +6508,7 @@ let mTool = function () {
      * @param code 权限标识
      * @return
      */
-    let notHasPermissions = function (code) {
+    var notHasPermissions = function (code) {
         return !hasPermissions(code);
     };
     /**
@@ -6517,8 +6517,8 @@ let mTool = function () {
      * @param code 角色标识
      * @return {boolean}
      */
-    let hasRole = function (code) {
-        let user = getUser(true);
+    var hasRole = function (code) {
+        var user = getUser(true);
         return checkPermissions(code, user.role);
     };
     /**
@@ -6527,7 +6527,7 @@ let mTool = function () {
      * @param code 角色标识
      * @return
      */
-    let notHasRole = function (code) {
+    var notHasRole = function (code) {
         return !hasRole(code);
     };
     /**
@@ -6537,7 +6537,7 @@ let mTool = function () {
      * @param permissions {object} 权限对象
      * @return {boolean}
      */
-    let checkPermissions = function (code, permissions) {
+    var checkPermissions = function (code, permissions) {
         if (mUtil.isNotBlank(code) && permissions != null && typeof permissions === 'object') {
             return Boolean(getObject(code, permissions, ':'));
         }
@@ -6549,8 +6549,8 @@ let mTool = function () {
      * @param key {string} 关键字
      * @return {object}
      */
-    let cacheGet = function (key) {
-        let obj;
+    var cacheGet = function (key) {
+        var obj;
         if (localStorage) {
             obj = localStorage.getItem(key);
         }
@@ -6565,7 +6565,7 @@ let mTool = function () {
      * @param key {string} 关键字
      * @param value {object} 值
      */
-    let cacheSet = function (key, value) {
+    var cacheSet = function (key, value) {
         if (mUtil.isNotBlank(key)) {
             if (typeof value === 'object') {
                 value = JSON.stringify(value);
@@ -6582,7 +6582,7 @@ let mTool = function () {
      *
      * @param key {string} key
      */
-    let cacheRemove = function (key) {
+    var cacheRemove = function (key) {
         if (localStorage) {
             localStorage.removeItem(key);
         }
@@ -6600,9 +6600,9 @@ let mTool = function () {
      * @param tree {object|string} 选择器或者jsTree对象
      * @param node {object} 节点信息
      */
-    let saveNode = function (tree, node) {
+    var saveNode = function (tree, node) {
         tree = getTree(tree);
-        let _node = tree.get_node(node.id, false);
+        var _node = tree.get_node(node.id, false);
         if (_node != null && _node) { // 节点存在, 更新节点名称、图标
             if (mUtil.isString(node.type)) {
                 tree.set_type(_node, node.type);
@@ -6614,7 +6614,7 @@ let mTool = function () {
                 tree.set_icon(_node, node.icon);
             }
         } else {
-            let pNode = tree.get_node(node.pId, false); // 查找父节点
+            var pNode = tree.get_node(node.pId, false); // 查找父节点
             if (tree.is_open(pNode) || tree.is_leaf(pNode)) {// 父节点已展开并且没有子节点
                 tree.create_node(pNode, node);//创建节点
                 if (!tree.is_open(pNode)) { // 如果节点没展开,则展开
@@ -6631,7 +6631,7 @@ let mTool = function () {
      * @param tree {object|string} 选择器或者jsTree对象
      * @param ids {number|string} 要删除的id
      */
-    let deleteNode = function (tree, ids) {
+    var deleteNode = function (tree, ids) {
         tree = getTree(tree);
         if (mUtil.isNumber(ids)) {
             tree.delete_node(tree.get_node(ids, false));
@@ -6646,7 +6646,7 @@ let mTool = function () {
      * @param tree {object}
      * @param ids
      */
-    let _deleteNode = function (tree, ids) {
+    var _deleteNode = function (tree, ids) {
         $(ids).each(function (i, id) {
             tree.delete_node(tree.get_node(id, false));
         });
@@ -6657,11 +6657,11 @@ let mTool = function () {
      * 2.右键点击的节点不属于多选的节点, 返回右键点击节点并选中
      * @param data {object}
      */
-    let getOperationNodes = function (data) {
-        let tree = $.jstree.reference(data.reference);
-        let cur_click = tree.get_node(data.reference);
-        let selectNodes = tree.get_selected();
-        for (let i = 0; i < selectNodes.length; i++) {
+    var getOperationNodes = function (data) {
+        var tree = $.jstree.reference(data.reference);
+        var cur_click = tree.get_node(data.reference);
+        var selectNodes = tree.get_selected();
+        for (var i = 0; i < selectNodes.length; i++) {
             if (selectNodes[i] == cur_click.id) {
                 return selectNodes;
             }
@@ -6675,8 +6675,8 @@ let mTool = function () {
      * @param data {object}
      * @returns {*|Object|jQuery|void}
      */
-    let getClickNode = function (data) {
-        let tree = $.jstree.reference(data.reference);
+    var getClickNode = function (data) {
+        var tree = $.jstree.reference(data.reference);
         return tree.get_node(data.reference);
     };
     /**
@@ -6687,10 +6687,10 @@ let mTool = function () {
      * @param attr 要获取的属性,如果为空,则返回节点全部信息
      * @returns {array}
      */
-    let getCheckedNodes = function (tree, attr) {
+    var getCheckedNodes = function (tree, attr) {
         tree = getTree(tree);
-        let checked = [];
-        for (let node in tree._model.data) {
+        var checked = [];
+        for (var node in tree._model.data) {
             if (tree.is_undetermined(node) || tree.is_checked(node)) {
                 if (typeof tree._model.data[node]['id'] === 'undefined' || tree._model.data[node]['id'] != '#') {
                     checked.push(mUtil.isNotBlank(attr) ? tree._model.data[node][attr] : tree._model.data[node]);
@@ -6705,10 +6705,10 @@ let mTool = function () {
      * @param tree {object|string} 选择器或者jsTree对象
      * @param values {array|string} 选中的值,数组或字符串(1,2,3)
      */
-    let checkNodes = function (tree, values) {
+    var checkNodes = function (tree, values) {
         tree = getTree(tree);
         // 暂时禁用级联,防止选中父节点后全选子节点
-        let cascade = tree.settings.checkbox.cascade;
+        var cascade = tree.settings.checkbox.cascade;
         tree.settings.checkbox.cascade = '';
         if (typeof values === 'string') {
             values = values.split(',');
@@ -6721,7 +6721,7 @@ let mTool = function () {
      * jsTree 全选
      * @param tree {object|string} 选择器或者jsTree对象
      */
-    let checkAll = function (tree) {
+    var checkAll = function (tree) {
         tree = getTree(tree);
         tree.check_all();
     };
@@ -6729,7 +6729,7 @@ let mTool = function () {
      * jsTree 全不选
      * @param tree {object|string} 选择器或者jsTree对象
      */
-    let unCheckAll = function (tree) {
+    var unCheckAll = function (tree) {
         tree = getTree(tree);
         tree.uncheck_all();
     };
@@ -6738,7 +6738,7 @@ let mTool = function () {
      * @param tree {object|string} 选择器或者jsTree对象
      * @returns {object}
      */
-    let getTree = function (tree) {
+    var getTree = function (tree) {
         if (typeof tree === 'string') {
             tree = $(tree).jstree(true);
         }
@@ -6756,7 +6756,7 @@ let mTool = function () {
      * @param title {string} 标题
      * @param subtitle {string} 副标题
      */
-    let infoTip = function (title, subtitle) {
+    var infoTip = function (title, subtitle) {
         if (isAlert()) {
             mUtil.alertInfo(title, subtitle);
         } else {
@@ -6771,7 +6771,7 @@ let mTool = function () {
      * @param title {string} 标题
      * @param subtitle {string} 副标题
      */
-    let successTip = function (title, subtitle) {
+    var successTip = function (title, subtitle) {
         if (isAlert()) {
             mUtil.alertSuccess(title, subtitle);
         } else {
@@ -6785,7 +6785,7 @@ let mTool = function () {
      * @param title {string} 标题
      * @param subtitle {string} 副标题
      */
-    let warnTip = function (title, subtitle) {
+    var warnTip = function (title, subtitle) {
         if (isAlert()) {
             mUtil.alertWarning(title, subtitle);
         } else {
@@ -6799,7 +6799,7 @@ let mTool = function () {
      * @param title {string} 标题
      * @param subtitle {string} 副标题
      */
-    let errorTip = function (title, subtitle) {
+    var errorTip = function (title, subtitle) {
         if (isAlert()) {
             mUtil.alertError(title, subtitle);
         } else {
@@ -6811,7 +6811,7 @@ let mTool = function () {
      *
      * @returns {boolean}
      */
-    let isAlert = function () {
+    var isAlert = function () {
         // 暂时默认false
         return false;
     };
@@ -6820,7 +6820,7 @@ let mTool = function () {
      *
      * @param str {string} 警告信息
      */
-    let printWarn = function (str) {
+    var printWarn = function (str) {
         if (true) {
             console.warn(str);
         }
@@ -6836,7 +6836,7 @@ let mTool = function () {
      * @param dictType {string} 字典类型
      * @returns {array|null} 示例[{...}, {...}]
      */
-    let getSysDictArrayByDictType = function (dictType) {
+    var getSysDictArrayByDictType = function (dictType) {
         if (typeof sysDict !== 'undefined' && mUtil.isNotBlank(dictType)) {
             return sysDict[dictType];
         }
@@ -6848,10 +6848,10 @@ let mTool = function () {
      * @param dictType {string} 字典类型
      * @returns {object|null} 示例{1 : {...}, 2: {...}}
      */
-    let getSysDictsObjectByDictType = function (dictType) {
-        let dicts = getSysDictArrayByDictType(dictType);
+    var getSysDictsObjectByDictType = function (dictType) {
+        var dicts = getSysDictArrayByDictType(dictType);
         if (dicts != null && dicts.length > 0) {
-            let dictsObject = {};
+            var dictsObject = {};
             $(dicts).each(function (index, dict) {
                 dictsObject[dict.code] = dict;
             });
@@ -6866,8 +6866,8 @@ let mTool = function () {
      * @param code {string} 编码
      * @returns {object|null}
      */
-    let getSysDictObjectByQuery = function (dictType, code) {
-        let dicts = getSysDictArrayByDictType(dictType);
+    var getSysDictObjectByQuery = function (dictType, code) {
+        var dicts = getSysDictArrayByDictType(dictType);
         if (dicts != null && dicts.length > 0) {
             $(dicts).each(function (index, dict) {
                 if (dict.code === code) {
@@ -6884,8 +6884,8 @@ let mTool = function () {
      * @param code {string} 编码
      * @returns {string|null}
      */
-    let getSysDictNameByQuery = function (dictType, code) {
-        let dict = getSysDictObjectByQuery(dictType, code);
+    var getSysDictNameByQuery = function (dictType, code) {
+        var dict = getSysDictObjectByQuery(dictType, code);
         if (dict != null) {
             return dict.name;
         }
@@ -6898,8 +6898,8 @@ let mTool = function () {
      * @param dict {object} 字典数组
      * @returns {string}
      */
-    let getDictElement = function (code, dict) {
-        let cur_dict = dict[code];
+    var getDictElement = function (code, dict) {
+        var cur_dict = dict[code];
         if (cur_dict == null) {
             cur_dict = {
                 css: 'm-badge m-badge--success m-badge--wide',
@@ -7341,19 +7341,19 @@ $(document).ready(function () {
     mTool.init({});
 });
 // 表单向导插件
-let mWizard = function(elementId, options) {
+var mWizard = function(elementId, options) {
     //== Main object
-    let the = this;
+    var the = this;
 
     //== 获取元素
-    let element = mUtil.get(elementId);
+    var element = mUtil.get(elementId);
 
     if (!element) {
         return; 
     }
 
     //== 默认选项
-    let defaultOptions = {
+    var defaultOptions = {
         startStep: 1,
         manualStepForward: false
     };
@@ -7362,7 +7362,7 @@ let mWizard = function(elementId, options) {
     // **     私有方法      ** //
     ////////////////////////////
 
-    let Plugin = {
+    var Plugin = {
         /**
          * Construct
          */
@@ -7445,12 +7445,12 @@ let mWizard = function(elementId, options) {
             });
 
             mUtil.on(element, '.m-wizard__step a.m-wizard__step-number', 'click', function() {
-                let step = this.closest('.m-wizard__step');
-                let steps = mUtil.parents(this, '.m-wizard__steps')
-                let find = mUtil.findAll(steps, '.m-wizard__step');
-                let num;
+                var step = this.closest('.m-wizard__step');
+                var steps = mUtil.parents(this, '.m-wizard__steps')
+                var find = mUtil.findAll(steps, '.m-wizard__step');
+                var num;
 
-                for (let i = 0, j = find.length; i < j; i++) {
+                for (var i = 0, j = find.length; i < j; i++) {
                     if (step === find[i]) {
                         num = (i + 1);
                         break;
@@ -7489,7 +7489,7 @@ let mWizard = function(elementId, options) {
             }
 
             //== 回调函数
-            let callback;
+            var callback;
 
             if (number > the.currentStep) {
                 callback = Plugin.eventTrigger('beforeNext');
@@ -7564,11 +7564,11 @@ let mWizard = function(elementId, options) {
             Plugin.setStepClass();
 
             //== 更新nav class
-            for (let i = 0, j = the.steps.length; i < j; i++) {
+            for (var i = 0, j = the.steps.length; i < j; i++) {
                 mUtil.removeClass(the.steps[i], 'm-wizard__step--current m-wizard__step--done');
             }
 
-            for (let i = 1; i < the.currentStep; i++) {
+            for (var i = 1; i < the.currentStep; i++) {
                 mUtil.addClass(the.steps[i - 1], 'm-wizard__step--done');
             }
             
@@ -7654,16 +7654,16 @@ let mWizard = function(elementId, options) {
 
             //== 更新滚动条
             if (mUtil.hasClass(element, 'm-wizard--1')) {
-                let width = 100 * ((the.currentStep) / (the.totalSteps));
-                let number = mUtil.find(element, '.m-wizard__step-number');
-                let offset = parseInt(mUtil.css(number, 'width'));
+                var width = 100 * ((the.currentStep) / (the.totalSteps));
+                var number = mUtil.find(element, '.m-wizard__step-number');
+                var offset = parseInt(mUtil.css(number, 'width'));
                 mUtil.css(the.progress, 'width', 'calc(' + width + '% + ' + (offset / 2) + 'px)');
             } else if (mUtil.hasClass(element, 'm-wizard--2')) {
                 if (the.currentStep === 1) {
                     //return;
                 }
 
-                let progress = (the.currentStep - 1) * (100 * (1 / (the.totalSteps - 1)));
+                var progress = (the.currentStep - 1) * (100 * (1 / (the.totalSteps - 1)));
 
                 if (mUtil.isInResponsiveRange('minimal-desktop-and-below')) {
                     mUtil.css(the.progress, 'height', progress + '%');
@@ -7671,7 +7671,7 @@ let mWizard = function(elementId, options) {
                     mUtil.css(the.progress, 'width', progress + '%');
                 }
             } else {
-                let width = 100 * ((the.currentStep) / (the.totalSteps));
+                var width = 100 * ((the.currentStep) / (the.totalSteps));
                 mUtil.css(the.progress, 'width', width + '%');
             }
         },
@@ -7680,9 +7680,9 @@ let mWizard = function(elementId, options) {
          * Show/hide target content
          */
         handleTarget: function() {
-            let step = the.steps[the.currentStep - 1];
-            let target = mUtil.get(mUtil.attr(step, 'm-wizard-target'));
-            let current = mUtil.find(element, '.m-wizard__form-step--current');
+            var step = the.steps[the.currentStep - 1];
+            var target = mUtil.get(mUtil.attr(step, 'm-wizard-target'));
+            var current = mUtil.find(element, '.m-wizard__form-step--current');
             
             mUtil.removeClass(current, 'm-wizard__form-step--current');
             mUtil.addClass(target, 'm-wizard__form-step--current');
@@ -7718,8 +7718,8 @@ let mWizard = function(elementId, options) {
          * Trigger events
          */
         eventTrigger: function(name) {
-            for (let i = 0; i < the.events.length; i++) {
-                let event = the.events[i];
+            for (var i = 0; i < the.events.length; i++) {
+                var event = the.events[i];
                 if (event.name == name) {
                     if (event.one == true) {
                         if (event.fired == false) {
@@ -7867,9 +7867,9 @@ let mWizard = function(elementId, options) {
 };
 (function ($) {
 
-    let pluginName = 'mDatatable';
-    let pfx = 'm-';
-    let util = mUtil;
+    var pluginName = 'mDatatable';
+    var pfx = 'm-';
+    var util = mUtil;
 
     if (typeof util === 'undefined') throw new Error('Util class is required and must be included before ' + pluginName);
 
@@ -7880,7 +7880,7 @@ let mWizard = function(elementId, options) {
         }
 
         // 全局变量
-        let datatable = this;
+        var datatable = this;
 
         // 是否开调试
         // 1) 每次刷新会清除状态
@@ -7893,7 +7893,7 @@ let mWizard = function(elementId, options) {
             params: null,
         };
 
-        let Plugin = {
+        var Plugin = {
             /********************
              ** 私有方法
              ********************/
@@ -7903,7 +7903,7 @@ let mWizard = function(elementId, options) {
             ajaxParams: {},
 
             init: function (options) {
-                let isHtmlTable = false;
+                var isHtmlTable = false;
                 // 数据源选项空是正常表
                 if (options.data.source === null) {
                     Plugin.extractTable();
@@ -7989,14 +7989,14 @@ let mWizard = function(elementId, options) {
              * 提取静态table内容放入dataSource
              */
             extractTable: function () {
-                let columns = [];
-                let headers = $(datatable).find('tr:first-child th').get().map(function (cell, i) {
-                    let field = $(cell).data('field');
+                var columns = [];
+                var headers = $(datatable).find('tr:first-child th').get().map(function (cell, i) {
+                    var field = $(cell).data('field');
                     if (typeof field === 'undefined') {
                         field = $(cell).text().trim();
                     }
-                    let column = {field: field, title: field};
-                    for (let ii in options.columns) {
+                    var column = {field: field, title: field};
+                    for (var ii in options.columns) {
                         if (options.columns[ii].field === field) {
                             column = $.extend(true, {}, options.columns[ii], column);
                         }
@@ -8007,14 +8007,14 @@ let mWizard = function(elementId, options) {
                 // auto create columns config
                 options.columns = columns;
 
-                let rowProp = [];
-                let source = [];
+                var rowProp = [];
+                var source = [];
 
                 $(datatable).find('tr').each(function () {
                     if ($(this).find('td').length) {
                         rowProp.push($(this).prop('attributes'));
                     }
-                    let td = {};
+                    var td = {};
                     $(this).find('td').each(function (i, cell) {
                         td[headers[i]] = cell.innerHTML.trim();
                     });
@@ -8064,7 +8064,7 @@ let mWizard = function(elementId, options) {
 
             lockTable: function () {
                 // todo; revise lock table responsive
-                let lock = {
+                var lock = {
                     lockEnabled: false,
                     init: function () {
                         // check if table should be locked columns
@@ -8076,7 +8076,7 @@ let mWizard = function(elementId, options) {
                         lock.enable();
                     },
                     enable: function () {
-                        let enableLock = function (tablePart) {
+                        var enableLock = function (tablePart) {
                             // 检查是否已经锁定
                             if ($(tablePart).find('.' + pfx + 'datatable__lock').length > 0) {
                                 Plugin.log('锁定容器已经存在: ', tablePart);
@@ -8089,16 +8089,16 @@ let mWizard = function(elementId, options) {
                             }
 
                             // 锁定div容器
-                            let lockLeft = $('<div/>').addClass(pfx + 'datatable__lock ' + pfx + 'datatable__lock--left');
-                            let lockScroll = $('<div/>').addClass(pfx + 'datatable__lock ' + pfx + 'datatable__lock--scroll');
-                            let lockRight = $('<div/>').addClass(pfx + 'datatable__lock ' + pfx + 'datatable__lock--right');
+                            var lockLeft = $('<div/>').addClass(pfx + 'datatable__lock ' + pfx + 'datatable__lock--left');
+                            var lockScroll = $('<div/>').addClass(pfx + 'datatable__lock ' + pfx + 'datatable__lock--scroll');
+                            var lockRight = $('<div/>').addClass(pfx + 'datatable__lock ' + pfx + 'datatable__lock--right');
 
                             $(tablePart).find('.' + pfx + 'datatable__row').each(function () {
-                                let rowLeft = $('<tr/>').addClass(pfx + 'datatable__row').appendTo(lockLeft);
-                                let rowScroll = $('<tr/>').addClass(pfx + 'datatable__row').appendTo(lockScroll);
-                                let rowRight = $('<tr/>').addClass(pfx + 'datatable__row').appendTo(lockRight);
+                                var rowLeft = $('<tr/>').addClass(pfx + 'datatable__row').appendTo(lockLeft);
+                                var rowScroll = $('<tr/>').addClass(pfx + 'datatable__row').appendTo(lockScroll);
+                                var rowRight = $('<tr/>').addClass(pfx + 'datatable__row').appendTo(lockRight);
                                 $(this).find('.' + pfx + 'datatable__cell').each(function () {
-                                    let locked = $(this).data('locked');
+                                    var locked = $(this).data('locked');
                                     if (typeof locked !== 'undefined') {
                                         if (typeof locked.left !== 'undefined' || locked === true) {
                                             $(this).appendTo(rowLeft);
@@ -8131,7 +8131,7 @@ let mWizard = function(elementId, options) {
                         };
 
                         $(datatable.table).find('thead,tbody,tfoot').each(function () {
-                            let tablePart = this;
+                            var tablePart = this;
                             if ($(this).find('.' + pfx + 'datatable__lock').length === 0) {
                                 $(this).ready(function () {
                                     enableLock(tablePart);
@@ -8166,9 +8166,9 @@ let mWizard = function(elementId, options) {
             },
 
             lockEnabledColumns: function () {
-                let screen = $(window).width();
-                let columns = options.columns;
-                let enabled = {left: [], right: []};
+                var screen = $(window).width();
+                var columns = options.columns;
+                var enabled = {left: [], right: []};
                 $.each(columns, function (i, column) {
                     if (typeof column.locked !== 'undefined') {
                         if (typeof column.locked.left !== 'undefined') {
@@ -8238,15 +8238,15 @@ let mWizard = function(elementId, options) {
                     if (Plugin.isScrolling) return;
 
                     // normal table
-                    let row = $(this).closest('.' + pfx + 'datatable__row').addClass(pfx + 'datatable__row--hover');
-                    let index = $(row).index() + 1;
+                    var row = $(this).closest('.' + pfx + 'datatable__row').addClass(pfx + 'datatable__row--hover');
+                    var index = $(row).index() + 1;
 
                     // lock table
                     $(row).closest('.' + pfx + 'datatable__lock').parent().find('.' + pfx + 'datatable__row:nth-child(' + index + ')').addClass(pfx + 'datatable__row--hover');
                 }).on('mouseleave', function () {
                     // normal table
-                    let row = $(this).closest('.' + pfx + 'datatable__row').removeClass(pfx + 'datatable__row--hover');
-                    let index = $(row).index() + 1;
+                    var row = $(this).closest('.' + pfx + 'datatable__row').removeClass(pfx + 'datatable__row--hover');
+                    var index = $(row).index() + 1;
 
                     // look table
                     $(row).closest('.' + pfx + 'datatable__lock').parent().find('.' + pfx + 'datatable__row:nth-child(' + index + ')').removeClass(pfx + 'datatable__row--hover');
@@ -8262,14 +8262,14 @@ let mWizard = function(elementId, options) {
                 if (!Plugin.isLocked()) return 0;
 
                 // refer to head dimension
-                let containerWidth = $(datatable.tableHead).width();
-                let lockLeft = $(datatable.tableHead).find('.' + pfx + 'datatable__lock--left').width();
-                let lockRight = $(datatable.tableHead).find('.' + pfx + 'datatable__lock--right').width();
+                var containerWidth = $(datatable.tableHead).width();
+                var lockLeft = $(datatable.tableHead).find('.' + pfx + 'datatable__lock--left').width();
+                var lockRight = $(datatable.tableHead).find('.' + pfx + 'datatable__lock--right').width();
 
                 if (typeof lockLeft === 'undefined') lockLeft = 0;
                 if (typeof lockRight === 'undefined') lockRight = 0;
 
-                let lockScroll = Math.floor(containerWidth - lockLeft - lockRight);
+                var lockScroll = Math.floor(containerWidth - lockLeft - lockRight);
                 $(datatable.table).find('.' + pfx + 'datatable__lock--scroll').css('width', lockScroll);
 
                 return lockScroll;
@@ -8281,9 +8281,9 @@ let mWizard = function(elementId, options) {
              * todo; 暂未使用
              */
             dragResize: function () {
-                let pressed = false;
-                let start = undefined;
-                let startX, startWidth;
+                var pressed = false;
+                var start = undefined;
+                var startX, startWidth;
                 $(datatable.tableHead).find('.' + pfx + 'datatable__cell').mousedown(function (e) {
                     start = $(this);
                     pressed = true;
@@ -8293,12 +8293,12 @@ let mWizard = function(elementId, options) {
 
                 }).mousemove(function (e) {
                     if (pressed) {
-                        let i = $(start).index();
-                        let tableBody = $(datatable.tableBody);
-                        let ifLocked = $(start).closest('.' + pfx + 'datatable__lock');
+                        var i = $(start).index();
+                        var tableBody = $(datatable.tableBody);
+                        var ifLocked = $(start).closest('.' + pfx + 'datatable__lock');
 
                         if (ifLocked) {
-                            let lockedIndex = $(ifLocked).index();
+                            var lockedIndex = $(ifLocked).index();
                             tableBody = $(datatable.tableBody).find('.' + pfx + 'datatable__lock').eq(lockedIndex);
                         }
 
@@ -8325,9 +8325,9 @@ let mWizard = function(elementId, options) {
              */
             initHeight: function () {
                 if (options.layout.height && options.layout.scroll) {
-                    let theadHeight = $(datatable.tableHead).find('.' + pfx + 'datatable__row').height();
-                    let tfootHeight = $(datatable.tableFoot).find('.' + pfx + 'datatable__row').height();
-                    let bodyHeight = options.layout.height;
+                    var theadHeight = $(datatable.tableHead).find('.' + pfx + 'datatable__row').height();
+                    var tfootHeight = $(datatable.tableFoot).find('.' + pfx + 'datatable__row').height();
+                    var bodyHeight = options.layout.height;
                     if (theadHeight > 0) {
                         bodyHeight -= theadHeight;
                     }
@@ -8418,7 +8418,7 @@ let mWizard = function(elementId, options) {
              */
             setupCellField: function (tableParts) {
                 if (typeof tableParts === 'undefined') tableParts = $(datatable.table).children();
-                let columns = options.columns;
+                var columns = options.columns;
                 $.each(tableParts, function (part, tablePart) {
                     $(tablePart).find('.' + pfx + 'datatable__row').each(function (tri, tr) {
                         // prepare data
@@ -8438,13 +8438,13 @@ let mWizard = function(elementId, options) {
              */
             setupTemplateCell: function (tablePart) {
                 if (typeof tablePart === 'undefined') tablePart = datatable.tableBody;
-                let columns = options.columns;
+                var columns = options.columns;
                 $(tablePart).find('.' + pfx + 'datatable__row').each(function (tri, tr) {
                     // 获取row上面的data-obj属性
-                    let obj = $(tr).data('obj') || {};
+                    var obj = $(tr).data('obj') || {};
 
                     // 执行template之前的回调函数
-                    let beforeTemplate = Plugin.getOption('rows.beforeTemplate');
+                    var beforeTemplate = Plugin.getOption('rows.beforeTemplate');
                     if (typeof beforeTemplate === 'function') {
                         beforeTemplate($(tr), obj, tri);
                     }
@@ -8453,7 +8453,7 @@ let mWizard = function(elementId, options) {
                         obj = {};
                         $(tr).find('.' + pfx + 'datatable__cell').each(function (tdi, td) {
                             // 根据列名称获取列设置
-                            let column = $.grep(columns, function (n, i) {
+                            var column = $.grep(columns, function (n, i) {
                                 return $(td).data('field') === n.field;
                             })[0];
                             if (typeof column !== 'undefined') {
@@ -8464,13 +8464,13 @@ let mWizard = function(elementId, options) {
 
                     $(tr).find('.' + pfx + 'datatable__cell').each(function (tdi, td) {
                         // 根据列名称获取列设置
-                        let column = $.grep(columns, function (n, i) {
+                        var column = $.grep(columns, function (n, i) {
                             return $(td).data('field') === n.field;
                         })[0];
                         if (typeof column !== 'undefined') {
                             if (typeof column.dictType !== 'undefined') {
                                 column.template = function (row) {
-                                    let dicts = null;
+                                    var dicts = null;
                                     if (typeof column.dictType === 'string') {
                                         dicts = mTool.getSysDictsObject(column.dictType);
                                     } else {
@@ -8481,7 +8481,7 @@ let mWizard = function(elementId, options) {
                             }
                             // 列模板
                             if (typeof column.template !== 'undefined') {
-                                let finalValue = '';
+                                var finalValue = '';
                                 // 模板设置
                                 if (typeof column.template === 'string') {
                                     finalValue = Plugin.dataPlaceholder(column.template, obj);
@@ -8490,7 +8490,7 @@ let mWizard = function(elementId, options) {
                                 if (typeof column.template === 'function') {
                                     finalValue = column.template(obj, tri, datatable);
                                 }
-                                let span = document.createElement('span');
+                                var span = document.createElement('span');
                                 span.innerHTML = finalValue;
                                 // 用span包起来插入到td中
                                 $(td).html(span);
@@ -8505,7 +8505,7 @@ let mWizard = function(elementId, options) {
                     });
 
                     // 执行template之后的回调函数
-                    let afterTemplate = Plugin.getOption('rows.afterTemplate');
+                    var afterTemplate = Plugin.getOption('rows.afterTemplate');
                     if (typeof afterTemplate === 'function') {
                         afterTemplate($(tr), obj, tri);
                     }
@@ -8527,15 +8527,15 @@ let mWizard = function(elementId, options) {
                 // no records available
                 if (datatable.dataSet.length === 0) return;
 
-                let columns = options.columns;
+                var columns = options.columns;
                 $(datatable.tableBody).find('.' + pfx + 'datatable__row').each(function (tri, tr) {
                     $(tr).find('.' + pfx + 'datatable__cell').each(function (tdi, td) {
                         // 根据列名获取列设置
-                        let column = $.grep(columns, function (n, i) {
+                        var column = $.grep(columns, function (n, i) {
                             return $(td).data('field') === n.field;
                         })[0];
                         if (typeof column !== 'undefined') {
-                            let value = $(td).text();
+                            var value = $(td).text();
 
                             // 启用列选择器
                             if (typeof column.selector !== 'undefined' && column.selector !== false) {
@@ -8543,7 +8543,7 @@ let mWizard = function(elementId, options) {
                                 if ($(td).find('.' + pfx + 'checkbox [type="checkbox"]').length > 0 || '#' == value) return;
                                 $(td).addClass(pfx + 'datatable__cell--check');
                                 // 添加 checkbox
-                                let chk = $('<label/>').addClass(pfx + 'checkbox ' + pfx + 'checkbox--single').append($('<input/>').attr('type', 'checkbox').attr('value', value).on('click', function () {
+                                var chk = $('<label/>').addClass(pfx + 'checkbox ' + pfx + 'checkbox--single').append($('<input/>').attr('type', 'checkbox').attr('value', value).on('click', function () {
                                     if ($(this).is(':checked')) {
                                         // 添加已勾选class
                                         Plugin.setActive(this);
@@ -8577,22 +8577,22 @@ let mWizard = function(elementId, options) {
                  *
                  * @param tr {jquery}
                  */
-                let initCheckbox = function (tr) {
+                var initCheckbox = function (tr) {
                     // 获取列设置
-                    let column = $.grep(columns, function (n, i) {
+                    var column = $.grep(columns, function (n, i) {
                         return typeof n.selector !== 'undefined' && n.selector !== false;
                     })[0];
 
                     if (typeof column !== 'undefined') {
                         // 启用列checkbox
                         if (typeof column.selector !== 'undefined' && column.selector !== false) {
-                            let td = $(tr).find('[data-field="' + column.field + '"]');
+                            var td = $(tr).find('[data-field="' + column.field + '"]');
                             // 检查checkbox是否已经存在
                             if ($(td).find('.' + pfx + 'checkbox [type="checkbox"]').length > 0) return;
                             $(td).addClass(pfx + 'datatable__cell--check');
 
                             // 添加 checkbox
-                            let chk = $('<label/>').addClass(pfx + 'checkbox ' + pfx + 'checkbox--single ' + pfx + 'checkbox--all').append($('<input/>').attr('type', 'checkbox').on('click', function () {
+                            var chk = $('<label/>').addClass(pfx + 'checkbox ' + pfx + 'checkbox--single ' + pfx + 'checkbox--all').append($('<input/>').attr('type', 'checkbox').on('click', function () {
                                 if ($(this).is(':checked')) {
                                     Plugin.setActiveAll(true);
                                 } else {
@@ -8623,17 +8623,17 @@ let mWizard = function(elementId, options) {
              */
             adjustCellsWidth: function () {
                 // 获取表格宽度
-                let containerWidth = $(datatable.tableHead).width();
+                var containerWidth = $(datatable.tableHead).width();
 
                 // 为排序图标保留的偏移量
-                let sortOffset = 20;
+                var sortOffset = 20;
 
                 // 获取总列数
-                let columns = $(datatable.tableHead).find('.' + pfx + 'datatable__row:first-child').find('.' + pfx + 'datatable__cell:visible').length;
+                var columns = $(datatable.tableHead).find('.' + pfx + 'datatable__row:first-child').find('.' + pfx + 'datatable__cell:visible').length;
                 if (columns > 0) {
                     // 删除保留排序图标宽度
                     containerWidth = containerWidth - (sortOffset * columns);
-                    let minWidth = Math.floor(containerWidth / columns);
+                    var minWidth = Math.floor(containerWidth / columns);
 
                     // 最小宽度
                     if (minWidth <= Plugin.offset) {
@@ -8641,8 +8641,8 @@ let mWizard = function(elementId, options) {
                     }
 
                     $(datatable.table).find('.' + pfx + 'datatable__row').find('.' + pfx + 'datatable__cell:visible').each(function (tdi, td) {
-                        let width = minWidth;
-                        let dataWidth = $(td).data('width');
+                        var width = minWidth;
+                        var dataWidth = $(td).data('width');
                         if (typeof dataWidth !== 'undefined') {
                             width = dataWidth;
                         }
@@ -8658,11 +8658,11 @@ let mWizard = function(elementId, options) {
              */
             adjustCellsHeight: function () {
                 $.each($(datatable.table).children(), function (part, tablePart) {
-                    let totalRows = $(tablePart).find('.' + pfx + 'datatable__row').first().parent().find('.' + pfx + 'datatable__row').length;
-                    for (let i = 1; i <= totalRows; i++) {
-                        let rows = $(tablePart).find('.' + pfx + 'datatable__row:nth-child(' + i + ')');
+                    var totalRows = $(tablePart).find('.' + pfx + 'datatable__row').first().parent().find('.' + pfx + 'datatable__row').length;
+                    for (var i = 1; i <= totalRows; i++) {
+                        var rows = $(tablePart).find('.' + pfx + 'datatable__row:nth-child(' + i + ')');
                         if ($(rows).length > 0) {
-                            let maxHeight = Math.max.apply(null, $(rows).map(function () {
+                            var maxHeight = Math.max.apply(null, $(rows).map(function () {
                                 return $(this).height();
                             }).get());
                             $(rows).css('height', Math.ceil(parseInt(maxHeight)));
@@ -8694,7 +8694,7 @@ let mWizard = function(elementId, options) {
              * @returns {{tableLocked: null, init: init, onScrolling: onScrolling}}
              */
             scrollbar: function () {
-                let scroll = {
+                var scroll = {
                     scrollable: null,
                     tableLocked: null,
                     mcsOptions: {
@@ -8714,13 +8714,13 @@ let mWizard = function(elementId, options) {
                         theme: 'minimal-dark',
                     },
                     init: function () {
-                        let screen = util.getViewPort().width;
+                        var screen = util.getViewPort().width;
                         // 设置滚动条
                         if (options.layout.scroll) {
                             // 设置滚动class
                             $(datatable.wrap).addClass(pfx + 'datatable--scroll');
 
-                            let scrollable = $(datatable.tableBody).find('.' + pfx + 'datatable__lock--scroll');
+                            var scrollable = $(datatable.tableBody).find('.' + pfx + 'datatable__lock--scroll');
 
                             // 检查表格是否有数据
                             if ($(scrollable).find('.' + pfx + 'datatable__row').length > 0 && $(scrollable).length > 0) {
@@ -8750,8 +8750,8 @@ let mWizard = function(elementId, options) {
                         $(scrollable).css('overflow', 'auto').off().on('scroll', scroll.onScrolling);
                     },
                     onScrolling: function (e) {
-                        let left = $(this).scrollLeft();
-                        let top = $(this).scrollTop();
+                        var left = $(this).scrollLeft();
+                        var top = $(this).scrollTop();
                         $(scroll.scrollHead).css('left', -left);
                         $(scroll.scrollFoot).css('left', -left);
                         $(scroll.tableLocked).each(function (i, table) {
@@ -8778,7 +8778,7 @@ let mWizard = function(elementId, options) {
                 if (util.hasClass(element, 'ps')) {
                     $(element).data('ps').update();
                 } else {
-                    let ps = new PerfectScrollbar(element);
+                    var ps = new PerfectScrollbar(element);
                     $(element).data('ps', ps);
                 }
             },
@@ -8789,9 +8789,9 @@ let mWizard = function(elementId, options) {
             setHeadTitle: function (tablePart) {
                 if (typeof tablePart === 'undefined') tablePart = datatable.tableHead;
                 tablePart = $(tablePart)[0];
-                let columns = options.columns;
-                let row = tablePart.getElementsByTagName('tr')[0];
-                let ths = tablePart.getElementsByTagName('td');
+                var columns = options.columns;
+                var row = tablePart.getElementsByTagName('tr')[0];
+                var ths = tablePart.getElementsByTagName('td');
 
                 if (typeof row === 'undefined') {
                     row = document.createElement('tr');
@@ -8799,7 +8799,7 @@ let mWizard = function(elementId, options) {
                 }
 
                 $.each(columns, function (i, column) {
-                    let th = ths[i];
+                    var th = ths[i];
                     if (typeof th === 'undefined') {
                         th = document.createElement('th');
                         row.appendChild(th);
@@ -8822,7 +8822,7 @@ let mWizard = function(elementId, options) {
 
                     // 为thead/tfoot添加文本对齐方式
                     if (typeof column.textAlign !== 'undefined') {
-                        let align = typeof datatable.textAlign[column.textAlign] !== 'undefined' ? datatable.textAlign[column.textAlign] : '';
+                        var align = typeof datatable.textAlign[column.textAlign] !== 'undefined' ? datatable.textAlign[column.textAlign] : '';
                         util.addClass(th, align);
                     }
                 });
@@ -8836,22 +8836,26 @@ let mWizard = function(elementId, options) {
             dataRender: function (action) {
                 $(datatable.table).siblings('.' + pfx + 'datatable__pager').removeClass(pfx + 'datatable--paging-loaded');
 
-                let buildMeta = function () {
+                var buildMeta = function () {
                     datatable.dataSet = datatable.dataSet || [];
                     Plugin.localDataUpdate();
                     // local pagination meta
-                    let meta = Plugin.getDataSourceParam('page');
-                    if (meta.size === 0) {
+                    var meta = Plugin.getDataSourceParam('page');
+                    if (meta.size == null || meta.size === 0) {
                         meta.size = options.data.pageSize || 10;
                     }
+                    if (meta.current == null || meta.current === 0) {
+                        meta.current = 1;
+                    }
+
                     meta.total = datatable.dataSet.length;
-                    let start = Math.max(meta.size * (meta.current - 1), 0);
-                    let end = Math.min(start + meta.size, meta.total);
+                    var start = Math.max(meta.size * (meta.current - 1), 0);
+                    var end = Math.min(start + meta.size, meta.total);
                     datatable.dataSet = $(datatable.dataSet).slice(start, end);
                     return meta;
                 };
 
-                let afterGetData = function (result) {
+                var afterGetData = function (result) {
                     if (mTool.httpCode.SUCCESS !== result.code) {
                         mTool.errorTip('查询数据失败', result.message);
                         result.data = [];
@@ -8860,7 +8864,7 @@ let mWizard = function(elementId, options) {
                         result.data.total = 0;
 
                     }
-                    let localPagingCallback = function (ctx, meta) {
+                    var localPagingCallback = function (ctx, meta) {
                         if (!$(ctx.pager).hasClass(pfx + 'datatable--paging-loaded')) {
                             $(ctx.pager).remove();
                             ctx.init(meta);
@@ -8870,8 +8874,8 @@ let mWizard = function(elementId, options) {
                             ctx.init(meta);
                         });
 
-                        let start = Math.max(meta.size * (meta.current - 1), 0);
-                        let end = Math.min(start + meta.size, meta.total);
+                        var start = Math.max(meta.size * (meta.current - 1), 0);
+                        var end = Math.min(start + meta.size, meta.total);
 
                         Plugin.localDataUpdate();
                         datatable.dataSet = $(datatable.dataSet).slice(start, end);
@@ -8884,7 +8888,7 @@ let mWizard = function(elementId, options) {
                     if (options.pagination) {
                         if (options.data.serverPaging && options.data.type !== 'local') {
                             // 服务器端分页
-                            let serverMeta = result.data;
+                            var serverMeta = result.data;
                             if (serverMeta !== null) {
                                 Plugin.paging(serverMeta);
                             } else {
@@ -8919,24 +8923,24 @@ let mWizard = function(elementId, options) {
              */
             insertData: function () {
                 datatable.dataSet = datatable.dataSet || [];
-                let params = Plugin.getDataSourceParam();
+                var params = Plugin.getDataSourceParam();
 
                 // 获取行属性
-                let pagination = params.page;
-                let start = (Math.max(pagination.page, 1) - 1) * pagination.size;
-                let end = Math.min(pagination.page, pagination.pages) * pagination.size;
-                let rowProps = {};
+                var pagination = params.page;
+                var start = (Math.max(pagination.page, 1) - 1) * pagination.size;
+                var end = Math.min(pagination.page, pagination.pages) * pagination.size;
+                var rowProps = {};
                 if (typeof options.data.attr.rowProps !== 'undefined' && options.data.attr.rowProps.length) {
                     rowProps = options.data.attr.rowProps.slice(start, end);
                 }
 
                 // todo; fix performance
-                let tableBody = document.createElement('tbody');
+                var tableBody = document.createElement('tbody');
                 tableBody.style.visibility = 'hidden';
-                let colLength = options.columns.length;
+                var colLength = options.columns.length;
 
                 $.each(datatable.dataSet, function (rowIndex, row) {
-                    let tr = document.createElement('tr');
+                    var tr = document.createElement('tr');
                     tr.setAttribute('data-row', rowIndex);
                     if (typeof row.id !== 'undefined') {
                         tr.setAttribute('data-id', row.id);
@@ -8950,11 +8954,11 @@ let mWizard = function(elementId, options) {
                         });
                     }
 
-                    let cellIndex = 0;
-                    let tds = [];
-                    for (let a = 0; a < colLength; a += 1) {
-                        let column = options.columns[a];
-                        let classes = [];
+                    var cellIndex = 0;
+                    var tds = [];
+                    for (var a = 0; a < colLength; a += 1) {
+                        var column = options.columns[a];
+                        var classes = [];
                         // 添加排序class
                         if (Plugin.getObject('sort.field', params) === column.field) {
                             classes.push(pfx + 'datatable__cell--sorted');
@@ -8962,7 +8966,7 @@ let mWizard = function(elementId, options) {
 
                         // 设置文本对齐方式
                         if (typeof column.textAlign !== 'undefined') {
-                            let align = typeof datatable.textAlign[column.textAlign] !==
+                            var align = typeof datatable.textAlign[column.textAlign] !==
                             'undefined' ? datatable.textAlign[column.textAlign] : '';
                             classes.push(align);
                         }
@@ -8972,7 +8976,7 @@ let mWizard = function(elementId, options) {
                             classes.push(column.class);
                         }
 
-                        let td = document.createElement('td');
+                        var td = document.createElement('td');
                         util.addClass(td, classes.join(' '));
                         td.setAttribute('data-field', column.field);
                         td.innerHTML = Plugin.getObject(column.field, row);
@@ -8984,7 +8988,7 @@ let mWizard = function(elementId, options) {
 
                 // 显示无记录消息
                 if (datatable.dataSet.length === 0) {
-                    let errorSpan = document.createElement('span');
+                    var errorSpan = document.createElement('span');
                     util.addClass(errorSpan, pfx + 'datatable--error');
                     errorSpan.innerHTML = Plugin.getOption('translate.records.noRecords');
                     tableBody.appendChild(errorSpan);
@@ -9018,7 +9022,7 @@ let mWizard = function(elementId, options) {
             getData: function () {
                 Plugin.spinnerCallback(true);
 
-                let ajaxParams = {
+                var ajaxParams = {
                     contentType: 'application/json',
                     dataType: 'json',
                     method: 'GET',
@@ -9037,26 +9041,24 @@ let mWizard = function(elementId, options) {
                     ajaxParams.headers = Plugin.getOption('data.source.read.headers');
                     ajaxParams.method = Plugin.getOption('data.source.read.method') || 'POST';
 
-                    let data = Plugin.getDataSourceParam();
+                    var data = Plugin.getDataSourceParam();
                     // 如果没有启用服务器分页,删除参数中的分页信息
                     if (!Plugin.getOption('data.serverPaging')) {
                         delete data['page'];
-                    }
-                    // 将排序信息放到参数中
-                    if (typeof data.sort !== 'undefined') {
-                        if ('asc' == data.sort.sort) {
-                            data.page.ascs = [data.sort.field];
-                        } else if ('desc' == data.sort.sort) {
-                            data.page.descs = [data.sort.field];
+                    }else {
+                        // 如果数据来源于服务器并且在服务器分页,将排序信息放到参数中
+                        if (typeof data.sort !== 'undefined') {
+                            if ('asc' == data.sort.sort) {
+                                data.page.ascs = [data.sort.field];
+                            } else if ('desc' == data.sort.sort) {
+                                data.page.descs = [data.sort.field];
+                            }
                         }
-                        // data.ascs = data.sort.field;
-                        // data.page.sort = data.sort.sort;
+                        delete data['sort'];
                     }
-                    delete data['sort'];
-
                     // 表单内参数是否需要带入
                     if (Plugin.getOption('data.source.autoQuery')) {
-                        let formParams = mTool.queryParams($(datatable.table).parents('form.m-form').find('.query-modular input,.query-modular select'));
+                        var formParams = mTool.queryParams($(datatable.table).parents('form.m-form').find('.query-modular input,.query-modular select'));
                         ajaxParams.data = $.extend(true, ajaxParams.data, formParams);
                     }
                     ajaxParams.data = $.extend(true, ajaxParams.data, data, Plugin.getOption('data.source.read.params'));
@@ -9084,7 +9086,7 @@ let mWizard = function(elementId, options) {
              * @param callback
              */
             paging: function (meta, callback) {
-                let pg = {
+                var pg = {
                     meta: null,
                     pager: null,
                     paginateEvent: null,
@@ -9147,12 +9149,12 @@ let mWizard = function(elementId, options) {
                      * 生成分页工具条
                      */
                     populate: function () {
-                        let icons = Plugin.getOption('layout.icons.pagination');
-                        let title = Plugin.getOption('translate.toolbar.pagination.items.default');
+                        var icons = Plugin.getOption('layout.icons.pagination');
+                        var title = Plugin.getOption('translate.toolbar.pagination.items.default');
                         // 分页根元素
                         pg.pager = $('<div/>').addClass(pfx + 'datatable__pager ' + pfx + 'datatable--paging-loaded clearfix');
                         // 页码链接
-                        let pagerNumber = $('<ul/>').addClass(pfx + 'datatable__pager-nav');
+                        var pagerNumber = $('<ul/>').addClass(pfx + 'datatable__pager-nav');
                         pg.pagerLayout['pagination'] = pagerNumber;
 
                         // 第一页/上一页 按钮
@@ -9169,14 +9171,14 @@ let mWizard = function(elementId, options) {
                             if (e.which === 13) pg.gotoMorePage(e);
                         })).appendTo(pagerNumber);
 
-                        let pagesNumber = Plugin.getOption('toolbar.items.pagination.pages.desktop.pagesNumber');
-                        let end = Math.ceil(pg.meta.current / pagesNumber) * pagesNumber;
-                        let start = end - pagesNumber;
+                        var pagesNumber = Plugin.getOption('toolbar.items.pagination.pages.desktop.pagesNumber');
+                        var end = Math.ceil(pg.meta.current / pagesNumber) * pagesNumber;
+                        var start = end - pagesNumber;
                         if (end > pg.meta.pages) {
                             end = pg.meta.pages;
                         }
-                        for (let x = start; x < end; x++) {
-                            let pageNumber = x + 1;
+                        for (var x = start; x < end; x++) {
+                            var pageNumber = x + 1;
                             $('<li/>').append($('<a/>').addClass(pfx + 'datatable__pager-link ' + pfx + 'datatable__pager-link-number').text(pageNumber).attr('data-page', pageNumber).attr('title', pageNumber).on('click', pg.gotoPage)).appendTo(pagerNumber);
                         }
 
@@ -9197,13 +9199,13 @@ let mWizard = function(elementId, options) {
                         });
 
                         // 页大小 select
-                        let pageSizeSelect = $('<select/>').addClass('selectpicker ' + pfx + 'datatable__pager-size').attr('title', Plugin.getOption('translate.toolbar.pagination.items.default.select')).attr('data-width', '70px').val(pg.meta.size).on('change', pg.updatePerpage).prependTo(pg.pagerLayout['info']);
+                        var pageSizeSelect = $('<select/>').addClass('selectpicker ' + pfx + 'datatable__pager-size').attr('title', Plugin.getOption('translate.toolbar.pagination.items.default.select')).attr('data-width', '70px').val(pg.meta.size).on('change', pg.updatePerpage).prependTo(pg.pagerLayout['info']);
 
-                        let pageSizes = Plugin.getOption('toolbar.items.pagination.pageSizeSelect');
+                        var pageSizes = Plugin.getOption('toolbar.items.pagination.pageSizeSelect');
                         // 如果未指定页大小设置,使用默认设置
                         if (pageSizes.length == 0) pageSizes = [10, 15, 20, 30, 50, 100];
                         $.each(pageSizes, function (i, size) {
-                            let display = size;
+                            var display = size;
                             if (size === -1) display = 'All';
                             $('<option/>').attr('value', size).html(display).appendTo(pageSizeSelect);
                         });
@@ -9238,7 +9240,7 @@ let mWizard = function(elementId, options) {
 
                         if ($(this).attr('disabled') === 'disabled') return false;
 
-                        let page = $(this).attr('data-page');
+                        var page = $(this).attr('data-page');
 
                         if (typeof page === 'undefined') {
                             page = $(e.target).attr('data-page');
@@ -9315,7 +9317,7 @@ let mWizard = function(elementId, options) {
                             Plugin.spinnerCallback(true);
 
                             pg.pager = $(datatable.table).siblings('.' + pfx + 'datatable__pager');
-                            let pagerNumber = $(pg.pager).find('.' + pfx + 'datatable__pager-nav');
+                            var pagerNumber = $(pg.pager).find('.' + pfx + 'datatable__pager-nav');
 
                             // 设置当前页按钮状态
                             $(pagerNumber).find('.' + pfx + 'datatable__pager-link--active').removeClass(pfx + 'datatable__pager-link--active');
@@ -9356,7 +9358,7 @@ let mWizard = function(elementId, options) {
                         });
                     },
                     updateInfo: function () {
-                        let start = 0, end = 0;
+                        var start = 0, end = 0;
                         if (pg.meta.total != 0) {
                             start = Math.max(pg.meta.size * (pg.meta.current - 1) + 1, 1);
                             end = Math.min(start + pg.meta.size - 1, pg.meta.total);
@@ -9379,11 +9381,11 @@ let mWizard = function(elementId, options) {
                      */
                     pagingBreakpoint: function () {
 
-                        let pagerNumber = $(datatable.table).siblings('.' + pfx + 'datatable__pager').find('.' + pfx + 'datatable__pager-nav');
+                        var pagerNumber = $(datatable.table).siblings('.' + pfx + 'datatable__pager').find('.' + pfx + 'datatable__pager-nav');
                         if ($(pagerNumber).length === 0) return;
 
-                        let currentPage = Plugin.getCurrentPage();
-                        let pagerInput = $(pagerNumber).find('.' + pfx + 'pager-input').closest('li');
+                        var currentPage = Plugin.getCurrentPage();
+                        var pagerInput = $(pagerNumber).find('.' + pfx + 'pager-input').closest('li');
 
                         // 重置
                         $(pagerNumber).find('li').show();
@@ -9395,8 +9397,8 @@ let mWizard = function(elementId, options) {
                                     switch (mode) {
                                         case 'desktop':
                                         case 'tablet':
-                                            let end = Math.ceil(currentPage / option.pagesNumber) * option.pagesNumber;
-                                            let start = end - option.pagesNumber;
+                                            var end = Math.ceil(currentPage / option.pagesNumber) * option.pagesNumber;
+                                            var start = end - option.pagesNumber;
                                             $(pagerInput).hide();
                                             pg.meta = Plugin.getDataSourceParam('page');
                                             pg.paginationUpdate();
@@ -9420,7 +9422,7 @@ let mWizard = function(elementId, options) {
                      *
                      */
                     paginationUpdate: function () {
-                        let pager = $(datatable.table).siblings('.' + pfx + 'datatable__pager').find('.' + pfx + 'datatable__pager-nav'),
+                        var pager = $(datatable.table).siblings('.' + pfx + 'datatable__pager').find('.' + pfx + 'datatable__pager-nav'),
                             pagerMorePrev = $(pager).find('.' + pfx + 'datatable__pager-link--more-prev'),
                             pagerMoreNext = $(pager).find('.' + pfx + 'datatable__pager-link--more-next'),
                             pagerFirst = $(pager).find('.' + pfx + 'datatable__pager-link--first'),
@@ -9429,9 +9431,9 @@ let mWizard = function(elementId, options) {
                             pagerLast = $(pager).find('.' + pfx + 'datatable__pager-link--last');
 
                         // 获取可见页码
-                        let pagerNumber = $(pager).find('.' + pfx + 'datatable__pager-link-number');
+                        var pagerNumber = $(pager).find('.' + pfx + 'datatable__pager-link-number');
                         // 获取第一个页码的上一页页码
-                        let morePrevPage = Math.max($(pagerNumber).first().data('page') - 1, 1);
+                        var morePrevPage = Math.max($(pagerNumber).first().data('page') - 1, 1);
                         $(pagerMorePrev).each(function (i, prev) {
                             $(prev).attr('data-page', morePrevPage);
                         });
@@ -9443,7 +9445,7 @@ let mWizard = function(elementId, options) {
                         }
 
                         // 获取最后一个页码的下一页页码
-                        let moreNextPage = Math.min($(pagerNumber).last().data('page') + 1, pg.meta.pages);
+                        var moreNextPage = Math.min($(pagerNumber).last().data('page') + 1, pg.meta.pages);
                         $(pagerMoreNext).each(function (i, prev) {
                             $(pagerMoreNext).attr('data-page', moreNextPage).show();
                         });
@@ -9472,7 +9474,7 @@ let mWizard = function(elementId, options) {
                         }
 
                         // 根据配置设置按钮显示/隐藏
-                        let nav = Plugin.getOption('toolbar.items.pagination.navigation');
+                        var nav = Plugin.getOption('toolbar.items.pagination.navigation');
                         if (!nav.first) $(pagerFirst).remove();
                         if (!nav.prev) $(pagerPrev).remove();
                         if (!nav.next) $(pagerNext).remove();
@@ -9488,12 +9490,12 @@ let mWizard = function(elementId, options) {
              * options[columns][i][responsive][visible/hidden]
              */
             columnHide: function () {
-                let screen = util.getViewPort().width;
+                var screen = util.getViewPort().width;
                 // foreach columns setting
                 $.each(options.columns, function (i, column) {
                     if (typeof column.responsive !== 'undefined') {
-                        let field = column.field;
-                        let tds = $.grep($(datatable.table).find('.' + pfx + 'datatable__cell'), function (n, i) {
+                        var field = column.field;
+                        var tds = $.grep($(datatable.table).find('.' + pfx + 'datatable__cell'), function (n, i) {
                             return field === $(n).data('field');
                         });
                         if (util.getBreakpoint(column.responsive.hidden) >= screen) {
@@ -9514,7 +9516,7 @@ let mWizard = function(elementId, options) {
              * 设置子表
              */
             setupSubDatatable: function () {
-                let subTableCallback = Plugin.getOption('detail.content');
+                var subTableCallback = Plugin.getOption('detail.content');
                 if (typeof subTableCallback !== 'function') return;
 
                 // subtable already exist
@@ -9525,13 +9527,13 @@ let mWizard = function(elementId, options) {
                 options.columns[0]['subtable'] = true;
 
                 // toggle on open sub table
-                let toggleSubTable = function (e) {
+                var toggleSubTable = function (e) {
                     e.preventDefault();
                     // get parent row of this subtable
-                    let parentRow = $(this).closest('.' + pfx + 'datatable__row');
+                    var parentRow = $(this).closest('.' + pfx + 'datatable__row');
 
                     // get subtable row for sub table
-                    let subTableRow = $(parentRow).next('.' + pfx + 'datatable__row-subtable');
+                    var subTableRow = $(parentRow).next('.' + pfx + 'datatable__row-subtable');
                     if ($(subTableRow).length === 0) {
                         // prepare DOM for sub table, each <tr> as parent and add <tr> as child table
                         subTableRow = $('<tr/>').addClass(pfx + 'datatable__row-subtable ' + pfx + 'datatable__row-loading').hide().append($('<td/>').addClass(pfx + 'datatable__subtable').attr('colspan', Plugin.getTotalColumns()));
@@ -9544,12 +9546,12 @@ let mWizard = function(elementId, options) {
 
                     $(subTableRow).toggle();
 
-                    let subTable = $(subTableRow).find('.' + pfx + 'datatable__subtable');
+                    var subTable = $(subTableRow).find('.' + pfx + 'datatable__subtable');
 
                     // get id from first column of parent row
-                    let primaryKey = $(this).closest('[data-field]:first-child').find('.' + pfx + 'datatable__toggle-subtable').data('value');
+                    var primaryKey = $(this).closest('[data-field]:first-child').find('.' + pfx + 'datatable__toggle-subtable').data('value');
 
-                    let icon = $(this).find('i').removeAttr('class');
+                    var icon = $(this).find('i').removeAttr('class');
 
                     // prevent duplicate datatable init
                     if ($(parentRow).hasClass(pfx + 'datatable__row--subtable-expanded')) {
@@ -9597,15 +9599,15 @@ let mWizard = function(elementId, options) {
                     }
                 };
 
-                let columns = options.columns;
+                var columns = options.columns;
                 $(datatable.tableBody).find('.' + pfx + 'datatable__row').each(function (tri, tr) {
                     $(tr).find('.' + pfx + 'datatable__cell').each(function (tdi, td) {
                         // get column settings by field
-                        let column = $.grep(columns, function (n, i) {
+                        var column = $.grep(columns, function (n, i) {
                             return $(td).data('field') === n.field;
                         })[0];
                         if (typeof column !== 'undefined') {
-                            let value = $(td).text();
+                            var value = $(td).text();
                             // enable column subtable toggle
                             if (typeof column.subtable !== 'undefined' && column.subtable) {
                                 // check if subtable toggle exist
@@ -9625,7 +9627,7 @@ let mWizard = function(elementId, options) {
              */
             dataMapCallback: function (raw) {
                 // static dataset array
-                let dataSet = raw;
+                var dataSet = raw;
                 // dataset mapping callback
                 if (typeof Plugin.getOption('data.source.read.map') === 'function') {
                     return Plugin.getOption('data.source.read.map')(raw);
@@ -9648,7 +9650,7 @@ let mWizard = function(elementId, options) {
                 if (block) {
                     if (!Plugin.isSpinning) {
                         // 获取遮罩设置
-                        let spinnerOptions = Plugin.getOption('layout.spinner');
+                        var spinnerOptions = Plugin.getOption('layout.spinner');
                         if (spinnerOptions.message === true) {
                             // 使用默认提示文字
                             spinnerOptions.message = Plugin.getOption('translate.records.processing');
@@ -9675,20 +9677,20 @@ let mWizard = function(elementId, options) {
              * @returns {*|Array.<T>|{sort, field}|{asc, desc}}
              */
             sortCallback: function (data, sort, column) {
-                let type = column['type'] || 'string';
-                let format = column['format'] || '';
-                let field = column['field'];
+                var type = column['type'] || 'string';
+                var format = column['format'] || '';
+                var field = column['field'];
 
                 return $(data).sort(function (a, b) {
-                    let aField = a[field];
-                    let bField = b[field];
+                    var aField = a[field];
+                    var bField = b[field];
 
                     switch (type) {
                         case 'date':
                             if (typeof moment === 'undefined') {
                                 throw new Error('Moment.js 未引入.');
                             }
-                            let diff = moment(aField, format).diff(moment(bField, format));
+                            var diff = moment(aField, format).diff(moment(bField, format));
                             if (sort === 'asc') {
                                 return diff > 0 ? 1 : diff < 0 ? -1 : 0;
                             } else {
@@ -9745,31 +9747,31 @@ let mWizard = function(elementId, options) {
                 $(datatable.tableBody).each(function () {
                     while ($(this)[0].offsetWidth < $(this)[0].scrollWidth) {
                         $(datatable.table).find('.' + pfx + 'datatable__row').each(function (i) {
-                            let cell = $(this).find('.' + pfx + 'datatable__cell').not(':hidden').last();
+                            var cell = $(this).find('.' + pfx + 'datatable__cell').not(':hidden').last();
                             $(cell).hide();
                         });
                         Plugin.adjustCellsWidth.call();
                     }
                 });
 
-                let toggleHiddenColumns = function (e) {
+                var toggleHiddenColumns = function (e) {
                     e.preventDefault();
 
-                    let row = $(this).closest('.' + pfx + 'datatable__row');
-                    let detailRow = $(row).next();
+                    var row = $(this).closest('.' + pfx + 'datatable__row');
+                    var detailRow = $(row).next();
 
                     if (!$(detailRow).hasClass(pfx + 'datatable__row-detail')) {
                         $(this).find('i').removeClass(Plugin.getOption('layout.icons.rowDetail.collapse')).addClass(Plugin.getOption('layout.icons.rowDetail.expand'));
 
-                        let hidden = $(row).find('.' + pfx + 'datatable__cell:hidden').clone().show();
+                        var hidden = $(row).find('.' + pfx + 'datatable__cell:hidden').clone().show();
 
                         detailRow = $('<tr/>').addClass(pfx + 'datatable__row-detail').insertAfter(row);
-                        let detailRowTd = $('<td/>').addClass(pfx + 'datatable__detail').attr('colspan', Plugin.getTotalColumns()).appendTo(detailRow);
+                        var detailRowTd = $('<td/>').addClass(pfx + 'datatable__detail').attr('colspan', Plugin.getTotalColumns()).appendTo(detailRow);
 
-                        let detailSubTable = $('<table/>');
+                        var detailSubTable = $('<table/>');
                         $(hidden).each(function () {
-                            let field = $(this).data('field');
-                            let column = $.grep(options.columns, function (n, i) {
+                            var field = $(this).data('field');
+                            var column = $.grep(options.columns, function (n, i) {
                                 return field === n.field;
                             })[0];
                             $(detailSubTable).append($('<tr class="' + pfx + 'datatable__row"></tr>').append($('<td class="' + pfx + 'datatable__cell"></td>').append($('<span/>').css('width', Plugin.offset).append(column.title))).append(this));
@@ -9802,7 +9804,7 @@ let mWizard = function(elementId, options) {
              */
             hoverColumn: function () {
                 $(datatable.tableBody).on('mouseenter', '.' + pfx + 'datatable__cell', function () {
-                    let colIdx = $(Plugin.cell(this).nodes()).index();
+                    var colIdx = $(Plugin.cell(this).nodes()).index();
                     $(Plugin.cells().nodes()).removeClass(pfx + 'datatable__cell--hover');
                     $(Plugin.column(colIdx).nodes()).addClass(pfx + 'datatable__cell--hover');
                 });
@@ -9814,7 +9816,7 @@ let mWizard = function(elementId, options) {
             setAutoColumns: function () {
                 if (Plugin.getOption('data.autoColumns')) {
                     $.each(datatable.dataSet[0], function (k, v) {
-                        let found = $.grep(options.columns, function (n, i) {
+                        var found = $.grep(options.columns, function (n, i) {
                             return k === n.field;
                         });
                         if (found.length === 0) {
@@ -9850,11 +9852,11 @@ let mWizard = function(elementId, options) {
              * @returns {number}
              */
             getExtraSpace: function (element) {
-                let padding = parseInt($(element).css('paddingRight')) +
+                var padding = parseInt($(element).css('paddingRight')) +
                     parseInt($(element).css('paddingLeft'));
-                let margin = parseInt($(element).css('marginRight')) +
+                var margin = parseInt($(element).css('marginRight')) +
                     parseInt($(element).css('marginLeft'));
-                let border = Math.ceil(
+                var border = Math.ceil(
                     $(element).css('border-right-width').replace('px', ''));
                 return padding + margin + border;
             },
@@ -9867,7 +9869,7 @@ let mWizard = function(elementId, options) {
              * @returns {*}
              */
             dataPlaceholder: function (template, data) {
-                let result = template;
+                var result = template;
                 $.each(data, function (key, val) {
                     result = result.replace('{{' + key + '}}', val);
                 });
@@ -9882,7 +9884,7 @@ let mWizard = function(elementId, options) {
              */
             getTableId: function (suffix) {
                 if (typeof suffix === 'undefined') suffix = '';
-                let id = $(datatable).attr('id');
+                var id = $(datatable).attr('id');
                 if (typeof id === 'undefined') {
                     id = $(datatable).attr('class').split(' ')[0];
                 }
@@ -9903,8 +9905,8 @@ let mWizard = function(elementId, options) {
              * @returns {number}
              */
             getDepth: function () {
-                let depth = 0;
-                let table = datatable.table;
+                var depth = 0;
+                var table = datatable.table;
                 do {
                     table = $(table).parents('.' + pfx + 'datatable__table');
                     depth++;
@@ -9937,7 +9939,7 @@ let mWizard = function(elementId, options) {
             stateGet: function (key) {
                 key = Plugin.getTablePrefix(key);
                 if (Plugin.getOption('data.saveState') === false) return;
-                let value = null;
+                var value = null;
                 if (Plugin.getOption('data.saveState.webstorage') && localStorage) {
                     value = localStorage.getItem(key);
                 } else {
@@ -9955,7 +9957,7 @@ let mWizard = function(elementId, options) {
              * @param value {object} 值
              */
             stateUpdate: function (key, value) {
-                let ori = Plugin.stateGet(key);
+                var ori = Plugin.stateGet(key);
                 if (typeof ori === 'undefined' || ori === null) ori = {};
                 Plugin.stateKeep(key, $.extend({}, ori, value));
             },
@@ -9992,7 +9994,7 @@ let mWizard = function(elementId, options) {
             getOneRow: function (tablePart, row, tdOnly) {
                 if (typeof tdOnly === 'undefined') tdOnly = true;
                 // get list of <tr>
-                let result = $(tablePart).find('.' + pfx + 'datatable__row:not(.' + pfx + 'datatable__row-detail):nth-child(' + row + ')');
+                var result = $(tablePart).find('.' + pfx + 'datatable__row:not(.' + pfx + 'datatable__row-detail):nth-child(' + row + ')');
                 if (tdOnly) {
                     // get list of <td> or <th>
                     result = result.find('.' + pfx + 'datatable__cell');
@@ -10007,8 +10009,8 @@ let mWizard = function(elementId, options) {
              * @returns {boolean}
              */
             hasOverflowY: function (element) {
-                let children = $(element).find('.' + pfx + 'datatable__row');
-                let maxHeight = 0;
+                var children = $(element).find('.' + pfx + 'datatable__row');
+                var maxHeight = 0;
 
                 if (children.length > 0) {
                     $(children).each(function (tdi, td) {
@@ -10033,17 +10035,17 @@ let mWizard = function(elementId, options) {
                 if (typeof sort === 'undefined') sort = 'asc'; // desc
                 if (typeof int === 'undefined') int = false;
 
-                let column = $(header).index();
-                let rows = $(datatable.tableBody).find('.' + pfx + 'datatable__row');
-                let hIndex = $(header).closest('.' + pfx + 'datatable__lock').index();
+                var column = $(header).index();
+                var rows = $(datatable.tableBody).find('.' + pfx + 'datatable__row');
+                var hIndex = $(header).closest('.' + pfx + 'datatable__lock').index();
                 if (hIndex !== -1) {
                     rows = $(datatable.tableBody).find('.' + pfx + 'datatable__lock:nth-child(' + (hIndex + 1) + ')').find('.' + pfx + 'datatable__row');
                 }
 
-                let container = $(rows).parent();
+                var container = $(rows).parent();
                 $(rows).sort(function (a, b) {
-                    let tda = $(a).find('td:nth-child(' + column + ')').text();
-                    let tdb = $(b).find('td:nth-child(' + column + ')').text();
+                    var tda = $(a).find('td:nth-child(' + column + ')').text();
+                    var tdb = $(b).find('td:nth-child(' + column + ')').text();
 
                     if (int) {
                         // useful for integer type sorting
@@ -10063,7 +10065,7 @@ let mWizard = function(elementId, options) {
              * 排序
              */
             sorting: function () {
-                let sortObj = {
+                var sortObj = {
                     init: function () {
                         if (options.sortable) {
                             $(datatable.tableHead).find('.' + pfx + 'datatable__cell:not(.' + pfx + 'datatable__cell--check)').addClass(pfx + 'datatable__cell--sort').off('click').on('click', sortObj.sortClick);
@@ -10071,15 +10073,15 @@ let mWizard = function(elementId, options) {
                         }
                     },
                     setIcon: function () {
-                        let meta = Plugin.getDataSourceParam('sort');
+                        var meta = Plugin.getDataSourceParam('sort');
                         if ($.isEmptyObject(meta)) return;
 
                         // 获取head中的图标
-                        let td = $(datatable.tableHead).find('.' + pfx + 'datatable__cell[data-field="' + meta.field + '"]').attr('data-sort', meta.sort);
-                        let sorting = $(td).find('span');
-                        let icon = $(sorting).find('i');
+                        var td = $(datatable.tableHead).find('.' + pfx + 'datatable__cell[data-field="' + meta.field + '"]').attr('data-sort', meta.sort);
+                        var sorting = $(td).find('span');
+                        var icon = $(sorting).find('i');
 
-                        let icons = Plugin.getOption('layout.icons.sort');
+                        var icons = Plugin.getOption('layout.icons.sort');
                         // 跟新图标; desc & asc
                         if ($(icon).length > 0) {
                             $(icon).removeAttr('class').addClass(icons[meta.sort]);
@@ -10088,9 +10090,9 @@ let mWizard = function(elementId, options) {
                         }
                     },
                     sortClick: function (e) {
-                        let meta = Plugin.getDataSourceParam('sort');
-                        let field = $(this).data('field');
-                        let column = Plugin.getColumnByField(field);
+                        var meta = Plugin.getDataSourceParam('sort');
+                        var field = $(this).data('field');
+                        var column = Plugin.getColumnByField(field);
                         // 如果该列已经禁用排序,移除排序按钮
                         if (typeof column.sortable !== 'undefined' &&
                             column.sortable === false) return;
@@ -10100,7 +10102,7 @@ let mWizard = function(elementId, options) {
                         if (options.sortable) {
                             Plugin.spinnerCallback(true);
 
-                            let sort = 'desc';
+                            var sort = 'desc';
                             if (Plugin.getObject('field', meta) === field) {
                                 sort = Plugin.getObject('sort', meta);
                             }
@@ -10136,14 +10138,14 @@ let mWizard = function(elementId, options) {
              */
             localDataUpdate: function () {
                 // todo; fix twice execution
-                let params = Plugin.getDataSourceParam();
+                var params = Plugin.getDataSourceParam();
                 if (typeof datatable.originalDataSet === 'undefined') {
                     datatable.originalDataSet = datatable.dataSet;
                 }
 
-                let field = Plugin.getObject('sort.field', params);
-                let sort = Plugin.getObject('sort.sort', params);
-                let column = Plugin.getColumnByField(field);
+                var field = Plugin.getObject('sort.field', params);
+                var sort = Plugin.getObject('sort.sort', params);
+                var column = Plugin.getColumnByField(field);
                 if (typeof column !== 'undefined' && Plugin.getOption('data.serverSorting') !== true) {
                     if (typeof column.sortCallback === 'function') {
                         datatable.dataSet = column.sortCallback(datatable.originalDataSet, sort, column);
@@ -10157,9 +10159,8 @@ let mWizard = function(elementId, options) {
                 // if server filter enable, don't pass local filter
                 if (typeof params.query === 'object' && !Plugin.getOption('data.serverFiltering')) {
                     params.query = params.query || {};
-
-                    let nestedSearch = function (obj) {
-                        for (let field in obj) {
+                    var nestedSearch = function (obj) {
+                        for (var field in obj) {
                             if (!obj.hasOwnProperty(field)) continue;
                             if (typeof obj[field] === 'string') {
                                 if (obj[field].toLowerCase() == search || obj[field].toLowerCase().indexOf(search) !== -1) {
@@ -10176,7 +10177,7 @@ let mWizard = function(elementId, options) {
                         return false;
                     };
 
-                    let search = $(Plugin.getOption('search.input')).val();
+                    var search = $(Plugin.getOption('search.input')).val();
                     if (typeof search !== 'undefined' && search !== '') {
                         search = search.toLowerCase();
                         datatable.dataSet = $.grep(datatable.dataSet, nestedSearch);
@@ -10230,17 +10231,17 @@ let mWizard = function(elementId, options) {
                     return [];
                 }
 
-                let count = Object.keys(args).length;
-                let filtered = [];
+                var count = Object.keys(args).length;
+                var filtered = [];
 
                 $.each(list, function (key, obj) {
-                    let to_match = obj;
+                    var to_match = obj;
 
-                    let matched = 0;
+                    var matched = 0;
                     $.each(args, function (m_key, m_value) {
                         m_value = m_value instanceof Array ? m_value : [m_value];
                         if (to_match.hasOwnProperty(m_key)) {
-                            let lhs = to_match[m_key].toString().toLowerCase();
+                            var lhs = to_match[m_key].toString().toLowerCase();
                             m_value.forEach(function (item, index) {
                                 if (item.toString().toLowerCase() == lhs || lhs.indexOf(item.toString().toLowerCase()) !== -1) {
                                     matched++;
@@ -10280,7 +10281,7 @@ let mWizard = function(elementId, options) {
              */
             getColumnByField: function (field) {
                 if (typeof field === 'undefined') return;
-                let result;
+                var result;
                 $.each(options.columns, function (i, column) {
                     if (field === column.field) {
                         result = column;
@@ -10294,7 +10295,7 @@ let mWizard = function(elementId, options) {
              * 获取默认排序列
              */
             getDefaultSortColumn: function () {
-                let result;
+                var result;
                 $.each(options.columns, function (i, column) {
                     if (typeof column.sortable !== 'undefined'
                         && $.inArray(column.sortable, ['asc', 'desc']) !== -1) {
@@ -10312,7 +10313,7 @@ let mWizard = function(elementId, options) {
              * @returns {{width: number, height: number, innerWidth: number, innerHeight: number, outerWidth: number, outerHeight: number}}
              */
             getHiddenDimensions: function (element, includeMargin) {
-                let props = {
+                var props = {
                         position: 'absolute',
                         visibility: 'hidden',
                         display: 'block',
@@ -10330,11 +10331,11 @@ let mWizard = function(elementId, options) {
                     ? includeMargin
                     : false;
 
-                let oldProps = [];
+                var oldProps = [];
                 hiddenParents.each(function () {
-                    let old = {};
+                    var old = {};
 
-                    for (let name in props) {
+                    for (var name in props) {
                         old[name] = this.style[name];
                         this.style[name] = props[name];
                     }
@@ -10350,8 +10351,8 @@ let mWizard = function(elementId, options) {
                 dim.outerHeight = $(element).outerHeight(includeMargin);
 
                 hiddenParents.each(function (i) {
-                    let old = oldProps[i];
-                    for (let name in props) {
+                    var old = oldProps[i];
+                    for (var name in props) {
                         this.style[name] = old[name];
                     }
                 });
@@ -10364,7 +10365,7 @@ let mWizard = function(elementId, options) {
              * @returns {*}
              */
             getGeneralSearchKey: function () {
-                let searchInput = $(Plugin.getOption('search.input'));
+                var searchInput = $(Plugin.getOption('search.input'));
                 return $(searchInput).prop('name') || $(searchInput).prop('id');
             },
 
@@ -10383,11 +10384,11 @@ let mWizard = function(elementId, options) {
 
 
             extendObj: function (obj, path, value) {
-                let levels = path.split('.'),
+                var levels = path.split('.'),
                     i = 0;
 
                 function createLevel(child) {
-                    let name = levels[i++];
+                    var name = levels[i++];
                     if (typeof child[name] !== 'undefined' && child[name] !== null) {
                         if (typeof child[name] !== 'object' &&
                             typeof child[name] !== 'function') {
@@ -10458,7 +10459,7 @@ let mWizard = function(elementId, options) {
              * @returns {jQuery}
              */
             reload: function () {
-                let delay = (function () {
+                var delay = (function () {
                     return function (callback, ms) {
                         clearTimeout(Plugin.timer);
                         Plugin.timer = setTimeout(callback, ms);
@@ -10485,7 +10486,7 @@ let mWizard = function(elementId, options) {
                 if (typeof datatable.tableBody === 'undefined') datatable.tableBody = $(datatable.table).children('tbody');
                 $(datatable.tableBody).find('.' + pfx + 'datatable__cell:first-child').each(function (i, cell) {
                     if (id == $(cell).text()) {
-                        let rowNumber = $(cell).closest('.' + pfx + 'datatable__row').index() + 1;
+                        var rowNumber = $(cell).closest('.' + pfx + 'datatable__row').index() + 1;
                         datatable.API.record = datatable.API.value = Plugin.getOneRow(datatable.tableBody, rowNumber);
                         return datatable;
                     }
@@ -10512,7 +10513,7 @@ let mWizard = function(elementId, options) {
              */
             destroy: function () {
                 $(datatable).parent().find('.' + pfx + 'datatable__pager').remove();
-                let initialDatatable = $(datatable.initialDatatable).addClass(pfx + 'datatable--destroyed').show();
+                var initialDatatable = $(datatable.initialDatatable).addClass(pfx + 'datatable--destroyed').show();
                 $(datatable).replaceWith(initialDatatable);
                 datatable = initialDatatable;
                 $(datatable).trigger(pfx + 'datatable--on-destroy');
@@ -10533,7 +10534,7 @@ let mWizard = function(elementId, options) {
                 Plugin.spinnerCallback(true);
 
                 // 更新排序方式
-                let meta = {field: field, sort: sort};
+                var meta = {field: field, sort: sort};
                 Plugin.setDataSourceParam('sort', meta);
 
                 setTimeout(function () {
@@ -10551,11 +10552,11 @@ let mWizard = function(elementId, options) {
              * @returns {array}
              */
             getValue: function () {
-                let ids = [];
-                let selectedRecords = datatable.getSelectedRecords();
+                var ids = [];
+                var selectedRecords = datatable.getSelectedRecords();
                 if (selectedRecords != null && selectedRecords.length > 0) {
-                    for (let i = 0; i < selectedRecords.length; i++) {
-                        let _id = $(selectedRecords[i]).data('id');
+                    for (var i = 0; i < selectedRecords.length; i++) {
+                        var _id = $(selectedRecords[i]).data('id');
                         if (typeof _id !== 'undefined') {
                             ids.push(_id);
                         }
@@ -10578,16 +10579,16 @@ let mWizard = function(elementId, options) {
                 $(cell).prop('checked', true);
 
                 // 还原表格
-                let row = $(cell).closest('.' + pfx + 'datatable__row').addClass(pfx + 'datatable__row--active');
+                var row = $(cell).closest('.' + pfx + 'datatable__row').addClass(pfx + 'datatable__row--active');
 
-                let ids = [];
+                var ids = [];
 
                 $(row).each(function (i, td) {
-                    let index = $(this).index() + 1;
+                    var index = $(this).index() + 1;
                     // 设置active
                     $(row).closest('.' + pfx + 'datatable__lock').parent().find('.' + pfx + 'datatable__row:nth-child(' + index + ')').addClass(pfx + 'datatable__row--active');
 
-                    let id = $(td).find('.' + pfx + 'checkbox--single:not(.' + pfx + 'checkbox--all) > [type="checkbox"]').val();
+                    var id = $(td).find('.' + pfx + 'checkbox--single:not(.' + pfx + 'checkbox--all) > [type="checkbox"]').val();
                     if (typeof id !== 'undefined') {
                         ids.push(id);
                     }
@@ -10610,14 +10611,14 @@ let mWizard = function(elementId, options) {
                 $(cell).prop('checked', false);
 
                 // 还原表格
-                let row = $(cell).closest('.' + pfx + 'datatable__row').removeClass(pfx + 'datatable__row--active');
+                var row = $(cell).closest('.' + pfx + 'datatable__row').removeClass(pfx + 'datatable__row--active');
 
-                let ids = [];
+                var ids = [];
                 $(row).each(function (i, td) {
-                    let index = $(this).index() + 1;
+                    var index = $(this).index() + 1;
                     // 锁定的表格
                     $(row).closest('.' + pfx + 'datatable__lock').parent().find('.' + pfx + 'datatable__row:nth-child(' + index + ')').removeClass(pfx + 'datatable__row--active');
-                    let id = $(td).find('.' + pfx + 'checkbox--single:not(.' + pfx + 'checkbox--all) > [type="checkbox"]').val();
+                    var id = $(td).find('.' + pfx + 'checkbox--single:not(.' + pfx + 'checkbox--all) > [type="checkbox"]').val();
                     if (typeof id !== 'undefined') {
                         ids.push(id);
                     }
@@ -10632,7 +10633,7 @@ let mWizard = function(elementId, options) {
              * @param active {boolean}
              */
             setActiveAll: function (active) {
-                let checkboxes = $(datatable.table).find('.' + pfx + 'datatable__body .' + pfx + 'datatable__row').find('.' + pfx + 'datatable__cell--check .' + pfx + 'checkbox [type="checkbox"]');
+                var checkboxes = $(datatable.table).find('.' + pfx + 'datatable__body .' + pfx + 'datatable__row').find('.' + pfx + 'datatable__cell--check .' + pfx + 'checkbox [type="checkbox"]');
                 if (active) {
                     Plugin.setActive(checkboxes);
                 } else {
@@ -10690,7 +10691,7 @@ let mWizard = function(elementId, options) {
              */
             search: function (value, columns) {
                 if (typeof columns !== 'undefined') columns = $.makeArray(columns);
-                let delay = (function () {
+                var delay = (function () {
                     return function (callback, ms) {
                         clearTimeout(Plugin.timer);
                         Plugin.timer = setTimeout(callback, ms);
@@ -10699,11 +10700,11 @@ let mWizard = function(elementId, options) {
 
                 delay(function () {
                     // 获取查询条件
-                    let query = Plugin.getDataSourceQuery();
+                    var query = Plugin.getDataSourceQuery();
 
                     // 如果列名为空
                     if (typeof columns === 'undefined' && typeof value !== 'undefined') {
-                        let key = Plugin.getGeneralSearchKey();
+                        var key = Plugin.getGeneralSearchKey();
                         query[key] = value;
                     }
 
@@ -10836,7 +10837,7 @@ let mWizard = function(elementId, options) {
                     return column;
                 });
                 // hide current displayed column
-                let tds = $.grep($(datatable.table).find('.' + pfx + 'datatable__cell'), function (n, i) {
+                var tds = $.grep($(datatable.table).find('.' + pfx + 'datatable__cell'), function (n, i) {
                     return fieldName === $(n).data('field');
                 });
                 $(tds).hide();
@@ -10857,7 +10858,7 @@ let mWizard = function(elementId, options) {
                     return column;
                 });
                 // hide current displayed column
-                let tds = $.grep($(datatable.table).find('.' + pfx + 'datatable__cell'), function (n, i) {
+                var tds = $.grep($(datatable.table).find('.' + pfx + 'datatable__cell'), function (n, i) {
                     return fieldName === $(n).data('field');
                 });
                 $(tds).show();
@@ -10916,11 +10917,11 @@ let mWizard = function(elementId, options) {
              * @returns {jQuery}
              */
             columns: function (selector) {
-                let context = datatable.table;
+                var context = datatable.table;
                 if (Plugin.nodeTr === Plugin.recentNode) {
                     context = Plugin.nodeTr;
                 }
-                let columns = $(context).find('.' + pfx + 'datatable__cell[data-field="' + selector + '"]');
+                var columns = $(context).find('.' + pfx + 'datatable__cell[data-field="' + selector + '"]');
                 if (columns.length > 0) {
                     Plugin.nodeCols = Plugin.recentNode = columns;
                 } else {
@@ -10946,7 +10947,7 @@ let mWizard = function(elementId, options) {
              * @returns {jQuery}
              */
             cells: function (selector) {
-                let cells = $(datatable.tableBody).find('.' + pfx + 'datatable__cell');
+                var cells = $(datatable.tableBody).find('.' + pfx + 'datatable__cell');
                 if (typeof selector !== 'undefined') {
                     cells = $(cells).filter(selector);
                 }
@@ -10988,12 +10989,12 @@ let mWizard = function(elementId, options) {
              */
             visible: function (bool) {
                 if ($(Plugin.recentNode.length)) {
-                    let locked = Plugin.lockEnabledColumns();
+                    var locked = Plugin.lockEnabledColumns();
                     if (Plugin.recentNode === Plugin.nodeCols) {
-                        let index = Plugin.recentNode.index();
+                        var index = Plugin.recentNode.index();
 
                         if (Plugin.isLocked()) {
-                            let scrollColumns = $(Plugin.recentNode).closest('.' + pfx + 'datatable__lock--scroll').length;
+                            var scrollColumns = $(Plugin.recentNode).closest('.' + pfx + 'datatable__lock--scroll').length;
                             if (scrollColumns) {
                                 // is at center of scrollable area
                                 index += locked.left.length + 1;
@@ -11040,13 +11041,13 @@ let mWizard = function(elementId, options) {
              * 新增一行数据
              */
             addRow: function () {
-                let colLength = options.columns.length;
-                let tr = document.createElement('tr');
+                var colLength = options.columns.length;
+                var tr = document.createElement('tr');
                 util.addClass(tr, pfx + 'datatable__row');
-                for (let i = 0; i < colLength; i++) {
-                    let column = options.columns[i];
-                    let element = Plugin.getColumnElement(column);
-                    let td = document.createElement('td');
+                for (var i = 0; i < colLength; i++) {
+                    var column = options.columns[i];
+                    var element = Plugin.getColumnElement(column);
+                    var td = document.createElement('td');
                     td.setAttribute('data-field', column.field);
                     util.addClass(td, pfx + 'datatable__cell ' + (typeof column.class != 'undefined' ? column.class : ''));
                     td.appendChild(element);
@@ -11075,7 +11076,7 @@ let mWizard = function(elementId, options) {
              * @returns {HTMLSpanElement | HTMLInputElement | HTMLSelectElement | HTMLButtonElement}
              */
             getColumnElement: function (column, defaultVal) {
-                let element;
+                var element;
                 if (typeof column.edit !== 'undefined') {
                     switch (column.edit.tag) {
                         case 'input':
@@ -11093,8 +11094,8 @@ let mWizard = function(elementId, options) {
                                 if (typeof defaultVal === 'undefined') {
                                     defaultVal = column.edit.default;
                                 }
-                                for (let key in column.edit.option) {
-                                    let opt = document.createElement('option');
+                                for (var key in column.edit.option) {
+                                    var opt = document.createElement('option');
                                     opt.setAttribute('value', key);
                                     if (key == defaultVal) {
                                         opt.setAttribute('selected', 'true');
@@ -11138,13 +11139,13 @@ let mWizard = function(elementId, options) {
              * @param element {object} 编辑按钮对象
              */
             editRow: function (element) {
-                let colLength = options.columns.length;
-                let tr = $(element).parents('.' + pfx + 'datatable__row');
-                let data = datatable.dataSet[Number(tr.data('row'))];
-                for (let i = 0; i < colLength; i++) {
-                    let column = options.columns[i];
-                    let element = Plugin.getColumnElement(column, data[column.field]);
-                    let td = tr.find('td:eq(' + i + ')');
+                var colLength = options.columns.length;
+                var tr = $(element).parents('.' + pfx + 'datatable__row');
+                var data = datatable.dataSet[Number(tr.data('row'))];
+                for (var i = 0; i < colLength; i++) {
+                    var column = options.columns[i];
+                    var element = Plugin.getColumnElement(column, data[column.field]);
+                    var td = tr.find('td:eq(' + i + ')');
                     if (td.hasClass('m-datatable__cell--check')) {
                         td.find('span').append(element);
                     } else {
@@ -11167,7 +11168,7 @@ let mWizard = function(elementId, options) {
         // 初始化插件
         if (typeof options !== 'undefined') {
             if (typeof options === 'string') {
-                let method = options;
+                var method = options;
                 datatable = $(this).data(pluginName);
                 if (typeof datatable !== 'undefined') {
                     options = datatable.options;
