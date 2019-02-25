@@ -40,6 +40,10 @@ public class GenerationServiceImpl implements GenerationService {
     public boolean generate(Generator object) {
         GeneratorConfig generatorConfig = new GeneratorConfig();
         if (object != null) {
+            object.setUrl(dataSourceProperties.getUrl());
+            object.setDriverName(dataSourceProperties.getDriverName());
+            object.setUsername(dataSourceProperties.getUsername());
+            object.setPassword(dataSourceProperties.getPassword());
             object.init();
             generatorConfig.generation(object);
             return true;

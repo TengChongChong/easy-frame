@@ -1,14 +1,28 @@
 //== 代码自动生成
 var mGeneration = function () {
-    //== Private functions
     /**
      * 是否是跳转到指定页进入的回调
      *
      * @type {boolean}
      */
     var isGoTo = false;
-
+    /**
+     * 表单向导
+     */
     var wizard;
+    /**
+     * 查询条件的排序
+     */
+    var searchOrder = [];
+    /**
+     * 列表的排序
+     */
+    var listOrder = [];
+    /**
+     * 录入页面的排序
+     */
+    var inputOrder = [];
+
     /**
      * 初始化表单向导
      */
@@ -34,7 +48,8 @@ var mGeneration = function () {
                         wizardObj.stop();
                     }
                 } else if (wizardObj.currentStep === 3) {
-                    fieldConfig = generationTool.getFieldConfig();
+                    // 每次从第三步[字段信息]点下一步重新获取配置,防止修改
+                    generationTool.fieldConfig = generationTool.getFieldConfig();
                     // 第三步点击下一步的时候要检查有无必要配置 [list 页面布局] [input 页面布局]
                     if (!listSwitch && !inputSwitch) {
                         isGoTo = true;
@@ -64,6 +79,7 @@ var mGeneration = function () {
                 return true;
             }
         });
+        //== 上一步
         wizard.on('beforePrev', function (wizardObj) {
             if (!isGoTo) {
                 var listSwitch = $('[name="listSwitch"]').prop('checked');
@@ -90,14 +106,20 @@ var mGeneration = function () {
             } else {
                 return true;
             }
-
         });
+        //== change事件
         wizard.on('change', function (wizardObj) {
             isGoTo = false;
             // 每次切换,页面回到顶部
             mUtil.scrollTop();
             if (wizardObj.currentStep === 4) {
                 initStepList();
+            }
+            if (wizardObj.currentStep === 5) {
+                initStepInput();
+            }
+            if (wizardObj.currentStep === 6) {
+                initGenerationFilePath();
             }
         });
     };
@@ -108,6 +130,53 @@ var mGeneration = function () {
         var btn = $('#m_form').find('[data-wizard-action="submit"]');
         btn.on('click', function (e) {
             e.preventDefault();
+
+            /**
+             * 获取数据
+             *
+             * @return {object}
+             */
+            function getData() {
+                var data = {};
+                $('#m_wizard_form_step_1 input, #m_wizard_form_step_1 select,' +
+                    ' #m_wizard_form_step_2 input, #m_wizard_form_step_2 select, [name="replace"]').each(function (index, element) {
+                    var $element = $(element);
+                    if (mUtil.isNotBlank($element.attr('name'))) {
+                        if ('checkbox' === $element.attr('type')) {
+                            data[$element.attr('name')] = $element.prop('checked');
+                        } else {
+                            data[$element.attr('name')] = $element.val();
+                        }
+                    }
+                });
+                data.fieldSets = generationTool.fieldConfig;
+                data.searchOrder = searchOrder;
+                data.listOrder = listOrder;
+                data.inputOrder = inputOrder;
+                return data;
+            }
+
+            var $btn = $(this);
+            var data = getData();
+            console.log(data);
+            mUtil.setButtonWait($btn);
+            mUtil.ajax({
+                url: mTool.getBaseUrl() + 'generate',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    mUtil.offButtonWait($btn);
+                    mUtil.ajaxError(XMLHttpRequest, textStatus, errorThrown);
+                },
+                fail: function (res) {
+                    mUtil.offButtonWait($btn);
+                    mTool.successTip(mTool.commonTips.fail, res.message);
+                },
+                success: function (res) {
+                    mUtil.offButtonWait($btn);
+                    mTool.successTip(mTool.commonTips.success, '文件生成成功');
+                }
+            });
         });
     };
     /**
@@ -150,16 +219,16 @@ var mGeneration = function () {
             var getConfigRow = function (index, field) {
                 return '<tr data-name="' + field['name'] + '" data-property-name="' + field['propertyName'] + '">\
                     <td class="cell-base m--padding-top-15">' + (index + 1) + '</td>\
-                    <td class="cell-base m--padding-top-15">' + (field['keyIdentityFlag'] ? '<i class="text-info la la-key"></i>' : '') + field['name'] + '</td>\
+                    <td class="cell-base m--padding-top-15"><input type="hidden" name="columnName" value="' + field['name'] + '" />' + (field['keyIdentityFlag'] ? '<i class="text-info la la-key"></i>' : '') + field['name'] + '</td>\
                     <td class="cell-base m--padding-top-15">' + field['type'] + '</td>\
                     <td class="cell-base m--padding-top-15"><div title="' + field['comment'] + '" class="ell" style="max-width: 140px;">' + field['comment'] + '<span/></td>\
                     <td class="cell-base m--padding-top-15">' + field['propertyName'] + '</td>\
                     <td class="cell-base m--padding-top-15">' + field['propertyType'] + '</td>\
-                    <td class="cell-list">' + generationTool.getCheckbox('showInSearch', generationTool.getCheckStatusByPreferenceSetting(field['propertyName'], preferenceSetting.list.search)) + '</td>\
+                    <td class="border-left cell-list">' + generationTool.getCheckbox('showInList', generationTool.getCheckStatusByPreferenceSetting(field['propertyName'], preferenceSetting.list.exclude)) + '</td>\
                     <td class="cell-list">' + generationTool.getInput('title', field['comment']) + '</td>\
-                    <td class="cell-list">' + generationTool.getCheckbox('showInList', generationTool.getCheckStatusByPreferenceSetting(field['propertyName'], preferenceSetting.list.exclude)) + '</td>\
+                    <td class="cell-list">' + generationTool.getCheckbox('showInSearch', generationTool.getCheckStatusByPreferenceSetting(field['propertyName'], preferenceSetting.list.excludeSearch)) + '</td>\
                     <td class="cell-list">' + generationTool.getDictSelect('matchingMode', 'matchingMode', generationTool.getDefaultDictByPreferenceSetting(field['propertyName'], preferenceSetting.list.matching, 'eq')) + '</td>\
-                    <td class="cell-input">' + generationTool.getCheckbox('showInInput', generationTool.getCheckStatusByPreferenceSetting(field['propertyName'], preferenceSetting.input.exclude)) + '</td>\
+                    <td class="border-left cell-input">' + generationTool.getCheckbox('showInInput', generationTool.getCheckStatusByPreferenceSetting(field['propertyName'], preferenceSetting.input.exclude)) + '</td>\
                     <td class="cell-input">' + generationTool.getInput('label', field['comment']) + '</td>\
                     <td class="cell-input">' + generationTool.getDictSelect('elementType', 'elementType', generationTool.getDefaultDictByPreferenceSetting(field['propertyName'], preferenceSetting.input.type, 'text')) + '</td>\
                     <td class="cell-input">' + generationTool.getDictSelect('grid', 'grid', '4/4/8') + '</td>\
@@ -204,7 +273,58 @@ var mGeneration = function () {
         }
         loadFieldSet(tableName);
     };
-
+    /**
+     * 删除未勾选项
+     *
+     * @param configs {object} 用户设置
+     * @param content {object} 查找范围
+     */
+    var deleteUnCheckElement = function (configs, content) {
+        var checkHav = function (configs, propertyName) {
+            var hav = false;
+            $(configs).each(function (index, config) {
+                if (config.propertyName === propertyName) {
+                    hav = true;
+                    return;
+                }
+            });
+            return hav;
+        };
+        var elements = $(content).find('[data-property-name]');
+        if (typeof elements !== 'undefined' && elements.length > 0) {
+            $(elements).each(function (index, element) {
+                element = $(element);
+                if (!checkHav(configs, element.data('property-name'))) {
+                    element.remove();
+                }
+            });
+        }
+    };
+    /**
+     * 设置输入框
+     *
+     * @param configs 用户设置
+     * @param content 容器
+     */
+    var initInput = function (configs, content) {
+        if (configs.length > 0) {
+            $(configs).each(function (index, config) {
+                if (config.elementType !== 'hidden') {
+                    // 通过propertyName属性检查是不是已经放到页面中
+                    var propertyName = content.find('[data-property-name="' + config.propertyName + '"]');
+                    if (propertyName.length === 0) {
+                        // 没有添加到对应位置
+                        content.append(generationTool.generationInput(config));
+                    } else {
+                        // 更新内容, 因为内容可能发生改变
+                        propertyName.find('.form-group').html(generationTool.generationContent(config));
+                        // 更新gridClass
+                        propertyName.removeClass('size-1 size-2 size-3 size-4').addClass(generationTool.getGridClass(config.grid));
+                    }
+                }
+            });
+        }
+    };
     /**
      * 初始化list页面
      */
@@ -213,26 +333,64 @@ var mGeneration = function () {
          * 初始化查询条件
          */
         var initSearch = function () {
+            generationTool.generationSearchClass();
             var configs = generationTool.selectFieldConfig('showInSearch');
-            if (configs.length > 0) {
+            var searchBody = $('#search-body');
+            initInput(configs, searchBody);
+            if (searchOrder.length === 0) {
                 $(configs).each(function (index, config) {
-                    // 通过propertyName属性检查是不是已经放到页面中
-                    var propertyName = $('#search-body [data-property-name]');
-                    if (propertyName.length === 0) {
-                        // 没有
-
-                    } else {
-                        // 更新label, label可能发生改变
-                        propertyName.find('label').html(config.label);
-                    }
+                    searchOrder.push(config.propertyName);
                 });
             }
+            deleteUnCheckElement(configs, searchBody);
+            searchBody.gridly({
+                base: searchBody.width() / 12 - generationTool.gutter,
+                gutter: generationTool.gutter,
+                columns: 12,
+                callbacks: {
+                    reordered: function ($elements) {
+                        // console.log($elements);
+                        searchOrder = generationTool.getOrderPropertyName($elements);
+                    }
+                }
+            });
         };
         /**
          * 初始化表格
          */
         var initTable = function () {
-
+            generationTool.generationTableClass();
+            var configs = generationTool.selectFieldConfig('showInList');
+            var listBody = $('#list-body');
+            if (configs.length > 0) {
+                var setListOrder = listOrder.length === 0;
+                $(configs).each(function (index, config) {
+                    if (setListOrder) {
+                        listOrder.push(config.propertyName);
+                    }
+                    // 通过propertyName属性检查是不是已经放到页面中
+                    var propertyName = listBody.find('[data-property-name="' + config.propertyName + '"]');
+                    if (propertyName.length === 0) {
+                        // 没有添加到对应位置
+                        listBody.append('<div data-property-name="' + config.propertyName + '" class="brick size-1">' + config.title + '</div> ');
+                    } else {
+                        // 更新label, label可能发生改变
+                        propertyName.html(config.title);
+                    }
+                });
+            }
+            deleteUnCheckElement(configs, listBody);
+            listBody.gridly({
+                base: listBody.width() / 12 - generationTool.gutter,
+                gutter: generationTool.gutter,
+                columns: 12,
+                callbacks: {
+                    reordered: function ($elements) {
+                        // console.log($elements);
+                        listOrder = generationTool.getOrderPropertyName($elements);
+                    }
+                }
+            });
         };
         $('.business-name').html($('#businessName').val());
         initSearch();
@@ -242,9 +400,116 @@ var mGeneration = function () {
      * 初始化input页面
      */
     var initStepInput = function () {
+        generationTool.generationInputClass();
         $('.business-name').html($('#businessName').val());
+        var configs = generationTool.selectFieldConfig('showInInput');
+        var inputBody = $('#input-body');
+        initInput(configs, inputBody);
+        if (inputOrder.length === 0) {
+            $(configs).each(function (index, config) {
+                inputOrder.push(config.propertyName);
+            });
+        }
+        deleteUnCheckElement(configs, inputBody);
+        inputBody.gridly({
+            base: inputBody.width() / 12 - generationTool.gutter,
+            gutter: generationTool.gutter,
+            columns: 12,
+            callbacks: {
+                reordered: function ($elements) {
+                    // console.log($elements);
+                    inputOrder = generationTool.getOrderPropertyName($elements);
+                }
+            }
+        });
     };
+    /**
+     * 初始化生成文件路径
+     */
+    var initGenerationFilePath = function () {
+        /**
+         * 检查check是否选中
+         *
+         * @param name {string} 元素name
+         * @return {boolean}
+         */
+        function checkIsChecked(name) {
+            return $('[name="' + name + '"]').prop('checked');
+        }
 
+        var generationFile = $('#generation-file > .m-list-timeline__items');
+        generationFile.empty();
+        if (checkIsChecked('modelSwitch')) {
+            generationFile.append('<div class="m-list-timeline__item">\
+                    <span class="m-list-timeline__badge"></span>\
+                    <span class="m-list-timeline__icon fab fa-java"></span>\
+                    <span class="m-list-timeline__text">' + generationTool.getFilePath('model') + '</span>\
+                </div>');
+        }
+        if (checkIsChecked('daoSwitch')) {
+            generationFile.append('<div class="m-list-timeline__item">\
+                    <span class="m-list-timeline__badge"></span>\
+                    <span class="m-list-timeline__icon fab fa-java"></span>\
+                    <span class="m-list-timeline__text">' + generationTool.getFilePath('dao') + '</span>\
+                </div>');
+        }
+        if (checkIsChecked('mappingSwitch')) {
+            generationFile.append('<div class="m-list-timeline__item">\
+                    <span class="m-list-timeline__badge"></span>\
+                    <span class="m-list-timeline__icon fa fa-file-excel"></span>\
+                    <span class="m-list-timeline__text">' + generationTool.getFilePath('mapping') + '</span>\
+                </div>');
+        }
+        if (checkIsChecked('serviceSwitch')) {
+            generationFile.append('<div class="m-list-timeline__item">\
+                    <span class="m-list-timeline__badge"></span>\
+                    <span class="m-list-timeline__icon fab fa-java"></span>\
+                    <span class="m-list-timeline__text">' + generationTool.getFilePath('service') + '</span>\
+                </div>');
+        }
+        if (checkIsChecked('serviceImplSwitch')) {
+            generationFile.append('<div class="m-list-timeline__item">\
+                    <span class="m-list-timeline__badge"></span>\
+                    <span class="m-list-timeline__icon fab fa-java"></span>\
+                    <span class="m-list-timeline__text">' + generationTool.getFilePath('serviceImpl') + '</span>\
+                </div>');
+        }
+        if (checkIsChecked('controllerSwitch')) {
+            generationFile.append('<div class="m-list-timeline__item">\
+                    <span class="m-list-timeline__badge"></span>\
+                    <span class="m-list-timeline__icon fab fa-java"></span>\
+                    <span class="m-list-timeline__text">' + generationTool.getFilePath('controller') + '</span>\
+                </div>');
+        }
+        if (checkIsChecked('listSwitch')) {
+            generationFile.append('<div class="m-list-timeline__item">\
+                    <span class="m-list-timeline__badge"></span>\
+                    <span class="m-list-timeline__icon fab fa-html5"></span>\
+                    <span class="m-list-timeline__text">' + generationTool.getFilePath('list.html') + '</span>\
+                </div>');
+        }
+        if (checkIsChecked('listJsSwitch')) {
+            generationFile.append('<div class="m-list-timeline__item">\
+                    <span class="m-list-timeline__badge"></span>\
+                    <span class="m-list-timeline__icon fab fa-js-square"></span>\
+                    <span class="m-list-timeline__text">' + generationTool.getFilePath('list.js') + '</span>\
+                </div>');
+        }
+        if (checkIsChecked('inputSwitch')) {
+            generationFile.append('<div class="m-list-timeline__item">\
+                    <span class="m-list-timeline__badge"></span>\
+                    <span class="m-list-timeline__icon fab fa-html5"></span>\
+                    <span class="m-list-timeline__text">' + generationTool.getFilePath('input.html') + '</span>\
+                </div>');
+        }
+        if (checkIsChecked('inputJsSwitch')) {
+            generationFile.append('<div class="m-list-timeline__item">\
+                    <span class="m-list-timeline__badge"></span>\
+                    <span class="m-list-timeline__icon fab fa-js-square"></span>\
+                    <span class="m-list-timeline__text">' + generationTool.getFilePath('input.js') + '</span>\
+                </div>');
+        }
+    };
 
     return {
         //== public functions

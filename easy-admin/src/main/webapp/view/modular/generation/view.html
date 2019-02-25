@@ -1,30 +1,73 @@
 @layout("/common/container.html"){
+<link href="${ctxPath}/static/vendors/custom/jquery.gridly/stylesheets/jquery.gridly.css" rel="stylesheet"
+      type="text/css"/>
 <style>
-    .table-field-set thead th{
+    .table-field-set thead th {
         font-weight: bold;
     }
+
     .table-field-set thead th,
     .table-field-set .cell-list,
-    .table-field-set .cell-input{
+    .table-field-set .cell-input {
         text-align: center;
     }
+
     .table-field-set .cell-list .m-checkbox,
-    .table-field-set .cell-input .m-checkbox{
+    .table-field-set .cell-input .m-checkbox {
         padding-left: 19px
     }
+    .table-field-set th{
+        background-color: #f4f3f8;
+    }
     .table-field-set th,
-    .table-field-set td{
+    .table-field-set td {
         white-space: nowrap;
-        border-color: #fff !important;
+        border: 0;
+        /*border-color: #fff !important;*/
     }
-    .table-field-set .cell-base{
-        background: rgba(61, 190, 163, 0.1);
+
+    /*.table-field-set .cell-base {*/
+        /*background: rgba(61, 190, 163, 0.1);*/
+    /*}*/
+    .table-field-set td.cell-list {
+        /*background: rgba(61, 165, 244, 0.1);*/
     }
-    .table-field-set .cell-list{
-        background: rgba(61, 165, 244, 0.1);
+    .table-field-set tbody tr:nth-of-type(odd) {
+        background: none;
     }
-    .table-field-set .cell-input{
-        background: rgba(33, 197, 218, 0.1);
+    .table-field-set tbody tr:nth-of-type(2n) {
+        background-color: #f4f5f8;
+    }
+
+    /*.table-field-set .cell-input {*/
+        /*background: rgba(33, 197, 218, 0.1);*/
+    /*}*/
+
+    /*.table-field-set th.cell-base {*/
+        /*background: rgba(61, 190, 163, 0.3);*/
+    /*}*/
+
+    /*.table-field-set th.cell-list {*/
+        /*background: rgba(61, 165, 244, 0.3);*/
+    /*}*/
+
+    /*.table-field-set th.cell-input {*/
+        /*background: rgba(33, 197, 218, 0.3);*/
+    /*}*/
+
+    .gridly {
+        width: 100%;
+        position: relative;
+    }
+    .brick {
+        height: 42px;
+        border: 1px dashed #3da5f4;
+    }
+    .brick .form-group{
+        margin: 5px 0;
+    }
+    .brick .form-group textarea{
+        height: 31px;
     }
 </style>
 <div class="m-portlet" m-portlet="true">
@@ -227,10 +270,10 @@
                                         </label>
                                         <div class="col-10">
                                             <div class="m-checkbox-inline">
-                                                <#form:checkbox name="add" text="add" value="true"/>
-                                                <#form:checkbox name="delete" text="delete" value="true"/>
-                                                <#form:checkbox name="save" text="save" value="true"/>
-                                                <#form:checkbox name="select" text="select" value="true"/>
+                                                <#form:checkbox name="genAdd" text="add" value="true"/>
+                                                <#form:checkbox name="genDelete" text="delete" value="true"/>
+                                                <#form:checkbox name="genSave" text="save" value="true"/>
+                                                <#form:checkbox name="genSelect" text="select" value="true"/>
                                             </div>
                                         </div>
                                     </div>
@@ -250,13 +293,12 @@
                                                 <#form:checkbox name="daoSwitch" text="dao" value="true"/>
                                                 <#form:checkbox name="mappingSwitch" text="mapping" value="true"/>
                                                 <#form:checkbox name="serviceSwitch" text="service" value="true"/>
-                                                <#form:checkbox name="serviceImplSwitch" text="serviceImpl"
-                                                value="true"/>
+                                                <#form:checkbox name="serviceImplSwitch" text="serviceImpl" value="true"/>
                                                 <#form:checkbox name="controllerSwitch" text="controller" value="true"/>
                                                 <#form:checkbox name="listSwitch" text="list.html" value="true"/>
-                                                <#form:checkbox name="listJsSwitch" text="list.js?v=${project.getVersion()}" value="true"/>
+                                                <#form:checkbox name="listJsSwitch" text="list.js" value="true"/>
                                                 <#form:checkbox name="inputSwitch" text="input.html" value="true"/>
-                                                <#form:checkbox name="inputJsSwitch" text="input.js?v=${project.getVersion()}" value="true"/>
+                                                <#form:checkbox name="inputJsSwitch" text="input.js" value="true"/>
                                             </div>
                                         </div>
                                     </div>
@@ -268,7 +310,7 @@
                         <!--begin: 表单向导 Step 3-->
                         <div class="m-wizard__form-step" id="m_wizard_form_step_3">
                             <div id="field-set-scrollable">
-                                <table id="field-set" class="table table-bordered table-hover table-field-set">
+                                <table id="field-set" class="table table-bordered table-hover table-striped table-field-set">
                                     <thead>
                                     <tr>
                                         <th class="cell-base" colspan="6">字段</th>
@@ -279,20 +321,34 @@
                                         <th class="cell-base">序号</th>
                                         <th class="cell-base">列名</th>
                                         <th class="cell-base">字段类型</th>
-                                        <th class="cell-base"><div style="max-width: 140px;">注释</div></th>
+                                        <th class="cell-base">
+                                            <div style="max-width: 140px;">注释</div>
+                                        </th>
                                         <th class="cell-base">属性</th>
                                         <th class="cell-base">类型</th>
                                         <th class="cell-list">显示</th>
-                                        <th class="cell-list"><div style="width: 100px;">列表</div></th>
+                                        <th class="cell-list">
+                                            <div style="width: 100px;">表格标题</div>
+                                        </th>
                                         <th class="cell-list">查询</th>
-                                        <th class="cell-list"><div style="width: 70px;">匹配方式</div></th>
+                                        <th class="cell-list">
+                                            <div style="width: 70px;">匹配方式</div>
+                                        </th>
                                         <th class="cell-input">编辑</th>
-                                        <th class="cell-input"><div style="width: 100px;">label</div></th>
-                                        <th class="cell-input"><div style="width: 105px;">元素类型</div></th>
-                                        <th class="cell-input"><div style="width: 115px;">栅格</div></th>
+                                        <th class="cell-input">
+                                            <div style="width: 100px;">label</div>
+                                        </th>
+                                        <th class="cell-input">
+                                            <div style="width: 105px;">元素类型</div>
+                                        </th>
+                                        <th class="cell-input">
+                                            <div style="width: 115px;">栅格</div>
+                                        </th>
                                         <th class="cell-input">字典类型</th>
                                         <th class="cell-input">必填</th>
-                                        <th class="cell-input"><div style="width: 180px;">字段验证</div></th>
+                                        <th class="cell-input">
+                                            <div style="width: 180px;">字段验证</div>
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -312,20 +368,35 @@
                                     </div>
                                 </div>
                                 <div class="m-portlet__body">
-                                        <div class="m-stack m-stack--ver m-stack--general query-modular">
-                                            <div class="m-stack__item m-stack__item--fluid">
-                                                <div class="row" id=""></div>
-                                            </div>
-                                            <div class="m-stack__item query-btn-group">
-                                                <#btn:search />
-                                                <#btn:reset />
-                                            </div>
+                                    <div class="alert alert-info" role="alert">
+                                        <i class="la la-exclamation"></i>可拖动蓝色虚线区域更改元素位置
+                                    </div>
+                                    <div class="m-stack m-stack--ver m-stack--general query-modular">
+                                        <div class="m-stack__item m-stack__item--fluid">
+                                            <div class="gridly search-body" id="search-body"></div>
                                         </div>
-                                        <div class="btn-row">
-                                            <#btn:add/>
-                                            <#btn:delete/>
+                                        <div class="m-stack__item query-btn-group">
+                                            <button type="button" class="btn btn-info">
+                                                <i class="la la-search"></i> 查询
+                                            </button>
+                                            <button type="button" class="btn btn-info">
+                                                <i class="la la-refresh"></i> 重置
+                                            </button>
                                         </div>
-                                        <div class="m_datatable" id="list-body"></div>
+                                    </div>
+                                    <div class="btn-row">
+                                        <button type="button" class="btn btn-success btn-add">
+                                            <i class="la la-plus"></i> 新增
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-delete">
+                                            <i class="la la-trash"></i> 删除
+                                        </button>
+                                    </div>
+                                    <div class="m-stack m-stack--ver m-stack--general query-modular">
+                                        <div class="m-stack__item m-stack__item--fluid">
+                                            <div class="gridly list-body" id="list-body"></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -342,11 +413,16 @@
                                     </div>
                                 </div>
                                 <div class="m-portlet__body">
-
+                                    <div class="alert alert-info" role="alert">
+                                        <i class="la la-exclamation"></i>可拖动蓝色虚线区域更改元素位置
+                                    </div>
+                                    <div class="gridly input-body" id="input-body"></div>
                                 </div>
                                 <div class="m-portlet__foot m-portlet__foot--fit">
                                     <div class="m-form__actions text-center">
-                                        <#btn:save/>
+                                        <button type="button" class="btn btn-info">
+                                            <i class="la la-save"></i> 保存
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -363,80 +439,8 @@
                                     <!--begin::Preview-->
                                     <div class="m-demo">
                                         <div class="m-demo__preview">
-                                            <div class="m-list-timeline">
-                                                <div class="m-list-timeline__items">
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge"></span>
-                                                        <span class="m-list-timeline__icon fab fa-java"></span>
-                                                        <span class="m-list-timeline__text">
-                                                            /Users/tengchong/Workspaces/Idea/springboot/src/main/java/com/example/springboot/modular/sys/model/SysDict.java
-                                                        </span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge"></span>
-                                                        <span class="m-list-timeline__icon fab fa-java"></span>
-                                                        <span class="m-list-timeline__text">
-                                                            /Users/tengchong/Workspaces/Idea/springboot/src/main/java/com/example/springboot/modular/sys/service/SysDictService.java
-                                                        </span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge"></span>
-                                                        <span class="m-list-timeline__icon fab fa-java"></span>
-                                                        <span class="m-list-timeline__text">
-                                                            /Users/tengchong/Workspaces/Idea/springboot/src/main/java/com/example/springboot/modular/sys/service/impl/SysDictServiceImpl.java
-                                                        </span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge"></span>
-                                                        <span class="m-list-timeline__icon fab fa-java"></span>
-                                                        <span class="m-list-timeline__text">
-                                                            /Users/tengchong/Workspaces/Idea/springboot/src/main/java/com/example/springboot/modular/sys/controller/SysDictController.java
-                                                        </span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge"></span>
-                                                        <span class="m-list-timeline__icon fab fa-java"></span>
-                                                        <span class="m-list-timeline__text">
-                                                            /Users/tengchong/Workspaces/Idea/springboot/src/main/java/com/example/springboot/modular/sys/dao/SysDictMapper.java
-                                                        </span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge"></span>
-                                                        <span class="m-list-timeline__icon fa fa-file-excel"></span>
-                                                        <span class="m-list-timeline__text">
-                                                            /Users/tengchong/Workspaces/Idea/springboot/src/main/java/com/example/springboot/modular/sys/dao/mapping/SysDictMapper.xml
-                                                        </span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge"></span>
-                                                        <span class="m-list-timeline__icon fab fa-html5"></span>
-                                                        <span class="m-list-timeline__text">
-                                                            /Users/tengchong/Workspaces/Idea/springboot/src/main/webapp/view/modular/sys/dict/list.html
-                                                        </span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge"></span>
-                                                        <span class="m-list-timeline__icon fab fa-html5"></span>
-                                                        <span class="m-list-timeline__text">
-                                                            /Users/tengchong/Workspaces/Idea/springboot/src/main/webapp/view/modular/sys/dict/input.html
-                                                        </span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge"></span>
-                                                        <span class="m-list-timeline__icon fab fa-js-square"></span>
-                                                        <span class="m-list-timeline__text">
-                                                            /Users/tengchong/Workspaces/Idea/springboot/src/main/webapp/static/modular/sys/dict/list.js
-                                                        </span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge"></span>
-                                                        <span class="m-list-timeline__icon fab fa-js-square"></span>
-                                                        <span class="m-list-timeline__text">
-                                                            /Users/tengchong/Workspaces/Idea/springboot/src/main/webapp/static/modular/sys/dict/input.js
-                                                        </span>
-                                                    </div>
-
-                                                </div>
+                                            <div class="m-list-timeline" id="generation-file">
+                                                <div class="m-list-timeline__items"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -498,7 +502,9 @@
     </div>
 </div>
 <!--begin::页面脚本 -->
+<script src="${ctxPath}/static/vendors/custom/jquery.gridly/javascripts/jquery.gridly.js"
+        type="text/javascript"></script>
 <script src="${ctxPath}/static/modular/generation/view.js?v=${project.getVersion()}"></script>
-<script src="${ctxPath}/static/modular/generation/preference-setting.js?v=${project.getVersion()}"></script>
+<script src="${ctxPath}/static/modular/generation/util.js?v=${project.getVersion()}"></script>
 <!--end::页面脚本 -->
 @}

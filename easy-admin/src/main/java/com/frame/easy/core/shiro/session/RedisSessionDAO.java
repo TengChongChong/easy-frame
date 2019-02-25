@@ -131,9 +131,9 @@ public class RedisSessionDAO extends AbstractSessionDAO {
     }
 
     /**
-     * 获取当前在线会话
+     * 获取当前有效会话
      *
-     * @return
+     * @return 有效会话列表
      */
     @Override
     public Collection<Session> getActiveSessions() {

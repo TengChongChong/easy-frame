@@ -7,6 +7,7 @@ import com.frame.easy.modular.generator.service.GenerationService;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -64,7 +65,7 @@ public class GenerationController extends BaseController {
      */
     @RequestMapping("/generate")
     @ResponseBody
-    public Tips generate(Generator object){
+    public Tips generate(@RequestBody Generator object){
         logger.debug("/auth/generation/generate");
         return Tips.getSuccessTips(service.generate(object));
     }
