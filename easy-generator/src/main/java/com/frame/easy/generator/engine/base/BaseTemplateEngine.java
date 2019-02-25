@@ -1,6 +1,9 @@
 package com.frame.easy.generator.engine.base;
 
 import com.alibaba.fastjson.JSONObject;
+import com.frame.easy.generator.util.GeneratorHtmlUtil;
+import com.frame.easy.generator.util.GeneratorJavaUtil;
+import com.frame.easy.generator.util.GeneratorJsUtil;
 import org.beetl.core.Configuration;
 import org.beetl.core.GroupTemplate;
 import org.beetl.core.Template;
@@ -42,6 +45,10 @@ public abstract class BaseTemplateEngine extends AbstractTemplateEngine{
         }
         ClasspathResourceLoader resourceLoader = new ClasspathResourceLoader();
         groupTemplate = new GroupTemplate(resourceLoader, configuration);
+        // 拓展
+        groupTemplate.registerFunctionPackage("GeneratorHtmlUtil", new GeneratorHtmlUtil());
+        groupTemplate.registerFunctionPackage("GeneratorJavaUtil", new GeneratorJavaUtil());
+        groupTemplate.registerFunctionPackage("GeneratorJsUtil", new GeneratorJsUtil());
 
     }
 

@@ -9,6 +9,9 @@
                 <div class="m-stack__item m-stack__item--fluid">
                     <div class="row">
                         <!--str:查询条件区域-->
+                        <% for(propertyName in config.searchOrder){ %>
+                        ${GeneratorHtmlUtil.generator(propertyName, config.fieldSets, 6)}
+                        <% } %>
                         <!--end:查询条件区域-->
                     </div>
                 </div>
@@ -18,12 +21,19 @@
                 </div>
             </div>
             <div class="btn-row">
+                <% if(config.genSave){ %>
                 <% if(config.permissionsCode != null && config.permissionsCode != '') { %>
                 <#btn:add permission="${config.permissionsCode}:add"/>
-                <#btn:delete permission="${config.permissionsCode}:delete"/>
                 <% } else { %>
                 <#btn:add/>
+                <% } %>
+                <% } %>
+                <% if(config.genSave){ %>
+                <% if(config.permissionsCode != null && config.permissionsCode != '') { %>
+                <#btn:delete permission="${config.permissionsCode}:delete"/>
+                <% } else { %>
                 <#btn:delete/>
+                <% } %>
                 <% } %>
             </div>
             <div class="m_datatable" id="${config.tableName}-list"></div>
@@ -31,6 +41,6 @@
     </div>
 </div>
 <!--begin::页面脚本 -->
-<script src="\${ctxPath}/static/${config.viewPath}/list.js" type="text/javascript"></script>
+<script src="\${ctxPath}/static/modular/${config.viewPath}/list.js" type="text/javascript"></script>
 <!--end::页面脚本 -->
 @}

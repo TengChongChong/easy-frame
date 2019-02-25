@@ -11,7 +11,7 @@ import ${import};
  * @date ${config.date}
  */
 @Controller
-@RequestMapping("${config.controllerMapping}")
+@RequestMapping("/auth/${config.controllerMapping}")
 public class ${config.modelName}Controller extends BaseController {
     /**
      * view 路径

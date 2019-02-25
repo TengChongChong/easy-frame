@@ -17,7 +17,7 @@ public interface ${config.modelName}Service {
      * @param object 查询条件
      * @return 数据集合
      */
-    Object select(${config.modelName} object);
+    Page select(${config.modelName} object);
 
     /**
      * 详情

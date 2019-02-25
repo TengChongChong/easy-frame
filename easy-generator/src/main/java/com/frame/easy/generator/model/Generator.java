@@ -1,8 +1,11 @@
 package com.frame.easy.generator.model;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.frame.easy.generator.constant.Const;
+
+import java.util.List;
 
 /**
  * 代码生成
@@ -47,7 +50,7 @@ public class Generator {
     /**
      * 创建时间
      */
-    private String date;
+    private String date = DateUtil.now();
     /**
      * 表名
      */
@@ -167,6 +170,24 @@ public class Generator {
      * 是否生成 inputJs
      */
     private boolean inputJsSwitch = true;
+    /**
+     * 查询条件的排序
+     */
+    private String[] searchOrder;
+    /**
+     * 列表的排序
+     */
+    private String[] listOrder;
+    /**
+     * 录入页面的排序
+     */
+    private String[] inputOrder;
+    /**
+     * 列配置
+     */
+    private List<FieldSet> fieldSets;
+
+    private String jquery = "$";
 
     public void init(){
         this.controllerPackage = Const.PACKAGE_PREFIX + module + Const.PACKAGE_SPLIT + Const.CONTROLLER_PACKAGE;
@@ -487,5 +508,45 @@ public class Generator {
 
     public void setGenDelete(boolean genDelete) {
         this.genDelete = genDelete;
+    }
+
+    public List<FieldSet> getFieldSets() {
+        return fieldSets;
+    }
+
+    public void setFieldSets(List<FieldSet> fieldSets) {
+        this.fieldSets = fieldSets;
+    }
+
+    public String[] getSearchOrder() {
+        return searchOrder;
+    }
+
+    public void setSearchOrder(String[] searchOrder) {
+        this.searchOrder = searchOrder;
+    }
+
+    public String[] getListOrder() {
+        return listOrder;
+    }
+
+    public void setListOrder(String[] listOrder) {
+        this.listOrder = listOrder;
+    }
+
+    public String[] getInputOrder() {
+        return inputOrder;
+    }
+
+    public void setInputOrder(String[] inputOrder) {
+        this.inputOrder = inputOrder;
+    }
+
+    public String getJquery() {
+        return jquery;
+    }
+
+    public void setJquery(String jquery) {
+        this.jquery = jquery;
     }
 }

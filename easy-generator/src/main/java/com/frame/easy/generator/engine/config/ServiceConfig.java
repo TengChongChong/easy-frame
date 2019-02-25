@@ -28,6 +28,7 @@ public class ServiceConfig {
     public void init() {
         ArrayList<String> imports = new ArrayList<>();
         imports.add(generator.getModelPackage() + Const.PACKAGE_SPLIT + generator.getModelName());
+        imports.add("com.frame.easy.common.page.Page");
         this.imports = imports;
         this.path = Const.JAVA_PATH +
                 generator.getServicePackage().replace(".", File.separator) + File.separator +

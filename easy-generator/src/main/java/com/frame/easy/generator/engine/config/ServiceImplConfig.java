@@ -28,7 +28,6 @@ public class ServiceImplConfig {
     public void init() {
         ArrayList<String> imports = new ArrayList<>();
         imports.add("com.baomidou.mybatisplus.core.conditions.query.QueryWrapper");
-        imports.add("com.frame.easy.common.page.Page");
         imports.add("com.baomidou.mybatisplus.extension.service.impl.ServiceImpl");
         imports.add("com.frame.easy.core.util.ToolUtil");
         imports.add("org.springframework.beans.factory.annotation.Autowired");
@@ -36,6 +35,7 @@ public class ServiceImplConfig {
         imports.add("org.springframework.transaction.annotation.Transactional");
         imports.add("java.util.Arrays");
         imports.add("java.util.List");
+        imports.add("com.frame.easy.common.page.Page");
         imports.add(generator.getModelPackage() + Const.PACKAGE_SPLIT + generator.getModelName());
         imports.add(generator.getDaoPackage() + Const.PACKAGE_SPLIT + generator.getModelName() + "Mapper");
         imports.add(generator.getServicePackage() + Const.PACKAGE_SPLIT + generator.getModelName() + "Service");

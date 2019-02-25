@@ -17,19 +17,30 @@ public class ${config.modelName}ServiceImpl extends ServiceImpl<${config.modelNa
     private ${config.modelName}Mapper mapper;
 
     <% if(config.genSelect){ %>
+    /**
+     * 列表
+     * @param object 查询条件
+     * @return 数据集合
+     */
     @Override
-    public Object select(${config.modelName} object) {
-        Page page = object.getPage();
+    public Page select(${config.modelName} object) {
         QueryWrapper<${config.modelName}> queryWrapper = new QueryWrapper<>();
         if(object != null){
-            // 拼接查询条件
-
+            // 查询条件
+            <% for(propertyName in config.searchOrder){ %>
+            ${GeneratorJavaUtil.generator(propertyName, config.fieldSets, 3)}
+            <% } %>
         }
-
-        page(page, queryWrapper);
+        return (Page)page(ToolUtil.getPage(object), queryWrapper);
         return page;
     }
 
+    /**
+     * 详情
+     *
+     * @param id id
+     * @return 详细信息
+     */
     @Override
     public ${config.modelName} input(Long id) {
         ToolUtil.checkParams(id);
@@ -37,6 +48,11 @@ public class ${config.modelName}ServiceImpl extends ServiceImpl<${config.modelNa
     }
     <% } %>
     <% if(config.genAdd){ %>
+    /**
+     * 新增
+     *
+     * @return 默认值
+     */
     @Override
     public ${config.modelName} add() {
         ${config.modelName} object = new ${config.modelName}();
@@ -45,6 +61,12 @@ public class ${config.modelName}ServiceImpl extends ServiceImpl<${config.modelNa
     }
     <% } %>
     <% if(config.genDelete){ %>
+    /**
+     * 删除
+     *
+     * @param id id
+     * @return 是否成功
+     */
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
     public boolean delete(String ids) {
@@ -54,14 +76,20 @@ public class ${config.modelName}ServiceImpl extends ServiceImpl<${config.modelNa
     }
     <% } %>
     <% if(config.genSave){ %>
-        @Transactional(rollbackFor = RuntimeException.class)
-        @Override
-        public ${config.modelName} saveData(${config.modelName} object) {
-            ToolUtil.checkParams(object);
-            if (object.getId() == null) {
-                // 新增,设置默认值
-            }
-            return (${config.modelName}) ToolUtil.checkResult(saveOrUpdate(object), object);
+    /**
+     * 保存
+     *
+     * @param object 表单内容
+     * @return 保存后信息
+     */
+    @Transactional(rollbackFor = RuntimeException.class)
+    @Override
+    public ${config.modelName} saveData(${config.modelName} object) {
+        ToolUtil.checkParams(object);
+        if (object.getId() == null) {
+            // 新增,设置默认值
         }
+        return (${config.modelName}) ToolUtil.checkResult(saveOrUpdate(object), object);
+    }
     <% } %>
 }

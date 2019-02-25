@@ -3,9 +3,11 @@
     <div class="m-portlet" m-portlet="true">
         <#portlet:head title="${config.businessName}" icon="la la-bars"/>
         <div class="m-portlet__body">
-            <input type="hidden" id="id" name="id" value="\${object.id}">
             <div class="row">
                 <!-- str:表单区域 -->
+                 <% for(propertyName in config.inputOrder){ %>
+                ${GeneratorHtmlUtil.generator(propertyName, config.fieldSets, 4)}
+                <% } %>
                 <!-- end:表单区域 -->
             </div>
         </div>
@@ -21,6 +23,6 @@
     </div>
 </form>
 <!--begin::页面脚本 -->
-<script src="\${ctxPath}/static/${config.viewPath}/input.js" type="text/javascript"></script>
+<script src="\${ctxPath}/static/modular/${config.viewPath}/input.js" type="text/javascript"></script>
 <!--end::页面脚本 -->
 @}

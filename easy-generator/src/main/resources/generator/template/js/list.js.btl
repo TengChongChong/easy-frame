@@ -7,58 +7,10 @@ var m${config.modelName}List = function () {
         var options = {
             // 列配置
             columns: [
-                {
-                    field: 'id',
-                    title: '#',
-                    sortable: false, // 禁用此列排序
-                    width: 40,
-                    selector: {class: 'm-checkbox--solid m-checkbox--brand'},
-                },
-                {
-                    field: 'sample-1',
-                    title: '普通示例',
-                    sortable: 'asc',
-                    width: 60
-                },
-                {
-                    field: 'sample-2',
-                    title: '字典示例',
-                    width: 60,
-                    dictType: mTool.commonDict
-                },
-                {
-                    field: 'Actions',
-                    width: 110,
-                    title: '操作',
-                    sortable: false,
-                    overflow: 'visible',
-                    locked: {
-                        right: 'md'
-                    },
-                    template: function (row, index, datatable) {
-                        <% if(config.permissionsCode != null && config.permissionsCode != '') { %>
-                        var _btn = '';
-                        if (mTool.hasPermissions('sys:${config.modelName}:save')) {
-                            _btn += '<a href="#" onclick="mTool.editById(this, ' + row.id + ', \'' + row.name + '\')" class="' + mTool.ACTIONS_DANGER + '" title="编辑">\
-							    <i class="la la-edit"></i>\
-						    </a>';
-                        }
-                        if (mTool.hasPermissions('sys:${config.modelName}:delete')) {
-                            _btn += '<a href="#" onclick="mTool.deleteById(this, ' + row.id + ')" class="' + mTool.ACTIONS_DANGER + '" title="删除">\
-                                <i class="la la-trash"></i>\
-                            </a>';
-                        }
-                        return _btn;
-                        <% } else { %>
-                        return '<a href="#" onclick="mTool.editById(this, ' + row.id + ', \'' + row.name + '\')" class="' + mTool.ACTIONS_DANGER + '" title="编辑">\
-                                    <i class="la la-edit"></i>\
-                                </a>\
-                                <a href="#" onclick="mTool.deleteById(this, ' + row.id + ')" class="' + mTool.ACTIONS_DANGER + '" title="删除">\
-                                    <i class="la la-trash"></i>\
-                                </a>';
-                        <% } %>
-                    }
-                }
+                <% for(propertyName in config.listOrder){ %>
+                ${GeneratorJsUtil.generator(propertyName, config.fieldSets, 4)}
+                <% } %>
+                ${GeneratorJsUtil.getActions(config, 4)}
             ]
         };
         m${config.modelName}List.dataTable = mTool.initDataTable(options);
@@ -67,7 +19,7 @@ var m${config.modelName}List = function () {
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '${config.controllerMapping}');
+            mTool.setBaseUrl(basePath + '/auth/${config.controllerMapping}');
             initTable();
         }
     };
@@ -76,6 +28,6 @@ mTab.needSubmitForm = function () {
     return true;
 };
 //== 初始化
-\$(document).ready(function () {
+${config.jquery}(document).ready(function () {
     m${config.modelName}List.init();
 });
