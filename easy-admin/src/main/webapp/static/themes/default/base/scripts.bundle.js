@@ -1558,6 +1558,7 @@ var mUtil = function () {
                     cache: false,
                     data: config.data,
                     type: mUtil.isBlank(config.type) ? 'post' : config.type,
+                    contentType: config.contentType,
                     dataType: mUtil.isBlank(config.dataType) ? 'json' : config.dataType,
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         if (mUtil.isNotBlank(config.wait)) {
@@ -5648,6 +5649,28 @@ var mTabs = function (selector, options) {
 
     return the;
 };
+/**
+ * tab callback
+ * @type {{needRefresh: (function(): boolean), needSubmitForm: (function(): boolean)}}
+ */
+var mTab = {
+    /**
+     * 激活当前tab是否需要刷新当前页面
+     *
+     * @returns {boolean}
+     */
+    needRefresh: function () {
+        return false;
+    },
+    /**
+     * 激活当前tab是否需要提交查询表单
+     *
+     * @returns {boolean}
+     */
+    needSubmitForm: function () {
+        return false;
+    }
+};
 // plugin setup
 var mToggle = function(elementId, options) {
     //== Main object
@@ -6234,17 +6257,17 @@ var mTool = function () {
                                 }
                             }
                         }
-                    },
+                    }
                 },
                 saveState: {
                     // 使用cookie/webstorage 保存表格状态(分页, 筛选, 排序)
                     cookie: false,
-                    webstorage: true,
+                    webstorage: true
                 },
                 pageSize: mTool.dataTable.page.size, // 页大小
                 serverPaging: true, // 在服务器进行数据分页
                 serverFiltering: true, // 在服务器进行数据过滤
-                serverSorting: true, // 在服务器进行数据排序
+                serverSorting: true // 在服务器进行数据排序
             },
             toolbar: {
                 items: {
@@ -6261,7 +6284,12 @@ var mTool = function () {
                 height: mTool.dataTable.layout.height, // 高度
                 footer: false // 显示/隐藏 footer
             },
-
+            search: {
+                // 查询条件(仅用于数据在local)
+                input: '.query-modular input, .query-modular select',
+                // 在输入框按回车查询
+                onEnter: true
+            },
             // 列滚动
             sortable: true,
             // 分页
@@ -7180,7 +7208,7 @@ var mTool = function () {
          * @param separate {string} 分隔符
          * @returns {*}
          */
-        getObject: function(path, object){
+        getObject: function (path, object) {
             return getObject(path, object);
         },
         /**
@@ -7311,31 +7339,9 @@ var mTool = function () {
         dataTable: defaultOptions.dataTable,
         urlSuffix: defaultOptions.urlSuffix,
         httpCode: defaultOptions.httpCode,
-        currentUser:defaultOptions.currentUser
+        currentUser: defaultOptions.currentUser
     };
 }();
-/**
- * tab callback
- * @type {{needRefresh: (function(): boolean), needSubmitForm: (function(): boolean)}}
- */
-var mTab = {
-    /**
-     * 激活当前tab是否需要刷新当前页面
-     *
-     * @returns {boolean}
-     */
-    needRefresh: function () {
-        return false;
-    },
-    /**
-     * 激活当前tab是否需要提交查询表单
-     *
-     * @returns {boolean}
-     */
-    needSubmitForm: function () {
-        return false;
-    }
-};
 //== 页面加载完毕初始化mTool
 $(document).ready(function () {
     mTool.init({});
@@ -8517,9 +8523,7 @@ var mWizard = function(elementId, options) {
             },
 
             /**
-             * Setup extra system column properties
-             * 设置额外的列
-             * Note: selector checkbox, subtable toggle
+             * 设置额外的列属性
              * 比如: checkbox
              */
             setupSystemColumn: function () {
@@ -8856,14 +8860,6 @@ var mWizard = function(elementId, options) {
                 };
 
                 var afterGetData = function (result) {
-                    if (mTool.httpCode.SUCCESS !== result.code) {
-                        mTool.errorTip('查询数据失败', result.message);
-                        result.data = [];
-                        result.data.current = 0;
-                        result.data.site = 15;
-                        result.data.total = 0;
-
-                    }
                     var localPagingCallback = function (ctx, meta) {
                         if (!$(ctx.pager).hasClass(pfx + 'datatable--paging-loaded')) {
                             $(ctx.pager).remove();
@@ -8888,6 +8884,13 @@ var mWizard = function(elementId, options) {
                     if (options.pagination) {
                         if (options.data.serverPaging && options.data.type !== 'local') {
                             // 服务器端分页
+                            if (mTool.httpCode.SUCCESS !== result.code) {
+                                mTool.errorTip('查询数据失败', result.message);
+                                result.data = [];
+                                result.data.current = 0;
+                                result.data.site = 15;
+                                result.data.total = 0;
+                            }
                             var serverMeta = result.data;
                             if (serverMeta !== null) {
                                 Plugin.paging(serverMeta);
@@ -9045,7 +9048,7 @@ var mWizard = function(elementId, options) {
                     // 如果没有启用服务器分页,删除参数中的分页信息
                     if (!Plugin.getOption('data.serverPaging')) {
                         delete data['page'];
-                    }else {
+                    } else {
                         // 如果数据来源于服务器并且在服务器分页,将排序信息放到参数中
                         if (typeof data.sort !== 'undefined') {
                             if ('asc' == data.sort.sort) {
@@ -10129,9 +10132,7 @@ var mWizard = function(elementId, options) {
             },
 
             /**
-             * Update JSON data list linked with sort, filter and pagination.
              * 更新本地数据的 排序,过滤,分页
-             * Call this method, before using dataSet variable.
              * 在使用dataSet变量之前调用该方法
              *
              * @returns {*|null}
@@ -10176,26 +10177,38 @@ var mWizard = function(elementId, options) {
                         }
                         return false;
                     };
+                    // 获取查询条件
+                    $(Plugin.getOption('search.input')).each(function (index, element) {
+                        var search = $(element).val();
+                        var key = Plugin.getGeneralSearchKey(element);
+                        if(mUtil.isNotBlank(key)){
+                            if (mUtil.isNotBlank(search)) {
+                                params.query[key] = search;
+                            } else {
+                                delete params.query[key];
+                            }    
+                        }
+                    });
 
-                    var search = $(Plugin.getOption('search.input')).val();
-                    if (typeof search !== 'undefined' && search !== '') {
-                        search = search.toLowerCase();
-                        datatable.dataSet = $.grep(datatable.dataSet, nestedSearch);
-                        // remove generalSearch as we don't need this for next columns filter
-                        delete params.query[Plugin.getGeneralSearchKey()];
-                    }
+                    // var search = $(Plugin.getOption('search.input')).val();
+                    // if (typeof search !== 'undefined' && search !== '') {
+                    //     search = search.toLowerCase();
+                    //     datatable.dataSet = $.grep(datatable.dataSet, nestedSearch);
+                    //     // remove generalSearch as we don't need this for next columns filter
+                    //     delete params.query[Plugin.getGeneralSearchKey()];
+                    // }
 
-                    // remove empty element from array
+                    // 移除数组中的空元素
                     $.each(params.query, function (k, v) {
                         if (v === '') {
                             delete params.query[k];
                         }
                     });
 
-                    // filter array by query
+                    // 根据查询条件过滤
                     datatable.dataSet = Plugin.filterArray(datatable.dataSet, params.query);
 
-                    // reset array index
+                    // 重置数组index
                     datatable.dataSet = datatable.dataSet.filter(function () {
                         return true;
                     });
@@ -10205,7 +10218,6 @@ var mWizard = function(elementId, options) {
             },
 
             /**
-             * Utility helper to filter array by object pair of {key:value}
              *
              * 过滤{key:value}数组
              *
@@ -10364,8 +10376,13 @@ var mWizard = function(elementId, options) {
              *
              * @returns {*}
              */
-            getGeneralSearchKey: function () {
-                var searchInput = $(Plugin.getOption('search.input'));
+            getGeneralSearchKey: function (element) {
+                var searchInput;
+                if (typeof element !== 'undefined') {
+                    searchInput = $(element);
+                } else {
+                    searchInput = $(Plugin.getOption('search.input'));
+                }
                 return $(searchInput).prop('name') || $(searchInput).prop('id');
             },
 

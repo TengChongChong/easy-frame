@@ -6,6 +6,7 @@ var mOnlineList = function () {
     var initTable = function () {
         var options = {
             data: {
+                type: 'local',
                 serverPaging: false, // 在服务器进行数据分页
                 serverFiltering: false, // 在服务器进行数据过滤
                 serverSorting: false // 在服务器进行数据排序
@@ -17,7 +18,7 @@ var mOnlineList = function () {
                     title: '#',
                     sortable: false, // 禁用此列排序
                     width: 40,
-                    selector: {class: 'm-checkbox--solid m-checkbox--brand'},
+                    selector: {class: 'm-checkbox--solid m-checkbox--brand'}
                 },
                 {
                     field: 'username',
@@ -64,7 +65,13 @@ var mOnlineList = function () {
                 }
             ]
         };
-        mOnlineList.dataTable = mTool.initDataTable(options);
+        mUtil.ajax({
+            url: mTool.getBaseUrl() + 'select',
+            success: function (res) {
+                options.data.source = res.data;
+                mOnlineList.dataTable = mTool.initDataTable(options);
+            }
+        });
     };
     return {
         //== 初始化页面

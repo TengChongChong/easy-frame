@@ -169,22 +169,22 @@ var mUserList = function () {
                     selector: {class: 'm-checkbox--solid m-checkbox--brand'},
                     locked: {
                         left: 'md'
-                    },
+                    }
                 },
                 {
                     field: 'username',
                     title: '用户名',
                     locked: {
                         left: 'md'
-                    },
+                    }
                 },
                 {
                     field: 'nickname',
-                    title: '昵称',
+                    title: '昵称'
                 },
                 {
                     field: 'phone',
-                    title: '手机号',
+                    title: '手机号'
                 },
                 {
                     field: 'status',
@@ -194,12 +194,12 @@ var mUserList = function () {
                 },
                 {
                     field: 'lastLogin',
-                    title: '最后登录时间',
+                    title: '最后登录时间'
                 },
                 {
                     field: 'createDate',
                     title: '创建时间',
-                    sortable: 'desc',
+                    sortable: 'desc'
                 },
                 {
                     field: 'Actions',
@@ -298,7 +298,7 @@ var mUserList = function () {
 }();
 mTab.needSubmitForm = function () {
     return true;
-}
+};
 //== 初始化
 $(document).ready(function () {
     mUserList.init();

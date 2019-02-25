@@ -42,7 +42,6 @@ public interface SysUserService {
      */
     boolean delete(String ids);
 
-
     /**
      * 保存
      *
