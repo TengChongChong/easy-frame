@@ -21,7 +21,7 @@ import java.util.Properties;
  * @author tengchong
  * @date 2019-01-08
  */
-public abstract class BaseTemplateEngine extends AbstractTemplateEngine{
+public abstract class BaseTemplateEngine extends AbstractTemplateEngine {
     private GroupTemplate groupTemplate;
 
     public BaseTemplateEngine() {
@@ -57,7 +57,7 @@ public abstract class BaseTemplateEngine extends AbstractTemplateEngine{
      *
      * @return JSONObject
      */
-    private JSONObject commonComment(){
+    private JSONObject commonComment() {
         JSONObject commonComment = new JSONObject(4);
         commonComment.put("createUser", "创建人id");
         commonComment.put("createDate", "创建时间");
@@ -86,17 +86,20 @@ public abstract class BaseTemplateEngine extends AbstractTemplateEngine{
         if (!parentFile.exists()) {
             parentFile.mkdirs();
         }
-        FileOutputStream fileOutputStream = null;
-        try {
-            fileOutputStream = new FileOutputStream(file);
-            pageTemplate.renderTo(fileOutputStream);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
+        if(super.generator.getReplace() || !file.exists()){
+            // 如果勾选了"覆盖已有文件" 或 文件不存在
+            FileOutputStream fileOutputStream = null;
             try {
-                fileOutputStream.close();
-            } catch (IOException e) {
+                fileOutputStream = new FileOutputStream(file);
+                pageTemplate.renderTo(fileOutputStream);
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
+            } finally {
+                try {
+                    fileOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -142,38 +145,47 @@ public abstract class BaseTemplateEngine extends AbstractTemplateEngine{
      * 生成 controller
      */
     protected abstract void generateController();
+
     /**
      * 生成 model
      */
     protected abstract void generateModel();
+
     /**
      * 生成 dao
      */
     protected abstract void generateDao();
+
     /**
      * 生成 mapping
      */
     protected abstract void generateMapping();
+
     /**
      * 生成 service
      */
     protected abstract void generateService();
+
     /**
      * 生成 service impl
      */
     protected abstract void generateServiceImpl();
+
     /**
      * 生成 list.html
      */
     protected abstract void generateListPage();
+
     /**
      * 生成 list.js
      */
     protected abstract void generateListJs();
+
     /**
      * 生成 input.html
      */
     protected abstract void generateInputPage();
+
     /**
      * 生成 input.js
      */

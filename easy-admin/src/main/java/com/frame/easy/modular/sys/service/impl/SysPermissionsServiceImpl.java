@@ -1,6 +1,7 @@
 package com.frame.easy.modular.sys.service.impl;
 
 import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.frame.easy.common.constant.CommonConst;
@@ -131,11 +132,11 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
         QueryWrapper<SysPermissions> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("p_id", id);
         int count = count(queryWrapper);
-        if(count > 0){
+        if (count > 0) {
             throw new EasyException(BusinessException.EXIST_CHILD.getMessage());
         }
         boolean isSuccess = removeById(id);
-        if(isSuccess){
+        if (isSuccess) {
             // 同时删除已分配的权限
             sysRolePermissionsService.deleteRolePermissions(String.valueOf(id));
         }
@@ -151,12 +152,12 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
         QueryWrapper<SysPermissions> queryWrapper = new QueryWrapper<>();
         queryWrapper.in("p_id", ids.split(CommonConst.SPLIT));
         int count = count(queryWrapper);
-        if(count > 0){
+        if (count > 0) {
             throw new EasyException(BusinessException.EXIST_CHILD.getMessage());
         }
         List<String> idList = Arrays.asList(ids.split(CommonConst.SPLIT));
         boolean isSuccess = removeByIds(idList);
-        if(isSuccess){
+        if (isSuccess) {
             // 同时删除已分配的权限
             sysRolePermissionsService.deleteRolePermissions(ids);
         }
@@ -204,14 +205,14 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
                     sysPermissions.setUrl(permission.getUrl());
                     sysPermissions.setLevels(parentPermission.getLevels() + 1);
                     sysPermissions.setpId(parentPermission.getId());
-                    if(Validator.isNotEmpty(permission.getCode())){
+                    if (Validator.isNotEmpty(permission.getCode())) {
                         try {
                             // code默认为 父code + 最后一个:后面的字符
                             String pCode = parentPermission.getCode();
-                            if(pCode.endsWith(":list")){
+                            if (pCode.endsWith(":list")) {
                                 pCode = pCode.substring(0, pCode.indexOf(":list"));
                             }
-                            if(pCode.endsWith(":view")){
+                            if (pCode.endsWith(":view")) {
                                 pCode = pCode.substring(0, pCode.indexOf(":view"));
                             }
                             sysPermissions.setCode(pCode +
@@ -330,7 +331,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
         }
     }
 
-    private void updateMenuLevels(Long parent, Long id){
+    private void updateMenuLevels(Long parent, Long id) {
         int parentLev;
         if (parent == 1) {
             parentLev = 0;
@@ -349,6 +350,19 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
             return mapper.search("%" + title + "%");
         } else {
             throw new EasyException("请输入关键字后重试！");
+        }
+    }
+
+    @Override
+    public boolean checkMenuIsHaving(String name) {
+        if (StrUtil.isNotBlank(name)) {
+            QueryWrapper<SysPermissions> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("name", name);
+            queryWrapper.eq("type", PermissionsType.ENABLE.getCode());
+            int count = mapper.selectCount(queryWrapper);
+            return count > 0;
+        } else {
+            throw new EasyException("[checkMenuIsHaving(String name)]菜单名称不能为空");
         }
     }
 }

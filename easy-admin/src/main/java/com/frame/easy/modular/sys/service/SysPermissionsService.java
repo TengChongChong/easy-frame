@@ -104,4 +104,12 @@ public interface SysPermissionsService {
      * @return List<JsTree>
      */
     List<JsTree> search(String title);
+
+    /**
+     * 检查菜单是否已存在
+     *
+     * @param name 菜单名称
+     * @return true/false
+     */
+    boolean checkMenuIsHaving(String name);
 }

@@ -16,7 +16,7 @@ public class ${config.modelName}Controller extends BaseController {
     /**
      * view 路径
      */
-    private final String PREFIX = "modular/${config.viewPath}";
+    private final String PREFIX = "modular/${config.viewPath}/";
 
     /**
      * ${config.businessName} service
