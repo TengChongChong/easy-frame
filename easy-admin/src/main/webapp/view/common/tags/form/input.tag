@@ -53,7 +53,7 @@
         @}
     </label>
     <div class="col-8">
-        <input type="${elementType}" class="${elementClass}" id="${id}" name="${id}" value="${value!}" ${validateRule!} ${other!} placeholder="${placeholder!}" style="${style!}"
+        <input type="${elementType}" class="${elementClass}" id="${id}" name="${id}" data-format="${dataFormat!}" value="${value!}" ${validateRule!} ${other!} placeholder="${placeholder!}" style="${style!}"
         @if(isNotEmpty(readonly)){
         readonly="${readonly}"
         @}

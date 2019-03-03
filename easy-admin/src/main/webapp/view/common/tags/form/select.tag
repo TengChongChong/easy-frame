@@ -6,7 +6,6 @@
     value   : 默认值
     required: 必填
     validate: 验证
-    dataType: 类型
     other   : 其他属性(支持多个,用空格隔开)
     tips    : 提示文字
     size    : 尺寸
@@ -53,7 +52,7 @@
         @}
     </label>
     <div class="col-8">
-        <select class="${elementClass} ${class!}" id="${id}" name="${id}" ${validateRule!} data-type="${dataType!}" ${other!} data-value="${value!}"
+        <select class="${elementClass} ${class!}" id="${id}" name="${id}" ${validateRule!} data-dict-type="${dataDictType!}" ${other!} data-value="${value!}"
                 @if(isNotEmpty(readonly)){
                 readonly="${readonly}"
                 @}
