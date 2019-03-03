@@ -39,10 +39,10 @@ public interface ${config.modelName}Service {
     /**
      * 删除
      *
-     * @param id id
+     * @param ids 数据ids
      * @return 是否成功
      */
-    boolean delete(String id);
+    boolean delete(String ids);
     <% } %>
     <% if(config.genSave){ %>
     /**

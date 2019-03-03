@@ -10,7 +10,7 @@
                     <div class="row">
                         <!--str:查询条件区域-->
                         <% for(propertyName in config.searchOrder){ %>
-                        ${GeneratorHtmlUtil.generator(propertyName, config.fieldSets, 6)}
+                        ${GeneratorHtmlUtil.generator(propertyName, config.fieldSets, 6, false, 'list')}
                         <% } %>
                         <!--end:查询条件区域-->
                     </div>
@@ -41,6 +41,6 @@
     </div>
 </div>
 <!--begin::页面脚本 -->
-<script src="\${ctxPath}/static/modular/${config.viewPath}/list.js" type="text/javascript"></script>
+<script src="\${ctxPath}/static/modular/${config.viewPath}/list.js?v=\${project.getVersion()}" type="text/javascript"></script>
 <!--end::页面脚本 -->
 @}

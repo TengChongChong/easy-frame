@@ -71,10 +71,11 @@ var template = {
      * @param propertyName {string} 实体类属性
      * @param label {string} 文字说明
      * @param labelGrid {string} label 栅格class
+     * @param isRequired {boolean} 是否必填
      * @return {string} html
      */
-    label: function (propertyName, label, labelGrid) {
-        return '<label class="' + labelGrid + ' control-label" for="' + propertyName + '">' + label + '</label>';
+    label: function (propertyName, label, labelGrid, isRequired) {
+        return '<label class="' + labelGrid + ' control-label" for="' + propertyName + '">' + (isRequired ? '<span class="required">*</span>' : '') + label + '</label>';
     },
     input: {
         /**
@@ -551,9 +552,10 @@ var generationTool = {
      * 生成输入组件内容
      *
      * @param config 配置
+     * @param type {string} list/input
      * @return {string} html
      */
-    generationContent: function (config) {
+    generationContent: function (config, type) {
         var input = null;
         switch (config.elementType) {
             case 'text':
@@ -591,18 +593,29 @@ var generationTool = {
                 break;
         }
         input = '<div class="col-8">' + input + '</div>';
-        return template.label(config.propertyName, config.label, 'col-4') + input;
+        var isRequired = false;
+        if('input' === type && config.required){
+            isRequired = true;
+        }
+        return template.label(config.propertyName, config.label, 'col-4', isRequired) + input;
         // return config.label;
     },
     /**
      * 生成输入框
      *
      * @param config 配置
+     * @param type {string} list/input
      * @return {string} html
      */
-    generationInput: function (config) {
-        var gridClass = generationTool.getGridClass(config.grid) + (config.elementType === 'hidden' ? ' m--hide' : '');
-        return template.group(gridClass, generationTool.generationContent(config), config.propertyName);
+    generationInput: function (config, type) {
+        var gridClass;
+        if('list' === type){
+            gridClass = generationTool.getGridClass(config.listGrid);
+        }else{
+            gridClass = generationTool.getGridClass(config.inputGrid);
+        }
+        gridClass += (config.elementType === 'hidden' ? ' m--hide' : '');
+        return template.group(gridClass, generationTool.generationContent(config, type), config.propertyName);
     },
     /**
      * 生成拖拽需要的class

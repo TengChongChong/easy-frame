@@ -3,7 +3,7 @@
 <mapper namespace="${config.daoPackage}.${tableInfo.mapperName}">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.frame.easy.modular.sys.model.SysDict">
+    <resultMap id="BaseResultMap" type="${config.modelPackage}.${config.modelName}">
         <% for(field in tableInfo.fields){ %>
         <% if(field.keyIdentityFlag) { %>
         <id column="${field.name}" property="${field.propertyName}" />

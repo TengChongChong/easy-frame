@@ -60,7 +60,7 @@ public class GenerationServiceImpl implements GenerationService {
                     // 菜单不存在
                     SysPermissions basePermission = getNewMenu(object.getMenuName(),
                             object.getPermissionsCode() + ":select",
-                            "auth/" + object.getControllerMapping() + "list",
+                            "/auth/" + object.getControllerMapping() + "/list",
                             1);
                     basePermission.setpId(0L);
                     basePermission.setType(PermissionsType.ENABLE.getCode());

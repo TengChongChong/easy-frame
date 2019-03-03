@@ -28,9 +28,14 @@ public class ModelConfig {
 
     public void init() {
         ArrayList<String> imports = new ArrayList<>();
-        imports.add(generator.getModelPackage() + Const.PACKAGE_SPLIT + generator.getModelName());
+        // mybatis 相关
+        imports.add("com.baomidou.mybatisplus.extension.activerecord.Model");
+        imports.add("com.baomidou.mybatisplus.annotation.TableName");
+        imports.add("com.baomidou.mybatisplus.annotation.TableField");
         // 自定义分页
         imports.add("com.frame.easy.common.page.Page");
+        // 自定义接口
+        imports.add("com.frame.easy.core.base.IModel");
         this.imports = imports;
         this.path = Const.JAVA_PATH +
                 generator.getModelPackage().replace(".", File.separator) + File.separator +

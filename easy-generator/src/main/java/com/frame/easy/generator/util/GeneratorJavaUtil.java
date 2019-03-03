@@ -1,6 +1,7 @@
 package com.frame.easy.generator.util;
 
 import cn.hutool.core.util.StrUtil;
+import com.frame.easy.generator.db.SqlReservedWords;
 import com.frame.easy.generator.model.FieldSet;
 import com.frame.easy.generator.model.Generator;
 
@@ -67,5 +68,19 @@ public class GeneratorJavaUtil {
                 .append("object.get").append(StrUtil.upperFirst(fieldSet.getPropertyName()))
                 .append("());\n").append(GeneratorUtil.getTab(tab)).append("}");
         return query.toString();
+    }
+
+    /**
+     * 如果数据库是mysql 并且使用了关键字作为字段名需要用`包起来
+     *
+     * @param word 字段名
+     * @return 注解/空
+     */
+    public String checkNeedTableField(String word) {
+        if (SqlReservedWords.containsWord(word)) {
+            return "@TableField(\"`" + word + " `\")\n";
+        } else {
+            return "";
+        }
     }
 }

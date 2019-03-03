@@ -27,8 +27,8 @@ public class ControllerConfig {
 
     public void init() {
         ArrayList<String> imports = new ArrayList<>();
-        imports.add("com.frame.easy.core.base.controller.BaseController");
-        imports.add("com.frame.easy.core.base.result.Tips");
+        imports.add("com.frame.easy.base.controller.BaseController");
+        imports.add("com.frame.easy.result.Tips");
         imports.add("org.apache.shiro.authz.annotation.RequiresPermissions");
         imports.add("org.springframework.beans.factory.annotation.Autowired");
         imports.add("org.springframework.stereotype.Controller");

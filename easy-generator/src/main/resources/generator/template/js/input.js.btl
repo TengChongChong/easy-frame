@@ -4,7 +4,7 @@ var m${config.modelName}Input = function () {
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/${config.controllerMapping}');
+            mTool.setBaseUrl(basePath + '/auth/${config.controllerMapping}/');
         }
     };
 }();

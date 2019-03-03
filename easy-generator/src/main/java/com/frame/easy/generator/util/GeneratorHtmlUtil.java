@@ -12,18 +12,36 @@ import java.util.List;
  * @date 2019-02-22
  */
 public class GeneratorHtmlUtil {
+
+    /**
+     * 栅格class
+     */
+    private static final String GRID_1_1 = "12/2/10";
+    private static final String GRID_1_2 = "12/2/5";
+    private static final String GRID_1_3 = "12/2/8";
+    private static final String GRID_2 = "6/4/8";
+    private static final String GRID_3 = "4/4/8";
+    private static final String GRID_4 = "3/4/8";
+    /**
+     * 页面类型
+     */
+    private static final String PAGE_TYPE_INPUT = "input";
+    private static final String PAGE_TYPE_LIST = "list";
+
     /**
      * 根据属性名称查找配置获取html
      *
      * @param propertyName 属性名称
      * @param list         配置列表
      * @param tab          tab数量
+     * @param value        是否生成value属性
+     * @param pageType     list/input 页面类型
      * @return html
      */
-    public static String generator(String propertyName, List<FieldSet> list, int tab) {
+    public static String generator(String propertyName, List<FieldSet> list, int tab, boolean value, String pageType) {
         for (FieldSet fieldSet : list) {
             if (propertyName.equals(fieldSet.getPropertyName())) {
-                return generator(fieldSet, tab);
+                return generator(fieldSet, tab, value, pageType);
             }
         }
         return null;
@@ -34,50 +52,58 @@ public class GeneratorHtmlUtil {
      *
      * @param fieldSet 配置
      * @param tab      tab数量
+     * @param value    是否生成value属性
+     * @param pageType list/input 页面类型
      * @return html
      */
-    private static String generator(FieldSet fieldSet, int tab) {
+    private static String generator(FieldSet fieldSet, int tab, boolean value, String pageType) {
         String element;
         switch (fieldSet.getElementType()) {
             case "text":
-                element = text(fieldSet);
+                element = text(fieldSet, value, pageType);
                 break;
             case "textarea":
-                element = textarea(fieldSet);
+                element = textarea(fieldSet, value, pageType);
                 break;
             case "hidden":
-                element = hidden(fieldSet);
+                element = hidden(fieldSet, value);
                 break;
             case "select":
-                element = select(fieldSet);
+                element = select(fieldSet, value, pageType);
                 break;
             case "select_multiple":
-                element = selectMultiple(fieldSet);
+                element = selectMultiple(fieldSet, value, pageType);
                 break;
             case "radio":
-                element = radio(fieldSet, tab);
+                element = radio(fieldSet, tab, value, pageType);
                 break;
             case "checkbox":
-                element = checkbox(fieldSet, tab);
+                element = checkbox(fieldSet, tab, value, pageType);
                 break;
             case "date":
-                element = date(fieldSet);
+                element = date(fieldSet, value, pageType);
                 break;
             case "datetime":
-                element = datetime(fieldSet);
+                element = datetime(fieldSet, value, pageType);
                 break;
             case "password":
-                element = password(fieldSet);
+                element = password(fieldSet, value, pageType);
                 break;
             case "number":
-                element = number(fieldSet);
+                element = number(fieldSet, value, pageType);
                 break;
             default:
-                element = text(fieldSet);
+                element = text(fieldSet, value, pageType);
                 break;
         }
         if (!"hidden".equals(fieldSet.getElementType())) {
-            return "<div class=\"" + getGridClass(fieldSet.getGrid()) + "\">\n" + GeneratorUtil.getTab(tab + 1) + element + "\n" + GeneratorUtil.getTab(tab) + "</div>";
+            String gridClass;
+            if (PAGE_TYPE_INPUT.equals(pageType)) {
+                gridClass = getGridClass(fieldSet.getInputGrid());
+            } else {
+                gridClass = getGridClass(fieldSet.getListGrid());
+            }
+            return "<div class=\"" + gridClass + "\">\n" + GeneratorUtil.getTab(tab + 1) + element + "\n" + GeneratorUtil.getTab(tab) + "</div>";
         } else {
             return element;
         }
@@ -87,11 +113,18 @@ public class GeneratorHtmlUtil {
      * 获取label的栅格
      *
      * @param fieldSet 配置
+     * @param pageType list/input 页面类型
      * @return html
      */
-    private static String getLabel(FieldSet fieldSet) {
+    private static String getLabel(FieldSet fieldSet, String pageType) {
+        String dictValue;
+        if (PAGE_TYPE_INPUT.equals(pageType)) {
+            dictValue = fieldSet.getInputGrid();
+        } else {
+            dictValue = fieldSet.getListGrid();
+        }
         String labelClass;
-        if ("12/2/10".equals(fieldSet.getGrid()) || "12/2/5".equals(fieldSet.getGrid()) || "12/2/8".equals(fieldSet.getGrid())) {
+        if (GRID_1_1.equals(dictValue) || GRID_1_2.equals(dictValue) || GRID_1_3.equals(dictValue)) {
             labelClass = "col-md-2 col-4";
         } else {
             labelClass = "col-4";
@@ -104,13 +137,20 @@ public class GeneratorHtmlUtil {
      * 获取input的栅格
      *
      * @param fieldSet 配置
+     * @param pageType list/input 页面类型
      * @return class
      */
-    private static String getInputGridClass(FieldSet fieldSet) {
+    private static String getInputGridClass(FieldSet fieldSet, String pageType) {
+        String dictValue;
+        if (PAGE_TYPE_INPUT.equals(pageType)) {
+            dictValue = fieldSet.getInputGrid();
+        } else {
+            dictValue = fieldSet.getListGrid();
+        }
         String inputClass;
-        if ("12/2/10".equals(fieldSet.getGrid())) {
+        if (GRID_1_1.equals(dictValue)) {
             inputClass = "col-md-10 col-8";
-        } else if ("12/2/5".equals(fieldSet.getGrid())) {
+        } else if (GRID_1_2.equals(dictValue)) {
             inputClass = "col-md-5 col-8";
         } else {
             inputClass = "col-8";
@@ -126,13 +166,14 @@ public class GeneratorHtmlUtil {
      */
     private static String getGridClass(String grid) {
         String gridClass = null;
-        if ("12/2/10".equals(grid) || "12/2/5".equals(grid) || "12/2/8".equals(grid)) {
+        if (GRID_1_1.equals(grid) || GRID_1_2.equals(grid) || GRID_1_3.equals(grid)) {
             gridClass = "col-12";
-        } else if ("6/4/8".equals(grid)) {
-            gridClass = "col-xl-4 col-lg-6 col-12";
-        } else if ("4/4/8".equals(grid)) {
+        } else if (GRID_2.equals(grid)) {
+//            gridClass = "col-xl-4 col-lg-6 col-12";
+            gridClass = "col-lg-6 col-12";
+        } else if (GRID_3.equals(grid)) {
             gridClass = "col-xl-3 col-lg-4 col-md-6 col-12";
-        } else if ("3/4/8".equals(grid)) {
+        } else if (GRID_4.equals(grid)) {
             gridClass = "col-lg-3 col-md-4 col-sm-6 col-12";
         }
         return gridClass;
@@ -142,9 +183,11 @@ public class GeneratorHtmlUtil {
      * 获取通用的属性
      *
      * @param fieldSet 配置
+     * @param value    是否生成value属性
+     * @param pageType list/input 页面类型
      * @return 通用属性
      */
-    private static String getCommonProperty(FieldSet fieldSet) {
+    private static String getCommonProperty(FieldSet fieldSet, boolean value, String pageType) {
         StringBuilder property = new StringBuilder();
         if (StrUtil.isNotBlank(fieldSet.getPropertyName())) {
             property.append(" id=\"").append(fieldSet.getPropertyName()).append("\"");
@@ -156,13 +199,29 @@ public class GeneratorHtmlUtil {
         if (StrUtil.isNotBlank(fieldSet.getTips())) {
             property.append(" tips=\"").append(fieldSet.getTips()).append("\"");
         }
-        // 必填
-        if (fieldSet.getRequired()) {
-            property.append(" required=\"").append(fieldSet.getRequired()).append("\"");
+        if (!PAGE_TYPE_LIST.equals(pageType)) {
+            // 必填
+            if (fieldSet.getRequired()) {
+                property.append(" required=\"").append(fieldSet.getRequired()).append("\"");
+            }
+            // 表单验证
+            if (StrUtil.isNotBlank(fieldSet.getValidate())) {
+                property.append(" validate=\"").append(fieldSet.getValidate()).append("\"");
+            }
         }
-        // 表单验证
-        if (StrUtil.isNotBlank(fieldSet.getValidate())) {
-            property.append(" validate=\"").append(fieldSet.getValidate()).append("\"");
+        if (value) {
+            if ("text".equals(fieldSet.getElementType()) ||
+                    "number".equals(fieldSet.getElementType()) ||
+                    "date".equals(fieldSet.getElementType()) ||
+                    "datetime".equals(fieldSet.getElementType()) ||
+                    "password".equals(fieldSet.getElementType()) ||
+                    "textarea".equals(fieldSet.getElementType()) ||
+                    "select".equals(fieldSet.getElementType())
+            ) {
+                property.append(" value=\"${object.").append(fieldSet.getPropertyName()).append("}\"");
+            } else {
+                property.append(" data-value=\"${object.").append(fieldSet.getPropertyName()).append("}\"");
+            }
         }
         return property.toString();
     }
@@ -171,10 +230,12 @@ public class GeneratorHtmlUtil {
      * 获取text所需要的html
      *
      * @param fieldSet 配置
+     * @param value 是否生成value属性
+     * @param pageType list/input 页面类型
      * @return html
      */
-    private static String text(FieldSet fieldSet) {
-        return "<#form:input" + getCommonProperty(fieldSet) + " />";
+    private static String text(FieldSet fieldSet, boolean value, String pageType) {
+        return "<#form:input" + getCommonProperty(fieldSet, value, pageType) + " />";
     }
 
     /**
@@ -183,75 +244,83 @@ public class GeneratorHtmlUtil {
      * @param fieldSet 配置
      * @return html
      */
-    private static String hidden(FieldSet fieldSet) {
+    private static String hidden(FieldSet fieldSet, boolean value) {
         return "<input type=\"hidden\" id=\"" + fieldSet.getPropertyName() + "\" name=\"" + fieldSet.getPropertyName() + "\" " +
-                "value=\"${object." + fieldSet.getPropertyName() + "}\"/>";
+                (value ? "value=\"${object." + fieldSet.getPropertyName() + "}\"" : "") + " />";
     }
 
     /**
      * 获取select所需要的html
      *
      * @param fieldSet 配置
+     * @param value 是否生成value属性
+     * @param pageType list/input 页面类型
      * @return html
      */
-    private static String select(FieldSet fieldSet) {
+    private static String select(FieldSet fieldSet, boolean value, String pageType) {
         return "<#form:select class=\"select-picker\"" +
-                (StrUtil.isNotBlank(fieldSet.getDictType()) ? "data-dict-type=\"" + fieldSet.getDictType() + "\"" : "") +
-                getCommonProperty(fieldSet) + " />";
+                (StrUtil.isNotBlank(fieldSet.getDictType()) ? " dataDictType=\"" + fieldSet.getDictType() + "\"" : "") +
+                getCommonProperty(fieldSet, value, pageType) + " />";
     }
 
     /**
      * 获取多选select所需要的html
      *
      * @param fieldSet 配置
+     * @param value 是否生成value属性
+     * @param pageType list/input 页面类型
      * @return html
      */
-    private static String selectMultiple(FieldSet fieldSet) {
+    private static String selectMultiple(FieldSet fieldSet, boolean value, String pageType) {
         return "<#form:select class=\"select-picker\"" +
-                (StrUtil.isNotBlank(fieldSet.getDictType()) ? "data-dict-type=\"" + fieldSet.getDictType() + "\"" : "") +
-                getCommonProperty(fieldSet) + " other=\"multiple\"/>";
+                (StrUtil.isNotBlank(fieldSet.getDictType()) ? " dataDictType=\"" + fieldSet.getDictType() + "\"" : "") +
+                getCommonProperty(fieldSet, value, pageType) + " other=\"multiple\"/>";
     }
 
     /**
      * 获取textarea所需要的html
      *
      * @param fieldSet 配置
+     * @param value 是否生成value属性
+     * @param pageType list/input 页面类型
      * @return html
      */
-    private static String textarea(FieldSet fieldSet) {
-        return "<#form:textarea" + getCommonProperty(fieldSet) + " />";
+    private static String textarea(FieldSet fieldSet, boolean value, String pageType) {
+        return "<#form:textarea" + getCommonProperty(fieldSet, value, pageType) + " />";
     }
 
     /**
      * 获取radio所需要的html
      *
      * @param fieldSet 配置
+     * @param pageType list/input 页面类型
      * @return html
      */
-    private static String radio(FieldSet fieldSet, int tab) {
+    private static String radio(FieldSet fieldSet, int tab, boolean value, String pageType) {
         StringBuilder html = new StringBuilder();
         if (StrUtil.isNotBlank(fieldSet.getDictType())) {
             html.append("<div class=\"m-radio-inline radio-dict\" data-dict-type=\"").append(fieldSet.getDictType()).append("\"></div>");
         } else {
             html.append("<div class=\"m-radio-inline\"></div>");
         }
-        return wrap(fieldSet, html, tab);
+        return wrap(fieldSet, html, tab, pageType);
     }
 
     /**
      * 获取checkbox所需要的html
      *
      * @param fieldSet 配置
+     * @param pageType list/input 页面类型
      * @return html
      */
-    private static String checkbox(FieldSet fieldSet, int tab) {
+    private static String checkbox(FieldSet fieldSet, int tab, boolean value, String pageType) {
         StringBuilder html = new StringBuilder();
         if (StrUtil.isNotBlank(fieldSet.getDictType())) {
             html.append("<div class=\"m-checkbox-inline checkbox-dict\" data-dict-type=\"").append(fieldSet.getDictType()).append("\"></div>");
         } else {
             html.append("<div class=\"m-checkbox-inline\"></div>");
         }
-        return wrap(fieldSet, html, tab);
+        return wrap(fieldSet, html, tab, pageType);
     }
 
     /**
@@ -259,11 +328,12 @@ public class GeneratorHtmlUtil {
      *
      * @param fieldSet 配置
      * @param content  内容
+     * @param pageType list/input 页面类型
      * @return html
      */
-    private static String wrap(FieldSet fieldSet, StringBuilder content, int tab) {
-        return getLabel(fieldSet) + "\n" +
-                GeneratorUtil.getTab(tab + 1) + "<div class=\"" + getInputGridClass(fieldSet) + "\">\n" +
+    private static String wrap(FieldSet fieldSet, StringBuilder content, int tab, String pageType) {
+        return getLabel(fieldSet, pageType) + "\n" +
+                GeneratorUtil.getTab(tab + 1) + "<div class=\"" + getInputGridClass(fieldSet, pageType) + "\">\n" +
                 GeneratorUtil.getTab(tab + 2) + content + "\n" +
                 GeneratorUtil.getTab(tab + 1) + "</div>";
     }
@@ -272,40 +342,48 @@ public class GeneratorHtmlUtil {
      * 获取日期插件所需要的html
      *
      * @param fieldSet 配置
+     * @param value 是否生成value属性
+     * @param pageType list/input 页面类型
      * @return html
      */
-    private static String date(FieldSet fieldSet) {
-        return "<#form:input class=\"date-picker\" data-format=\"YYYY-MM-DD\" " + getCommonProperty(fieldSet) + " />";
+    private static String date(FieldSet fieldSet, boolean value, String pageType) {
+        return "<#form:input class=\"date-picker\" dataFormat=\"YYYY-MM-DD\" " + getCommonProperty(fieldSet, value, pageType) + " />";
     }
 
     /**
      * 获取日期插件所需要的html
      *
      * @param fieldSet 配置
+     * @param value 是否生成value属性
+     * @param pageType list/input 页面类型
      * @return html
      */
-    private static String datetime(FieldSet fieldSet) {
-        return "<#form:input class=\"date-picker\" data-format=\"YYYY-MM-DD HH:mm:ss\"" + getCommonProperty(fieldSet) + " />";
+    private static String datetime(FieldSet fieldSet, boolean value, String pageType) {
+        return "<#form:input class=\"date-picker\" dataFormat=\"YYYY-MM-DD HH:mm:ss\"" + getCommonProperty(fieldSet, value, pageType) + " />";
     }
 
     /**
      * 获取password所需要的html
      *
      * @param fieldSet 配置
+     * @param value 是否生成value属性
+     * @param pageType list/input 页面类型
      * @return html
      */
-    private static String password(FieldSet fieldSet) {
-        return "<#form:input type=\"password\" " + getCommonProperty(fieldSet) + " />";
+    private static String password(FieldSet fieldSet, boolean value, String pageType) {
+        return "<#form:input type=\"password\" " + getCommonProperty(fieldSet, value, pageType) + " />";
     }
 
     /**
      * 获取number所需要的html
      *
      * @param fieldSet 配置
+     * @param value 是否生成value属性
+     * @param pageType list/input 页面类型
      * @return html
      */
-    private static String number(FieldSet fieldSet) {
-        return "<#form:input type=\"number\" " + getCommonProperty(fieldSet) + " />";
+    private static String number(FieldSet fieldSet, boolean value, String pageType) {
+        return "<#form:input type=\"number\" " + getCommonProperty(fieldSet, value, pageType) + " />";
 
     }
 }

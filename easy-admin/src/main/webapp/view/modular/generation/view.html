@@ -242,7 +242,7 @@
                                 <div class="col-md-6 col-12">
                                     <#form:select id="generatorTemplate" name="生成模板"
                                     required="true" class="m-bootstrap-select select-picker"
-                                    value="default" other="data-dict-type='generatorTemplate'" tips=""/>
+                                    value="default" dataDictType='generatorTemplate' tips=""/>
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <#form:input id="menuName" name="菜单名称" tips="如填写会自动添加菜单及权限"/>
@@ -250,7 +250,7 @@
                                 <div class="col-md-6 col-12">
                                     <#form:select id="module" name="所属模块" required="true"
                                     class="m-bootstrap-select select-picker"
-                                    other="data-dict-type='module'" tips="com.**.modular.模块名"/>
+                                    dataDictType='module' tips="com.**.modular.模块名"/>
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <#form:input id="permissionsCode" name="权限代码"
@@ -314,7 +314,7 @@
                                     <thead>
                                     <tr>
                                         <th class="cell-base" colspan="6">字段</th>
-                                        <th class="cell-list" colspan="4">列表</th>
+                                        <th class="cell-list" colspan="5">列表</th>
                                         <th class="cell-input" colspan="7">表单</th>
                                     </tr>
                                     <tr>
@@ -334,6 +334,9 @@
                                         <th class="cell-list">
                                             <div style="width: 70px;">匹配方式</div>
                                         </th>
+                                        <th class="cell-list">
+                                            <div style="width: 115px;">栅格</div>
+                                        </th>
                                         <th class="cell-input">编辑</th>
                                         <th class="cell-input">
                                             <div style="width: 100px;">label</div>
@@ -344,7 +347,9 @@
                                         <th class="cell-input">
                                             <div style="width: 115px;">栅格</div>
                                         </th>
-                                        <th class="cell-input">字典类型</th>
+                                        <th class="cell-input">
+                                            <div style="width: 115px;">字典类型</div>
+                                        </th>
                                         <th class="cell-input">必填</th>
                                         <th class="cell-input">
                                             <div style="width: 180px;">字段验证</div>

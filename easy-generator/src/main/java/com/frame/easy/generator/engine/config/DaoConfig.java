@@ -28,7 +28,8 @@ public class DaoConfig {
     public void init() {
         ArrayList<String> imports = new ArrayList<>();
         imports.add(generator.getModelPackage() + Const.PACKAGE_SPLIT + generator.getModelName());
-        imports.add("java.util.List");
+//        imports.add("java.util.List");
+        imports.add("com.baomidou.mybatisplus.core.mapper.BaseMapper");
         this.imports = imports;
         this.path = Const.JAVA_PATH +
                 generator.getDaoPackage().replace(".", File.separator) + File.separator +

@@ -7,6 +7,13 @@ var m${config.modelName}List = function () {
         var options = {
             // 列配置
             columns: [
+                {
+                    field: 'id',
+                    title: '#',
+                    sortable: false, // 禁用此列排序
+                    width: 40,
+                    selector: {class: 'm-checkbox--solid m-checkbox--brand'},
+                },
                 <% for(propertyName in config.listOrder){ %>
                 ${GeneratorJsUtil.generator(propertyName, config.fieldSets, 4)}
                 <% } %>
@@ -19,11 +26,16 @@ var m${config.modelName}List = function () {
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/${config.controllerMapping}');
+            mTool.setBaseUrl(basePath + '/auth/${config.controllerMapping}/');
             initTable();
         }
     };
 }();
+/**
+ * 当前tab激活时是否需要重新加载数据
+ *
+ * @return {boolean} true/false
+ */
 mTab.needSubmitForm = function () {
     return true;
 };

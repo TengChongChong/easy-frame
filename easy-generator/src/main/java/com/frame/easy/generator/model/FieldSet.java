@@ -75,7 +75,11 @@ public class FieldSet {
     /**
      * 在栅格中占多少位置
      */
-    private String grid;
+    private String listGrid;
+    /**
+     * 在栅格中占多少位置
+     */
+    private String inputGrid;
     /**
      * 是否使用新行
      */
@@ -201,12 +205,20 @@ public class FieldSet {
         this.dictType = dictType;
     }
 
-    public String getGrid() {
-        return grid;
+    public String getListGrid() {
+        return listGrid;
     }
 
-    public void setGrid(String grid) {
-        this.grid = grid;
+    public void setListGrid(String listGrid) {
+        this.listGrid = listGrid;
+    }
+
+    public String getInputGrid() {
+        return inputGrid;
+    }
+
+    public void setInputGrid(String inputGrid) {
+        this.inputGrid = inputGrid;
     }
 
     public boolean getNewRow() {

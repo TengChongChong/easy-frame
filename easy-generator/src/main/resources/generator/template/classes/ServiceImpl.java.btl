@@ -32,7 +32,6 @@ public class ${config.modelName}ServiceImpl extends ServiceImpl<${config.modelNa
             <% } %>
         }
         return (Page)page(ToolUtil.getPage(object), queryWrapper);
-        return page;
     }
 
     /**
@@ -64,7 +63,7 @@ public class ${config.modelName}ServiceImpl extends ServiceImpl<${config.modelNa
     /**
      * 删除
      *
-     * @param id id
+     * @param ids 数据ids
      * @return 是否成功
      */
     @Transactional(rollbackFor = RuntimeException.class)

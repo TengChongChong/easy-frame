@@ -5,7 +5,7 @@ import ${import};
 <% } %>
 
 /**
- * ${config.businessName} controller
+ * ${config.businessName}
  *
  * @author ${config.author}
  * @date ${config.date}
@@ -31,7 +31,7 @@ public class ${config.modelName}Controller extends BaseController {
      * @return String
      */
     @GetMapping("list")
-    public String list(Model model){
+    public String list(){
         logger.debug("${config.controllerMapping}/list");
         return PREFIX + "list";
     }
@@ -39,6 +39,7 @@ public class ${config.modelName}Controller extends BaseController {
     /**
      * 列表
      *
+     * @param object 查询条件
      * @return Tips
      */
     @RequestMapping("select")
@@ -79,6 +80,7 @@ public class ${config.modelName}Controller extends BaseController {
     <% } %>
     public String add(Model model) {
         logger.debug("${config.controllerMapping}/add");
+        model.addAttribute("object", service.add());
         return PREFIX + "input";
     }
     <% } %>
@@ -86,6 +88,7 @@ public class ${config.modelName}Controller extends BaseController {
     /**
      * 删除
      *
+     * @param ids 数据ids
      * @return Tips
      */
     @RequestMapping("/delete/{ids}")

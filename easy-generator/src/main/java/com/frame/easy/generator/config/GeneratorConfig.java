@@ -25,7 +25,7 @@ public class GeneratorConfig extends AbstractGeneratorConfig {
         // 是否打开输出目录
         globalConfig.setOpen(false);
         // 作者
-        globalConfig.setAuthor("tengchong");
+        globalConfig.setAuthor(generator.getAuthor());
     }
 
     private void dataSourceConfig() {
@@ -46,7 +46,7 @@ public class GeneratorConfig extends AbstractGeneratorConfig {
     }
 
     private void templateConfig() {
-        templateConfig.setXml(null);
+//        templateConfig.setXml(null);
         templateConfig.setController(null);
         templateConfig.setEntity(null);
         templateConfig.setService(null);

@@ -83,12 +83,13 @@ public class GeneratorJsUtil {
                     GeneratorUtil.getTab(tab) + "    locked: {\n" +
                     GeneratorUtil.getTab(tab) + "        right: 'md'\n" +
                     GeneratorUtil.getTab(tab) + "    },\n" +
-                    GeneratorUtil.getTab(tab) + "    template: function (row, index, datatable) {\n";
+                    GeneratorUtil.getTab(tab) + "    template: function (row, index, datatable) {\n" +
+                    GeneratorUtil.getTab(tab) + "        var _btn = '';\n";
             if (generator.getGenSave()) {
                 if (StrUtil.isNotBlank(generator.getPermissionsCode())) {
                     js += GeneratorUtil.getTab(tab + 2) + "if (mTool.hasPermissions('" + generator.getPermissionsCode() + ":save')) {\n";
                 }
-                js += GeneratorUtil.getTab(tab + 3) + "_btn += '<a href=\"#\" onclick=\"mTool.editById(this, ' + row.id + ', \\'' + row.name + '\\')\" class=\"' + mTool.ACTIONS_DANGER + '\" title=\"编辑\">\\\n" +
+                js += GeneratorUtil.getTab(tab + 3) + "_btn += '<a href=\"#\" onclick=\"mTool.editById(this, \\\'' + row.id + '\\\')\" class=\"' + mTool.ACTIONS_DANGER + '\" title=\"编辑\">\\\n" +
                         GeneratorUtil.getTab(tab + 3) + "    <i class=\"la la-edit\"></i>\\\n" +
                         GeneratorUtil.getTab(tab + 3) + "</a>';\n";
                 if (StrUtil.isNotBlank(generator.getPermissionsCode())) {
@@ -99,7 +100,7 @@ public class GeneratorJsUtil {
                 if (StrUtil.isNotBlank(generator.getPermissionsCode())) {
                     js += GeneratorUtil.getTab(tab + 2) + "if (mTool.hasPermissions('" + generator.getPermissionsCode() + ":delete')) {\n";
                 }
-                js += GeneratorUtil.getTab(tab + 3) + "_btn += '<a href=\"#\" onclick=\"mTool.deleteById(this, ' + row.id + ')\" class=\"' + mTool.ACTIONS_DANGER + '\" title=\"删除\">\\\n" +
+                js += GeneratorUtil.getTab(tab + 3) + "_btn += '<a href=\"#\" onclick=\"mTool.deleteById(this, \\\'' + row.id + '\\\')\" class=\"' + mTool.ACTIONS_DANGER + '\" title=\"删除\">\\\n" +
                         GeneratorUtil.getTab(tab + 3) + "    <i class=\"la la-trash\"></i>\\\n" +
                         GeneratorUtil.getTab(tab + 3) + "</a>';\n";
                 if (StrUtil.isNotBlank(generator.getPermissionsCode())) {

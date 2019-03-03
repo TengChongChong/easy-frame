@@ -6,7 +6,7 @@
             <div class="row">
                 <!-- str:表单区域 -->
                  <% for(propertyName in config.inputOrder){ %>
-                ${GeneratorHtmlUtil.generator(propertyName, config.fieldSets, 4)}
+                ${GeneratorHtmlUtil.generator(propertyName, config.fieldSets, 4, true, 'input')}
                 <% } %>
                 <!-- end:表单区域 -->
             </div>
@@ -23,6 +23,6 @@
     </div>
 </form>
 <!--begin::页面脚本 -->
-<script src="\${ctxPath}/static/modular/${config.viewPath}/input.js" type="text/javascript"></script>
+<script src="\${ctxPath}/static/modular/${config.viewPath}/input.js?v=\${project.getVersion()}" type="text/javascript"></script>
 <!--end::页面脚本 -->
 @}

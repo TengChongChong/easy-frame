@@ -16,16 +16,16 @@ import ${import};
  * @date ${config.date}
  */
  @TableName("${tableInfo.name}")
-public class ${config.modelName} extends Model<${config.modelName}> implements Serializable{
+public class ${config.modelName} extends Model<${config.modelName}> implements IModel, Serializable{
     private static final long serialVersionUID = 1L;
 
     <% for(field in tableInfo.fields){ %>
     <% if(field.comment != null && field.comment != "") { %>
-    /*
+    /**
      * ${field.comment}
      */
     <% }else if(commonComment[field.propertyName] != null){ %>
-    /*
+    /**
      * ${commonComment[field.propertyName]}
      */
     <% } %>
@@ -54,6 +54,7 @@ public class ${config.modelName} extends Model<${config.modelName}> implements S
     }
     <% } %>
     <% if(config.genSelect){ %>
+    @Override
     public Page getPage() {
         return page;
     }

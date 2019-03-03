@@ -90,7 +90,7 @@ var mGeneration = function () {
                         isGoTo = true;
                         wizard.goTo(2);
                         wizardObj.stop();
-                    } else if (listSwitch) {
+                    } else if (listSwitch && !inputSwitch) {
                         isGoTo = true;
                         wizard.goTo(4);
                         wizardObj.stop();
@@ -228,10 +228,11 @@ var mGeneration = function () {
                     <td class="cell-list">' + generationTool.getInput('title', field['comment']) + '</td>\
                     <td class="cell-list">' + generationTool.getCheckbox('showInSearch', generationTool.getCheckStatusByPreferenceSetting(field['propertyName'], preferenceSetting.list.excludeSearch)) + '</td>\
                     <td class="cell-list">' + generationTool.getDictSelect('matchingMode', 'matchingMode', generationTool.getDefaultDictByPreferenceSetting(field['propertyName'], preferenceSetting.list.matching, 'eq')) + '</td>\
+                    <td class="cell-input">' + generationTool.getDictSelect('grid', 'listGrid', '4/4/8') + '</td>\
                     <td class="border-left cell-input">' + generationTool.getCheckbox('showInInput', generationTool.getCheckStatusByPreferenceSetting(field['propertyName'], preferenceSetting.input.exclude)) + '</td>\
                     <td class="cell-input">' + generationTool.getInput('label', field['comment']) + '</td>\
                     <td class="cell-input">' + generationTool.getDictSelect('elementType', 'elementType', generationTool.getDefaultDictByPreferenceSetting(field['propertyName'], preferenceSetting.input.type, 'text')) + '</td>\
-                    <td class="cell-input">' + generationTool.getDictSelect('grid', 'grid', '4/4/8') + '</td>\
+                    <td class="cell-input">' + generationTool.getDictSelect('grid', 'inputGrid', '6/4/8') + '</td>\
                     <td class="cell-input">\
                         <select class="form-control m-bootstrap-select select-picker"\
                                 name="dictType" data-live-search="true">' + generationTool.getDictTypeOption(field['name']) + '\
@@ -303,10 +304,12 @@ var mGeneration = function () {
     /**
      * 设置输入框
      *
-     * @param configs 用户设置
-     * @param content 容器
+     * @param configs {array} 用户设置
+     * @param content {object} 容器
+     * @param array {array} 字段顺序
+     * @param type {string} list/input
      */
-    var initInput = function (configs, content) {
+    var initInput = function (configs, content, array, type) {
         if (configs.length > 0) {
             $(configs).each(function (index, config) {
                 if (config.elementType !== 'hidden') {
@@ -314,16 +317,22 @@ var mGeneration = function () {
                     var propertyName = content.find('[data-property-name="' + config.propertyName + '"]');
                     if (propertyName.length === 0) {
                         // 没有添加到对应位置
-                        content.append(generationTool.generationInput(config));
+                        content.append(generationTool.generationInput(config, type));
+                        array.push(config.propertyName);
                     } else {
                         // 更新内容, 因为内容可能发生改变
-                        propertyName.find('.form-group').html(generationTool.generationContent(config));
+                        propertyName.find('.form-group').html(generationTool.generationContent(config, type));
                         // 更新gridClass
-                        propertyName.removeClass('size-1 size-2 size-3 size-4').addClass(generationTool.getGridClass(config.grid));
+                        if('list' === type){
+                            propertyName.removeClass('size-1 size-2 size-3 size-4').addClass(generationTool.getGridClass(config.listGrid));
+                        }else{
+                            propertyName.removeClass('size-1 size-2 size-3 size-4').addClass(generationTool.getGridClass(config.inputGrid));
+                        }
                     }
                 }
             });
         }
+        return array;
     };
     /**
      * 初始化list页面
@@ -336,12 +345,7 @@ var mGeneration = function () {
             generationTool.generationSearchClass();
             var configs = generationTool.selectFieldConfig('showInSearch');
             var searchBody = $('#search-body');
-            initInput(configs, searchBody);
-            if (searchOrder.length === 0) {
-                $(configs).each(function (index, config) {
-                    searchOrder.push(config.propertyName);
-                });
-            }
+            searchOrder = initInput(configs, searchBody, searchOrder, 'list');
             deleteUnCheckElement(configs, searchBody);
             searchBody.gridly({
                 base: searchBody.width() / 12 - generationTool.gutter,
@@ -363,16 +367,16 @@ var mGeneration = function () {
             var configs = generationTool.selectFieldConfig('showInList');
             var listBody = $('#list-body');
             if (configs.length > 0) {
-                var setListOrder = listOrder.length === 0;
+                // var setListOrder = listOrder.length === 0;
                 $(configs).each(function (index, config) {
-                    if (setListOrder) {
-                        listOrder.push(config.propertyName);
-                    }
+                    // if (setListOrder) {
+                    // }
                     // 通过propertyName属性检查是不是已经放到页面中
                     var propertyName = listBody.find('[data-property-name="' + config.propertyName + '"]');
                     if (propertyName.length === 0) {
                         // 没有添加到对应位置
                         listBody.append('<div data-property-name="' + config.propertyName + '" class="brick size-1">' + config.title + '</div> ');
+                        listOrder.push(config.propertyName);
                     } else {
                         // 更新label, label可能发生改变
                         propertyName.html(config.title);
@@ -404,12 +408,7 @@ var mGeneration = function () {
         $('.business-name').html($('#businessName').val());
         var configs = generationTool.selectFieldConfig('showInInput');
         var inputBody = $('#input-body');
-        initInput(configs, inputBody);
-        if (inputOrder.length === 0) {
-            $(configs).each(function (index, config) {
-                inputOrder.push(config.propertyName);
-            });
-        }
+        inputOrder = initInput(configs, inputBody, inputOrder, 'input');
         deleteUnCheckElement(configs, inputBody);
         inputBody.gridly({
             base: inputBody.width() / 12 - generationTool.gutter,
