@@ -22,7 +22,10 @@ var mGeneration = function () {
      * 录入页面的排序
      */
     var inputOrder = [];
-
+    /**
+     * 隐藏的字段
+     */
+    var hideProperty = [];
     /**
      * 初始化表单向导
      */
@@ -152,7 +155,7 @@ var mGeneration = function () {
                 data.fieldSets = generationTool.fieldConfig;
                 data.searchOrder = searchOrder;
                 data.listOrder = listOrder;
-                data.inputOrder = inputOrder;
+                data.inputOrder = hideProperty.concat(inputOrder);
                 return data;
             }
 
@@ -311,6 +314,9 @@ var mGeneration = function () {
      */
     var initInput = function (configs, content, array, type) {
         if (configs.length > 0) {
+            if('input' === type){
+                hideProperty = [];
+            }
             $(configs).each(function (index, config) {
                 if (config.elementType !== 'hidden') {
                     // 通过propertyName属性检查是不是已经放到页面中
@@ -323,11 +329,15 @@ var mGeneration = function () {
                         // 更新内容, 因为内容可能发生改变
                         propertyName.find('.form-group').html(generationTool.generationContent(config, type));
                         // 更新gridClass
-                        if('list' === type){
+                        if ('list' === type) {
                             propertyName.removeClass('size-1 size-2 size-3 size-4').addClass(generationTool.getGridClass(config.listGrid));
-                        }else{
+                        } else {
                             propertyName.removeClass('size-1 size-2 size-3 size-4').addClass(generationTool.getGridClass(config.inputGrid));
                         }
+                    }
+                } else {
+                    if('input' === type){
+                        hideProperty.push(config.propertyName);
                     }
                 }
             });
