@@ -17,7 +17,7 @@ public class ShiroExt {
 
     /**
      * 获取当前 subject
-     * @return
+     * @return subject
      */
     protected Subject getSubject(){
         return SecurityUtils.getSubject();
@@ -25,7 +25,7 @@ public class ShiroExt {
 
     /**
      * 获取当前登录用户
-     * @return
+     * @return 用户信息
      */
     public SysUser getUser(){
         return (SysUser)getSubject().getPrincipals().getPrimaryPrincipal();
@@ -34,7 +34,7 @@ public class ShiroExt {
     /**
      * 获取当前登录用户菜单
      *
-     * @return jsonarray 数组
+     * @return jsonArray 数组
      */
     public String getUserMenus(){
         SysUser sysUser = ShiroUtil.getCurrentUser();
@@ -45,7 +45,7 @@ public class ShiroExt {
      * 用户是否属于指定角色标识
      *
      * @param code 角色标识
-     * @return
+     * @return true/false
      */
     public boolean hasRole(String code){
         Subject subject = getSubject();
@@ -59,7 +59,7 @@ public class ShiroExt {
      * 用户是否不属于指定角色标识
      *
      * @param code 角色标识
-     * @return
+     * @return true/false
      */
     public boolean notHasRole(String code){
         return !hasRole(code);
@@ -69,7 +69,7 @@ public class ShiroExt {
      * 用户是否属于指定角色标识的任意一个
      *
      * @param codes (示例: role1,role2)
-     * @return
+     * @return true/false
      */
     public boolean hasAnyRole(String codes){
         Subject subject = getSubject();
@@ -87,7 +87,7 @@ public class ShiroExt {
      * 用户是否不属于指定角色标识的任意一个
      *
      * @param codes (示例: role1,role2)
-     * @return
+     * @return true/false
      */
     public boolean notHasAnyRole(String codes){
         return !hasAnyRole(codes);
@@ -97,7 +97,7 @@ public class ShiroExt {
      * 用户是否拥有指定权限标识
      *
      * @param code 权限标识
-     * @return
+     * @return true/false
      */
     public boolean hasPermission(String code){
         Subject subject = getSubject();
@@ -111,7 +111,7 @@ public class ShiroExt {
      * 用户是否没有指定权限标识
      *
      * @param code 权限标识
-     * @return
+     * @return true/false
      */
     public boolean notHasPermission(String code){
         return !hasPermission(code);
@@ -121,7 +121,7 @@ public class ShiroExt {
      * 用户是否拥有指定权限标识的任意一个
      *
      * @param codes (示例: role1,role2)
-     * @return
+     * @return true/false
      */
     public boolean hasAnyPermission(String codes){
         Subject subject = getSubject();
@@ -139,7 +139,7 @@ public class ShiroExt {
      * 用户是否没有指定权限标识的任意一个
      *
      * @param codes (示例: role1,role2)
-     * @return
+     * @return true/false
      */
     public boolean notHasAnyPermission(String codes){
         return !hasAnyPermission(codes);
