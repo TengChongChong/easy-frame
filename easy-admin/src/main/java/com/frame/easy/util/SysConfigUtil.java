@@ -34,6 +34,23 @@ public class SysConfigUtil {
     }
 
     /**
+     * 获取项目版本号
+     *
+     * @return 版本号
+     */
+    public static String getProjectVersion() {
+        return (String) SysConfigUtil.get(SysConfigConst.PROJECT_VERSION);
+    }
+    /**
+     * 获取项目名称
+     *
+     * @return 名称
+     */
+    public static String getProjectName() {
+        return (String) SysConfigUtil.get(SysConfigConst.PROJECT_NAME);
+    }
+
+    /**
      * 转换为config指定类型
      *
      * @param config 系统参数
