@@ -41,6 +41,6 @@
     </div>
 </div>
 <!--begin::页面脚本 -->
-<script src="\${ctxPath}/static/modular/${config.viewPath}/list.js?v=\${project.getVersion()}" type="text/javascript"></script>
+<script src="\${ctxPath}/static/modular/${config.viewPath}/list.js?v=\${version()}" type="text/javascript"></script>
 <!--end::页面脚本 -->
 @}

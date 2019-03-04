@@ -23,6 +23,6 @@
     </div>
 </form>
 <!--begin::页面脚本 -->
-<script src="\${ctxPath}/static/modular/${config.viewPath}/input.js?v=\${project.getVersion()}" type="text/javascript"></script>
+<script src="\${ctxPath}/static/modular/${config.viewPath}/input.js?v=\${version()}" type="text/javascript"></script>
 <!--end::页面脚本 -->
 @}
