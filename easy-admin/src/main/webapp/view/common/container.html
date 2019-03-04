@@ -2,23 +2,10 @@
 <html lang="en">
 <!-- begin::Head -->
 <head>
-    <meta charset="utf-8"/>
-    <meta name="description" content="Latest updates and statistic charts">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>${project.getName()}</title>
-    <!--begin::Base Styles -->
-    <link href="${ctxPath}/static/vendors/base/vendors.bundle.css?v=${project.getVersion()}" rel="stylesheet" type="text/css"/>
-    <link href="${ctxPath}/static/themes/default/base/style.bundle.css?v=${project.getVersion()}" rel="stylesheet" type="text/css"/>
-    <!--end::Base Styles -->
-    <link rel="shortcut icon" href="${ctxPath}/static/themes/default/media/img/logo/favicon.ico"/>
-    <script>
-        var basePath = '${ctxPath}';
-    </script>
-    <!--begin::Base Scripts -->
-    <script src="${ctxPath}/static/data/js/sys-dict.js?v=${project.getVersion()}"></script>
-    <script src="${ctxPath}/static/vendors/base/vendors.bundle.js?v=${project.getVersion()}"></script>
-    <script src="${ctxPath}/static/themes/default/base/scripts.bundle.js?v=${project.getVersion()}"></script>
-    <!--end::Base Scripts -->
+    @include("meta.html"){}
+    <title>${projectName()}</title>
+    @include("base-styles.html"){}
+    @include("base-scripts.html"){}
 </head>
 <!-- end::Head -->
 

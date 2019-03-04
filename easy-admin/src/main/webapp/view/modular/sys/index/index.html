@@ -4,7 +4,7 @@
 <!-- begin::Head -->
 <head>
     @include("/common/meta.html"){}
-    <title>${project.getName()}</title>
+    <title>${projectName()}</title>
     @include("/common/base-styles.html"){}
 </head>
 <!-- end::Head -->
@@ -26,7 +26,7 @@
                         <div class="m-stack__item m-stack__item--middle m-brand__logo">
                             <a href="index.html" class="m-brand__logo-wrapper">
                                 <!--<img alt="" src="${ctxPath}/static/themes/default/media/img/logo/logo_default_dark.png"/>-->
-                                ${project.getName()}
+                                ${projectName()}
                             </a>
                         </div>
                         <div class="m-stack__item m-stack__item--middle m-brand__tools">
@@ -1099,7 +1099,7 @@
 <!-- end::Scroll Top -->
 @include("/common/base-scripts.html"){}
 <!--begin::页面脚本 -->
-<script src="${ctxPath}/static/modular/sys/index/index.js?v=${project.getVersion()}"></script>
+<script src="${ctxPath}/static/modular/sys/index/index.js?v=${version()}"></script>
 <!--end::页面脚本 -->
 </body>
 

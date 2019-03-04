@@ -22,4 +22,8 @@ public class RedisPrefix {
      */
     public static final String SHIRO_AUTHORIZATION = "shiro:authorization:";
 
+    /**
+     * 系统参数
+     */
+    public static final String SYS_CONFIG = "sys:config:";
 }
