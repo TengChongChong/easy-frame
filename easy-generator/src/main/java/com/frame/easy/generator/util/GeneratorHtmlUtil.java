@@ -273,8 +273,9 @@ public class GeneratorHtmlUtil {
      */
     private static String selectMultiple(FieldSet fieldSet, boolean value, String pageType) {
         return "<#form:select class=\"select-picker\"" +
+                getCommonProperty(fieldSet, value, pageType) +
                 (StrUtil.isNotBlank(fieldSet.getDictType()) ? " dataDictType=\"" + fieldSet.getDictType() + "\"" : "") +
-                getCommonProperty(fieldSet, value, pageType) + " other=\"multiple\"/>";
+                " other=\"multiple\"/>";
     }
 
     /**
