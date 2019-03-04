@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : easy-frame
+ Source Server         : WordPress - 本地 - wp_site
  Source Server Type    : MySQL
  Source Server Version : 50718
  Source Host           : 127.0.0.1:3306
@@ -11,11 +11,44 @@
  Target Server Version : 50718
  File Encoding         : 65001
 
- Date: 23/01/2019 13:29:32
+ Date: 04/03/2019 15:31:58
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for sys_config
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_config`;
+CREATE TABLE `sys_config` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `sys_key` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'key',
+  `value` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'value',
+  `tips` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
+  `type` varchar(10) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '类型',
+  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_user` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `edit_date` datetime DEFAULT NULL COMMENT '编辑时间',
+  `edit_user` bigint(20) DEFAULT NULL COMMENT '编辑人',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='系统参数';;
+
+-- ----------------------------
+-- Records of sys_config
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_config` VALUES (1, 'sessionInvalidateTime', '1800', 'session失效时间 单位：秒', 'number', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_config` VALUES (2, 'pageSize', '10', '每页显示条数', 'number', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_config` VALUES (3, 'loginAttempts', '5', '登录时密码错误尝试次数，超过后会被账号会被锁定', 'number', '2019-03-03 16:05:37', 126, '2019-03-03 23:36:11', 126);
+INSERT INTO `sys_config` VALUES (4, 'loginLockLength', '600', '尝试登录次数过多账号锁定时长 单位：秒', 'number', '2019-03-03 16:06:49', 126, '2019-03-03 16:06:49', 126);
+INSERT INTO `sys_config` VALUES (5, 'loginVerificationCode', 'false', '是否开启验证码', 'boolean', '2019-03-03 16:07:38', 126, '2019-03-03 16:07:38', 126);
+INSERT INTO `sys_config` VALUES (7, 'loginRememberSecurity', 'true', '开启记住我功能，敏感操作仍要客户登录 如：支付', 'boolean', '2019-03-03 16:09:16', 126, '2019-03-03 23:36:20', 126);
+INSERT INTO `sys_config` VALUES (11, 'loginRemember', 'true', '是否开启记住我功能，安全性要求比较高的系统请改为false', 'boolean', '2019-03-03 23:20:16', 126, '2019-03-03 23:20:16', 126);
+INSERT INTO `sys_config` VALUES (12, 'loginRememberInvalidateTime', '2592000', '记住我过期时间 单位: 秒', 'number', '2019-03-03 23:20:58', 126, '2019-03-03 23:20:58', 126);
+INSERT INTO `sys_config` VALUES (13, 'projectVersion', '1.0', '系统版本号', 'text', '2019-03-03 23:21:37', 126, '2019-03-03 23:22:17', 126);
+INSERT INTO `sys_config` VALUES (14, 'projectName', 'Easy Frame', '系统名称', 'text', '2019-03-03 23:22:41', 126, '2019-03-03 23:22:41', 126);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for sys_department
@@ -69,7 +102,7 @@ CREATE TABLE `sys_department_type` (
   `order_no` int(5) DEFAULT NULL,
   `status` int(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='机构类型';;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='机构类型';;
 
 -- ----------------------------
 -- Records of sys_department_type
@@ -78,7 +111,6 @@ BEGIN;
 INSERT INTO `sys_department_type` VALUES (2, 0, '01', '省', '', 1, '2018-12-03 03:14:09', 126, '2019-01-14 20:50:07', 15, 1);
 INSERT INTO `sys_department_type` VALUES (3, 2, '02', '市', '', 1, '2018-12-03 03:27:50', 1, '2018-12-13 16:17:32', 2, 1);
 INSERT INTO `sys_department_type` VALUES (4, 3, '03', '区/县', '', 1, '2018-12-03 03:28:11', 1, '2018-12-03 03:28:11', 1, 1);
-INSERT INTO `sys_department_type` VALUES (6, 0, '1', '2', '', 1, '2018-12-25 15:53:39', 1, '2018-12-25 15:53:39', 12, 1);
 COMMIT;
 
 -- ----------------------------
@@ -90,7 +122,7 @@ CREATE TABLE `sys_department_type_role` (
   `dept_type_id` bigint(20) DEFAULT NULL COMMENT '部门类型id',
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='配置机构类型对应角色';;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='配置机构类型对应角色';;
 
 -- ----------------------------
 -- Records of sys_department_type_role
@@ -123,7 +155,7 @@ CREATE TABLE `sys_dict` (
   `css` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'class',
   `icon` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '图标',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1053 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='字典';;
+) ENGINE=InnoDB AUTO_INCREMENT=1059 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='字典';;
 
 -- ----------------------------
 -- Records of sys_dict
@@ -177,6 +209,12 @@ INSERT INTO `sys_dict` VALUES (1049, 5, NULL, '日期 (YYYY-MM-DD)', 'dateISO', 
 INSERT INTO `sys_dict` VALUES (1050, 6, NULL, '数字', 'number', NULL, 1, 'verification', 126, '2019-01-11 15:18:06', 126, '2019-01-11 13:15:18', NULL, NULL);
 INSERT INTO `sys_dict` VALUES (1051, 10, NULL, '密码', 'password', NULL, 1, 'elementType', 126, '2019-01-11 15:18:06', 126, '2019-01-11 13:15:18', NULL, NULL);
 INSERT INTO `sys_dict` VALUES (1052, 11, NULL, '数字', 'number', NULL, 1, 'elementType', 126, '2019-01-11 15:18:06', 126, '2019-01-11 13:15:18', NULL, NULL);
+INSERT INTO `sys_dict` VALUES (1053, 1, '', 'account:', 'account:', '', 1, 'redisPrefix', 126, '2019-01-26 10:50:10', 126, '2019-01-26 10:50:10', '', 'la la-unlock');
+INSERT INTO `sys_dict` VALUES (1054, 2, '', 'shiro:session:', 'shiro:session:', '', 1, 'redisPrefix', 126, '2019-01-26 10:51:58', 126, '2019-01-26 10:51:58', '', 'la la-users');
+INSERT INTO `sys_dict` VALUES (1055, 3, '', 'shiro:authorization:', 'shiro:authorization:', '', 1, 'redisPrefix', 126, '2019-01-26 10:53:28', 126, '2019-01-26 10:53:28', '', 'la la-expeditedssl');
+INSERT INTO `sys_dict` VALUES (1056, 1, '', '数字', 'number', '', 1, 'dataType', 126, '2019-03-02 21:38:28', 126, '2019-03-02 21:38:28', '', '');
+INSERT INTO `sys_dict` VALUES (1057, 2, '', '字符串', 'text', '', 1, 'dataType', 126, '2019-03-02 21:38:40', 126, '2019-03-02 21:38:40', '', '');
+INSERT INTO `sys_dict` VALUES (1058, 3, '', '布尔值', 'boolean', '', 1, 'dataType', 126, '2019-03-02 21:46:51', 126, '2019-03-02 21:46:51', '', '');
 COMMIT;
 
 -- ----------------------------
@@ -189,7 +227,7 @@ CREATE TABLE `sys_dict_type` (
   `type` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '字典类别',
   `status` int(2) DEFAULT NULL COMMENT '状态',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='字典类别';;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='字典类别';;
 
 -- ----------------------------
 -- Records of sys_dict_type
@@ -206,6 +244,8 @@ INSERT INTO `sys_dict_type` VALUES (15, '匹配方式', 'matchingMode', 1);
 INSERT INTO `sys_dict_type` VALUES (16, '元素类型', 'elementType', 1);
 INSERT INTO `sys_dict_type` VALUES (17, '栅格', 'grid', 1);
 INSERT INTO `sys_dict_type` VALUES (18, '字段验证', 'verification', 1);
+INSERT INTO `sys_dict_type` VALUES (19, 'redis前缀', 'redisPrefix', 1);
+INSERT INTO `sys_dict_type` VALUES (20, '数据类型', 'dataType', 1);
 COMMIT;
 
 -- ----------------------------
@@ -3848,7 +3888,7 @@ CREATE TABLE `sys_permissions` (
   `p_id` bigint(20) DEFAULT NULL COMMENT '父权限id',
   `color` varchar(10) DEFAULT NULL COMMENT '字体颜色',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8 COMMENT='权限/菜单';;
+) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=utf8 COMMENT='权限/菜单';;
 
 -- ----------------------------
 -- Records of sys_permissions
@@ -3858,20 +3898,19 @@ INSERT INTO `sys_permissions` VALUES (2, '', '', NULL, '权限维护', 'flaticon
 INSERT INTO `sys_permissions` VALUES (4, '', '', NULL, '系统设置', 'flaticon-cogwheel', '', 17, 1, 1, 1, NULL, '', 1, '2018-10-31 20:02:03', 1, '2018-11-25 03:04:38', NULL, 0, '');
 INSERT INTO `sys_permissions` VALUES (5, '', '', NULL, '系统监控', 'flaticon-analytics', '', 18, 1, 1, 1, NULL, '', 1, '2018-10-31 20:03:35', 1, '2018-11-12 07:40:49', NULL, 0, '');
 INSERT INTO `sys_permissions` VALUES (6, 'sys:permissions:select', '', NULL, '菜单维护', 'la la-bars', '/auth/sys/permissions/view', 4, 2, 1, 1, NULL, '', 1, '2018-11-01 04:51:56', 1, '2018-11-01 04:51:56', NULL, 4, '');
-INSERT INTO `sys_permissions` VALUES (7, 'sys:dict:select', '', NULL, '字典管理', 'la la-bars', '/auth/sys/dict/list', 14, 2, 1, 1, NULL, '', 1, '2018-11-01 08:42:06', 126, '2019-01-05 18:01:06', NULL, 4, '');
-INSERT INTO `sys_permissions` VALUES (8, 'sys:district:select', '', NULL, '行政区划', 'la la-bars', '/auth/sys/district/view', 13, 2, 1, 1, NULL, '', 1, '2018-11-01 08:51:36', 1, '2018-12-20 13:25:24', NULL, 4, '');
-INSERT INTO `sys_permissions` VALUES (9, '', '', NULL, '参数设置', 'la la-bars', '', 9, 2, 1, 1, NULL, '', 1, '2018-11-01 09:31:37', 1, '2018-11-01 09:31:37', NULL, 4, '');
+INSERT INTO `sys_permissions` VALUES (7, 'sys:dict:select', '', NULL, '字典管理', 'la la-bars', '/auth/sys/dict/list', 15, 2, 1, 1, NULL, '', 1, '2018-11-01 08:42:06', 126, '2019-01-05 18:01:06', NULL, 4, '');
+INSERT INTO `sys_permissions` VALUES (8, 'sys:district:select', '', NULL, '行政区划', 'la la-bars', '/auth/sys/district/view', 14, 2, 1, 1, NULL, '', 1, '2018-11-01 08:51:36', 1, '2018-12-20 13:25:24', NULL, 4, '');
 INSERT INTO `sys_permissions` VALUES (13, '', '', NULL, '访问日志', 'la la-file-text', '', 29, 2, 1, 1, NULL, '', 1, '2018-11-01 09:34:50', 126, '2019-01-21 21:56:57', NULL, 5, '');
 INSERT INTO `sys_permissions` VALUES (14, 'sys:role:select', '', NULL, '角色管理', 'la la-bars', '/auth/sys/role/view', 15, 2, 1, 1, NULL, '', 1, '2018-11-01 09:36:22', 1, '2018-12-13 15:55:26', NULL, 2, '');
 INSERT INTO `sys_permissions` VALUES (15, 'druid', '', NULL, '数据监控', 'la la-database', '/druid', 30, 2, 1, 1, NULL, '', 1, '2018-11-01 09:40:36', 126, '2019-01-21 21:57:14', NULL, 5, '');
-INSERT INTO `sys_permissions` VALUES (16, '', '', NULL, '缓存监控', 'la la-sellsy', '', 28, 2, 1, 1, NULL, '', 1, '2018-11-01 09:40:51', 126, '2019-01-21 21:56:27', NULL, 5, '');
-INSERT INTO `sys_permissions` VALUES (17, 'sys:status:select', '', NULL, '服务器状态', 'la la-dashboard', '/auth/sys/status/view', 32, 2, 1, 1, NULL, '', 1, '2018-11-01 09:41:01', 126, '2019-01-21 21:58:23', NULL, 5, '');
-INSERT INTO `sys_permissions` VALUES (18, '', '', NULL, '作业监控', 'la la-list', '', 33, 2, 1, 1, NULL, '', 1, '2018-11-01 09:41:36', 126, '2019-01-21 21:58:42', NULL, 5, '');
-INSERT INTO `sys_permissions` VALUES (19, 'sys:online:select', '', NULL, '在线用户', 'la la-user', '', 34, 2, 1, 1, NULL, '', 1, '2018-11-01 09:41:42', 126, '2019-01-21 21:59:05', NULL, 5, '');
+INSERT INTO `sys_permissions` VALUES (16, 'sys:redis:select', '', NULL, '缓存监控', 'la la-sellsy', '/auth/sys/redis/view', 32, 2, 1, 1, NULL, '', 1, '2018-11-01 09:40:51', 126, '2019-01-26 13:00:00', NULL, 5, '');
+INSERT INTO `sys_permissions` VALUES (17, 'sys:status:select', '', NULL, '服务器状态', 'la la-dashboard', '/auth/sys/status/view', 33, 2, 1, 1, NULL, '', 1, '2018-11-01 09:41:01', 126, '2019-01-21 21:58:23', NULL, 5, '');
+INSERT INTO `sys_permissions` VALUES (18, '', '', NULL, '作业监控', 'la la-list', '', 34, 2, 1, 1, NULL, '', 1, '2018-11-01 09:41:36', 126, '2019-01-21 21:58:42', NULL, 5, '');
+INSERT INTO `sys_permissions` VALUES (19, 'sys:online:select', '', NULL, '在线用户', 'la la-user', '/auth/sys/online/list', 37, 2, 1, 1, NULL, '', 1, '2018-11-01 09:41:42', 126, '2019-01-27 12:38:26', NULL, 5, '');
 INSERT INTO `sys_permissions` VALUES (20, 'sys:depart:select', '', NULL, '机构管理', 'la la-bars', '/auth/sys/depart/list', 11, 2, 1, 1, NULL, '', 1, '2018-11-01 09:41:59', 1, '2018-12-03 00:11:02', NULL, 2, '');
 INSERT INTO `sys_permissions` VALUES (21, 'sys:user:select', '', NULL, '用户管理', 'la la-bars', '/auth/sys/user/list', 14, 2, 1, 1, NULL, '', 1, '2018-11-01 09:42:04', 1, '2018-12-10 14:53:18', NULL, 2, '');
 INSERT INTO `sys_permissions` VALUES (32, 'sys:dict:type:select', '', NULL, '字典类型管理', 'la la-bars', '/auth/sys/dict/type/list', 11, 3, 2, 1, NULL, '', 1, '2018-11-04 01:37:10', 126, '2018-12-25 16:31:10', NULL, 7, '');
-INSERT INTO `sys_permissions` VALUES (33, 'swagger', '', NULL, '在线文档', 'la la-book', '/auth/swagger', 35, 2, 1, 1, NULL, '', 1, '2018-11-08 03:42:37', 126, '2019-01-21 21:59:23', NULL, 5, '');
+INSERT INTO `sys_permissions` VALUES (33, 'swagger', '', NULL, '在线文档', 'la la-book', '/auth/swagger', 36, 2, 1, 1, NULL, '', 1, '2018-11-08 03:42:37', 126, '2019-01-21 21:59:23', NULL, 5, '');
 INSERT INTO `sys_permissions` VALUES (51, 'sys:dict:type:add', '', NULL, '新增', 'la la-plus', '', 8, 4, 2, 1, NULL, '', 1, '2018-12-03 00:12:42', 1, '2018-12-03 00:17:43', NULL, 32, '');
 INSERT INTO `sys_permissions` VALUES (52, 'sys:dict:type:delete', '', NULL, '删除', 'la la-trash', '', 9, 4, 2, 1, NULL, '', 1, '2018-12-03 00:14:18', 1, '2018-12-03 00:17:47', NULL, 32, '');
 INSERT INTO `sys_permissions` VALUES (53, 'sys:dict:type:save', '', NULL, '保存/修改', 'la la-save', '', 10, 4, 2, 1, NULL, '', 1, '2018-12-03 00:14:51', 1, '2018-12-03 00:17:51', NULL, 32, '');
@@ -3910,20 +3949,14 @@ INSERT INTO `sys_permissions` VALUES (94, 'sys:district:delete', '', NULL, '删�
 INSERT INTO `sys_permissions` VALUES (95, 'sys:district:save', '', NULL, '保存/修改', 'la la-save', '', 8, 3, 2, 1, NULL, '', 1, '2018-12-20 13:24:33', 1, '2018-12-20 13:24:57', NULL, 8, '');
 INSERT INTO `sys_permissions` VALUES (97, 'sys:district:move', '', NULL, '拖动', 'la la-arrows-v', '', 9, 3, 2, 1, NULL, '', 1, '2018-12-20 13:24:33', 1, '2018-12-20 13:25:02', NULL, 8, '');
 INSERT INTO `sys_permissions` VALUES (149, '', '', NULL, '代码生成', 'la la-code-fork', '/auth/generation/view', 15, 1, 1, 1, NULL, '', 126, '2019-01-10 17:14:02', 126, '2019-01-10 17:14:02', NULL, 0, '');
+INSERT INTO `sys_permissions` VALUES (150, 'sys:redis:delete', '', NULL, '删除', 'la la-trash', '', 4, 3, 2, 1, NULL, '', 126, '2019-01-26 14:27:38', 126, '2019-01-26 14:27:51', NULL, 16, '');
+INSERT INTO `sys_permissions` VALUES (151, 'sys:redis:save', '', NULL, '保存/修改', 'la la-save', '', 3, 3, 2, 1, NULL, '', 126, '2019-01-26 14:27:38', 126, '2019-01-26 14:27:46', NULL, 16, '');
+INSERT INTO `sys_permissions` VALUES (152, 'sys:online:force', 'sys:online:select', NULL, '踢出', 'la la-sign-out', '', 1, 3, 2, 1, NULL, '', 126, '2019-01-27 12:38:49', 126, '2019-01-27 12:38:49', NULL, 19, '');
+INSERT INTO `sys_permissions` VALUES (157, 'sys:config:select', '', NULL, '系统参数', 'la la-bars', '/auth/sys/config/list', 17, 2, 1, 1, NULL, '', 126, '2019-02-26 22:29:36', 126, '2019-03-02 19:03:25', NULL, 4, '');
+INSERT INTO `sys_permissions` VALUES (158, 'sys:config:save', NULL, NULL, '保存/修改', 'la la-save', NULL, 1, 3, 2, 1, NULL, NULL, 126, '2019-02-26 22:29:36', 126, '2019-02-26 22:29:36', NULL, 157, NULL);
+INSERT INTO `sys_permissions` VALUES (159, 'sys:config:delete', NULL, NULL, '删除', 'la la-trash', NULL, 2, 3, 2, 1, NULL, NULL, 126, '2019-02-26 22:29:36', 126, '2019-02-26 22:29:36', NULL, 157, NULL);
+INSERT INTO `sys_permissions` VALUES (160, 'sys:config:add', NULL, NULL, '新增', 'la la-plus', NULL, 3, 3, 2, 1, NULL, NULL, 126, '2019-02-26 22:29:36', 126, '2019-02-26 22:29:36', NULL, 157, NULL);
 COMMIT;
-
--- ----------------------------
--- Table structure for sys_property
--- ----------------------------
-DROP TABLE IF EXISTS `sys_property`;
-CREATE TABLE `sys_property` (
-  `id` bigint(20) NOT NULL,
-  `code` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '参数名称',
-  `value` varchar(10) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '值',
-  `describe` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
-  `name` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='系统参数';;
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -3944,13 +3977,13 @@ CREATE TABLE `sys_role` (
   `version` int(11) DEFAULT NULL COMMENT '乐观锁保留字段',
   `tips` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='角色';;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='角色';;
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role` VALUES (3, 67, 0, '系统管理员', NULL, 'sys:admin', '2018-11-26 23:14:42', 1, 126, '2019-01-14 20:38:28', '1', NULL, '拥有至高无上的权利');
+INSERT INTO `sys_role` VALUES (3, 71, 0, '系统管理员', NULL, 'sys:admin', '2018-11-26 23:14:42', 1, 126, '2019-03-02 19:00:51', '1', NULL, '拥有至高无上的权利');
 INSERT INTO `sys_role` VALUES (4, 68, 0, '演示', NULL, 'demonstration', '2018-11-27 07:48:43', 1, 126, '2019-01-21 20:48:46', '1', NULL, '');
 COMMIT;
 
@@ -3963,69 +3996,75 @@ CREATE TABLE `sys_role_permissions` (
   `permissions_id` bigint(20) NOT NULL,
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3392 DEFAULT CHARSET=utf8 COMMENT='角色权限';;
+) ENGINE=InnoDB AUTO_INCREMENT=3574 DEFAULT CHARSET=utf8 COMMENT='角色权限';;
 
 -- ----------------------------
 -- Records of sys_role_permissions
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role_permissions` VALUES (3, 0, 3314);
-INSERT INTO `sys_role_permissions` VALUES (3, 2, 3315);
-INSERT INTO `sys_role_permissions` VALUES (3, 4, 3316);
-INSERT INTO `sys_role_permissions` VALUES (3, 5, 3317);
-INSERT INTO `sys_role_permissions` VALUES (3, 6, 3318);
-INSERT INTO `sys_role_permissions` VALUES (3, 7, 3319);
-INSERT INTO `sys_role_permissions` VALUES (3, 8, 3320);
-INSERT INTO `sys_role_permissions` VALUES (3, 9, 3321);
-INSERT INTO `sys_role_permissions` VALUES (3, 13, 3322);
-INSERT INTO `sys_role_permissions` VALUES (3, 14, 3323);
-INSERT INTO `sys_role_permissions` VALUES (3, 15, 3324);
-INSERT INTO `sys_role_permissions` VALUES (3, 16, 3325);
-INSERT INTO `sys_role_permissions` VALUES (3, 17, 3326);
-INSERT INTO `sys_role_permissions` VALUES (3, 18, 3327);
-INSERT INTO `sys_role_permissions` VALUES (3, 19, 3328);
-INSERT INTO `sys_role_permissions` VALUES (3, 20, 3329);
-INSERT INTO `sys_role_permissions` VALUES (3, 21, 3330);
-INSERT INTO `sys_role_permissions` VALUES (3, 32, 3331);
-INSERT INTO `sys_role_permissions` VALUES (3, 33, 3332);
-INSERT INTO `sys_role_permissions` VALUES (3, 51, 3333);
-INSERT INTO `sys_role_permissions` VALUES (3, 52, 3334);
-INSERT INTO `sys_role_permissions` VALUES (3, 53, 3335);
-INSERT INTO `sys_role_permissions` VALUES (3, 54, 3336);
-INSERT INTO `sys_role_permissions` VALUES (3, 55, 3337);
-INSERT INTO `sys_role_permissions` VALUES (3, 56, 3338);
-INSERT INTO `sys_role_permissions` VALUES (3, 60, 3339);
-INSERT INTO `sys_role_permissions` VALUES (3, 61, 3340);
-INSERT INTO `sys_role_permissions` VALUES (3, 62, 3341);
-INSERT INTO `sys_role_permissions` VALUES (3, 63, 3342);
-INSERT INTO `sys_role_permissions` VALUES (3, 64, 3343);
-INSERT INTO `sys_role_permissions` VALUES (3, 65, 3344);
-INSERT INTO `sys_role_permissions` VALUES (3, 66, 3345);
-INSERT INTO `sys_role_permissions` VALUES (3, 67, 3346);
-INSERT INTO `sys_role_permissions` VALUES (3, 68, 3347);
-INSERT INTO `sys_role_permissions` VALUES (3, 69, 3348);
-INSERT INTO `sys_role_permissions` VALUES (3, 70, 3349);
-INSERT INTO `sys_role_permissions` VALUES (3, 71, 3350);
-INSERT INTO `sys_role_permissions` VALUES (3, 72, 3351);
-INSERT INTO `sys_role_permissions` VALUES (3, 73, 3352);
-INSERT INTO `sys_role_permissions` VALUES (3, 74, 3353);
-INSERT INTO `sys_role_permissions` VALUES (3, 75, 3354);
-INSERT INTO `sys_role_permissions` VALUES (3, 76, 3355);
-INSERT INTO `sys_role_permissions` VALUES (3, 77, 3356);
-INSERT INTO `sys_role_permissions` VALUES (3, 78, 3357);
-INSERT INTO `sys_role_permissions` VALUES (3, 79, 3358);
-INSERT INTO `sys_role_permissions` VALUES (3, 80, 3359);
-INSERT INTO `sys_role_permissions` VALUES (3, 81, 3360);
-INSERT INTO `sys_role_permissions` VALUES (3, 82, 3361);
-INSERT INTO `sys_role_permissions` VALUES (3, 83, 3362);
-INSERT INTO `sys_role_permissions` VALUES (3, 84, 3363);
-INSERT INTO `sys_role_permissions` VALUES (3, 85, 3364);
-INSERT INTO `sys_role_permissions` VALUES (3, 87, 3365);
-INSERT INTO `sys_role_permissions` VALUES (3, 93, 3366);
-INSERT INTO `sys_role_permissions` VALUES (3, 94, 3367);
-INSERT INTO `sys_role_permissions` VALUES (3, 95, 3368);
-INSERT INTO `sys_role_permissions` VALUES (3, 97, 3369);
-INSERT INTO `sys_role_permissions` VALUES (3, 149, 3391);
+INSERT INTO `sys_role_permissions` VALUES (3, 0, 3511);
+INSERT INTO `sys_role_permissions` VALUES (3, 2, 3512);
+INSERT INTO `sys_role_permissions` VALUES (3, 4, 3513);
+INSERT INTO `sys_role_permissions` VALUES (3, 5, 3514);
+INSERT INTO `sys_role_permissions` VALUES (3, 6, 3515);
+INSERT INTO `sys_role_permissions` VALUES (3, 7, 3516);
+INSERT INTO `sys_role_permissions` VALUES (3, 8, 3517);
+INSERT INTO `sys_role_permissions` VALUES (3, 13, 3518);
+INSERT INTO `sys_role_permissions` VALUES (3, 14, 3519);
+INSERT INTO `sys_role_permissions` VALUES (3, 15, 3520);
+INSERT INTO `sys_role_permissions` VALUES (3, 16, 3521);
+INSERT INTO `sys_role_permissions` VALUES (3, 17, 3522);
+INSERT INTO `sys_role_permissions` VALUES (3, 18, 3523);
+INSERT INTO `sys_role_permissions` VALUES (3, 19, 3524);
+INSERT INTO `sys_role_permissions` VALUES (3, 20, 3525);
+INSERT INTO `sys_role_permissions` VALUES (3, 21, 3526);
+INSERT INTO `sys_role_permissions` VALUES (3, 32, 3527);
+INSERT INTO `sys_role_permissions` VALUES (3, 33, 3528);
+INSERT INTO `sys_role_permissions` VALUES (3, 51, 3529);
+INSERT INTO `sys_role_permissions` VALUES (3, 52, 3530);
+INSERT INTO `sys_role_permissions` VALUES (3, 53, 3531);
+INSERT INTO `sys_role_permissions` VALUES (3, 54, 3532);
+INSERT INTO `sys_role_permissions` VALUES (3, 55, 3533);
+INSERT INTO `sys_role_permissions` VALUES (3, 56, 3534);
+INSERT INTO `sys_role_permissions` VALUES (3, 60, 3535);
+INSERT INTO `sys_role_permissions` VALUES (3, 61, 3536);
+INSERT INTO `sys_role_permissions` VALUES (3, 62, 3537);
+INSERT INTO `sys_role_permissions` VALUES (3, 63, 3538);
+INSERT INTO `sys_role_permissions` VALUES (3, 64, 3539);
+INSERT INTO `sys_role_permissions` VALUES (3, 65, 3540);
+INSERT INTO `sys_role_permissions` VALUES (3, 66, 3541);
+INSERT INTO `sys_role_permissions` VALUES (3, 67, 3542);
+INSERT INTO `sys_role_permissions` VALUES (3, 68, 3543);
+INSERT INTO `sys_role_permissions` VALUES (3, 69, 3544);
+INSERT INTO `sys_role_permissions` VALUES (3, 70, 3545);
+INSERT INTO `sys_role_permissions` VALUES (3, 71, 3546);
+INSERT INTO `sys_role_permissions` VALUES (3, 72, 3547);
+INSERT INTO `sys_role_permissions` VALUES (3, 73, 3548);
+INSERT INTO `sys_role_permissions` VALUES (3, 74, 3549);
+INSERT INTO `sys_role_permissions` VALUES (3, 75, 3550);
+INSERT INTO `sys_role_permissions` VALUES (3, 76, 3551);
+INSERT INTO `sys_role_permissions` VALUES (3, 77, 3552);
+INSERT INTO `sys_role_permissions` VALUES (3, 78, 3553);
+INSERT INTO `sys_role_permissions` VALUES (3, 79, 3554);
+INSERT INTO `sys_role_permissions` VALUES (3, 80, 3555);
+INSERT INTO `sys_role_permissions` VALUES (3, 81, 3556);
+INSERT INTO `sys_role_permissions` VALUES (3, 82, 3557);
+INSERT INTO `sys_role_permissions` VALUES (3, 83, 3558);
+INSERT INTO `sys_role_permissions` VALUES (3, 84, 3559);
+INSERT INTO `sys_role_permissions` VALUES (3, 85, 3560);
+INSERT INTO `sys_role_permissions` VALUES (3, 87, 3561);
+INSERT INTO `sys_role_permissions` VALUES (3, 93, 3562);
+INSERT INTO `sys_role_permissions` VALUES (3, 94, 3563);
+INSERT INTO `sys_role_permissions` VALUES (3, 95, 3564);
+INSERT INTO `sys_role_permissions` VALUES (3, 97, 3565);
+INSERT INTO `sys_role_permissions` VALUES (3, 149, 3566);
+INSERT INTO `sys_role_permissions` VALUES (3, 150, 3567);
+INSERT INTO `sys_role_permissions` VALUES (3, 151, 3568);
+INSERT INTO `sys_role_permissions` VALUES (3, 152, 3569);
+INSERT INTO `sys_role_permissions` VALUES (3, 157, 3570);
+INSERT INTO `sys_role_permissions` VALUES (3, 158, 3571);
+INSERT INTO `sys_role_permissions` VALUES (3, 159, 3572);
+INSERT INTO `sys_role_permissions` VALUES (3, 160, 3573);
 COMMIT;
 
 -- ----------------------------
@@ -4053,13 +4092,13 @@ CREATE TABLE `sys_user` (
   `edit_date` datetime DEFAULT NULL COMMENT '编辑时间',
   `source` int(2) DEFAULT NULL COMMENT '用户来源',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8 COMMENT='用户';;
+) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8 COMMENT='用户';;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user` VALUES (126, 'admin', '914da82b7af076fdb21c55d631513fe1', 'dxzhbko9i5', 'admin', NULL, 'tengchongchong@foxmail.com', NULL, NULL, 1, 1, NULL, '2019-01-23 12:54:51', '/avatar/126', NULL, NULL, 126, '2019-01-14 20:50:28', NULL);
+INSERT INTO `sys_user` VALUES (126, 'admin', '914da82b7af076fdb21c55d631513fe1', 'dxzhbko9i5', 'TengChong', 1, 'tengchongchong@foxmail.com', '17366392808', '1990-10-22', 1, 1, '2018-11-24 13:04:46', '2019-03-04 15:21:49', '/avatar/126', NULL, NULL, 126, '2019-01-14 20:50:28', NULL);
 COMMIT;
 
 -- ----------------------------
