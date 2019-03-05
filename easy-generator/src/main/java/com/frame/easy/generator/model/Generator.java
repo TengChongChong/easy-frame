@@ -50,7 +50,7 @@ public class Generator {
     /**
      * 创建时间
      */
-    private String date = DateUtil.now();
+    private String date = DateUtil.today();
     /**
      * 表名
      */

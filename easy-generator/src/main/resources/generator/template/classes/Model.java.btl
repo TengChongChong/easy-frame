@@ -3,10 +3,8 @@ package ${config.modelPackage};
 <% for(import in tableInfo.importPackages){ %>
 import ${import};
 <% } %>
-<% if(config.genSelect){ %>
 <% for(import in model.imports){ %>
 import ${import};
-<% } %>
 <% } %>
 
 /**
@@ -16,7 +14,7 @@ import ${import};
  * @date ${config.date}
  */
  @TableName("${tableInfo.name}")
-public class ${config.modelName} extends Model<${config.modelName}> implements IModel, Serializable{
+public class ${config.modelName} extends Model<${config.modelName}> implements <% if(config.genSelect){ %>IModel, <% } %>Serializable{
     private static final long serialVersionUID = 1L;
 
     <% for(field in tableInfo.fields){ %>
@@ -29,7 +27,7 @@ public class ${config.modelName} extends Model<${config.modelName}> implements I
      * ${commonComment[field.propertyName]}
      */
     <% } %>
-    <% if(field.keyIdentityFlag) { %>
+    <% if(field.keyFlag) { %>
     @TableId(value = "${field.name}", type = IdType.AUTO)
     <% } %>
     private ${field.propertyType} ${field.propertyName};
