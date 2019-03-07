@@ -38,10 +38,7 @@ public class GeneratorConfig extends AbstractGeneratorConfig {
 
     private void strategyConfig() {
         strategyConfig.setInclude(generator.getTableName());
-        /**
-         * 命名规则
-         * 下换线转驼峰
-         */
+        // 命名规则-下换线转驼峰
         strategyConfig.setNaming(NamingStrategy.underline_to_camel);
     }
 
