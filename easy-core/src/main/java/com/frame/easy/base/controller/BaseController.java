@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * base controller
  *
  * @author tengchong
  * @date 2018/10/22
