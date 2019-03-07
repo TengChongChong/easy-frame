@@ -16,25 +16,9 @@ public class SysConfigConst {
      */
     public static final String LOGIN_LOCK_LENGTH = "loginLockLength";
     /**
-     * 是否开启记住我功能，安全性要求比较高的系统请改为false
-     */
-    public static final String LOGIN_REMEMBER = "loginRemember";
-    /**
-     * 记住我过期时间 单位: 秒
-     */
-    public static final String LOGIN_REMEMBER_INVALIDATE_TIME = "loginRememberInvalidateTime";
-    /**
-     * 开启记住我功能逗号敏感操作仍要客户登录 如：支付
-     */
-    public static final String LOGIN_REMEMBER_SECURITY = "loginRememberSecurity";
-    /**
      * 是否开启验证码
      */
     public static final String LOGIN_VERIFICATION_CODE = "loginVerificationCode";
-    /**
-     * 每页显示条数
-     */
-    public static final String PAGE_SIZE = "pageSize";
     /**
      * 系统名称
      */
@@ -47,5 +31,10 @@ public class SysConfigConst {
      * session失效时间 单位：秒
      */
     public static final String SESSION_INVALIDATE_TIME = "sessionInvalidateTime";
+
+    /**
+     * 新增用户时的默认密码
+     */
+    public static final String DEFAULT_PASSWORD = "defaultPassword";
 
 }

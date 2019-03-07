@@ -9,15 +9,10 @@ import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.util.RedisUtil;
 import com.frame.easy.util.ShiroUtil;
 import com.frame.easy.util.ToolUtil;
-import org.beetl.core.Configuration;
-import org.beetl.core.GroupTemplate;
-import org.beetl.core.Template;
-import org.beetl.core.resource.StringTemplateResourceLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.*;
 
 import com.frame.easy.common.page.Page;
@@ -107,7 +102,11 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
     public boolean delete(String ids) {
         ToolUtil.checkParams(ids);
         List<String> idList = Arrays.asList(ids.split(","));
-        return ToolUtil.checkResult(removeByIds(idList));
+        boolean isSuccess = removeByIds(idList);
+        if(isSuccess){
+            refreshCache();
+        }
+        return ToolUtil.checkResult(isSuccess);
     }
 
     /**
@@ -135,6 +134,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
             object.setCreateDate(new Date());
             object.setCreateUser(sysUser.getId());
         }
+        updateCache(object);
         return (SysConfig) ToolUtil.checkResult(saveOrUpdate(object), object);
     }
 

@@ -219,7 +219,7 @@ public class ShiroConfig {
         sessionManager.setSessionListeners(sessionListeners);
 
         //全局会话超时时间 单位: 毫秒,默认30分钟
-        sessionManager.setGlobalSessionTimeout(projectProperties.getSessionInvalidateTime() * 1000);
+        sessionManager.setGlobalSessionTimeout(30 * 60 * 1000);
 
         //是否开启删除无效的session对象 默认为true
         sessionManager.setDeleteInvalidSessions(true);

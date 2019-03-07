@@ -14,6 +14,7 @@ import com.frame.easy.exception.BusinessException;
 import com.frame.easy.exception.EasyException;
 import com.frame.easy.exception.ExceptionEnum;
 import com.frame.easy.util.ShiroUtil;
+import com.frame.easy.util.SysConfigUtil;
 import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysPermissionsMapper;
 import com.frame.easy.modular.sys.model.SysPermissions;
@@ -68,7 +69,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
         jsTree.setId(JsTreeUtil.baseId);
         jsTree.setParent("#");
         jsTree.setIcon(CommonConst.DEFAULT_FOLDER_ICON);
-        jsTree.setText(CommonConst.projectProperties.getName());
+        jsTree.setText(SysConfigUtil.getProjectName());
         state.setOpened(true);
         jsTree.setState(state);
         jsTrees.add(jsTree);
@@ -83,11 +84,11 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
             sysPermissions = new SysPermissions();
             sysPermissions.setId(JsTreeUtil.baseId);
             sysPermissions.setLevels(1);
-            sysPermissions.setName(CommonConst.projectProperties.getName());
+            sysPermissions.setName(SysConfigUtil.getProjectName());
         } else {
             sysPermissions = mapper.selectInfo(id);
             if (sysPermissions != null && sysPermissions.getpId().equals(JsTreeUtil.baseId)) {
-                sysPermissions.setpName(CommonConst.projectProperties.getName());
+                sysPermissions.setpName(SysConfigUtil.getProjectName());
             }
         }
         if (Validator.isEmpty(sysPermissions.getIcon())) {
@@ -105,7 +106,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
             sysPermissions.setType(PermissionsType.ENABLE.getCode());
             if (JsTreeUtil.baseId.equals(pId)) {
                 sysPermissions.setLevels(1);
-                sysPermissions.setpName(CommonConst.projectProperties.getName());
+                sysPermissions.setpName(SysConfigUtil.getProjectName());
             } else {
                 SysPermissions parentSysPermissions = mapper.selectInfo(pId);
                 if (parentSysPermissions != null && parentSysPermissions.getLevels() != null) {

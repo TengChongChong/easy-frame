@@ -21411,11 +21411,11 @@ body.m-portlet--fullscreen {
 
 .m-form__group.row .m-checkbox-inline,
 .m-form__group.row .m-radio-inline {
-  margin-top: 5px; }
+  margin-top: -2px; }
 
 .m-form__group.row .m-checkbox-list,
 .m-form__group.row .m-radio-list {
-  margin-top: 2px; }
+  margin-top: 4px; }
 
 .m-checkbox {
   color: #575962; }

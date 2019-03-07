@@ -222,7 +222,7 @@ var mGeneration = function () {
             var getConfigRow = function (index, field) {
                 return '<tr data-name="' + field['name'] + '" data-property-name="' + field['propertyName'] + '">\
                     <td class="cell-base m--padding-top-15">' + (index + 1) + '</td>\
-                    <td class="cell-base m--padding-top-15"><input type="hidden" name="columnName" value="' + field['name'] + '" />' + (field['keyIdentityFlag'] ? '<i class="text-info la la-key"></i>' : '') + field['name'] + '</td>\
+                    <td class="cell-base m--padding-top-15"><input type="hidden" name="columnName" value="' + field['name'] + '" />' + (field['keyFlag'] ? '<i class="text-info la la-key"></i>' : '') + field['name'] + '</td>\
                     <td class="cell-base m--padding-top-15">' + field['type'] + '</td>\
                     <td class="cell-base m--padding-top-15"><div title="' + field['comment'] + '" class="ell" style="max-width: 140px;">' + field['comment'] + '<span/></td>\
                     <td class="cell-base m--padding-top-15">' + field['propertyName'] + '</td>\

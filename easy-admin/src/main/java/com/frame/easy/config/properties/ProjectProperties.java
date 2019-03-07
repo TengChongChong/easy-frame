@@ -1,6 +1,8 @@
 package com.frame.easy.config.properties;
 
 import cn.hutool.core.lang.Validator;
+import com.frame.easy.common.constant.SysConfigConst;
+import com.frame.easy.util.SysConfigUtil;
 import com.frame.easy.util.ToolUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -15,27 +17,7 @@ import java.io.File;
  * @date 2018/9/4
  */
 @Configuration
-@ConfigurationProperties(prefix = "project")
 public class ProjectProperties {
-    /**
-     * 模式
-     */
-    @Value("${spring.profiles.active}")
-    private String profilesActive;
-    /**
-     * 项目名称
-     */
-    private String name;
-    /**
-     * 项目路径
-     */
-    @Value("${project.path}")
-    private String projectPath;
-    /**
-     * 项目包路径
-     */
-    @Value("${project.debug.package}")
-    private String projectPackage;
     /**
      * 是否开启记住我功能
      */
@@ -52,25 +34,41 @@ public class ProjectProperties {
     @Value("${project.login.remember-security}")
     private Boolean loginRememberSecurity = true;
     /**
+     * 设置session失效的扫描时间, 清理用户直接关闭浏览器造成的孤立会话 默认为 30分钟
+     */
+    @Value("${project.session-validation-interval}")
+    private Integer sessionValidationInterval = 60 * 30;
+    /**
      * 是否开启登录验证码,默认开启
      */
-    @Value("${project.login.verification-code}")
     private Boolean loginVerificationCode = false;
     /**
      * 登录是密码错误尝试次数,超过5次后会被锁定
      */
-    @Value("${project.login.attempts}")
     private Integer loginAttempts = 5;
     /**
      * 锁定时长,默认10分钟 单位: 秒
      */
-    @Value("${project.login.lock-length}")
     private Integer loginLockLength = 600;
+
     /**
      * 新增用户时的默认密码
      */
-    @Value("${project.default.password}")
-    private String defaultPassword;
+    private String defaultPassword = "123";
+    /**
+     * session过期时间 单位：秒
+     */
+    private Integer sessionInvalidateTime = 60 * 30;
+    /**
+     * 缓存类型
+     */
+    private String cacheType = "redis";
+
+    /**
+     * 模式
+     */
+    @Value("${spring.profiles.active}")
+    private String profilesActive;
     /**
      * 下换线转驼峰
      * 用于页面传回的排序字段驼峰转下划线
@@ -80,23 +78,8 @@ public class ProjectProperties {
     /**
      * 文件上传路径
      */
+    @Value("${project.file-upload-path}")
     private String fileUploadPath;
-    /**
-     * session过期时间 单位：秒
-     */
-    private Integer sessionInvalidateTime = 60 * 30;
-    /**
-     * 设置session失效的扫描时间, 清理用户直接关闭浏览器造成的孤立会话 默认为 30分钟
-     */
-    private Integer sessionValidationInterval = 60 * 30;
-    /**
-     * 缓存类型
-     */
-    private String cacheType = "redis";
-    /**
-     * 版本号
-     */
-    private String version;
 
     public String getFileUploadPath() {
         if (Validator.isNotEmpty(fileUploadPath)) {
@@ -118,43 +101,39 @@ public class ProjectProperties {
     }
 
     public Integer getSessionInvalidateTime() {
-        return sessionInvalidateTime;
-    }
-
-    public void setSessionInvalidateTime(Integer sessionInvalidateTime) {
-        this.sessionInvalidateTime = sessionInvalidateTime;
+        Object obj = SysConfigUtil.get(SysConfigConst.SESSION_INVALIDATE_TIME);
+        if (obj != null) {
+            return (int) obj;
+        } else {
+            return sessionInvalidateTime;
+        }
     }
 
     public Boolean getLoginVerificationCode() {
-        return loginVerificationCode;
-    }
-
-    public void setLoginVerificationCode(Boolean loginVerificationCode) {
-        this.loginVerificationCode = loginVerificationCode;
+        Object obj = SysConfigUtil.get(SysConfigConst.LOGIN_VERIFICATION_CODE);
+        if (obj != null) {
+            return (boolean) obj;
+        } else {
+            return loginVerificationCode;
+        }
     }
 
     public Integer getLoginAttempts() {
-        return loginAttempts;
-    }
-
-    public void setLoginAttempts(Integer loginAttempts) {
-        this.loginAttempts = loginAttempts;
+        Object obj = SysConfigUtil.get(SysConfigConst.LOGIN_ATTEMPTS);
+        if (obj != null) {
+            return (int) obj;
+        } else {
+            return loginAttempts;
+        }
     }
 
     public Integer getLoginLockLength() {
-        return loginLockLength;
-    }
-
-    public void setLoginLockLength(Integer loginLockLength) {
-        this.loginLockLength = loginLockLength;
-    }
-
-    public String getCacheType() {
-        return cacheType;
-    }
-
-    public void setCacheType(String cacheType) {
-        this.cacheType = cacheType;
+        Object obj = SysConfigUtil.get(SysConfigConst.LOGIN_LOCK_LENGTH);
+        if (obj != null) {
+            return (int) obj;
+        } else {
+            return loginLockLength;
+        }
     }
 
     public Boolean getLoginRemember() {
@@ -181,20 +160,20 @@ public class ProjectProperties {
         this.loginRememberInvalidateTime = loginRememberInvalidateTime;
     }
 
-    public Integer getSessionValidationInterval() {
-        return sessionValidationInterval;
+    public String getDefaultPassword() {
+        Object obj = SysConfigUtil.get(SysConfigConst.DEFAULT_PASSWORD);
+        if (obj != null) {
+            return (String) obj;
+        } else {
+            return defaultPassword;
+        }
+    }
+    public String getCacheType() {
+        return cacheType;
     }
 
-    public void setSessionValidationInterval(Integer sessionValidationInterval) {
-        this.sessionValidationInterval = sessionValidationInterval;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setCacheType(String cacheType) {
+        this.cacheType = cacheType;
     }
 
     public String getProfilesActive() {
@@ -205,46 +184,19 @@ public class ProjectProperties {
         this.profilesActive = profilesActive;
     }
 
-    public String getProjectPackage() {
-        return projectPackage;
-    }
-
-    public void setProjectPackage(String projectPackage) {
-        this.projectPackage = projectPackage;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public String getDefaultPassword() {
-        return defaultPassword;
-    }
-
-    public void setDefaultPassword(String defaultPassword) {
-        this.defaultPassword = defaultPassword;
-    }
-
-    public String getProjectPath() {
-        return projectPath;
-    }
-
-    public void setProjectPath(String projectPath) {
-        if (projectPath.endsWith(File.separator)) {
-            projectPath = projectPath.substring(0, projectPath.length() - 1);
-        }
-        this.projectPath = projectPath;
-    }
-
     public boolean getUnderscoreToCamelCase() {
         return underscoreToCamelCase;
     }
 
     public void setUnderscoreToCamelCase(boolean underscoreToCamelCase) {
         this.underscoreToCamelCase = underscoreToCamelCase;
+    }
+
+    public Integer getSessionValidationInterval() {
+        return sessionValidationInterval;
+    }
+
+    public void setSessionValidationInterval(Integer sessionValidationInterval) {
+        this.sessionValidationInterval = sessionValidationInterval;
     }
 }

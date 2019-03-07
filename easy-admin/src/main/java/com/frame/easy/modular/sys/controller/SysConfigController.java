@@ -37,7 +37,7 @@ public class SysConfigController extends BaseController {
      */
     @GetMapping("list")
     public String list(){
-        logger.debug("sys/config/list");
+        logger.debug("/auth/sys/config/list");
         return PREFIX + "list";
     }
 
@@ -51,7 +51,7 @@ public class SysConfigController extends BaseController {
     @ResponseBody
     @RequiresPermissions("sys:config:select")
     public Tips select(@RequestBody SysConfig object){
-        logger.debug("sys/config/select");
+        logger.debug("/auth/sys/config/select");
         return Tips.getSuccessTips(service.select(object));
     }
     /**
@@ -63,7 +63,7 @@ public class SysConfigController extends BaseController {
     @GetMapping("/input/{id}")
     @RequiresPermissions("sys:config:select")
     public String input(Model model, @PathVariable("id") Long id) {
-        logger.debug("sys/config/input/" + id);
+        logger.debug("/auth/sys/config/input/" + id);
         model.addAttribute("object", service.input(id));
         return PREFIX + "input";
     }
@@ -76,7 +76,7 @@ public class SysConfigController extends BaseController {
     @GetMapping("/add")
     @RequiresPermissions("sys:config:add")
     public String add(Model model) {
-        logger.debug("sys/config/add");
+        logger.debug("/auth/sys/config/add");
         model.addAttribute("object", service.add());
         return PREFIX + "input";
     }
@@ -90,7 +90,7 @@ public class SysConfigController extends BaseController {
     @ResponseBody
     @RequiresPermissions("sys:config:delete")
     public Tips delete(@PathVariable("ids") String ids) {
-        logger.debug("sys/config/delete/" + ids);
+        logger.debug("/auth/sys/config/delete/" + ids);
         return Tips.getSuccessTips(service.delete(ids));
     }
     /**
@@ -103,7 +103,7 @@ public class SysConfigController extends BaseController {
     @ResponseBody
     @RequiresPermissions("sys:config:save")
     public Tips saveData(SysConfig object){
-        logger.debug("sys/config/save/data");
+        logger.debug("/auth/sys/config/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }
 
@@ -116,7 +116,7 @@ public class SysConfigController extends BaseController {
     @ResponseBody
     @RequiresPermissions("sys:config:save")
     public Tips refreshCache(){
-        logger.debug("sys/config/refresh/cache");
+        logger.debug("/auth/sys/config/refresh/cache");
         return Tips.getSuccessTips(service.refreshCache());
     }
 }

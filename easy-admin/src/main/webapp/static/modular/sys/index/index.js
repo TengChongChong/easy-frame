@@ -170,6 +170,14 @@ var mIndex = function () {
             return false;
         });
     };
+    /**
+     * 添加点击链接事件
+     */
+    var bindLinkClick = function () {
+        $('.m-menu-link').click(function () {
+            mApp.openPage($(this).data('tab-title'), $(this).data('url'));
+        });
+    };
 
     return {
         //== 初始化页面
@@ -179,6 +187,7 @@ var mIndex = function () {
             mApp.initTabs();
             loadMenu();
             bindMenuClick();
+            bindLinkClick();
         }
     };
 }();

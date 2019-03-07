@@ -14,6 +14,7 @@ import com.frame.easy.exception.BusinessException;
 import com.frame.easy.exception.EasyException;
 import com.frame.easy.exception.ExceptionEnum;
 import com.frame.easy.util.ShiroUtil;
+import com.frame.easy.util.SysConfigUtil;
 import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysDepartmentTypeMapper;
 import com.frame.easy.modular.sys.model.SysDepartmentType;
@@ -72,7 +73,7 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
         jsTree.setId(JsTreeUtil.baseId);
         jsTree.setParent("#");
         jsTree.setIcon(CommonConst.DEFAULT_FOLDER_ICON);
-        jsTree.setText(CommonConst.projectProperties.getName());
+        jsTree.setText(SysConfigUtil.getProjectName());
         state.setOpened(true);
         jsTree.setState(state);
         jsTrees.add(jsTree);
@@ -86,11 +87,11 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
         if (id == null || id.equals(JsTreeUtil.baseId)) {
             sysDepartmentType = new SysDepartmentType();
             sysDepartmentType.setId(JsTreeUtil.baseId);
-            sysDepartmentType.setName(CommonConst.projectProperties.getName());
+            sysDepartmentType.setName(SysConfigUtil.getProjectName());
         } else {
             sysDepartmentType = mapper.selectInfo(id);
             if (sysDepartmentType != null && sysDepartmentType.getpId().equals(JsTreeUtil.baseId)) {
-                sysDepartmentType.setpName(CommonConst.projectProperties.getName());
+                sysDepartmentType.setpName(SysConfigUtil.getProjectName());
             }
         }
         return sysDepartmentType;
@@ -103,7 +104,7 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
             sysDepartmentType.setpId(pId);
             sysDepartmentType.setStatus(CommonStatus.ENABLE.getCode());
             if (JsTreeUtil.baseId.equals(pId)) {
-                sysDepartmentType.setpName(CommonConst.projectProperties.getName());
+                sysDepartmentType.setpName(SysConfigUtil.getProjectName());
             } else {
                 SysDepartmentType parentSysDepartmentType = getById(pId);
                 if (parentSysDepartmentType != null) {

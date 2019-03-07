@@ -2,6 +2,7 @@ package com.frame.easy.common.jstree;
 
 
 import com.frame.easy.common.constant.CommonConst;
+import com.frame.easy.util.SysConfigUtil;
 
 /**
  * jstree 工具
@@ -23,7 +24,7 @@ public class JsTreeUtil {
     public static JsTree getBaseNode(){
         JsTree jsTree = new JsTree();
         // 项目名称
-        jsTree.setText(CommonConst.projectProperties.getName());
+        jsTree.setText(SysConfigUtil.getProjectName());
         jsTree.setId(baseId);
         jsTree.setIcon(CommonConst.DEFAULT_FOLDER_ICON);
         State state = new State();

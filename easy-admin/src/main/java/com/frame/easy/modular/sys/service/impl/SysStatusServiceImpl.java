@@ -3,6 +3,7 @@ package com.frame.easy.modular.sys.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.modular.sys.service.SysStatusService;
+import com.frame.easy.util.SysConfigUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.metrics.MetricsEndpoint;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class SysStatusServiceImpl implements SysStatusService {
         systemProperties.put("userDir", System.getProperty("user.dir"));
         systemProperties.put("userName", System.getProperty("user.name"));
 
-        projectProperties.put("projectName", CommonConst.projectProperties.getName());
+        projectProperties.put("projectName", SysConfigUtil.getProjectName());
         projectProperties.put("projectLoginRemember", CommonConst.projectProperties.getLoginRemember());
         projectProperties.put("projectLoginRememberInvalidateTime", CommonConst.projectProperties.getLoginRememberInvalidateTime() / 60 / 60 / 24);
         projectProperties.put("projectLoginAttempts", CommonConst.projectProperties.getLoginAttempts());

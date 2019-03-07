@@ -74,7 +74,7 @@ public class ExceptionControllerAdvice {
             modelAndView.addObject("stackTrace", e.getStackTrace());
             // 当前模式是否为开发模式
             modelAndView.addObject("isDev", projectProperties.getProfilesActive().equals(ProfilesActiveStatus.dev.getProfilesActive()));
-            modelAndView.addObject("projectPackage", projectProperties.getProjectPackage());
+//            modelAndView.addObject("projectPackage", projectProperties.getProjectPackage());
             modelAndView.setViewName("global/500");
             return modelAndView;
         }

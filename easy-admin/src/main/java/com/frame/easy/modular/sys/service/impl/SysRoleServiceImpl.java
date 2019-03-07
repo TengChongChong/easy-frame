@@ -14,6 +14,7 @@ import com.frame.easy.exception.EasyException;
 import com.frame.easy.exception.ExceptionEnum;
 import com.frame.easy.util.RedisUtil;
 import com.frame.easy.util.ShiroUtil;
+import com.frame.easy.util.SysConfigUtil;
 import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysRoleMapper;
 import com.frame.easy.modular.sys.model.SysRole;
@@ -77,7 +78,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         jsTree.setId(JsTreeUtil.baseId);
         jsTree.setParent("#");
         jsTree.setIcon(CommonConst.DEFAULT_FOLDER_ICON);
-        jsTree.setText(CommonConst.projectProperties.getName());
+        jsTree.setText(SysConfigUtil.getProjectName());
         state.setOpened(true);
         jsTree.setState(state);
         jsTrees.add(jsTree);
@@ -91,11 +92,11 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         if (id == null || id.equals(JsTreeUtil.baseId)) {
             sysRole = new SysRole();
             sysRole.setId(JsTreeUtil.baseId);
-            sysRole.setName(CommonConst.projectProperties.getName());
+            sysRole.setName(SysConfigUtil.getProjectName());
         } else {
             sysRole = mapper.selectInfo(id);
             if (sysRole != null && sysRole.getpId().equals(JsTreeUtil.baseId)) {
-                sysRole.setpName(CommonConst.projectProperties.getName());
+                sysRole.setpName(SysConfigUtil.getProjectName());
             }
         }
         return sysRole;
@@ -108,7 +109,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             sysRole.setpId(pId);
             sysRole.setStatus(CommonStatus.ENABLE.getCode());
             if (JsTreeUtil.baseId.equals(pId)) {
-                sysRole.setpName(CommonConst.projectProperties.getName());
+                sysRole.setpName(SysConfigUtil.getProjectName());
             } else {
                 SysRole parentSysRole = mapper.selectInfo(pId);
                 if (parentSysRole != null) {
