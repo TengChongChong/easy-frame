@@ -46,7 +46,7 @@ public class GeneratorConfig extends AbstractGeneratorConfig {
     }
 
     private void templateConfig() {
-//        templateConfig.setXml(null);
+        templateConfig.setXml(null);
         templateConfig.setController(null);
         templateConfig.setEntity(null);
         templateConfig.setService(null);
