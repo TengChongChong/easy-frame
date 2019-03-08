@@ -30,7 +30,7 @@ public class ${config.modelName}Controller extends BaseController {
      *
      * @return String
      */
-    @GetMapping("list")
+    @RequestMapping("list")
     public String list(){
         logger.debug("/auth/${config.controllerMapping}/list");
         return PREFIX + "list";
@@ -57,7 +57,7 @@ public class ${config.modelName}Controller extends BaseController {
      * @param id id
      * @return String
      */
-    @GetMapping("/input/{id}")
+    @RequestMapping("/input/{id}")
     <% if(config.permissionsCode != null && config.permissionsCode != '') { %>
     @RequiresPermissions("${config.permissionsCode}:select")
     <% } %>
@@ -74,7 +74,7 @@ public class ${config.modelName}Controller extends BaseController {
      *
      * @return String
      */
-    @GetMapping("/add")
+    @RequestMapping("/add")
     <% if(config.permissionsCode != null && config.permissionsCode != '') { %>
     @RequiresPermissions("${config.permissionsCode}:add")
     <% } %>
@@ -108,7 +108,7 @@ public class ${config.modelName}Controller extends BaseController {
      * @param object 表单内容
      * @return Tips
      */
-    @PostMapping("/save/data")
+    @RequestMapping("/save/data")
     @ResponseBody
     <% if(config.permissionsCode != null && config.permissionsCode != '') { %>
     @RequiresPermissions("${config.permissionsCode}:save")
