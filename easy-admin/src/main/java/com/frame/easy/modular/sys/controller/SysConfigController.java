@@ -35,7 +35,7 @@ public class SysConfigController extends BaseController {
      *
      * @return String
      */
-    @GetMapping("list")
+    @RequestMapping("list")
     public String list(){
         logger.debug("/auth/sys/config/list");
         return PREFIX + "list";
@@ -60,7 +60,7 @@ public class SysConfigController extends BaseController {
      * @param id id
      * @return String
      */
-    @GetMapping("/input/{id}")
+    @RequestMapping("/input/{id}")
     @RequiresPermissions("sys:config:select")
     public String input(Model model, @PathVariable("id") Long id) {
         logger.debug("/auth/sys/config/input/" + id);
@@ -73,7 +73,7 @@ public class SysConfigController extends BaseController {
      *
      * @return String
      */
-    @GetMapping("/add")
+    @RequestMapping("/add")
     @RequiresPermissions("sys:config:add")
     public String add(Model model) {
         logger.debug("/auth/sys/config/add");
@@ -99,7 +99,7 @@ public class SysConfigController extends BaseController {
      * @param object 表单内容
      * @return Tips
      */
-    @PostMapping("/save/data")
+    @RequestMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sys:config:save")
     public Tips saveData(SysConfig object){
@@ -112,7 +112,7 @@ public class SysConfigController extends BaseController {
      *
      * @return Tips
      */
-    @PostMapping("/refresh/cache")
+    @RequestMapping("/refresh/cache")
     @ResponseBody
     @RequiresPermissions("sys:config:save")
     public Tips refreshCache(){

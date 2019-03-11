@@ -3,6 +3,7 @@ package com.frame.easy.modular.sys.service.impl;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.constant.SessionConst;
@@ -104,7 +105,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public SysUser saveData(SysUser object) {
+    public SysUser saveData(SysUser object, boolean updateAuthorization) {
         ToolUtil.checkParams(object);
         // 用户名不能重复
         if (Validator.isNotEmpty(object.getUsername())) {
@@ -140,7 +141,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
 
         boolean isSuccess = saveOrUpdate(object);
-        if (isSuccess) {
+        if (isSuccess && updateAuthorization) {
             sysUserRoleService.saveUserRole(object.getId(), object.getRoles());
             // 删除授权信息,下次请求资源重新授权
             RedisUtil.del(RedisPrefix.SHIRO_AUTHORIZATION + object.toString());
@@ -214,5 +215,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
         queryWrapper.in("dept_id", deptIds.split(CommonConst.SPLIT));
         return mapper.selectCount(queryWrapper);
+    }
+
+    @Override
+    public boolean updateAvatar(String url) {
+        UpdateWrapper<SysUser> updateWrapper = new UpdateWrapper<>();
+        SysUser sysUser = ShiroUtil.getCurrentUser();
+        updateWrapper.set("avatar", url);
+        updateWrapper.eq("id", sysUser.getId());
+        return update(updateWrapper);
     }
 }

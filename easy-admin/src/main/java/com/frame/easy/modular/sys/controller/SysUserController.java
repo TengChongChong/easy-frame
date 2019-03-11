@@ -132,7 +132,7 @@ public class SysUserController extends BaseController {
     @RequiresPermissions("sys:user:save")
     public Object saveData(SysUser object) {
         logger.debug("/auth/sys/user/save/data");
-        return Tips.getSuccessTips(service.saveData(object));
+        return Tips.getSuccessTips(service.saveData(object, true));
     }
 
     /**

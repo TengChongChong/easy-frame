@@ -15,6 +15,7 @@ import com.frame.easy.modular.sys.dao.SysUserMapper;
 import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.service.ShiroService;
 import com.frame.easy.modular.sys.service.SysUserRoleService;
+import com.frame.easy.util.file.ImageUtil;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

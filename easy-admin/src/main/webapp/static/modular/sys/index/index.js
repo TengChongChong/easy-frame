@@ -176,6 +176,7 @@ var mIndex = function () {
     var bindLinkClick = function () {
         $('.m-menu-link').click(function () {
             mApp.openPage($(this).data('tab-title'), $(this).data('url'));
+            $('.m-topbar__user-profile').removeClass('m-dropdown--open');
         });
     };
 
