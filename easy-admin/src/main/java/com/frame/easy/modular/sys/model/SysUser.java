@@ -125,6 +125,18 @@ public class SysUser extends Model<SysUser> implements Serializable, IModel {
      */
     @TableField(exist = false)
     private List<SysPermissions> menus;
+    /**
+     * 头像缩略图
+     */
+    @TableField(exist = false)
+    private String avatarLg;
+    @TableField(exist = false)
+    private String avatarMd;
+    @TableField(exist = false)
+    private String avatarSm;
+    @TableField(exist = false)
+    private String avatarXs;
+
 
     public SysUser(String username) {
         this.username = username;
@@ -336,6 +348,38 @@ public class SysUser extends Model<SysUser> implements Serializable, IModel {
 
     public void setMenus(List<SysPermissions> menus) {
         this.menus = menus;
+    }
+
+    public String getAvatarLg() {
+        return avatarLg;
+    }
+
+    public void setAvatarLg(String avatarLg) {
+        this.avatarLg = avatarLg;
+    }
+
+    public String getAvatarMd() {
+        return avatarMd;
+    }
+
+    public void setAvatarMd(String avatarMd) {
+        this.avatarMd = avatarMd;
+    }
+
+    public String getAvatarSm() {
+        return avatarSm;
+    }
+
+    public void setAvatarSm(String avatarSm) {
+        this.avatarSm = avatarSm;
+    }
+
+    public String getAvatarXs() {
+        return avatarXs;
+    }
+
+    public void setAvatarXs(String avatarXs) {
+        this.avatarXs = avatarXs;
     }
 
     @Override
