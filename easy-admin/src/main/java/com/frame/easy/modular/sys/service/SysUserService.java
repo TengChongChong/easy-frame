@@ -46,9 +46,10 @@ public interface SysUserService {
      * 保存
      *
      * @param object 表单内容
+     * @param updateAuthorization 是否更新授权
      * @return SysUser
      */
-    SysUser saveData(SysUser object);
+    SysUser saveData(SysUser object, boolean updateAuthorization);
 
     /**
      * 重置密码
@@ -103,4 +104,13 @@ public interface SysUserService {
      * @return int
      */
     int countUser(String deptIds);
+
+    /**
+     * 更新头像
+     *
+     * @param url 访问地址
+     * @return true/false
+     */
+    boolean updateAvatar(String url);
+
 }
