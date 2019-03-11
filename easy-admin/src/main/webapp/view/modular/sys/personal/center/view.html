@@ -1,18 +1,82 @@
 @layout("/common/container.html"){
+@include("/common/plugins/css/cropper.html"){}
+@include("/common/plugins/js/cropper.html"){}
+<style>
+    .modal-lg {
+        /*max-width: 80%;*/
+    }
 
+    label.btn {
+        margin-bottom: 0;
+    }
+
+    .cropper-wrapper,
+    .cropper-preview {
+        width: 100%;
+    }
+
+    .cropper-wrapper {
+        margin-bottom: 1rem;
+        height: 360px;
+    }
+
+    .cropper-wrapper > img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .docs-preview {
+        margin-right: -1rem;
+    }
+
+    .cropper-preview {
+        max-width: 100%;
+        margin-bottom: .5rem;
+        margin-right: .5rem;
+        overflow: hidden;
+    }
+
+    .cropper-preview > img {
+        max-width: 100%;
+    }
+
+    .preview-lg {
+        height: 9rem;
+        width: 16rem;
+    }
+
+    .preview-md {
+        height: 4.5rem;
+        width: 8rem;
+    }
+
+    .preview-sm {
+        height: 2.25rem;
+        width: 4rem;
+    }
+
+    .docs-cropped .modal-body > img,
+    .docs-cropped .modal-body > canvas {
+        max-width: 100%;
+    }
+
+</style>
 <div class="row">
     <div class="col-xl-3 col-lg-4">
         <div class="m-portlet m-portlet--full-height  ">
             <div class="m-portlet__body">
                 <div class="m-card-profile">
                     <div class="m-card-profile__pic">
-                        <div class="m-card-profile__pic-wrapper">
-                            <img src="${ctxPath}/static/${user.avatar}/xs.jpg" alt=""/>
+                        <div class="m-card-profile__pic-wrapper user-avatar" data-aspect-ratio="1">
+                            <img src="${ctxPath}${user.avatar}" alt=""/>
+                            <div class="change-avatar">
+                                <i class="fa fa-camera"></i>
+                            </div>
                         </div>
                     </div>
                     <div class="m-card-profile__details">
                         <span class="m-card-profile__name">${user.nickname}</span>
-                        <a href="" class="m-card-profile__email m-link"></a>
+                        <span class="m-card-profile__email m-link">${user.department.name}</span>
                     </div>
                 </div>
                 <ul class="m-nav m-nav--hover-bg m-portlet-fit--sides">
@@ -21,124 +85,179 @@
                         <span class="m-nav__section-text">Section</span>
                     </li>
                     <li class="m-nav__item">
-                        <a href="" class="m-nav__link">
+                        <a href="javascript:;" data-url="${ctxPath}/auth/sys/personal/center/personal/settings"
+                           class="m-nav__link active">
                             <i class="m-nav__link-icon flaticon-profile-1"></i>
                             <span class="m-nav__link-title">
                                 <span class="m-nav__link-wrap">
-                                    <span class="m-nav__link-text">个人资料</span>
-                                    <span class="m-nav__link-badge">
-                                        <span class="m-badge m-badge--success">2</span>
-                                    </span>
+                                    <span class="m-nav__link-text">个人设置</span>
                                 </span>
                             </span>
                         </a>
                     </li>
                     <li class="m-nav__item">
-                        <a href="${ctxPath}" class="m-nav__link">
+                        <a href="javascript:;" data-url="${ctxPath}/auth/sys/personal/center/task/to/do"
+                           class="m-nav__link">
                             <i class="m-nav__link-icon flaticon-signs"></i>
                             <span class="m-nav__link-text">代办任务</span>
+                            <span class="m-nav__link-badge">
+                                <span class="m-badge m-badge--success">2</span>
+                            </span>
                         </a>
                     </li>
                     <li class="m-nav__item">
-                        <a href="../header/profile&amp;demo=default.html" class="m-nav__link">
+                        <a href="javascript:;" data-url="${ctxPath}/auth/sys/personal/center/message"
+                           class="m-nav__link">
                             <i class="m-nav__link-icon flaticon-chat-1"></i>
                             <span class="m-nav__link-text">我的消息</span>
-                        </a>
-                    </li>
-                    <li class="m-nav__item">
-                        <a href="../header/profile&amp;demo=default.html" class="m-nav__link">
-                            <i class="m-nav__link-icon flaticon-lock-1"></i>
-                            <span class="m-nav__link-text">安全设置</span>
-                        </a>
-                    </li>
-                    <li class="m-nav__item">
-                        <a href="../header/profile&amp;demo=default.html" class="m-nav__link">
-                            <i class="m-nav__link-icon flaticon-cogwheel"></i>
-                            <span class="m-nav__link-text">偏好设置</span>
+                            <span class="m-nav__link-badge">
+                                <span class="m-badge m-badge--success">2</span>
+                            </span>
                         </a>
                     </li>
                 </ul>
+                <div class="m-portlet__body-separator"></div>
+                <p>上次登录：${user.lastLogin,dateFormat='yyyy-MM-dd HH:mm'}</p>
             </div>
         </div>
     </div>
-    <div class="col-xl-9 col-lg-8">
-        <div class="m-portlet m-portlet--full-height m-portlet--tabs  ">
-            <div class="m-portlet__head">
-                <div class="m-portlet__head-tools">
-                    <ul class="nav nav-tabs m-tabs m-tabs-line   m-tabs-line--left m-tabs-line--primary" role="tablist">
-                        <li class="nav-item m-tabs__item">
-                            <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#m_user_profile_tab_1" role="tab" aria-selected="true">
-                                <i class="flaticon-share m--hide"></i>
-                                Update Profile
-                            </a>
-                        </li>
-                        <li class="nav-item m-tabs__item">
-                            <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_2" role="tab" aria-selected="false">
-                                Messages
-                            </a>
-                        </li>
-                        <li class="nav-item m-tabs__item">
-                            <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_3" role="tab" aria-selected="false">
-                                Settings
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+    <div class="col-xl-9 col-lg-8" id="m-right-page">
+
+    </div>
+</div>
+<!--begin::图片截取-->
+<div class="modal fade" id="cropper-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">更改头像</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="tab-content">
-                <div class="tab-pane active show" id="m_user_profile_tab_1">
-                    <form class="m-form m-form--fit m-form--label-align-right">
-                        <div class="m-portlet__body">
-                            <div class="form-group m-form__group row">
-                                <label for="nickname" class="col-2 col-form-label">昵称</label>
-                                <div class="col-7">
-                                    <input id="nickname" name="nickname" class="form-control m-input" type="text" value="${user.nickname}">
-                                </div>
-                            </div>
-                            <div class="form-group m-form__group row">
-                                <label class="col-2 col-form-label">性别</label>
-                                <div class="col-7">
-                                    <div class="m-radio-inline">
-                                        <#form:radio name="sex" text="男" value="1" checked="${user.sex}" required="true"/>
-                                        <#form:radio name="sex" text="女" value="2" checked="${user.sex}"/>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="cropper-wrapper"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="docs-preview clearfix">
+                            <div class="cropper-preview preview-lg"></div>
+                            <div class="cropper-preview preview-md"></div>
+                            <div class="cropper-preview preview-sm"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-9 cropper-tool">
+                        <div class="btn-group">
+                            <label class="btn btn-primary btn-upload" for="inputImage" title="Upload image file">
+                                <input type="file" class="sr-only cropper-input" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
+                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="上传图片">
+                                    <i class="fa fa-upload"></i>
+                                </span>
+                            </label>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary" data-method="zoom" data-option="0.1">
+                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="放大">
+                                    <i class="fa fa-search-plus"></i>
+                                </span>
+                            </button>
+                            <button type="button" class="btn btn-primary" data-method="zoom" data-option="-0.1">
+                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="缩小">
+                                    <i class="fa fa-search-minus"></i>
+                                </span>
+                            </button>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary" data-method="move" data-option="-10"
+                                    data-second-option="0">
+                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="左移">
+                                    <i class="fa fa-arrow-left"></i>
+                                </span>
+                            </button>
+                            <button type="button" class="btn btn-primary" data-method="move" data-option="10"
+                                    data-second-option="0">
+                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="右移">
+                                    <i class="fa fa-arrow-right"></i>
+                                </span>
+                            </button>
+                            <button type="button" class="btn btn-primary" data-method="move" data-option="0"
+                                    data-second-option="-10">
+                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="上移">
+                                    <i class="fa fa-arrow-up"></i>
+                                </span>
+                            </button>
+                            <button type="button" class="btn btn-primary" data-method="move" data-option="0"
+                                    data-second-option="10">
+                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="下移">
+                                    <i class="fa fa-arrow-down"></i>
+                                </span>
+                            </button>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary" data-method="rotate" data-option="-45">
+                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="向左旋转">
+                                     <i class="fa fa-undo"></i>
+                                </span>
+                            </button>
+                            <button type="button" class="btn btn-primary" data-method="rotate" data-option="45">
+                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="向右旋转">
+                                    <i class="fa fa-redo"></i>
+                                </span>
+                            </button>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary" data-method="scaleX" data-option="-1">
+                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="水平翻转">
+                                    <i class="fa fa-arrows-alt-h"></i>
+                                </span>
+                            </button>
+                            <button type="button" class="btn btn-primary" data-method="scaleY" data-option="-1">
+                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="垂直翻转">
+                                    <i class="fa fa-arrows-alt-v"></i>
+                                </span>
+                            </button>
+                        </div>
+
+                        <!-- Show the cropped image in modal -->
+                        <div class="modal fade docs-cropped" id="getCroppedCanvasModal" aria-hidden="true"
+                             aria-labelledby="getCroppedCanvasTitle" role="dialog" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="getCroppedCanvasTitle">Cropped</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body"></div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                        </button>
+                                        <a class="btn btn-primary" id="download" href="javascript:void(0);"
+                                           download="cropped.jpg">Download</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group m-form__group row">
-                                <label for="email" class="col-2 col-form-label">邮箱</label>
-                                <div class="col-7">
-                                    <input id="email" name="email" class="form-control m-input" type="text" value="${user.email}">
-                                </div>
-                            </div>
-                            <div class="form-group m-form__group row">
-                                <label for="phone" class="col-2 col-form-label">手机号</label>
-                                <div class="col-7">
-                                    <input id="phone" name="phone" class="form-control m-input" type="text" value="${user.phone}">
-                                </div>
-                            </div>
-                            <div class="form-group m-form__group row">
-                                <label for="birthday" class="col-2 col-form-label">生日</label>
-                                <div class="col-7   ">
-                                    <input id="birthday" name="birthday" class="form-control m-input date-picker" type="text" value="${user.birthday,dateFormat='yyyy-MM-dd'}">
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="m-portlet__foot m-portlet__foot--fit">
-                            <div class="m-form__actions text-center">
-                                <#button name="保存" icon="la la-save" click="mApp.openPage('类型维护', '${ctxPath}/auth/sys/depart/type/view')"/>
-                            </div>
-                        </div>
-                    </form>
+                        </div><!-- /.modal -->
+                    </div><!-- /.docs-buttons -->
                 </div>
-                <div class="tab-pane" id="m_user_profile_tab_2">
-                </div>
-                <div class="tab-pane" id="m_user_profile_tab_3">
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary cropper-save">确认</button>
             </div>
         </div>
     </div>
 </div>
+<!--end::图片截取-->
+
 <!--begin::页面脚本 -->
 <script src="${ctxPath}/static/modular/sys/personal/center/view.js?v=${version()}" type="text/javascript"></script>
 <!--end::页面脚本 -->

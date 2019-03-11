@@ -1,0 +1,82 @@
+<div class="m-portlet m-portlet--full-height m-portlet--tabs">
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-tools">
+            <ul class="nav nav-tabs m-tabs m-tabs-line   m-tabs-line--left m-tabs-line--primary" role="tablist">
+                <li class="nav-item m-tabs__item">
+                    <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#m_user_profile_tab_1"
+                       role="tab" aria-selected="true">
+                        <i class="flaticon-share m--hide"></i>
+                        个人资料
+                    </a>
+                </li>
+                <li class="nav-item m-tabs__item">
+                    <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_2" role="tab"
+                       aria-selected="false">
+                        安全设置
+                    </a>
+                </li>
+                <li class="nav-item m-tabs__item">
+                    <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_3" role="tab"
+                       aria-selected="false">
+                        偏好设置
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane active show" id="m_user_profile_tab_1">
+            <form class="m-form m-form--fit m-form--label-align-right">
+                <div class="m-portlet__body">
+                    <div class="form-group m-form__group row">
+                        <label for="nickname" class="col-2 col-form-label">昵称：</label>
+                        <div class="col-7">
+                            <input id="nickname" name="nickname" class="form-control m-input" type="text"
+                                   value="${user.nickname}">
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <label class="col-2 col-form-label">性别：</label>
+                        <div class="col-7">
+                            <div class="m-radio-inline">
+                                <#form:radio name="sex" text="男" value="1" checked="${user.sex}" required="true"/>
+                                <#form:radio name="sex" text="女" value="2" checked="${user.sex}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <label for="email" class="col-2 col-form-label">邮箱：</label>
+                        <div class="col-7">
+                            <input id="email" name="email" class="form-control m-input" type="text"
+                                   value="${user.email}">
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <label for="phone" class="col-2 col-form-label">手机号：</label>
+                        <div class="col-7">
+                            <input id="phone" name="phone" class="form-control m-input" type="text"
+                                   value="${user.phone}">
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <label for="birthday" class="col-2 col-form-label">生日：</label>
+                        <div class="col-7   ">
+                            <input id="birthday" name="birthday" class="form-control m-input date-picker" type="text"
+                                   value="${user.birthday,dateFormat='yyyy-MM-dd'}">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="m-portlet__foot m-portlet__foot--fit">
+                    <div class="m-form__actions text-center">
+                        <#button name="保存" icon="la la-save" click="mApp.openPage('类型维护', '${ctxPath}/auth/sys/depart/type/view')"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="tab-pane" id="m_user_profile_tab_2">
+        </div>
+        <div class="tab-pane" id="m_user_profile_tab_3">
+        </div>
+    </div>
+</div>
