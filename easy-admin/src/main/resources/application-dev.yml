@@ -19,7 +19,7 @@ spring:
         host: smtp.qq.com
         port: 465
         username: tengchongchong@foxmail.com
-        password: jmzsjbpoafcvbiba
+        password: 
 # beetl
 beetl:
     #是否检测文件变化,生成环境勿配置
@@ -27,5 +27,5 @@ beetl:
 # mybatis
 mybatis-plus:
     global-config:
-        # 刷新mapping文件,生成环境勿配置
+        # 刷新mapping文件,生产环境勿配置
         refresh: true
