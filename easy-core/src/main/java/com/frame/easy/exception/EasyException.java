@@ -21,6 +21,11 @@ public class EasyException extends RuntimeException {
         this.message = message;
     }
 
+    public EasyException(int code, String message) {
+        this.code = code;
+        this.message = message;
+    }
+
     public EasyException(EasyServiceException easyServiceException) {
         this.code = easyServiceException.getCode();
         this.message = easyServiceException.getMessage();
