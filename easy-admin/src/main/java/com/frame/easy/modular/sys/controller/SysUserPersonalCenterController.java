@@ -1,7 +1,10 @@
 package com.frame.easy.modular.sys.controller;
 
 import com.frame.easy.base.controller.BaseController;
-import com.frame.easy.modular.sys.service.SysPersonalCenterService;
+import com.frame.easy.modular.sys.model.SysUser;
+import com.frame.easy.modular.sys.model.SysUserSetting;
+import com.frame.easy.modular.sys.service.SysUserPersonalCenterService;
+import com.frame.easy.modular.sys.service.SysUserSecuritySettingService;
 import com.frame.easy.result.Tips;
 import com.frame.easy.util.ShiroUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +20,15 @@ import org.springframework.web.bind.annotation.*;
  */
 @Controller
 @RequestMapping("/auth/sys/personal/center")
-public class SysPersonalCenterController extends BaseController {
+public class SysUserPersonalCenterController extends BaseController {
     /**
      * 个人中心 service
      */
     @Autowired
-    private SysPersonalCenterService service;
+    private SysUserPersonalCenterService service;
+
+    @Autowired
+    private SysUserSecuritySettingService securitySettingService;
 
     /**
      * view 路径
@@ -86,7 +92,29 @@ public class SysPersonalCenterController extends BaseController {
     @RequestMapping("save/user/avatar")
     @ResponseBody
     public Tips saveUserAvatar(@RequestParam("path") String path){
-        return Tips.getSuccessTips("操作成功", service.saveAvatar(path));
+        return Tips.getSuccessTips("操作成功", service.saveUserAvatar(path));
+    }
+    /**
+     * 保存用户信息
+     *
+     * @param sysUser 用户信息
+     * @return Tips
+     */
+    @RequestMapping("save/user/info")
+    @ResponseBody
+    public Tips saveUserInfo(SysUser sysUser){
+        return Tips.getSuccessTips(service.saveUserInfo(sysUser));
     }
 
+    /**
+     * 保存用户设置
+     *
+     * @param sysUserSetting 用户设置
+     * @return Tips
+     */
+    @RequestMapping("save/user/setting")
+    @ResponseBody
+    public Tips saveUserSetting(SysUserSetting sysUserSetting){
+        return Tips.getSuccessTips(service.saveUserSetting(sysUserSetting));
+    }
 }

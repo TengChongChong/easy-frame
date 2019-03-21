@@ -68,7 +68,13 @@
                 <div class="m-card-profile">
                     <div class="m-card-profile__pic">
                         <div class="m-card-profile__pic-wrapper user-avatar" data-aspect-ratio="1">
+                            @if(strUtil.isNotBlank(user.avatar)){
                             <img src="${ctxPath}${user.avatar}" alt=""/>
+                            @}else{
+                            <span class="m-type m-type--lg m--bg-warning">
+                                <span class="m--font-light">${strutil.subStringTo('tengchong', strutil.length(user.nickname) - 1, strutil.length(user.nickname))}</span>
+                            </span>
+                            @}
                             <div class="change-avatar">
                                 <i class="fa fa-camera"></i>
                             </div>

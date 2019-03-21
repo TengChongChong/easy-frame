@@ -65,7 +65,7 @@ var Login = function () {
                 },
                 success: function (res) {
                     showMsg($form, 'success', '登录成功');
-                    window.location.href = "/";
+                    window.location.href = basePath;
                 }
             });
         }

@@ -15,6 +15,11 @@ spring:
             db-name: easy-frame
             password: 123456
             username: root
+    mail:
+        host: smtp.qq.com
+        port: 465
+        username: tengchongchong@foxmail.com
+        password: jmzsjbpoafcvbiba
 # beetl
 beetl:
     #是否检测文件变化,生成环境勿配置

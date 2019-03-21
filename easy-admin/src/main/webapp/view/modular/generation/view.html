@@ -1,6 +1,5 @@
 @layout("/common/container.html"){
-<link href="${ctxPath}/static/vendors/custom/jquery.gridly/stylesheets/jquery.gridly.css" rel="stylesheet"
-      type="text/css"/>
+<link href="${ctxPath}/static/vendors/custom/jquery-gridly/jquery-gridly.bundle.css" rel="stylesheet"/>
 <style>
     .table-field-set thead th {
         font-weight: bold;
@@ -38,23 +37,6 @@
     .table-field-set tbody tr:nth-of-type(2n) {
         background-color: #f4f5f8;
     }
-
-    /*.table-field-set .cell-input {*/
-        /*background: rgba(33, 197, 218, 0.1);*/
-    /*}*/
-
-    /*.table-field-set th.cell-base {*/
-        /*background: rgba(61, 190, 163, 0.3);*/
-    /*}*/
-
-    /*.table-field-set th.cell-list {*/
-        /*background: rgba(61, 165, 244, 0.3);*/
-    /*}*/
-
-    /*.table-field-set th.cell-input {*/
-        /*background: rgba(33, 197, 218, 0.3);*/
-    /*}*/
-
     .gridly {
         width: 100%;
         position: relative;
@@ -507,8 +489,7 @@
     </div>
 </div>
 <!--begin::页面脚本 -->
-<script src="${ctxPath}/static/vendors/custom/jquery.gridly/javascripts/jquery.gridly.js"
-        type="text/javascript"></script>
+<script src="${ctxPath}/static/vendors/custom/jquery-gridly/jquery-gridly.bundle.js"></script>
 <script src="${ctxPath}/static/modular/generation/view.js?v=${version()}"></script>
 <script src="${ctxPath}/static/modular/generation/util.js?v=${version()}"></script>
 <!--end::页面脚本 -->

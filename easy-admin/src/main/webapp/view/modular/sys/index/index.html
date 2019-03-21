@@ -31,7 +31,7 @@
                         </div>
                         <div class="m-stack__item m-stack__item--middle m-brand__tools">
 
-                            <!-- BEGIN: Left Aside Minimize Toggle -->
+                            <!-- BEGIN: Left m-card-user__picAside Minimize Toggle -->
                             <a href="javascript:;" id="m_aside_left_minimize_toggle"
                                class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-desktop-inline-block  ">
                                 <span></span>
@@ -718,8 +718,14 @@
                                     m-dropdown-toggle="click">
                                     <a href="#" class="m-nav__link m-dropdown__toggle">
                                         <span class="m-topbar__userpic">
+                                            @if(strUtil.isNotBlank(user.avatar)){
                                             <img src="${ctxPath}${user.avatarMd}"
                                                  class="m--img-rounded m--marginless" alt=""/>
+                                            @}else{
+                                            <span class="m-type m--bg-warning">
+                                                <span class="m--font-light">${strutil.subStringTo('tengchong', strutil.length(user.nickname) - 1, strutil.length(user.nickname))}</span>
+                                            </span>
+                                            @}
                                         </span>
                                         <span class="m-topbar__username m--hide">Nick</span>
                                     </a>
@@ -730,8 +736,14 @@
                                                  style="background: url('${ctxPath}/static/app/media/img/misc/user_profile_bg.jpg'); background-size: cover;">
                                                 <div class="m-card-user m-card-user--skin-dark">
                                                     <div class="m-card-user__pic">
+                                                        @if(strUtil.isNotBlank(user.avatar)){
                                                         <img src="${ctxPath}${user.avatarMd}"
                                                              class="m--img-rounded m--marginless" alt=""/>
+                                                        @}else{
+                                                        <span class="m-type m-type--lg m--bg-warning">
+															<span class="m--font-light">${strutil.subStringTo('tengchong', strutil.length(user.nickname) - 1, strutil.length(user.nickname))}</span>
+														</span>
+                                                        @}
                                                     </div>
                                                     <div class="m-card-user__details">
                                                         <span class="m-card-user__name m--font-weight-500">${user.nickname}</span>
@@ -826,7 +838,7 @@
                 </a>
             </div>
 
-            <div class="contabs-scorll">
+            <div class="contabs-scroll">
                 <ul class="nav con-tabs">
                     <li class="active">
                         <a class="btn btn-default tab" data-url="${ctxPath}/auth/dashboard" title="首页" target="iframe-1">
@@ -951,7 +963,9 @@
                         <div class="m-messenger__wrapper">
                             <div class="m-messenger__message m-messenger__message--in">
                                 <div class="m-messenger__message-pic">
-                                    <img src="${ctxPath}/static/app/media/img//users/user3.jpg" alt=""/>
+                                    <span class="m-type m--bg-brand">
+                                        <span class="m--font-light">冲</span>
+                                    </span>
                                 </div>
                                 <div class="m-messenger__message-body">
                                     <div class="m-messenger__message-arrow"></div>

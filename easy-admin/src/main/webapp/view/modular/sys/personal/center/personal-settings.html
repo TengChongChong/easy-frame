@@ -31,7 +31,7 @@
                     <div class="form-group m-form__group row">
                         <label for="nickname" class="col-2 col-form-label">昵称：</label>
                         <div class="col-7">
-                            <input id="nickname" name="nickname" class="form-control m-input" type="text"
+                            <input id="nickname" name="nickname" class="form-control" type="text"
                                    value="${user.nickname}">
                         </div>
                     </div>
@@ -47,36 +47,118 @@
                     <div class="form-group m-form__group row">
                         <label for="email" class="col-2 col-form-label">邮箱：</label>
                         <div class="col-7">
-                            <input id="email" name="email" class="form-control m-input" type="text"
+                            <input id="email" name="email" class="form-control" type="text"
                                    value="${user.email}">
                         </div>
                     </div>
                     <div class="form-group m-form__group row">
                         <label for="phone" class="col-2 col-form-label">手机号：</label>
                         <div class="col-7">
-                            <input id="phone" name="phone" class="form-control m-input" type="text"
+                            <input id="phone" name="phone" class="form-control" type="text"
                                    value="${user.phone}">
                         </div>
                     </div>
                     <div class="form-group m-form__group row">
                         <label for="birthday" class="col-2 col-form-label">生日：</label>
-                        <div class="col-7   ">
-                            <input id="birthday" name="birthday" class="form-control m-input date-picker" type="text"
+                        <div class="col-7">
+                            <input id="birthday" name="birthday" class="form-control date-picker" type="text"
                                    value="${user.birthday,dateFormat='yyyy-MM-dd'}">
                         </div>
                     </div>
-
                 </div>
                 <div class="m-portlet__foot m-portlet__foot--fit">
                     <div class="m-form__actions text-center">
-                        <#button name="保存" icon="la la-save" click="mApp.openPage('类型维护', '${ctxPath}/auth/sys/depart/type/view')"/>
+                        <#button name="保存" icon="la la-save" click="mPersonalCenter.saveUserInfo(this)"/>
                     </div>
                 </div>
             </form>
         </div>
         <div class="tab-pane" id="m_user_profile_tab_2">
+            <form class="m-form m-form--fit m-form--label-align-right">
+                <div class="m-portlet__body">
+                    <ul class="security-setting">
+                        <li>
+                            <div class="icon">
+                                <i class="flaticon-email"></i>
+                            </div>
+                            <div class="describe">
+                                <h4>密保邮箱: ${user.email}</h4>
+                                <p>密保手机可以进行帐号登录、找回密码等敏感操作的安全验证，请勿随意泄露手机号，以防不法分子利用造成个人损失</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="icon">
+                                <i class="la la-phone"></i>
+                            </div>
+                            <div class="describe">
+                                <h4>密保手机: ${user.phone}</h4>
+                                <p>密保手机可用于找回密码，请勿泄露邮箱信息，轻信他人邮件，以防不法分子利用，造成个人损失</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="m-portlet__foot m-portlet__foot--fit">
+                    <div class="m-form__actions text-center">
+                        <#button name="保存" icon="la la-save" click="mPersonalCenter.saveUserSecuritySetting(this)"/>
+                    </div>
+                </div>
+            </form>
         </div>
         <div class="tab-pane" id="m_user_profile_tab_3">
+            <form class="m-form m-form--fit m-form--label-align-right">
+                <div class="m-portlet__body">
+                    <div class="form-group m-form__group row">
+                        <label class="col-2 col-form-label">提示类型：</label>
+                        <div class="col-7">
+
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <label class="col-2 col-form-label">主题：</label>
+                        <div class="col-7">
+
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <label class="col-2 col-form-label">固定头部：</label>
+                        <div class="col-7">
+                            <span class="m-switch m-switch--sm m-switch--icon">
+                                <label>
+                                    <input type="checkbox" checked="checked" name="">
+                                    <span></span>
+                                </label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <label class="col-2 col-form-label">默认收起菜单：</label>
+                        <div class="col-7">
+                            <span class="m-switch m-switch--sm m-switch--icon">
+                                <label>
+                                    <input type="checkbox" checked="checked" name="">
+                                    <span></span>
+                                </label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <label class="col-2 col-form-label">固定footer：</label>
+                        <div class="col-7">
+                            <span class="m-switch m-switch--sm m-switch--icon">
+                                <label>
+                                    <input type="checkbox" checked="checked" name="">
+                                    <span></span>
+                                </label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-portlet__foot m-portlet__foot--fit">
+                    <div class="m-form__actions text-center">
+                        <#button name="保存" icon="la la-save" click="mPersonalCenter.saveUserSetting(this)"/>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

@@ -23,6 +23,10 @@ public class CommonConst {
      */
     public static final String SPLIT = ",";
     /**
+     * 数据分隔符
+     */
+    public static final String SPLIT2 = ";";
+    /**
      * false
      */
     public static final String FALSE = "false";

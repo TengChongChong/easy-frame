@@ -19038,8 +19038,9 @@ button:active, button:focus {
     padding: 0 5px 0 0;
     vertical-align: middle;
     width: 70px; }
-    .m-card-user .m-card-user__pic img {
-      max-width: 70px !important;
+    .m-card-user .m-card-user__pic img, .m-card-user .m-card-user__pic .m-type {
+      width: 70px !important;
+      height: 70px !important;
       margin: 0 !important;
       border-radius: 100%; }
     .m-card-user .m-card-user__pic .m-card-user__no-photo {
@@ -19141,14 +19142,17 @@ button:active, button:focus {
       width: 150px;
       height: 150px;
       border-radius: 100%; }
+      .m-card-profile .m-card-profile__pic .m-card-profile__pic-wrapper .m-type {
+        width: 100%;
+        height: 100%; }
       .m-card-profile .m-card-profile__pic .m-card-profile__pic-wrapper .change-avatar {
         display: none;
         position: absolute;
-        width: 150px;
-        height: 150px;
-        top: 53px;
+        width: 130px;
+        height: 130px;
+        top: 63px;
         left: 50%;
-        margin-left: -75px;
+        margin-left: -67px;
         border-radius: 100%;
         background: rgba(255, 255, 255, 0.5); }
         .m-card-profile .m-card-profile__pic .m-card-profile__pic-wrapper .change-avatar i.fa {
@@ -23979,7 +23983,7 @@ body.m-portlet--fullscreen {
     content: ""; }
   .m-switch input:empty ~ span {
     line-height: 30px;
-    margin: 2px 0;
+    margin: 1px 0;
     height: 30px;
     width: 57px;
     border-radius: 15px; }
@@ -24023,7 +24027,7 @@ body.m-portlet--fullscreen {
     margin-left: 34px; }
   .m-switch.m-switch--sm input:empty ~ span {
     line-height: 24px;
-    margin: 2px 0;
+    margin: 1px 0;
     height: 24px;
     width: 40px;
     border-radius: 12px; }
@@ -24044,13 +24048,15 @@ body.m-portlet--fullscreen {
   .m-switch.m-switch--sm input:checked ~ span:after {
     margin-left: 16px; }
   .m-form__group.row .m-switch {
-    margin-top: 0.15rem; }
+    margin-top: -0.25rem; }
     .m-form__group.row .m-switch.m-switch--lg {
-      margin-top: 0rem;
+      margin-top: 0;
       position: relative;
-      top: -0.3rem; }
+      top: -0.5rem; }
     .m-form__group.row .m-switch.m-switch--sm {
-      margin-top: 0.3rem; }
+      margin-top: 0; }
+    .m-form__group.row .m-switch label {
+      margin-bottom: 0; }
 
 .m-switch input:empty ~ span:before {
   background-color: #ebedf2; }
@@ -27316,17 +27322,22 @@ html.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
   .datetimepicker tbody tr > td.day.range {
     background: #f4f5f8; }
 
+.datetimepicker tbody tr > td span.year,
 .datetimepicker tbody tr > td span.hour,
 .datetimepicker tbody tr > td span.minute,
 .datetimepicker tbody tr > td span.month {
   color: #575962; }
-  .datetimepicker tbody tr > td span.hour.focused, .datetimepicker tbody tr > td span.hour:hover,
+  .datetimepicker tbody tr > td span.year.focused, .datetimepicker tbody tr > td span.year:hover,
+  .datetimepicker tbody tr > td span.hour.focused,
+  .datetimepicker tbody tr > td span.hour:hover,
   .datetimepicker tbody tr > td span.minute.focused,
   .datetimepicker tbody tr > td span.minute:hover,
   .datetimepicker tbody tr > td span.month.focused,
   .datetimepicker tbody tr > td span.month:hover {
     background: #ebedf2; }
-  .datetimepicker tbody tr > td span.hour.active:hover, .datetimepicker tbody tr > td span.hour.active,
+  .datetimepicker tbody tr > td span.year.active:hover, .datetimepicker tbody tr > td span.year.active,
+  .datetimepicker tbody tr > td span.hour.active:hover,
+  .datetimepicker tbody tr > td span.hour.active,
   .datetimepicker tbody tr > td span.minute.active:hover,
   .datetimepicker tbody tr > td span.minute.active,
   .datetimepicker tbody tr > td span.month.active:hover,
@@ -29978,11 +29989,13 @@ body.m-content--skin-light2 {
           vertical-align: middle;
           text-align: center;
           margin: 0 auto; }
-          .m-topbar .m-topbar__nav.m-nav > .m-nav__item > .m-nav__link .m-topbar__userpic img {
-            display: block;
+          .m-topbar .m-topbar__nav.m-nav > .m-nav__item > .m-nav__link .m-topbar__userpic img, .m-topbar .m-topbar__nav.m-nav > .m-nav__item > .m-nav__link .m-topbar__userpic .m-type {
             vertical-align: middle;
             max-width: 35px !important;
+            max-height: 35px !important;
             margin: 0 0 0 5px; }
+          .m-topbar .m-topbar__nav.m-nav > .m-nav__item > .m-nav__link .m-topbar__userpic img {
+            display: block; }
       .m-topbar .m-topbar__nav.m-nav > .m-nav__item.m-topbar__notifications.m-topbar__notifications--img.m-dropdown--arrow .m-dropdown__arrow {
         color: #7e55dd; }
       .m-topbar .m-topbar__nav.m-nav > .m-nav__item.m-topbar__quick-actions.m-topbar__quick-actions--img.m-dropdown--arrow .m-dropdown__arrow {
@@ -33541,9 +33554,9 @@ body.m-content--skin-light2 {
   height: 40px;
   background: #fff; }
   .site-contabs .left-group,
-  .site-contabs .contabs-scorll {
+  .site-contabs .contabs-scroll {
     float: left; }
-  .site-contabs .contabs-scorll {
+  .site-contabs .contabs-scroll {
     overflow: hidden;
     width: calc(100% - 143px); }
   .site-contabs .right-group {

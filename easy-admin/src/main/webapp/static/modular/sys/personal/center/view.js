@@ -13,6 +13,7 @@ var mPersonalCenter = function () {
             dataType: 'html',
             success: function (res) {
                 $('#m-right-page').html(res);
+                mApp.initComponents();
             }
         });
     };
@@ -43,6 +44,31 @@ var mPersonalCenter = function () {
         });
     };
     /**
+     * 保存用户信息
+     */
+    var saveUserInfo = function (el) {
+        mTool.saveData(el, mTool.getBaseUrl() + 'save/user/info', false, null, function () {
+            mTool.successTip(mTool.commonTips.success, '资料更改成功，刷新页面后生效');
+            refreshLocalCache();
+        });
+    };
+    /**
+     * 保存用户安全设置
+     */
+    var saveUserSecuritySetting = function (el) {
+        mTool.saveData(el, mTool.getBaseUrl() + 'save/user/security/setting', null, null, function () {
+            refreshLocalCache();
+        });
+    };
+    /**
+     * 保存用户设置
+     */
+    var saveUserSetting = function (el) {
+        mTool.saveData(el, mTool.getBaseUrl() + 'save/user/setting', null, null, function () {
+            refreshLocalCache();
+        });
+    };
+    /**
      * 刷新本地缓存用户信息
      */
     var refreshLocalCache = function () {
@@ -59,6 +85,24 @@ var mPersonalCenter = function () {
             new Crop.CropAvatar($('.user-avatar'), function (data) {
                 saveUserAvatar(data);
             });
+        },
+        /**
+         * 保存用户信息
+         */
+        saveUserInfo: function (el) {
+            saveUserInfo(el);
+        },
+        /**
+         * 保存用户安全设置
+         */
+        saveUserSecuritySetting: function (el) {
+            saveUserSecuritySetting(el);
+        },
+        /**
+         * 保存用户设置
+         */
+        saveUserSetting: function (el) {
+            saveUserSetting(el);
         }
     };
 }();
