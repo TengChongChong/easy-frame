@@ -39,7 +39,14 @@ public class CommonConst {
      * 缓存方式
      */
     public static String CACHE_TYPE_REDIS = "redis";
-
+    /**
+     * 开发模式
+     */
+    public static String PROFILES_ACTIVE_DEV = "dev";
+    /**
+     * 生产模式
+     */
+    public static String PROFILES_ACTIVE_PROD = "prod";
     /**
      * 静态数据存放路径
      * 例如: 字典数据
