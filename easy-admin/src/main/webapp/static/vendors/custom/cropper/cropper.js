@@ -85,7 +85,9 @@ Crop.CropAvatar.prototype = {
      */
     initPreview: function () {
         var url = this.$cropper.attr('src');
-        this.$cropperPreview.html('<img alt="预览" src="' + url + '">');
+        if(mUtil.isNotBlank(url)){
+            this.$cropperPreview.html('<img alt="预览" src="' + url + '">');
+        }
     },
     /**
      * 点击图片打开模态框
@@ -94,13 +96,15 @@ Crop.CropAvatar.prototype = {
         var _cropper = this;
         this.$cropperModal.modal('show').on('shown.bs.modal', function () {
             var _src = _cropper.$cropper.attr('src');
-            if (_src.indexOf('?') > -1) {
-                _cropper.url = _cropper.$cropper.attr('src') + '&date=' + new Date().getTime();
-            } else {
-                _cropper.url = _cropper.$cropper.attr('src') + '?date=' + new Date().getTime();
+            if(mUtil.isNotBlank(_src)){
+                if (_src.indexOf('?') > -1) {
+                    _cropper.url = _cropper.$cropper.attr('src') + '&date=' + new Date().getTime();
+                } else {
+                    _cropper.url = _cropper.$cropper.attr('src') + '?date=' + new Date().getTime();
+                }
+                _cropper.startCropper();
+                Crop.$cropper = _cropper.$img;
             }
-            _cropper.startCropper();
-            Crop.$cropper = _cropper.$img;
         });
         this.initPreview();
     },
