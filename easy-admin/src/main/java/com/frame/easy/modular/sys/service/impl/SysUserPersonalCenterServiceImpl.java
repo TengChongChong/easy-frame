@@ -58,7 +58,7 @@ public class SysUserPersonalCenterServiceImpl implements SysUserPersonalCenterSe
                     sysUser.setAvatarSm(ImageUtil.getThumbnailUrlByUrl(url, ImageUtil.IMAGE_SIZE_SM));
                     sysUser.setAvatarXs(ImageUtil.getThumbnailUrlByUrl(url, ImageUtil.IMAGE_SIZE_XS));
                     ShiroUtil.setCurrentUser(sysUser);
-                    return ImageUtil.getThumbnailUrlByUrl(url, ImageUtil.IMAGE_SIZE_SM);
+                    return url;
                 } else {
                     // 更新失败了,把移动到正式目录的图片删掉
                     cn.hutool.core.io.FileUtil.del(new java.io.File(path));
