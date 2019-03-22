@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.select.Select;
 import com.frame.easy.common.status.PermissionsStatus;
+import com.frame.easy.common.status.ProfilesActiveStatus;
 import com.frame.easy.common.type.PermissionsType;
 import com.frame.easy.config.properties.DataSourceProperties;
 import com.frame.easy.exception.EasyException;
@@ -53,7 +54,7 @@ public class GenerationServiceImpl implements GenerationService {
             object.setUsername(dataSourceProperties.getUsername());
             object.setPassword(dataSourceProperties.getPassword());
             object.init();
-            if (CommonConst.PROFILES_ACTIVE_DEV.equals(CommonConst.projectProperties.getProfilesActive())) {
+            if (ProfilesActiveStatus.dev.getProfilesActive().equals(CommonConst.projectProperties.getProfilesActive())) {
                 generatorConfig.generation(object);
                 // 检查是否需要添加菜单
                 if (StrUtil.isNotBlank(object.getMenuName())) {
