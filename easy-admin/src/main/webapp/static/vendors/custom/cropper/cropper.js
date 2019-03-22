@@ -44,7 +44,7 @@ Crop.CropAvatar.prototype = {
     /**
      * 绑定工具条事件
      */
-    bindToolEvent: function(){
+    bindToolEvent: function () {
         var _cropper = this;
         $('.cropper-tool').on('click', '[data-method]', function () {
             var $this = $(this);
@@ -85,7 +85,7 @@ Crop.CropAvatar.prototype = {
      */
     initPreview: function () {
         var url = this.$cropper.attr('src');
-        if(mUtil.isNotBlank(url)){
+        if (mUtil.isNotBlank(url)) {
             this.$cropperPreview.html('<img alt="预览" src="' + url + '">');
         }
     },
@@ -96,7 +96,7 @@ Crop.CropAvatar.prototype = {
         var _cropper = this;
         this.$cropperModal.modal('show').on('shown.bs.modal', function () {
             var _src = _cropper.$cropper.attr('src');
-            if(mUtil.isNotBlank(_src)){
+            if (mUtil.isNotBlank(_src)) {
                 if (_src.indexOf('?') > -1) {
                     _cropper.url = _cropper.$cropper.attr('src') + '&date=' + new Date().getTime();
                 } else {
@@ -104,6 +104,10 @@ Crop.CropAvatar.prototype = {
                 }
                 _cropper.startCropper();
                 Crop.$cropper = _cropper.$img;
+            } else {
+                if(_cropper.$cropperModal.find('.alert').length === 0){
+                    _cropper.$cropperModal.find('.modal-body > .row:eq(0)').before('<div class="alert alert-info" role="alert"><i class="la la-exclamation"></i> 请点击 <i class="fa fa-upload"></i> 上传选择图片</div>');
+                }
             }
         });
         this.initPreview();
@@ -123,6 +127,7 @@ Crop.CropAvatar.prototype = {
                 }
                 this.url = URL.createObjectURL(file);
                 this.startCropper();
+                this.$cropperModal.find('.alert').remove();
             }
         }
     },
