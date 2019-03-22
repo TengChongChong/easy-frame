@@ -12,67 +12,61 @@
 <body class="m--skin- m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--fixed m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default">
 <!-- begin:: Page -->
 <div class="m-grid m-grid--hor m-grid--root m-page">
-    <div class="m-grid__item m-grid__item--fluid m-grid m-error-1" style="background-image: url(${ctxPath}/static/app/media/img/error/bg1.jpg);">
-        <div class="m-error_container">
-            @if(isDev){
-            <div class="row justify-content-md-center">
-                <div class="col-10">
-                    <div class="m-portlet m-portlet--tabs m-portlet--danger m-portlet--head-solid-bg m-portlet--bordered">
-                        <div class="m-portlet__head">
-                            <div class="m-portlet__head-caption">
-                                <div class="m-portlet__head-title">
-                                    <h3 class="m-portlet__head-text">
-                                        500
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="m-portlet__body">
-                            <div class="tab-content">
-                                <div class="row">
-                                    <div class="col-2">
-                                        <p class="lead text-right">请求地址: </p>
-                                    </div>
-                                    <div class="col-10">
-                                        <p class="lead">${url}</p>
-                                    </div>
-                                    <div class="col-2">
-                                        <p class="lead text-right">错误原因: </p>
-                                    </div>
-                                    <div class="col-10">
-                                        <p class="lead">${message}</p>
-                                    </div>
-                                    <div class="col-2">
-                                        <p class="lead text-right">错误堆栈: </p>
-                                    </div>
-                                    <div class="col-10">
-                                        <p class="lead">
-                                            @for(trace in stackTrace){
-                                                ${trace} <br/>
-                                            @}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    @if(isDev){
+    <div class="m-portlet m-portlet--tabs m-portlet--danger m-portlet--head-solid-bg m-portlet--bordered">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        500
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <div class="tab-content">
+                <div class="row">
+                    <div class="col-2">
+                        <p class="lead text-right">Url: </p>
+                    </div>
+                    <div class="col-10">
+                        <p class="lead">${path}</p>
+                    </div>
+                    <div class="col-2">
+                        <p class="lead text-right">Message: </p>
+                    </div>
+                    <div class="col-10">
+                        <p class="lead">${message}</p>
+                    </div>
+                    <div class="col-2">
+                        <p class="lead text-right">Trace: </p>
+                    </div>
+                    <div class="col-10">
+                        <p class="lead" id="trace">
+                            ${strutil.replace(trace, '\n\t', '<br>')}
+                        </p>
                     </div>
                 </div>
             </div>
-
-            @}else{
-                <span class="m-error_number">
-                    <h1>500</h1>
-                </span>
-                <p class="m-error_desc">
-                    服务器开小差了，请等等再试吧！
-                </p>
-            @}
         </div>
     </div>
+    @}else{
+    <div class="m-grid__item m-grid__item--fluid m-grid m-error-1"
+         style="background-image: url(${ctxPath}/static/app/media/img/error/bg1.jpg);">
+        <div class="m-error_container">
+            <span class="m-error_number">
+                <h1>500</h1>
+            </span>
+            <p class="m-error_desc">
+                服务器开小差了，请等等再试吧！
+            </p>
+        </div>
+    </div>
+    @}
 </div>
 <!-- end:: Page -->
 @include("../common/base-scripts.html"){}
+<script src="${ctxPath}/static/modular/global/500.js?v=${version()}"></script>
 </body>
-
 <!-- end::Body -->
 </html>
