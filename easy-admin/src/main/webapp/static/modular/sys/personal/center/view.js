@@ -38,7 +38,14 @@ var mPersonalCenter = function () {
             },
             success: function (res) {
                 mTool.successTip(mTool.commonTips.success, '头像更改成功，刷新页面后生效');
-                $('.user-avatar > img').attr('src', res.data);
+                var $userAvatar = $('.user-avatar');
+                var $userAvatarImg = $userAvatar.find('img');
+                if ($userAvatarImg.length > 0) {
+                    $userAvatarImg.attr('src', res.data);
+                } else {
+                    $userAvatar.find('.m-type').remove();
+                    $userAvatar.append('<img src="' + res.data + '" alt=""/>');
+                }
                 refreshLocalCache();
             }
         });
