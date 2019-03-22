@@ -1,7 +1,8 @@
 package com.frame.easy.config.web;
 
+import cn.hutool.core.util.StrUtil;
+import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.status.ProfilesActiveStatus;
-import com.frame.easy.config.properties.ProjectProperties;
 import com.frame.easy.result.Tips;
 import com.frame.easy.exception.EasyException;
 import com.frame.easy.core.web.Servlets;
@@ -9,7 +10,6 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,9 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 public class ExceptionControllerAdvice {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    @Autowired
-    private ProjectProperties projectProperties;
 
     /**
      * 通用异常
@@ -63,19 +60,17 @@ public class ExceptionControllerAdvice {
             tips.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
             tips.setMessage(e.getMessage());
         }
-//        tips.setData(e.getMessage());
         if (Servlets.isAjaxRequest(request)) {
             return tips;
         } else {
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.addObject("code", tips.getCode());
             modelAndView.addObject("message", e.getMessage());
-            modelAndView.addObject("url", request.getRequestURL());
-            modelAndView.addObject("stackTrace", e.getStackTrace());
+            modelAndView.addObject("path", request.getRequestURL());
+            modelAndView.addObject("trace", StrUtil.join("\n\t", e.getStackTrace()));
             // 当前模式是否为开发模式
-            modelAndView.addObject("isDev", projectProperties.getProfilesActive().equals(ProfilesActiveStatus.dev.getProfilesActive()));
-//            modelAndView.addObject("projectPackage", projectProperties.getProjectPackage());
-            modelAndView.setViewName("global/500");
+            modelAndView.addObject("isDev", CommonConst.projectProperties.getProfilesActive().equals(ProfilesActiveStatus.dev.getProfilesActive()));
+            modelAndView.setViewName("global/" + tips.getCode());
             return modelAndView;
         }
     }
