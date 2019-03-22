@@ -41,7 +41,7 @@ public class RedisUtil {
      *
      * @param key    键
      * @param val    值
-     * @param expire 过期时间 单位: 秒 (-1 永不过期)
+     * @param expire 过期时间 单位: 秒
      */
     public static void set(String key, Object val, long expire) {
         redisTemplate.opsForValue().set(key, val, expire, TimeUnit.SECONDS);
