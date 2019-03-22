@@ -1,10 +1,11 @@
-package com.frame.easy.base.controller;
+package com.frame.easy.config.web;
 
+import com.frame.easy.common.constant.CommonConst;
+import com.frame.easy.common.status.ProfilesActiveStatus;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
@@ -47,15 +48,12 @@ public class EasyErrorController extends BasicErrorController {
     public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse response) {
         HttpStatus status = getStatus(request);
         response.setStatus(status.value());
-
-        Map<String, Object> model = getErrorAttributes(request, isIncludeStackTrace(request, MediaType.TEXT_HTML));
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("code", status.value());
-        modelAndView.addObject("error", model.get("error"));
-        modelAndView.addObject("path", model.get("path"));
-        modelAndView.addObject("message", model.get("message"));
-        modelAndView.setViewName("global/error");
-        //指定自定义的视图
+        Map<String, Object> model = getErrorAttributes(request, true);
+        ModelAndView modelAndView = new ModelAndView("global/" + status.value());
+        modelAndView.addAllObjects(model);
+        // 当前模式是否为开发模式
+        modelAndView.addObject("isDev", CommonConst.projectProperties.getProfilesActive().equals(ProfilesActiveStatus.dev.getProfilesActive()));
+        // 记录异常
         return modelAndView;
     }
 }
