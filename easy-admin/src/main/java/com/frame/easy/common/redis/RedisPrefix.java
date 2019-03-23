@@ -7,10 +7,16 @@ package com.frame.easy.common.redis;
  * @date 2019-01-23
  */
 public class RedisPrefix {
+
     /**
      * 用户登录尝试次数以及锁定账号
      */
     public static final String ACCOUNT = "account:";
+
+    /**
+     * 当前会话尝试登录次数
+     */
+    public static final String SESSION = "account:session:";
 
     /**
      * shiro session

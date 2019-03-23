@@ -1,5 +1,6 @@
 package com.frame.easy.core.shiro.filter;
 
+import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.constant.SessionConst;
 import com.frame.easy.common.redis.RedisPrefix;
 import com.frame.easy.util.RedisUtil;
@@ -50,32 +51,31 @@ public class KickOutSessionFilter extends AccessControlFilter {
     @Override
     protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
         Subject subject = getSubject(servletRequest, servletResponse);
-        //未登录
-        if (!subject.isAuthenticated() && !subject.isRemembered()) {
-            // 重定向到登录
-            redirectToLogin(servletRequest, servletResponse);
-            return false;
-        }
-        Session session = (Session) RedisUtil.get(RedisPrefix.SHIRO_SESSION + subject.getSession().getId());
-        // 判断是否被踢出
-        if (session.getAttribute(SessionConst.FORCE_LOGOUT) != null && (boolean) session.getAttribute(SessionConst.FORCE_LOGOUT)) {
-            RedisUtil.del(RedisPrefix.SHIRO_SESSION + session.getId());
-            String loginUrl = getLoginUrl() + (getLoginUrl().contains("?") ? "&" : "?") + SessionConst.FORCE_LOGOUT + "=1";
-            // 重定向到登录
-            WebUtils.issueRedirect(servletRequest, servletResponse, loginUrl);
-            return false;
-        }
-        // 判断是否在他处登录
+        if(subject.isAuthenticated() || (CommonConst.projectProperties.getLoginRemember() && subject.isRemembered())){
+            // 已认证或系统开启记住密我并且通过记住我登录
+            // 记住密码或已登录,检查账户是否被挤掉或者踢出
+            Session session = (Session) RedisUtil.get(RedisPrefix.SHIRO_SESSION + subject.getSession().getId());
+            // 判断是否被踢出
+            if (session.getAttribute(SessionConst.FORCE_LOGOUT) != null && (boolean) session.getAttribute(SessionConst.FORCE_LOGOUT)) {
+                RedisUtil.del(RedisPrefix.SHIRO_SESSION + session.getId());
+                String loginUrl = getLoginUrl() + (getLoginUrl().contains("?") ? "&" : "?") + SessionConst.FORCE_LOGOUT + "=1";
+                // 重定向到登录
+                WebUtils.issueRedirect(servletRequest, servletResponse, loginUrl);
+                return false;
+            }
 
-        if (session.getAttribute(SessionConst.LOGIN_ELSEWHERE) != null && (boolean) session.getAttribute(SessionConst.LOGIN_ELSEWHERE)) {
-            RedisUtil.del(RedisPrefix.SHIRO_SESSION + session.getId());
-            String loginUrl = getLoginUrl() + (getLoginUrl().contains("?") ? "&" : "?") + SessionConst.LOGIN_ELSEWHERE + "=1";
-            // 重定向到登录
-            WebUtils.issueRedirect(servletRequest, servletResponse, loginUrl);
-            return false;
+            // 判断是否在他处登录
+            if (session.getAttribute(SessionConst.LOGIN_ELSEWHERE) != null && (boolean) session.getAttribute(SessionConst.LOGIN_ELSEWHERE)) {
+                RedisUtil.del(RedisPrefix.SHIRO_SESSION + session.getId());
+                String loginUrl = getLoginUrl() + (getLoginUrl().contains("?") ? "&" : "?") + SessionConst.LOGIN_ELSEWHERE + "=1";
+                // 重定向到登录
+                WebUtils.issueRedirect(servletRequest, servletResponse, loginUrl);
+                return false;
+            }
+            return true;
         }
-
-        return true;
+        // 重定向到登录
+        WebUtils.issueRedirect(servletRequest, servletResponse, getLoginUrl());
+        return false;
     }
-
 }

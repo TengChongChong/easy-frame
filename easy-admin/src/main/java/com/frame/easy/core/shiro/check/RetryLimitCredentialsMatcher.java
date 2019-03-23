@@ -51,6 +51,7 @@ public class RetryLimitCredentialsMatcher extends CredentialsMatcher {
 
         // 清空登录计数
         RedisUtil.del(loginCountKey);
+        RedisUtil.del(RedisPrefix.SESSION + "login_count_" + ShiroUtil.getSession().getId().toString());
         // 更新最后登录时间
         shiroService.updateUserLastLoginDate(sysUser.getId());
         // 检查是否允许用户在多处登录
