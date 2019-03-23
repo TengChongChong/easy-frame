@@ -19,7 +19,7 @@ var mDepartTypeView = function () {
                 data: {
                     url: function (node) {
                         var url = mTool.getBaseUrl() + 'select/data';
-                        if ('#' != node.id) {
+                        if ('#' !== node.id) {
                             url += '?pId=' + node.id;
                         }
                         return url;
@@ -50,7 +50,7 @@ var mDepartTypeView = function () {
                             icon: 'la la-trash',
                             _disabled: function (data) {
                                 var node = mTool.getClickNode(data);
-                                return node.id == '1';
+                                return node.id === '0';
                             },
                             action: function (data) {
                                 batchDelete(mTool.getOperationNodes(data).join(','));
@@ -63,7 +63,7 @@ var mDepartTypeView = function () {
                             icon: 'la la-edit',
                             _disabled: function (data) {
                                 var node = mTool.getClickNode(data);
-                                return node.id == '1';
+                                return node.id === '0';
                             },
                             action: function (data) {
                                 activateNode(mTool.getClickNode(data));
@@ -83,7 +83,7 @@ var mDepartTypeView = function () {
                             icon: 'la la-ban',
                             _disabled: function (data) {
                                 var node = mTool.getClickNode(data);
-                                return node.id == '1';
+                                return node.id === '0';
                             },
                             action: function (data) {
                                 setStatus(mTool.getOperationNodes(data).join(','), 2);

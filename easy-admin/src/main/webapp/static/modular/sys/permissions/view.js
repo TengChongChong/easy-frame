@@ -12,7 +12,7 @@ var mPermissionsView = function () {
                 data: {
                     url: function (node) {
                         var url = mTool.getBaseUrl() + 'select/data';
-                        if ('#' != node.id) {
+                        if ('#' !== node.id) {
                             url += '?pId=' + node.id;
                         }
                         return url;
@@ -46,7 +46,7 @@ var mPermissionsView = function () {
                             icon: 'la la-edit',
                             _disabled: function (data) {
                                 var node = mTool.getClickNode(data);
-                                return node.id == '1';
+                                return node.id === '0';
                             },
                             action: function (data) {
                                 activateNode(mTool.getClickNode(data));
@@ -59,7 +59,7 @@ var mPermissionsView = function () {
                             icon: 'la la-trash',
                             _disabled: function (data) {
                                 var node = mTool.getClickNode(data);
-                                return node.id == '1';
+                                return node.id === '0';
                             },
                             action: function (data) {
                                 batchDelete(mTool.getOperationNodes(data).join(','));
@@ -72,7 +72,7 @@ var mPermissionsView = function () {
                             icon: 'la la-copy',
                             _disabled: function (data) {
                                 var node = mTool.getClickNode(data);
-                                return node.id == '1';
+                                return node.id === '0';
                             },
                             action: function (data) {
                                 copyNode($.jstree.reference(data.reference), mTool.getOperationNodes(data));
@@ -95,7 +95,7 @@ var mPermissionsView = function () {
                             icon: 'la la-check',
                             _disabled: function (data) {
                                 var node = mTool.getClickNode(data);
-                                return node.id == '1';
+                                return node.id === '0';
                             },
                             action: function (data) {
                                 setStatus(mTool.getOperationNodes(data).join(','), 1);
@@ -106,7 +106,7 @@ var mPermissionsView = function () {
                             icon: 'la la-ban',
                             _disabled: function (data) {
                                 var node = mTool.getClickNode(data);
-                                return node.id == '1';
+                                return node.id === '0';
                             },
                             action: function (data) {
                                 setStatus(mTool.getOperationNodes(data).join(','), 2);
@@ -335,7 +335,7 @@ var mPermissionsView = function () {
     /**
      * 添加下级权限
      *
-     * @param pId {string} 上级id
+     * @param pId {string|null} 上级id
      */
     var addPermission = function (pId) {
         if (mUtil.isBlank(pId)) {
@@ -383,7 +383,7 @@ var mPermissionsView = function () {
          * 添加下级权限
          */
         addPermission: function () {
-            addPermission();
+            addPermission(null);
         },
         /**
          * 保存数据
