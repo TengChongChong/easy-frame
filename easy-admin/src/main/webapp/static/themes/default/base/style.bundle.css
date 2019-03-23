@@ -19158,7 +19158,7 @@ button:active, button:focus {
         .m-card-profile .m-card-profile__pic .m-card-profile__pic-wrapper .change-avatar i.fa {
           color: #fff;
           font-size: 30px;
-          line-height: 150px; }
+          line-height: 130px; }
       .m-card-profile .m-card-profile__pic .m-card-profile__pic-wrapper:hover .change-avatar {
         display: block;
         cursor: pointer; }
@@ -29407,12 +29407,17 @@ input:-webkit-autofill {
       .m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__form {
         margin: 4rem auto; }
         .m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__form .m-form__group {
-          margin: 0;
           padding: 0;
-          margin: 0 auto; }
+          margin: 0 auto 1.3rem auto; }
+          .m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__form .m-form__group .verification-code .input-group-text {
+            padding: 0;
+            border-color: #f7f7f9; }
+            .m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__form .m-form__group .verification-code .input-group-text img {
+              margin-top: -1px;
+              border-top-right-radius: 0.25rem;
+              border-bottom-right-radius: 0.25rem; }
           .m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__form .m-form__group .form-control {
             border: none;
-            margin-top: 1.3rem;
             background-color: #F7F7F9; }
             .m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__form .m-form__group .form-control:hover {
               background-color: #F4F5F8; }
@@ -29420,8 +29425,6 @@ input:-webkit-autofill {
               background-color: #F4F5F8; }
             .m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__form .m-form__group .form-control.m-login__form-input--last {
               border: 0; }
-          .m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__form .m-form__group .login-tool {
-            margin-top: 1.3rem; }
       .m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__action {
         display: -webkit-box;
         display: -ms-flexbox;
