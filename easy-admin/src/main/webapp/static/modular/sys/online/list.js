@@ -56,7 +56,7 @@ var mOnlineList = function () {
                     template: function (row, index, datatable) {
                         var _btn = '';
                         if (mTool.hasPermissions('sys:online:force')) {
-                            _btn += '<a href="#" onclick="" class="' + mTool.ACTIONS_DANGER + '" title="下线">\
+                            _btn += '<a href="#" onclick="mOnlineList.forceLogin(\'' + row.sessionId + '\')" class="' + mTool.ACTIONS_DANGER + '" title="下线">\
                                 <i class="la la-sign-out"></i>\
                             </a>';
                         }
@@ -73,11 +73,32 @@ var mOnlineList = function () {
             }
         });
     };
+    /**
+     * 踢出指定会话
+     *
+     * @param sessionId {string} 会话id
+     */
+    var forceLogin = function (sessionId) {
+        mUtil.ajax({
+            url: mTool.getBaseUrl() + 'force/logout/' + sessionId,
+            success: function (res) {
+                mTool.successTip(mTool.commonTips.success, '会话已踢出');
+            }
+        });
+    };
     return {
         //== 初始化页面
         init: function () {
             mTool.setBaseUrl(basePath + '/auth/sys/online/');
             initTable();
+        },
+        /**
+         * 踢出指定会话
+         *
+         * @param sessionId {string} 会话id
+         */
+        forceLogin: function (sessionId) {
+            forceLogin(sessionId);
         }
     };
 }();
