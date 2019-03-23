@@ -1,5 +1,10 @@
 //== 登录 Class
 var Login = function () {
+    /**
+     * 登录尝试次数
+     * @type {number}
+     */
+    var loginAttempts = 0;
     //== 私有函数
     /**
      * 显示提示信息
@@ -34,6 +39,10 @@ var Login = function () {
             showMsg($form, 'danger', '请输入密码');
             return false;
         }
+        if (loginAttempts >= loginAttemptsVerificationCode && mUtil.isBlank(data.code)) {
+            showMsg($form, 'danger', '请输入验证码');
+            return false;
+        }
         return true;
     };
     /**
@@ -44,6 +53,7 @@ var Login = function () {
         var data = {
             username: $form.find('[name="username"]').val(),
             password: $form.find('[name="password"]').val(),
+            code: $form.find('[name="code"]').val(),
             rememberMe: $form.find('[name="rememberMe"]').prop('checked')
         };
         if (validate($form, data)) {
@@ -60,22 +70,42 @@ var Login = function () {
                     showMsg($form, 'danger', '网络异常，请稍后重试');
                 },
                 fail: function (res) {
+                    loginAttempts++;
                     mUtil.offButtonWait($btnLogin);
+                    if(loginAttempts >= loginAttemptsVerificationCode || '请输入验证码' === res.message){
+                        // 登录失败次数达到设定值,需要输入验证码才能登录
+                        $('.verification-group').removeClass('m--hide');
+                        changeVerificationCode();
+                    }
                     showMsg($form, 'danger', res.message);
                 },
                 success: function (res) {
                     showMsg($form, 'success', '登录成功');
-                    window.location.href = basePath;
+                    if (mUtil.isNotBlank(basePath)) {
+                        window.location.href = basePath;
+                    } else {
+                        window.location.href = '/';
+                    }
                 }
             });
         }
+    };
+    /**
+     * 更换验证码
+     */
+    var changeVerificationCode = function () {
+        $('.verification-code img').attr('src', basePath + '/get/verification/code?' + new Date().getTime());
     };
 
     //== 公开函数
     return {
         init: function () {
+            loginAttemptsVerificationCode = Number(loginAttemptsVerificationCode);
             $('#btn-login').click(function () {
                 login();
+            });
+            $('.verification-code img').click(function () {
+                changeVerificationCode();
             });
         }
     };

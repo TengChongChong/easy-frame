@@ -67,6 +67,12 @@
 
                     <!--begin::Form-->
                     <form class="m-login__form m-form" action="">
+                        @if(message! != null){
+                        <div class="m-alert alert alert-danger alert-dismissible animated fadeIn" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+                            <span>${message!}</span>
+                        </div>
+                        @}
                         <div class="form-group m-form__group">
                             <input class="form-control m-input" type="text" placeholder="用户名" name="username"
                                    autocomplete="off">
@@ -74,6 +80,16 @@
                         <div class="form-group m-form__group">
                             <input class="form-control m-input m-login__form-input--last" type="password"
                                    placeholder="密码" name="password">
+                        </div>
+                        <div class="form-group m-form__group m--hide verification-group">
+                            <div class="input-group verification-code">
+                                <input type="text" class="form-control m-input" placeholder="验证码" name="code">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        <img src="" alt="验证码"/>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group m-form__group">
                             <div class="login-tool">
@@ -118,6 +134,12 @@
 @include("/common/base-scripts.html"){}
 <!--begin::页面脚本 -->
 <script src="${ctxPath}/static/modular/sys/login/login.js?v=${version()}"></script>
+<script>
+    /**
+     * 登录失败累计多少次后需要输入验证码后才可以登录
+     */
+    var loginAttemptsVerificationCode = '${sysConfig(SysConfigConst.LOGIN_ATTEMPTS_VERIFICATION_CODE)}';
+</script>
 <!--end::页面脚本 -->
 </body>
 <!-- end::Body -->

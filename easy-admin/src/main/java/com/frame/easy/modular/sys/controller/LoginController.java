@@ -1,9 +1,12 @@
 package com.frame.easy.modular.sys.controller;
 
+import cn.hutool.captcha.CaptchaUtil;
+import cn.hutool.captcha.CircleCaptcha;
 import com.frame.easy.common.constant.SessionConst;
 import com.frame.easy.base.controller.BaseController;
 import com.frame.easy.result.Tips;
 import com.frame.easy.core.web.Servlets;
+import com.frame.easy.util.ShiroUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
@@ -15,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 
 /**
@@ -52,7 +57,7 @@ public class LoginController extends BaseController {
     }
 
     /**
-     * 登录
+     * 执行登录
      *
      * @param username 用户名
      * @param password 密码
@@ -79,5 +84,14 @@ public class LoginController extends BaseController {
         logger.debug("/logout");
         SecurityUtils.getSubject().logout();
         return REDIRECT + "/login";
+    }
+    @RequestMapping("/get/verification/code")
+    public void getVerificationCode(HttpServletResponse response) throws IOException {
+        // 定义图形验证码的长、宽、验证码字符数、干扰元素个数
+        CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(100, 30, 4, 10);
+        captcha.createCode();
+        // 验证码放到session中
+        ShiroUtil.setAttribute(SessionConst.VERIFICATION_CODE, captcha.getCode());
+        captcha.write(response.getOutputStream());
     }
 }
