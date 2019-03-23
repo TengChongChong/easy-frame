@@ -72,8 +72,6 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setLoginUrl("/login");
         // 登录成功后的页面
         shiroFilterFactoryBean.setSuccessUrl("/");
-        // 无权限页面
-        shiroFilterFactoryBean.setUnauthorizedUrl("/403");
         //注意此处使用的是LinkedHashMap，是有顺序的，shiro会按从上到下的顺序匹配验证，匹配了就不再继续验证
         //所以上面的url要苛刻，宽松的url要放在下面，尤其是"/**"要放到最下面，如果放前面的话其后的验证规则就没作用了。
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
@@ -95,6 +93,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/error/**", "anon");
         filterChainDefinitionMap.put("/api/**", "anon");
+        // 检查用户是否被踢出或者挤掉
         filterChainDefinitionMap.put("/auth/**", "kickOut");
         if (projectProperties.getLoginRemember()) {
             if (projectProperties.getLoginRememberSecurity()) {
@@ -104,12 +103,8 @@ public class ShiroConfig {
                 filterChainDefinitionMap.put("/**/save/**", "authc");
                 filterChainDefinitionMap.put("/**/workflow/**", "authc");
             }
-            filterChainDefinitionMap.put("/auth/**", "user");
-        } else {
-            filterChainDefinitionMap.put("/auth/**", "authc");
         }
-        filterChainDefinitionMap.put("/", "user");
-
+        filterChainDefinitionMap.put("/", "kickOut");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
