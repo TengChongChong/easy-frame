@@ -14,12 +14,15 @@
     <name>easy-admin</name>
     <description>基础功能</description>
 
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
+    <!--<packaging>jar</packaging>-->
+
 
     <dependencies>
         <dependency>
             <groupId>com.frame</groupId>
             <artifactId>easy-core</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.frame</groupId>
@@ -51,6 +54,16 @@
                 </includes>
             </resource>
         </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <warSourceDirectory>null</warSourceDirectory>
+                    <warName>easy-frame</warName>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
