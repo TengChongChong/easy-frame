@@ -17,40 +17,36 @@ public class GlobalController {
 
     /**
      * 未找到
-     * @return
+     *
+     * @return view
      */
     @RequestMapping("/404")
-    public String err404(){
+    public String err404() {
         return PREFIX + "404";
     }
 
     /**
      * 没有权限访问
      *
-     * @return
+     * @return view
      */
     @RequestMapping("/401")
-    public String err401(){
+    public String err401() {
         return PREFIX + "401";
     }
 
     /**
      * 业务异常
      *
-     * @return
+     * @return view
      */
     @RequestMapping("/500")
-    public String err500(){
+    public String err500() {
         return PREFIX + "500";
     }
 
-    @RequestMapping("/no-authority")
-    public String errNoAuthority(){
-        return PREFIX + "no-authority";
-    }
-
     @RequestMapping("/session/time/out")
-    public String errSessionTimeOut(){
+    public String errSessionTimeOut() {
         return PREFIX + "session-time-out";
     }
 
