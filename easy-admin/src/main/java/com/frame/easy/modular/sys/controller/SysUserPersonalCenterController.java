@@ -105,6 +105,17 @@ public class SysUserPersonalCenterController extends BaseController {
     public Tips saveUserInfo(SysUser sysUser){
         return Tips.getSuccessTips(service.saveUserInfo(sysUser));
     }
+    /**
+     * 申请绑定密保邮箱
+     *
+     * @param mail 邮箱地址
+     * @return Tips
+     */
+    @RequestMapping("/application/binding/mail")
+    @ResponseBody
+    public Tips applicationBindingMail(String mail){
+        return Tips.getSuccessTips(service.applicationBindingMail(mail));
+    }
 
     /**
      * 保存用户设置

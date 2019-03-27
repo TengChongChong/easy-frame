@@ -225,4 +225,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         updateWrapper.eq("id", sysUser.getId());
         return update(updateWrapper);
     }
+
+    @Override
+    public boolean setUserMail(Long userId, String mail) {
+        UpdateWrapper<SysUser> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set("email", mail);
+        updateWrapper.eq("id", userId);
+        return update(updateWrapper);
+    }
 }

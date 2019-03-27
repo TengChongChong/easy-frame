@@ -222,7 +222,7 @@ public class ShiroServiceImpl implements ShiroService {
     public SysUser getSysUserByUserName(String username) {
 //        SysUser sysUser = sysUserService.getSysUserByUserName(username); // sysUserService 未注入
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("username", username);
+        queryWrapper.eq("username", username).or().eq("email", username).or().eq("phone", username);
         return userMapper.selectOne(queryWrapper);
     }
 

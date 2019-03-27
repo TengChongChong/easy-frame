@@ -27,6 +27,14 @@ public interface SysUserPersonalCenterService {
     boolean saveUserInfo(SysUser sysUser);
 
     /**
+     * 申请绑定密保邮箱
+     *
+     * @param mail 邮箱地址
+     * @return true/false
+     */
+    boolean applicationBindingMail(String mail);
+
+    /**
      * 保存偏好设置
      *
      * @param setting 偏好设置

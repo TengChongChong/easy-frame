@@ -1,12 +1,18 @@
 package com.frame.easy.modular.sys.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.mail.MailUtil;
+import com.frame.easy.common.constant.CommonConst;
+import com.frame.easy.core.mail.MailTemplate;
 import com.frame.easy.exception.EasyException;
 import com.frame.easy.exception.ExceptionEnum;
+import com.frame.easy.modular.sys.model.SysMailVerifies;
 import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.model.SysUserSetting;
+import com.frame.easy.modular.sys.service.SysMailVerifiesService;
 import com.frame.easy.modular.sys.service.SysUserPersonalCenterService;
 import com.frame.easy.modular.sys.service.SysUserService;
+import com.frame.easy.util.SysConfigUtil;
 import com.frame.easy.util.file.FileUtil;
 import com.frame.easy.util.ShiroUtil;
 import com.frame.easy.util.file.ImageUtil;
@@ -27,6 +33,9 @@ public class SysUserPersonalCenterServiceImpl implements SysUserPersonalCenterSe
     @Autowired
     private SysUserService sysUserService;
 
+    @Autowired
+    private SysMailVerifiesService sysMailVerifiesService;
+
     @Override
     public String saveUserAvatar(String path) {
         if (StrUtil.isNotBlank(path)) {
@@ -44,7 +53,7 @@ public class SysUserPersonalCenterServiceImpl implements SysUserPersonalCenterSe
                 String url = FileUtil.getUrl(path);
                 boolean isSuccess = sysUserService.updateAvatar(url);
                 if (isSuccess) {
-                    if(StrUtil.isNotBlank(oldAvatar)){
+                    if (StrUtil.isNotBlank(oldAvatar)) {
                         // 删除原头像以及缩略图
                         ImageUtil.delThumbnail(new File(FileUtil.getPath(oldAvatar)));
                         FileUtil.del(oldAvatar);
@@ -87,6 +96,31 @@ public class SysUserPersonalCenterServiceImpl implements SysUserPersonalCenterSe
         } else {
             throw new EasyException(ExceptionEnum.FAILED_TO_GET_DATA);
         }
+    }
+
+    @Override
+    public boolean applicationBindingMail(String mail) {
+        if (StrUtil.isNotBlank(mail)) {
+            SysUser currentUser = ShiroUtil.getCurrentUser();
+            SysMailVerifies sysMailVerifies = sysMailVerifiesService.save(currentUser.getId(), mail);
+            if (sysMailVerifies != null) {
+                String url = CommonConst.projectProperties.getProjectUrl() + "/sys/mail/verifies/" + sysMailVerifies.getCode();
+                String content = "<b>尊敬的" + currentUser.getNickname() + "您好：</b>\n" +
+                        "<br><br>\n" +
+                        "感谢您使用\n" +
+                        "<a href=\"" + CommonConst.projectProperties.getProjectUrl() + "\" target=\"_blank\" rel=\"noopener\">\n" +
+                        "    " + SysConfigUtil.getProjectName() + "\n" +
+                        "</a>\n" +
+                        "<br><br>\n" +
+                        "我们已经收到了您的密保邮箱申请，请点击下方链接进行邮箱验证\n" +
+                        "<a href=\"" + url + "\" target=\"_blank\" rel=\"noopener\">\n" + url + "</a>\n";
+                MailUtil.sendHtml(mail, "密保邮箱验证", MailTemplate.applicationBindingMail(content));
+                return true;
+            }
+        } else {
+            throw new EasyException("获取邮箱信息失败");
+        }
+        return false;
     }
 
     @Override

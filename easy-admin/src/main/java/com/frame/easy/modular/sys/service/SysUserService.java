@@ -113,4 +113,13 @@ public interface SysUserService {
      */
     boolean updateAvatar(String url);
 
+    /**
+     * 设置用户邮箱
+     *
+     * @param userId 用户id
+     * @param mail 邮箱
+     * @return true/false
+     */
+    boolean setUserMail(Long userId, String mail);
+
 }
