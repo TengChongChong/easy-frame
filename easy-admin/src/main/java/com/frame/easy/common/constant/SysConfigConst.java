@@ -52,4 +52,11 @@ public class SysConfigConst {
      */
     public static final String OPEN_REGISTRATION = "openRegistration";
 
+    /**
+     * 是否允许多点登录
+     */
+    public static final String LOGIN_MULTIPOINT = "loginMultipoint";
+
+
+
 }

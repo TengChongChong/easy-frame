@@ -2,6 +2,7 @@ package com.frame.easy.modular.sys.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.constant.SessionConst;
 import com.frame.easy.common.constant.SysConfigConst;
 import com.frame.easy.common.redis.RedisPrefix;
@@ -62,9 +63,6 @@ public class ShiroServiceImpl implements ShiroService {
     @Autowired
     private RedisSessionDAO sessionDAO;
 
-    @Autowired
-    private ProjectProperties projectProperties;
-
     /**
      * 获取用户剩余尝试次数
      *
@@ -79,7 +77,7 @@ public class ShiroServiceImpl implements ShiroService {
         }
         // 累加尝试次数
         int loginCount = getTrialFrequency(username, true);
-        return projectProperties.getLoginAttempts() - loginCount;
+        return CommonConst.projectProperties.getLoginAttempts() - loginCount;
     }
 
     /**
@@ -102,9 +100,9 @@ public class ShiroServiceImpl implements ShiroService {
     private boolean lockUser(String username) {
         String loginCountKey = RedisPrefix.ACCOUNT + "login_count_" + username;
         String isLockKey = RedisPrefix.ACCOUNT + "is_lock_" + username;
-        RedisUtil.set(isLockKey, "lock", projectProperties.getLoginLockLength());
-        RedisUtil.setExpire(loginCountKey, projectProperties.getLoginLockLength());
-        throw new EasyException("由于密码输入错误次数过多，帐号[" + username + "]已被锁定" + projectProperties.getLoginLockLength() / 60 + "分钟！");
+        RedisUtil.set(isLockKey, "lock", CommonConst.projectProperties.getLoginLockLength());
+        RedisUtil.setExpire(loginCountKey, CommonConst.projectProperties.getLoginLockLength());
+        throw new EasyException("由于密码输入错误次数过多，帐号[" + username + "]已被锁定" + CommonConst.projectProperties.getLoginLockLength() / 60 + "分钟！");
     }
 
     /**
@@ -160,7 +158,7 @@ public class ShiroServiceImpl implements ShiroService {
     private boolean checkVerificationCode() {
         boolean adoptVerificationCode = true;
         // 如果开启了验证码验证,用户尝试登录次数已超出最大免验证码登录次数
-        if (projectProperties.getLoginVerificationCode() &&
+        if (CommonConst.projectProperties.getLoginVerificationCode() &&
                 getClientTrialFrequency(ShiroUtil.getSession().getId().toString(), true) > (Integer) SysConfigUtil.get(SysConfigConst.LOGIN_ATTEMPTS_VERIFICATION_CODE)) {
             // 检查验证码
             String code = (String) ShiroUtil.getAttribute(SessionConst.VERIFICATION_CODE);
@@ -181,6 +179,17 @@ public class ShiroServiceImpl implements ShiroService {
         return adoptVerificationCode;
     }
 
+    /**
+     * 验证账户
+     * 1.检查是否锁定
+     * 2.用户名&密码是否匹配
+     * 3.账号状态
+     * 4.部门状态
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return
+     */
     @Override
     public SysUser validateUser(String username, String password) {
         // 检查验证码

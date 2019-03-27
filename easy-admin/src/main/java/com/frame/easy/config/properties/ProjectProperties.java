@@ -52,7 +52,10 @@ public class ProjectProperties {
      * 锁定时长,默认10分钟 单位: 秒
      */
     private Integer loginLockLength = 600;
-
+    /**
+     * 是否允许多点登录
+     */
+    private boolean loginMultipoint = false;
     /**
      * 新增用户时的默认密码
      */
@@ -135,6 +138,15 @@ public class ProjectProperties {
             return (int) obj;
         } else {
             return loginLockLength;
+        }
+    }
+
+    public boolean getLoginMultipoint() {
+        Object obj = SysConfigUtil.get(SysConfigConst.LOGIN_MULTIPOINT);
+        if (obj != null) {
+            return (boolean) obj;
+        } else {
+            return loginMultipoint;
         }
     }
 

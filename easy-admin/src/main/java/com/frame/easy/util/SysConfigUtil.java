@@ -57,14 +57,18 @@ public class SysConfigUtil {
      * @return value
      */
     private static Object transferType(SysConfig config) {
-        if (DataTypeConst.STRING.equals(config.getType())) {
-            return config.getValue();
-        } else if (DataTypeConst.INTEGER.equals(config.getType())) {
-            return Integer.parseInt(config.getValue());
-        } else if (DataTypeConst.BOOLEAN.equals(config.getType())) {
-            return CommonConst.TRUE.equals(config.getValue());
-        } else {
-            return config.getValue();
+        if(config != null){
+            if (DataTypeConst.STRING.equals(config.getType())) {
+                return config.getValue();
+            } else if (DataTypeConst.INTEGER.equals(config.getType())) {
+                return Integer.parseInt(config.getValue());
+            } else if (DataTypeConst.BOOLEAN.equals(config.getType())) {
+                return CommonConst.TRUE.equals(config.getValue());
+            } else {
+                return config.getValue();
+            }
+        }else{
+            return null;
         }
     }
 
