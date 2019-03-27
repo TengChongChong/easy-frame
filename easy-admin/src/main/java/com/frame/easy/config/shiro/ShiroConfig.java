@@ -88,13 +88,14 @@ public class ShiroConfig {
          * logout 退出
          * user   表示用户不一定已通过认证,只要曾被Shiro记住过登录状态的用户就可以正常发起请求,比如rememberMe
          */
-        filterChainDefinitionMap.put("/login", "anon");
-        filterChainDefinitionMap.put("/favicon.ico", "anon");
-        filterChainDefinitionMap.put("/static/**", "anon");
-        filterChainDefinitionMap.put("/error/**", "anon");
-        filterChainDefinitionMap.put("/api/**", "anon");
+//        filterChainDefinitionMap.put("/login", "anon");
+//        filterChainDefinitionMap.put("/favicon.ico", "anon");
+//        filterChainDefinitionMap.put("/static/**", "anon");
+//        filterChainDefinitionMap.put("/error/**", "anon");
+//        filterChainDefinitionMap.put("/api/**", "anon");
         // 检查用户是否被踢出或者挤掉
         filterChainDefinitionMap.put("/auth/**", "kickOut");
+        filterChainDefinitionMap.put("/", "kickOut");
         if (projectProperties.getLoginRemember()) {
             if (projectProperties.getLoginRememberSecurity()) {
                 // 即使通过记住密码登录,在 支付/删除/保存/审核 重要操作时也要登录
@@ -104,7 +105,8 @@ public class ShiroConfig {
                 filterChainDefinitionMap.put("/**/workflow/**", "authc");
             }
         }
-        filterChainDefinitionMap.put("/", "kickOut");
+        filterChainDefinitionMap.put("/**", "anon");
+
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
