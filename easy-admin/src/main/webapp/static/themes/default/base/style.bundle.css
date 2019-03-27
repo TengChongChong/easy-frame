@@ -28326,6 +28326,37 @@ select.m-select2 {
 .m-form.m-form--state .has-danger .note-editor.note-frame {
   border: 1px solid #f4516c; }
 
+.cropper-tool label.btn {
+  margin-bottom: 0; }
+
+.cropper-wrapper {
+  margin-bottom: 1rem;
+  height: 360px; }
+  .cropper-wrapper .cropper-preview {
+    width: 100%; }
+  .cropper-wrapper > img {
+    max-width: 100%;
+    max-height: 100%; }
+
+.docs-preview {
+  margin-right: -1rem; }
+  .docs-preview .cropper-preview {
+    max-width: 100%;
+    margin-bottom: .5rem;
+    margin-right: .5rem;
+    overflow: hidden; }
+  .docs-preview .cropper-preview > img {
+    max-width: 100%; }
+  .docs-preview .preview-lg {
+    height: 9rem;
+    width: 16rem; }
+  .docs-preview .preview-md {
+    height: 4.5rem;
+    width: 8rem; }
+  .docs-preview .preview-sm {
+    height: 2.25rem;
+    width: 4rem; }
+
 .dataTables_wrapper {
   padding: 0 !important; }
   .dataTables_wrapper .dataTable {
@@ -29413,6 +29444,7 @@ input:-webkit-autofill {
             padding: 0;
             border-color: #f7f7f9; }
             .m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__form .m-form__group .verification-code .input-group-text img {
+              cursor: pointer;
               margin-top: -1px;
               border-top-right-radius: 0.25rem;
               border-bottom-right-radius: 0.25rem; }
