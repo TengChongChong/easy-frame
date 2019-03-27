@@ -18,20 +18,22 @@ import java.io.File;
  */
 @Configuration
 public class ProjectProperties {
+    @Value("${project.url}")
+    private String projectUrl;
     /**
      * 是否开启记住我功能
      */
-    @Value("${project.login.remember}")
+    @Value("${project.login.remember.enabled}")
     private Boolean loginRemember = true;
     /**
      * 记住我过期时间 默认30天 单位: 秒
      */
-    @Value("${project.login.remember-invalidate-time}")
+    @Value("${project.login.remember.invalidate-time}")
     private Integer loginRememberInvalidateTime = 259200;
     /**
      * 开启记住我功能,敏感操作仍要客户登录 比如 支付/删除/审核
      */
-    @Value("${project.login.remember-security}")
+    @Value("${project.login.remember.security}")
     private Boolean loginRememberSecurity = true;
     /**
      * 设置session失效的扫描时间, 清理用户直接关闭浏览器造成的孤立会话 默认为 30分钟
@@ -198,5 +200,13 @@ public class ProjectProperties {
 
     public void setSessionValidationInterval(Integer sessionValidationInterval) {
         this.sessionValidationInterval = sessionValidationInterval;
+    }
+
+    public String getProjectUrl() {
+        return projectUrl;
+    }
+
+    public void setProjectUrl(String projectUrl) {
+        this.projectUrl = projectUrl;
     }
 }
