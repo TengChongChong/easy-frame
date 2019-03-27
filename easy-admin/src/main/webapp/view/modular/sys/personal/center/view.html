@@ -2,63 +2,31 @@
 @include("/common/plugins/css/cropper.html"){}
 @include("/common/plugins/js/cropper.html"){}
 <style>
-    .modal-lg {
-        /*max-width: 80%;*/
+    .security-setting {
+        list-style: none;
+        padding-left: 0;
     }
 
-    label.btn {
+    .security-setting li {
+        padding: 15px 0;
+    }
+
+    .security-setting .describe {
+        padding: 15px 0;
+    }
+
+    .security-setting .describe p {
         margin-bottom: 0;
     }
 
-    .cropper-wrapper,
-    .cropper-preview {
-        width: 100%;
+    .security-setting .icon {
+        width: 120px;
     }
 
-    .cropper-wrapper {
-        margin-bottom: 1rem;
-        height: 360px;
+    .security-setting .icon .m-type > span > i {
+        font-size: 2.5rem;
     }
 
-    .cropper-wrapper > img {
-        max-width: 100%;
-        max-height: 100%;
-    }
-
-    .docs-preview {
-        margin-right: -1rem;
-    }
-
-    .cropper-preview {
-        max-width: 100%;
-        margin-bottom: .5rem;
-        margin-right: .5rem;
-        overflow: hidden;
-    }
-
-    .cropper-preview > img {
-        max-width: 100%;
-    }
-
-    .preview-lg {
-        height: 9rem;
-        width: 16rem;
-    }
-
-    .preview-md {
-        height: 4.5rem;
-        width: 8rem;
-    }
-
-    .preview-sm {
-        height: 2.25rem;
-        width: 4rem;
-    }
-
-    .docs-cropped .modal-body > img,
-    .docs-cropped .modal-body > canvas {
-        max-width: 100%;
-    }
 
 </style>
 <div class="row">
@@ -158,7 +126,8 @@
                     <div class="col-md-9 cropper-tool">
                         <div class="btn-group">
                             <label class="btn btn-primary btn-upload" for="inputImage" title="Upload image file">
-                                <input type="file" class="sr-only cropper-input" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
+                                <input type="file" class="sr-only cropper-input" id="inputImage" name="file"
+                                       accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
                                 <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="上传图片">
                                     <i class="fa fa-upload"></i>
                                 </span>
@@ -263,6 +232,76 @@
     </div>
 </div>
 <!--end::图片截取-->
+
+<!--begin::密保邮箱-->
+<div class="modal fade" id="change-mail" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form class="m-form">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">更改邮箱</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group m-form__group row">
+                        <label for="mail" class="col-2 col-form-label">密保邮箱：</label>
+                        <div class="col-10">
+                            <input type="email" id="mail" class="form-control" placeholder="请输入邮箱" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary mail-save">确认</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--end::密保邮箱-->
+
+<!--begin::密保手机-->
+<div class="modal fade" id="change-phone" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">更改手机</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="m-form">
+                    <div class="form-group m-form__group row">
+                        <label for="phone" class="col-sm-2 col-3 col-form-label">密保手机：</label>
+                        <div class="col-sm-10 col-9">
+                            <div class="input-group">
+                                <input type="number" id="phone" class="form-control" placeholder="请输入手机号">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button">获取验证码</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <label for="phone" class="col-2 col-form-label">验证码：</label>
+                        <div class="col-10">
+                            <input type="number" id="code" class="form-control" placeholder="请输入短信验证码">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary cropper-save">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::密保手机-->
+
 
 <!--begin::页面脚本 -->
 <script src="${ctxPath}/static/modular/sys/personal/center/view.js?v=${version()}" type="text/javascript"></script>
