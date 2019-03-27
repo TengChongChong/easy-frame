@@ -26,6 +26,54 @@ var mPersonalCenter = function () {
         });
     };
     /**
+     * 更改密保邮箱
+     */
+    var changeMail = function () {
+        $('#change-mail').modal();
+    };
+    /**
+     * 保存邮箱
+     *
+     * @param element
+     */
+    var saveMail = function (element) {
+        var $form = $(element).parents('.m-form');
+        if($form.valid()) {
+            mUtil.ajax({
+                url: mTool.getBaseUrl() + 'application/binding/mail',
+                data: {
+                    mail: $form.find('#mail').val()
+                },
+                success: function (res) {
+                    mTool.successTip(mTool.commonTips.success, '邮件已发送，请于24小时内前往邮箱验证');
+                }
+            });
+            $('#change-mail').modal('hide');
+        }
+    };
+    /**
+     * 更改密保手机
+     */
+    var changePhone = function () {
+        $('#change-phone').modal();
+    };
+    /**
+     * 绑定个人设置页面事件
+     */
+    var bindPersonalSettings = function () {
+        var $body = $('body');
+        $body.on('click', '.change-mail', function () {
+            changeMail();
+        });
+        $body.on('click', '.mail-save', function () {
+            saveMail(this);
+        });
+
+        $body.on('click', '.change-phone', function () {
+            changePhone();
+        });
+    };
+    /**
      * 保存用户头像
      *
      * @param data
@@ -87,6 +135,7 @@ var mPersonalCenter = function () {
             mTool.setBaseUrl(basePath + '/auth/sys/personal/center/');
             // 绑定事件
             bind();
+            bindPersonalSettings();
             // 打开默认页面
             $('.m-nav__link.active').click();
             new Crop.CropAvatar($('.user-avatar'), function (data) {
