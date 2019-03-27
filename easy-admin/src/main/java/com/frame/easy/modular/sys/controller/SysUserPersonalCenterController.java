@@ -4,7 +4,6 @@ import com.frame.easy.base.controller.BaseController;
 import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.model.SysUserSetting;
 import com.frame.easy.modular.sys.service.SysUserPersonalCenterService;
-import com.frame.easy.modular.sys.service.SysUserSecuritySettingService;
 import com.frame.easy.result.Tips;
 import com.frame.easy.util.ShiroUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +25,6 @@ public class SysUserPersonalCenterController extends BaseController {
      */
     @Autowired
     private SysUserPersonalCenterService service;
-
-    @Autowired
-    private SysUserSecuritySettingService securitySettingService;
 
     /**
      * view 路径
