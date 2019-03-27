@@ -1,10 +1,17 @@
 project:
+    # 项目访问url,如不使用邮件功能可不配置
+    url: http://47.99.218.99/easy-frame
     login:
-        remember: true # 是否开启记住我功能,安全性要求比较高的系统请改为false
-        remember-invalidate-time: 2592000 # 记住我过期时间 默认30天 单位: 秒
-        remember-security: true # 开启记住我功能,敏感操作仍要客户登录 比如 支付/删除/审核
-    file-upload-path: /home/data/easy-frame # 文件上传路径&静态文件存放路径
-    session-validation-interval: 1800 # 设置session失效的扫描时间, 清理用户直接关闭浏览器造成的孤立会话 默认为 30分钟
+        # 是否开启记住我功能,安全性要求比较高的系统请改为false
+        remember: true
+        # 记住我过期时间 默认30天 单位: 秒
+        remember-invalidate-time: 2592000
+        # 开启记住我功能,敏感操作仍要客户登录 比如 支付/删除/审核
+        remember-security: true
+        # 文件上传路径&静态文件存放路径
+    file-upload-path: /home/data/easy-frame
+    # 设置session失效的扫描时间, 清理用户直接关闭浏览器造成的孤立会话 默认为 30分钟
+    session-validation-interval: 1800
 server:
     port: 80
 spring:
@@ -17,4 +24,5 @@ spring:
             password: tengchong
 # beetl
 beetl:
-    resource-auto-check: false #是否检测文件变化
+    #是否检测文件变化
+    resource-auto-check: false

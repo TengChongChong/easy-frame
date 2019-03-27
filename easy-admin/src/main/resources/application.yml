@@ -1,18 +1,16 @@
 project:
     cache-type: redis
-    debug:
-        package: com.frame.easy # 项目包路径,页面打印错误堆栈高亮显示项目内class
-    default:
-        password: 123
 spring:
     profiles:
-        active: dev # dev - 开发模式 / prod - 生产模式
+        # dev - 开发模式 / prod - 生产模式
+        active: dev
     resources:
         # 静态资源映射
         static-locations: ["file:${project.file-upload-path}/", "classpath:/static/"]
     mvc:
         static-path-pattern: /static/**
     redis:
+        # Redis数据库索引（默认为0）
         database: 2
         # Redis服务器地址
         host: 127.0.0.1
@@ -72,7 +70,6 @@ spring:
             web-stat-filter:
                 # 排除一些静态资源，以提高效率
                 exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
-        # Redis数据库索引（默认为0）
 # actuator 监控
 management:
     endpoints:
