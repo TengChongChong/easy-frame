@@ -11,5 +11,12 @@ import org.apache.ibatis.annotations.Param;
  * @date 2019-03-24
  */
 public interface SysMailVerifiesMapper extends BaseMapper<SysMailVerifies> {
-    public String getMailByUserId(@Param("userId") Long userId);
+    /**
+     * 根据用户id获取待验证邮箱地址
+     *
+     * @param userId 用户id
+     * @param type 类型
+     * @return
+     */
+    String getMailByUserId(@Param("userId") Long userId, @Param("type") String type);
 }
