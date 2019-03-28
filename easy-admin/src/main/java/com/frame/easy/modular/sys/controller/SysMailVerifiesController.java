@@ -16,7 +16,7 @@ import com.frame.easy.modular.sys.service.SysMailVerifiesService;
 @Controller
 public class SysMailVerifiesController extends BaseController {
 
-    private final String PREFIX = "modular/mail/verifies/";
+    private final String PREFIX = "modular/sys/mail/verifies/";
 
     /**
      * 邮箱验证 service
