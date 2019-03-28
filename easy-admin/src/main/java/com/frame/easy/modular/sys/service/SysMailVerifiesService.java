@@ -22,9 +22,10 @@ public interface SysMailVerifiesService {
      *
      * @param userId 用户id
      * @param email 邮箱
+     * @param type 类型
      * @return 验证邮件信息
      */
-    SysMailVerifies save(Long userId, String email);
+    SysMailVerifies save(Long userId, String email, String type);
 
     /**
      * 根据用户id查询是否有待验证mail

@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.mail.MailUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.frame.easy.common.constant.CommonConst;
+import com.frame.easy.common.constant.MailConst;
 import com.frame.easy.core.mail.MailTemplate;
 import com.frame.easy.exception.EasyException;
 import com.frame.easy.exception.ExceptionEnum;
@@ -130,7 +131,7 @@ public class SysUserPersonalCenterServiceImpl implements SysUserPersonalCenterSe
     public boolean applicationBindingMail(String mail) {
         if (StrUtil.isNotBlank(mail)) {
             SysUser currentUser = ShiroUtil.getCurrentUser();
-            SysMailVerifies sysMailVerifies = sysMailVerifiesService.save(currentUser.getId(), mail);
+            SysMailVerifies sysMailVerifies = sysMailVerifiesService.save(currentUser.getId(), mail, MailConst.MAIL_BINDING_MAIL);
             if (sysMailVerifies != null) {
                 String url = CommonConst.projectProperties.getProjectUrl() + "/sys/mail/verifies/" + sysMailVerifies.getCode();
                 String content = "<b>尊敬的" + currentUser.getNickname() + "您好：</b>\n" +

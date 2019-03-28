@@ -5,6 +5,7 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.frame.easy.common.constant.MailConst;
 import com.frame.easy.exception.EasyException;
 import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.service.SysUserService;
@@ -65,13 +66,14 @@ public class SysMailVerifiesServiceImpl extends ServiceImpl<SysMailVerifiesMappe
     }
 
     @Override
-    public SysMailVerifies save(Long userId, String email) {
+    public SysMailVerifies save(Long userId, String email, String type) {
         QueryWrapper<SysMailVerifies> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
         remove(queryWrapper);
         SysMailVerifies sysMailVerifies = new SysMailVerifies();
         sysMailVerifies.setUserId(userId);
         sysMailVerifies.setMail(email);
+        sysMailVerifies.setType(type);
         sysMailVerifies.setExpired(DateUtil.offsetDay(new Date(), 1));
         sysMailVerifies.setCode(RandomUtil.randomString(255));
         save(sysMailVerifies);
@@ -80,6 +82,6 @@ public class SysMailVerifiesServiceImpl extends ServiceImpl<SysMailVerifiesMappe
 
     @Override
     public String getMailByUserId(Long userId) {
-        return mapper.getMailByUserId(userId);
+        return mapper.getMailByUserId(userId, MailConst.MAIL_BINDING_MAIL);
     }
 }

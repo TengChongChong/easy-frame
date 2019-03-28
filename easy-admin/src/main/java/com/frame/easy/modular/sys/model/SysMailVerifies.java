@@ -41,6 +41,11 @@ public class SysMailVerifies extends Model<SysMailVerifies> implements Serializa
      */
     private Date expired;
 
+    /**
+     * 类型
+     */
+    private String type;
+
     public Long getId() {
         return id;
     }
@@ -75,5 +80,13 @@ public class SysMailVerifies extends Model<SysMailVerifies> implements Serializa
 
     public void setExpired(Date expired) {
         this.expired = expired;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
