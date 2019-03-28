@@ -1,5 +1,6 @@
 package com.frame.easy.modular.sys.service;
 
+import com.frame.easy.modular.sys.dao.SysUserMapper;
 import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.model.SysUserSetting;
 
@@ -10,6 +11,14 @@ import com.frame.easy.modular.sys.model.SysUserSetting;
  * @date 2019-03-04
  */
 public interface SysUserPersonalCenterService {
+
+    /**
+     * 获取当前登录用户信息
+     *
+     * @return SysUser
+     */
+    SysUser getCurrentUser();
+
     /**
      * 保存头像
      *

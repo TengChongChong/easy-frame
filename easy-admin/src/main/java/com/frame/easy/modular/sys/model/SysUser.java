@@ -136,7 +136,11 @@ public class SysUser extends Model<SysUser> implements Serializable, IModel {
     private String avatarSm;
     @TableField(exist = false)
     private String avatarXs;
-
+    /**
+     * 邮箱是否验证
+     */
+    @TableField(exist = false)
+    private boolean mailIsVerifies = true;
 
     public SysUser(String username) {
         this.username = username;
@@ -385,5 +389,13 @@ public class SysUser extends Model<SysUser> implements Serializable, IModel {
     @Override
     public String toString() {
         return "userId-" + id;
+    }
+
+    public boolean isMailIsVerifies() {
+        return mailIsVerifies;
+    }
+
+    public void setMailIsVerifies(boolean mailIsVerifies) {
+        this.mailIsVerifies = mailIsVerifies;
     }
 }

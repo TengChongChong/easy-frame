@@ -77,4 +77,9 @@ public class SysMailVerifiesServiceImpl extends ServiceImpl<SysMailVerifiesMappe
         save(sysMailVerifies);
         return sysMailVerifies;
     }
+
+    @Override
+    public String getMailByUserId(Long userId) {
+        return mapper.getMailByUserId(userId);
+    }
 }

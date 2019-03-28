@@ -25,4 +25,12 @@ public interface SysMailVerifiesService {
      * @return 验证邮件信息
      */
     SysMailVerifies save(Long userId, String email);
+
+    /**
+     * 根据用户id查询是否有待验证mail
+     *
+     * @param userId 用户id
+     * @return 邮箱
+     */
+    String getMailByUserId(Long userId);
 }

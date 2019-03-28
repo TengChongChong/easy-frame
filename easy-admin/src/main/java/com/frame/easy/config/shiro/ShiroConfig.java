@@ -88,11 +88,6 @@ public class ShiroConfig {
          * logout 退出
          * user   表示用户不一定已通过认证,只要曾被Shiro记住过登录状态的用户就可以正常发起请求,比如rememberMe
          */
-//        filterChainDefinitionMap.put("/login", "anon");
-//        filterChainDefinitionMap.put("/favicon.ico", "anon");
-//        filterChainDefinitionMap.put("/static/**", "anon");
-//        filterChainDefinitionMap.put("/error/**", "anon");
-//        filterChainDefinitionMap.put("/api/**", "anon");
         // 检查用户是否被踢出或者挤掉
         filterChainDefinitionMap.put("/auth/**", "kickOut");
         filterChainDefinitionMap.put("/", "kickOut");

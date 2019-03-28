@@ -2,10 +2,12 @@ package com.frame.easy.modular.sys.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.mail.MailUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.core.mail.MailTemplate;
 import com.frame.easy.exception.EasyException;
 import com.frame.easy.exception.ExceptionEnum;
+import com.frame.easy.modular.sys.dao.SysUserMapper;
 import com.frame.easy.modular.sys.model.SysMailVerifies;
 import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.model.SysUserSetting;
@@ -34,7 +36,33 @@ public class SysUserPersonalCenterServiceImpl implements SysUserPersonalCenterSe
     private SysUserService sysUserService;
 
     @Autowired
+    private SysUserMapper sysUserMapper;
+
+    @Autowired
     private SysMailVerifiesService sysMailVerifiesService;
+
+    @Override
+    public SysUser getCurrentUser() {
+        SysUser sysUser = ShiroUtil.getCurrentUser();
+        if(sysUser != null){
+            // 由于密保邮箱&手机可能会发生变动,这里重新从数据库查询
+            QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+            queryWrapper.select("email", "phone");
+            queryWrapper.eq("id", sysUser.getId());
+            SysUser queryResult = sysUserMapper.selectOne(queryWrapper);
+            if(queryResult != null){
+                sysUser.setPhone(queryResult.getPhone());
+                sysUser.setEmail(queryResult.getEmail());
+            }
+            // 如果数据库中email也为空,查询是否有待验证url
+            String mail = sysMailVerifiesService.getMailByUserId(sysUser.getId());
+            if(StrUtil.isNotBlank(mail)){
+                sysUser.setEmail(mail);
+                sysUser.setMailIsVerifies(false);
+            }
+        }
+        return sysUser;
+    }
 
     @Override
     public String saveUserAvatar(String path) {

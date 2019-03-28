@@ -11,9 +11,8 @@
         <result column="expired" property="expired" />
     </resultMap>
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, user_id, mail, code, expired
-    </sql>
+    <select id="getMailByUserId" resultType="java.lang.String">
+        select mail from sys_mail_verifies where user_id = #{userId}
+    </select>
 
 </mapper>

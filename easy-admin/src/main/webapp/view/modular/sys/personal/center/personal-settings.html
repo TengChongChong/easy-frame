@@ -80,7 +80,13 @@
                                 </div>
                                 <div class="m-stack__item m-stack__item--middle m-stack__item--fluid describe">
                                     @if(strUtil.isNotBlank(user.email)){
-                                        <h4 class="text-success">${user.email} <a class="btn btn-sm btn-link change-mail" href="javascript:">更改</a></h4>
+                                        <h4 class="text-success">
+                                            ${user.email}
+                                            @if(!user.mailIsVerifies){
+                                                <span class="m-badge m-badge--warning m-badge--wide">待验证</span>
+                                            @}
+                                            <a class="btn btn-sm btn-link change-mail" href="javascript:">更改</a>
+                                        </h4>
                                     @}else{
                                         <h4 class="text-warning">未绑定 <a class="btn btn-sm btn-link change-mail" href="javascript:">绑定</a></h4>
                                     @}

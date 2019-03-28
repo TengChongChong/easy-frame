@@ -53,7 +53,7 @@ public class SysUserPersonalCenterController extends BaseController {
     @GetMapping("personal/settings")
     public String personalSettings(Model model){
         logger.debug("/auth/sys/personal/center/personal/settings");
-        model.addAttribute("user", ShiroUtil.getCurrentUser());
+        model.addAttribute("user", service.getCurrentUser());
         return PREFIX + "personal-settings";
     }
 

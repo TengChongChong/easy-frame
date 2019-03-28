@@ -31,7 +31,6 @@ public class SysMailVerifiesController extends BaseController {
      * @return Tips
      */
     @RequestMapping("/sys/mail/verifies/{code}")
-    @ResponseBody
     public String verifies(Model model, @PathVariable String code) {
         logger.debug("/auth/sys/mail/verifies/verifies");
         try {
