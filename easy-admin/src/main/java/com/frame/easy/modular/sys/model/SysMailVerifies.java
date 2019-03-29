@@ -22,9 +22,9 @@ public class SysMailVerifies extends Model<SysMailVerifies> implements Serializa
     private Long id;
 
     /**
-     * 用户id
+     * 用户标识/user_id/username
      */
-    private Long userId;
+    private String userId;
 
     /**
      * 邮箱
@@ -53,11 +53,11 @@ public class SysMailVerifies extends Model<SysMailVerifies> implements Serializa
     public void setId(Long id) {
         this.id = id;
     }
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
     public String getMail() {
