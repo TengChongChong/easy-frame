@@ -157,8 +157,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         String salt = RandomUtil.randomString(10);
         String password = PasswordUtil.generatingPasswords(CommonConst.projectProperties.getDefaultPassword(), salt);
         queryWrapper.in("id", ids.split(CommonConst.SPLIT));
-        int count = mapper.resetPassword(password, salt, queryWrapper);
-        return ToolUtil.checkResult(count > 0);
+        return mapper.resetPassword(password, salt, queryWrapper) > 0;
+    }
+    @Override
+    public boolean resetPassword(String username, String password) {
+        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+        // 生成随机的盐
+        String salt = RandomUtil.randomString(10);
+        password = PasswordUtil.generatingPasswords(CommonConst.projectProperties.getDefaultPassword(), salt);
+        queryWrapper.eq("username", username);
+        return mapper.resetPassword(password, salt, queryWrapper) > 0;
     }
 
     @Override
@@ -185,6 +193,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("username", username);
             return mapper.selectOne(queryWrapper);
+        }
+        return null;
+    }
+
+    @Override
+    public String getSysUserMailByUserName(String username) {
+        if (Validator.isNotEmpty(username)) {
+            QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+            queryWrapper.select("email");
+            queryWrapper.eq("username", username);
+            return mapper.selectOne(queryWrapper).getEmail();
         }
         return null;
     }

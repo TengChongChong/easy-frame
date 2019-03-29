@@ -45,19 +45,19 @@ public class SysUserPersonalCenterServiceImpl implements SysUserPersonalCenterSe
     @Override
     public SysUser getCurrentUser() {
         SysUser sysUser = ShiroUtil.getCurrentUser();
-        if(sysUser != null){
+        if (sysUser != null) {
             // 由于密保邮箱&手机可能会发生变动,这里重新从数据库查询
             QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
             queryWrapper.select("email", "phone");
             queryWrapper.eq("id", sysUser.getId());
             SysUser queryResult = sysUserMapper.selectOne(queryWrapper);
-            if(queryResult != null){
+            if (queryResult != null) {
                 sysUser.setPhone(queryResult.getPhone());
                 sysUser.setEmail(queryResult.getEmail());
             }
             // 如果数据库中email也为空,查询是否有待验证url
             String mail = sysMailVerifiesService.getMailByUserId(sysUser.getId());
-            if(StrUtil.isNotBlank(mail)){
+            if (StrUtil.isNotBlank(mail)) {
                 sysUser.setEmail(mail);
                 sysUser.setMailIsVerifies(false);
             }
@@ -131,19 +131,20 @@ public class SysUserPersonalCenterServiceImpl implements SysUserPersonalCenterSe
     public boolean applicationBindingMail(String mail) {
         if (StrUtil.isNotBlank(mail)) {
             SysUser currentUser = ShiroUtil.getCurrentUser();
-            SysMailVerifies sysMailVerifies = sysMailVerifiesService.save(currentUser.getId(), mail, MailConst.MAIL_BINDING_MAIL);
+            SysMailVerifies sysMailVerifies = sysMailVerifiesService.save(String.valueOf(currentUser.getId()), mail, MailConst.MAIL_BINDING_MAIL);
             if (sysMailVerifies != null) {
                 String url = CommonConst.projectProperties.getProjectUrl() + "/sys/mail/verifies/" + sysMailVerifies.getCode();
-                String content = "<b>尊敬的" + currentUser.getNickname() + "您好：</b>\n" +
+                String hideUsername = StrUtil.hide(currentUser.getUsername(), 1, currentUser.getUsername().length() - 1);
+                String content = "<b>尊敬的" + hideUsername + "您好：</b>\n" +
                         "<br><br>\n" +
                         "感谢您使用\n" +
                         "<a href=\"" + CommonConst.projectProperties.getProjectUrl() + "\" target=\"_blank\" rel=\"noopener\">\n" +
                         "    " + SysConfigUtil.getProjectName() + "\n" +
                         "</a>\n" +
                         "<br><br>\n" +
-                        "我们已经收到了您的密保邮箱申请，请点击下方链接进行邮箱验证\n" +
+                        "我们已经收到了您的密保邮箱申请，请于24小时内点击下方链接进行邮箱验证\n" +
                         "<a href=\"" + url + "\" target=\"_blank\" rel=\"noopener\">\n" + url + "</a>\n";
-                MailUtil.sendHtml(mail, "密保邮箱验证", MailTemplate.applicationBindingMail(content));
+                MailUtil.sendHtml(mail, "账号" + hideUsername + "密保邮箱验证", MailTemplate.applicationBindingMail(content));
                 return true;
             }
         } else {

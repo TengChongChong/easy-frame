@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2019-03-04
  */
 @Controller
-@RequestMapping("/auth/sys/personal/center")
+@RequestMapping("/auth/sys/user/personal/center")
 public class SysUserPersonalCenterController extends BaseController {
     /**
      * 个人中心 service
@@ -29,7 +29,7 @@ public class SysUserPersonalCenterController extends BaseController {
     /**
      * view 路径
      */
-    private final String PREFIX = "modular/sys/personal/center/";
+    private final String PREFIX = "modular/sys/user/personal/center/";
 
     /**
      * 个人中心
@@ -39,7 +39,7 @@ public class SysUserPersonalCenterController extends BaseController {
      */
     @GetMapping("view")
     public String view(Model model){
-        logger.debug("/auth/sys/personal/center/view");
+        logger.debug("/auth/sys/user/personal/center/view");
         model.addAttribute("user", ShiroUtil.getCurrentUser());
         return PREFIX + "view";
     }
@@ -52,7 +52,7 @@ public class SysUserPersonalCenterController extends BaseController {
      */
     @GetMapping("personal/settings")
     public String personalSettings(Model model){
-        logger.debug("/auth/sys/personal/center/personal/settings");
+        logger.debug("/auth/sys/user/personal/center/personal/settings");
         model.addAttribute("user", service.getCurrentUser());
         return PREFIX + "personal-settings";
     }
@@ -64,7 +64,7 @@ public class SysUserPersonalCenterController extends BaseController {
      */
     @GetMapping("task/to/do")
     public String taskToDo(){
-        logger.debug("/auth/sys/personal/center/task/to/do");
+        logger.debug("/auth/sys/user/personal/center/task/to/do");
         return PREFIX + "task-to-do";
     }
 
@@ -75,7 +75,7 @@ public class SysUserPersonalCenterController extends BaseController {
      */
     @GetMapping("message")
     public String message(){
-        logger.debug("/auth/sys/personal/center/message");
+        logger.debug("/auth/sys/user/personal/center/message");
         return PREFIX + "message";
     }
 
@@ -88,6 +88,7 @@ public class SysUserPersonalCenterController extends BaseController {
     @RequestMapping("save/user/avatar")
     @ResponseBody
     public Tips saveUserAvatar(@RequestParam("path") String path){
+        logger.debug("/auth/sys/user/personal/center/save/user/avatar");
         return Tips.getSuccessTips("操作成功", service.saveUserAvatar(path));
     }
     /**
@@ -99,6 +100,7 @@ public class SysUserPersonalCenterController extends BaseController {
     @RequestMapping("save/user/info")
     @ResponseBody
     public Tips saveUserInfo(SysUser sysUser){
+        logger.debug("/auth/sys/user/personal/center/save/user/info");
         return Tips.getSuccessTips(service.saveUserInfo(sysUser));
     }
     /**
@@ -107,9 +109,10 @@ public class SysUserPersonalCenterController extends BaseController {
      * @param mail 邮箱地址
      * @return Tips
      */
-    @RequestMapping("/application/binding/mail")
+    @RequestMapping("application/binding/mail")
     @ResponseBody
     public Tips applicationBindingMail(String mail){
+        logger.debug("/auth/sys/user/personal/center/application/binding/mail");
         return Tips.getSuccessTips(service.applicationBindingMail(mail));
     }
 
@@ -122,6 +125,9 @@ public class SysUserPersonalCenterController extends BaseController {
     @RequestMapping("save/user/setting")
     @ResponseBody
     public Tips saveUserSetting(SysUserSetting sysUserSetting){
+        logger.debug("/auth/sys/user/personal/center/save/user/setting");
         return Tips.getSuccessTips(service.saveUserSetting(sysUserSetting));
     }
+
+
 }
