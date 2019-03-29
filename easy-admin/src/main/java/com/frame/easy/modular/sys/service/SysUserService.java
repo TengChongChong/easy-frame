@@ -60,6 +60,15 @@ public interface SysUserService {
     boolean resetPassword(String ids);
 
     /**
+     * 重置密码
+     *
+     * @param username 用户名
+     * @param password 新密码
+     * @return true/false
+     */
+    boolean resetPassword(String username, String password);
+
+    /**
      * 禁用用户
      *
      * @param ids 用户ids
@@ -82,6 +91,14 @@ public interface SysUserService {
      * @return SysUser
      */
     SysUser getSysUserByUserName(String username);
+
+    /**
+     * 根据用户名查询用户邮箱
+     *
+     * @param username 用户名
+     * @return mail
+     */
+    String getSysUserMailByUserName(String username);
 
     /**
      * 更新用户最后登录时间

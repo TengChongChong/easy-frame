@@ -42,7 +42,7 @@ public class SysMailVerifiesServiceImpl extends ServiceImpl<SysMailVerifiesMappe
             if (sysMailVerifies != null) {
                 if (sysMailVerifies.getExpired().getTime() > System.currentTimeMillis()) {
                     // 校验码未过期
-                    SysUser sysUser = sysUserService.input(sysMailVerifies.getUserId());
+                    SysUser sysUser = sysUserService.input(Long.parseLong(sysMailVerifies.getUserId()));
                     if (sysUser != null) {
                         // 更新用户表中的邮箱
                         if (sysUserService.setUserMail(sysUser.getId(), sysMailVerifies.getMail())) {
@@ -66,7 +66,25 @@ public class SysMailVerifiesServiceImpl extends ServiceImpl<SysMailVerifiesMappe
     }
 
     @Override
-    public SysMailVerifies save(Long userId, String email, String type) {
+    public boolean verifiesData(String code, String userId) {
+        if(StrUtil.isNotBlank(code)){
+            QueryWrapper<SysMailVerifies> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("code", code);
+            if(StrUtil.isNotBlank(userId)){
+                queryWrapper.eq("user_id", userId);
+                SysMailVerifies sysMailVerifies = getOne(queryWrapper);
+                if(sysMailVerifies != null){
+                    return System.currentTimeMillis() < sysMailVerifies.getExpired().getTime();
+                }else{
+                    throw new EasyException("校验码失效，请重新申请");
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public SysMailVerifies save(String userId, String email, String type) {
         QueryWrapper<SysMailVerifies> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
         remove(queryWrapper);
@@ -83,5 +101,17 @@ public class SysMailVerifiesServiceImpl extends ServiceImpl<SysMailVerifiesMappe
     @Override
     public String getMailByUserId(Long userId) {
         return mapper.getMailByUserId(userId, MailConst.MAIL_BINDING_MAIL);
+    }
+
+    @Override
+    public boolean remove(String code) {
+        QueryWrapper<SysMailVerifies> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("code", code);
+        return remove(queryWrapper);
+    }
+
+    @Override
+    public boolean remove(Long id) {
+        return remove(id);
     }
 }

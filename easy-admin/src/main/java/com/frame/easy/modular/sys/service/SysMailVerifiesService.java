@@ -18,6 +18,15 @@ public interface SysMailVerifiesService {
     boolean verifies(String code);
 
     /**
+     * 验证校验码与用户标识是否有效
+     *
+     * @param code 校验码
+     * @param userId 用户标识
+     * @return true/false
+     */
+    boolean verifiesData(String code, String userId);
+
+    /**
      * 保存
      *
      * @param userId 用户id
@@ -25,7 +34,7 @@ public interface SysMailVerifiesService {
      * @param type 类型
      * @return 验证邮件信息
      */
-    SysMailVerifies save(Long userId, String email, String type);
+    SysMailVerifies save(String userId, String email, String type);
 
     /**
      * 根据用户id查询是否有待验证mail
@@ -34,4 +43,19 @@ public interface SysMailVerifiesService {
      * @return 邮箱
      */
     String getMailByUserId(Long userId);
+
+    /**
+     * 删除校验信息
+     *
+     * @param code 校验码
+     * @return true/false
+     */
+    boolean remove(String code);
+    /**
+     * 删除校验信息
+     *
+     * @param id id
+     * @return true/false
+     */
+    boolean remove(Long id);
 }

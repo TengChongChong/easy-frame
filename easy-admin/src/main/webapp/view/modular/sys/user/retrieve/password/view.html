@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- begin::Head -->
+<head>
+    @include("/common/meta.html"){}
+    <title>找回密码 | ${projectName()}</title>
+    @include("/common/base-styles.html"){}
+    <style>
+        .box-shadow{
+            -webkit-box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.1);
+            box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.1);
+        }
+    </style>
+</head>
+<!-- end::Head -->
+
+<!-- begin::Body -->
+<body class="m--skin- m-content--skin-light2">
+<!-- begin:: Page -->
+<div class="m-grid m-grid--hor m-grid--root m-page">
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white box-shadow">
+        <img src="${ctxPath}/static/app/media/img/logos/logo-fill-dark.png">
+        <h5 class="my-0 mr-md-auto font-weight-normal">${projectName()}</h5>
+        <a class="btn btn-outline-primary" href="#">登录</a>
+    </div>
+
+    <div class="container">
+        <div class="m-portlet m-portlet--head-solid-bg">
+            <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text">找回密码</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="m-portlet__body text-center">
+
+            </div>
+        </div>
+    </div>
+    <footer class="m-grid__item m-footer ">
+        <div class="m-container m-container--fluid m-container--full-height m-page__container">
+            <div class="m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop">
+                <div class="m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last">
+                    <span class="m-footer__copyright">
+                        2019 © Easy Frame
+                    </span>
+                </div>
+                <div class="m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first">
+                    <ul class="m-footer__nav m-nav m-nav--inline m--pull-right">
+                        <li class="m-nav__item">
+                            <a href="#" class="m-nav__link">
+                                <span class="m-nav__link-text">关于</span>
+                            </a>
+                        </li>
+                        <li class="m-nav__item">
+                            <a href="#" class="m-nav__link">
+                                <span class="m-nav__link-text">隐私</span>
+                            </a>
+                        </li>
+                        <li class="m-nav__item">
+                            <a href="#" class="m-nav__link">
+                                <span class="m-nav__link-text">帮助</span>
+                            </a>
+                        </li>
+                        <li class="m-nav__item m-nav__item">
+                            <a href="#" class="m-nav__link" data-toggle="m-tooltip" title="" data-placement="left" data-original-title="操作手册">
+                                <i class="m-nav__link-icon flaticon-info m--icon-font-size-lg3"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+<!-- end:: Page -->
+@include("/common/base-scripts.html"){}
+<!--begin::页面脚本 -->
+<!--end::页面脚本 -->
+</body>
+<!-- end::Body -->
+</html>

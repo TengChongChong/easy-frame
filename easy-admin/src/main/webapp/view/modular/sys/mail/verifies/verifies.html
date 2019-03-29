@@ -1,40 +1,38 @@
 @layout("/common/container.html"){
-<div class="row">
-    <div class="col-lg-6 col-md-8 col-10 offset-lg-3 offset-md-2 offset-1">
-        @if(isSuccess){
-        <div class="m-portlet m-portlet--success m-portlet--head-solid-bg">
-        @} else {
-        <div class="m-portlet m-portlet--danger m-portlet--head-solid-bg">
-        @}
-            <div class="m-portlet__head">
-                <div class="m-portlet__head-caption">
-                    <div class="m-portlet__head-title">
-                        @if(isSuccess){
-                        <span class="m-portlet__head-icon">
-                            <i class="la la-check"></i>
-                        </span>
-                        <h3 class="m-portlet__head-text">
-                            验证成功
-                        </h3>
-                        @} else {
-                        <span class="m-portlet__head-icon">
-                            <i class="la la-close"></i>
-                        </span>
-                        <h3 class="m-portlet__head-text">
-                            验证失败
-                        </h3>
-                        @}
-                    </div>
+<div class="container">
+    @if(isSuccess){
+    <div class="m-portlet m-portlet--success m-portlet--head-solid-bg">
+    @} else {
+    <div class="m-portlet m-portlet--danger m-portlet--head-solid-bg">
+    @}
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    @if(isSuccess){
+                    <span class="m-portlet__head-icon">
+                        <i class="la la-check"></i>
+                    </span>
+                    <h3 class="m-portlet__head-text">
+                        验证成功
+                    </h3>
+                    @} else {
+                    <span class="m-portlet__head-icon">
+                        <i class="la la-close"></i>
+                    </span>
+                    <h3 class="m-portlet__head-text">
+                        验证失败
+                    </h3>
+                    @}
                 </div>
             </div>
-            <div class="m-portlet__body text-center">
-                @if(isSuccess){
-                    <h3 class="m--font-success">验证成功</h3>
-                @} else {
-                    <h3 class="m--font-danger">${message!}</h3>
-                @}
-                <a class="btn btn-link" href="/${ctxPath}">返回首页</a>
-            </div>
+        </div>
+        <div class="m-portlet__body text-center">
+            @if(isSuccess){
+                <h3 class="m--font-success">验证成功</h3>
+            @} else {
+                <h3 class="m--font-danger">${message!}</h3>
+            @}
+            <a class="btn btn-link" href="/${ctxPath}">返回首页</a>
         </div>
     </div>
 </div>
