@@ -1,1 +1,1012 @@
-!function(t){"use strict";var e=function(t){return t},n=function(e){return t.isArray(e)},i=function(t){return!n(t)&&t instanceof Object},r=function(e,n){return t.inArray(n,e)},u=function(t,e){for(var n in t)t.hasOwnProperty(n)&&e(t[n],n,t)},a=function(t){return t[t.length-1]},c=function(){var t,e={};return u((t=arguments,Array.prototype.slice.call(t)),function(t){u(t,function(t,n){e[n]=t})}),e},o=function(t,e,i){return n(t)?function(t,e){var n=[];return u(t,function(t,i,r){n.push(e(t,i,r))}),n}(t,e):function(t,e,n){var i={};return u(t,function(t,r,u){r=n?n(r,t):r,i[r]=e(t,r,u)}),i}(t,e,i)},f=function(t,e,n){return o(t,function(t,i){return t[e].apply(t,n||[])})};!function(t){var e=function(t,e){var n,i,a,c=(i={},(n=n||{}).publish=function(t,e){u(i[t],function(t){t(e)})},n.subscribe=function(t,e){i[t]=i[t]||[],i[t].push(e)},n.unsubscribe=function(t){u(i,function(e){var n=r(e,t);-1!==n&&e.splice(n,1)})},n),o=t.$;return c.getType=function(){throw'implement me (return type. "text", "radio", etc.)'},c.$=function(t){return t?o.find(t):o},c.disable=function(){c.$().prop("disabled",!0),c.publish("isEnabled",!1)},c.enable=function(){c.$().prop("disabled",!1),c.publish("isEnabled",!0)},e.equalTo=function(t,e){return t===e},e.publishChange=function(t,n){var i=c.get();e.equalTo(i,a)||c.publish("change",{e:t,domElement:n}),a=i},c},c=function(t,n){var i=e(t,n);return i.get=function(){return i.$().val()},i.set=function(t){i.$().val(t)},i.clear=function(){i.set("")},n.buildSetter=function(t){return function(e){t.call(i,e)}},i},o=function(t,e){t=n(t)?t:[t],e=n(e)?e:[e];var i=!0;return t.length!==e.length?i=!1:u(t,function(t){(function(t,e){return-1!==r(t,e)})(e,t)||(i=!1)}),i},s=function(t){var e={},n=c(t,e);return n.getType=function(){return"button"},n.$().on("change",function(t){e.publishChange(t,this)}),n},p=function(e){var i={},r=c(e,i);return r.getType=function(){return"checkbox"},r.get=function(){var e=[];return r.$().filter(":checked").each(function(){e.push(t(this).val())}),e},r.set=function(e){e=n(e)?e:[e],r.$().each(function(){t(this).prop("checked",!1)}),u(e,function(t){r.$().filter('[value="'+t+'"]').prop("checked",!0)})},i.equalTo=o,r.$().change(function(t){i.publishChange(t,this)}),r},l=function(t){var e=k(t,{});return e.getType=function(){return"email"},e},h=function(n){var i={},r=e(n,i);return r.getType=function(){return"file"},r.get=function(){return a(r.$().val().split("\\"))},r.clear=function(){this.$().each(function(){t(this).wrap("<form>").closest("form").get(0).reset(),t(this).unwrap()})},r.$().change(function(t){i.publishChange(t,this)}),r},d=function(t){var e={},n=c(t,e);return n.getType=function(){return"hidden"},n.$().change(function(t){e.publishChange(t,this)}),n},v=function(n){var i={},r=e(n,i);return r.getType=function(){return"file[multiple]"},r.get=function(){var t,e=r.$().get(0).files||[],n=[];for(t=0;t<(e.length||0);t+=1)n.push(e[t].name);return n},r.clear=function(){this.$().each(function(){t(this).wrap("<form>").closest("form").get(0).reset(),t(this).unwrap()})},r.$().change(function(t){i.publishChange(t,this)}),r},m=function(t){var e={},i=c(t,e);return i.getType=function(){return"select[multiple]"},i.get=function(){return i.$().val()||[]},i.set=function(t){i.$().val(""===t?[]:n(t)?t:[t])},e.equalTo=o,i.$().change(function(t){e.publishChange(t,this)}),i},g=function(t){var e=k(t,{});return e.getType=function(){return"password"},e},y=function(e){var n={},i=c(e,n);return i.getType=function(){return"radio"},i.get=function(){return i.$().filter(":checked").val()||null},i.set=function(e){e?i.$().filter('[value="'+e+'"]').prop("checked",!0):i.$().each(function(){t(this).prop("checked",!1)})},i.$().change(function(t){n.publishChange(t,this)}),i},b=function(t){var e={},n=c(t,e);return n.getType=function(){return"range"},n.$().change(function(t){e.publishChange(t,this)}),n},$=function(t){var e={},n=c(t,e);return n.getType=function(){return"select"},n.$().change(function(t){e.publishChange(t,this)}),n},k=function(t){var e={},n=c(t,e);return n.getType=function(){return"text"},n.$().on("change keyup keydown",function(t){e.publishChange(t,this)}),n},x=function(t){var e={},n=c(t,e);return n.getType=function(){return"textarea"},n.$().on("change keyup keydown",function(t){e.publishChange(t,this)}),n},T=function(t){var e=k(t,{});return e.getType=function(){return"url"},e},w=function(e){var n={},a=e.$,c=e.constructorOverride||{button:s,text:k,url:T,email:l,password:g,range:b,textarea:x,select:$,"select[multiple]":m,radio:y,checkbox:p,file:h,"file[multiple]":v,hidden:d},o=function(e,r){(i(r)?r:a.find(r)).each(function(){var i=t(this).attr("name");n[i]=c[e]({$:t(this)})})},f=function(e,o){var f=[],s=i(o)?o:a.find(o);i(o)?n[s.attr("name")]=c[e]({$:s}):(s.each(function(){-1===r(f,t(this).attr("name"))&&f.push(t(this).attr("name"))}),u(f,function(t){n[t]=c[e]({$:a.find('input[name="'+t+'"]')})}))};return a.is("input, select, textarea")?a.is('input[type="button"], button, input[type="submit"]')?o("button",a):a.is("textarea")?o("textarea",a):a.is('input[type="text"]')||a.is("input")&&!a.attr("type")?o("text",a):a.is('input[type="password"]')?o("password",a):a.is('input[type="email"]')?o("email",a):a.is('input[type="url"]')?o("url",a):a.is('input[type="range"]')?o("range",a):a.is("select")?a.is("[multiple]")?o("select[multiple]",a):o("select",a):a.is('input[type="file"]')?a.is("[multiple]")?o("file[multiple]",a):o("file",a):a.is('input[type="hidden"]')?o("hidden",a):a.is('input[type="radio"]')?f("radio",a):a.is('input[type="checkbox"]')?f("checkbox",a):o("text",a):(o("button",'input[type="button"], button, input[type="submit"]'),o("text",'input[type="text"]'),o("password",'input[type="password"]'),o("email",'input[type="email"]'),o("url",'input[type="url"]'),o("range",'input[type="range"]'),o("textarea","textarea"),o("select","select:not([multiple])"),o("select[multiple]","select[multiple]"),o("file",'input[type="file"]:not([multiple])'),o("file[multiple]",'input[type="file"][multiple]'),o("hidden",'input[type="hidden"]'),f("radio",'input[type="radio"]'),f("checkbox",'input[type="checkbox"]')),n};t.fn.inputVal=function(e){var n=t(this),i=w({$:n});return n.is("input, textarea, select")?void 0===e?i[n.attr("name")].get():(i[n.attr("name")].set(e),n):void 0===e?f(i,"get"):(u(e,function(t,e){i[e].set(t)}),n)},t.fn.inputOnChange=function(e){var n=t(this),i=w({$:n});return u(i,function(t){t.subscribe("change",function(t){e.call(t.domElement,t.e)})}),n},t.fn.inputDisable=function(){var e=t(this);return f(w({$:e}),"disable"),e},t.fn.inputEnable=function(){var e=t(this);return f(w({$:e}),"enable"),e},t.fn.inputClear=function(){var e=t(this);return f(w({$:e}),"clear"),e}}(jQuery),t.fn.repeaterVal=function(){var e,n,i=function(t){if(1===t.length&&(0===t[0].key.length||1===t[0].key.length&&!t[0].key[0]))return t[0].val;u(t,function(t){t.head=t.key.shift()});var e,n=function(){var e={};return u(t,function(t){e[t.head]||(e[t.head]=[]),e[t.head].push(t)}),e}();return/^[0-9]+$/.test(t[0].head)?(e=[],u(n,function(t){e.push(i(t))})):(e={},u(n,function(t,n){e[n]=i(t)})),e};return i((e=t(this).inputVal(),n=[],u(e,function(t,e){var i=[];"undefined"!==e&&(i.push(e.match(/^[^\[]*/)[0]),i=i.concat(o(e.match(/\[[^\]]*\]/g),function(t){return t.replace(/[\[\]]/g,"")})),n.push({val:t,key:i}))}),n))},t.fn.repeater=function(i){var r;return i=i||{},t(this).each(function(){var f=t(this),s=i.show||function(){t(this).show()},p=i.hide||function(t){t()},l=f.find("[data-repeater-list]").first(),h=function(e,n){return e.filter(function(){return!n||0===t(this).closest((e=n,i="selector",o(e,function(t){return t[i]})).join(",")).length;var e,i})},d=function(){return h(l.find("[data-repeater-item]"),i.repeaters)},v=l.find("[data-repeater-item]").first().clone().hide(),m=h(h(t(this).find("[data-repeater-item]"),i.repeaters).first().find("[data-repeater-delete]"),i.repeaters);i.isFirstItemUndeletable&&m&&m.remove();var g=function(){var t=l.data("repeater-list");return i.$parent?i.$parent.data("item-name")+"["+t+"]":t},y=function(e){i.repeaters&&e.each(function(){var e=t(this);u(i.repeaters,function(t){e.find(t.selector).repeater(c(t,{$parent:e}))})})},b=function(t,e,n){t&&u(t,function(t){n.call(e.find(t.selector)[0],t)})},$=function(e,n,i){e.each(function(e){var r=t(this);r.data("item-name",n+"["+e+"]"),h(r.find("[name]"),i).each(function(){var u=t(this),c=u.attr("name").match(/\[[^\]]+\]/g),o=c?a(c).replace(/\[|\]/g,""):u.attr("name"),f=n+"["+e+"]["+o+"]"+(u.is(":checkbox")||u.attr("multiple")?"[]":"");u.attr("name",f),b(i,r,function(i){var r=t(this);$(h(r.find("[data-repeater-item]"),i.repeaters||[]),n+"["+e+"]["+r.find("[data-repeater-list]").first().data("repeater-list")+"]",i.repeaters)})})}),l.find("input[name][checked]").removeAttr("checked").prop("checked",!0)};$(d(),g(),i.repeaters),y(d()),i.initEmpty&&d().remove(),i.ready&&i.ready(function(){$(d(),g(),i.repeaters)});var k,x=(k=function(r,a,c){if(a||i.defaultValues){var f={};h(r.find("[name]"),c).each(function(){var e=t(this).attr("name").match(/\[([^\]]*)(\]|\]\[\])$/)[1];f[e]=t(this).attr("name")}),r.inputVal(o((s=a||i.defaultValues,p=function(t,e){return f[e]},n(s)?(l=[],u(s,function(t,e,n){p(t,e,n)&&l.push(t)})):(l={},u(s,function(t,e,n){p(t,e,n)&&(l[e]=t)})),l),e,function(t){return f[t]}))}var s,p,l;b(c,r,function(e){var n=t(this);h(n.find("[data-repeater-item]"),e.repeaters).each(function(){var i=n.find("[data-repeater-list]").data("repeater-list");if(a&&a[i]){var r=t(this).clone();n.find("[data-repeater-item]").remove(),u(a[i],function(t){var i=r.clone();k(i,t,e.repeaters||[]),n.find("[data-repeater-list]").append(i)})}else k(t(this),e.defaultValues,e.repeaters||[])})})},function(e,n){l.append(e),$(d(),g(),i.repeaters),e.find("[name]").each(function(){t(this).inputClear()}),k(e,n||i.defaultValues,i.repeaters)}),T=function(t){var e=v.clone();x(e,t),i.repeaters&&y(e),s.call(e.get(0))};r=function(t){d().remove(),u(t,T)},h(f.find("[data-repeater-create]"),i.repeaters).click(function(){T()}),l.on("click","[data-repeater-delete]",function(){var e=t(this).closest("[data-repeater-item]").get(0);p.call(e,function(){t(e).remove(),$(d(),g(),i.repeaters)})})}),this.setList=r,this}}(jQuery);
+(function ($) {
+'use strict';
+
+var identity = function (x) {
+    return x;
+};
+
+var isArray = function (value) {
+    return $.isArray(value);
+};
+
+var isObject = function (value) {
+    return !isArray(value) && (value instanceof Object);
+};
+
+var isNumber = function (value) {
+    return value instanceof Number;
+};
+
+var isFunction = function (value) {
+    return value instanceof Function;
+};
+
+var indexOf = function (object, value) {
+    return $.inArray(value, object);
+};
+
+var inArray = function (array, value) {
+    return indexOf(array, value) !== -1;
+};
+
+var foreach = function (collection, callback) {
+    for(var i in collection) {
+        if(collection.hasOwnProperty(i)) {
+            callback(collection[i], i, collection);
+        }
+    }
+};
+
+
+var last = function (array) {
+    return array[array.length - 1];
+};
+
+var argumentsToArray = function (args) {
+    return Array.prototype.slice.call(args);
+};
+
+var extend = function () {
+    var extended = {};
+    foreach(argumentsToArray(arguments), function (o) {
+        foreach(o, function (val, key) {
+            extended[key] = val;
+        });
+    });
+    return extended;
+};
+
+var mapToArray = function (collection, callback) {
+    var mapped = [];
+    foreach(collection, function (value, key, coll) {
+        mapped.push(callback(value, key, coll));
+    });
+    return mapped;
+};
+
+var mapToObject = function (collection, callback, keyCallback) {
+    var mapped = {};
+    foreach(collection, function (value, key, coll) {
+        key = keyCallback ? keyCallback(key, value) : key;
+        mapped[key] = callback(value, key, coll);
+    });
+    return mapped;
+};
+
+var map = function (collection, callback, keyCallback) {
+    return isArray(collection) ?
+        mapToArray(collection, callback) :
+        mapToObject(collection, callback, keyCallback);
+};
+
+var pluck = function (arrayOfObjects, key) {
+    return map(arrayOfObjects, function (val) {
+        return val[key];
+    });
+};
+
+var filter = function (collection, callback) {
+    var filtered;
+
+    if(isArray(collection)) {
+        filtered = [];
+        foreach(collection, function (val, key, coll) {
+            if(callback(val, key, coll)) {
+                filtered.push(val);
+            }
+        });
+    }
+    else {
+        filtered = {};
+        foreach(collection, function (val, key, coll) {
+            if(callback(val, key, coll)) {
+                filtered[key] = val;
+            }
+        });
+    }
+
+    return filtered;
+};
+
+var call = function (collection, functionName, args) {
+    return map(collection, function (object, name) {
+        return object[functionName].apply(object, args || []);
+    });
+};
+
+//execute callback immediately and at most one time on the minimumInterval,
+//ignore block attempts
+var throttle = function (minimumInterval, callback) {
+    var timeout = null;
+    return function () {
+        var that = this, args = arguments;
+        if(timeout === null) {
+            timeout = setTimeout(function () {
+                timeout = null;
+            }, minimumInterval);
+            callback.apply(that, args);
+        }
+    };
+};
+
+
+var mixinPubSub = function (object) {
+    object = object || {};
+    var topics = {};
+
+    object.publish = function (topic, data) {
+        foreach(topics[topic], function (callback) {
+            callback(data);
+        });
+    };
+
+    object.subscribe = function (topic, callback) {
+        topics[topic] = topics[topic] || [];
+        topics[topic].push(callback);
+    };
+
+    object.unsubscribe = function (callback) {
+        foreach(topics, function (subscribers) {
+            var index = indexOf(subscribers, callback);
+            if(index !== -1) {
+                subscribers.splice(index, 1);
+            }
+        });
+    };
+
+    return object;
+};
+
+// jquery.input version 0.0.0
+// https://github.com/DubFriend/jquery.input
+// (MIT) 09-04-2014
+// Brian Detering <BDeterin@gmail.com> (http://www.briandetering.net/)
+(function ($) {
+'use strict';
+
+var createBaseInput = function (fig, my) {
+    var self = mixinPubSub(),
+        $self = fig.$;
+
+    self.getType = function () {
+        throw 'implement me (return type. "text", "radio", etc.)';
+    };
+
+    self.$ = function (selector) {
+        return selector ? $self.find(selector) : $self;
+    };
+
+    self.disable = function () {
+        self.$().prop('disabled', true);
+        self.publish('isEnabled', false);
+    };
+
+    self.enable = function () {
+        self.$().prop('disabled', false);
+        self.publish('isEnabled', true);
+    };
+
+    my.equalTo = function (a, b) {
+        return a === b;
+    };
+
+    my.publishChange = (function () {
+        var oldValue;
+        return function (e, domElement) {
+            var newValue = self.get();
+            if(!my.equalTo(newValue, oldValue)) {
+                self.publish('change', { e: e, domElement: domElement });
+            }
+            oldValue = newValue;
+        };
+    }());
+
+    return self;
+};
+
+
+var createInput = function (fig, my) {
+    var self = createBaseInput(fig, my);
+
+    self.get = function () {
+        return self.$().val();
+    };
+
+    self.set = function (newValue) {
+        self.$().val(newValue);
+    };
+
+    self.clear = function () {
+        self.set('');
+    };
+
+    my.buildSetter = function (callback) {
+        return function (newValue) {
+            callback.call(self, newValue);
+        };
+    };
+
+    return self;
+};
+
+var inputEqualToArray = function (a, b) {
+    a = isArray(a) ? a : [a];
+    b = isArray(b) ? b : [b];
+
+    var isEqual = true;
+    if(a.length !== b.length) {
+        isEqual = false;
+    }
+    else {
+        foreach(a, function (value) {
+            if(!inArray(b, value)) {
+                isEqual = false;
+            }
+        });
+    }
+
+    return isEqual;
+};
+
+var createInputButton = function (fig) {
+    var my = {},
+        self = createInput(fig, my);
+
+    self.getType = function () {
+        return 'button';
+    };
+
+    self.$().on('change', function (e) {
+        my.publishChange(e, this);
+    });
+
+    return self;
+};
+
+var createInputCheckbox = function (fig) {
+    var my = {},
+        self = createInput(fig, my);
+
+    self.getType = function () {
+        return 'checkbox';
+    };
+
+    self.get = function () {
+        var values = [];
+        self.$().filter(':checked').each(function () {
+            values.push($(this).val());
+        });
+        return values;
+    };
+
+    self.set = function (newValues) {
+        newValues = isArray(newValues) ? newValues : [newValues];
+
+        self.$().each(function () {
+            $(this).prop('checked', false);
+        });
+
+        foreach(newValues, function (value) {
+            self.$().filter('[value="' + value + '"]')
+                .prop('checked', true);
+        });
+    };
+
+    my.equalTo = inputEqualToArray;
+
+    self.$().change(function (e) {
+        my.publishChange(e, this);
+    });
+
+    return self;
+};
+
+var createInputEmail = function (fig) {
+    var my = {},
+        self = createInputText(fig, my);
+
+    self.getType = function () {
+        return 'email';
+    };
+
+    return self;
+};
+
+var createInputFile = function (fig) {
+    var my = {},
+        self = createBaseInput(fig, my);
+
+    self.getType = function () {
+        return 'file';
+    };
+
+    self.get = function () {
+        return last(self.$().val().split('\\'));
+    };
+
+    self.clear = function () {
+        // http://stackoverflow.com/questions/1043957/clearing-input-type-file-using-jquery
+        this.$().each(function () {
+            $(this).wrap('<form>').closest('form').get(0).reset();
+            $(this).unwrap();
+        });
+    };
+
+    self.$().change(function (e) {
+        my.publishChange(e, this);
+        // self.publish('change', self);
+    });
+
+    return self;
+};
+
+var createInputHidden = function (fig) {
+    var my = {},
+        self = createInput(fig, my);
+
+    self.getType = function () {
+        return 'hidden';
+    };
+
+    self.$().change(function (e) {
+        my.publishChange(e, this);
+    });
+
+    return self;
+};
+var createInputMultipleFile = function (fig) {
+    var my = {},
+        self = createBaseInput(fig, my);
+
+    self.getType = function () {
+        return 'file[multiple]';
+    };
+
+    self.get = function () {
+        // http://stackoverflow.com/questions/14035530/how-to-get-value-of-html-5-multiple-file-upload-variable-using-jquery
+        var fileListObject = self.$().get(0).files || [],
+            names = [], i;
+
+        for(i = 0; i < (fileListObject.length || 0); i += 1) {
+            names.push(fileListObject[i].name);
+        }
+
+        return names;
+    };
+
+    self.clear = function () {
+        // http://stackoverflow.com/questions/1043957/clearing-input-type-file-using-jquery
+        this.$().each(function () {
+            $(this).wrap('<form>').closest('form').get(0).reset();
+            $(this).unwrap();
+        });
+    };
+
+    self.$().change(function (e) {
+        my.publishChange(e, this);
+    });
+
+    return self;
+};
+
+var createInputMultipleSelect = function (fig) {
+    var my = {},
+        self = createInput(fig, my);
+
+    self.getType = function () {
+        return 'select[multiple]';
+    };
+
+    self.get = function () {
+        return self.$().val() || [];
+    };
+
+    self.set = function (newValues) {
+        self.$().val(
+            newValues === '' ? [] : isArray(newValues) ? newValues : [newValues]
+        );
+    };
+
+    my.equalTo = inputEqualToArray;
+
+    self.$().change(function (e) {
+        my.publishChange(e, this);
+    });
+
+    return self;
+};
+
+var createInputPassword = function (fig) {
+    var my = {},
+        self = createInputText(fig, my);
+
+    self.getType = function () {
+        return 'password';
+    };
+
+    return self;
+};
+
+var createInputRadio = function (fig) {
+    var my = {},
+        self = createInput(fig, my);
+
+    self.getType = function () {
+        return 'radio';
+    };
+
+    self.get = function () {
+        return self.$().filter(':checked').val() || null;
+    };
+
+    self.set = function (newValue) {
+        if(!newValue) {
+            self.$().each(function () {
+                $(this).prop('checked', false);
+            });
+        }
+        else {
+            self.$().filter('[value="' + newValue + '"]').prop('checked', true);
+        }
+    };
+
+    self.$().change(function (e) {
+        my.publishChange(e, this);
+    });
+
+    return self;
+};
+
+var createInputRange = function (fig) {
+    var my = {},
+        self = createInput(fig, my);
+
+    self.getType = function () {
+        return 'range';
+    };
+
+    self.$().change(function (e) {
+        my.publishChange(e, this);
+    });
+
+    return self;
+};
+
+var createInputSelect = function (fig) {
+    var my = {},
+        self = createInput(fig, my);
+
+    self.getType = function () {
+        return 'select';
+    };
+
+    self.$().change(function (e) {
+        my.publishChange(e, this);
+    });
+
+    return self;
+};
+
+var createInputText = function (fig) {
+    var my = {},
+        self = createInput(fig, my);
+
+    self.getType = function () {
+        return 'text';
+    };
+
+    self.$().on('change keyup keydown', function (e) {
+        my.publishChange(e, this);
+    });
+
+    return self;
+};
+
+var createInputTextarea = function (fig) {
+    var my = {},
+        self = createInput(fig, my);
+
+    self.getType = function () {
+        return 'textarea';
+    };
+
+    self.$().on('change keyup keydown', function (e) {
+        my.publishChange(e, this);
+    });
+
+    return self;
+};
+
+var createInputURL = function (fig) {
+    var my = {},
+        self = createInputText(fig, my);
+
+    self.getType = function () {
+        return 'url';
+    };
+
+    return self;
+};
+
+var buildFormInputs = function (fig) {
+    var inputs = {},
+        $self = fig.$;
+
+    var constructor = fig.constructorOverride || {
+        button: createInputButton,
+        text: createInputText,
+        url: createInputURL,
+        email: createInputEmail,
+        password: createInputPassword,
+        range: createInputRange,
+        textarea: createInputTextarea,
+        select: createInputSelect,
+        'select[multiple]': createInputMultipleSelect,
+        radio: createInputRadio,
+        checkbox: createInputCheckbox,
+        file: createInputFile,
+        'file[multiple]': createInputMultipleFile,
+        hidden: createInputHidden
+    };
+
+    var addInputsBasic = function (type, selector) {
+        var $input = isObject(selector) ? selector : $self.find(selector);
+
+        $input.each(function () {
+            var name = $(this).attr('name');
+            inputs[name] = constructor[type]({
+                $: $(this)
+            });
+        });
+    };
+
+    var addInputsGroup = function (type, selector) {
+        var names = [],
+            $input = isObject(selector) ? selector : $self.find(selector);
+
+        if(isObject(selector)) {
+            inputs[$input.attr('name')] = constructor[type]({
+                $: $input
+            });
+        }
+        else {
+            // group by name attribute
+            $input.each(function () {
+                if(indexOf(names, $(this).attr('name')) === -1) {
+                    names.push($(this).attr('name'));
+                }
+            });
+
+            foreach(names, function (name) {
+                inputs[name] = constructor[type]({
+                    $: $self.find('input[name="' + name + '"]')
+                });
+            });
+        }
+    };
+
+
+    if($self.is('input, select, textarea')) {
+        if($self.is('input[type="button"], button, input[type="submit"]')) {
+            addInputsBasic('button', $self);
+        }
+        else if($self.is('textarea')) {
+            addInputsBasic('textarea', $self);
+        }
+        else if(
+            $self.is('input[type="text"]') ||
+            $self.is('input') && !$self.attr('type')
+        ) {
+            addInputsBasic('text', $self);
+        }
+        else if($self.is('input[type="password"]')) {
+            addInputsBasic('password', $self);
+        }
+        else if($self.is('input[type="email"]')) {
+            addInputsBasic('email', $self);
+        }
+        else if($self.is('input[type="url"]')) {
+            addInputsBasic('url', $self);
+        }
+        else if($self.is('input[type="range"]')) {
+            addInputsBasic('range', $self);
+        }
+        else if($self.is('select')) {
+            if($self.is('[multiple]')) {
+                addInputsBasic('select[multiple]', $self);
+            }
+            else {
+                addInputsBasic('select', $self);
+            }
+        }
+        else if($self.is('input[type="file"]')) {
+            if($self.is('[multiple]')) {
+                addInputsBasic('file[multiple]', $self);
+            }
+            else {
+                addInputsBasic('file', $self);
+            }
+        }
+        else if($self.is('input[type="hidden"]')) {
+            addInputsBasic('hidden', $self);
+        }
+        else if($self.is('input[type="radio"]')) {
+            addInputsGroup('radio', $self);
+        }
+        else if($self.is('input[type="checkbox"]')) {
+            addInputsGroup('checkbox', $self);
+        }
+        else {
+            //in all other cases default to a "text" input interface.
+            addInputsBasic('text', $self);
+        }
+    }
+    else {
+        addInputsBasic('button', 'input[type="button"], button, input[type="submit"]');
+        addInputsBasic('text', 'input[type="text"]');
+        addInputsBasic('password', 'input[type="password"]');
+        addInputsBasic('email', 'input[type="email"]');
+        addInputsBasic('url', 'input[type="url"]');
+        addInputsBasic('range', 'input[type="range"]');
+        addInputsBasic('textarea', 'textarea');
+        addInputsBasic('select', 'select:not([multiple])');
+        addInputsBasic('select[multiple]', 'select[multiple]');
+        addInputsBasic('file', 'input[type="file"]:not([multiple])');
+        addInputsBasic('file[multiple]', 'input[type="file"][multiple]');
+        addInputsBasic('hidden', 'input[type="hidden"]');
+        addInputsGroup('radio', 'input[type="radio"]');
+        addInputsGroup('checkbox', 'input[type="checkbox"]');
+    }
+
+    return inputs;
+};
+
+$.fn.inputVal = function (newValue) {
+    var $self = $(this);
+
+    var inputs = buildFormInputs({ $: $self });
+
+    if($self.is('input, textarea, select')) {
+        if(typeof newValue === 'undefined') {
+            return inputs[$self.attr('name')].get();
+        }
+        else {
+            inputs[$self.attr('name')].set(newValue);
+            return $self;
+        }
+    }
+    else {
+        if(typeof newValue === 'undefined') {
+            return call(inputs, 'get');
+        }
+        else {
+            foreach(newValue, function (value, inputName) {
+                inputs[inputName].set(value);
+            });
+            return $self;
+        }
+    }
+};
+
+$.fn.inputOnChange = function (callback) {
+    var $self = $(this);
+    var inputs = buildFormInputs({ $: $self });
+    foreach(inputs, function (input) {
+        input.subscribe('change', function (data) {
+            callback.call(data.domElement, data.e);
+        });
+    });
+    return $self;
+};
+
+$.fn.inputDisable = function () {
+    var $self = $(this);
+    call(buildFormInputs({ $: $self }), 'disable');
+    return $self;
+};
+
+$.fn.inputEnable = function () {
+    var $self = $(this);
+    call(buildFormInputs({ $: $self }), 'enable');
+    return $self;
+};
+
+$.fn.inputClear = function () {
+    var $self = $(this);
+    call(buildFormInputs({ $: $self }), 'clear');
+    return $self;
+};
+
+}(jQuery));
+
+$.fn.repeaterVal = function () {
+    var parse = function (raw) {
+        var parsed = [];
+
+        foreach(raw, function (val, key) {
+            var parsedKey = [];
+            if(key !== "undefined") {
+                parsedKey.push(key.match(/^[^\[]*/)[0]);
+                parsedKey = parsedKey.concat(map(
+                    key.match(/\[[^\]]*\]/g),
+                    function (bracketed) {
+                        return bracketed.replace(/[\[\]]/g, '');
+                    }
+                ));
+
+                parsed.push({
+                    val: val,
+                    key: parsedKey
+                });
+            }
+        });
+
+        return parsed;
+    };
+
+    var build = function (parsed) {
+        if(
+            parsed.length === 1 &&
+            (parsed[0].key.length === 0 || parsed[0].key.length === 1 && !parsed[0].key[0])
+        ) {
+            return parsed[0].val;
+        }
+
+        foreach(parsed, function (p) {
+            p.head = p.key.shift();
+        });
+
+        var grouped = (function () {
+            var grouped = {};
+
+            foreach(parsed, function (p) {
+                if(!grouped[p.head]) {
+                    grouped[p.head] = [];
+                }
+                grouped[p.head].push(p);
+            });
+
+            return grouped;
+        }());
+
+        var built;
+
+        if(/^[0-9]+$/.test(parsed[0].head)) {
+            built = [];
+            foreach(grouped, function (group) {
+                built.push(build(group));
+            });
+        }
+        else {
+            built = {};
+            foreach(grouped, function (group, key) {
+                built[key] = build(group);
+            });
+        }
+
+        return built;
+    };
+
+    return build(parse($(this).inputVal()));
+};
+
+$.fn.repeater = function (fig) {
+    fig = fig || {};
+
+    var setList;
+
+    $(this).each(function () {
+
+        var $self = $(this);
+
+        var show = fig.show || function () {
+            $(this).show();
+        };
+
+        var hide = fig.hide || function (removeElement) {
+            removeElement();
+        };
+
+        var $list = $self.find('[data-repeater-list]').first();
+
+        var $filterNested = function ($items, repeaters) {
+            return $items.filter(function () {
+                return repeaters ?
+                    $(this).closest(
+                        pluck(repeaters, 'selector').join(',')
+                    ).length === 0 : true;
+            });
+        };
+
+        var $items = function () {
+            return $filterNested($list.find('[data-repeater-item]'), fig.repeaters);
+        };
+
+        var $itemTemplate = $list.find('[data-repeater-item]')
+                                 .first().clone().hide();
+
+        var $firstDeleteButton = $filterNested(
+            $filterNested($(this).find('[data-repeater-item]'), fig.repeaters)
+            .first().find('[data-repeater-delete]'),
+            fig.repeaters
+        );
+
+        if(fig.isFirstItemUndeletable && $firstDeleteButton) {
+            $firstDeleteButton.remove();
+        }
+
+        var getGroupName = function () {
+            var groupName = $list.data('repeater-list');
+            return fig.$parent ?
+                fig.$parent.data('item-name') + '[' + groupName + ']' :
+                groupName;
+        };
+
+        var initNested = function ($listItems) {
+            if(fig.repeaters) {
+                $listItems.each(function () {
+                    var $item = $(this);
+                    foreach(fig.repeaters, function (nestedFig) {
+                        $item.find(nestedFig.selector).repeater(extend(
+                            nestedFig, { $parent: $item }
+                        ));
+                    });
+                });
+            }
+        };
+
+        var $foreachRepeaterInItem = function (repeaters, $item, cb) {
+            if(repeaters) {
+                foreach(repeaters, function (nestedFig) {
+                    cb.call($item.find(nestedFig.selector)[0], nestedFig);
+                });
+            }
+        };
+
+        var setIndexes = function ($items, groupName, repeaters) {
+            $items.each(function (index) {
+                var $item = $(this);
+                $item.data('item-name', groupName + '[' + index + ']');
+                $filterNested($item.find('[name]'), repeaters)
+                .each(function () {
+                    var $input = $(this);
+                    // match non empty brackets (ex: "[foo]")
+                    var matches = $input.attr('name').match(/\[[^\]]+\]/g);
+
+                    var name = matches ?
+                        // strip "[" and "]" characters
+                        last(matches).replace(/\[|\]/g, '') :
+                        $input.attr('name');
+
+
+                    var newName = groupName + '[' + index + '][' + name + ']' +
+                        ($input.is(':checkbox') || $input.attr('multiple') ? '[]' : '');
+
+                    $input.attr('name', newName);
+
+                    $foreachRepeaterInItem(repeaters, $item, function (nestedFig) {
+                        var $repeater = $(this);
+                        setIndexes(
+                            $filterNested($repeater.find('[data-repeater-item]'), nestedFig.repeaters || []),
+                            groupName + '[' + index + ']' +
+                                        '[' + $repeater.find('[data-repeater-list]').first().data('repeater-list') + ']',
+                            nestedFig.repeaters
+                        );
+                    });
+                });
+            });
+
+            $list.find('input[name][checked]')
+                .removeAttr('checked')
+                .prop('checked', true);
+        };
+
+        setIndexes($items(), getGroupName(), fig.repeaters);
+        initNested($items());
+        if(fig.initEmpty) {
+            $items().remove();
+        }
+
+        if(fig.ready) {
+            fig.ready(function () {
+                setIndexes($items(), getGroupName(), fig.repeaters);
+            });
+        }
+
+        var appendItem = (function () {
+            var setItemsValues = function ($item, data, repeaters) {
+                if(data || fig.defaultValues) {
+                    var inputNames = {};
+                    $filterNested($item.find('[name]'), repeaters).each(function () {
+                        var key = $(this).attr('name').match(/\[([^\]]*)(\]|\]\[\])$/)[1];
+                        inputNames[key] = $(this).attr('name');
+                    });
+
+                    $item.inputVal(map(
+                        filter(data || fig.defaultValues, function (val, name) {
+                            return inputNames[name];
+                        }),
+                        identity,
+                        function (name) {
+                            return inputNames[name];
+                        }
+                    ));
+                }
+
+
+                $foreachRepeaterInItem(repeaters, $item, function (nestedFig) {
+                    var $repeater = $(this);
+                    $filterNested(
+                        $repeater.find('[data-repeater-item]'),
+                        nestedFig.repeaters
+                    )
+                    .each(function () {
+                        var fieldName = $repeater.find('[data-repeater-list]').data('repeater-list');
+                        if(data && data[fieldName]) {
+                            var $template = $(this).clone();
+                            $repeater.find('[data-repeater-item]').remove();
+                            foreach(data[fieldName], function (data) {
+                                var $item = $template.clone();
+                                setItemsValues(
+                                    $item,
+                                    data,
+                                    nestedFig.repeaters || []
+                                );
+                                $repeater.find('[data-repeater-list]').append($item);
+                            });
+                        }
+                        else {
+                            setItemsValues(
+                                $(this),
+                                nestedFig.defaultValues,
+                                nestedFig.repeaters || []
+                            );
+                        }
+                    });
+                });
+
+            };
+
+            return function ($item, data) {
+                $list.append($item);
+                setIndexes($items(), getGroupName(), fig.repeaters);
+                $item.find('[name]').each(function () {
+                    $(this).inputClear();
+                });
+                setItemsValues($item, data || fig.defaultValues, fig.repeaters);
+            };
+        }());
+
+        var addItem = function (data) {
+            var $item = $itemTemplate.clone();
+            appendItem($item, data);
+            if(fig.repeaters) {
+                initNested($item);
+            }
+            show.call($item.get(0));
+        };
+
+        setList = function (rows) {
+            $items().remove();
+            foreach(rows, addItem);
+        };
+
+        $filterNested($self.find('[data-repeater-create]'), fig.repeaters).click(function () {
+            addItem();
+        });
+
+        $list.on('click', '[data-repeater-delete]', function () {
+            var self = $(this).closest('[data-repeater-item]').get(0);
+            hide.call(self, function () {
+                $(self).remove();
+                setIndexes($items(), getGroupName(), fig.repeaters);
+            });
+        });
+    });
+
+    this.setList = setList;
+
+    return this;
+};
+
+}(jQuery));
