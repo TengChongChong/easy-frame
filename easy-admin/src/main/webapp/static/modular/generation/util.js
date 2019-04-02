@@ -635,9 +635,9 @@ var generationTool = {
 
                 return '.gridly.' + css + ' {width: ' + width + 'px}\
                     .gridly.' + css + ' > .brick.size-1 {width: ' + (baseWidth - generationTool.gutter) + 'px;}\
-                    .gridly.' + css + ' > .brick.size-2 {width: ' + (baseWidth * 2 - generationTool.gutter) + 'px;}\
-                    .gridly.' + css + ' > .brick.size-3 {width: ' + (baseWidth * 3 - generationTool.gutter) + 'px;}\
-                    .gridly.' + css + ' > .brick.size-4 {width: ' + (baseWidth * 4 - generationTool.gutter) + 'px;}';
+                    .gridly.' + css + ' > .brick.size-2 {width: ' + (baseWidth * 6 - generationTool.gutter) + 'px;}\
+                    .gridly.' + css + ' > .brick.size-3 {width: ' + (baseWidth * 4 - generationTool.gutter) + 'px;}\
+                    .gridly.' + css + ' > .brick.size-4 {width: ' + (baseWidth * 3 - generationTool.gutter) + 'px;}';
             }
         };
         var gridlyStyle = css + '-gridly';
