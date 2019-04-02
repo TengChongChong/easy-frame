@@ -57,7 +57,7 @@ public class FileUtil {
             if (!file.exists()) {
                 file.mkdirs();
             }
-            File dest = new File(file.getPath() + File.separator + UUID.randomUUID() + ".jpg");
+            File dest = new File(file.getPath() + File.separator + src.getName());
             cn.hutool.core.io.FileUtil.move(src, dest, true);
             return dest.getPath();
         } else {
