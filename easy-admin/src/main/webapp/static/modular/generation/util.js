@@ -627,15 +627,17 @@ var generationTool = {
          * 生成class
          */
         var initBrickClass = function () {
+            var baseWidth = Math.floor(width / 12);
             if ('list-body' === css) {
                 return '.gridly.' + css + ' {width: ' + width + 'px}\
-                    .gridly.' + css + ' > .brick.size-1 {width: ' + (width / 12 - generationTool.gutter) + 'px;padding: 2px;text-align: center;}';
+                    .gridly.' + css + ' > .brick.size-1 {width: ' + (baseWidth - generationTool.gutter) + 'px;padding: 2px;text-align: center;}';
             } else {
+
                 return '.gridly.' + css + ' {width: ' + width + 'px}\
-                    .gridly.' + css + ' > .brick.size-1 {width: ' + (width - generationTool.gutter) + 'px;}\
-                    .gridly.' + css + ' > .brick.size-2 {width: ' + (width / 2 - generationTool.gutter) + 'px;}\
-                    .gridly.' + css + ' > .brick.size-3 {width: ' + (width / 3 - generationTool.gutter) + 'px;}\
-                    .gridly.' + css + ' > .brick.size-4 {width: ' + (width / 4 - generationTool.gutter) + 'px;}';
+                    .gridly.' + css + ' > .brick.size-1 {width: ' + (baseWidth - generationTool.gutter) + 'px;}\
+                    .gridly.' + css + ' > .brick.size-2 {width: ' + (baseWidth * 2 - generationTool.gutter) + 'px;}\
+                    .gridly.' + css + ' > .brick.size-3 {width: ' + (baseWidth * 3 - generationTool.gutter) + 'px;}\
+                    .gridly.' + css + ' > .brick.size-4 {width: ' + (baseWidth * 4 - generationTool.gutter) + 'px;}';
             }
         };
         var gridlyStyle = css + '-gridly';
