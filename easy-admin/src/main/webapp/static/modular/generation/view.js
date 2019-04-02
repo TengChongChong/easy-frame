@@ -358,7 +358,7 @@ var mGeneration = function () {
             searchOrder = initInput(configs, searchBody, searchOrder, 'list');
             deleteUnCheckElement(configs, searchBody);
             searchBody.gridly({
-                base: searchBody.width() / 12 - generationTool.gutter,
+                base: Math.floor(searchBody.width() / 12) - generationTool.gutter,
                 gutter: generationTool.gutter,
                 columns: 12,
                 callbacks: {
@@ -377,10 +377,7 @@ var mGeneration = function () {
             var configs = generationTool.selectFieldConfig('showInList');
             var listBody = $('#list-body');
             if (configs.length > 0) {
-                // var setListOrder = listOrder.length === 0;
                 $(configs).each(function (index, config) {
-                    // if (setListOrder) {
-                    // }
                     // 通过propertyName属性检查是不是已经放到页面中
                     var propertyName = listBody.find('[data-property-name="' + config.propertyName + '"]');
                     if (propertyName.length === 0) {
@@ -395,12 +392,11 @@ var mGeneration = function () {
             }
             deleteUnCheckElement(configs, listBody);
             listBody.gridly({
-                base: listBody.width() / 12 - generationTool.gutter,
+                base: Math.floor(listBody.width() / 12) - generationTool.gutter,
                 gutter: generationTool.gutter,
                 columns: 12,
                 callbacks: {
                     reordered: function ($elements) {
-                        // console.log($elements);
                         listOrder = generationTool.getOrderPropertyName($elements);
                     }
                 }
