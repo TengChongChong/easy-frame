@@ -45,6 +45,16 @@ public class GlobalController {
         return PREFIX + "500";
     }
 
+    /**
+     * 开发中
+     *
+     * @return view
+     */
+    @RequestMapping("/in-development")
+    public String inDevelopment() {
+        return PREFIX + "in-development";
+    }
+
     @RequestMapping("/session/time/out")
     public String errSessionTimeOut() {
         return PREFIX + "session-time-out";
