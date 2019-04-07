@@ -132,7 +132,7 @@ var mPersonalCenter = function () {
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/personal/center/');
+            mTool.setBaseUrl(basePath + '/auth/sys/user/personal/center/');
             // 绑定事件
             bind();
             bindPersonalSettings();

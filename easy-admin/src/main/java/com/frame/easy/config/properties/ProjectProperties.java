@@ -5,7 +5,6 @@ import com.frame.easy.common.constant.SysConfigConst;
 import com.frame.easy.util.SysConfigUtil;
 import com.frame.easy.util.ToolUtil;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.File;

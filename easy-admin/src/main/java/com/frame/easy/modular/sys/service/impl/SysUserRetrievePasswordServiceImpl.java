@@ -1,15 +1,20 @@
 package com.frame.easy.modular.sys.service.impl;
 
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.digest.DigestAlgorithm;
+import cn.hutool.crypto.digest.Digester;
+import cn.hutool.crypto.digest.MD5;
 import cn.hutool.extra.mail.MailUtil;
 import com.frame.easy.common.constant.CommonConst;
-import com.frame.easy.common.constant.MailConst;
+import com.frame.easy.common.redis.RedisPrefix;
 import com.frame.easy.core.mail.MailTemplate;
 import com.frame.easy.exception.EasyException;
-import com.frame.easy.modular.sys.model.SysMailVerifies;
 import com.frame.easy.modular.sys.service.SysMailVerifiesService;
 import com.frame.easy.modular.sys.service.SysUserRetrievePasswordService;
 import com.frame.easy.modular.sys.service.SysUserService;
+import com.frame.easy.util.RedisUtil;
 import com.frame.easy.util.SysConfigUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,23 +39,21 @@ public class SysUserRetrievePasswordServiceImpl implements SysUserRetrievePasswo
         if (StrUtil.isNotBlank(username)) {
             String userMail = sysUserService.getSysUserMailByUserName(username);
             if (StrUtil.isNotBlank(userMail) && userMail.equals(mail)) {
-                SysMailVerifies sysMailVerifies = sysMailVerifiesService.save(username, mail, MailConst.MAIL_BINDING_MAIL);
-                if (sysMailVerifies != null) {
-                    String url = CommonConst.projectProperties.getProjectUrl() + "/sys/mail/verifies/" + sysMailVerifies.getCode();
-                    String hideUsername = StrUtil.hide(username, 1, username.length() - 1);
-                    String content = "<b>尊敬的" + hideUsername + "您好：</b>\n" +
-                            "<br><br>\n" +
-                            "感谢您使用\n" +
-                            "<a href=\"" + CommonConst.projectProperties.getProjectUrl() + "\" target=\"_blank\" rel=\"noopener\">\n" +
-                            "    " + SysConfigUtil.getProjectName() + "\n" +
-                            "</a>\n" +
-                            "<br><br>\n" +
-                            "我们已经收到了您的重置密码申请，请于24小时内点击下方链接进行重置密码\n" +
-                            "<a href=\"" + url + "\" target=\"_blank\" rel=\"noopener\">\n" + url + "</a>\n";
-                    MailUtil.sendHtml(mail, "账号" + hideUsername + "密码重置", MailTemplate.applicationBindingMail(content));
-                    return true;
-                }
-                throw new EasyException("获取重置信息失败，请稍后重试");
+                String hideUsername = StrUtil.hide(username, 1, username.length() - 1);
+                // 验证码
+                String code = RandomUtil.randomString(6);
+                // 放到redis中,用于修改密码时验证
+                RedisUtil.set(RedisPrefix.RESET_PASSWORD_VERIFICATION_CODE + username, code);
+                String content = "<b>尊敬的" + hideUsername + "您好：</b>\n" +
+                        "<br><br>\n" +
+                        "感谢您使用\n" +
+                        "<a href=\"" + CommonConst.projectProperties.getProjectUrl() + "\" target=\"_blank\" rel=\"noopener\">\n" +
+                        "    " + SysConfigUtil.getProjectName() + "\n" +
+                        "</a>\n" +
+                        "<br><br>\n" +
+                        "我们已经收到了您的重置密码申请，您的验证码为 <font style=\"color: #dc3545;\">" + code + "</font>，有效期30分钟。\n";
+                MailUtil.sendHtml(mail, "账号" + hideUsername + "密码重置", MailTemplate.sendResetPasswordMail(content));
+                return true;
             }
             throw new EasyException("用户名与邮箱不匹配");
         } else {
@@ -61,15 +64,23 @@ public class SysUserRetrievePasswordServiceImpl implements SysUserRetrievePasswo
     @Override
     public boolean verifiesCode(String username, String code) {
         if (StrUtil.isNotBlank(username) && StrUtil.isNotBlank(code)) {
-            return sysMailVerifiesService.verifiesData(username, code);
+            String relCode = (String)RedisUtil.get(RedisPrefix.RESET_PASSWORD_VERIFICATION_CODE + username);
+            // 缓存中有当前用户重置密码需要的验证码
+            if(StrUtil.isNotBlank(relCode)){
+                if(SecureUtil.md5(relCode).equals(code)){
+                    return true;
+                }
+                throw new EasyException("验证码错误，请重新输入");
+            }
+            throw new EasyException("验证码已过期，请重新发送");
         }
-        throw new EasyException("获取用户名或校验码失败");
+        throw new EasyException("获取用户名或验证码失败");
     }
 
     @Override
     public boolean resetPassword(String username, String code, String password) {
         if (StrUtil.isNotBlank(username) && StrUtil.isNotBlank(code)) {
-            if (sysMailVerifiesService.verifiesData(username, code)) {
+            if (verifiesCode(username, code)) {
                 boolean isSuccess = sysUserService.resetPassword(username, password);
                 if (isSuccess) {
                     sysMailVerifiesService.remove(code);

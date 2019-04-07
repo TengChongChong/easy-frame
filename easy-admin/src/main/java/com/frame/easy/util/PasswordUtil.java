@@ -12,7 +12,7 @@ import com.frame.easy.common.key.Key;
 public class PasswordUtil {
 
     /**
-     * 加密密码 用于登录
+     * 加密密码 用于登录/重置密码
      *
      * @param password 密码(经过一次md5)
      * @param salt     盐

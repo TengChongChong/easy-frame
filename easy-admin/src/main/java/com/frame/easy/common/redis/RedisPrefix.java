@@ -32,4 +32,9 @@ public class RedisPrefix {
      * 系统参数
      */
     public static final String SYS_CONFIG = "sys:config:";
+
+    /**
+     * 找回密码验证码
+     */
+    public static final String RESET_PASSWORD_VERIFICATION_CODE = "reset:password:verification:code:";
 }

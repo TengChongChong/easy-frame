@@ -17,10 +17,10 @@ public interface SysUserRetrievePasswordService {
     boolean sendMail(String username, String mail);
 
     /**
-     * 验证校验码
+     * 验证验证码
      *
      * @param username 用户名
-     * @param code     校验码
+     * @param code     验证码
      * @return true/false
      */
     boolean verifiesCode(String username, String code);
@@ -34,4 +34,5 @@ public interface SysUserRetrievePasswordService {
      * @return true/false
      */
     boolean resetPassword(String username, String code, String password);
+
 }

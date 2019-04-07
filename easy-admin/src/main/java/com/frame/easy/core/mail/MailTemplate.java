@@ -43,7 +43,42 @@ public class MailTemplate {
                 "    </tr>\n" +
                 "    </tbody>\n" +
                 "</table>\n" +
-                footer();
+                footer("如果您未申请密保邮箱");
+    }
+    /**
+     * 发送重置密码验证码
+     *
+     * @param content 内容
+     * @return html
+     */
+    public static String sendResetPasswordMail(String content) {
+        return header() +
+                "<table class=\"font\" width=\"650\" align=\"center\" bgcolor=\"#ffffff\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\"\n" +
+                "       style=\"font-family: Arial, sans-serif;border-collapse: collapse;\">\n" +
+                "    <tbody>\n" +
+                "    <tr>\n" +
+                "        <td width=\"30\"></td>\n" +
+                "        <td>\n" +
+                "            <table width=\"590\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n" +
+                "                <tbody>\n" +
+                "                <tr>\n" +
+                "                    <td height=\"10\"></td>\n" +
+                "                </tr>\n" +
+                "                <tr>\n" +
+                "                    <td width=\"590\" style=\"border-collapse: collapse;font-size:13px;line-height: 18px;word-break: break-word;\">\n" +
+                "                    " + content + "</td>\n" +
+                "                </tr>\n" +
+                "                <tr>\n" +
+                "                    <td height=\"15\"></td>\n" +
+                "                </tr>\n" +
+                "                </tbody>\n" +
+                "            </table>\n" +
+                "        </td>\n" +
+                "        <td width=\"30\"></td>\n" +
+                "    </tr>\n" +
+                "    </tbody>\n" +
+                "</table>\n" +
+                footer("如果您未申请重置密码");
     }
 
     /**
@@ -98,9 +133,10 @@ public class MailTemplate {
     /**
      * 获取邮件底部头
      *
+     * @param tip 提示文字
      * @return html
      */
-    public static String footer() {
+    public static String footer(String tip) {
         return "<table width=\"650\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n" +
                 "    <tbody>\n" +
                 "    <tr>\n" +
@@ -115,7 +151,7 @@ public class MailTemplate {
                 "                    <td align=\"left\" style=\"padding-top:6px;padding-button:2px;\">\n" +
                 "                        <font style=\"font-size:12px; line-height:22px\" color=\"#5b5b5b\">\n" +
                 "                            <img src=\"" + CommonConst.projectProperties.getProjectUrl() + "/static/app/media/img/icon/icon-warning.png\" width=\"12\">&nbsp;\n" +
-                "                            重要提醒：如果您未申请密保邮箱，请忽略此邮件！</font>\n" +
+                "                            重要提醒：" + tip + "，请忽略此邮件！</font>\n" +
                 "                    </td>\n" +
                 "                </tr>\n" +
                 "                <tr>\n" +

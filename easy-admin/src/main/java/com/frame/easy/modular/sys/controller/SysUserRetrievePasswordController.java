@@ -5,7 +5,6 @@ import com.frame.easy.modular.sys.service.SysUserRetrievePasswordService;
 import com.frame.easy.result.Tips;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,19 +58,15 @@ public class SysUserRetrievePasswordController extends BaseController {
     /**
      * 验证用户名与校验码是否匹配
      *
-     * @param model    model
      * @param username 用户名
      * @param code     校验码
      * @return
      */
     @RequestMapping("verifies/{username}/{code}")
-    public String verifiesCode(Model model, @PathVariable("username") String username, @PathVariable("code") String code) {
+    @ResponseBody
+    public Tips verifiesCode(@PathVariable("username") String username, @PathVariable("code") String code) {
         logger.debug("/sys/user/retrieve/password/verifies/{username}/{code}");
-        if (service.verifiesCode(username, code)) {
-            model.addAttribute("username", username);
-            model.addAttribute("code", code);
-        }
-        return PREFIX + "reset-password";
+        return Tips.getSuccessTips(service.verifiesCode(username, code));
     }
 
     /**
@@ -83,6 +78,7 @@ public class SysUserRetrievePasswordController extends BaseController {
      * @return Tips
      */
     @RequestMapping("reset/password/{username}/{code}")
+    @ResponseBody
     public Tips resetPassword(@PathVariable("username") String username, @PathVariable("code") String code,
                               @RequestParam("password") String password) {
         logger.debug("/sys/user/retrieve/password/reset/password/{username}/{code}");

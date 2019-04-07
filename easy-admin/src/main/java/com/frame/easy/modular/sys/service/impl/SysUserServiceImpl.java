@@ -2,6 +2,7 @@ package com.frame.easy.modular.sys.service.impl;
 
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -72,7 +73,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 queryWrapper.eq("dept_id", sysUser.getDeptId());
             }
         }
-        return (Page)page(ToolUtil.getPage(sysUser), queryWrapper);
+        return (Page) page(ToolUtil.getPage(sysUser), queryWrapper);
     }
 
     @Override
@@ -159,12 +160,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         queryWrapper.in("id", ids.split(CommonConst.SPLIT));
         return mapper.resetPassword(password, salt, queryWrapper) > 0;
     }
+
     @Override
     public boolean resetPassword(String username, String password) {
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
         // 生成随机的盐
         String salt = RandomUtil.randomString(10);
-        password = PasswordUtil.generatingPasswords(CommonConst.projectProperties.getDefaultPassword(), salt);
+        if (StrUtil.isBlank(password)) {
+            password = PasswordUtil.generatingPasswords(CommonConst.projectProperties.getDefaultPassword(), salt);
+        } else {
+            password = PasswordUtil.encryptedPasswords(password, salt);
+        }
         queryWrapper.eq("username", username);
         return mapper.resetPassword(password, salt, queryWrapper) > 0;
     }
@@ -203,7 +209,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
             queryWrapper.select("email");
             queryWrapper.eq("username", username);
-            return mapper.selectOne(queryWrapper).getEmail();
+            SysUser sysUser = mapper.selectOne(queryWrapper);
+            if (sysUser != null) {
+                return sysUser.getEmail();
+            } else {
+                return null;
+            }
         }
         return null;
     }
