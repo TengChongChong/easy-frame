@@ -184,14 +184,15 @@
                                     tips="controller/entity/dao/service注释"/>
                                 </div>
                                 <div class="col-md-6 col-12">
-                                    <#form:input id="modelName" name="实体类名称" />
+                                    <#form:input id="modelName" name="实体类名称" required="true"/>
                                 </div>
                                 <div class="col-md-6 col-12">
-                                    <#form:input id="author" name="作者" tips="注释中的 @author"/>
+                                    <#form:input id="author" name="作者" tips="注释中的 @author" required="true"/>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group row">
                                         <label class="col-2 control-label" for="projectPath">
+                                            <span class="required">*</span>
                                             项目路径：
                                             <i data-toggle="m-tooltip" data-placement="top"
                                                data-original-title="idea中的项目绝对路径"
@@ -200,7 +201,7 @@
                                         <div class="col-10">
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="projectPath"
-                                                       name="projectPath"/>
+                                                       name="projectPath" required/>
                                                 <div class="input-group-append">
                                                     <button type="button" class="btn btn-secondary dropdown-toggle"
                                                             data-toggle="dropdown" aria-haspopup="true"
