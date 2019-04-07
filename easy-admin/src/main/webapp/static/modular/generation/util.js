@@ -284,7 +284,7 @@ var generationTool = {
     setLatelyPath: function () {
         var projectPath = $('#projectPath').val();
         if (mUtil.isNotBlank(projectPath)) {
-            var latelyPath = mTool.cacheGet('latelyPath');
+            var latelyPath = mTool.getCache('latelyPath');
             if (mUtil.isNotBlank(latelyPath)) {
                 latelyPath = $.parseJSON(latelyPath);
                 // 检查是否路径已缓存
@@ -301,7 +301,7 @@ var generationTool = {
                 latelyPath = [];
             }
             latelyPath.unshift(projectPath);
-            mTool.cacheSet('latelyPath', latelyPath);
+            mTool.setCache('latelyPath', latelyPath);
         }
     },
     /**
@@ -310,7 +310,7 @@ var generationTool = {
      * @return {array|null}
      */
     getLatelyPath: function () {
-        var latelyPath = mTool.cacheGet('latelyPath');
+        var latelyPath = mTool.getCache('latelyPath');
         if (mUtil.isNotBlank(latelyPath)) {
             latelyPath = $.parseJSON(latelyPath);
         } else {

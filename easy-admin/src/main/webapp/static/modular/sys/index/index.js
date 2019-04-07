@@ -34,6 +34,7 @@ var mIndex = function () {
             }
             mLayout.init();
             bindMenuClick();
+            setDefaultHorMenu();
         }
     };
     /**
@@ -203,7 +204,42 @@ var mIndex = function () {
             return '';
         }
     };
-
+    /**
+     * 横向菜单点击事件
+     *
+     * @param $menu
+     */
+    var horMenuClick = function ($menu) {
+        $menu.parents('ul').children().removeClass('m-menu__item--active');
+        $menu.parent().addClass('m-menu__item--active');
+        var target = $menu.data('target');
+        var $target = $(target);
+        if ($target.length > 0) {
+            mTool.setCache('hor-menu', target);
+            // 有目标子菜单
+            $('#m_ver_menu').children('ul').hide();
+            $target.show();
+        } else {
+            mApp.openPage($menu.text(), $menu.data('url'));
+        }
+    };
+    /**
+     * 设置默认横向水平菜单选中项
+     */
+    var setDefaultHorMenu = function () {
+        var target = mTool.getCache('hor-menu');
+        var $menu;
+        if(mUtil.isNotBlank(target)){
+            var _menu = $('[data-target="'+target+'"]');
+            if (_menu.length > 0) {
+                $menu = _menu;
+            }
+        }
+        if($menu == null){
+            $menu = $('#m_header_menu > ul > li:nth-child(1) > a');
+        }
+        horMenuClick($menu);
+    };
     /**
      * 添加点击菜单事件
      */
@@ -218,21 +254,9 @@ var mIndex = function () {
             return false;
         });
         mLayout.getHorMenu().on('linkClick', function (obj, menu) {
-            var $menu = $(menu);
-            $menu.parents('ul').children().removeClass('m-menu__item--active');
-            $menu.parent().addClass('m-menu__item--active');
-            var target = $($(menu).data('target'));
-            if (target.length > 0) {
-                // 有目标子菜单
-                var $varMenu = $('#m_ver_menu');
-                $varMenu.children('ul').hide();
-                target.show();
-            } else {
-                mApp.openPage($menu.text(), $menu.data('url'));
-            }
+            horMenuClick($(menu));
             return false;
         });
-
     };
     /**
      * 添加点击链接事件

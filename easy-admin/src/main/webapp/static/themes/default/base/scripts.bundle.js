@@ -6523,16 +6523,16 @@ var mTool = function () {
     var getUser = function (cache) {
         var user = null;
         if (typeof cache === 'undefined' || cache) {
-            user = cacheGet(defaultOptions.currentUser);
+            user = getCache(defaultOptions.currentUser);
             if (user == null) {
                 user = _getUser();
-                cacheSet(defaultOptions.currentUser, user);
+                setCache(defaultOptions.currentUser, user);
             } else {
                 user = $.parseJSON(user);
             }
         } else {
             user = _getUser();
-            cacheSet(defaultOptions.currentUser, user);
+            setCache(defaultOptions.currentUser, user);
         }
         return user;
     };
@@ -6652,7 +6652,7 @@ var mTool = function () {
      * @param key {string} 关键字
      * @return {object}
      */
-    var cacheGet = function (key) {
+    var getCache = function (key) {
         var obj;
         if (localStorage) {
             obj = localStorage.getItem(key);
@@ -6668,7 +6668,7 @@ var mTool = function () {
      * @param key {string} 关键字
      * @param value {object} 值
      */
-    var cacheSet = function (key, value) {
+    var setCache = function (key, value) {
         if (mUtil.isNotBlank(key)) {
             if (typeof value === 'object') {
                 value = JSON.stringify(value);
@@ -7263,8 +7263,8 @@ var mTool = function () {
          * @param key {string} 关键字
          * @return {object}
          */
-        cacheGet: function (key) {
-            return cacheGet(key);
+        getCache: function (key) {
+            return getCache(key);
         },
         /**
          * 设置cookies/localStorage中的变量
@@ -7272,8 +7272,8 @@ var mTool = function () {
          * @param key {string} 关键字
          * @param value {object} 值
          */
-        cacheSet: function (key, value) {
-            cacheSet(key, value);
+        setCache: function (key, value) {
+            setCache(key, value);
         },
         /**
          * 根据路径获取对象
