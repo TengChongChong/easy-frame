@@ -5679,7 +5679,7 @@ var mTabs = function (selector, options) {
          */
         getTabName: function (name) {
             if (mUtil.isNotBlank(name)) {
-                return mUtil.subStr(name, defaultOptions.tabNameLength);
+                return mUtil.subStr(name.trim(), defaultOptions.tabNameLength);
             } else {
                 return '新建标签页';
             }
@@ -11407,11 +11407,9 @@ var mWizard = function(elementId, options) {
                         first: true, // 第一页
                         last: true // 最后一页
                     },
-
                     // 页大小select
                     pageSizeSelect: []
                 },
-
                 // 记录信息
                 info: true
             }
@@ -11440,10 +11438,8 @@ var mWizard = function(elementId, options) {
                 }
             }
         },
-
         extensions: {}
     };
-
 }(jQuery));
 var mLayout = function() {
     var header;
@@ -11699,40 +11695,6 @@ var mLayout = function() {
         */
     };
 
-    //== Quicksearch
-    var initQuicksearch = function() {
-        if ($('#m_quicksearch').length === 0) {
-            return;
-        }
-
-        quicksearch = new mQuicksearch('m_quicksearch', {
-            mode: mUtil.attr('m_quicksearch', 'm-quicksearch-mode'), // quick search type
-            minLength: 1
-        });
-
-        //<div class="m-search-results m-search-results--skin-light"><span class="m-search-result__message">Something went wrong</div></div>
-
-        quicksearch.on('search', function(the) {
-            the.showProgress();
-
-            $.ajax({
-                url: 'inc/api/quick_search.php',
-                data: {
-                    query: the.query
-                },
-                dataType: 'html',
-                success: function(res) {
-                    the.hideProgress();
-                    the.showResult(res);
-                },
-                error: function(res) {
-                    the.hideProgress();
-                    the.showError('Connection error. Pleae try again later.');
-                }
-            });
-        });
-    };
-
     //== Scrolltop
     var initScrollTop = function() {
         new mScrollTop('m_scroll_top', {
@@ -11803,7 +11765,6 @@ var mLayout = function() {
             initStickyHeader();
             initHorMenu();
             initTopbar();
-            initQuicksearch();
             initScrollTop();
         },
 
@@ -11828,11 +11789,18 @@ var mLayout = function() {
                 }                
             });
         },
-
+        /**
+         * 获取侧边菜单
+         */
         getAsideMenu: function() {
             return asideMenu;
         },
-
+        /**
+         * 获取水平方向菜单
+         */
+        getHorMenu: function() {
+            return horMenu;
+        },
         onLeftSidebarToggle: function(handler) {
             if (asideLeftToggle) {
                 asideLeftToggle.on('toggle', handler);

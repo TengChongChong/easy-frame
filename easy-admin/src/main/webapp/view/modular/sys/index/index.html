@@ -20,7 +20,7 @@
         <div class="m-container m-container--fluid m-container--full-height">
             <div class="m-stack m-stack--ver m-stack--desktop">
 
-                <!-- BEGIN: Brand -->
+                <!-- BEGIN: Logo -->
                 <div class="m-stack__item m-brand  m-brand--skin-dark ">
                     <div class="m-stack m-stack--ver m-stack--general">
                         <div class="m-stack__item m-stack__item--middle m-brand__logo">
@@ -65,95 +65,24 @@
                         </div>
                     </div>
                 </div>
+                <!-- END: Logo -->
 
-                <!-- END: Brand -->
                 <div class="m-stack__item m-stack__item--fluid m-header-head" id="m_header_nav">
 
-                    <!-- BEGIN: Horizontal Menu -->
+                    <!-- BEGIN: 水平菜单 -->
                     <button class="m-aside-header-menu-mobile-close  m-aside-header-menu-mobile-close--skin-dark "
                             id="m_aside_header_menu_mobile_close_btn">
                         <i class="la la-close"></i>
                     </button>
-                    <div id="m_header_menu" class="m-header-menu m-aside-header-menu-mobile m-aside-header-menu-mobile--offcanvas  m-header-menu--skin-light m-header-menu--submenu-skin-light m-aside-header-menu-mobile--skin-dark m-aside-header-menu-mobile--submenu-skin-dark ">
-                        <ul class="m-menu__nav  m-menu__nav--submenu-arrow ">
-                            <li class="m-menu__item  m-menu__item--submenu m-menu__item--rel" m-menu-submenu-toggle="click" m-menu-link-redirect="1" aria-haspopup="true">
-                                <a href="javascript:;" class="m-menu__link m-menu__toggle">
-                                    <i class="m-menu__link-icon la la-book"></i>
-                                    <span class="m-menu__link-text">UI 示例</span>
-                                </a>
-                            </li>
-                            <li class="m-menu__item  m-menu__item--submenu m-menu__item--rel" m-menu-submenu-toggle="click" m-menu-link-redirect="1" aria-haspopup="true">
-                                <a href="javascript:;" class="m-menu__link m-menu__toggle">
-                                    <i class="m-menu__link-icon la la-file-text"></i>
-                                    <span class="m-menu__link-text">表单示例</span>
-                                </a>
-                            </li>
-                            <li class="m-menu__item  m-menu__item--submenu m-menu__item--rel" m-menu-submenu-toggle="click" m-menu-link-redirect="1" aria-haspopup="true">
-                                <a href="javascript:;" class="m-menu__link m-menu__toggle">
-                                    <i class="m-menu__link-icon la la-desktop"></i>
-                                    <span class="m-menu__link-title">
-                                        <span class="m-menu__link-wrap">
-                                            <span class="m-menu__link-text">页面示例</span>
-                                        </span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="m-menu__item  m-menu__item--submenu m-menu__item--rel" m-menu-submenu-toggle="click" m-menu-link-redirect="1" aria-haspopup="true">
-                                <a href="javascript:;" class="m-menu__link m-menu__toggle">
-                                    <i class="m-menu__link-icon flaticon-settings-1"></i>
-                                    <span class="m-menu__link-title">
-                                        <span class="m-menu__link-wrap">
-                                            <span class="m-menu__link-text">系统管理</span>
-                                        </span>
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
+                    <div id="m_header_menu" class="m-header-menu m-aside-header-menu-mobile m-aside-header-menu-mobile--offcanvas m-header-menu--skin-light m-header-menu--submenu-skin-light m-aside-header-menu-mobile--skin-dark m-aside-header-menu-mobile--submenu-skin-dark ">
+                        <ul class="m-menu__nav  m-menu__nav--submenu-arrow"></ul>
                     </div>
-
-                    <!-- END: Horizontal Menu -->
+                    <!-- END: 水平菜单 -->
 
                     <!-- BEGIN: Topbar -->
                     <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general m-stack--fluid">
                         <div class="m-stack__item m-topbar__nav-wrapper">
                             <ul class="m-topbar__nav m-nav m-nav--inline">
-                                <li class="m-nav__item m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width m-dropdown--skin-light	m-list-search m-list-search--skin-light"
-                                    m-dropdown-toggle="click" id="m_quicksearch" m-quicksearch-mode="dropdown"
-                                    m-dropdown-persistent="1">
-                                    <a href="#" class="m-nav__link m-dropdown__toggle">
-                                        <span class="m-nav__link-icon">
-                                            <i class="flaticon-search-1"></i>
-                                        </span>
-                                    </a>
-                                    <div class="m-dropdown__wrapper">
-                                        <span class="m-dropdown__arrow m-dropdown__arrow--center"></span>
-                                        <div class="m-dropdown__inner ">
-                                            <div class="m-dropdown__header">
-                                                <form class="m-list-search__form">
-                                                    <div class="m-list-search__form-wrapper">
-                                                        <span class="m-list-search__form-input-wrapper">
-                                                            <input id="m_quicksearch_input" autocomplete="off"
-                                                                   type="text" name="q"
-                                                                   class="m-list-search__form-input" value=""
-                                                                   placeholder="Search...">
-                                                        </span>
-                                                        <span class="m-list-search__form-icon-close"
-                                                              id="m_quicksearch_close">
-                                                            <i class="la la-remove"></i>
-                                                        </span>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div class="m-dropdown__body">
-                                                <div class="m-dropdown__scrollable m-scrollable" data-scrollable="true"
-                                                     data-height="300" data-mobile-height="200">
-                                                    <div class="m-dropdown__content">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
                                 <li class="m-nav__item m-topbar__notifications m-topbar__notifications--img m-dropdown m-dropdown--large m-dropdown--header-bg-fill m-dropdown--arrow m-dropdown--align-center 	m-dropdown--mobile-full-width"
                                     m-dropdown-toggle="click" m-dropdown-persistent="1">
                                     <a href="#" class="m-nav__link m-dropdown__toggle" id="m_topbar_notification_icon">
@@ -386,7 +315,6 @@
             </div>
         </div>
     </header>
-
     <!-- END: Header -->
 
     <!-- begin::Body -->
@@ -400,9 +328,7 @@
             <!-- BEGIN: 侧边菜单 -->
             <div id="m_ver_menu" class="m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark "
                  m-menu-vertical="1" m-menu-scrollable="1" m-menu-dropdown-timeout="500" style="position: relative;">
-                <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow ">
 
-                </ul>
             </div>
             <!-- END: 侧边菜单 -->
         </div>

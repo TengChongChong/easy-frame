@@ -9,8 +9,21 @@ var mIndex = function () {
         var menus = currentUser.menus;
         if (typeof menus !== 'undefined') {
             var $menuNav = $('#m_ver_menu > ul');
+
+            // 水平菜单
+            var $horizontalMenu = $('#m_header_menu > ul');
+            // 侧边菜单
+            var $varMenu = $('#m_ver_menu');
+
             if (menus.length > 0) {
-                $menuNav.append(initMenu(buildTree(menus), true));
+
+                menus = objectToArray(buildTree(menus));
+                // 初始化水平方向菜单
+                $horizontalMenu.html(initHorizontalMenu(menus));
+
+                // 初始化侧边菜单
+                // $menuNav.append(initMenu(menus, true));
+                $varMenu.append(initVarMenu(menus));
             } else {
                 $menuNav.append(
                     '<li class="m-menu__section ">\
@@ -19,7 +32,39 @@ var mIndex = function () {
                     </li>'
                 );
             }
+            mLayout.init();
+            bindMenuClick();
         }
+    };
+    /**
+     * 获取水平方向菜单
+     *
+     * @param menus {array} 菜单
+     * @returns {string} html
+     */
+    var initHorizontalMenu = function (menus) {
+        var html = '';
+        $(menus).each(function (index, menu) {
+            html += '<li class="m-menu__item m-menu__item--rel">\
+                        <a data-target="#sub_menu_' + menu.id + '" href="javascript:;" class="m-menu__link">' + getMenuIcon(menu, true) + getMenuText(menu) + '</a>\
+                    </li>';
+        });
+        return html;
+    };
+    /**
+     * 获取侧边菜单
+     *
+     * @param menus {array} 菜单
+     * @returns {string} html
+     */
+    var initVarMenu = function (menus) {
+        var html = '';
+        $(menus).each(function (index, menu) {
+            if (typeof menu.children !== 'undefined') {
+                html += '<ul id="sub_menu_' + menu.id + '" style="display: none;" class="m-menu__nav m-menu__nav--dropdown-submenu-arrow">' + initMenu(menu.children, true) + '</ul>';
+            }
+        });
+        return html;
     };
     /**
      * 将一维的扁平数组转换为多层级对象
@@ -33,9 +78,9 @@ var mIndex = function () {
             temp[list[i].id] = list[i];
         }
         for (var i in temp) {
-            if (temp[i].pId != rootId || temp[temp[i].pId]) {
+            if (temp[i].pId !== rootId || temp[temp[i].pId]) {
                 if (!temp[temp[i].pId].children) {
-                    temp[temp[i].pId].children = new Object();
+                    temp[temp[i].pId].children = {};
                 }
                 temp[temp[i].pId].children[temp[i].id] = temp[i];
             } else {
@@ -44,8 +89,6 @@ var mIndex = function () {
         }
         return tree;
     };
-
-
     /**
      * 获取菜单html
      *
@@ -166,9 +209,30 @@ var mIndex = function () {
      */
     var bindMenuClick = function () {
         mLayout.getAsideMenu().on('linkClick', function (obj, menu) {
-            mApp.openPage(menu.innerText, menu.attributes['data-url'].nodeValue);
+            var $menu = $(menu);
+            var url = $menu.data('url');
+            if(mUtil.isBlank(url)){
+                url = basePath + '/global/in-development';
+            }
+            mApp.openPage($menu.text(), url);
             return false;
         });
+        mLayout.getHorMenu().on('linkClick', function (obj, menu) {
+            var $menu = $(menu);
+            $menu.parents('ul').children().removeClass('m-menu__item--active');
+            $menu.parent().addClass('m-menu__item--active');
+            var target = $($(menu).data('target'));
+            if (target.length > 0) {
+                // 有目标子菜单
+                var $varMenu = $('#m_ver_menu');
+                $varMenu.children('ul').hide();
+                target.show();
+            } else {
+                mApp.openPage($menu.text(), $menu.data('url'));
+            }
+            return false;
+        });
+
     };
     /**
      * 添加点击链接事件
@@ -187,7 +251,6 @@ var mIndex = function () {
             currentUser = mTool.getUser(false);
             mApp.initTabs();
             loadMenu();
-            bindMenuClick();
             bindLinkClick();
         }
     };
