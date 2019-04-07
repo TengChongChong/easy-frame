@@ -334,7 +334,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
 
     private void updateMenuLevels(Long parent, Long id) {
         int parentLev;
-        if (parent == 1) {
+        if (JsTreeUtil.baseId.equals(parent)) {
             parentLev = 0;
         } else {
             parentLev = mapper.selectById(parent).getLevels();
