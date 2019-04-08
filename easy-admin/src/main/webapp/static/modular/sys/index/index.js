@@ -215,6 +215,7 @@ var mIndex = function () {
         var target = $menu.data('target');
         var $target = $(target);
         if ($target.length > 0) {
+            // 放到缓存里刷新页面后自动选中上次选中项
             mTool.setCache('hor-menu', target);
             // 有目标子菜单
             $('#m_ver_menu').children('ul').hide();
@@ -229,13 +230,14 @@ var mIndex = function () {
     var setDefaultHorMenu = function () {
         var target = mTool.getCache('hor-menu');
         var $menu;
-        if(mUtil.isNotBlank(target)){
-            var _menu = $('[data-target="'+target+'"]');
+        if (mUtil.isNotBlank(target)) {
+            var _menu = $('[data-target="' + target + '"]');
             if (_menu.length > 0) {
+                // 如果缓存里有选中的
                 $menu = _menu;
             }
         }
-        if($menu == null){
+        if ($menu == null) {
             $menu = $('#m_header_menu > ul > li:nth-child(1) > a');
         }
         horMenuClick($menu);
@@ -247,7 +249,7 @@ var mIndex = function () {
         mLayout.getAsideMenu().on('linkClick', function (obj, menu) {
             var $menu = $(menu);
             var url = $menu.data('url');
-            if(mUtil.isBlank(url)){
+            if (mUtil.isBlank(url)) {
                 url = basePath + '/global/in-development';
             }
             mApp.openPage($menu.text(), url);
