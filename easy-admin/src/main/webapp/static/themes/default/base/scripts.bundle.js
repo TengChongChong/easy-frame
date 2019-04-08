@@ -1579,18 +1579,18 @@ var mUtil = function () {
                         }
                         // 如果dataType未指定或者dataType为json
                         if (mUtil.isBlank(config.dataType) || 'json' === config.dataType) {
-                            if (mTool.httpCode.SUCCESS === res.code) {
+                            if (mTool.httpCode.success === res.code) {
                                 if (mUtil.isFunction(config.success)) {
                                     config.success(res);
                                 }
                             } else {
                                 if (config.needAlert == null || config.needAlert) {
                                     if (mUtil.isNotBlank(res.message)) {
-                                        if (mTool.httpCode.UNAUTHORIZED === res.code) { // 无权访问
+                                        if (mTool.httpCode.unauthorized === res.code) { // 无权访问
                                             mTool.errorTip(mTool.commonTips.unauthorized, res.message);
                                             // 权限可能被修改,刷新缓存用户数据
                                             mTool.getUser(false);
-                                        } else if (mTool.httpCode.INTERNAL_SERVER_ERROR === res.code) { // 业务异常
+                                        } else if (mTool.httpCode.internalServerError === res.code) { // 业务异常
                                             mTool.errorTip(mTool.commonTips.fail, res.message);
                                         } else {
                                             mTool.errorTip('错误代码[' + res.code + ']', res.message);
@@ -1800,7 +1800,7 @@ var mApp = function () {
             $(this).data('tabs-initialized', true);
         });
     };
-    
+
     var hideTouchWarning = function () {
         jQuery.event.special.touchstart = {
             setup: function (_, ns, handle) {
@@ -1885,7 +1885,7 @@ var mApp = function () {
     var initSelectPicker = function (selector) {
         $(selector).each(function () {
             var $element = $(this);
-            if (!$element.data('select-initialized') == true) {
+            if (!$element.data('select-initialized')) {
                 $element.attr('data-select-initialized', 'true');
 
                 // 指定了字典类型
@@ -1896,7 +1896,7 @@ var mApp = function () {
                 // 指定了 data-url 属性,ajax请求接口获取下拉菜单
                 if (typeof $element.data('url') !== 'undefined') {
                     $element.append('<option value=""></option>');
-                    initSelectByUrl($element)
+                    initSelectByUrl($element);
                 }
                 if (mUtil.isNotBlank($element.data('value'))) {
                     $element.val($element.data('value'));
@@ -1904,6 +1904,83 @@ var mApp = function () {
                 $element.selectpicker();
             }
         });
+    };
+    /**
+     * 初始化checkbox字典
+     *
+     * @param selector {string} jquery选择器
+     */
+    var initCheckbox = function (selector) {
+        initCheckBoxOrRadio($(selector), 'checkbox');
+    };
+    /**
+     * 初始化radio字典
+     *
+     * @param selector {string} jquery选择器
+     */
+    var initRadio = function (selector) {
+        initCheckBoxOrRadio($(selector), 'radio');
+    };
+    /**
+     * 初始化checkbox/radio字典
+     *
+     * @param $elements {object} jquery元素
+     * @param type {string} 类型
+     */
+    var initCheckBoxOrRadio = function ($elements, type) {
+        var defaultChecked = function (value, code) {
+            if (mUtil.isNumber(value)) {
+                try {
+                    code = Number(code);
+                } catch (e) {}
+                if(value === code){
+                    return 'checked';
+                }
+            } else {
+                if (mUtil.isNotBlank(value)) {
+                    var values = value.split(',');
+                    if (values.indexOf(code) > -1) {
+                        return 'checked';
+                    }
+                }
+            }
+            return '';
+        };
+        if ($elements != null && $elements.length > 0) {
+            $($elements).each(function (index, element) {
+                var $element = $(element);
+                // 检查是否初始化过
+                if (!$element.data(type + '-initialized')) {
+                    $element.attr('data-' + type + '-initialized', 'true');
+                    // 字典类型
+                    var dictType = $element.data('dict-type');
+                    if (mUtil.isNotBlank(dictType)) {
+                        // 方向
+                        var direction = $element.data('direction');
+                        var containerClass = 'm-' + type + '-inline';
+                        if ('vertical' === direction) {
+                            containerClass = 'm-' + type + '-list';
+                        }
+                        var dicts = mTool.getSysDictArray(dictType);
+                        if (dicts != null && dicts.length > 0) {
+                            var value = $element.data('value');
+                            var name = $element.data('name');
+                            var required = $element.data('required');
+                            var html = '<div class="' + containerClass + '">';
+                            $(dicts).each(function (index, dict) {
+                                html += '<label class="m-' + type + '">\
+                                        <input name="' + name + '" value="' + dict.code + '" type="' + type + '" ' +
+                                    defaultChecked(value, dict.code) + ' ' + (required ? 'required' : '') + '> ' + dict.name + '\
+                                        <span></span>\
+                                    </label>';
+                            });
+                            html += '</div>';
+                            $element.html(html);
+                        }
+                    }
+                }
+            });
+        }
     };
     /**
      * 初始化日期插件
@@ -1974,7 +2051,7 @@ var mApp = function () {
             if (typeof config.minView === 'undefined') {
                 config.minView = getMinView(config.format);
             }
-            $element.datetimepicker(config)
+            $element.datetimepicker(config);
         });
     };
     /**
@@ -2040,6 +2117,8 @@ var mApp = function () {
             initFileInput();
             initCustomTabs();
             initSelectPicker('.select-picker');
+            initCheckbox('.checkbox-dict');
+            initRadio('.radio-dict');
             initDatePicker('.date-picker');
         },
         /**
@@ -5974,9 +6053,9 @@ var mTool = function () {
     var defaultOptions = {
         currentUser: 'current_user', // 缓存中当前登录用户key
         httpCode: {
-            SUCCESS: 200, // 成功
-            UNAUTHORIZED: 401, // 无权访问
-            INTERNAL_SERVER_ERROR: 500 // 异常
+            success: 200, // 成功
+            unauthorized: 401, // 无权访问
+            internalServerError: 500 // 异常
         },
         /**
          * 默认提示文字
@@ -6031,9 +6110,11 @@ var mTool = function () {
          */
         dataTable: {
             page: {
+                // 默认页大小
                 size: 15
             },
             layout: {
+                // 默认高度
                 height: 435
             }
         }
@@ -6324,7 +6405,7 @@ var mTool = function () {
                     read: {
                         url: url,
                         map: function (res) {
-                            if (typeof res !== 'undefined' && mTool.httpCode.SUCCESS === res.code) {
+                            if (typeof res !== 'undefined' && mTool.httpCode.success === res.code) {
                                 if (typeof res.data.records !== 'undefined') { // 带有分页信息
                                     return res.data.records;
                                 } else {
@@ -8959,7 +9040,7 @@ var mWizard = function(elementId, options) {
                     if (options.pagination) {
                         if (options.data.serverPaging && options.data.type !== 'local') {
                             // 服务器端分页
-                            if (mTool.httpCode.SUCCESS !== result.code) {
+                            if (mTool.httpCode.success !== result.code) {
                                 mTool.errorTip('查询数据失败', result.message);
                                 result.data = [];
                                 result.data.current = 0;
