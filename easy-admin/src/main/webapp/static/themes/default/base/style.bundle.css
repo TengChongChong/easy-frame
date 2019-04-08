@@ -13659,7 +13659,8 @@ strong {
           .m-datatable.m-datatable--default > .m-datatable__table > .m-datatable__foot .m-datatable__row > .m-datatable__cell > span {
             display: block;
             overflow: hidden;
-            text-overflow: ellipsis; }
+            text-overflow: ellipsis;
+            white-space: nowrap; }
           .m-datatable.m-datatable--default > .m-datatable__table > .m-datatable__head .m-datatable__row > .m-datatable__cell.m-datatable__cell--check,
           .m-datatable.m-datatable--default > .m-datatable__table > .m-datatable__body .m-datatable__row > .m-datatable__cell.m-datatable__cell--check,
           .m-datatable.m-datatable--default > .m-datatable__table > .m-datatable__foot .m-datatable__row > .m-datatable__cell.m-datatable__cell--check {
@@ -30810,7 +30811,9 @@ body.m-content--skin-light2 {
           width: 30px;
           text-align: left;
           padding: 0;
-          line-height: 0; }
+          line-height: 0;
+          -webkit-transition: all 0.3s ease;
+          transition: all 0.3s ease; }
         .m-header-menu .m-menu__nav > .m-menu__item > .m-menu__link .m-menu__link-bullet {
           vertical-align: middle;
           text-align: left;
@@ -30828,7 +30831,9 @@ body.m-content--skin-light2 {
         .m-header-menu .m-menu__nav > .m-menu__item > .m-menu__link .m-menu__link-text {
           font-weight: 400;
           font-size: 1.07rem;
-          text-transform: initial; }
+          text-transform: initial;
+          -webkit-transition: all 0.3s ease;
+          transition: all 0.3s ease; }
         .m-header-menu .m-menu__nav > .m-menu__item > .m-menu__link .m-menu__link-badge {
           padding: 0px 0px 0px 5px;
           text-align: right; }
@@ -30852,7 +30857,9 @@ body.m-content--skin-light2 {
               width: 33px;
               text-align: left;
               padding: 0;
-              line-height: 0; }
+              line-height: 0;
+              -webkit-transition: all 0.3s ease;
+              transition: all 0.3s ease; }
             .m-header-menu .m-menu__nav > .m-menu__item .m-menu__submenu > .m-menu__subnav > .m-menu__item > .m-menu__link .m-menu__link-bullet {
               vertical-align: middle;
               text-align: left;
@@ -30870,7 +30877,9 @@ body.m-content--skin-light2 {
             .m-header-menu .m-menu__nav > .m-menu__item .m-menu__submenu > .m-menu__subnav > .m-menu__item > .m-menu__link .m-menu__link-text {
               font-weight: 400;
               font-size: 1rem;
-              text-transform: initial; }
+              text-transform: initial;
+              -webkit-transition: all 0.3s ease;
+              transition: all 0.3s ease; }
             .m-header-menu .m-menu__nav > .m-menu__item .m-menu__submenu > .m-menu__subnav > .m-menu__item > .m-menu__link .m-menu__link-badge {
               padding: 0px 0px 0px 5px;
               text-align: right; }
@@ -30909,7 +30918,9 @@ body.m-content--skin-light2 {
                 width: 33px;
                 text-align: left;
                 padding: 0;
-                line-height: 0; }
+                line-height: 0;
+                -webkit-transition: all 0.3s ease;
+                transition: all 0.3s ease; }
               .m-header-menu .m-menu__nav > .m-menu__item .m-menu__submenu > .m-menu__subnav .m-menu__content .m-menu__inner > .m-menu__item > .m-menu__link .m-menu__link-bullet {
                 vertical-align: middle;
                 text-align: left;
@@ -30927,7 +30938,9 @@ body.m-content--skin-light2 {
               .m-header-menu .m-menu__nav > .m-menu__item .m-menu__submenu > .m-menu__subnav .m-menu__content .m-menu__inner > .m-menu__item > .m-menu__link .m-menu__link-text {
                 font-weight: 400;
                 font-size: 1rem;
-                text-transform: initial; }
+                text-transform: initial;
+                -webkit-transition: all 0.3s ease;
+                transition: all 0.3s ease; }
               .m-header-menu .m-menu__nav > .m-menu__item .m-menu__submenu > .m-menu__subnav .m-menu__content .m-menu__inner > .m-menu__item > .m-menu__link .m-menu__link-badge {
                 padding: 0px 0px 0px 5px;
                 text-align: right; }
