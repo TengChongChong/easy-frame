@@ -34,6 +34,7 @@ public class ModelConfig {
         imports.add("com.baomidou.mybatisplus.annotation.IdType");
         imports.add("com.baomidou.mybatisplus.annotation.TableId");
         if(generator.getGenSelect()){
+            imports.add("com.baomidou.mybatisplus.annotation.TableField");
             // 自定义分页
             imports.add("com.frame.easy.common.page.Page");
             // 自定义接口
