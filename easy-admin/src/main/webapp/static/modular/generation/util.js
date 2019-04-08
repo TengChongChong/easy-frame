@@ -20,7 +20,7 @@ var preferenceSetting = {
             // 一般使用 = 匹配的字段
             eq: ['status', 'state', 'typeCode', 'type'],
             // 一般使用 like 匹配的字段
-            like: ['name', 'simpleName', 'tips', 'code', 'content']
+            like: ['name', 'simpleName', 'tips', 'code', 'content', 'url']
         }
     },
     input: {
@@ -634,7 +634,7 @@ var generationTool = {
             } else {
 
                 return '.gridly.' + css + ' {width: ' + width + 'px}\
-                    .gridly.' + css + ' > .brick.size-1 {width: ' + (baseWidth - generationTool.gutter) + 'px;}\
+                    .gridly.' + css + ' > .brick.size-1 {width: ' + (baseWidth * 12 - generationTool.gutter) + 'px;}\
                     .gridly.' + css + ' > .brick.size-2 {width: ' + (baseWidth * 6 - generationTool.gutter) + 'px;}\
                     .gridly.' + css + ' > .brick.size-3 {width: ' + (baseWidth * 4 - generationTool.gutter) + 'px;}\
                     .gridly.' + css + ' > .brick.size-4 {width: ' + (baseWidth * 3 - generationTool.gutter) + 'px;}';
