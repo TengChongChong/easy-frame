@@ -3,14 +3,19 @@ package com.frame.easy.config.web;
 import cn.hutool.core.util.StrUtil;
 import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.status.ProfilesActiveStatus;
+import com.frame.easy.modular.sys.model.SysException;
+import com.frame.easy.modular.sys.model.SysUser;
+import com.frame.easy.modular.sys.service.SysExceptionService;
 import com.frame.easy.result.Tips;
 import com.frame.easy.exception.EasyException;
 import com.frame.easy.core.web.Servlets;
+import com.frame.easy.util.ShiroUtil;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * 通用异常处理(应用级异常)
@@ -31,6 +37,8 @@ public class ExceptionControllerAdvice {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Autowired
+    private SysExceptionService sysExceptionService;
 
     /**
      * 拦截业务异常
@@ -46,7 +54,7 @@ public class ExceptionControllerAdvice {
     }
 
     /**
-     * 拦截业务异常
+     * 拦截未经认证异常
      */
     @ExceptionHandler(UnauthenticatedException.class)
     public ModelAndView unauthenticatedException(UnauthenticatedException e) {
@@ -93,6 +101,20 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(RuntimeException.class)
     public Object handleException(HttpServletRequest request, RuntimeException e) {
         logger.debug("未知异常", e);
+        // 将异常记录到表中
+        SysException sysException = new SysException();
+        sysException.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        sysException.setMessage(e.getMessage());
+        sysException.setUrl(request.getRequestURI());
+        sysException.setTriggerTime(new Date());
+        sysException.setType(e.getClass().getName());
+        sysException.setTrace(StrUtil.join("\n\t", e.getStackTrace()));
+        SysUser currentUser = ShiroUtil.getCurrentUser();
+        if(currentUser != null){
+            sysException.setUserId(currentUser.getId());
+        }
+        sysExceptionService.saveData(sysException);
+
         if (Servlets.isAjaxRequest(request)) {
             return Tips.getErrorTips(e.getMessage());
         } else {

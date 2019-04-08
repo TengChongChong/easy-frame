@@ -7,28 +7,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.frame.easy.modular.sys.model.SysConfig;
-import com.frame.easy.modular.sys.service.SysConfigService;
+import com.frame.easy.modular.sys.model.SysException;
+import com.frame.easy.modular.sys.service.SysExceptionService;
 
 /**
- * 系统参数
+ * 异常日志
  *
- * @author admin
- * @date 2019-03-03 15:52:44
+ * @author TengChong
+ * @date 2019-04-08
  */
 @Controller
-@RequestMapping("/auth/sys/config")
-public class SysConfigController extends BaseController {
+@RequestMapping("/auth/sys/exception")
+public class SysExceptionController extends BaseController {
     /**
      * view 路径
      */
-    private final String PREFIX = "modular/sys/config/";
+    private final String PREFIX = "modular/sys/exception/";
 
     /**
-     * 系统参数 service
+     * 异常日志 service
      */
     @Autowired
-    private SysConfigService service;
+    private SysExceptionService service;
 
     /**
      * 列表
@@ -37,7 +37,7 @@ public class SysConfigController extends BaseController {
      */
     @RequestMapping("list")
     public String list(){
-        logger.debug("/auth/sys/config/list");
+        logger.debug("/auth/sys/exception/list");
         return PREFIX + "list";
     }
 
@@ -49,9 +49,9 @@ public class SysConfigController extends BaseController {
      */
     @RequestMapping("select")
     @ResponseBody
-    @RequiresPermissions("sys:config:select")
-    public Tips select(@RequestBody(required = false) SysConfig object){
-        logger.debug("/auth/sys/config/select");
+    @RequiresPermissions("sys:exception:select")
+    public Tips select(@RequestBody(required = false) SysException object){
+        logger.debug("/auth/sys/exception/select");
         return Tips.getSuccessTips(service.select(object));
     }
     /**
@@ -61,25 +61,13 @@ public class SysConfigController extends BaseController {
      * @return String
      */
     @RequestMapping("/input/{id}")
-    @RequiresPermissions("sys:config:select")
+    @RequiresPermissions("sys:exception:select")
     public String input(Model model, @PathVariable("id") Long id) {
-        logger.debug("/auth/sys/config/input/" + id);
+        logger.debug("/auth/sys/exception/input/" + id);
         model.addAttribute("object", service.input(id));
         return PREFIX + "input";
     }
 
-    /**
-     * 新增
-     *
-     * @return String
-     */
-    @RequestMapping("/add")
-    @RequiresPermissions("sys:config:add")
-    public String add(Model model) {
-        logger.debug("/auth/sys/config/add");
-        model.addAttribute("object", service.add());
-        return PREFIX + "input";
-    }
     /**
      * 删除
      *
@@ -88,9 +76,9 @@ public class SysConfigController extends BaseController {
      */
     @RequestMapping("/delete/{ids}")
     @ResponseBody
-    @RequiresPermissions("sys:config:delete")
+    @RequiresPermissions("sys:exception:delete")
     public Tips delete(@PathVariable("ids") String ids) {
-        logger.debug("/auth/sys/config/delete/" + ids);
+        logger.debug("/auth/sys/exception/delete/" + ids);
         return Tips.getSuccessTips(service.delete(ids));
     }
     /**
@@ -101,22 +89,9 @@ public class SysConfigController extends BaseController {
      */
     @RequestMapping("/save/data")
     @ResponseBody
-    @RequiresPermissions("sys:config:save")
-    public Tips saveData(SysConfig object){
-        logger.debug("/auth/sys/config/save/data");
+    @RequiresPermissions("sys:exception:save")
+    public Tips saveData(SysException object){
+        logger.debug("/auth/sys/exception/save/data");
         return Tips.getSuccessTips(service.saveData(object));
-    }
-
-    /**
-     * 刷新缓存中的系统参数
-     *
-     * @return Tips
-     */
-    @RequestMapping("/refresh/cache")
-    @ResponseBody
-    @RequiresPermissions("sys:config:save")
-    public Tips refreshCache(){
-        logger.debug("/auth/sys/config/refresh/cache");
-        return Tips.getSuccessTips(service.refreshCache());
     }
 }
