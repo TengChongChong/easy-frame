@@ -20,7 +20,7 @@ var mUserList = function () {
                         return url;
                     }
                 }
-            },
+            }
         }).on('activate_node.jstree', function (e, data) {
             activateNode(data.node)
         });
