@@ -21405,7 +21405,7 @@ body.m-portlet--fullscreen {
 
 .m-checkbox-list,
 .m-radio-list {
-  padding: 0 0; }
+  padding: 5px 0 0 0; }
   .form-horizontal .form-group .m-checkbox-list, .form-horizontal .form-group
   .m-radio-list {
     padding-top: 0; }
