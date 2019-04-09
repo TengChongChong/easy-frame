@@ -47,7 +47,7 @@ public class ${config.modelName}Controller extends BaseController {
     <% if(config.permissionsCode != null && config.permissionsCode != '') { %>
     @RequiresPermissions("${config.permissionsCode}:select")
     <% } %>
-    public Tips select(@RequestBody ${config.modelName} object){
+    public Tips select(@RequestBody(required = false) ${config.modelName} object){
         logger.debug("/auth/${config.controllerMapping}/select");
         return Tips.getSuccessTips(service.select(object));
     }
@@ -113,7 +113,7 @@ public class ${config.modelName}Controller extends BaseController {
     <% if(config.permissionsCode != null && config.permissionsCode != '') { %>
     @RequiresPermissions("${config.permissionsCode}:save")
     <% } %>
-    public Tips saveData(${config.modelName} object){
+    public Tips saveData(@RequestBody(required = false)${config.modelName} object){
         logger.debug("/auth/${config.controllerMapping}/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }
