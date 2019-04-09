@@ -1,0 +1,45 @@
+@layout("/common/container.html"){
+<form class="m-form">
+    <div class="m-portlet" m-portlet="true">
+        <#portlet:head title="代码生成示例" icon="la la-bars"/>
+        <div class="m-portlet__body">
+            <div class="row">
+                <!-- str:表单区域 -->
+                <input type="hidden" id="id" name="id" value="${object.id}" />
+                <div class="col-lg-6 col-12">
+                    <#form:input id="name" name="姓名" value="${object.name}" />
+                </div>
+                <div class="col-lg-6 col-12">
+                    <div class="form-group row">
+                        <label class="col-4 control-label">性别</label>
+                        <div class="col-8">
+                            <div class="radio-dict" data-name="sex" data-dict-type="sex" data-value="${object.sex}"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <#form:input id="phone" name="手机号码" value="${object.phone}" />
+                </div>
+                <div class="col-lg-6 col-12">
+                    <#form:input type="number"  id="age" name="年龄" value="${object.age}" />
+                </div>
+                <div class="col-lg-6 col-12">
+                    <#form:select class="select-picker" dataDictType="commonStatus" id="status" name="状态" value="${object.status}" />
+                </div>
+                <div class="col-12">
+                    <#form:textarea id="address" name="地址" value="${object.address}" />
+                </div>
+                <!-- end:表单区域 -->
+            </div>
+        </div>
+        <div class="m-portlet__foot m-portlet__foot--fit">
+            <div class="m-form__actions text-center">
+                <#btn:save permission="sample:general:save"/>
+            </div>
+        </div>
+    </div>
+</form>
+<!--begin::页面脚本 -->
+<script src="${ctxPath}/static/modular/sample/general/input.js?v=${version()}" type="text/javascript"></script>
+<!--end::页面脚本 -->
+@}
