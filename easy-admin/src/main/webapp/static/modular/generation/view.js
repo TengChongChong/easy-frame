@@ -282,8 +282,10 @@ var mGeneration = function () {
      *
      * @param configs {object} 用户设置
      * @param content {object} 查找范围
+     * @param array {array} 查询条件/表格/input顺序
+     * @return array 查询条件/表格/input顺序
      */
-    var deleteUnCheckElement = function (configs, content) {
+    var deleteUnCheckElement = function (configs, content, array) {
         var checkHav = function (configs, propertyName) {
             var hav = false;
             $(configs).each(function (index, config) {
@@ -299,10 +301,12 @@ var mGeneration = function () {
             $(elements).each(function (index, element) {
                 element = $(element);
                 if (!checkHav(configs, element.data('property-name'))) {
+                    array.splice(array.indexOf(element.data('property-name')), 1);
                     element.remove();
                 }
             });
         }
+        return array;
     };
     /**
      * 设置输入框
@@ -356,7 +360,7 @@ var mGeneration = function () {
             var configs = generationTool.selectFieldConfig('showInSearch');
             var searchBody = $('#search-body');
             searchOrder = initInput(configs, searchBody, searchOrder, 'list');
-            deleteUnCheckElement(configs, searchBody);
+            searchOrder = deleteUnCheckElement(configs, searchBody, searchOrder);
             searchBody.gridly({
                 base: Math.floor(searchBody.width() / 12) - generationTool.gutter,
                 gutter: generationTool.gutter,
@@ -390,7 +394,7 @@ var mGeneration = function () {
                     }
                 });
             }
-            deleteUnCheckElement(configs, listBody);
+            listOrder = deleteUnCheckElement(configs, listBody, listOrder);
             listBody.gridly({
                 base: Math.floor(listBody.width() / 12) - generationTool.gutter,
                 gutter: generationTool.gutter,
@@ -415,7 +419,7 @@ var mGeneration = function () {
         var configs = generationTool.selectFieldConfig('showInInput');
         var inputBody = $('#input-body');
         inputOrder = initInput(configs, inputBody, inputOrder, 'input');
-        deleteUnCheckElement(configs, inputBody);
+        inputOrder = deleteUnCheckElement(configs, inputBody, inputOrder);
         inputBody.gridly({
             base: inputBody.width() / 12 - generationTool.gutter,
             gutter: generationTool.gutter,
