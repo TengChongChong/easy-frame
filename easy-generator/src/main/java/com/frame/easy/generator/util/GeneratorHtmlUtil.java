@@ -75,9 +75,11 @@ public class GeneratorHtmlUtil {
                 element = selectMultiple(fieldSet, value, pageType);
                 break;
             case "radio":
+                tab++;
                 element = radio(fieldSet, tab, value, pageType);
                 break;
             case "checkbox":
+                tab++;
                 element = checkbox(fieldSet, tab, value, pageType);
                 break;
             case "date":
@@ -103,7 +105,13 @@ public class GeneratorHtmlUtil {
             } else {
                 gridClass = getGridClass(fieldSet.getListGrid());
             }
-            return "<div class=\"" + gridClass + "\">\n" + GeneratorUtil.getTab(tab + 1) + element + "\n" + GeneratorUtil.getTab(tab) + "</div>";
+            String html;
+            if("checkbox".equals(fieldSet.getElementType()) || "radio".equals(fieldSet.getElementType())){
+                html = "<div class=\"" + gridClass + "\">\n" + GeneratorUtil.getTab(tab) + "<div class=\"form-group row\">\n" + GeneratorUtil.getTab(tab + 1) + element + "\n" + GeneratorUtil.getTab(tab) + "</div>" + "\n" + GeneratorUtil.getTab(tab - 1) +  "</div>";
+            }else{
+                html = "<div class=\"" + gridClass + "\">\n" + GeneratorUtil.getTab(tab + 1) + element + "\n" + GeneratorUtil.getTab(tab) + "</div>";
+            }
+            return html;
         } else {
             return element;
         }
@@ -300,7 +308,16 @@ public class GeneratorHtmlUtil {
     private static String radio(FieldSet fieldSet, int tab, boolean value, String pageType) {
         StringBuilder html = new StringBuilder();
         if (StrUtil.isNotBlank(fieldSet.getDictType())) {
-            html.append("<div class=\"m-radio-inline radio-dict\" data-dict-type=\"").append(fieldSet.getDictType()).append("\"></div>");
+            html.append("<div class=\"radio-dict\"")
+                    .append(" data-name=\"").append(fieldSet.getPropertyName()).append("\"")
+                    .append(" data-dict-type=\"").append(fieldSet.getDictType()).append("\"");
+            if(value){
+                html.append(" data-value=\"${object.").append(fieldSet.getPropertyName()).append("}\"");
+            }
+            if(fieldSet.getRequired()){
+                html.append(" data-required=\"").append(fieldSet.getRequired()).append("\"");
+            }
+            html.append("></div>");
         } else {
             html.append("<div class=\"m-radio-inline\"></div>");
         }
@@ -317,7 +334,16 @@ public class GeneratorHtmlUtil {
     private static String checkbox(FieldSet fieldSet, int tab, boolean value, String pageType) {
         StringBuilder html = new StringBuilder();
         if (StrUtil.isNotBlank(fieldSet.getDictType())) {
-            html.append("<div class=\"m-checkbox-inline checkbox-dict\" data-dict-type=\"").append(fieldSet.getDictType()).append("\"></div>");
+            html.append("<div class=\"checkbox-dict\"")
+                    .append(" data-name=\"").append(fieldSet.getPropertyName()).append("\"")
+                    .append(" data-dict-type=\"").append(fieldSet.getDictType()).append("\"");
+            if(value){
+                html.append(" data-value=\"${object.").append(fieldSet.getPropertyName()).append("}\"");
+            }
+            if(fieldSet.getRequired()){
+                html.append(" data-required=\"").append(fieldSet.getRequired()).append("\"");
+            }
+            html.append("></div>");
         } else {
             html.append("<div class=\"m-checkbox-inline\"></div>");
         }
