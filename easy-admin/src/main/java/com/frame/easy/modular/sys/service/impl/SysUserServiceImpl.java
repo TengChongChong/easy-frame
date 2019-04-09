@@ -257,7 +257,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public boolean setUserMail(Long userId, String mail) {
+        // 解绑该邮箱以前绑定的账号
+        UpdateWrapper<SysUser> untyingMail = new UpdateWrapper<>();
+        untyingMail.eq("email", mail);
+        untyingMail.set("email", null);
+        update(untyingMail);
+
+        // 绑定新账号
         UpdateWrapper<SysUser> updateWrapper = new UpdateWrapper<>();
         updateWrapper.set("email", mail);
         updateWrapper.eq("id", userId);
