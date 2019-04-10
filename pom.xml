@@ -42,6 +42,7 @@
         <velocity.version>1.7</velocity.version>
         <jackson.databind.version>2.9.6</jackson.databind.version>
         <javax.mail.version>1.4.7</javax.mail.version>
+        <poi.version>3.17</poi.version>
     </properties>
 
     <dependencyManagement>

@@ -36,6 +36,11 @@
             <scope>test</scope>
         </dependency>
         <!-- end: spring boot -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
