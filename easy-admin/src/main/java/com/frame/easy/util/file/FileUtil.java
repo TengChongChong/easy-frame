@@ -23,21 +23,23 @@ public class FileUtil {
      */
     private static final String FORMAL = "formal";
     /**
-     * 上传文件临时存放路径
-     * 每天0点会清空前天上传的文件
+     * 临时文件存放路径
+     * 每天0点会清空前天的临时文件
      */
-    private static final String TEMPORARY_UPLOAD_PATH = CommonConst.projectProperties.getFileUploadPath() + TEMPORARY + File.separator;
+    private static final String TEMPORARY_PATH = CommonConst.projectProperties.getFileUploadPath() + TEMPORARY + File.separator;
 
     /**
-     * 上传文件正式存放路径
+     * 正式文件存放路径
      */
     private static final String FORMAL_PATH = CommonConst.projectProperties.getFileUploadPath() + FORMAL + File.separator;
 
     /**
-     * 上传文件临时存放路径
+     * 获取临时文件存放路径
+     *
+     * @return 临时路径/yyyy/mm/dd/
      */
-    public static String getTemporaryUploadPath() {
-        File file = new File(TEMPORARY_UPLOAD_PATH + DateUtil.today().replaceAll("-", File.separator));
+    public static String getTemporaryPath() {
+        File file = new File(TEMPORARY_PATH + DateUtil.today().replaceAll("-", File.separator));
         if (!file.exists()) {
             file.mkdirs();
         }
@@ -63,7 +65,6 @@ public class FileUtil {
         } else {
             throw new EasyException("移动到正式目录失败[源文件 - " + path + " 不存在]");
         }
-
     }
 
     /**
@@ -105,7 +106,7 @@ public class FileUtil {
         return delByPath(CommonConst.projectProperties.getFileUploadPath() + url.replaceAll("/static/", ""));
     }
     /**
-     * 根据正式路径下的文件路径删除
+     * 根据文件路径删除
      *
      * @param path 路径
      * @return true/false
