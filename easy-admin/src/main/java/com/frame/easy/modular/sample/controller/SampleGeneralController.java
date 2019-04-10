@@ -1,14 +1,26 @@
 package com.frame.easy.modular.sample.controller;
 
+import cn.hutool.http.HttpResponse;
 import com.frame.easy.base.controller.BaseController;
 import com.frame.easy.result.Tips;
+import com.frame.easy.util.http.HttpUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.frame.easy.modular.sample.model.SampleGeneral;
 import com.frame.easy.modular.sample.service.SampleGeneralService;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Date;
 
 /**
  * 代码生成示例
@@ -36,7 +48,7 @@ public class SampleGeneralController extends BaseController {
      * @return String
      */
     @RequestMapping("list")
-    public String list(){
+    public String list() {
         logger.debug("/auth/sample/general/list");
         return PREFIX + "list";
     }
@@ -50,10 +62,11 @@ public class SampleGeneralController extends BaseController {
     @RequestMapping("select")
     @ResponseBody
     @RequiresPermissions("sample:general:select")
-    public Tips select(@RequestBody(required = false) SampleGeneral object){
+    public Tips select(@RequestBody(required = false) SampleGeneral object) {
         logger.debug("/auth/sample/general/select");
         return Tips.getSuccessTips(service.select(object));
     }
+
     /**
      * 详情
      *
@@ -80,6 +93,7 @@ public class SampleGeneralController extends BaseController {
         model.addAttribute("object", service.add());
         return PREFIX + "input";
     }
+
     /**
      * 删除
      *
@@ -93,6 +107,7 @@ public class SampleGeneralController extends BaseController {
         logger.debug("/auth/sample/general/delete/" + ids);
         return Tips.getSuccessTips(service.delete(ids));
     }
+
     /**
      * 保存
      *
@@ -102,8 +117,26 @@ public class SampleGeneralController extends BaseController {
     @RequestMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sample:general:save")
-    public Tips saveData(@RequestBody(required = false)SampleGeneral object){
+    public Tips saveData(@RequestBody(required = false) SampleGeneral object) {
         logger.debug("/auth/sample/general/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }
+
+    /**
+     * 导出查询结果
+     *
+     * @param object 查询条件
+     * @return Tips
+     */
+    @RequestMapping("export/data")
+    @ResponseBody
+    @RequiresPermissions("sample:general:select")
+    public ResponseEntity<FileSystemResource> exportData(@RequestBody(required = false) SampleGeneral object,
+                                                         HttpServletRequest request) throws UnsupportedEncodingException {
+        logger.debug("/auth/sample/general/export/data");
+        return HttpUtil.getResponseEntity(new File((String)service.exportData(object)), "测试文件-test.xls", request);
+    }
+
+
+
 }

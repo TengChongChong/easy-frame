@@ -21,5 +21,10 @@
     <sql id="Base_Column_List">
         id, name, sex, phone, address, create_user, create_date, edit_user, edit_date, status, age
     </sql>
+    <select id="selectDate" resultMap="BaseResultMap">
+        select
+         <include refid="Base_Column_List"></include>
+         from sample_general
+    </select>
 
 </mapper>

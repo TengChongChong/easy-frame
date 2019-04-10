@@ -3,6 +3,8 @@ package com.frame.easy.modular.sample.service;
 import com.frame.easy.modular.sample.model.SampleGeneral;
 import com.frame.easy.common.page.Page;
 
+import java.util.List;
+
 /**
  * 代码生成示例
  *
@@ -44,4 +46,12 @@ public interface SampleGeneralService {
      * @return 保存后信息
      */
     SampleGeneral saveData(SampleGeneral object);
+
+    /**
+     * 导出查询结果
+     *
+     * @param object 查询条件
+     * @return 数据
+     */
+    Object exportData(SampleGeneral object);
 }

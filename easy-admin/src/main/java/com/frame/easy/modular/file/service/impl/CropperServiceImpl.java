@@ -33,7 +33,7 @@ public class CropperServiceImpl implements CropperService {
         if(imageByte.length > 0){
             String imageData = new String(imageByte, StandardCharsets.UTF_8);
             String name = UUID.randomUUID() + SUFFIX;
-            String path = FileUtil.getTemporaryUploadPath() + name;
+            String path = FileUtil.getTemporaryPath() + name;
             File res = new File();
             res.setUrl(FileUtil.getUrl(path));
             res.setSuffix(SUFFIX);

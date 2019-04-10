@@ -1,16 +1,22 @@
 package com.frame.easy.modular.sample.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.util.ShiroUtil;
 import com.frame.easy.util.ToolUtil;
+import com.frame.easy.util.office.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
 import com.frame.easy.common.page.Page;
 import cn.hutool.core.lang.Validator;
 import com.frame.easy.modular.sample.model.SampleGeneral;
@@ -31,13 +37,14 @@ public class SampleGeneralServiceImpl extends ServiceImpl<SampleGeneralMapper, S
 
     /**
      * 列表
+     *
      * @param object 查询条件
      * @return 数据集合
      */
     @Override
     public Page select(SampleGeneral object) {
         QueryWrapper<SampleGeneral> queryWrapper = new QueryWrapper<>();
-        if(object != null){
+        if (object != null) {
             // 查询条件
             // 姓名
             if (Validator.isNotEmpty(object.getName())) {
@@ -56,7 +63,7 @@ public class SampleGeneralServiceImpl extends ServiceImpl<SampleGeneralMapper, S
                 queryWrapper.eq("status", object.getStatus());
             }
         }
-        return (Page)page(ToolUtil.getPage(object), queryWrapper);
+        return (Page) page(ToolUtil.getPage(object), queryWrapper);
     }
 
     /**
@@ -70,6 +77,7 @@ public class SampleGeneralServiceImpl extends ServiceImpl<SampleGeneralMapper, S
         ToolUtil.checkParams(id);
         return getById(id);
     }
+
     /**
      * 新增
      *
@@ -81,6 +89,7 @@ public class SampleGeneralServiceImpl extends ServiceImpl<SampleGeneralMapper, S
         // 设置默认值
         return object;
     }
+
     /**
      * 删除
      *
@@ -94,6 +103,7 @@ public class SampleGeneralServiceImpl extends ServiceImpl<SampleGeneralMapper, S
         List<String> idList = Arrays.asList(ids.split(","));
         return ToolUtil.checkResult(removeByIds(idList));
     }
+
     /**
      * 保存
      *
@@ -114,5 +124,15 @@ public class SampleGeneralServiceImpl extends ServiceImpl<SampleGeneralMapper, S
             object.setCreateUser(sysUser.getId());
         }
         return (SampleGeneral) ToolUtil.checkResult(saveOrUpdate(object), object);
+    }
+
+    @Override
+    public Object exportData(SampleGeneral object) {
+        List<SampleGeneral> list = mapper.selectList(null);
+        List<List<Object>> rows = CollUtil.newArrayList();
+        for (SampleGeneral general : list) {
+            rows.add(Arrays.asList(general.getName(), general.getSex(), general.getAge(), general.getPhone(), general.getAddress(), new Date()));
+        }
+        return ExcelUtil.writFile(rows, "姓名,性别,年龄,手机号码,地址,生日", "导出数据示例", "测试数据");
     }
 }
