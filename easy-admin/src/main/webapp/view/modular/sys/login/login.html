@@ -67,6 +67,7 @@
 
                     <!--begin::Form-->
                     <form class="m-login__form m-form" action="">
+                        <input type="hidden" id="loginAttemptsVerificationCode" value="${sysConfig(SysConfigConst.LOGIN_ATTEMPTS_VERIFICATION_CODE)}">
                         @if(message! != null){
                         <div class="m-alert alert alert-danger alert-dismissible animated fadeIn" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
@@ -134,12 +135,6 @@
 @include("/common/base-scripts.html"){}
 <!--begin::页面脚本 -->
 <script src="${ctxPath}/static/modular/sys/login/login.js?v=${version()}"></script>
-<script>
-    /**
-     * 登录失败累计多少次后需要输入验证码后才可以登录
-     */
-    var loginAttemptsVerificationCode = '${sysConfig(SysConfigConst.LOGIN_ATTEMPTS_VERIFICATION_CODE)}';
-</script>
 <!--end::页面脚本 -->
 </body>
 <!-- end::Body -->
