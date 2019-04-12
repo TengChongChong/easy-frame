@@ -1,0 +1,188 @@
+@layout("/common/container.html"){
+@include("/common/plugins/css/datatables.html"){}
+@include("/common/plugins/js/datatables.html"){}
+<div class="m-portlet" m-portlet="true">
+    <#portlet:head title="导入临时表" icon="la la-bars"/>
+    <div class="m-portlet__body">
+        <form class="m-form">
+            <div class="m-stack m-stack--ver m-stack--general query-modular">
+                <div class="m-stack__item m-stack__item--fluid">
+                    <div class="row">
+                        <!--str:查询条件区域-->
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="templateId" name="模板id" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="userId" name="导入用户id" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="verificationResults" name="验证结果" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field1" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field2" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field3" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field4" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field5" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field6" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field7" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field8" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field9" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field10" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field11" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field12" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field13" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field14" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field15" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field16" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field17" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field18" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field19" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field20" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field21" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field22" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field23" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field24" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field25" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field26" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field27" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field28" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field29" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field30" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field31" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field32" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field33" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field34" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field35" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field36" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field37" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field38" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field39" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field40" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field41" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field42" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field43" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field44" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field45" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field46" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field47" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field48" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field49" name="导入字段" />
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <#form:input id="field50" name="导入字段" />
+                        </div>
+                        <!--end:查询条件区域-->
+                    </div>
+                </div>
+                <div class="m-stack__item query-btn-group">
+                    <#btn:search />
+                    <#btn:reset />
+                </div>
+            </div>
+            <div class="btn-row">
+            </div>
+            <div class="m_datatable" id="sys_import_excel_temporary-list"></div>
+        </form>
+    </div>
+</div>
+<!--begin::页面脚本 -->
+<script src="${ctxPath}/static/modular/sys/import/excel/temporary/list.js?v=${version()}" type="text/javascript"></script>
+<!--end::页面脚本 -->
+@}

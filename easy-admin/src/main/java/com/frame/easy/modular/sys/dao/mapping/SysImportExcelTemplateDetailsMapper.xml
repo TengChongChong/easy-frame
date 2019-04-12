@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frame.easy.modular.sys.dao.SysImportExcelTemplateDetailsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.frame.easy.modular.sys.model.SysImportExcelTemplateDetails">
+        <id column="id" property="id" />
+        <result column="template_id" property="templateId" />
+        <result column="field_name" property="fieldName" />
+        <result column="title" property="title" />
+        <result column="field_length" property="fieldLength" />
+        <result column="field_type" property="fieldType" />
+        <result column="replace_table" property="replaceTable" />
+        <result column="replace_table_field_name" property="replaceTableFieldName" />
+        <result column="replace_table_field_value" property="replaceTableFieldValue" />
+        <result column="replace_table_dict_type" property="replaceTableDictType" />
+        <result column="order_no" property="orderNo" />
+        <result column="required" property="required" />
+        <result column="is_only" property="isOnly" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, template_id, field_name, title, field_length, field_type, replace_table, replace_table_field_name,
+        replace_table_field_value, replace_table_dict_type, order_no, required, is_only
+    </sql>
+
+</mapper>

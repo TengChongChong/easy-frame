@@ -1,5 +1,10 @@
 //== 登录 Class
-var Login = function () {
+var mLogin = function () {
+    /**
+     * 登录失败累计多少次后需要输入验证码后才可以登录
+     * @type {number}
+     */
+    var loginAttemptsVerificationCode = 5;
     /**
      * 登录尝试次数
      * @type {number}
@@ -100,7 +105,9 @@ var Login = function () {
     //== 公开函数
     return {
         init: function () {
-            loginAttemptsVerificationCode = Number(loginAttemptsVerificationCode);
+            try{
+                loginAttemptsVerificationCode = Number($('#loginAttemptsVerificationCode').val());
+            }catch (e) {}
             $('#btn-login').click(function () {
                 login();
             });
@@ -113,5 +120,5 @@ var Login = function () {
 
 //== Class 初始化
 $(document).ready(function () {
-    Login.init();
+    mLogin.init();
 });
