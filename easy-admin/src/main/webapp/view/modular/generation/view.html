@@ -3,6 +3,7 @@
 <style>
     .table-field-set thead th {
         font-weight: bold;
+        border: 1px solid #fff !important;
     }
 
     .table-field-set thead th,
@@ -22,21 +23,8 @@
     .table-field-set td {
         white-space: nowrap;
         border: 0;
-        /*border-color: #fff !important;*/
     }
 
-    /*.table-field-set .cell-base {*/
-        /*background: rgba(61, 190, 163, 0.1);*/
-    /*}*/
-    .table-field-set td.cell-list {
-        /*background: rgba(61, 165, 244, 0.1);*/
-    }
-    .table-field-set tbody tr:nth-of-type(odd) {
-        background: none;
-    }
-    .table-field-set tbody tr:nth-of-type(2n) {
-        background-color: #f4f5f8;
-    }
     .gridly {
         width: 100%;
         position: relative;
@@ -293,7 +281,7 @@
                         <!--begin: 表单向导 Step 3-->
                         <div class="m-wizard__form-step" id="m_wizard_form_step_3">
                             <div id="field-set-scrollable">
-                                <table id="field-set" class="table table-bordered table-hover table-striped table-field-set">
+                                <table id="field-set" class="table table-hover table-striped table-field-set">
                                     <thead>
                                     <tr>
                                         <th class="cell-base" colspan="6">字段</th>
