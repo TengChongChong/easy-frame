@@ -5677,8 +5677,8 @@ var mTabs = function (selector, options) {
             if (Plugin.needOpen(url)) {
                 Plugin.index++;
                 var _tab = '<li class="active">' +
-                    '<a class="btn btn-default tab" href="javascript:;" data-url="' + url + '" title="' + name + '" target="iframe-1" data-alreadyClicked="false">' +
-                    Plugin.getTabName(name) + ((typeof canClose === 'undefined' || canClose) ? '<i class="tab-close la la-close"></i>' : '') + '</a></li>';
+                    '<a class="btn btn-default m-btn--icon tab" href="javascript:;" data-url="' + url + '" title="' + name + '" target="iframe-1" data-alreadyClicked="false"><span>' +
+                    Plugin.getTabName(name) + ((typeof canClose === 'undefined' || canClose) ? '<i class="tab-close la la-close"></i>' : '') + '</span></a></li>';
                 var _iframe = '<iframe src="' + url + '" frameborder="0" name="iframe-' + Plugin.index + '" class="page-frame active animation-fade"></iframe>';
                 defaultOptions.conTabs.children('.active').removeClass('active');
                 defaultOptions.pageContainer.children('.active').removeClass('active');

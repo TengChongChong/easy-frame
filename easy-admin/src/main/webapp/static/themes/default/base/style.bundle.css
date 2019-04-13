@@ -33644,7 +33644,7 @@ body.m-content--skin-light2 {
     background-color: #f2f3f8; }
   .site-contabs .con-tabs .tab-close {
     font-size: 13px;
-    margin-left: 10px; }
+    padding-left: 8px; }
     .site-contabs .con-tabs .tab-close:hover {
       color: #f1536e; }
 
