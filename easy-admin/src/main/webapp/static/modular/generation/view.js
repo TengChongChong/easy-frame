@@ -173,7 +173,7 @@ var mGeneration = function () {
                 },
                 fail: function (res) {
                     mUtil.offButtonWait($btn);
-                    mTool.successTip(mTool.commonTips.fail, res.message);
+                    mTool.warnTip(mTool.commonTips.fail, res.message);
                 },
                 success: function (res) {
                     mUtil.offButtonWait($btn);
