@@ -41,7 +41,10 @@ var mSysExceptionList = function () {
                 {
                     field: 'triggerTime',
                     title: '触发时间',
-                    width: 150
+                    width: 150,
+                    locked: {
+                        right: 'md'
+                    }
                 },
                 {
                     field: 'Actions',
@@ -54,8 +57,8 @@ var mSysExceptionList = function () {
                     },
                     template: function (row, index, datatable) {
                         var _btn = '';
-                        _btn += '<a href="#" onclick="mTool.editById(this, \'' + row.id + '\')" class="' + mTool.ACTIONS_DANGER + '" title="编辑">\
-                            <i class="la la-edit"></i>\
+                        _btn += '<a href="#" onclick="mTool.editById(this, \'' + row.id + '\')" class="' + mTool.ACTIONS_INFO + '" title="查看">\
+                            <i class="la la-search"></i>\
                         </a>';
                         if (mTool.hasPermissions('sys:exception:delete')) {
                             _btn += '<a href="#" onclick="mTool.deleteById(this, \'' + row.id + '\')" class="' + mTool.ACTIONS_DANGER + '" title="删除">\
