@@ -9085,9 +9085,9 @@ var mWizard = function(elementId, options) {
                 var params = Plugin.getDataSourceParam();
 
                 // 获取行属性
-                var pagination = com.frame.easy.common.page;
-                var start = (Math.max(com.frame.easy.common.page, 1) - 1) * pagination.size;
-                var end = Math.min(com.frame.easy.common.page, pagination.pages) * pagination.size;
+                var pagination = params.page;
+                var start = (Math.max(pagination.page, 1) - 1) * pagination.size;
+                var end = Math.min(pagination.page, pagination.pages) * pagination.size;
                 var rowProps = {};
                 if (typeof options.data.attr.rowProps !== 'undefined' && options.data.attr.rowProps.length) {
                     rowProps = options.data.attr.rowProps.slice(start, end);
@@ -9206,9 +9206,9 @@ var mWizard = function(elementId, options) {
                         // 如果数据来源于服务器并且在服务器分页,将排序信息放到参数中
                         if (typeof data.sort !== 'undefined') {
                             if ('asc' === data.sort.sort) {
-                                com.frame.easy.common.page.ascs = [data.sort.field];
+                                data.page.ascs = [data.sort.field];
                             } else if ('desc' === data.sort.sort) {
-                                com.frame.easy.common.page.descs = [data.sort.field];
+                                data.page.descs = [data.sort.field];
                             }
                         }
                         delete data['sort'];
@@ -9486,7 +9486,7 @@ var mWizard = function(elementId, options) {
 
                             // 设置当前页页码
                             $(pg.pager).each(function () {
-                                $(this).find('.' + pfx + 'pager-input[type="text"]').prop('value', com.frame.easy.common.page);
+                                $(this).find('.' + pfx + 'pager-input[type="text"]').prop('value', meta.page);
                             });
 
                             $(pg.pager).find('.' + pfx + 'datatable__pager-nav').show();
@@ -10970,7 +10970,7 @@ var mWizard = function(elementId, options) {
              * 获取工具条
              */
             getTotalRows: function () {
-                return com.frame.easy.common.page.total;
+                return datatable.API.params.page.total;
             },
 
             /**

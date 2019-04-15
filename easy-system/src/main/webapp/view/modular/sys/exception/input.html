@@ -1,0 +1,96 @@
+@layout("/common/container.html"){
+<form class="m-form">
+    <div class="m-portlet" m-portlet="true">
+        <#portlet:head title="异常日志" icon="la la-bars"/>
+        <div class="m-portlet__body">
+            <div class="row">
+                <!-- str:表单区域 -->
+                <input type="hidden" id="id" name="id" value="${object.id}" />
+                <div class="col-lg-6 col-12">
+                    <div class="form-group m-form__group row">
+                        <label class="col-4 control-label">
+                            错误代码：
+                        </label>
+                        <div class="col-8">
+                            <span class="m-form__control-static">${object.code}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <div class="form-group m-form__group row">
+                        <label class="col-4 control-label">
+                            异常类型：
+                        </label>
+                        <div class="col-8">
+                            <span class="m-form__control-static">${object.type}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group m-form__group row">
+                        <label class="col-md-2 col-4 control-label">
+                            请求地址：
+                        </label>
+                        <div class="col-md-10 col-8">
+                            <span class="m-form__control-static">${object.url}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group m-form__group row">
+                        <label class="col-md-2 col-4 control-label">
+                            错误信息：
+                        </label>
+                        <div class="col-md-10 col-8">
+                            <span class="m-form__control-static">${object.message}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group m-form__group row">
+                        <label class="col-md-2 col-4 control-label">
+                            错误堆栈：
+                        </label>
+                        <div class="col-md-10 col-8">
+                            <div class="m-scrollable" data-scrollable="true" style="max-height: 400px;">
+                                <div id="trace" class="m-form__control-static">
+                                    ${strutil.replace(object.trace, '\n\t', '<br>')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <div class="form-group m-form__group row">
+                        <label class="col-4 control-label">
+                            触发用户：
+                        </label>
+                        <div class="col-8">
+                            <span class="m-form__control-static">${object.nickname}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <div class="form-group m-form__group row">
+                        <label class="col-4 control-label">
+                            触发时间：
+                        </label>
+                        <div class="col-8">
+                            <span class="m-form__control-static">${object.triggerTime,dateFormat='yyyy-MM-dd HH:mm'}</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- end:表单区域 -->
+            </div>
+        </div>
+        <div class="m-portlet__foot m-portlet__foot--fit">
+            <div class="m-form__actions text-center">
+                <#btn:save permission="sys:exception:save"/>
+            </div>
+        </div>
+    </div>
+</form>
+<!--begin::页面脚本 -->
+<script src="${ctxPath}/static/modular/sys/exception/input.js?v=${version()}" type="text/javascript"></script>
+<!--end::页面脚本 -->
+@}

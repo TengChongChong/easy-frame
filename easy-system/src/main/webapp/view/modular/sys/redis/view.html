@@ -1,0 +1,79 @@
+@layout("/common/container.html"){
+<div class="m-portlet" m-portlet="true">
+    <#portlet:head title="redis" icon="la la-database"/>
+    <div class="m-portlet__body">
+        <form class="m-form m--padding-bottom-15">
+            <div class="row">
+                <div class="col-md-3 col-12 border-right">
+                    <div class="m-section">
+                        <h3 class="m-section__heading">
+                            Key 前缀
+                        </h3>
+                        <ul class="m-nav redis-prefixes"></ul>
+                    </div>
+                </div>
+                <div class="col-md-3 col-12 border-right">
+                    <div class="m-section m--margin-bottom-5">
+                        <h3 class="m-section__heading">
+                            Key 列表
+                        </h3>
+                        <div class="input-group">
+                            <input type="text" id="query-key" class="form-control" placeholder="请输入关键字">
+                            <div class="input-group-append">
+                                <button id="search-redis" class="btn btn-secondary" type="button">搜索</button>
+                            </div>
+                        </div>
+                        <div class="m-list-search">
+                            <div class="m-list-search__results redis-keys m-scrollable"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="m-section m--margin-bottom-5">
+                        <h3 class="m-section__heading">
+                            值
+                        </h3>
+                    </div>
+                    <div class="row key-details">
+                        <div class="col-md-6 col-12">
+                            <#form:input id="key" name="键" readonly="readonly"/>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group row">
+                                <label class="col-4 control-label " for="expire">
+                                    有效期：
+                                </label>
+                                <div class="col-8">
+                                    <div class="input-group m-input-group">
+                                        <input type="text" class="form-control " id="expire" name="expire">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">秒</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label class="col-md-2 col-4 control-label " for="value">
+                                    值：
+                                </label>
+                                <div class="col-md-10 col-8">
+                                    <textarea class="form-control" id="value" name="value" readonly="readonly"></textarea>
+                                    <div id="value-json" class="m--margin-top-5 m--hide m-scrollable redis-value"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 text-center">
+                            <#btn:delete permission="sys:redis:delete" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--begin::页面脚本 -->
+<script src="${ctxPath}/static/modular/sys/redis/view.js?v=${version()}"></script>
+<!--end::页面脚本 -->
+@}

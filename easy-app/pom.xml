@@ -58,7 +58,7 @@
                 <directory>src/main/webapp</directory>
             </resource>
             <resource>
-                <directory>../easy-sys/src/main/webapp</directory>
+                <directory>../easy-system/src/main/webapp</directory>
             </resource>
             <resource>
                 <directory>../easy-generator/src/main/webapp</directory>

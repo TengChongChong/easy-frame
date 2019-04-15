@@ -21,6 +21,7 @@ import com.frame.easy.util.ShiroUtil;
 import com.frame.easy.util.file.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 
@@ -67,6 +68,7 @@ public class SysUserPersonalCenterServiceImpl implements SysUserPersonalCenterSe
     }
 
     @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public String saveUserAvatar(String path) {
         if (StrUtil.isNotBlank(path)) {
             java.io.File file = new java.io.File(path);

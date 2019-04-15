@@ -1,0 +1,35 @@
+@layout("/common/container.html"){
+<div class="m-portlet" m-portlet="true">
+    <#portlet:head title="行政区划" icon="la la-bars"/>
+    <div class="m-portlet__body">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-12 border-right">
+                <form class="m-form m--padding-bottom-15">
+                    <div class="input-group">
+                        <input type="text" id="district-title" class="form-control" placeholder="请输入关键字">
+                        <div class="input-group-append">
+                            <button id="search-district-btn" class="btn btn-secondary" type="button">搜索</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="m-scrollable" data-scrollable="true" style="max-height: 400px">
+                    <div id="district-tree"></div>
+                </div>
+
+                <div id="search-district" class="m--hide">
+                    <div class="tree"></div>
+                    <button type="button" class="btn btn-metal btn-xs back-btn m--margin-top-5">
+                        <i class="la la-undo"></i> 返回
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8 col-12" id="district-info">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--begin::页面脚本 -->
+<script src="${ctxPath}/static/modular/sys/district/view.js?v=${version()}"></script>
+<!--end::页面脚本 -->
+@}

@@ -1,0 +1,32 @@
+@layout("/common/container.html"){
+<div class="m-portlet" m-portlet="true">
+    <#portlet:head title="机构类型管理" icon="flaticon-cogwheel"/>
+    <div class="m-portlet__body">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-12 border-right">
+                <form class="m-form m--padding-bottom-15">
+                    <div class="input-group">
+                        <input type="text" id="depart-type-title" class="form-control" placeholder="请输入关键字">
+                        <div class="input-group-append">
+                            <button id="search-depart-type-btn" class="btn btn-secondary" type="button">搜索</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div id="depart-type-tree"></div>
+
+                <div id="search-depart-type" class="m--hide">
+                    <div class="tree"></div>
+                    <button type="button" class="btn btn-metal btn-xs back-btn m--margin-top-5"><i
+                            class="la la-undo"></i> 返回
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8 col-12" id="depart-type-info"></div>
+        </div>
+    </div>
+</div>
+<!--begin::页面脚本 -->
+<script src="${ctxPath}/static/modular/sys/depart/type/view.js?v=${version()}"></script>
+<!--end::页面脚本 -->
+@}

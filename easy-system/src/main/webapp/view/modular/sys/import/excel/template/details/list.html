@@ -1,0 +1,99 @@
+@layout("/common/container.html"){
+<style>
+    #template-set th {
+        vertical-align: middle;
+        border: 1px solid #fff;
+        font-weight: bold;
+        background-color: #f4f3f8;
+    }
+</style>
+<form class="m-form">
+    <input type="hidden" id="templateId" value="${object.id}">
+    <input type="hidden" id="importTable" value="${object.importTable}">
+    <div class="m-portlet">
+        <#portlet:head title="导入模板详情" icon="la la-bars"/>
+        <div class="m-portlet__body">
+            <div class="row">
+                <!-- str:表单区域 -->
+                <input type="hidden" id="id" name="id" value="${object.id}" />
+                <div class="col-lg-4 col-12">
+                    <div class="form-group m-form__group row">
+                        <label class="col-4 control-label">
+                            模板名称：
+                        </label>
+                        <div class="col-8">
+                            <span class="m-form__control-static">${object.name}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-12">
+                    <div class="form-group m-form__group row">
+                        <label class="col-4 control-label">
+                            模板代码：
+                        </label>
+                        <div class="col-8">
+                            <span class="m-form__control-static">${object.importCode}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-12">
+                    <div class="form-group m-form__group row">
+                        <label class="col-4 control-label">
+                            导入表：
+                        </label>
+                        <div class="col-8">
+                            <span class="m-form__control-static">${object.importTable}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div id="template-set-scrollable">
+                        <table id="template-set" class="table table-hover table-striped">
+                            <thead class="text-center">
+                            <tr>
+                                <th class="cell-base" rowspan="2">导入</th>
+                                <th class="cell-base" colspan="3">字段</th>
+                                <th class="cell-list" colspan="5">字段转换</th>
+                                <th class="cell-input" rowspan="2">必填</th>
+                                <th class="cell-input" rowspan="2">唯一</th>
+                                <th class="cell-input" rowspan="2">排序值</th>
+                            </tr>
+                            <tr>
+                                <th class="cell-base">列名</th>
+                                <th class="cell-base">字段类型</th>
+                                <th class="cell-base">
+                                    <div style="width: 140px;">标题</div>
+                                </th>
+                                <th>替换</th>
+                                <th>
+                                    <div style="width: 260px;">替换表</div>
+                                </th>
+                                <th>
+                                    <div style="width: 160px;">类别</div>
+                                </th>
+                                <th>
+                                    <div style="width: 130px;">导入值</div>
+                                </th>
+                                <th>
+                                    <div style="width: 130px;">替换值</div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- end:表单区域 -->
+            </div>
+        </div>
+        <div class="m-portlet__foot m-portlet__foot--fit">
+            <div class="m-form__actions text-center">
+                <#btn:save permission="sys:import:excel:template:save"/>
+            </div>
+        </div>
+    </div>
+</form>
+<!--begin::页面脚本 -->
+<script src="${ctxPath}/static/modular/sys/import/excel/template/details/list.js?v=${version()}" type="text/javascript"></script>
+<!--end::页面脚本 -->
+@}

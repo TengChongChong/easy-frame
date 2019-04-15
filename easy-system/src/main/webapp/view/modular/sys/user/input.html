@@ -1,0 +1,53 @@
+@layout("/common/container.html"){
+<form class="m-form">
+    <div class="m-portlet" m-portlet="true">
+        <#portlet:head title="用户管理" icon="la la-user"/>
+        <input type="hidden" id="id" name="id" value="${object.id}">
+        <input type="hidden" id="deptId" name="deptId" value="${object.deptId}">
+        <input type="hidden" id="roles" name="roles" value="${object.roles}">
+        <div class="m-portlet__body">
+            <div class="row">
+                <div class="col-md-6 col-12">
+                    <#form:input id="username" value="${object.username}" name="用户名" required="true"/>
+                    @if(object.id == null){
+                    <#form:input id="password" value="${object.password}" name="密码" type="text" required="true"/>
+                    @}
+                    <#form:input id="nickname" value="${object.nickname}" name="昵称"/>
+                    <div class="form-group row">
+                        <label class="col-4 control-label">
+                            <span class="required">*</span>
+                            状态：
+                        </label>
+                        <div class="col-8">
+                            <div class="m-radio-inline">
+                                <#form:radio name="status" text="启用" value="1" checked="${object.status}" required="true"/>
+                                <#form:radio name="status" text="禁用" value="2" checked="${object.status}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="form-group row">
+                        <label class="col-4 control-label">
+                            角色：
+                        </label>
+                        <div class="col-8">
+                            <div class="m-scrollable" data-scrollable="true" style="max-height: 400px">
+                                <div id="roles-tree"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__foot m-portlet__foot--fit">
+            <div class="m-form__actions text-center">
+                <#button btnType="info" btnClass="" name="保存" icon="la la-save" click="mUserInput.save(this)" permission="sys:user:save"/>
+            </div>
+        </div>
+    </div>
+</form>
+<!--begin::页面脚本 -->
+<script src="${ctxPath}/static/modular/sys/user/input.js?v=${version()}"></script>
+<!--end::页面脚本 -->
+@}

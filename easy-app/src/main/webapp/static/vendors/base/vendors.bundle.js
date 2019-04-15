@@ -23487,7 +23487,7 @@ S2.define('select2/data/tags',[
 
     this._removeOldTags();
 
-    if (params.term == null || com.frame.easy.common.page != null) {
+    if (params.term == null || params.page != null) {
       decorated.call(this, params, callback);
       return;
     }

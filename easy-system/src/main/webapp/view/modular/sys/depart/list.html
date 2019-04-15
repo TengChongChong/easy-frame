@@ -1,0 +1,77 @@
+@layout("/common/container.html"){
+@include("/common/plugins/css/datatables.html"){}
+@include("/common/plugins/js/datatables.html"){}
+<div class="m-portlet" m-portlet="true">
+    <#portlet:head title="机构管理" icon="la la-bars"/>
+    <div class="m-portlet__body">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-12 border-right">
+                <form class="m-form m--padding-bottom-15">
+                    <div class="input-group">
+                        <input type="text" id="depart-type-title" class="form-control" placeholder="请输入关键字">
+                        <div class="input-group-append">
+                            <button id="search-depart-type-btn" class="btn btn-secondary" type="button">搜索</button>
+                        </div>
+                        <div class="m--margin-left-5">
+                            <#button btnType="default" btnClass="" name="机构类型维护" icon="la la-bars"
+                            click="mApp.openPage('类型维护', '${ctxPath}/auth/sys/depart/type/view')" permission="sys:depart:type:select"/>
+                        </div>
+                    </div>
+                </form>
+
+                <div id="depart-type-tree"></div>
+
+                <div id="search-depart-type" class="m--hide">
+                    <div class="tree"></div>
+                    <button type="button" class="btn btn-metal btn-xs back-btn m--margin-top-5"><i
+                            class="la la-undo"></i> 返回
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8 col-12">
+                <form class="m-form m--hide">
+                    <div class="m-stack m-stack--ver m-stack--general query-modular">
+                        <input type="hidden" name="typeCode" id="typeCode">
+                        <div class="m-stack__item m-stack__item--fluid">
+                            <div class="row">
+                                <div class="col-xl-4 col-lg-6 col-12">
+                                    <#form:input id="name" name="机构名称"/>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12">
+                                    <#form:input id="pName" name="上级名称"/>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12">
+                                    <#form:input id="code" name="机构代码"/>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12">
+                                    <div class="form-group row">
+                                        <label class="col-4 control-label">状态</label>
+                                        <div class="col-8">
+                                            <select class="form-control m-bootstrap-select select-picker"
+                                                    id="status" name="status" data-dict-type="commonStatus"
+                                                    onchange="mTool.selectData(this)">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-stack__item query-btn-group">
+                            <#btn:search />
+                            <#btn:reset />
+                        </div>
+                    </div>
+                    <div class="btn-row">
+                        <#button btnType="success" click="mDepartList.addDepart()" icon="la la-plus" name="新增" permission="sys:depart:save" />
+                        <#btn:delete permission="sys:permissions:delete"/>
+                    </div>
+                    <div class="m_datatable" id="depart-list"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--begin::页面脚本 -->
+<script src="${ctxPath}/static/modular/sys/depart/list.js?v=${version()}"></script>
+<!--end::页面脚本 -->
+@}

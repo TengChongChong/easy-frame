@@ -1,0 +1,71 @@
+<form class="m-form">
+    <input type="hidden" id="id" name="id" value="${object.id}">
+    @var isSysDistrict = object.id != 0;
+    <div class="row">
+        @if(isSysDistrict){
+        <div class="col-md-6 col-12">
+            <div class="form-group row">
+                <label class="col-4 control-label" for="pId">
+                    上级行政区划：
+                </label>
+                <div class="col-8">
+                    <select class="form-control m-bootstrap-select select-picker auto-params"
+                            data-live-search="true" id="pId" name="pId" data-value="${object.pId}">
+                        @if(isEmpty(parentSelect)){
+                            <option value="">无</option>
+                        @}else{
+                            @for(type in parentSelect){
+                                <option value="${type.value}">${type.text}</option>
+                            @}
+                        @}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-12">
+            <#form:input id="code" name="行政代码" value="${object.code}" required="true"/>
+        </div>
+        @}
+
+        <div class="col-md-6 col-12">
+            <#form:input id="name" name="行政区划名称" value="${object.name}" required="true"/>
+        </div>
+        @if(isSysDistrict){
+        <div class="col-md-6 col-12">
+            <#form:input id="pinyin" name="拼音全拼" value="${object.pinyin}" placeholder="不填默认根据名称自动生成"/>
+        </div>
+        <div class="col-md-6 col-12">
+            <#form:input id="initials" name="拼音首字母集合" value="${object.initials}" placeholder="不填默认根据名称自动生成"/>
+        </div>
+        <div class="col-md-6 col-12">
+            <#form:input id="initial" name="拼音首字母" value="${object.initial}" placeholder="不填默认根据名称自动生成"/>
+        </div>
+        <div class="col-md-6 col-12">
+            <#form:input id="suffix" name="行政级别" value="${object.suffix}" />
+        </div>
+        <div class="col-md-6 col-12">
+            <#form:input id="extra" name="附加说明" value="${object.extra}" />
+        </div>
+        <div class="col-md-6 col-12">
+            <#form:input id="areaCode" name="区号" value="${object.areaCode}" />
+        </div>
+        @}
+    </div>
+
+    <div class="row">
+        <div class="col text-center">
+            @if(isSysDistrict){
+            <#button btnType="info" name="保存" icon="la la-save" click="mDistrictView.saveData(this)"
+            permission="sys:district:save"/>
+            @}
+            @if(isNotEmpty(object.id)){
+            @if(isSysDistrict){
+            <#button btnType="danger" name="删除" icon="la la-remove" click="mDistrictView.deleteDistrict(this)"
+            permission="sys:district:delete"/>
+            @}
+            <#button btnType="info" name="新增下级" icon="la la-plus" click="mDistrictView.addDistrict()"
+            permission="sys:district:add"/>
+            @}
+        </div>
+    </div>
+</form>
