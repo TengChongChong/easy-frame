@@ -15,7 +15,7 @@
         <module>easy-app</module>
         <module>easy-core</module>
         <module>easy-generator</module>
-        <module>easy-sys</module>
+        <module>easy-system</module>
         <module>easy-sample</module>
         <module>easy-business</module>
     </modules>
@@ -62,7 +62,7 @@
             </dependency>
             <dependency>
                 <groupId>com.frame</groupId>
-                <artifactId>easy-sys</artifactId>
+                <artifactId>easy-system</artifactId>
                 <version>${easy.version}</version>
             </dependency>
             <dependency>

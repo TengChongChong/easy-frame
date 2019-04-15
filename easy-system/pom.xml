@@ -10,8 +10,8 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>easy-sys</artifactId>
-    <name>easy-sys</name>
+    <artifactId>easy-system</artifactId>
+    <name>easy-system</name>
     <description>系统模块</description>
 
     <dependencies>

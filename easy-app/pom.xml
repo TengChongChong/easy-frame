@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>com.frame</groupId>
-            <artifactId>easy-sys</artifactId>
+            <artifactId>easy-system</artifactId>
         </dependency>
         <dependency>
             <groupId>com.frame</groupId>
