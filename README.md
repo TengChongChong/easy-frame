@@ -26,7 +26,7 @@ easy-frame基于springboot2，整合springboot+shiro+mybatis-plus+beetl+swagger+
 ### 安装教程
 
 1. 执行/db/init.sql
-2. 修改/easy-admin/src/main/resources/application-dev.yml中数据库/redis配置
+2. 修改/easy-app/src/main/resources/application-dev.yml中数据库/redis配置
 
 ### 使用说明
 

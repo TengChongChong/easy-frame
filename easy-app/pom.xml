@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.frame</groupId>
+        <artifactId>easy-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>easy-app</artifactId>
+    <name>easy-app</name>
+    <description>应用入口</description>
+
+    <packaging>war</packaging>
+    <!--<packaging>jar</packaging>-->
+
+    <dependencies>
+        <dependency>
+            <groupId>com.frame</groupId>
+            <artifactId>easy-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.frame</groupId>
+            <artifactId>easy-generator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.frame</groupId>
+            <artifactId>easy-sys</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.frame</groupId>
+            <artifactId>easy-sample</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.frame</groupId>
+            <artifactId>easy-business</artifactId>
+        </dependency>
+        <!-- str: spring boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- end: spring boot -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/webapp</directory>
+            </resource>
+            <resource>
+                <directory>../easy-sys/src/main/webapp</directory>
+            </resource>
+            <resource>
+                <directory>../easy-generator/src/main/webapp</directory>
+            </resource>
+            <resource>
+                <directory>../easy-sample/src/main/webapp</directory>
+            </resource>
+            <resource>
+                <directory>../easy-business/src/main/webapp</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <warSourceDirectory>null</warSourceDirectory>
+                    <warName>easy-frame</warName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

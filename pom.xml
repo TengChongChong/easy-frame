@@ -12,9 +12,12 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>easy-admin</module>
+        <module>easy-app</module>
         <module>easy-core</module>
         <module>easy-generator</module>
+        <module>easy-sys</module>
+        <module>easy-sample</module>
+        <module>easy-business</module>
     </modules>
 
     <!-- Spring Boot -->
@@ -54,10 +57,31 @@
             </dependency>
             <dependency>
                 <groupId>com.frame</groupId>
-                <artifactId>easy-admin</artifactId>
+                <artifactId>easy-app</artifactId>
+                <version>${easy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.frame</groupId>
+                <artifactId>easy-sys</artifactId>
+                <version>${easy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.frame</groupId>
+                <artifactId>easy-generator</artifactId>
+                <version>${easy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.frame</groupId>
+                <artifactId>easy-sample</artifactId>
+                <version>${easy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.frame</groupId>
+                <artifactId>easy-business</artifactId>
                 <version>${easy.version}</version>
             </dependency>
         </dependencies>
+
     </dependencyManagement>
 
 </project>
