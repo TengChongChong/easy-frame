@@ -5548,7 +5548,7 @@ var mTabs = function (selector, options) {
          */
         bindClose: function () {
             defaultOptions.conTabs.find('.tab-close').unbind('click').click(function () {
-                Plugin.closeTab($(this).parent().parent());
+                Plugin.closeTab($(this).parents('li'));
             });
         },
         /**
@@ -5638,7 +5638,7 @@ var mTabs = function (selector, options) {
          * @param $tab 标签页 (li)
          */
         closeTab: function ($tab) {
-            var url = $tab.find('a').attr('data-url');
+            var url = $tab.find('a').data('url');
             var nextTab;
             if ($tab.hasClass('active')) { // 如果关闭的是当前激活tab,自动切换到前/后的标签
                 nextTab = $tab.prev();
@@ -5661,7 +5661,7 @@ var mTabs = function (selector, options) {
         closeTabByUrl: function (url) {
             var a = defaultOptions.conTabs.find('a.btn[data-url="' + url + '"]');
             if (a != null && a.length > 0) {
-                Plugin.closeTab(a.parent());
+                Plugin.closeTab(a.parent().parent());
             } else {
                 console.warn('关闭页面[' + url + ']失败,url未在应用中打开');
             }
