@@ -180,7 +180,7 @@ var mUtil = function () {
         },
 
         resize: function () {
-            if (typeof(Event) === 'function') {
+            if (typeof (Event) === 'function') {
                 // 当代浏览器
                 window.dispatchEvent(new Event('resize'));
             } else {
@@ -1932,8 +1932,9 @@ var mApp = function () {
             if (mUtil.isNumber(value)) {
                 try {
                     code = Number(code);
-                } catch (e) {}
-                if(value === code){
+                } catch (e) {
+                }
+                if (value === code) {
                     return 'checked';
                 }
             } else {
@@ -2367,7 +2368,7 @@ var mApp = function () {
 $(document).ready(function () {
     mApp.init({});
 });
-var mDropdown = function(elementId, options) {
+var mDropdown = function (elementId, options) {
     //== Main object
     var the = this;
 
@@ -2400,7 +2401,7 @@ var mDropdown = function(elementId, options) {
          * Run plugin
          * @returns {mdropdown}
          */
-        construct: function(options) {
+        construct: function (options) {
             if (mUtil.data(element).has('dropdown')) {
                 the = mUtil.data(element).get('dropdown');
             } else {
@@ -2419,13 +2420,13 @@ var mDropdown = function(elementId, options) {
          * Handles subdropdown click toggle
          * @returns {mdropdown}
          */
-        init: function(options) {
+        init: function (options) {
             // merge default and user defined options
             the.options = mUtil.deepExtend({}, defaultOptions, options);
             the.events = [];
             the.eventHandlers = {};
             the.open = false;
-            
+
             the.layout = {};
             the.layout.close = mUtil.find(element, '.m-dropdown__close');
             the.layout.toggle = mUtil.find(element, '.m-dropdown__toggle');
@@ -2442,7 +2443,7 @@ var mDropdown = function(elementId, options) {
         /**
          * Setup dropdown
          */
-        setup: function() {
+        setup: function () {
             if (the.options.placement) {
                 mUtil.addClass(element, 'm-dropdown--' + the.options.placement);
             }
@@ -2459,9 +2460,9 @@ var mDropdown = function(elementId, options) {
                 the.options.persistent = true;
             }
 
-            if (the.options.toggle == 'hover') {    
+            if (the.options.toggle == 'hover') {
                 mUtil.addEvent(element, 'mouseout', Plugin.hideMouseout);
-            } 
+            }
 
             // set zindex
             Plugin.setZindex();
@@ -2470,7 +2471,7 @@ var mDropdown = function(elementId, options) {
         /**
          * Toggle dropdown
          */
-        toggle: function() {
+        toggle: function () {
             if (the.open) {
                 return Plugin.hide();
             } else {
@@ -2481,7 +2482,7 @@ var mDropdown = function(elementId, options) {
         /**
          * Set content
          */
-        setContent: function(content) {
+        setContent: function (content) {
             mUtil.find(element, '.m-dropdown__content').innerHTML = content;
             return the;
         },
@@ -2489,7 +2490,7 @@ var mDropdown = function(elementId, options) {
         /**
          * Show dropdown
          */
-        show: function() {
+        show: function () {
             if (the.options.toggle === 'hover' && mUtil.hasAttr(element, 'hover')) {
                 Plugin.clearHovered();
                 return the;
@@ -2512,14 +2513,14 @@ var mDropdown = function(elementId, options) {
             if (mUtil.isMobileDevice() && the.options.mobileOverlay) {
                 var zIndex = mUtil.css(element, 'z-index') - 1;
 
-                var dropDownOff = mUtil.insertAfter(document.createElement('DIV'), element );
+                var dropDownOff = mUtil.insertAfter(document.createElement('DIV'), element);
 
                 mUtil.addClass(dropDownOff, 'm-dropdown__dropoff');
                 mUtil.css(dropDownOff, 'z-index', zIndex);
                 mUtil.data(dropDownOff).set('dropdown', element);
                 mUtil.data(element).set('dropoff', dropDownOff);
 
-                mUtil.addEvent(dropDownOff, 'click', function(e) {
+                mUtil.addEvent(dropDownOff, 'click', function (e) {
                     Plugin.hide();
                     mUtil.remove(this);
                     e.preventDefault();
@@ -2541,10 +2542,10 @@ var mDropdown = function(elementId, options) {
         /**
          * Clear dropdown hover
          */
-        clearHovered: function() {
+        clearHovered: function () {
             var timeout = mUtil.attr(element, 'timeout');
 
-            mUtil.removeAttr(element, 'hover');            
+            mUtil.removeAttr(element, 'hover');
             mUtil.removeAttr(element, 'timeout');
 
             clearTimeout(timeout);
@@ -2553,7 +2554,7 @@ var mDropdown = function(elementId, options) {
         /**
          * Hide hovered dropdown
          */
-        hideHovered: function(force) {
+        hideHovered: function (force) {
             if (force === true) {
                 if (Plugin.eventTrigger('beforeHide') === false) {
                     return;
@@ -2572,7 +2573,7 @@ var mDropdown = function(elementId, options) {
                     return;
                 }
 
-                var timeout = setTimeout(function() {
+                var timeout = setTimeout(function () {
                     if (mUtil.attr(element, 'hover')) {
                         Plugin.clearHovered();
                         mUtil.removeClass(element, 'm-dropdown--open');
@@ -2581,7 +2582,7 @@ var mDropdown = function(elementId, options) {
                     }
                 }, the.options.hoverTimeout);
 
-                mUtil.attr(element, 'hover', '1');            
+                mUtil.attr(element, 'hover', '1');
                 mUtil.attr(element, 'timeout', timeout);
             }
         },
@@ -2589,7 +2590,7 @@ var mDropdown = function(elementId, options) {
         /**
          * Hide clicked dropdown
          */
-        hideClicked: function() {
+        hideClicked: function () {
             if (Plugin.eventTrigger('beforeHide') === false) {
                 return;
             }
@@ -2603,7 +2604,7 @@ var mDropdown = function(elementId, options) {
         /**
          * Hide dropdown
          */
-        hide: function(force) {
+        hide: function (force) {
             if (the.open === false) {
                 return the;
             }
@@ -2626,7 +2627,7 @@ var mDropdown = function(elementId, options) {
         /**
          * Hide on mouseout
          */
-        hideMouseout: function() {
+        hideMouseout: function () {
             if (mUtil.isDesktopDevice()) {
                 Plugin.hide();
             }
@@ -2635,9 +2636,9 @@ var mDropdown = function(elementId, options) {
         /**
          * Hide opened dropdowns
          */
-        hideOpened: function() {
+        hideOpened: function () {
             var query = mUtil.findAll(body, '.m-dropdown.m-dropdown--open');
-            
+
             for (var i = 0, j = query.length; i < j; i++) {
                 var dropdown = query[i];
                 mUtil.data(dropdown).get('dropdown').hide(true);
@@ -2647,23 +2648,23 @@ var mDropdown = function(elementId, options) {
         /**
          * Adjust dropdown arrow positions
          */
-        adjustArrowPos: function() {
+        adjustArrowPos: function () {
             var width = mUtil.outerWidth(element); // ?
 
             var alignment = mUtil.hasClass(the.layout.arrow, 'm-dropdown__arrow--right') ? 'right' : 'left';
             var pos = 0;
 
             if (the.layout.arrow) {
-                if ( mUtil.isInResponsiveRange('mobile') && mUtil.hasClass(element, 'm-dropdown--mobile-full-width') ) {
-                    pos = mUtil.offset(element).left + (width / 2) - Math.abs( parseInt(mUtil.css(the.layout.arrow, 'width')) / 2) - parseInt(mUtil.css(the.layout.wrapper, 'left'));
-                    
+                if (mUtil.isInResponsiveRange('mobile') && mUtil.hasClass(element, 'm-dropdown--mobile-full-width')) {
+                    pos = mUtil.offset(element).left + (width / 2) - Math.abs(parseInt(mUtil.css(the.layout.arrow, 'width')) / 2) - parseInt(mUtil.css(the.layout.wrapper, 'left'));
+
                     mUtil.css(the.layout.arrow, 'right', 'auto');
                     mUtil.css(the.layout.arrow, 'left', pos + 'px');
-                    
+
                     mUtil.css(the.layout.arrow, 'margin-left', 'auto');
                     mUtil.css(the.layout.arrow, 'margin-right', 'auto');
                 } else if (mUtil.hasClass(the.layout.arrow, 'm-dropdown__arrow--adjust')) {
-                    pos = width / 2 - Math.abs( parseInt(mUtil.css(the.layout.arrow, 'width')) / 2);
+                    pos = width / 2 - Math.abs(parseInt(mUtil.css(the.layout.arrow, 'width')) / 2);
                     if (mUtil.hasClass(element, 'm-dropdown--align-push')) {
                         pos = pos + 20;
                     }
@@ -2683,7 +2684,7 @@ var mDropdown = function(elementId, options) {
                         } else {
                             mUtil.css(the.layout.arrow, 'right', 'auto');
                             mUtil.css(the.layout.arrow, 'left', pos + 'px');
-                        }                       
+                        }
                     }
                 }
             }
@@ -2692,34 +2693,34 @@ var mDropdown = function(elementId, options) {
         /**
          * Get zindex
          */
-        setZindex: function() {
+        setZindex: function () {
             var zIndex = 101; //mUtil.css(the.layout.wrapper, 'z-index');
             var newZindex = mUtil.getHighestZindex(element);
             if (newZindex >= zIndex) {
                 zIndex = newZindex + 1;
             }
-            
+
             mUtil.css(the.layout.wrapper, 'z-index', zIndex);
         },
 
         /**
          * Check persistent
          */
-        isPersistent: function() {
+        isPersistent: function () {
             return the.options.persistent;
         },
 
         /**
          * Check persistent
          */
-        isShown: function() {
+        isShown: function () {
             return the.open;
         },
 
         /**
          * Trigger events
          */
-        eventTrigger: function(name, args) {
+        eventTrigger: function (name, args) {
             for (var i = 0; i < the.events.length; i++) {
                 var event = the.events[i];
                 if (event.name == name) {
@@ -2735,7 +2736,7 @@ var mDropdown = function(elementId, options) {
             }
         },
 
-        addEvent: function(name, handler, one) {
+        addEvent: function (name, handler, one) {
             the.events.push({
                 name: name,
                 handler: handler,
@@ -2750,10 +2751,10 @@ var mDropdown = function(elementId, options) {
     //////////////////////////
 
     /**
-     * Set default options 
+     * Set default options
      */
 
-    the.setDefaults = function(options) {
+    the.setDefaults = function (options) {
         defaultOptions = options;
     };
 
@@ -2761,7 +2762,7 @@ var mDropdown = function(elementId, options) {
      * Show dropdown
      * @returns {mDropdown}
      */
-    the.show = function() {
+    the.show = function () {
         return Plugin.show();
     };
 
@@ -2769,7 +2770,7 @@ var mDropdown = function(elementId, options) {
      * Hide dropdown
      * @returns {mDropdown}
      */
-    the.hide = function() {
+    the.hide = function () {
         return Plugin.hide();
     };
 
@@ -2777,7 +2778,7 @@ var mDropdown = function(elementId, options) {
      * Toggle dropdown
      * @returns {mDropdown}
      */
-    the.toggle = function() {
+    the.toggle = function () {
         return Plugin.toggle();
     };
 
@@ -2785,7 +2786,7 @@ var mDropdown = function(elementId, options) {
      * Toggle dropdown
      * @returns {mDropdown}
      */
-    the.isPersistent = function() {
+    the.isPersistent = function () {
         return Plugin.isPersistent();
     };
 
@@ -2793,7 +2794,7 @@ var mDropdown = function(elementId, options) {
      * Check shown state
      * @returns {mDropdown}
      */
-    the.isShown = function() {
+    the.isShown = function () {
         return Plugin.isShown();
     };
 
@@ -2801,21 +2802,21 @@ var mDropdown = function(elementId, options) {
      * Set dropdown content
      * @returns {mDropdown}
      */
-    the.setContent = function(content) {
+    the.setContent = function (content) {
         return Plugin.setContent(content);
     };
 
     /**
      * Register event
      */
-    the.on = function(name, handler) {
+    the.on = function (name, handler) {
         return Plugin.addEvent(name, handler);
     };
 
     /**
      * Register event
      */
-    the.one = function(name, handler) {
+    the.one = function (name, handler) {
         return Plugin.addEvent(name, handler, true);
     };
 
@@ -2834,24 +2835,24 @@ var mDropdown = function(elementId, options) {
 };
 
 //== Plugin global lazy initialization
-mUtil.on(document, '[m-dropdown-toggle="click"] .m-dropdown__toggle', 'click', function(e) {
-    var element = this.closest('.m-dropdown');  
+mUtil.on(document, '[m-dropdown-toggle="click"] .m-dropdown__toggle', 'click', function (e) {
+    var element = this.closest('.m-dropdown');
     var dropdown;
 
     if (element) {
         if (mUtil.data(element).has('dropdown')) {
             dropdown = mUtil.data(element).get('dropdown');
-        } else {                 
+        } else {
             dropdown = new mDropdown(element);
-        }             
+        }
 
         dropdown.toggle();
 
         e.preventDefault();
-    } 
+    }
 });
 
-mUtil.on(document, '[m-dropdown-toggle="hover"] .m-dropdown__toggle', 'click', function(e) {
+mUtil.on(document, '[m-dropdown-toggle="hover"] .m-dropdown__toggle', 'click', function (e) {
     if (mUtil.isDesktopDevice()) {
         if (mUtil.attr(this, 'href') == '#') {
             e.preventDefault();
@@ -2863,9 +2864,9 @@ mUtil.on(document, '[m-dropdown-toggle="hover"] .m-dropdown__toggle', 'click', f
         if (element) {
             if (mUtil.data(element).has('dropdown')) {
                 dropdown = mUtil.data(element).get('dropdown');
-            } else {                        
+            } else {
                 dropdown = new mDropdown(element);
-            }  
+            }
 
             dropdown.toggle();
 
@@ -2874,7 +2875,7 @@ mUtil.on(document, '[m-dropdown-toggle="hover"] .m-dropdown__toggle', 'click', f
     }
 });
 
-mUtil.on(document, '[m-dropdown-toggle="hover"]', 'mouseover', function(e) {
+mUtil.on(document, '[m-dropdown-toggle="hover"]', 'mouseover', function (e) {
     if (mUtil.isDesktopDevice()) {
         var element = this;
         var dropdown;
@@ -2882,9 +2883,9 @@ mUtil.on(document, '[m-dropdown-toggle="hover"]', 'mouseover', function(e) {
         if (element) {
             if (mUtil.data(element).has('dropdown')) {
                 dropdown = mUtil.data(element).get('dropdown');
-            } else {                        
+            } else {
                 dropdown = new mDropdown(element);
-            }              
+            }
 
             dropdown.show();
 
@@ -2893,7 +2894,7 @@ mUtil.on(document, '[m-dropdown-toggle="hover"]', 'mouseover', function(e) {
     }
 });
 
-document.addEventListener("click", function(e) {
+document.addEventListener("click", function (e) {
     var query;
     var body = mUtil.get('body');
     var target = e.target;
@@ -2922,7 +2923,7 @@ document.addEventListener("click", function(e) {
                     } else {
                         the.hide();
                     }
-               }
+                }
             } else if (element.contains(target) === false) {
                 the.hide();
             }
@@ -2943,7 +2944,7 @@ document.addEventListener("click", function(e) {
 String.prototype.replaceAll = function (s1, s2) {
     return this.replace(new RegExp(s1, "gm"), s2);
 };
-var mHeader = function(elementId, options) {
+var mHeader = function (elementId, options) {
     //== Main object
     var the = this;
     var init = false;
@@ -2978,7 +2979,7 @@ var mHeader = function(elementId, options) {
          * Run plugin
          * @returns {mHeader}
          */
-        construct: function(options) {
+        construct: function (options) {
             if (mUtil.data(element).has('header')) {
                 the = mUtil.data(element).get('header');
             } else {
@@ -2998,7 +2999,7 @@ var mHeader = function(elementId, options) {
          * Handles subheader click toggle
          * @returns {mHeader}
          */
-        init: function(options) {
+        init: function (options) {
             the.events = [];
 
             // merge default and user defined options
@@ -3009,14 +3010,14 @@ var mHeader = function(elementId, options) {
          * Reset header
          * @returns {mHeader}
          */
-        build: function() {
+        build: function () {
             var lastScrollTop = 0;
 
             if (the.options.minimize.mobile === false && the.options.minimize.desktop === false) {
                 return;
             }
 
-            window.addEventListener('scroll', function() {
+            window.addEventListener('scroll', function () {
                 var offset = 0, on, off, st;
 
                 if (mUtil.isInResponsiveRange('desktop')) {
@@ -3060,7 +3061,7 @@ var mHeader = function(elementId, options) {
         /**
          * Trigger events
          */
-        eventTrigger: function(name, args) {
+        eventTrigger: function (name, args) {
             for (var i = 0; i < the.events.length; i++) {
                 var event = the.events[i];
                 if (event.name == name) {
@@ -3076,7 +3077,7 @@ var mHeader = function(elementId, options) {
             }
         },
 
-        addEvent: function(name, handler, one) {
+        addEvent: function (name, handler, one) {
             the.events.push({
                 name: name,
                 handler: handler,
@@ -3091,17 +3092,17 @@ var mHeader = function(elementId, options) {
     //////////////////////////
 
     /**
-     * Set default options 
+     * Set default options
      */
 
-    the.setDefaults = function(options) {
+    the.setDefaults = function (options) {
         defaultOptions = options;
     };
 
     /**
      * Register event
      */
-    the.on = function(name, handler) {
+    the.on = function (name, handler) {
         return Plugin.addEvent(name, handler);
     };
 
@@ -3118,7 +3119,7 @@ var mHeader = function(elementId, options) {
     // Return plugin instance
     return the;
 };
-var mMenu = function(elementId, options) {
+var mMenu = function (elementId, options) {
     //== Main object
     var the = this;
     var init = false;
@@ -3156,7 +3157,7 @@ var mMenu = function(elementId, options) {
          * Run plugin
          * @returns {mMenu}
          */
-        construct: function(options) {
+        construct: function (options) {
             if (mUtil.data(element).has('menu')) {
                 the = mUtil.data(element).get('menu');
             } else {
@@ -3179,7 +3180,7 @@ var mMenu = function(elementId, options) {
          * Handles submenu click toggle
          * @returns {mMenu}
          */
-        init: function(options) {
+        init: function (options) {
             the.events = [];
 
             the.eventHandlers = {};
@@ -3197,14 +3198,14 @@ var mMenu = function(elementId, options) {
          *
          * @param options
          */
-        update: function(options) {
+        update: function (options) {
             // 合并默认选项
             the.options = mUtil.deepExtend({}, defaultOptions, options);
 
             // 暂停菜单
             the.pauseDropdownHoverTime = 0;
 
-             // 重置菜单
+            // 重置菜单
             Plugin.reset();
 
             the.eventHandlers = {};
@@ -3217,7 +3218,7 @@ var mMenu = function(elementId, options) {
         /**
          * 重新加载
          */
-        reload: function() {
+        reload: function () {
             // 重置菜单
             Plugin.reset();
 
@@ -3229,19 +3230,19 @@ var mMenu = function(elementId, options) {
          * 构建菜单
          * @returns {mMenu}
          */
-        build: function() {
+        build: function () {
             //== General accordion submenu toggle
-            the.eventHandlers['event_1'] = mUtil.on( element, '.m-menu__toggle', 'click', Plugin.handleSubmenuAccordion);
+            the.eventHandlers['event_1'] = mUtil.on(element, '.m-menu__toggle', 'click', Plugin.handleSubmenuAccordion);
 
             //== Dropdown mode(hoverable)
             if (Plugin.getSubmenuMode() === 'dropdown' || Plugin.isConditionalSubmenuDropdown()) {
                 // dropdown submenu - hover toggle
-                the.eventHandlers['event_2'] = mUtil.on( element, '[m-menu-submenu-toggle="hover"]', 'mouseover', Plugin.handleSubmenuDrodownHoverEnter);
-                the.eventHandlers['event_3'] = mUtil.on( element, '[m-menu-submenu-toggle="hover"]', 'mouseout', Plugin.handleSubmenuDrodownHoverExit);
+                the.eventHandlers['event_2'] = mUtil.on(element, '[m-menu-submenu-toggle="hover"]', 'mouseover', Plugin.handleSubmenuDrodownHoverEnter);
+                the.eventHandlers['event_3'] = mUtil.on(element, '[m-menu-submenu-toggle="hover"]', 'mouseout', Plugin.handleSubmenuDrodownHoverExit);
 
                 // dropdown submenu - click toggle
-                the.eventHandlers['event_4'] = mUtil.on( element, '[m-menu-submenu-toggle="click"] > .m-menu__toggle, [m-menu-submenu-toggle="click"] > .m-menu__link .m-menu__toggle', 'click', Plugin.handleSubmenuDropdownClick);
-                the.eventHandlers['event_5'] = mUtil.on( element, '[m-menu-submenu-toggle="tab"] > .m-menu__toggle, [m-menu-submenu-toggle="tab"] > .m-menu__link .m-menu__toggle', 'click', Plugin.handleSubmenuDropdownTabClick);
+                the.eventHandlers['event_4'] = mUtil.on(element, '[m-menu-submenu-toggle="click"] > .m-menu__toggle, [m-menu-submenu-toggle="click"] > .m-menu__link .m-menu__toggle', 'click', Plugin.handleSubmenuDropdownClick);
+                the.eventHandlers['event_5'] = mUtil.on(element, '[m-menu-submenu-toggle="tab"] > .m-menu__toggle, [m-menu-submenu-toggle="tab"] > .m-menu__link .m-menu__toggle', 'click', Plugin.handleSubmenuDropdownTabClick);
             }
 
             //== General link click
@@ -3257,36 +3258,41 @@ var mMenu = function(elementId, options) {
          * 重置菜单
          * @returns {mMenu}
          */
-        reset: function() { 
-            mUtil.off( element, 'click', the.eventHandlers['event_1']);
+        reset: function () {
+            mUtil.off(element, 'click', the.eventHandlers['event_1']);
 
             // dropdown submenu - hover toggle
-            mUtil.off( element, 'mouseover', the.eventHandlers['event_2']);
-            mUtil.off( element, 'mouseout', the.eventHandlers['event_3']);
+            mUtil.off(element, 'mouseover', the.eventHandlers['event_2']);
+            mUtil.off(element, 'mouseout', the.eventHandlers['event_3']);
 
             // dropdown submenu - click toggle
-            mUtil.off( element, 'click', the.eventHandlers['event_4']);
-            mUtil.off( element, 'click', the.eventHandlers['event_5']);
-            
+            mUtil.off(element, 'click', the.eventHandlers['event_4']);
+            mUtil.off(element, 'click', the.eventHandlers['event_5']);
+
             mUtil.off(element, 'click', the.eventHandlers['event_6']);
         },
 
         /**
          * 初始化菜单滚动条
          *
-        */
-        scrollerInit: function() {
-            if ( the.options.scroll && the.options.scroll.height ) {
+         */
+        scrollerInit: function () {
+            if (the.options.scroll && the.options.scroll.height) {
                 mUtil.scrollerDestroy(element);
-                mUtil.scrollerInit(element, {disableForMobile: true, resetHeightOnDestroy: true, handleWindowResize: true, height: the.options.scroll.height});
-            }            
+                mUtil.scrollerInit(element, {
+                    disableForMobile: true,
+                    resetHeightOnDestroy: true,
+                    handleWindowResize: true,
+                    height: the.options.scroll.height
+                });
+            }
         },
 
         /**
          * 更新菜单滚动条
-        */
-        scrollerUpdate: function() {
-            if ( the.options.scroll && the.options.scroll.height ) {
+         */
+        scrollerUpdate: function () {
+            if (the.options.scroll && the.options.scroll.height) {
                 mUtil.scrollerUpdate(element);
             } else {
                 mUtil.scrollerDestroy(element);
@@ -3295,9 +3301,9 @@ var mMenu = function(elementId, options) {
 
         /**
          * 滚动到顶部
-        */
-        scrollerTop: function() {
-            if ( the.options.scroll && the.options.scroll.height ) {
+         */
+        scrollerTop: function () {
+            if (the.options.scroll && the.options.scroll.height) {
                 mUtil.scrollerTop(element);
             }
         },
@@ -3306,24 +3312,24 @@ var mMenu = function(elementId, options) {
          * 根据当前窗口与菜单状态获取菜单模式
          * @returns {mMenu|boolean}
          */
-        getSubmenuMode: function(el) {
-            if ( mUtil.isInResponsiveRange('desktop') ) {
+        getSubmenuMode: function (el) {
+            if (mUtil.isInResponsiveRange('desktop')) {
                 if (el && mUtil.hasAttr(el, 'm-menu-submenu-toggle')) {
                     return mUtil.attr(el, 'm-menu-submenu-toggle');
                 }
 
-                if ( mUtil.isset(the.options.submenu, 'desktop.state.body') ) {
-                    if ( mUtil.hasClass(body, the.options.submenu.desktop.state.body) ) {
+                if (mUtil.isset(the.options.submenu, 'desktop.state.body')) {
+                    if (mUtil.hasClass(body, the.options.submenu.desktop.state.body)) {
                         return the.options.submenu.desktop.state.mode;
                     } else {
                         return the.options.submenu.desktop.default;
                     }
-                } else if ( mUtil.isset(the.options.submenu, 'desktop') ) {
+                } else if (mUtil.isset(the.options.submenu, 'desktop')) {
                     return the.options.submenu.desktop;
                 }
-            } else if ( mUtil.isInResponsiveRange('tablet') && mUtil.isset(the.options.submenu, 'tablet') ) {
+            } else if (mUtil.isInResponsiveRange('tablet') && mUtil.isset(the.options.submenu, 'tablet')) {
                 return the.options.submenu.tablet;
-            } else if ( mUtil.isInResponsiveRange('mobile') && mUtil.isset(the.options.submenu, 'mobile') ) {
+            } else if (mUtil.isInResponsiveRange('mobile') && mUtil.isset(the.options.submenu, 'mobile')) {
                 return the.options.submenu.mobile;
             } else {
                 return false;
@@ -3334,7 +3340,7 @@ var mMenu = function(elementId, options) {
          * 根据当前窗口与菜单状态获取菜单模式
          * @returns {mMenu}
          */
-        isConditionalSubmenuDropdown: function() {
+        isConditionalSubmenuDropdown: function () {
             return mUtil.isInResponsiveRange('desktop') && mUtil.isset(the.options.submenu, 'desktop.state.body');
         },
 
@@ -3342,12 +3348,12 @@ var mMenu = function(elementId, options) {
          * 点击菜单链接
          * @returns {mMenu}
          */
-        handleLinkClick: function(e) {
-            if ( Plugin.eventTrigger('linkClick', this) === false ) {
+        handleLinkClick: function (e) {
+            if (Plugin.eventTrigger('linkClick', this) === false) {
                 e.preventDefault();
             }
 
-            if ( Plugin.getSubmenuMode(this) === 'dropdown' || Plugin.isConditionalSubmenuDropdown() ) {
+            if (Plugin.getSubmenuMode(this) === 'dropdown' || Plugin.isConditionalSubmenuDropdown()) {
                 Plugin.handleSubmenuDropdownClose(e, this);
             }
         },
@@ -3356,20 +3362,20 @@ var mMenu = function(elementId, options) {
          * 菜单悬停
          * @returns {mMenu}
          */
-        handleSubmenuDrodownHoverEnter: function(e) {
-            if ( Plugin.getSubmenuMode(this) === 'accordion' ) {
+        handleSubmenuDrodownHoverEnter: function (e) {
+            if (Plugin.getSubmenuMode(this) === 'accordion') {
                 return;
             }
 
-            if ( the.resumeDropdownHover() === false ) {
+            if (the.resumeDropdownHover() === false) {
                 return;
             }
 
             var item = this;
 
-            if ( item.getAttribute('data-hover') == '1' ) {
+            if (item.getAttribute('data-hover') == '1') {
                 item.removeAttribute('data-hover');
-                clearTimeout( item.getAttribute('data-timeout') );
+                clearTimeout(item.getAttribute('data-timeout'));
                 item.removeAttribute('data-timeout');
                 //Plugin.hideSubmenuDropdown(item, false);
             }
@@ -3381,48 +3387,48 @@ var mMenu = function(elementId, options) {
          * 菜单悬停
          * @returns {mMenu}
          */
-        handleSubmenuDrodownHoverExit: function(e) {
-            if ( the.resumeDropdownHover() === false ) {
+        handleSubmenuDrodownHoverExit: function (e) {
+            if (the.resumeDropdownHover() === false) {
                 return;
             }
 
-            if ( Plugin.getSubmenuMode(this) === 'accordion' ) {
+            if (Plugin.getSubmenuMode(this) === 'accordion') {
                 return;
             }
 
             var item = this;
             var time = the.options.dropdown.timeout;
 
-            var timeout = setTimeout(function() {
-                if ( item.getAttribute('data-hover') == '1' ) {
+            var timeout = setTimeout(function () {
+                if (item.getAttribute('data-hover') == '1') {
                     Plugin.hideSubmenuDropdown(item, true);
-                } 
+                }
             }, time);
 
             item.setAttribute('data-hover', '1');
-            item.setAttribute('data-timeout', timeout);  
+            item.setAttribute('data-timeout', timeout);
         },
 
         /**
          * 点击打开子菜单
          * @returns {mMenu}
          */
-        handleSubmenuDropdownClick: function(e) {
-            if ( Plugin.getSubmenuMode(this) === 'accordion' ) {
+        handleSubmenuDropdownClick: function (e) {
+            if (Plugin.getSubmenuMode(this) === 'accordion') {
                 return;
             }
- 
+
             var item = this.closest('.m-menu__item');
 
-            if ( item.getAttribute('m-menu-submenu-mode') == 'accordion' ) {
+            if (item.getAttribute('m-menu-submenu-mode') == 'accordion') {
                 return;
             }
 
-            if ( mUtil.hasClass(item, 'm-menu__item--hover') === false ) {
+            if (mUtil.hasClass(item, 'm-menu__item--hover') === false) {
                 mUtil.addClass(item, 'm-menu__item--open-dropdown');
                 Plugin.showSubmenuDropdown(item);
             } else {
-                mUtil.removeClass(item, 'm-menu__item--open-dropdown' );
+                mUtil.removeClass(item, 'm-menu__item--open-dropdown');
                 Plugin.hideSubmenuDropdown(item, true);
             }
 
@@ -3433,7 +3439,7 @@ var mMenu = function(elementId, options) {
          * Handles tab click toggle
          * @returns {mMenu}
          */
-        handleSubmenuDropdownTabClick: function(e) {
+        handleSubmenuDropdownTabClick: function (e) {
             if (Plugin.getSubmenuMode(this) === 'accordion') {
                 return;
             }
@@ -3456,7 +3462,7 @@ var mMenu = function(elementId, options) {
          * Handles submenu dropdown close on link click
          * @returns {mMenu}
          */
-        handleSubmenuDropdownClose: function(e, el) {
+        handleSubmenuDropdownClose: function (e, el) {
             // exit if its not submenu dropdown mode
             if (Plugin.getSubmenuMode(el) === 'accordion') {
                 return;
@@ -3478,12 +3484,12 @@ var mMenu = function(elementId, options) {
          *
          * @returns {mMenu}
          */
-        handleSubmenuAccordion: function(e, el) {
+        handleSubmenuAccordion: function (e, el) {
             var query;
             var item = el ? el : this;
 
-            if ( Plugin.getSubmenuMode(el) === 'dropdown' && (query = item.closest('.m-menu__item') ) ) {
-                if (query.getAttribute('m-menu-submenu-mode') != 'accordion' ) {
+            if (Plugin.getSubmenuMode(el) === 'dropdown' && (query = item.closest('.m-menu__item'))) {
+                if (query.getAttribute('m-menu-submenu-mode') != 'accordion') {
                     e.preventDefault();
                     return;
                 }
@@ -3496,47 +3502,47 @@ var mMenu = function(elementId, options) {
                 return;
             }
 
-            if ( li && submenu ) {
+            if (li && submenu) {
                 e.preventDefault();
                 var speed = the.options.accordion.slideSpeed;
                 var hasClosables = false;
 
-                if ( mUtil.hasClass(li, 'm-menu__item--open') === false ) {
+                if (mUtil.hasClass(li, 'm-menu__item--open') === false) {
                     // hide other accordions                    
-                    if ( the.options.accordion.expandAll === false ) {
+                    if (the.options.accordion.expandAll === false) {
                         var subnav = item.closest('.m-menu__nav, .m-menu__subnav');
                         var closables = mUtil.children(subnav, '.m-menu__item.m-menu__item--open.m-menu__item--submenu:not(.m-menu__item--expanded):not(.m-menu__item--open-always)');
 
-                        if ( subnav && closables ) {
+                        if (subnav && closables) {
                             for (var i = 0, len = closables.length; i < len; i++) {
                                 var el_ = closables[0];
                                 var submenu_ = mUtil.child(el_, '.m-menu__submenu');
-                                if ( submenu_ ) {
-                                    mUtil.slideUp(submenu_, speed, function() {
+                                if (submenu_) {
+                                    mUtil.slideUp(submenu_, speed, function () {
                                         Plugin.scrollerUpdate();
                                         mUtil.removeClass(el_, 'm-menu__item--open');
-                                    });                    
+                                    });
                                 }
                             }
                         }
                     }
 
-                    mUtil.slideDown(submenu, speed, function() {
+                    mUtil.slideDown(submenu, speed, function () {
                         Plugin.scrollToItem(item);
                         Plugin.scrollerUpdate();
-                        
+
                         Plugin.eventTrigger('submenuToggle', submenu);
                     });
-                
+
                     mUtil.addClass(li, 'm-menu__item--open');
 
                 } else {
-                    mUtil.slideUp(submenu, speed, function() {
+                    mUtil.slideUp(submenu, speed, function () {
                         Plugin.scrollToItem(item);
                         Plugin.eventTrigger('submenuToggle', submenu);
                     });
 
-                    mUtil.removeClass(li, 'm-menu__item--open');       
+                    mUtil.removeClass(li, 'm-menu__item--open');
                 }
             }
         },
@@ -3545,9 +3551,9 @@ var mMenu = function(elementId, options) {
          * scroll to item function
          * @returns {mMenu}
          */
-        scrollToItem: function(item) {
+        scrollToItem: function (item) {
             // handle auto scroll for accordion submenus
-            if ( mUtil.isInResponsiveRange('desktop') && the.options.accordion.autoScroll && element.getAttribute('m-menu-scrollable') !== '1' ) {
+            if (mUtil.isInResponsiveRange('desktop') && the.options.accordion.autoScroll && element.getAttribute('m-menu-scrollable') !== '1') {
                 mUtil.scrollTo(item, the.options.accordion.autoScrollSpeed);
             }
         },
@@ -3556,9 +3562,9 @@ var mMenu = function(elementId, options) {
          * helper functions
          * @returns {mMenu}
          */
-        hideSubmenuDropdown: function(item, classAlso) {
+        hideSubmenuDropdown: function (item, classAlso) {
             // remove submenu activation class
-            if ( classAlso ) {
+            if (classAlso) {
                 mUtil.removeClass(item, 'm-menu__item--hover');
                 mUtil.removeClass(item, 'm-menu__item--active-tab');
             }
@@ -3566,7 +3572,7 @@ var mMenu = function(elementId, options) {
             // clear timeout
             item.removeAttribute('data-hover');
 
-            if ( item.getAttribute('m-menu-dropdown-toggle-class') ) {
+            if (item.getAttribute('m-menu-dropdown-toggle-class')) {
                 mUtil.removeClass(body, item.getAttribute('m-menu-dropdown-toggle-class'));
             }
 
@@ -3579,26 +3585,26 @@ var mMenu = function(elementId, options) {
          * helper functions
          * @returns {mMenu}
          */
-        showSubmenuDropdown: function(item) {
+        showSubmenuDropdown: function (item) {
             // close active submenus
             var list = element.querySelectorAll('.m-menu__item--submenu.m-menu__item--hover, .m-menu__item--submenu.m-menu__item--active-tab');
 
-            if ( list ) {
+            if (list) {
                 for (var i = 0, len = list.length; i < len; i++) {
                     var el = list[i];
-                    if ( item !== el && el.contains(item) === false && item.contains(el) === false ) {
+                    if (item !== el && el.contains(item) === false && item.contains(el) === false) {
                         Plugin.hideSubmenuDropdown(el, true);
                     }
                 }
-            } 
+            }
 
             // adjust submenu position
             Plugin.adjustSubmenuDropdownArrowPos(item);
 
             // add submenu activation class
             mUtil.addClass(item, 'm-menu__item--hover');
-            
-            if ( item.getAttribute('m-menu-dropdown-toggle-class') ) {
+
+            if (item.getAttribute('m-menu-dropdown-toggle-class')) {
                 mUtil.addClass(body, item.getAttribute('m-menu-dropdown-toggle-class'));
             }
         },
@@ -3607,7 +3613,7 @@ var mMenu = function(elementId, options) {
          * Handles submenu slide toggle
          * @returns {mMenu}
          */
-        createSubmenuDropdownClickDropoff: function(el) {
+        createSubmenuDropdownClickDropoff: function (el) {
             var query;
             var zIndex = (query = mUtil.child(el, '.m-menu__submenu') ? mUtil.css(query, 'z-index') : 0) - 1;
 
@@ -3615,7 +3621,7 @@ var mMenu = function(elementId, options) {
 
             body.appendChild(dropoff);
 
-            mUtil.addEvent(dropoff, 'click', function(e) {
+            mUtil.addEvent(dropoff, 'click', function (e) {
                 e.stopPropagation();
                 e.preventDefault();
                 mUtil.remove(this);
@@ -3627,51 +3633,51 @@ var mMenu = function(elementId, options) {
          * Handles submenu click toggle
          * @returns {mMenu}
          */
-        adjustSubmenuDropdownArrowPos: function(item) {
+        adjustSubmenuDropdownArrowPos: function (item) {
             var submenu = mUtil.child(item, '.m-menu__submenu');
-            var arrow = mUtil.child( submenu, '.m-menu__arrow.m-menu__arrow--adjust');
-            var subnav = mUtil.child( submenu, '.m-menu__subnav');
+            var arrow = mUtil.child(submenu, '.m-menu__arrow.m-menu__arrow--adjust');
+            var subnav = mUtil.child(submenu, '.m-menu__subnav');
 
-            if ( arrow ) { 
+            if (arrow) {
                 var pos = 0;
                 var link = mUtil.child(item, '.m-menu__link');
 
-                if ( mUtil.hasClass(submenu, 'm-menu__submenu--classic') || mUtil.hasClass(submenu, 'm-menu__submenu--fixed') ) {
-                    if ( mUtil.hasClass(submenu, 'm-menu__submenu--right')) {
+                if (mUtil.hasClass(submenu, 'm-menu__submenu--classic') || mUtil.hasClass(submenu, 'm-menu__submenu--fixed')) {
+                    if (mUtil.hasClass(submenu, 'm-menu__submenu--right')) {
                         pos = mUtil.outerWidth(item) / 2;
                         if (mUtil.hasClass(submenu, 'm-menu__submenu--pull')) {
                             if (mUtil.isRTL()) {
-                                pos = pos + Math.abs( parseFloat(mUtil.css(submenu, 'margin-left')) );
+                                pos = pos + Math.abs(parseFloat(mUtil.css(submenu, 'margin-left')));
                             } else {
-                                pos = pos + Math.abs( parseFloat(mUtil.css(submenu, 'margin-right')) );
+                                pos = pos + Math.abs(parseFloat(mUtil.css(submenu, 'margin-right')));
                             }
                         }
                         pos = parseInt(mUtil.css(submenu, 'width')) - pos;
-                    } else if ( mUtil.hasClass(submenu, 'm-menu__submenu--left') ) {
+                    } else if (mUtil.hasClass(submenu, 'm-menu__submenu--left')) {
                         pos = mUtil.outerWidth(item) / 2;
-                        if ( mUtil.hasClass(submenu, 'm-menu__submenu--pull')) {
+                        if (mUtil.hasClass(submenu, 'm-menu__submenu--pull')) {
                             if (mUtil.isRTL()) {
-                                pos = pos + Math.abs( parseFloat(mUtil.css(submenu, 'margin-right')) );
+                                pos = pos + Math.abs(parseFloat(mUtil.css(submenu, 'margin-right')));
                             } else {
-                                pos = pos + Math.abs( parseFloat(mUtil.css(submenu, 'margin-left')) );
+                                pos = pos + Math.abs(parseFloat(mUtil.css(submenu, 'margin-left')));
                             }
                         }
                     }
 
                     if (mUtil.isRTL()) {
-                        mUtil.css(arrow, 'right', pos + 'px');  
+                        mUtil.css(arrow, 'right', pos + 'px');
                     } else {
-                        mUtil.css(arrow, 'left', pos + 'px');  
+                        mUtil.css(arrow, 'left', pos + 'px');
                     }
                 } else {
-                    if ( mUtil.hasClass(submenu, 'm-menu__submenu--center') || mUtil.hasClass(submenu, 'm-menu__submenu--full') ) {
+                    if (mUtil.hasClass(submenu, 'm-menu__submenu--center') || mUtil.hasClass(submenu, 'm-menu__submenu--full')) {
                         pos = mUtil.offset(item).left - ((mUtil.getViewPort().width - parseInt(mUtil.css(submenu, 'width'))) / 2);
                         pos = pos + (mUtil.outerWidth(item) / 2);
 
                         mUtil.css(arrow, 'left', pos + 'px');
                         if (mUtil.isRTL()) {
                             mUtil.css(arrow, 'right', 'auto');
-                        }                        
+                        }
                     }
                 }
             }
@@ -3681,7 +3687,7 @@ var mMenu = function(elementId, options) {
          * Handles submenu hover toggle
          * @returns {mMenu}
          */
-        pauseDropdownHover: function(time) {
+        pauseDropdownHover: function (time) {
             var date = new Date();
 
             the.pauseDropdownHoverTime = date.getTime() + time;
@@ -3691,7 +3697,7 @@ var mMenu = function(elementId, options) {
          * Handles submenu hover toggle
          * @returns {mMenu}
          */
-        resumeDropdownHover: function() {
+        resumeDropdownHover: function () {
             return new Date().getTime() > the.pauseDropdownHoverTime;
         },
 
@@ -3699,28 +3705,28 @@ var mMenu = function(elementId, options) {
          * 重置当前选中菜单
          * @returns {mMenu}
          */
-        resetActiveItem: function(item) {
+        resetActiveItem: function (item) {
             var list;
             var parents;
 
             list = element.querySelectorAll('.m-menu__item--active');
-            
+
             for (var i = 0, len = list.length; i < len; i++) {
                 var el = list[0];
                 mUtil.removeClass(el, 'm-menu__item--active');
-                mUtil.hide( mUtil.child(el, '.m-menu__submenu') );
+                mUtil.hide(mUtil.child(el, '.m-menu__submenu'));
                 parents = mUtil.parents(el, '.m-menu__item--submenu');
 
                 for (var i_ = 0, len_ = parents.length; i_ < len_; i_++) {
                     var el_ = parents[i];
                     mUtil.removeClass(el_, 'm-menu__item--open');
-                    mUtil.hide( mUtil.child(el_, '.m-menu__submenu') );
+                    mUtil.hide(mUtil.child(el_, '.m-menu__submenu'));
                 }
             }
 
             // 关闭打开的子菜单
-            if ( the.options.accordion.expandAll === false ) {
-                if ( list = element.querySelectorAll('.m-menu__item--open') ) {
+            if (the.options.accordion.expandAll === false) {
+                if (list = element.querySelectorAll('.m-menu__item--open')) {
                     for (var i = 0, len = list.length; i < len; i++) {
                         mUtil.removeClass(parents[0], 'm-menu__item--open');
                     }
@@ -3732,12 +3738,12 @@ var mMenu = function(elementId, options) {
          * 设置激活菜单
          * @returns {mMenu} element 对象
          */
-        setActiveItem: function(item) {
+        setActiveItem: function (item) {
             // 重置当前激活菜单
             Plugin.resetActiveItem();
 
             mUtil.addClass(item, 'm-menu__item--active');
-            
+
             var parents = mUtil.parents(item, '.m-menu__item--submenu');
             for (var i = 0, len = parents.length; i < len; i++) {
                 mUtil.addClass(parents[i], 'm-menu__item--open');
@@ -3748,14 +3754,14 @@ var mMenu = function(elementId, options) {
          * 根据菜单获取面包屑导航
          * @returns {mMenu}
          */
-        getBreadcrumbs: function(item) {
+        getBreadcrumbs: function (item) {
             var query;
             var breadcrumbs = [];
             var link = mUtil.child(item, '.m-menu__link');
             query = mUtil.child(link, '.m-menu__link-text');
 
             breadcrumbs.push({
-                text: ( query ? query.innerHTML : ''),
+                text: (query ? query.innerHTML : ''),
                 title: link.getAttribute('title'),
                 href: link.getAttribute('href')
             });
@@ -3771,14 +3777,14 @@ var mMenu = function(elementId, options) {
                 });
             }
 
-            return  breadcrumbs.reverse();
+            return breadcrumbs.reverse();
         },
 
         /**
          * 根据菜单获取页面名称
          * @returns {mMenu}
          */
-        getPageTitle: function(item) {
+        getPageTitle: function (item) {
             var query;
 
             return (query = mUtil.child(item, '.m-menu__link-text') ? query.innerHTML : '');
@@ -3787,12 +3793,12 @@ var mMenu = function(elementId, options) {
         /**
          * 触发事件
          */
-        eventTrigger: function(name, args) {
-            for (var i = 0; i < the.events.length; i++ ) {
+        eventTrigger: function (name, args) {
+            for (var i = 0; i < the.events.length; i++) {
                 var event = the.events[i];
-                if ( event.name == name ) {
-                    if ( event.one == true ) {
-                        if ( event.fired == false ) {
+                if (event.name == name) {
+                    if (event.one == true) {
+                        if (event.fired == false) {
                             the.events[i].fired = true;
                             event.handler.call(this, the, args);
                         }
@@ -3808,7 +3814,7 @@ var mMenu = function(elementId, options) {
          * @param handler
          * @param one
          */
-        addEvent: function(name, handler, one) {
+        addEvent: function (name, handler, one) {
             the.events.push({
                 name: name,
                 handler: handler,
@@ -3820,7 +3826,7 @@ var mMenu = function(elementId, options) {
          * 移除事件
          * @param name
          */
-        removeEvent: function(name) {
+        removeEvent: function (name) {
             if (the.events[name]) {
                 delete the.events[name];
             }
@@ -3835,35 +3841,35 @@ var mMenu = function(elementId, options) {
      * 设置默认选项
      */
 
-    the.setDefaults = function(options) {
+    the.setDefaults = function (options) {
         defaultOptions = options;
     };
 
     /**
      * 更新滚动条
      */
-    the.scrollerUpdate = function() {
+    the.scrollerUpdate = function () {
         return Plugin.scrollerUpdate();
     };
 
     /**
      * 滚动到顶部
      */
-    the.scrollerTop = function() {
+    the.scrollerTop = function () {
         return Plugin.scrollerTop();
     };
 
     /**
      * 设置选中菜单
      */
-    the.setActiveItem = function(item) {
+    the.setActiveItem = function (item) {
         return Plugin.setActiveItem(item);
     };
     /**
      * 重新加载菜单
      * @returns {*|void}
      */
-    the.reload = function() {
+    the.reload = function () {
         return Plugin.reload();
     };
     /**
@@ -3872,28 +3878,28 @@ var mMenu = function(elementId, options) {
      * @param options {object} 选项
      * @returns {*|void}
      */
-    the.update = function(options) {
+    the.update = function (options) {
         return Plugin.update(options);
     };
 
     /**
      * 根据菜单获取面包屑导航
      */
-    the.getBreadcrumbs = function(item) {
+    the.getBreadcrumbs = function (item) {
         return Plugin.getBreadcrumbs(item);
     };
 
     /**
      * 根据菜单获取页面名称
      */
-    the.getPageTitle = function(item) {
+    the.getPageTitle = function (item) {
         return Plugin.getPageTitle(item);
     };
 
     /**
      * 获取子菜单
      */
-    the.getSubmenuMode = function(el) {
+    the.getSubmenuMode = function (el) {
         return Plugin.getSubmenuMode(el);
     };
 
@@ -3901,7 +3907,7 @@ var mMenu = function(elementId, options) {
      * 隐藏下拉子菜单
      * @returns {jQuery}
      */
-    the.hideDropdown = function(item) {
+    the.hideDropdown = function (item) {
         Plugin.hideSubmenuDropdown(item, true);
     };
 
@@ -3909,7 +3915,7 @@ var mMenu = function(elementId, options) {
      * 在指定时间前,禁用菜单
      * @param time 时间(时间戳)
      */
-    the.pauseDropdownHover = function(time) {
+    the.pauseDropdownHover = function (time) {
         Plugin.pauseDropdownHover(time);
     };
 
@@ -3917,14 +3923,14 @@ var mMenu = function(elementId, options) {
      * 禁用菜单直到超过pauseDropdownHover指定的时间
      * @returns {jQuery}
      */
-    the.resumeDropdownHover = function() {
+    the.resumeDropdownHover = function () {
         return Plugin.resumeDropdownHover();
     };
 
     /**
      * 注册事件
      */
-    the.on = function(name, handler) {
+    the.on = function (name, handler) {
         return Plugin.addEvent(name, handler);
     };
     /**
@@ -3932,11 +3938,11 @@ var mMenu = function(elementId, options) {
      * @param name 名称
      * @returns {*|void}
      */
-    the.off = function(name) {
+    the.off = function (name) {
         return Plugin.removeEvent(name);
     };
 
-    the.one = function(name, handler) {
+    the.one = function (name, handler) {
         return Plugin.addEvent(name, handler, true);
     };
 
@@ -3948,10 +3954,10 @@ var mMenu = function(elementId, options) {
     Plugin.construct.apply(the, [options]);
 
     //== Handle plugin on window resize
-    mUtil.addResizeHandler(function() {
+    mUtil.addResizeHandler(function () {
         if (init) {
             the.reload();
-        }  
+        }
     });
 
     //== Init done
@@ -3965,34 +3971,34 @@ var mMenu = function(elementId, options) {
 document.addEventListener("click", function (e) {
     var body = mUtil.get('body');
     var query;
-    if ( query = body.querySelectorAll('.m-menu__nav .m-menu__item.m-menu__item--submenu.m-menu__item--hover:not(.m-menu__item--tabs)[m-menu-submenu-toggle="click"]') ) {
+    if (query = body.querySelectorAll('.m-menu__nav .m-menu__item.m-menu__item--submenu.m-menu__item--hover:not(.m-menu__item--tabs)[m-menu-submenu-toggle="click"]')) {
         for (var i = 0, len = query.length; i < len; i++) {
             var element = query[i].closest('.m-menu__nav').parentNode;
 
-            if ( element ) {
+            if (element) {
                 var the = mUtil.data(element).get('menu');
 
-                if ( !the ) {
+                if (!the) {
                     break;
                 }
 
-                if ( !the || the.getSubmenuMode() !== 'dropdown' ) {
+                if (!the || the.getSubmenuMode() !== 'dropdown') {
                     break;
                 }
 
-                if ( e.target !== element && element.contains(e.target) === false ) {
+                if (e.target !== element && element.contains(e.target) === false) {
                     var items;
-                    if ( items = element.querySelectorAll('.m-menu__item--submenu.m-menu__item--hover:not(.m-menu__item--tabs)[m-menu-submenu-toggle="click"]') ) {
+                    if (items = element.querySelectorAll('.m-menu__item--submenu.m-menu__item--hover:not(.m-menu__item--tabs)[m-menu-submenu-toggle="click"]')) {
                         for (var j = 0, cnt = items.length; j < cnt; j++) {
                             the.hideDropdown(items[j]);
                         }
                     }
                 }
-            }            
+            }
         }
-    } 
+    }
 });
-var mOffcanvas = function(elementId, options) {
+var mOffcanvas = function (elementId, options) {
     //== Main object
     var the = this;
     var init = false;
@@ -4017,13 +4023,13 @@ var mOffcanvas = function(elementId, options) {
          * Run plugin
          * @returns {moffcanvas}
          */
-        construct: function(options) {
+        construct: function (options) {
             if (mUtil.data(element).has('offcanvas')) {
                 the = mUtil.data(element).get('offcanvas');
             } else {
                 // reset offcanvas
                 Plugin.init(options);
-                
+
                 // build offcanvas
                 Plugin.build();
 
@@ -4037,7 +4043,7 @@ var mOffcanvas = function(elementId, options) {
          * Handles suboffcanvas click toggle
          * @returns {moffcanvas}
          */
-        init: function(options) {
+        init: function (options) {
             the.events = [];
 
             // merge default and user defined options
@@ -4051,18 +4057,18 @@ var mOffcanvas = function(elementId, options) {
             the.state = mUtil.hasClass(element, the.classShown) ? 'shown' : 'hidden';
         },
 
-        build: function() {
+        build: function () {
             //== offcanvas toggle
             if (the.options.toggleBy) {
-                if (typeof the.options.toggleBy === 'string') { 
-                    mUtil.addEvent( the.options.toggleBy, 'click', Plugin.toggle); 
+                if (typeof the.options.toggleBy === 'string') {
+                    mUtil.addEvent(the.options.toggleBy, 'click', Plugin.toggle);
                 } else if (the.options.toggleBy && the.options.toggleBy[0] && the.options.toggleBy[0].target) {
                     for (var i in the.options.toggleBy) {
-                        mUtil.addEvent( the.options.toggleBy[i].target, 'click', Plugin.toggle); 
+                        mUtil.addEvent(the.options.toggleBy[i].target, 'click', Plugin.toggle);
                     }
                 } else if (the.options.toggleBy && the.options.toggleBy.target) {
-                    mUtil.addEvent( the.options.toggleBy.target, 'click', Plugin.toggle); 
-                } 
+                    mUtil.addEvent(the.options.toggleBy.target, 'click', Plugin.toggle);
+                }
             }
 
             //== offcanvas close
@@ -4076,8 +4082,9 @@ var mOffcanvas = function(elementId, options) {
         /**
          * Handles offcanvas toggle
          */
-        toggle: function() {;
-            Plugin.eventTrigger('toggle'); 
+        toggle: function () {
+            ;
+            Plugin.eventTrigger('toggle');
 
             if (the.state == 'shown') {
                 Plugin.hide(this);
@@ -4089,7 +4096,7 @@ var mOffcanvas = function(elementId, options) {
         /**
          * Handles offcanvas show
          */
-        show: function(target) {
+        show: function (target) {
             if (the.state == 'shown') {
                 return;
             }
@@ -4105,12 +4112,12 @@ var mOffcanvas = function(elementId, options) {
             the.state = 'shown';
 
             if (the.options.overlay) {
-                the.overlay = mUtil.insertAfter(document.createElement('DIV') , element );
+                the.overlay = mUtil.insertAfter(document.createElement('DIV'), element);
                 mUtil.addClass(the.overlay, the.classOverlay);
-                mUtil.addEvent(the.overlay, 'click', function(e) {
+                mUtil.addEvent(the.overlay, 'click', function (e) {
                     e.stopPropagation();
                     e.preventDefault();
-                    Plugin.hide(target);       
+                    Plugin.hide(target);
                 });
             }
 
@@ -4120,7 +4127,7 @@ var mOffcanvas = function(elementId, options) {
         /**
          * Handles offcanvas hide
          */
-        hide: function(target) {
+        hide: function (target) {
             if (the.state == 'hidden') {
                 return;
             }
@@ -4144,7 +4151,7 @@ var mOffcanvas = function(elementId, options) {
         /**
          * Handles toggler class
          */
-        togglerClass: function(target, mode) {
+        togglerClass: function (target, mode) {
             //== Toggler
             var id = mUtil.attr(target, 'id');
             var toggleBy;
@@ -4153,15 +4160,15 @@ var mOffcanvas = function(elementId, options) {
                 for (var i in the.options.toggleBy) {
                     if (the.options.toggleBy[i].target === id) {
                         toggleBy = the.options.toggleBy[i];
-                    }        
+                    }
                 }
             } else if (the.options.toggleBy && the.options.toggleBy.target) {
                 toggleBy = the.options.toggleBy;
             }
 
-            if (toggleBy) {                
+            if (toggleBy) {
                 var el = mUtil.get(toggleBy.target);
-                
+
                 if (mode === 'show') {
                     mUtil.addClass(el, toggleBy.state);
                 }
@@ -4175,7 +4182,7 @@ var mOffcanvas = function(elementId, options) {
         /**
          * Trigger events
          */
-        eventTrigger: function(name, args) {
+        eventTrigger: function (name, args) {
             for (var i = 0; i < the.events.length; i++) {
                 var event = the.events[i];
                 if (event.name == name) {
@@ -4191,7 +4198,7 @@ var mOffcanvas = function(elementId, options) {
             }
         },
 
-        addEvent: function(name, handler, one) {
+        addEvent: function (name, handler, one) {
             the.events.push({
                 name: name,
                 handler: handler,
@@ -4206,31 +4213,31 @@ var mOffcanvas = function(elementId, options) {
     //////////////////////////
 
     /**
-     * Set default options 
+     * Set default options
      */
 
-    the.setDefaults = function(options) {
+    the.setDefaults = function (options) {
         defaultOptions = options;
     };
 
     /**
-     * Hide 
+     * Hide
      */
-    the.hide = function() {
+    the.hide = function () {
         return Plugin.hide();
     };
 
     /**
-     * Show 
+     * Show
      */
-    the.show = function() {
+    the.show = function () {
         return Plugin.show();
     };
 
     /**
      * Get suboffcanvas mode
      */
-    the.on = function(name, handler) {
+    the.on = function (name, handler) {
         return Plugin.addEvent(name, handler);
     };
 
@@ -4238,7 +4245,7 @@ var mOffcanvas = function(elementId, options) {
      * Set offcanvas content
      * @returns {mOffcanvas}
      */
-    the.one = function(name, handler) {
+    the.one = function (name, handler) {
         return Plugin.addEvent(name, handler, true);
     };
 
@@ -4256,7 +4263,7 @@ var mOffcanvas = function(elementId, options) {
     return the;
 };
 // plugin setup
-var mPortlet = function(elementId, options) {
+var mPortlet = function (elementId, options) {
     //== Main object
     var the = this;
     var init = false;
@@ -4300,7 +4307,7 @@ var mPortlet = function(elementId, options) {
          * Construct
          */
 
-        construct: function(options) {
+        construct: function (options) {
             if (mUtil.data(element).has('portlet')) {
                 the = mUtil.data(element).get('portlet');
             } else {
@@ -4319,7 +4326,7 @@ var mPortlet = function(elementId, options) {
         /**
          * Init portlet
          */
-        init: function(options) {
+        init: function (options) {
             the.element = element;
             the.events = [];
 
@@ -4338,11 +4345,11 @@ var mPortlet = function(elementId, options) {
         /**
          * Build Form Wizard
          */
-        build: function() {
+        build: function () {
             //== Remove
             var remove = mUtil.find(the.head, '[m-portlet-tool=remove]');
             if (remove) {
-                mUtil.addEvent(remove, 'click', function(e) {
+                mUtil.addEvent(remove, 'click', function (e) {
                     e.preventDefault();
                     Plugin.remove();
                 });
@@ -4351,7 +4358,7 @@ var mPortlet = function(elementId, options) {
             //== Reload
             var reload = mUtil.find(the.head, '[m-portlet-tool=reload]');
             if (reload) {
-                mUtil.addEvent(reload, 'click', function(e) {
+                mUtil.addEvent(reload, 'click', function (e) {
                     e.preventDefault();
                     Plugin.reload();
                 });
@@ -4360,7 +4367,7 @@ var mPortlet = function(elementId, options) {
             //== Toggle
             var toggle = mUtil.find(the.head, '[m-portlet-tool=toggle]');
             if (toggle) {
-                mUtil.addEvent(toggle, 'click', function(e) {
+                mUtil.addEvent(toggle, 'click', function (e) {
                     e.preventDefault();
                     Plugin.toggle();
                 });
@@ -4369,7 +4376,7 @@ var mPortlet = function(elementId, options) {
             //== Fullscreen
             var fullscreen = mUtil.find(the.head, '[m-portlet-tool=fullscreen]');
             if (fullscreen) {
-                mUtil.addEvent(fullscreen, 'click', function(e) {
+                mUtil.addEvent(fullscreen, 'click', function (e) {
                     e.preventDefault();
                     Plugin.fullscreen();
                 });
@@ -4381,7 +4388,7 @@ var mPortlet = function(elementId, options) {
         /**
          * Window scroll handle event for sticky portlet
          */
-        onScrollSticky: function() {
+        onScrollSticky: function () {
             var st = window.pageYOffset;
             var offset = the.options.sticky.offset;
 
@@ -4410,7 +4417,7 @@ var mPortlet = function(elementId, options) {
         /**
          * Init sticky portlet
          */
-        initSticky: function() {
+        initSticky: function () {
             if (!the.head) {
                 return;
             }
@@ -4421,7 +4428,7 @@ var mPortlet = function(elementId, options) {
         /**
          * Update sticky portlet positions
          */
-        updateSticky: function() {
+        updateSticky: function () {
             if (!the.head) {
                 return;
             }
@@ -4454,7 +4461,7 @@ var mPortlet = function(elementId, options) {
 
                 if (mUtil.isRTL()) {
                     mUtil.css(the.head, 'left', right + 'px');
-                    mUtil.css(the.head, 'right',left  + 'px');
+                    mUtil.css(the.head, 'right', left + 'px');
                 } else {
                     mUtil.css(the.head, 'left', left + 'px');
                     mUtil.css(the.head, 'right', right + 'px');
@@ -4466,7 +4473,7 @@ var mPortlet = function(elementId, options) {
         /**
          * Reset sticky portlet positions
          */
-        resetSticky: function() {
+        resetSticky: function () {
             if (!the.head) {
                 return;
             }
@@ -4482,7 +4489,7 @@ var mPortlet = function(elementId, options) {
         /**
          * Destroy sticky portlet
          */
-        destroySticky: function() {
+        destroySticky: function () {
             if (!the.head) {
                 return;
             }
@@ -4495,7 +4502,7 @@ var mPortlet = function(elementId, options) {
         /**
          * Remove portlet
          */
-        remove: function() {
+        remove: function () {
             if (Plugin.eventTrigger('beforeRemove') === false) {
                 return;
             }
@@ -4514,7 +4521,7 @@ var mPortlet = function(elementId, options) {
         /**
          * Set content
          */
-        setContent: function(html) {
+        setContent: function (html) {
             if (html) {
                 the.body.innerHTML = html;
             }
@@ -4523,21 +4530,21 @@ var mPortlet = function(elementId, options) {
         /**
          * Get body
          */
-        getBody: function() {
+        getBody: function () {
             return the.body;
         },
 
         /**
          * Get self
          */
-        getSelf: function() {
+        getSelf: function () {
             return element;
         },
 
         /**
          * Setup tooltips
          */
-        setupTooltips: function() {
+        setupTooltips: function () {
             if (the.options.tooltips) {
                 var collapsed = mUtil.hasClass(element, 'm-portlet--collapse') || mUtil.hasClass(element, 'm-portlet--collapsed');
                 var fullscreenOn = mUtil.hasClass(body, 'm-portlet--fullscreen') && mUtil.hasClass(element, 'm-portlet--fullscreen');
@@ -4619,7 +4626,7 @@ var mPortlet = function(elementId, options) {
         /**
          * Setup tooltips
          */
-        removeTooltips: function() {
+        removeTooltips: function () {
             if (the.options.tooltips) {
                 //== Remove
                 var remove = mUtil.find(the.head, '[m-portlet-tool=remove]');
@@ -4650,14 +4657,14 @@ var mPortlet = function(elementId, options) {
         /**
          * Reload
          */
-        reload: function() {
+        reload: function () {
             Plugin.eventTrigger('reload');
         },
 
         /**
          * Toggle
          */
-        toggle: function() {
+        toggle: function () {
             if (mUtil.hasClass(element, 'm-portlet--collapse') || mUtil.hasClass(element, 'm-portlet--collapsed')) {
                 Plugin.expand();
             } else {
@@ -4668,12 +4675,12 @@ var mPortlet = function(elementId, options) {
         /**
          * Collapse
          */
-        collapse: function() {
+        collapse: function () {
             if (Plugin.eventTrigger('beforeCollapse') === false) {
                 return;
             }
 
-            mUtil.slideUp(the.body, the.options.bodyToggleSpeed, function() {
+            mUtil.slideUp(the.body, the.options.bodyToggleSpeed, function () {
                 Plugin.eventTrigger('afterCollapse');
             });
 
@@ -4688,12 +4695,12 @@ var mPortlet = function(elementId, options) {
         /**
          * Expand
          */
-        expand: function() {
+        expand: function () {
             if (Plugin.eventTrigger('beforeExpand') === false) {
                 return;
             }
 
-            mUtil.slideDown(the.body, the.options.bodyToggleSpeed, function() {
+            mUtil.slideDown(the.body, the.options.bodyToggleSpeed, function () {
                 Plugin.eventTrigger('afterExpand');
             });
 
@@ -4709,7 +4716,7 @@ var mPortlet = function(elementId, options) {
         /**
          * Toggle
          */
-        fullscreen: function(mode) {
+        fullscreen: function (mode) {
             var d = {};
             var speed = 300;
 
@@ -4752,7 +4759,7 @@ var mPortlet = function(elementId, options) {
         /**
          * Trigger events
          */
-        eventTrigger: function(name) {
+        eventTrigger: function (name) {
             //mUtil.triggerCustomEvent(name);
             for (i = 0; i < the.events.length; i++) {
                 var event = the.events[i];
@@ -4769,7 +4776,7 @@ var mPortlet = function(elementId, options) {
             }
         },
 
-        addEvent: function(name, handler, one) {
+        addEvent: function (name, handler, one) {
             the.events.push({
                 name: name,
                 handler: handler,
@@ -4789,7 +4796,7 @@ var mPortlet = function(elementId, options) {
      * Set default options
      */
 
-    the.setDefaults = function(options) {
+    the.setDefaults = function (options) {
         defaultOptions = options;
     };
 
@@ -4797,7 +4804,7 @@ var mPortlet = function(elementId, options) {
      * Remove portlet
      * @returns {mPortlet}
      */
-    the.remove = function() {
+    the.remove = function () {
         return Plugin.remove(html);
     };
 
@@ -4805,7 +4812,7 @@ var mPortlet = function(elementId, options) {
      * Init sticky portlet
      * @returns {mPortlet}
      */
-    the.initSticky = function() {
+    the.initSticky = function () {
         return Plugin.initSticky();
     };
 
@@ -4813,7 +4820,7 @@ var mPortlet = function(elementId, options) {
      * Update sticky portlet scroll event
      * @returns {mPortlet}
      */
-    the.updateSticky = function() {
+    the.updateSticky = function () {
         return Plugin.updateSticky();
     };
 
@@ -4821,7 +4828,7 @@ var mPortlet = function(elementId, options) {
      * Reset sticky portlet positions
      * @returns {mPortlet}
      */
-    the.resetSticky = function() {
+    the.resetSticky = function () {
         return Plugin.resetSticky();
     };
 
@@ -4829,7 +4836,7 @@ var mPortlet = function(elementId, options) {
      * Destroy sticky portlet scroll event
      * @returns {mPortlet}
      */
-    the.destroySticky = function() {
+    the.destroySticky = function () {
         return Plugin.destroySticky();
     };
 
@@ -4837,7 +4844,7 @@ var mPortlet = function(elementId, options) {
      * Reload portlet
      * @returns {mPortlet}
      */
-    the.reload = function() {
+    the.reload = function () {
         return Plugin.reload();
     };
 
@@ -4845,7 +4852,7 @@ var mPortlet = function(elementId, options) {
      * Set portlet content
      * @returns {mPortlet}
      */
-    the.setContent = function(html) {
+    the.setContent = function (html) {
         return Plugin.setContent(html);
     };
 
@@ -4853,7 +4860,7 @@ var mPortlet = function(elementId, options) {
      * Toggle portlet
      * @returns {mPortlet}
      */
-    the.toggle = function() {
+    the.toggle = function () {
         return Plugin.toggle();
     };
 
@@ -4861,7 +4868,7 @@ var mPortlet = function(elementId, options) {
      * Collapse portlet
      * @returns {mPortlet}
      */
-    the.collapse = function() {
+    the.collapse = function () {
         return Plugin.collapse();
     };
 
@@ -4869,7 +4876,7 @@ var mPortlet = function(elementId, options) {
      * Expand portlet
      * @returns {mPortlet}
      */
-    the.expand = function() {
+    the.expand = function () {
         return Plugin.expand();
     };
 
@@ -4877,7 +4884,7 @@ var mPortlet = function(elementId, options) {
      * Fullscreen portlet
      * @returns {mPortlet}
      */
-    the.fullscreen = function() {
+    the.fullscreen = function () {
         return Plugin.fullscreen('on');
     };
 
@@ -4885,7 +4892,7 @@ var mPortlet = function(elementId, options) {
      * Fullscreen portlet
      * @returns {mPortlet}
      */
-    the.unFullscreen = function() {
+    the.unFullscreen = function () {
         return Plugin.fullscreen('off');
     };
 
@@ -4893,7 +4900,7 @@ var mPortlet = function(elementId, options) {
      * Get portletbody
      * @returns {jQuery}
      */
-    the.getBody = function() {
+    the.getBody = function () {
         return Plugin.getBody();
     };
 
@@ -4901,21 +4908,21 @@ var mPortlet = function(elementId, options) {
      * Get portletbody
      * @returns {jQuery}
      */
-    the.getSelf = function() {
+    the.getSelf = function () {
         return Plugin.getSelf();
     };
 
     /**
      * Attach event
      */
-    the.on = function(name, handler) {
+    the.on = function (name, handler) {
         return Plugin.addEvent(name, handler);
     };
 
     /**
      * Attach event that will be fired once
      */
-    the.one = function(name, handler) {
+    the.one = function (name, handler) {
         return Plugin.addEvent(name, handler, true);
     };
 
@@ -4925,7 +4932,7 @@ var mPortlet = function(elementId, options) {
     return the;
 };
 // plugin setup
-var mQuicksearch = function(elementId, options) {
+var mQuicksearch = function (elementId, options) {
     //== Main object
     var the = this;
     var init = false;
@@ -4948,10 +4955,10 @@ var mQuicksearch = function(elementId, options) {
         iconCloseTarget: 'm_quicksearch_close',
         iconCancelTarget: 'm_quicksearch_cancel',
         iconSearchTarget: 'm_quicksearch_search',
-        
+
         spinnerClass: 'm-loader m-loader--skin-light m-loader--right',
         hasResultClass: 'm-list-search--has-result',
-        
+
         templates: {
             error: '<div class="m-search-results m-search-results--skin-light"><span class="m-search-result__message">{{message}}</div></div>'
         }
@@ -4966,7 +4973,7 @@ var mQuicksearch = function(elementId, options) {
          * Construct
          */
 
-        construct: function(options) {
+        construct: function (options) {
             if (mUtil.data(element).has('quicksearch')) {
                 the = mUtil.data(element).get('quicksearch');
             } else {
@@ -4982,7 +4989,7 @@ var mQuicksearch = function(elementId, options) {
             return the;
         },
 
-        init: function(options) {
+        init: function (options) {
             the.element = element;
             the.events = [];
 
@@ -5027,7 +5034,7 @@ var mQuicksearch = function(elementId, options) {
         /**
          * Build plugin
          */
-        build: function() {
+        build: function () {
             // attach input keyup handler
             mUtil.addEvent(the.input, 'keyup', Plugin.search);
 
@@ -5035,21 +5042,21 @@ var mQuicksearch = function(elementId, options) {
                 mUtil.addEvent(the.input, 'focus', Plugin.showDropdown);
                 mUtil.addEvent(the.iconCancel, 'click', Plugin.handleCancel);
 
-                mUtil.addEvent(the.iconSearch, 'click', function() {
+                mUtil.addEvent(the.iconSearch, 'click', function () {
                     if (mUtil.isInResponsiveRange('tablet-and-mobile')) {
                         mUtil.addClass(body, 'm-header-search--mobile-expanded');
                         the.input.focus();
                     }
                 });
 
-                mUtil.addEvent(the.iconClose, 'click', function() {
+                mUtil.addEvent(the.iconClose, 'click', function () {
                     if (mUtil.isInResponsiveRange('tablet-and-mobile')) {
                         mUtil.removeClass(body, 'm-header-search--mobile-expanded');
                         Plugin.closeDropdown();
                     }
                 });
             } else if (the.options.mode == 'dropdown') {
-                the.dropdown.on('afterShow', function() {
+                the.dropdown.on('afterShow', function () {
                     the.input.focus();
                 });
 
@@ -5057,7 +5064,7 @@ var mQuicksearch = function(elementId, options) {
             }
         },
 
-        showProgress: function() {
+        showProgress: function () {
             the.processing = true;
             mUtil.addClass(the.form, the.options.spinnerClass);
             Plugin.handleCancelIconVisibility('off');
@@ -5065,7 +5072,7 @@ var mQuicksearch = function(elementId, options) {
             return the;
         },
 
-        hideProgress: function() {
+        hideProgress: function () {
             the.processing = false;
             mUtil.removeClass(the.form, the.options.spinnerClass);
             Plugin.handleCancelIconVisibility('on');
@@ -5077,7 +5084,7 @@ var mQuicksearch = function(elementId, options) {
         /**
          * Search handler
          */
-        search: function(e) {
+        search: function (e) {
             the.query = the.input.value;
 
             if (the.query.length === 0) {
@@ -5096,9 +5103,9 @@ var mQuicksearch = function(elementId, options) {
 
             the.requestTimeout = false;
 
-            the.requestTimeout = setTimeout(function() {
+            the.requestTimeout = setTimeout(function () {
                 Plugin.eventTrigger('search');
-            }, the.options.requestTimeout);            
+            }, the.options.requestTimeout);
 
             return the;
         },
@@ -5106,14 +5113,14 @@ var mQuicksearch = function(elementId, options) {
         /**
          * Handle cancel icon visibility
          */
-        handleCancelIconVisibility: function(status) {
+        handleCancelIconVisibility: function (status) {
             if (status == 'on') {
                 if (the.input.value.length === 0) {
                     if (the.iconCancel) mUtil.css(the.iconCancel, 'visibility', 'hidden');
                     if (the.iconClose) mUtil.css(the.iconClose, 'visibility', 'visible');
                 } else {
                     clearTimeout(the.cancelTimeout);
-                    the.cancelTimeout = setTimeout(function() {
+                    the.cancelTimeout = setTimeout(function () {
                         if (the.iconCancel) mUtil.css(the.iconCancel, 'visibility', 'visible');
                         if (the.iconClose) mUtil.css(the.iconClose, 'visibility', 'visible');
                     }, 500);
@@ -5127,7 +5134,7 @@ var mQuicksearch = function(elementId, options) {
         /**
          * Cancel handler
          */
-        handleCancel: function(e) {
+        handleCancel: function (e) {
             the.input.value = '';
             mUtil.css(the.iconCancel, 'visibility', 'hidden');
             mUtil.removeClass(element, the.options.hasResultClass);
@@ -5138,28 +5145,28 @@ var mQuicksearch = function(elementId, options) {
         /**
          * Cancel handler
          */
-        closeDropdown: function() {
+        closeDropdown: function () {
             the.dropdown.hide();
         },
 
         /**
          * Show dropdown
          */
-        showDropdown: function(e) {
+        showDropdown: function (e) {
             if (the.dropdown.isShown() == false && the.input.value.length > the.options.minLength && the.processing == false) {
                 console.log('show!!!');
                 the.dropdown.show();
                 if (e) {
                     e.preventDefault();
                     e.stopPropagation();
-                }                
+                }
             }
         },
 
         /**
          * Trigger events
          */
-        eventTrigger: function(name) {
+        eventTrigger: function (name) {
             //mUtil.triggerCustomEvent(name);
             for (i = 0; i < the.events.length; i++) {
                 var event = the.events[i];
@@ -5176,7 +5183,7 @@ var mQuicksearch = function(elementId, options) {
             }
         },
 
-        addEvent: function(name, handler, one) {
+        addEvent: function (name, handler, one) {
             the.events.push({
                 name: name,
                 handler: handler,
@@ -5193,28 +5200,28 @@ var mQuicksearch = function(elementId, options) {
     //////////////////////////
 
     /**
-     * Set default options 
+     * Set default options
      */
 
-    the.setDefaults = function(options) {
+    the.setDefaults = function (options) {
         defaultOptions = options;
     };
 
     /**
-     * quicksearch off 
+     * quicksearch off
      */
-    the.search = function() {
+    the.search = function () {
         return Plugin.handleSearch();
     };
 
-    the.showResult = function(res) {
+    the.showResult = function (res) {
         the.dropdown.setContent(res);
         Plugin.showDropdown();
 
         return the;
     };
 
-    the.showError = function(text) {
+    the.showError = function (text) {
         var msg = the.options.templates.error.replace('{{message}}', text);
         the.dropdown.setContent(msg);
         Plugin.showDropdown();
@@ -5223,20 +5230,20 @@ var mQuicksearch = function(elementId, options) {
     };
 
     /**
-     *  
+     *
      */
-    the.showProgress = function() {
+    the.showProgress = function () {
         return Plugin.showProgress();
     };
 
-    the.hideProgress = function() {
+    the.hideProgress = function () {
         return Plugin.hideProgress();
     };
 
     /**
-     * quicksearch off 
+     * quicksearch off
      */
-    the.search = function() {
+    the.search = function () {
         return Plugin.search();
     };
 
@@ -5244,7 +5251,7 @@ var mQuicksearch = function(elementId, options) {
      * Attach event
      * @returns {mQuicksearch}
      */
-    the.on = function(name, handler) {
+    the.on = function (name, handler) {
         return Plugin.addEvent(name, handler);
     };
 
@@ -5252,7 +5259,7 @@ var mQuicksearch = function(elementId, options) {
      * Attach event that will be fired once
      * @returns {mQuicksearch}
      */
-    the.one = function(name, handler) {
+    the.one = function (name, handler) {
         return Plugin.addEvent(name, handler, true);
     };
 
@@ -5261,7 +5268,7 @@ var mQuicksearch = function(elementId, options) {
 
     return the;
 };
-var mScrollTop = function(elementId, options) {
+var mScrollTop = function (elementId, options) {
     //== Main object
     var the = this;
     var init = false;
@@ -5289,7 +5296,7 @@ var mScrollTop = function(elementId, options) {
          * Run plugin
          * @returns {mscrolltop}
          */
-        construct: function(options) {
+        construct: function (options) {
             if (mUtil.data(element).has('scrolltop')) {
                 the = mUtil.data(element).get('scrolltop');
             } else {
@@ -5309,29 +5316,29 @@ var mScrollTop = function(elementId, options) {
          * Handles subscrolltop click toggle
          * @returns {mscrolltop}
          */
-        init: function(options) {
+        init: function (options) {
             the.events = [];
 
             // merge default and user defined options
             the.options = mUtil.deepExtend({}, defaultOptions, options);
         },
 
-        build: function() {
+        build: function () {
             // handle window scroll
             if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
-                window.addEventListener('touchend', function() {
+                window.addEventListener('touchend', function () {
                     Plugin.handle();
                 });
 
-                window.addEventListener('touchcancel', function() {
+                window.addEventListener('touchcancel', function () {
                     Plugin.handle();
                 });
 
-                window.addEventListener('touchleave', function() {
+                window.addEventListener('touchleave', function () {
                     Plugin.handle();
                 });
             } else {
-                window.addEventListener('scroll', function() { 
+                window.addEventListener('scroll', function () {
                     Plugin.handle();
                 });
             }
@@ -5343,7 +5350,7 @@ var mScrollTop = function(elementId, options) {
         /**
          * Handles scrolltop click scrollTop
          */
-        handle: function() {
+        handle: function () {
             var pos = window.pageYOffset; // current vertical position
             if (pos > the.options.offset) {
                 mUtil.addClass(body, 'm-scroll-top--shown');
@@ -5355,7 +5362,7 @@ var mScrollTop = function(elementId, options) {
         /**
          * Handles scrolltop click scrollTop
          */
-        scroll: function(e) {
+        scroll: function (e) {
             e.preventDefault();
 
             mUtil.scrollTop(0, the.options.speed);
@@ -5365,7 +5372,7 @@ var mScrollTop = function(elementId, options) {
         /**
          * Trigger events
          */
-        eventTrigger: function(name, args) {
+        eventTrigger: function (name, args) {
             for (var i = 0; i < the.events.length; i++) {
                 var event = the.events[i];
                 if (event.name == name) {
@@ -5381,7 +5388,7 @@ var mScrollTop = function(elementId, options) {
             }
         },
 
-        addEvent: function(name, handler, one) {
+        addEvent: function (name, handler, one) {
             the.events.push({
                 name: name,
                 handler: handler,
@@ -5396,17 +5403,17 @@ var mScrollTop = function(elementId, options) {
     //////////////////////////
 
     /**
-     * Set default options 
+     * Set default options
      */
 
-    the.setDefaults = function(options) {
+    the.setDefaults = function (options) {
         defaultOptions = options;
     };
 
     /**
      * Get subscrolltop mode
      */
-    the.on = function(name, handler) {
+    the.on = function (name, handler) {
         return Plugin.addEvent(name, handler);
     };
 
@@ -5414,7 +5421,7 @@ var mScrollTop = function(elementId, options) {
      * Set scrolltop content
      * @returns {mscrolltop}
      */
-    the.one = function(name, handler) {
+    the.one = function (name, handler) {
         return Plugin.addEvent(name, handler, true);
     };
 
@@ -5498,7 +5505,7 @@ var mTabs = function (selector, options) {
                 if (Math.abs(targetMarginLeft) > (conTabsWidth - tabsScrollWidth)) {
                     targetMarginLeft = (conTabsWidth - tabsScrollWidth) * -1;
                 }
-                if(targetMarginLeft > 0){
+                if (targetMarginLeft > 0) {
                     targetMarginLeft = 0;
                 }
                 defaultOptions.conTabs.animate({marginLeft: targetMarginLeft + 'px'}, 'fast');
@@ -5573,7 +5580,7 @@ var mTabs = function (selector, options) {
                         $tab.data('alreadyClicked', false); // 重置点击状态
                         // 单击
                         console.log('click');
-                        if(!$tab.parent().hasClass('active')){
+                        if (!$tab.parent().hasClass('active')) {
                             $tab.data('alreadyClicked', false); // 重置点击状态
                             defaultOptions.conTabs.children('.active').removeClass('active');
                             defaultOptions.pageContainer.children('.active').removeClass('active');
@@ -5661,7 +5668,7 @@ var mTabs = function (selector, options) {
         closeTabByUrl: function (url) {
             var a = defaultOptions.conTabs.find('a.btn[data-url="' + url + '"]');
             if (a != null && a.length > 0) {
-                Plugin.closeTab(a.parent().parent());
+                Plugin.closeTab(a.parent());
             } else {
                 console.warn('关闭页面[' + url + ']失败,url未在应用中打开');
             }
@@ -5676,8 +5683,9 @@ var mTabs = function (selector, options) {
             if (mUtil.isBlank(url)) return;
             if (Plugin.needOpen(url)) {
                 Plugin.index++;
+                name = name.trim();
                 var _tab = '<li class="active">' +
-                    '<a class="btn btn-default m-btn--icon tab" href="javascript:;" data-url="' + url + '" title="' + name + '" target="iframe-1" data-alreadyClicked="false"><span>' +
+                    '<a class="btn btn-default m-btn--icon tab" href="javascript:;" data-url="' + url + '" title="' + name + '" target="iframe-' + Plugin.index + '" data-alreadyClicked="false"><span>' +
                     Plugin.getTabName(name) + ((typeof canClose === 'undefined' || canClose) ? '<i class="tab-close la la-close"></i>' : '') + '</span></a></li>';
                 var _iframe = '<iframe src="' + url + '" frameborder="0" name="iframe-' + Plugin.index + '" class="page-frame active animation-fade"></iframe>';
                 defaultOptions.conTabs.children('.active').removeClass('active');
@@ -5718,18 +5726,16 @@ var mTabs = function (selector, options) {
          */
         toActiveTab: function () {
             var $activeTab = defaultOptions.conTabs.find('.active');
-            var activeWdith = Plugin.calcWidth($activeTab); // 当前激活tab宽度
+            var activeWidth = Plugin.calcWidth($activeTab); // 当前激活tab宽度
             var prevAllWidth = Plugin.calcWidth($activeTab.prevAll()); // 当前激活tab前面tabs总宽
-            //let nextAllWidth = Plugin.calcWidth($activeTab.nextAll());// 当前激活tab后面tabs总宽
             var tabsScrollWidth = Plugin.calcWidth(defaultOptions.contabsScroll); // tab 工具条可视宽度
-            // var totalWidth = Plugin.calcWidth(defaultOptions.siteContabs); // 总宽
             var conTabsWidth = Plugin.calcWidth(defaultOptions.conTabs.children()); // tab 总宽
             var marginLeft = Number(defaultOptions.conTabs.css('margin-left').replace('px', ''));
             if (conTabsWidth > tabsScrollWidth) {
                 if (Math.abs(marginLeft) > prevAllWidth) { // 目标标签页隐藏在左侧
                     marginLeft = prevAllWidth * -1;
-                } else if ((Math.abs(marginLeft) + tabsScrollWidth) < (prevAllWidth + activeWdith)) { // 目标标签页隐藏在右侧
-                    marginLeft = (prevAllWidth + activeWdith - tabsScrollWidth) * -1;
+                } else if ((Math.abs(marginLeft) + tabsScrollWidth) < (prevAllWidth + activeWidth)) { // 目标标签页隐藏在右侧
+                    marginLeft = (prevAllWidth + activeWidth - tabsScrollWidth) * -1;
                 }
             } else {
                 marginLeft = 0;
@@ -5758,7 +5764,7 @@ var mTabs = function (selector, options) {
          */
         getTabName: function (name) {
             if (mUtil.isNotBlank(name)) {
-                return mUtil.subStr(name.trim(), defaultOptions.tabNameLength);
+                return mUtil.subStr(name, defaultOptions.tabNameLength);
             } else {
                 return '新建标签页';
             }
@@ -5825,7 +5831,7 @@ var mTab = {
     }
 };
 // plugin setup
-var mToggle = function(elementId, options) {
+var mToggle = function (elementId, options) {
     //== Main object
     var the = this;
     var init = false;
@@ -5842,7 +5848,7 @@ var mToggle = function(elementId, options) {
     var defaultOptions = {
         togglerState: '',
         targetState: ''
-    };    
+    };
 
     ////////////////////////////
     // **    私有方法     ** //
@@ -5853,7 +5859,7 @@ var mToggle = function(elementId, options) {
          * Construct
          */
 
-        construct: function(options) {
+        construct: function (options) {
             if (mUtil.data(element).has('toggle')) {
                 the = mUtil.data(element).get('toggle');
             } else {
@@ -5872,7 +5878,7 @@ var mToggle = function(elementId, options) {
         /**
          * Handles subtoggle click toggle
          */
-        init: function(options) {
+        init: function (options) {
             the.element = element;
             the.events = [];
 
@@ -5889,16 +5895,16 @@ var mToggle = function(elementId, options) {
         /**
          * Setup toggle
          */
-        build: function() {
+        build: function () {
             mUtil.addEvent(element, 'mouseup', Plugin.toggle);
         },
-        
+
         /**
          * Handles offcanvas click toggle
          */
-        toggle: function() {
+        toggle: function () {
             Plugin.eventTrigger('beforeToggle');
-            
+
             if (the.state == 'off') {
                 Plugin.toggleOn();
             } else {
@@ -5911,7 +5917,7 @@ var mToggle = function(elementId, options) {
         /**
          * Handles toggle click toggle
          */
-        toggleOn: function() {
+        toggleOn: function () {
             Plugin.eventTrigger('beforeOn');
 
             mUtil.addClass(the.target, the.targetState);
@@ -5932,7 +5938,7 @@ var mToggle = function(elementId, options) {
         /**
          * Handles toggle click toggle
          */
-        toggleOff: function() {
+        toggleOff: function () {
             Plugin.eventTrigger('beforeOff');
 
             mUtil.removeClass(the.target, the.targetState);
@@ -5953,14 +5959,14 @@ var mToggle = function(elementId, options) {
         /**
          * Trigger events
          */
-        eventTrigger: function(name) {
+        eventTrigger: function (name) {
             for (i = 0; i < the.events.length; i++) {
                 var event = the.events[i];
 
                 if (event.name == name) {
                     if (event.one == true) {
                         if (event.fired == false) {
-                            the.events[i].fired = true;                            
+                            the.events[i].fired = true;
                             event.handler.call(this, the);
                         }
                     } else {
@@ -5970,7 +5976,7 @@ var mToggle = function(elementId, options) {
             }
         },
 
-        addEvent: function(name, handler, one) {
+        addEvent: function (name, handler, one) {
             the.events.push({
                 name: name,
                 handler: handler,
@@ -5987,38 +5993,38 @@ var mToggle = function(elementId, options) {
     //////////////////////////
 
     /**
-     * Set default options 
+     * Set default options
      */
 
-    the.setDefaults = function(options) {
+    the.setDefaults = function (options) {
         defaultOptions = options;
     };
 
     /**
-     * Get toggle state 
+     * Get toggle state
      */
-    the.getState = function() {
+    the.getState = function () {
         return the.state;
     };
 
     /**
-     * Toggle 
+     * Toggle
      */
-    the.toggle = function() {
+    the.toggle = function () {
         return Plugin.toggle();
     };
 
     /**
-     * Toggle on 
+     * Toggle on
      */
-    the.toggleOn = function() {
+    the.toggleOn = function () {
         return Plugin.toggleOn();
     };
 
     /**
-     * Toggle off 
+     * Toggle off
      */
-    the.toggle = function() {
+    the.toggle = function () {
         return Plugin.toggleOff();
     };
 
@@ -6026,7 +6032,7 @@ var mToggle = function(elementId, options) {
      * Attach event
      * @returns {mToggle}
      */
-    the.on = function(name, handler) {
+    the.on = function (name, handler) {
         return Plugin.addEvent(name, handler);
     };
 
@@ -6034,7 +6040,7 @@ var mToggle = function(elementId, options) {
      * Attach event that will be fired once
      * @returns {mToggle}
      */
-    the.one = function(name, handler) {
+    the.one = function (name, handler) {
         return Plugin.addEvent(name, handler, true);
     };
 
@@ -6103,7 +6109,12 @@ var mTool = function () {
              * 查询默认访问后缀 (示例: /select)
              * 会将当前所在form中表单元素作为参数传入
              */
-            select: 'select'
+            select: 'select',
+            /**
+             * 导出数据默认访问后缀 (示例: /export/data)
+             * 会将当前所在form中表单元素作为参数传入
+             */
+            exportData: 'export/data'
         },
         /**
          * DataTable 默认参数
@@ -6153,7 +6164,7 @@ var mTool = function () {
             name = $(element).text();
             if (mUtil.isBlank(name)) {
                 name = '新增数据';
-            }else{
+            } else {
                 name = name.trim();
             }
         }
@@ -6307,6 +6318,31 @@ var mTool = function () {
         if (mUtil.isFunction(callback)) {
             callback(res);
         }
+    };
+    /**
+     * 导出数据
+     *
+     * @param element {object} html 元素对象 (必要)
+     * @param url {string|null} 请求地址 (非必要,如没有则根据默认规则生成)
+     */
+    var exportData = function (element, url) {
+        mUtil.setButtonWait(element);
+        var $form = $(element).parents('.m-form');
+        if (mUtil.isBlank(url)) {
+            // 检查&获取请求地址
+            url = getUrl(url, 'exportData', null);
+            if (mUtil.isBlank(url)) {
+                mUtil.offButtonWait(element);
+                return;
+            }
+        }
+        if (url.indexOf('?') > -1) {
+            url += '&' + $form.serialize()
+        } else {
+            url += '?' + $form.serialize()
+        }
+        downloadFile(url);
+        mUtil.offButtonWait(element);
     };
     /**
      * 保存数据
@@ -6538,7 +6574,7 @@ var mTool = function () {
         if (mUtil.isNotBlank(baseUrl)) {
             return true;
         } else {
-            printWarn('请使用mTool.setBaseUrl(\'/auth/sys/dict/\');设置业务url根目录');
+            printWarn('请使用mTool.setBaseUrl(\'string\');设置业务url根目录');
             return false;
         }
     };
@@ -6590,6 +6626,19 @@ var mTool = function () {
         return path.split(separate).reduce(function (obj, i) {
             return obj !== null && typeof obj[i] !== 'undefined' ? obj[i] : null;
         }, object);
+    };
+    /**
+     * 下载文件
+     * @param url {string} 下载地址
+     */
+    var downloadFile = function (url) {
+        var form = document.createElement('form');
+        form.setAttribute('action', url);
+        form.setAttribute('method', 'post');
+        form.setAttribute('style', 'display:none');
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form)
     };
     /********************
      ** 用户权限
@@ -7114,6 +7163,15 @@ var mTool = function () {
             return baseUrl;
         },
         /**
+         * 导出数据
+         *
+         * @param element {object} html 元素对象 (必要)
+         * @param url {string|null} 请求地址 (非必要,如没有则根据默认规则生成)
+         */
+        exportData: function (element, url) {
+            exportData(element, url);
+        },
+        /**
          * 保存数据
          *
          * @param el {object} html 元素对象 (必要)
@@ -7124,6 +7182,20 @@ var mTool = function () {
          */
         saveData: function (el, url, needAlert, needValidate, callback) {
             saveData(el, url, needAlert, needValidate, callback);
+        },
+        /**
+         * 保存并关闭
+         * 注: 方法不支持回调函数
+         *
+         * @param el {object} html 元素对象 (必要)
+         * @param url {string|null} 请求地址 (非必要,默认取form的data-action,如没有则根据默认规则生成)
+         * @param needAlert {boolean|null} 是否需要弹出处理结果提示 (非必要,默认true)
+         * @param needValidate {boolean|null} 是否需要表单验证 (非必要,默认true)
+         */
+        saveAndClose: function (el, url, needAlert, needValidate) {
+            saveData(el, url, needAlert, needValidate, function () {
+                mApp.closeCurrentPage();
+            });
         },
         /**
          * 打开新增页面
@@ -7384,6 +7456,13 @@ var mTool = function () {
         getActionsBtnClass: function (type) {
             return getActionsBtnClass(type);
         },
+        /**
+         * 下载文件
+         * @param url {string} 下载地址
+         */
+        downloadFile: function (url) {
+            downloadFile(url);
+        },
         ACTIONS_INFO: getActionsBtnClass('info'),
         ACTIONS_SUCCESS: getActionsBtnClass('success'),
         ACTIONS_ACCENT: getActionsBtnClass('accent'),
@@ -7503,7 +7582,7 @@ $(document).ready(function () {
     mTool.init({});
 });
 // 表单向导插件
-var mWizard = function(elementId, options) {
+var mWizard = function (elementId, options) {
     //== Main object
     var the = this;
 
@@ -7511,7 +7590,7 @@ var mWizard = function(elementId, options) {
     var element = mUtil.get(elementId);
 
     if (!element) {
-        return; 
+        return;
     }
 
     //== 默认选项
@@ -7528,7 +7607,7 @@ var mWizard = function(elementId, options) {
         /**
          * Construct
          */
-        construct: function(options) {
+        construct: function (options) {
             if (mUtil.data(element).has('wizard')) {
                 the = mUtil.data(element).get('wizard');
             } else {
@@ -7547,7 +7626,7 @@ var mWizard = function(elementId, options) {
         /**
          * Init wizard
          */
-        init: function(options) {
+        init: function (options) {
             the.element = element;
             the.events = [];
 
@@ -7581,32 +7660,32 @@ var mWizard = function(elementId, options) {
         /**
          * Build Form Wizard
          */
-        build: function() {
+        build: function () {
             //== Next button event handler
-            mUtil.addEvent(the.btnNext, 'click', function(e) {
+            mUtil.addEvent(the.btnNext, 'click', function (e) {
                 e.preventDefault();
                 Plugin.goNext();
             });
 
             //== Prev button event handler
-            mUtil.addEvent(the.btnPrev, 'click', function(e) {
+            mUtil.addEvent(the.btnPrev, 'click', function (e) {
                 e.preventDefault();
                 Plugin.goPrev();
             });
 
             //== First button event handler
-            mUtil.addEvent(the.btnFirst, 'click', function(e) {
+            mUtil.addEvent(the.btnFirst, 'click', function (e) {
                 e.preventDefault();
                 Plugin.goFirst();
             });
 
             //== Last button event handler
-            mUtil.addEvent(the.btnLast, 'click', function(e) {
+            mUtil.addEvent(the.btnLast, 'click', function (e) {
                 e.preventDefault();
                 Plugin.goLast();
             });
 
-            mUtil.on(element, '.m-wizard__step a.m-wizard__step-number', 'click', function() {
+            mUtil.on(element, '.m-wizard__step a.m-wizard__step-number', 'click', function () {
                 var step = this.closest('.m-wizard__step');
                 var steps = mUtil.parents(this, '.m-wizard__steps');
                 var find = mUtil.findAll(steps, '.m-wizard__step');
@@ -7626,7 +7705,7 @@ var mWizard = function(elementId, options) {
                         }
                     } else {
                         Plugin.goTo(num);
-                    }                    
+                    }
                 }
             });
         },
@@ -7637,7 +7716,7 @@ var mWizard = function(elementId, options) {
          * @param number {number} 步数
          * @return {mWizard|*}
          */
-        goTo: function(number) {
+        goTo: function (number) {
             //== 如果指定步数与当前显示步数一致,跳过
             if (number === the.currentStep || number > the.totalSteps || number < 0) {
                 return;
@@ -7658,7 +7737,7 @@ var mWizard = function(elementId, options) {
             } else {
                 callback = Plugin.eventTrigger('beforePrev');
             }
-            
+
             //== 如果已停止,跳过
             if (the.stopped === true) {
                 the.stopped = false;
@@ -7693,7 +7772,7 @@ var mWizard = function(elementId, options) {
         /**
          * 设置 step class
          */
-        setStepClass: function() {
+        setStepClass: function () {
             if (Plugin.isLastStep()) {
                 mUtil.addClass(element, 'm-wizard--step-last');
             } else {
@@ -7715,7 +7794,7 @@ var mWizard = function(elementId, options) {
         /**
          * 更新 ui
          */
-        updateUI: function() {
+        updateUI: function () {
             //== 更新进度
             Plugin.updateProgress();
 
@@ -7733,21 +7812,21 @@ var mWizard = function(elementId, options) {
             for (var i = 1; i < the.currentStep; i++) {
                 mUtil.addClass(the.steps[i - 1], 'm-wizard__step--done');
             }
-            
+
             mUtil.addClass(the.steps[the.currentStep - 1], 'm-wizard__step--current');
         },
 
         /**
          * 停止
          */
-        stop: function() {
+        stop: function () {
             the.stopped = true;
         },
 
         /**
          * 开始
          */
-        start: function() {
+        start: function () {
             the.stopped = false;
         },
 
@@ -7756,7 +7835,7 @@ var mWizard = function(elementId, options) {
          *
          * @return {boolean}
          */
-        isLastStep: function() {
+        isLastStep: function () {
             return the.currentStep === the.totalSteps;
         },
 
@@ -7765,7 +7844,7 @@ var mWizard = function(elementId, options) {
          *
          * @return {boolean}
          */
-        isFirstStep: function() {
+        isFirstStep: function () {
             return the.currentStep === 1;
         },
 
@@ -7774,42 +7853,42 @@ var mWizard = function(elementId, options) {
          *
          * @return {boolean}
          */
-        isBetweenStep: function() {
+        isBetweenStep: function () {
             return Plugin.isLastStep() === false && Plugin.isFirstStep() === false;
         },
 
         /**
          * 跳转到下一步
          */
-        goNext: function() {
+        goNext: function () {
             return Plugin.goTo(Plugin.getNextStep());
         },
 
         /**
          * 跳转到上一步
          */
-        goPrev: function() {
+        goPrev: function () {
             return Plugin.goTo(Plugin.getPrevStep());
         },
 
         /**
          * 跳转到最后一步
          */
-        goLast: function() {
+        goLast: function () {
             return Plugin.goTo(the.totalSteps);
         },
 
         /**
          * 跳转到第一步
          */
-        goFirst: function() {
+        goFirst: function () {
             return Plugin.goTo(1);
         },
 
         /**
          * 更新滚动条
          */
-        updateProgress: function() {
+        updateProgress: function () {
             if (!the.progress) {
                 return;
             }
@@ -7841,11 +7920,11 @@ var mWizard = function(elementId, options) {
         /**
          * Show/hide target content
          */
-        handleTarget: function() {
+        handleTarget: function () {
             var step = the.steps[the.currentStep - 1];
             var target = mUtil.get(mUtil.attr(step, 'm-wizard-target'));
             var current = mUtil.find(element, '.m-wizard__form-step--current');
-            
+
             mUtil.removeClass(current, 'm-wizard__form-step--current');
             mUtil.addClass(target, 'm-wizard__form-step--current');
         },
@@ -7855,7 +7934,7 @@ var mWizard = function(elementId, options) {
          *
          * @return {number} 编号
          */
-        getNextStep: function() {
+        getNextStep: function () {
             if (the.totalSteps >= (the.currentStep + 1)) {
                 return the.currentStep + 1;
             } else {
@@ -7868,7 +7947,7 @@ var mWizard = function(elementId, options) {
          *
          * @return {number} 编号
          */
-        getPrevStep: function() {
+        getPrevStep: function () {
             if ((the.currentStep - 1) >= 1) {
                 return the.currentStep - 1;
             } else {
@@ -7879,7 +7958,7 @@ var mWizard = function(elementId, options) {
         /**
          * Trigger events
          */
-        eventTrigger: function(name) {
+        eventTrigger: function (name) {
             for (var i = 0; i < the.events.length; i++) {
                 var event = the.events[i];
                 if (event.name == name) {
@@ -7895,7 +7974,7 @@ var mWizard = function(elementId, options) {
             }
         },
 
-        addEvent: function(name, handler, one) {
+        addEvent: function (name, handler, one) {
             the.events.push({
                 name: name,
                 handler: handler,
@@ -7917,49 +7996,49 @@ var mWizard = function(elementId, options) {
      * @param options {object} option
      */
 
-    the.setDefaults = function(options) {
+    the.setDefaults = function (options) {
         defaultOptions = options;
     };
 
     /**
      * 跳转到下一步
      */
-    the.goNext = function() {
+    the.goNext = function () {
         return Plugin.goNext();
     };
 
     /**
      * 跳转到上一步
      */
-    the.goPrev = function() {
+    the.goPrev = function () {
         return Plugin.goPrev();
     };
 
     /**
      * 跳转到最后一步
      */
-    the.goLast = function() {
+    the.goLast = function () {
         return Plugin.goLast();
     };
 
     /**
      * 停止
      */
-    the.stop = function() {
+    the.stop = function () {
         return Plugin.stop();
     };
 
     /**
      * 开始
      */
-    the.start = function() {
+    the.start = function () {
         return Plugin.start();
     };
 
     /**
      * 跳转到第一步
      */
-    the.goFirst = function() {
+    the.goFirst = function () {
         return Plugin.goFirst();
     };
 
@@ -7969,7 +8048,7 @@ var mWizard = function(elementId, options) {
      * @param number {number} 步数
      * @return {*|*}
      */
-    the.goTo = function(number) {
+    the.goTo = function (number) {
         return Plugin.goTo(number);
     };
 
@@ -7978,7 +8057,7 @@ var mWizard = function(elementId, options) {
      *
      * @return {number|*} 步数
      */
-    the.getStep = function() {
+    the.getStep = function () {
         return the.currentStep;
     };
 
@@ -7987,7 +8066,7 @@ var mWizard = function(elementId, options) {
      *
      * @return {*|boolean}
      */
-    the.isLastStep = function() {
+    the.isLastStep = function () {
         return Plugin.isLastStep();
     };
 
@@ -7996,7 +8075,7 @@ var mWizard = function(elementId, options) {
      *
      * @return {*|boolean}
      */
-    the.isFirstStep = function() {
+    the.isFirstStep = function () {
         return Plugin.isFirstStep();
     };
 
@@ -8007,7 +8086,7 @@ var mWizard = function(elementId, options) {
      * @param handler {function} 回调函数
      * @return {*|mWizard}
      */
-    the.on = function(name, handler) {
+    the.on = function (name, handler) {
         return Plugin.addEvent(name, handler);
     };
 
@@ -8018,7 +8097,7 @@ var mWizard = function(elementId, options) {
      * @param handler {function} 回调函数
      * @return {*|mWizard}
      */
-    the.one = function(name, handler) {
+    the.one = function (name, handler) {
         return Plugin.addEvent(name, handler, true);
     };
 
@@ -10332,12 +10411,12 @@ var mWizard = function(elementId, options) {
                     $(Plugin.getOption('search.input')).each(function (index, element) {
                         var search = $(element).val();
                         var key = Plugin.getGeneralSearchKey(element);
-                        if(mUtil.isNotBlank(key)){
+                        if (mUtil.isNotBlank(key)) {
                             if (mUtil.isNotBlank(search)) {
                                 params.query[key] = search;
                             } else {
                                 delete params.query[key];
-                            }    
+                            }
                         }
                     });
 
@@ -11522,7 +11601,7 @@ var mWizard = function(elementId, options) {
         extensions: {}
     };
 }(jQuery));
-var mLayout = function() {
+var mLayout = function () {
     var header;
     var horMenu;
     var asideMenu;
@@ -11535,7 +11614,7 @@ var mLayout = function() {
     var mainPortlet;
 
     //== Header
-    var initStickyHeader = function() {
+    var initStickyHeader = function () {
         var tmp;
         var headerEl = mUtil.get('m_header');
         var options = {
@@ -11571,7 +11650,7 @@ var mLayout = function() {
     };
 
     //== Hor menu
-    var initHorMenu = function() {
+    var initHorMenu = function () {
         // init aside left offcanvas
         horMenuOffcanvas = new mOffcanvas('m_header_menu', {
             overlay: true,
@@ -11597,7 +11676,7 @@ var mLayout = function() {
     };
 
     //== Aside menu
-    var initLeftAsideMenu = function() {
+    var initLeftAsideMenu = function () {
         //== Init aside menu
         var menu = mUtil.get('m_ver_menu');
         var menuDesktopMode = (mUtil.attr(menu, 'm-menu-dropdown') === '1' ? 'dropdown' : 'accordion');
@@ -11605,10 +11684,10 @@ var mLayout = function() {
         var scroll;
         if (mUtil.attr(menu, 'm-menu-scrollable') === '1') {
             scroll = {
-                height: function() {
+                height: function () {
                     if (mUtil.isInResponsiveRange('desktop')) {
                         return mUtil.getViewPort().height - parseInt(mUtil.css('m_header', 'height'));
-                    }                   
+                    }
                 }
             };
         }
@@ -11642,7 +11721,7 @@ var mLayout = function() {
     };
 
     //== Aside
-    var initLeftAside = function() {
+    var initLeftAside = function () {
         // init aside left offcanvas
         var body = mUtil.get('body');
         var asideLeft = mUtil.get('m_aside_left');
@@ -11663,13 +11742,13 @@ var mLayout = function() {
             var insideTm;
             var outsideTm;
 
-            mUtil.addEvent(asideLeft, 'mouseenter', function() {
+            mUtil.addEvent(asideLeft, 'mouseenter', function () {
                 if (outsideTm) {
                     clearTimeout(outsideTm);
                     outsideTm = null;
                 }
 
-                insideTm = setTimeout(function() {
+                insideTm = setTimeout(function () {
                     if (mUtil.hasClass(body, 'm-aside-left--minimize') && mUtil.isInResponsiveRange('desktop')) {
                         mUtil.removeClass(body, 'm-aside-left--minimize');
                         mUtil.addClass(body, 'm-aside-left--minimize-hover');
@@ -11679,13 +11758,13 @@ var mLayout = function() {
                 }, 300);
             });
 
-            mUtil.addEvent(asideLeft, 'mouseleave', function() {
+            mUtil.addEvent(asideLeft, 'mouseleave', function () {
                 if (insideTm) {
                     clearTimeout(insideTm);
                     insideTm = null;
                 }
 
-                outsideTm = setTimeout(function() {
+                outsideTm = setTimeout(function () {
                     if (mUtil.hasClass(body, 'm-aside-left--minimize-hover') && mUtil.isInResponsiveRange('desktop')) {
                         mUtil.removeClass(body, 'm-aside-left--minimize-hover');
                         mUtil.addClass(body, 'm-aside-left--minimize');
@@ -11698,7 +11777,7 @@ var mLayout = function() {
     };
 
     //== Sidebar toggle
-    var initLeftAsideToggle = function() {
+    var initLeftAsideToggle = function () {
         if ($('#m_aside_left_minimize_toggle').length === 0) {
             return;
         }
@@ -11707,13 +11786,13 @@ var mLayout = function() {
             target: 'body',
             targetState: 'm-brand--minimize m-aside-left--minimize',
             togglerState: 'm-brand__toggler--active'
-        }); 
+        });
 
-        asideLeftToggle.on('toggle', function(toggle) {     
+        asideLeftToggle.on('toggle', function (toggle) {
             if (mUtil.get('main_portlet')) {
-                mainPortlet.updateSticky();      
-            } 
-            
+                mainPortlet.updateSticky();
+            }
+
             horMenu.pauseDropdownHover(800);
             asideMenu.pauseDropdownHover(800);
 
@@ -11724,8 +11803,8 @@ var mLayout = function() {
             // the body tag in order to initialize the minimized left aside mode during page loading.
         });
 
-        asideLeftToggle.on('beforeToggle', function(toggle) {   
-            var body = mUtil.get('body'); 
+        asideLeftToggle.on('beforeToggle', function (toggle) {
+            var body = mUtil.get('body');
             if (mUtil.hasClass(body, 'm-aside-left--minimize') === false && mUtil.hasClass(body, 'm-aside-left--minimize-hover')) {
                 mUtil.removeClass(body, 'm-aside-left--minimize-hover');
             }
@@ -11733,8 +11812,8 @@ var mLayout = function() {
     };
 
     //== Sidebar hide
-    var initLeftAsideHide = function() {
-        if ($('#m_aside_left_hide_toggle').length === 0 ) {
+    var initLeftAsideHide = function () {
+        if ($('#m_aside_left_hide_toggle').length === 0) {
             return;
         }
 
@@ -11744,7 +11823,7 @@ var mLayout = function() {
             togglerState: 'm-brand__toggler--active'
         });
 
-        initLeftAsideHide.on('toggle', function(toggle) {
+        initLeftAsideHide.on('toggle', function (toggle) {
             horMenu.pauseDropdownHover(800);
             asideMenu.pauseDropdownHover(800);
 
@@ -11757,8 +11836,8 @@ var mLayout = function() {
     };
 
     //== Topbar
-    var initTopbar = function() {
-        $('#m_aside_header_topbar_mobile_toggle').click(function() {
+    var initTopbar = function () {
+        $('#m_aside_header_topbar_mobile_toggle').click(function () {
             $('body').toggleClass('m-topbar--on');
         });
 
@@ -11777,7 +11856,7 @@ var mLayout = function() {
     };
 
     //== Scrolltop
-    var initScrollTop = function() {
+    var initScrollTop = function () {
         new mScrollTop('m_scroll_top', {
             offset: 300,
             speed: 600
@@ -11785,18 +11864,18 @@ var mLayout = function() {
     };
 
     //== Main portlet(sticky portlet)
-    var createMainPortlet = function() {
+    var createMainPortlet = function () {
         return new mPortlet('main_portlet', {
             sticky: {
-                offset: parseInt(mUtil.css( mUtil.get('m_header'), 'height')),
+                offset: parseInt(mUtil.css(mUtil.get('m_header'), 'height')),
                 zIndex: 90,
                 position: {
-                    top: function() {
-                        return parseInt(mUtil.css( mUtil.get('m_header'), 'height') );
+                    top: function () {
+                        return parseInt(mUtil.css(mUtil.get('m_header'), 'height'));
                     },
-                    left: function() {
-                        var left = parseInt(mUtil.css( mUtil.getByClass('m-content'), 'paddingLeft'));
-                        
+                    left: function () {
+                        var left = parseInt(mUtil.css(mUtil.getByClass('m-content'), 'paddingLeft'));
+
                         if (mUtil.isInResponsiveRange('desktop')) {
                             //left += parseInt(mUtil.css(mUtil.get('m_aside_left'), 'width') );
                             if (mUtil.hasClass(mUtil.get('body'), 'm-aside-left--minimize')) {
@@ -11804,12 +11883,12 @@ var mLayout = function() {
                             } else {
                                 left += 255; // need to use hardcoded width of the aside
                             }
-                        } 
+                        }
 
-                        return left; 
+                        return left;
                     },
-                    right: function() {
-                        return parseInt(mUtil.css( mUtil.getByClass('m-content'), 'paddingRight') );
+                    right: function () {
+                        return parseInt(mUtil.css(mUtil.getByClass('m-content'), 'paddingRight'));
                     }
                 }
             }
@@ -11817,45 +11896,45 @@ var mLayout = function() {
     };
 
     return {
-        init: function() {
+        init: function () {
             this.initHeader();
             this.initAside();
             this.initMainPortlet();
         },
 
-        initMainPortlet: function() {
+        initMainPortlet: function () {
             if (!mUtil.get('main_portlet')) {
                 return;
             }
-            
+
             mainPortlet = createMainPortlet();
             mainPortlet.initSticky();
-            
-            mUtil.addResizeHandler(function(){
+
+            mUtil.addResizeHandler(function () {
                 mainPortlet.updateSticky();
             });
         },
 
-        resetMainPortlet: function() {
+        resetMainPortlet: function () {
             mainPortlet.destroySticky();
             mainPortlet = createMainPortlet();
             mainPortlet.initSticky();
         },
 
-        initHeader: function() {
+        initHeader: function () {
             initStickyHeader();
             initHorMenu();
             initTopbar();
             initScrollTop();
         },
 
-        initAside: function() { 
+        initAside: function () {
             initLeftAside();
             initLeftAsideMenu();
             initLeftAsideToggle();
             initLeftAsideHide();
 
-            this.onLeftSidebarToggle(function(e) {
+            this.onLeftSidebarToggle(function (e) {
                 //== Update sticky portlet
                 if (mainPortlet) {
                     mainPortlet.updateSticky();
@@ -11864,37 +11943,37 @@ var mLayout = function() {
                 //== Reload datatable
                 var datatables = $('.m-datatable');
                 if (datatables) {
-                    datatables.each(function() {
+                    datatables.each(function () {
                         $(this).mDatatable('redraw');
                     });
-                }                
+                }
             });
         },
         /**
          * 获取侧边菜单
          */
-        getAsideMenu: function() {
+        getAsideMenu: function () {
             return asideMenu;
         },
         /**
          * 获取水平方向菜单
          */
-        getHorMenu: function() {
+        getHorMenu: function () {
             return horMenu;
         },
-        onLeftSidebarToggle: function(handler) {
+        onLeftSidebarToggle: function (handler) {
             if (asideLeftToggle) {
                 asideLeftToggle.on('toggle', handler);
             }
         },
 
-        closeMobileAsideMenuOffcanvas: function() {
+        closeMobileAsideMenuOffcanvas: function () {
             if (mUtil.isMobileDevice()) {
                 asideMenuOffcanvas.hide();
             }
         },
 
-        closeMobileHorMenuOffcanvas: function() {
+        closeMobileHorMenuOffcanvas: function () {
             if (mUtil.isMobileDevice()) {
                 horMenuOffcanvas.hide();
             }
@@ -11902,108 +11981,108 @@ var mLayout = function() {
     };
 }();
 
-$(document).ready(function() {
+$(document).ready(function () {
     if (mUtil.isAngularVersion() === false) {
         mLayout.init();
     }
 });
 
-var mQuickSidebar = function() {
+var mQuickSidebar = function () {
     var topbarAside = $('#m_quick_sidebar');
-    var topbarAsideTabs = $('#m_quick_sidebar_tabs');    
+    var topbarAsideTabs = $('#m_quick_sidebar_tabs');
     var topbarAsideContent = topbarAside.find('.m-quick-sidebar__content');
 
-    var initMessages = function() {
-        var messages = mUtil.find( mUtil.get('m_quick_sidebar_tabs_messenger'),  '.m-messenger__messages'); 
+    var initMessages = function () {
+        var messages = mUtil.find(mUtil.get('m_quick_sidebar_tabs_messenger'), '.m-messenger__messages');
         var form = $('#m_quick_sidebar_tabs_messenger .m-messenger__form');
 
         mUtil.scrollerInit(messages, {
-            disableForMobile: true, 
-            resetHeightOnDestroy: false, 
-            handleWindowResize: true, 
-            height: function() {
-                var height = topbarAside.outerHeight(true) - 
-                    topbarAsideTabs.outerHeight(true) - 
+            disableForMobile: true,
+            resetHeightOnDestroy: false,
+            handleWindowResize: true,
+            height: function () {
+                var height = topbarAside.outerHeight(true) -
+                    topbarAsideTabs.outerHeight(true) -
                     form.outerHeight(true) - 120;
 
-                return height;                    
+                return height;
             }
         });
     }
 
-    var initSettings = function() { 
-        var settings = mUtil.find( mUtil.get('m_quick_sidebar_tabs_settings'),  '.m-list-settings'); 
+    var initSettings = function () {
+        var settings = mUtil.find(mUtil.get('m_quick_sidebar_tabs_settings'), '.m-list-settings');
 
         if (!settings) {
             return;
         }
 
         mUtil.scrollerInit(settings, {
-            disableForMobile: true, 
-            resetHeightOnDestroy: false, 
-            handleWindowResize: true, 
-            height: function() {
-                return mUtil.getViewPort().height - topbarAsideTabs.outerHeight(true) - 60;            
+            disableForMobile: true,
+            resetHeightOnDestroy: false,
+            handleWindowResize: true,
+            height: function () {
+                return mUtil.getViewPort().height - topbarAsideTabs.outerHeight(true) - 60;
             }
         });
     }
 
-    var initLogs = function() {
-        var logs = mUtil.find( mUtil.get('m_quick_sidebar_tabs_logs'),  '.m-list-timeline'); 
+    var initLogs = function () {
+        var logs = mUtil.find(mUtil.get('m_quick_sidebar_tabs_logs'), '.m-list-timeline');
 
         if (!logs) {
             return;
         }
 
         mUtil.scrollerInit(logs, {
-            disableForMobile: true, 
-            resetHeightOnDestroy: false, 
-            handleWindowResize: true, 
-            height: function() {
-                return mUtil.getViewPort().height - topbarAsideTabs.outerHeight(true) - 60;            
+            disableForMobile: true,
+            resetHeightOnDestroy: false,
+            handleWindowResize: true,
+            height: function () {
+                return mUtil.getViewPort().height - topbarAsideTabs.outerHeight(true) - 60;
             }
         });
     }
 
-    var initOffcanvasTabs = function() {
+    var initOffcanvasTabs = function () {
         initMessages();
         initSettings();
         initLogs();
     }
 
-    var initOffcanvas = function() {
+    var initOffcanvas = function () {
         var topbarAsideObj = new mOffcanvas('m_quick_sidebar', {
-            overlay: true,  
+            overlay: true,
             baseClass: 'm-quick-sidebar',
             closeBy: 'm_quick_sidebar_close',
             toggleBy: 'm_quick_sidebar_toggle'
-        });   
+        });
 
         // run once on first time dropdown shown
-        topbarAsideObj.one('afterShow', function() {
+        topbarAsideObj.one('afterShow', function () {
             mApp.block(topbarAside);
 
-            setTimeout(function() {
+            setTimeout(function () {
                 mApp.unblock(topbarAside);
-                
+
                 topbarAsideContent.removeClass('m--hide');
 
                 initOffcanvasTabs();
-            }, 1000);                         
+            }, 1000);
         });
     }
 
-    return {     
-        init: function() {  
+    return {
+        init: function () {
             if (topbarAside.length === 0) {
                 return;
             }
 
-            initOffcanvas(); 
+            initOffcanvas();
         }
     };
 }();
 
-$(document).ready(function() {
+$(document).ready(function () {
     mQuickSidebar.init();
 });
