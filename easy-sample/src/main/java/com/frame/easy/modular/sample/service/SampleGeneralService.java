@@ -45,11 +45,4 @@ public interface SampleGeneralService {
      */
     SampleGeneral saveData(SampleGeneral object);
 
-    /**
-     * 导出查询结果
-     *
-     * @param object 查询条件
-     * @return 数据
-     */
-    Object exportData(SampleGeneral object);
 }

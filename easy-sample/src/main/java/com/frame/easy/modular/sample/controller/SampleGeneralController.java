@@ -4,21 +4,14 @@ import com.frame.easy.base.controller.BaseController;
 import com.frame.easy.modular.sample.model.SampleGeneral;
 import com.frame.easy.modular.sample.service.SampleGeneralService;
 import com.frame.easy.result.Tips;
-import com.frame.easy.util.http.HttpUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.UnsupportedEncodingException;
 
 /**
  * 代码生成示例
@@ -115,26 +108,9 @@ public class SampleGeneralController extends BaseController {
     @RequestMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sample:general:save")
-    public Tips saveData(@RequestBody(required = false) SampleGeneral object) {
+    public Tips saveData(SampleGeneral object) {
         logger.debug("/auth/sample/general/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }
-
-    /**
-     * 导出查询结果
-     *
-     * @param object 查询条件
-     * @return Tips
-     */
-    @RequestMapping("export/data")
-    @ResponseBody
-    @RequiresPermissions("sample:general:select")
-    public ResponseEntity<FileSystemResource> exportData(@RequestBody(required = false) SampleGeneral object,
-                                                         HttpServletRequest request) throws UnsupportedEncodingException {
-        logger.debug("/auth/sample/general/export/data");
-        return HttpUtil.getResponseEntity(new File((String)service.exportData(object)), "测试文件-test.xls", request);
-    }
-
-
 
 }
