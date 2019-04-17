@@ -49,18 +49,18 @@ var importExcelTemplateDetails = function () {
                     <td class="cell-base text-center"><div class="m--block-center" style="width: 20px;">' + getCheckbox('needImport', (detail ? 'checked' : null)) + '</div></td>\
                     <td class="cell-base m--padding-top-15"><input type="hidden" name="columnName" value="' + field['name'] + '" />' + (field['keyFlag'] ? '<i class="text-info la la-key"></i>' : '') + field['name'] + '</td>\
                     <td class="cell-base m--padding-top-15"><input type="hidden" name="type" value="' + field['type'] + '">' + field['type'] + '</td>\
-                    <td class="cell-base"><div class="m--block-center" style="width: 140px;">' + getInput('title', detail ? detail.title : (field.comment)) + '</div></td>\
+                    <td class="cell-base"><div class="m--block-center" style="width: 75px;">' + getInput('title', detail ? detail.title : (field.comment)) + '</div></td>\
                     <td class="cell-base text-center"><div class="m--block-center" style="width: 20px;">' + getCheckbox('needReplace', (detail && detail.replaceTableFieldName ? 'checked' : '')) + '</div></td>\
-                    <td class="cell-base"><div class="m--block-center" style="width: 260px;">' + getSelect('table-name', 'replaceTable', detail ? detail.replaceTable : null) + '</div></td>\
+                    <td class="cell-base"><div class="m--block-center" style="width: 200px;">' + getSelect('table-name', 'replaceTable', detail ? detail.replaceTable : null) + '</div></td>\
                     <td class="cell-base">\
-                        <div class="m--block-center" style="width: 160px;">\
+                        <div class="m--block-center" style="width: 120px;">\
                             <select disabled class="form-control m-bootstrap-select dict-type select-picker" data-value="' + (detail ? detail.replaceTableDictType : '') + '" \
                                     name="replaceTableDictType" data-live-search="true">' + getDictTypeOption(detail ? detail.replaceTableDictType : null) + '\
                             </select>\
                         </div>\
                     </td>\
-                    <td class="cell-base"><div class="m--block-center" style="width: 130px;">' + getSelect('table-field', 'replaceTableFieldName', detail ? detail.replaceTableFieldName : null) + '</div></td>\
-                    <td class="cell-base"><div class="m--block-center" style="width: 130px;">' + getSelect('table-field', 'replaceTableFieldValue', detail ? detail.replaceTableFieldValue : null) + '</div></td>\
+                    <td class="cell-base"><div class="m--block-center" style="width: 120px;">' + getSelect('table-field', 'replaceTableFieldName', detail ? detail.replaceTableFieldName : null) + '</div></td>\
+                    <td class="cell-base"><div class="m--block-center" style="width: 120px;">' + getSelect('table-field', 'replaceTableFieldValue', detail ? detail.replaceTableFieldValue : null) + '</div></td>\
                     <td class="cell-base text-center"><div class="m--block-center" style="width: 20px;">' + getCheckbox('required', (detail && detail.required ? 'checked' : '')) + '</div></td>\
                     <td class="cell-base text-center"><div class="m--block-center" style="width: 20px;">' + getCheckbox('isOnly', (detail && detail.isOnly ? 'checked' : '')) + '</div></td>\
                     <td class="cell-base"><div class="m--block-center" style="width: 40px;">' + getInput('orderNo', detail ? detail.orderNo : null) + '</div></td>\

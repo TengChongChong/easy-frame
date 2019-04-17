@@ -46,10 +46,10 @@ var mSysImportExcelTemplateList = function () {
                     template: function (row, index, datatable) {
                         var _btn = '';
                         if (mTool.hasPermissions('sys:import:excel:template:save')) {
-                            _btn += '<a href="#" onclick="mTool.editById(this, \'' + row.id + '\', \'' + row.name + '\')" class="' + mTool.ACTIONS_DANGER + '" title="编辑">\
+                            _btn += '<a href="#" onclick="mTool.editById(this, \'' + row.id + '\', \'' + row.name + '\')" class="' + mTool.ACTIONS_INFO + '" title="编辑">\
                                 <i class="la la-edit"></i>\
                             </a>';
-                            _btn += '<a href="#" onclick="mApp.openPage(\'' + row.name + '\', \'' + basePath + '/auth/sys/import/excel/template/details/list/' + row.id + '\')" class="' + mTool.ACTIONS_DANGER + '" title="编辑导入规则">\
+                            _btn += '<a href="#" onclick="mApp.openPage(\'' + row.name + '\', \'' + basePath + '/auth/sys/import/excel/template/details/list/' + row.id + '\')" class="' + mTool.ACTIONS_INFO + '" title="编辑导入规则">\
                                 <i class="la la-gear"></i>\
                             </a>';
                         }
@@ -58,6 +58,9 @@ var mSysImportExcelTemplateList = function () {
                                 <i class="la la-trash"></i>\
                             </a>';
                         }
+                        _btn += '<a href="#" onclick="mSysImportExcelTemplateList.downloadTemplate(\'' + row.id + '\')" class="' + mTool.ACTIONS_SUCCESS + '" title="下载模板">\
+                                <i class="la la-cloud-download"></i>\
+                            </a>';
                         return _btn;
                     }
                 }
@@ -66,12 +69,28 @@ var mSysImportExcelTemplateList = function () {
         };
         mSysImportExcelTemplateList.dataTable = mTool.initDataTable(options);
     };
+    /**
+     * 下载模板
+     *
+     * @param templateId {number|string} 模板id
+     */
+    var downloadTemplate = function (templateId) {
+        mTool.downloadFile(mTool.getBaseUrl() + '/download/template/' + templateId);
+    };
 
     return {
         //== 初始化页面
         init: function () {
             mTool.setBaseUrl(basePath + '/auth/sys/import/excel/template/');
             initTable();
+        },
+        /**
+         * 下载模板
+         *
+         * @param templateId {number|string} 模板id
+         */
+        downloadTemplate: function (templateId) {
+            downloadTemplate(templateId);
         }
     };
 }();

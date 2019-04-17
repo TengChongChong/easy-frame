@@ -14,7 +14,7 @@ var mSysImportExcelTemplateInput = function () {
                         importTable.append('<option data-comment="' + obj.text + '" value="' + obj.value + '">' +
                             (mUtil.isNotBlank(obj.text) ? obj.value + '(' + obj.text + ')' : obj.value) + '</option>');
                     });
-                    importTable.selectpicker().change(function () {
+                    importTable.val(importTable.data('value')).selectpicker().change(function () {
                         // 检查是否需要用表注释自动填充导入模板名称
                         var $name = $('#name');
                         var name = $name.val();

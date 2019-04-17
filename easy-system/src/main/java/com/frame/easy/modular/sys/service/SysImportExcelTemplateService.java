@@ -1,7 +1,11 @@
 package com.frame.easy.modular.sys.service;
 
-import com.frame.easy.modular.sys.model.SysImportExcelTemplate;
 import com.frame.easy.common.page.Page;
+import com.frame.easy.modular.sys.model.SysImportExcelTemplate;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.ResponseEntity;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 导入模板
@@ -44,4 +48,12 @@ public interface SysImportExcelTemplateService {
      * @return 保存后信息
      */
     SysImportExcelTemplate saveData(SysImportExcelTemplate object);
+
+    /**
+     * 下载导入模板
+     *
+     * @param templateId {模板id}
+     * @return ResponseEntity
+     */
+    ResponseEntity<FileSystemResource> downloadTemplate(Long templateId, HttpServletRequest request);
 }

@@ -19,7 +19,7 @@ public class ExcelUtil {
     /**
      * excel 文件后缀
      */
-    private static final String EXCEL_SUFFIX_XLSX = ".xlsx";
+    public static final String EXCEL_SUFFIX_XLSX = ".xlsx";
 
     /**
      * 写excel文件
@@ -74,8 +74,8 @@ public class ExcelUtil {
         BigExcelWriter writer = cn.hutool.poi.excel.ExcelUtil.getBigWriter(path, sheetName);
         if (StrUtil.isNotBlank(title)) {
             //合并单元格，使用默认标题样式
-            if (body != null && body.size() > 0) {
-                writer.merge(body.get(0).size() - 1, title);
+            if (head != null && head.length > 0) {
+                writer.merge(head.length - 1, title);
             } else {
                 writer.merge(1, title);
             }

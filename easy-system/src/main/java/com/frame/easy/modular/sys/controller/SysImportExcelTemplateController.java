@@ -4,11 +4,15 @@ import com.frame.easy.base.controller.BaseController;
 import com.frame.easy.result.Tips;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.frame.easy.modular.sys.model.SysImportExcelTemplate;
 import com.frame.easy.modular.sys.service.SysImportExcelTemplateService;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 导入模板
@@ -105,5 +109,20 @@ public class SysImportExcelTemplateController extends BaseController {
     public Tips saveData(SysImportExcelTemplate object){
         logger.debug("/auth/sys/import/excel/template/save/data");
         return Tips.getSuccessTips(service.saveData(object));
+    }
+
+    /**
+     * 下载导入模板
+     *
+     * @param templateId {模板id}
+     * @return ResponseEntity
+     */
+    @RequestMapping("/download/template/{templateId}")
+    @ResponseBody
+    @RequiresPermissions("sys:import:excel:template:select")
+    public ResponseEntity<FileSystemResource> downloadTemplate(@PathVariable("templateId") Long templateId,
+                                                               HttpServletRequest request){
+        logger.debug("/auth/sys/import/excel/template/download/template/" + templateId);
+        return service.downloadTemplate(templateId, request);
     }
 }
