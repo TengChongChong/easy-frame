@@ -250,7 +250,8 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
         if (Validator.isEmpty(object.getIcon())) {
             object.setIcon(JsTree.DEFAULT_ICON);
         }
-        if (object.getOrderNo() == null) {
+
+        if (object.getId() == null && object.getOrderNo() == null) {
             object.setOrderNo(mapper.getMaxOrderNo(object.getpId()) + 1);
         }
 
