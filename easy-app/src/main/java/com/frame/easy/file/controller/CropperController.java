@@ -3,10 +3,9 @@ package com.frame.easy.file.controller;
 import com.frame.easy.file.service.CropperService;
 import com.frame.easy.result.Tips;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 图片剪裁
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author tengchong
  * @date 2019-03-08
  */
-@Controller
+@RestController
 public class CropperController {
 
     @Autowired
@@ -27,7 +26,6 @@ public class CropperController {
      * @return Tips
      */
     @RequestMapping("/auth/cropper")
-    @ResponseBody
     public Tips cropper(@RequestBody byte[] data) {
         return Tips.getSuccessTips(service.cropper(data));
     }
