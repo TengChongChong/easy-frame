@@ -28214,46 +28214,48 @@ select.m-select2 {
     -webkit-box-shadow: 0 3px 6px -3px #9ea7c0 ;
     box-shadow: 0 3px 6px -3px #9ea7c0 ; }
 
-.m-dropzone {
+.dropzone.m-dropzone {
   border-radius: 4px;
-  padding: 20px;
+  min-height: 40px;
   text-align: center;
   cursor: pointer; }
-  .m-dropzone .m-dropzone__msg-title {
+  .dropzone.m-dropzone .m-dropzone__msg-title {
     margin: 0 0 5px 0;
     padding: 0;
     font-weight: 400;
     font-size: 1.1rem; }
-  .m-dropzone .m-dropzone__msg-desc {
+  .dropzone.m-dropzone .m-dropzone__msg-desc {
     font-size: 0.85rem; }
-  .m-dropzone .dz-preview .dz-image {
+  .dropzone.m-dropzone .dz-preview .dz-image {
     border-radius: 6px; }
+  .dropzone.m-dropzone .dz-message {
+    margin: 0; }
 
-.m-dropzone {
-  border: 2px dashed #ebedf2; }
-  .m-dropzone .m-dropzone__msg-title {
+.dropzone.m-dropzone {
+  border-style: dashed; }
+  .dropzone.m-dropzone .m-dropzone__msg-title {
     color: #575962; }
-  .m-dropzone .m-dropzone__msg-desc {
+  .dropzone.m-dropzone .m-dropzone__msg-desc {
     color: #6f727d; }
-  .m-dropzone.m-dropzone--brand {
+  .dropzone.m-dropzone.m-dropzone--brand {
     border-color: #5d78ff; }
-  .m-dropzone.m-dropzone--metal {
+  .dropzone.m-dropzone.m-dropzone--metal {
     border-color: #c4c5d6; }
-  .m-dropzone.m-dropzone--light {
+  .dropzone.m-dropzone.m-dropzone--light {
     border-color: #fff; }
-  .m-dropzone.m-dropzone--accent {
+  .dropzone.m-dropzone.m-dropzone--accent {
     border-color: #00c5dc; }
-  .m-dropzone.m-dropzone--focus {
+  .dropzone.m-dropzone.m-dropzone--focus {
     border-color: #9816f4; }
-  .m-dropzone.m-dropzone--primary {
+  .dropzone.m-dropzone.m-dropzone--primary {
     border-color: #5867dd; }
-  .m-dropzone.m-dropzone--success {
+  .dropzone.m-dropzone.m-dropzone--success {
     border-color: #34bfa3; }
-  .m-dropzone.m-dropzone--info {
+  .dropzone.m-dropzone.m-dropzone--info {
     border-color: #36a3f7; }
-  .m-dropzone.m-dropzone--warning {
+  .dropzone.m-dropzone.m-dropzone--warning {
     border-color: #ffb822; }
-  .m-dropzone.m-dropzone--danger {
+  .dropzone.m-dropzone.m-dropzone--danger {
     border-color: #f4516c; }
 
 .m-recaptcha {
