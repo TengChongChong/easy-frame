@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -59,9 +58,10 @@ public class SampleExportDataServiceImpl extends ServiceImpl<SampleGeneralMapper
         List<SampleGeneral> list = mapper.selectList(queryWrapper);
         List<List<Object>> rows = CollUtil.newArrayList();
         for (SampleGeneral general : list) {
-            rows.add(Arrays.asList(general.getName(), general.getSex(), general.getAge(), general.getPhone(), general.getAddress(), new Date()));
+            rows.add(Arrays.asList(general.getName(), general.getSex(), general.getAge(),
+                    general.getPhone(), general.getAddress(),general.getStatus(), general.getCreateDate()));
         }
-        String path = ExcelUtil.writFile(rows, "姓名,性别,年龄,手机号码,地址,生日", "导出数据示例", "测试数据");
+        String path = ExcelUtil.writFile(rows, "姓名,性别,年龄,手机号码,地址,状态,创建时间", "导出数据示例", "测试数据");
         try {
             return HttpUtil.getResponseEntity(new File(path), "导出数据示例-" + DateUtil.today() + ExcelUtil.EXCEL_SUFFIX_XLSX, request);
         } catch (UnsupportedEncodingException e) {
