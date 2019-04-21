@@ -48,6 +48,19 @@ public enum BusinessException implements EasyServiceException{
     CANNOT_CHANGE_SUPER_ADMIN(500, "不能更改超级管理员角色"),
 
     /**
+     * 导入
+     */
+    // 获取模板信息失败
+    IMPORT_GET_TEMPLATE_FAIL(500, "获取模板信息失败"),
+    // 模板不匹配
+    IMPORT_TEMPLATE_MISMATCH(500, "模板不匹配，请重新下载模板"),
+    // excel中无数据
+    IMPORT_TEMPLATE_NO_DATA(500, "请至少录入一条数据后导入"),
+    // 导入失败
+    IMPORT_INSERT_FAIL(500, "导入失败，请稍后重试"),
+    IMPORT_FILE_TYPE_ERROR(500, "请上传excel文件"),
+    IMPORT_FILE_NOT_FIND(500, "读取文件失败[文件不存在]"),
+    /**
      * 字典
      */
     // 字典编码已存在
