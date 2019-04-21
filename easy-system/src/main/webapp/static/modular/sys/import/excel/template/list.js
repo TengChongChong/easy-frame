@@ -12,7 +12,7 @@ var mSysImportExcelTemplateList = function () {
                     title: '#',
                     sortable: false, // 禁用此列排序
                     width: 40,
-                    selector: {class: 'm-checkbox--solid m-checkbox--brand'},
+                    selector: {class: 'm-checkbox--solid m-checkbox--brand'}
                 },
                 {
                     field: 'name',
@@ -21,6 +21,10 @@ var mSysImportExcelTemplateList = function () {
                 {
                     field: 'importCode',
                     title: '模板代码'
+                },
+                {
+                    field: 'permissionCode',
+                    title: '权限代码'
                 },
                 {
                     field: 'importTable',
@@ -58,7 +62,7 @@ var mSysImportExcelTemplateList = function () {
                                 <i class="la la-trash"></i>\
                             </a>';
                         }
-                        _btn += '<a href="#" onclick="mSysImportExcelTemplateList.downloadTemplate(\'' + row.id + '\')" class="' + mTool.ACTIONS_SUCCESS + '" title="下载模板">\
+                        _btn += '<a href="#" onclick="mSysImportExcelTemplateList.downloadTemplate(\'' + row.importCode + '\')" class="' + mTool.ACTIONS_SUCCESS + '" title="下载模板">\
                                 <i class="la la-cloud-download"></i>\
                             </a>';
                         return _btn;
@@ -72,10 +76,10 @@ var mSysImportExcelTemplateList = function () {
     /**
      * 下载模板
      *
-     * @param templateId {number|string} 模板id
+     * @param importCode {string} 模板代码
      */
-    var downloadTemplate = function (templateId) {
-        mTool.downloadFile(mTool.getBaseUrl() + '/download/template/' + templateId);
+    var downloadTemplate = function (importCode) {
+        mTool.downloadFile(mTool.getBaseUrl() + '/download/template/' + importCode);
     };
 
     return {
@@ -87,10 +91,10 @@ var mSysImportExcelTemplateList = function () {
         /**
          * 下载模板
          *
-         * @param templateId {number|string} 模板id
+         * @param importCode {string} 模板代码
          */
-        downloadTemplate: function (templateId) {
-            downloadTemplate(templateId);
+        downloadTemplate: function (importCode) {
+            downloadTemplate(importCode);
         }
     };
 }();

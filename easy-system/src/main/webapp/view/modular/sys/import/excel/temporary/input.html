@@ -1,0 +1,40 @@
+@layout("/common/container.html"){
+<form class="m-form">
+    <div class="m-portlet" m-portlet="true">
+        <#portlet:head title="详情信息" icon="la la-file-text-o"/>
+        <div class="m-portlet__body">
+            <input type="hidden" name="id" value="${object.id}">
+            <div class="row">
+                @var index = 1;
+                @for(detail in details){
+                <div class="col-md-6 col-12">
+                    <div class="form-group row">
+                        <label class="col-4 control-label" for="field${index}">
+                            @var required = '';
+                            @if(1 == detail.required){
+                            @required = 'required';
+                            <span class="required">*</span>
+                            @}
+                            ${detail.title}：
+                        </label>
+                        <div class="col-8">
+                            <input type="text" class="form-control " id="field${index}" name="field${index}"
+                                   value="${object['field' + index]}" ${required}>
+                        </div>
+                    </div>
+                </div>
+                @index++;
+                @}
+            </div>
+        </div>
+        <div class="m-portlet__foot m-portlet__foot--fit">
+            <div class="m-form__actions text-center">
+                <#btn:save/>
+            </div>
+        </div>
+    </div>
+</form>
+<!--begin::页面脚本 -->
+<script src="${ctxPath}/static/modular/sys/import/excel/temporary/input.js?v=${version()}" type="text/javascript"></script>
+<!--end::页面脚本 -->
+@}

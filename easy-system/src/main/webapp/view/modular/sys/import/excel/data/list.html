@@ -1,0 +1,64 @@
+@layout("/common/container.html"){
+@include("/common/plugins/css/dropzone.html"){}
+@include("/common/plugins/js/dropzone.html"){}
+<style>
+    .dropzone .dz-preview .dz-image {
+        width: 220px;
+    }
+</style>
+<div class="m-portlet">
+    <#portlet:head title="数据导入-${object.name}" icon="la la-cloud-upload"/>
+    <div class="m-portlet__body">
+        <form class="m-form animated" id="import-temporary">
+            <input type="hidden" id="importCode" value="${object.importCode}">
+            <input type="hidden" id="hasLast" value="${hasLast}">
+            <input type="hidden" id="path">
+            <div class="alert alert-info" role="alert">
+                <i class="la la-exclamation"></i> 请先下载模板，填写完成后导入
+            </div>
+            <div class="form-group m-form__group row">
+                <div class="col-sm-12">
+                    <div class="m-dropzone dropzone m-dropzone--success" id="upload-excel">
+                        <div class="m-dropzone__msg dz-message needsclick">
+                            <h3 class="m-dropzone__msg-title">拖动文件到这里或者点击选择文件</h3>
+                            <span class="m-dropzone__msg-desc">仅允许上传xlsx、xls文件</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <#button id="download-template" btnType="info" icon="la la-cloud-download" name="下载模板" />
+            <#button id="import-data" btnType="success" icon="la la-cloud-upload" name="导入数据" />
+        </form>
+        <form class="m-form m--hide animated" id="temporary-list">
+            @if(hasLast){
+            <div class="alert alert-info" role="alert">
+                <i class="la la-exclamation"></i> 表格中为上次导入未确认数据，如要放弃请点击重新选择文件
+            </div>
+            @}
+            <div class="btn-row">
+                <#button id="" btnType="info" icon="la la-cloud-download" name="导出错误数据" />
+                <#button id="" btnType="success" icon="la la-save" name="保存正确数据到正式表" />
+                <#button id="re-selection" btnType="warning" icon="la la-cloud-upload" name="重新选择文件" />
+                <div class="col-md-3 col-12 m--pull-right">
+                    <div class="query-modular">
+                        <div class="row">
+                            <input type="hidden" name="templateId" value="${object.id}">
+                            <div class="input-group">
+                                <input type="text" name="field1" class="form-control" placeholder="请输入关键字搜索">
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="mTool.selectData(this)"><i
+                                            class="la la-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="m_datatable" id="sys_import_excel_template_list"></div>
+        </form>
+    </div>
+</div>
+<!--begin::页面脚本 -->
+<script src="${ctxPath}/static/modular/sys/import/excel/data/list.js?v=${version()}" type="text/javascript"></script>
+<!--end::页面脚本 -->
+@}

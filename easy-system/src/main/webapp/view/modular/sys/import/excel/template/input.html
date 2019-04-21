@@ -1,7 +1,7 @@
 @layout("/common/container.html"){
 <form class="m-form">
     <div class="m-portlet" m-portlet="true">
-        <#portlet:head title="导入模板" icon="la la-bars"/>
+        <#portlet:head title="导入模板" icon="la la-cloud-upload"/>
         <div class="m-portlet__body">
             <div class="row">
                 <!-- str:表单区域 -->
@@ -13,10 +13,13 @@
                     <#form:input id="name" name="名称" required="true" value="${object.name}" />
                 </div>
                 <div class="col-lg-6 col-12">
-                    <#form:input id="importCode" name="模板代码" required="true" value="${object.importCode}" />
+                    <#form:input id="importCode" tips="模板代码不可重复" name="模板代码" required="true" value="${object.importCode}" />
+                </div>
+                <div class="col-lg-6 col-12 m--hide">
+                    <#form:input type="number" tips="包含标题行的开始行号" id="startRow" name="起始行" required="true" value="${object.startRow}" />
                 </div>
                 <div class="col-lg-6 col-12">
-                    <#form:input type="number"  id="startRow" name="起始行" required="true" value="${object.startRow}" />
+                    <#form:input tips="用于检查当前登录用户是否允许使用此模板" id="permissionCode" name="权限代码" required="true" value="${object.permissionCode}" />
                 </div>
                 <div class="col-12">
                     <#form:textarea id="callback" name="回调" value="${object.callback}" />
