@@ -5,6 +5,7 @@ import com.frame.easy.modular.sample.model.SampleGeneral;
 import com.frame.easy.modular.sample.service.SampleGeneralService;
 import com.frame.easy.modular.sample.service.SampleImportDataService;
 import com.frame.easy.result.Tips;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,6 +55,7 @@ public class SampleImportDataController extends BaseController {
      */
     @RequestMapping("select")
     @ResponseBody
+    @RequiresPermissions("sample:general:import:data")
     public Tips select(@RequestBody(required = false) SampleGeneral object) {
         logger.debug("/auth/sample/export/data/select");
         return Tips.getSuccessTips(sampleGeneralService.select(object));

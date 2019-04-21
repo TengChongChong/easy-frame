@@ -1,6 +1,17 @@
 package com.frame.easy.modular.sample.controller;
 
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.lang.Console;
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.sax.handler.RowHandler;
+import com.frame.easy.result.Tips;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 测试类
@@ -9,17 +20,35 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class TestController {
 
-    private final String PREFIX = "modular/sample/test/";
+    @RequestMapping(value="/test")
+    @ResponseBody
+    public Tips testException(){
+        ExcelUtil.readBySax("/Users/tengchong/Downloads/test10.xlsx", 0, createRowHandler());
 
-//    @Autowired
-//    private SampleGeneralService service;
+//        ExcelReader reader = ExcelUtil.getReader("/Users/tengchong/Downloads/test.xlsx");
+//        List<List<Object>> readAll = reader.read();
+        System.out.println("读取成功");
+        return Tips.getSuccessTips();
+    }
+    private boolean save(List<Object[]> dataList){
+        System.out.println("保存数据:" + DateUtil.now() + dataList.size());
+        return true;
+    }
 
-//    @RequestMapping(value="/test")
-//    @ResponseBody
-//    @RequiresPermissions("permission:test")
-//    public Tips testException(){
-//        SysUser sysUser = null;
-//        return Tips.getSuccessTips(service.selectDate());
-//        return PREFIX + "view";
-//    }
+
+    private RowHandler createRowHandler() {
+        return new RowHandler() {
+            List<Object[]> dataList = new ArrayList<>();
+            @Override
+            public void handle(int sheetIndex, int rowIndex, List<Object> rowlist) {
+                Object[] row = Arrays.copyOf(rowlist.toArray(), rowlist.size());
+                dataList.add(row);
+                if(rowlist.size() == 100){
+                    save(dataList);
+                    dataList.clear();
+                }
+                Console.log("[{}] [{}] {}", sheetIndex, rowIndex, rowlist);
+            }
+        };
+    }
 }
