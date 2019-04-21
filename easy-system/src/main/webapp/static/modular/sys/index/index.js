@@ -220,6 +220,7 @@ var mIndex = function () {
             // 有目标子菜单
             $('#m_ver_menu').children('ul').hide();
             $target.show();
+            mApp.animateCSS(target, mApp.getAnimate('in'), null);
         } else {
             mApp.openPage($menu.text(), $menu.data('url'));
         }
