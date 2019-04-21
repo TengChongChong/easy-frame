@@ -1,17 +1,22 @@
 package com.frame.easy.modular.sys.controller;
 
 import com.frame.easy.base.controller.BaseController;
+import com.frame.easy.modular.sys.model.SysImportExcelTemporary;
+import com.frame.easy.modular.sys.service.SysImportExcelTemplateDetailsService;
+import com.frame.easy.modular.sys.service.SysImportExcelTemporaryService;
 import com.frame.easy.result.Tips;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import com.frame.easy.modular.sys.model.SysImportExcelTemporary;
-import com.frame.easy.modular.sys.service.SysImportExcelTemporaryService;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 导入临时表
+ * 注: 如提示权限问题需要给用户分配 "系统功能 > 数据导入" 权限
  *
  * @author TengChong
  * @date 2019-04-10
@@ -29,18 +34,8 @@ public class SysImportExcelTemporaryController extends BaseController {
      */
     @Autowired
     private SysImportExcelTemporaryService service;
-
-    /**
-     * 列表
-     *
-     * @return String
-     */
-    @RequestMapping("list")
-    public String list(){
-        logger.debug("/auth/sys/import/excel/temporary/list");
-        return PREFIX + "list";
-    }
-
+    @Autowired
+    private SysImportExcelTemplateDetailsService detailsService;
     /**
      * 列表
      *
@@ -49,7 +44,7 @@ public class SysImportExcelTemporaryController extends BaseController {
      */
     @RequestMapping("select")
     @ResponseBody
-    @RequiresPermissions("sys:import:excel:temporary:select")
+    @RequiresPermissions("import:data")
     public Tips select(@RequestBody(required = false) SysImportExcelTemporary object){
         logger.debug("/auth/sys/import/excel/temporary/select");
         return Tips.getSuccessTips(service.select(object));
@@ -61,11 +56,27 @@ public class SysImportExcelTemporaryController extends BaseController {
      * @return String
      */
     @RequestMapping("/input/{id}")
-    @RequiresPermissions("sys:import:excel:temporary:select")
+    @RequiresPermissions("import:data")
     public String input(Model model, @PathVariable("id") Long id) {
         logger.debug("/auth/sys/import/excel/temporary/input/" + id);
-        model.addAttribute("object", service.input(id));
+        SysImportExcelTemporary temporary = service.input(id);
+        model.addAttribute("object", temporary);
+        model.addAttribute("details", detailsService.selectDetails(temporary.getTemplateId()));
         return PREFIX + "input";
+    }
+
+    /**
+     * 保存
+     *
+     * @param object 表单内容
+     * @return Tips
+     */
+    @RequestMapping("/save/data")
+    @ResponseBody
+    @RequiresPermissions("import:data")
+    public Tips saveData(SysImportExcelTemporary object){
+        logger.debug("/auth/sys/import/excel/temporary/save/data");
+        return Tips.getSuccessTips(service.saveData(object));
     }
 
     /**
@@ -76,9 +87,21 @@ public class SysImportExcelTemporaryController extends BaseController {
      */
     @RequestMapping("/delete/{ids}")
     @ResponseBody
-    @RequiresPermissions("sys:import:excel:temporary:delete")
+    @RequiresPermissions("import:data")
     public Tips delete(@PathVariable("ids") String ids) {
         logger.debug("/auth/sys/import/excel/temporary/delete/" + ids);
         return Tips.getSuccessTips(service.delete(ids));
+    }
+
+    /**
+     * 清空指定导入代码中数据
+     *
+     * @param templateCode 导入代码
+     * @return Tips
+     */
+    @RequestMapping("clean/my/import/{templateCode}")
+    @ResponseBody
+    public Tips cleanMyImport(@PathVariable("templateCode") String templateCode){
+        return Tips.getSuccessTips(service.cleanMyImport(templateCode));
     }
 }

@@ -114,15 +114,15 @@ public class SysImportExcelTemplateController extends BaseController {
     /**
      * 下载导入模板
      *
-     * @param templateId {模板id}
+     * @param importCode 模板代码
      * @return ResponseEntity
      */
-    @RequestMapping("/download/template/{templateId}")
+    @RequestMapping("/download/template/{importCode}")
     @ResponseBody
     @RequiresPermissions("sys:import:excel:template:select")
-    public ResponseEntity<FileSystemResource> downloadTemplate(@PathVariable("templateId") Long templateId,
+    public ResponseEntity<FileSystemResource> downloadTemplate(@PathVariable("importCode") String importCode,
                                                                HttpServletRequest request){
-        logger.debug("/auth/sys/import/excel/template/download/template/" + templateId);
-        return service.downloadTemplate(templateId, request);
+        logger.debug("/auth/sys/import/excel/template/download/template/" + importCode);
+        return service.downloadTemplate(importCode, request);
     }
 }

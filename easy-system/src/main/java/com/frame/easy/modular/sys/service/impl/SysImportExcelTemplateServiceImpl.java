@@ -10,6 +10,7 @@ import com.frame.easy.modular.sys.model.SysImportExcelTemplate;
 import com.frame.easy.modular.sys.model.SysImportExcelTemplateDetails;
 import com.frame.easy.modular.sys.service.SysImportExcelTemplateDetailsService;
 import com.frame.easy.modular.sys.service.SysImportExcelTemplateService;
+import com.frame.easy.modular.sys.service.SysImportExcelTemporaryService;
 import com.frame.easy.util.ToolUtil;
 import com.frame.easy.util.http.HttpUtil;
 import com.frame.easy.util.office.ExcelUtil;
@@ -37,6 +38,8 @@ public class SysImportExcelTemplateServiceImpl extends ServiceImpl<SysImportExce
 
     @Autowired
     private SysImportExcelTemplateDetailsService templateDetailsService;
+    @Autowired
+    private SysImportExcelTemporaryService temporaryService;
 
     /**
      * 列表
@@ -77,6 +80,13 @@ public class SysImportExcelTemplateServiceImpl extends ServiceImpl<SysImportExce
         return getById(id);
     }
 
+    @Override
+    public SysImportExcelTemplate getByImportCode(String importCode) {
+        QueryWrapper<SysImportExcelTemplate> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("import_code", importCode);
+        return getOne(queryWrapper);
+    }
+
     /**
      * 新增
      *
@@ -101,7 +111,13 @@ public class SysImportExcelTemplateServiceImpl extends ServiceImpl<SysImportExce
     public boolean delete(String ids) {
         ToolUtil.checkParams(ids);
         List<String> idList = Arrays.asList(ids.split(","));
-        return ToolUtil.checkResult(removeByIds(idList));
+        boolean isSuccess = removeByIds(idList);
+        if (isSuccess) {
+            // 删掉导入规则以及临时表数据
+            templateDetailsService.deleteByTemplateIds(ids);
+            temporaryService.deleteByTemplateIds(ids);
+        }
+        return isSuccess;
     }
 
     /**
@@ -114,25 +130,41 @@ public class SysImportExcelTemplateServiceImpl extends ServiceImpl<SysImportExce
     @Override
     public SysImportExcelTemplate saveData(SysImportExcelTemplate object) {
         ToolUtil.checkParams(object);
-        if (object.getId() == null) {
-            // 新增,设置默认值
+        boolean isUpdate = false;
+        // 模板代码不能重复
+        QueryWrapper<SysImportExcelTemplate> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("import_code", object.getImportCode());
+        if (object.getId() != null) {
+            queryWrapper.ne("id", object.getId());
+            isUpdate = true;
         }
-        return (SysImportExcelTemplate) ToolUtil.checkResult(saveOrUpdate(object), object);
+        int count = count(queryWrapper);
+        if (count > 0) {
+            throw new EasyException("模板代码 " + object.getImportCode() + " 中已存在，请修改后重试");
+        }
+        boolean isSuccess = saveOrUpdate(object);
+        if (isSuccess && isUpdate) {
+            // 修改的时候清空临时表
+            temporaryService.deleteByTemplateIds(String.valueOf(object.getId()));
+        }
+        return (SysImportExcelTemplate) ToolUtil.checkResult(isSuccess, object);
     }
 
     @Override
-    public ResponseEntity<FileSystemResource> downloadTemplate(Long templateId, HttpServletRequest request) {
-        ToolUtil.checkParams(templateId);
-        SysImportExcelTemplate sysImportExcelTemplate = getById(templateId);
+    public ResponseEntity<FileSystemResource> downloadTemplate(String importCode, HttpServletRequest request) {
+        ToolUtil.checkParams(importCode);
+        QueryWrapper<SysImportExcelTemplate> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("import_code", importCode);
+        SysImportExcelTemplate sysImportExcelTemplate = getOne(queryWrapper);
         if (sysImportExcelTemplate != null) {
-            List<SysImportExcelTemplateDetails> details = templateDetailsService.selectDetails(templateId);
+            List<SysImportExcelTemplateDetails> details = templateDetailsService.selectDetails(sysImportExcelTemplate.getId());
             List<String> title = new ArrayList<>();
             for (SysImportExcelTemplateDetails detail : details) {
                 title.add(detail.getTitle());
             }
             String path = ExcelUtil.writFile(null, title.toArray(new String[details.size()]), sysImportExcelTemplate.getName(), sysImportExcelTemplate.getName(), null);
             try {
-                return HttpUtil.getResponseEntity(new File(path),  sysImportExcelTemplate.getName() + ExcelUtil.EXCEL_SUFFIX_XLSX, request);
+                return HttpUtil.getResponseEntity(new File(path), sysImportExcelTemplate.getName() + ExcelUtil.EXCEL_SUFFIX_XLSX, request);
             } catch (UnsupportedEncodingException e) {
                 throw new EasyException("生成模板失败");
             }

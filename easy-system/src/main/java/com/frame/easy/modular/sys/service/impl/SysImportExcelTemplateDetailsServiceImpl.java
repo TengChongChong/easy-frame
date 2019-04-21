@@ -2,15 +2,19 @@ package com.frame.easy.modular.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.frame.easy.common.table.Column;
+import com.frame.easy.modular.sys.dao.SysImportExcelTemplateDetailsMapper;
+import com.frame.easy.modular.sys.model.SysImportExcelTemplate;
+import com.frame.easy.modular.sys.model.SysImportExcelTemplateDetails;
+import com.frame.easy.modular.sys.service.SysImportExcelTemplateDetailsService;
+import com.frame.easy.modular.sys.service.SysImportExcelTemplateService;
 import com.frame.easy.util.ToolUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
-
-import com.frame.easy.modular.sys.model.SysImportExcelTemplateDetails;
-import com.frame.easy.modular.sys.dao.SysImportExcelTemplateDetailsMapper;
-import com.frame.easy.modular.sys.service.SysImportExcelTemplateDetailsService;
 
 /**
  * 导入模板详情
@@ -20,6 +24,12 @@ import com.frame.easy.modular.sys.service.SysImportExcelTemplateDetailsService;
  */
 @Service
 public class SysImportExcelTemplateDetailsServiceImpl extends ServiceImpl<SysImportExcelTemplateDetailsMapper, SysImportExcelTemplateDetails> implements SysImportExcelTemplateDetailsService {
+
+    @Autowired
+    private SysImportExcelTemplateService importExcelTemplateService;
+
+    @Autowired
+    private SysImportExcelTemplateDetailsMapper mapper;
 
     /**
      * 获取已配置字段
@@ -34,6 +44,21 @@ public class SysImportExcelTemplateDetailsServiceImpl extends ServiceImpl<SysImp
         queryWrapper.eq("template_id", templateId);
         queryWrapper.orderByAsc("order_no");
         return list(queryWrapper);
+    }
+
+    @Override
+    public List<Column> selectTableHeadByTemplateCode(String templateCode) {
+        ToolUtil.checkParams(templateCode);
+        SysImportExcelTemplate template = importExcelTemplateService.getByImportCode(templateCode);
+        if(template != null){
+            List<Column> columns = mapper.selectTableHeadByTemplateCode(template.getId());
+            int columnsLength = columns.size();
+            while (columnsLength-- > 0){
+                columns.get(columnsLength).setField("field" + (columnsLength + 1));
+            }
+            return columns;
+        }
+        return null;
     }
 
     /**
@@ -51,5 +76,13 @@ public class SysImportExcelTemplateDetailsServiceImpl extends ServiceImpl<SysImp
         deleteOld.eq("template_id", templateId);
         remove(deleteOld);
         return saveBatch(list);
+    }
+
+    @Override
+    public boolean deleteByTemplateIds(String templateIds) {
+        QueryWrapper<SysImportExcelTemplateDetails> delete = new QueryWrapper<>();
+        List<String> idList = Arrays.asList(templateIds.split(","));
+        delete.in("template_id", idList);
+        return remove(delete);
     }
 }

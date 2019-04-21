@@ -65,6 +65,19 @@ public class SysImportExcelTemplateDetailsController extends BaseController {
     }
 
     /**
+     * 根据模板代码获取表格表头
+     *
+     * @param templateCode 模板代码
+     * @return Tips
+     */
+    @RequestMapping("select/table/head/{templateCode}")
+    @ResponseBody
+    @RequiresPermissions("import:data")
+    public Tips selectTableHeadByTemplateCode(@PathVariable("templateCode") String templateCode){
+        return Tips.getSuccessTips(service.selectTableHeadByTemplateCode(templateCode));
+    }
+
+    /**
      * 保存
      *
      * @param templateId 导入模板id

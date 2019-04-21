@@ -1,13 +1,14 @@
 package com.frame.easy.modular.sys.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.frame.easy.common.page.Page;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.frame.easy.base.model.IModel;
+import com.frame.easy.common.page.Page;
+
+import java.io.Serializable;
 
 /**
  * 导入模板
@@ -46,6 +47,12 @@ public class SysImportExcelTemplate extends Model<SysImportExcelTemplate> implem
      * 模板代码
      */
     private String importCode;
+
+    /**
+     * 权限代码
+     * 用于检查当前登录用户是否允许使用此模板
+     */
+    private String permissionCode;
 
     //
     /**
@@ -96,6 +103,15 @@ public class SysImportExcelTemplate extends Model<SysImportExcelTemplate> implem
     public void setImportCode(String importCode) {
         this.importCode = importCode;
     }
+
+    public String getPermissionCode() {
+        return permissionCode;
+    }
+
+    public void setPermissionCode(String permissionCode) {
+        this.permissionCode = permissionCode;
+    }
+
     @Override
     public Page getPage() {
         return page;

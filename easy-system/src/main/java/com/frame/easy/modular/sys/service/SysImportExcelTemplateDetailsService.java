@@ -1,7 +1,7 @@
 package com.frame.easy.modular.sys.service;
 
+import com.frame.easy.common.table.Column;
 import com.frame.easy.modular.sys.model.SysImportExcelTemplateDetails;
-import com.frame.easy.common.page.Page;
 
 import java.util.List;
 
@@ -21,6 +21,14 @@ public interface SysImportExcelTemplateDetailsService {
     List<SysImportExcelTemplateDetails> selectDetails(Long templateId);
 
     /**
+     * 根据模板代码获取表格表头
+     *
+     * @param templateCode 模板代码
+     * @return heads
+     */
+    List<Column> selectTableHeadByTemplateCode(String templateCode);
+
+    /**
      * 保存
      *
      * @param templateId 导入模板id
@@ -28,4 +36,12 @@ public interface SysImportExcelTemplateDetailsService {
      * @return true/false
      */
     boolean saveData(Long templateId, List<SysImportExcelTemplateDetails> list);
+
+    /**
+     * 根据模板ids删除规则
+     *
+     * @param templateIds 模板ids
+     * @return true/false
+     */
+    boolean deleteByTemplateIds(String templateIds);
 }

@@ -17,9 +17,13 @@ import java.util.List;
  */
 public class ExcelUtil {
     /**
-     * excel 文件后缀
+     * excel 文件后缀 07
      */
     public static final String EXCEL_SUFFIX_XLSX = ".xlsx";
+    /**
+     * excel 文件后缀 03
+     */
+    public static final String EXCEL_SUFFIX_XLS = ".xls";
 
     /**
      * 写excel文件
@@ -85,7 +89,7 @@ public class ExcelUtil {
         // 设置内容
         if (body != null) {
             //写出内容
-            writer.write(body);
+            writer.write(body, false);
         }
         //关闭writer，释放内存
         writer.close();

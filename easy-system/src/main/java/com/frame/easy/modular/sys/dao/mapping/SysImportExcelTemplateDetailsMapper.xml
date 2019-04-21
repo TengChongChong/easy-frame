@@ -24,5 +24,9 @@
         id, template_id, field_name, title, field_length, field_type, replace_table, replace_table_field_name,
         replace_table_field_value, replace_table_dict_type, order_no, required, is_only
     </sql>
+    <select id="selectTableHeadByTemplateCode" resultType="com.frame.easy.common.table.Column">
+        select title from sys_import_excel_template_details
+        where template_id = #{templateId} order by order_no
+    </select>
 
 </mapper>

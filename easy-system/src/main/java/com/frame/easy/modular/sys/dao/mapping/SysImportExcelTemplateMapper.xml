@@ -10,11 +10,12 @@
         <result column="start_row" property="startRow" />
         <result column="callback" property="callback" />
         <result column="import_code" property="importCode" />
+        <result column="permission_code" property="permissionCode" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, import_table, start_row, callback, import_code
+        id, name, import_table, start_row, callback, import_code, permission_code
     </sql>
 
 </mapper>

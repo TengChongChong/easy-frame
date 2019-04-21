@@ -28,6 +28,15 @@ public interface SysImportExcelTemplateService {
      * @return 详细信息
      */
     SysImportExcelTemplate input(Long id);
+
+    /**
+     * 根据模板代码获取导入信息
+     *
+     * @param importCode 模板代码
+     * @return 详细信息
+     */
+    SysImportExcelTemplate getByImportCode(String importCode);
+
     /**
      * 新增
      *
@@ -52,8 +61,8 @@ public interface SysImportExcelTemplateService {
     /**
      * 下载导入模板
      *
-     * @param templateId {模板id}
+     * @param importCode 模板代码
      * @return ResponseEntity
      */
-    ResponseEntity<FileSystemResource> downloadTemplate(Long templateId, HttpServletRequest request);
+    ResponseEntity<FileSystemResource> downloadTemplate(String importCode, HttpServletRequest request);
 }
