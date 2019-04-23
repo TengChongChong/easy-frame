@@ -21374,7 +21374,7 @@ body.m-portlet--fullscreen {
   width: 18px;
   height: 18px; }
   .m-radio.m-radio--single > span {
-    top: 0px; }
+    top: -3px; }
   th > .m-radio.m-radio--single,
   td > .m-radio.m-radio--single {
     right: -5px; }
@@ -21398,7 +21398,7 @@ body.m-portlet--fullscreen {
   width: 18px;
   height: 18px; }
   .m-checkbox.m-checkbox--single > span {
-    top: 0px; }
+    top: -3px; }
   th > .m-checkbox.m-checkbox--single,
   td > .m-checkbox.m-checkbox--single {
     right: -5px; }
@@ -33665,7 +33665,9 @@ body.m-content--skin-light2 {
 
 @media (min-width: 1025px) {
   .site-contabs {
-    margin-left: 255px; } }
+    margin-left: 255px; }
+  .m-aside-left--minimize .site-contabs {
+    margin-left: 78px; } }
 
 @media (min-width: 1200px) {
   .icon_modal > .modal-lg {
