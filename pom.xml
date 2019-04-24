@@ -9,7 +9,7 @@
     <version>1.0.0</version>
 
     <name>easy-frame</name>
-    <packaging>war</packaging>
+    <packaging>pom</packaging>
 
     <modules>
         <module>easy-app</module>
@@ -33,6 +33,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <easy.version>1.0.0</easy.version>
+        <spring.boot.version>2.1.1.RELEASE</spring.boot.version>
+        <springloaded.version>1.2.8.RELEASE</springloaded.version>
         <druid.version>1.1.10</druid.version>
         <mybatisplus-spring-boot-starter.version>1.0.5</mybatisplus-spring-boot-starter.version>
         <mybatis-plus.version>3.1.0</mybatis-plus.version>
@@ -47,6 +49,7 @@
         <hutool.version>4.5.6</hutool.version>
         <poi.version>3.17</poi.version>
         <xerces.version>2.11.0</xerces.version>
+        <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
     </properties>
 
     <dependencyManagement>
