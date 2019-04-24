@@ -9,7 +9,7 @@
     <version>1.0.0</version>
 
     <name>easy-frame</name>
-    <packaging>pom</packaging>
+    <packaging>war</packaging>
 
     <modules>
         <module>easy-app</module>
