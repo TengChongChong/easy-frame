@@ -1,13 +1,14 @@
 package com.frame.easy.modular.sys.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.frame.easy.common.page.Page;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.frame.easy.base.model.IModel;
+import com.frame.easy.common.page.Page;
+
+import java.io.Serializable;
 
 /**
  * 导入临时表
@@ -31,7 +32,10 @@ public class SysImportExcelTemporary extends Model<SysImportExcelTemporary> impl
      * 导入用户id
      */
     private Long userId;
-
+    /**
+     * 验证状态
+     */
+    private String verificationStatus;
     /**
      * 验证结果
      */
@@ -315,6 +319,15 @@ public class SysImportExcelTemporary extends Model<SysImportExcelTemporary> impl
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
+    public String getVerificationStatus() {
+        return verificationStatus;
+    }
+
+    public void setVerificationStatus(String verificationStatus) {
+        this.verificationStatus = verificationStatus;
+    }
+
     public String getVerificationResults() {
         return verificationResults;
     }

@@ -176,14 +176,18 @@ var importExcelTemplateDetails = function () {
                 if ($row.find('[name="needImport"]').is(':checked')) {
                     var _config = {};
                     $row.find('[name]').each(function (index, element) {
-                        if (element.type === 'checkbox') {
-                            if (element.checked) {
-                                _config[element.name] = 1;
+                        if(!element.disabled){
+                            if (element.type === 'checkbox') {
+                                if (element.checked) {
+                                    _config[element.name] = 1;
+                                } else {
+                                    _config[element.name] = 0;
+                                }
                             } else {
-                                _config[element.name] = 0;
+                                _config[element.name] = element.value;
                             }
-                        } else {
-                            _config[element.name] = element.value;
+                        }else{
+                            _config[element.name] = '';
                         }
                     });
                     _config.fieldName = $row.data('field');

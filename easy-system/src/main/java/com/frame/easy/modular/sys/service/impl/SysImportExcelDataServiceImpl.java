@@ -7,13 +7,13 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.frame.easy.common.constant.ImportConst;
 import com.frame.easy.exception.BusinessException;
 import com.frame.easy.exception.EasyException;
+import com.frame.easy.modular.sys.dao.SysImportExcelDataMapper;
 import com.frame.easy.modular.sys.dao.SysImportExcelTemporaryMapper;
-import com.frame.easy.modular.sys.model.SysImportExcelTemplate;
-import com.frame.easy.modular.sys.model.SysImportExcelTemplateDetails;
-import com.frame.easy.modular.sys.model.SysImportExcelTemporary;
-import com.frame.easy.modular.sys.model.SysUser;
+import com.frame.easy.modular.sys.model.*;
+import com.frame.easy.modular.sys.service.SysDictService;
 import com.frame.easy.modular.sys.service.SysImportExcelDataService;
 import com.frame.easy.modular.sys.service.SysImportExcelTemplateDetailsService;
 import com.frame.easy.modular.sys.service.SysImportExcelTemplateService;
@@ -29,9 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 数据导入
@@ -46,6 +44,10 @@ public class SysImportExcelDataServiceImpl extends ServiceImpl<SysImportExcelTem
     private SysImportExcelTemplateService importExcelTemplateService;
     @Autowired
     private SysImportExcelTemplateDetailsService importExcelTemplateDetailsService;
+    @Autowired
+    private SysDictService sysDictService;
+    @Autowired
+    private SysImportExcelDataMapper mapper;
 
     @Override
     public boolean checkLastData(String importCode) {
@@ -54,8 +56,8 @@ public class SysImportExcelDataServiceImpl extends ServiceImpl<SysImportExcelTem
         if (importExcelTemplate != null) {
             SysUser sysUser = ShiroUtil.getCurrentUser();
             QueryWrapper<SysImportExcelTemporary> selectLastData = new QueryWrapper<>();
-            selectLastData.eq("user_id",sysUser.getId());
-            selectLastData.eq("template_id",importExcelTemplate.getId());
+            selectLastData.eq("user_id", sysUser.getId());
+            selectLastData.eq("template_id", importExcelTemplate.getId());
             return count(selectLastData) > 0;
         }
         return false;
@@ -121,15 +123,16 @@ public class SysImportExcelDataServiceImpl extends ServiceImpl<SysImportExcelTem
     /**
      * 清除上次导入的信息
      *
-     * @param sysUser 当前登录用户
+     * @param sysUser             当前登录用户
      * @param importExcelTemplate 导入模板信息
      */
-    private void cleanLastImport(SysUser sysUser, SysImportExcelTemplate importExcelTemplate){
+    private void cleanLastImport(SysUser sysUser, SysImportExcelTemplate importExcelTemplate) {
         QueryWrapper<SysImportExcelTemporary> deleteLastData = new QueryWrapper<>();
         deleteLastData.eq("template_id", importExcelTemplate.getId());
         deleteLastData.eq("user_id", sysUser.getId());
         remove(deleteLastData);
     }
+
     /**
      * 用户是否拥有指定权限标识
      *
@@ -188,7 +191,7 @@ public class SysImportExcelDataServiceImpl extends ServiceImpl<SysImportExcelTem
     /**
      * 将数据导入临时表
      *
-     * @param sysUser 当前登录用户
+     * @param sysUser             当前登录用户
      * @param importExcelTemplate 模板信息
      * @param configs             导入规则
      * @param rows                excel中数据
@@ -199,10 +202,47 @@ public class SysImportExcelDataServiceImpl extends ServiceImpl<SysImportExcelTem
                                List<SysImportExcelTemplateDetails> configs,
                                List<List<Object>> rows) {
         List<SysImportExcelTemporary> temporaries = new ArrayList<>();
+        // 查询所有本次导入所需的字典
+        List<String> dictTypes = getDictType(configs);
+        Map<String, String> cacheMap = new HashMap<>();
+        if (dictTypes != null && dictTypes.size() > 0) {
+            List<SysDict> dicts = sysDictService.selectDictType(dictTypes);
+            setDictMap(cacheMap, dicts);
+        }
         for (List<Object> row : rows) {
-            temporaries.add(getTemporaryInfo(sysUser, importExcelTemplate, configs, row));
+            temporaries.add(getTemporaryInfo(sysUser, importExcelTemplate, configs, row, cacheMap));
         }
         return saveBatch(temporaries);
+    }
+
+    /**
+     * 向缓存中添加字典
+     *
+     * @param cacheMap 缓存map
+     * @param dicts    本次导入所需的字典
+     */
+    private void setDictMap(Map<String, String> cacheMap, List<SysDict> dicts) {
+        if (dicts != null) {
+            for (SysDict dict : dicts) {
+                cacheMap.put(dict.getDictType() + dict.getName(), dict.getCode());
+            }
+        }
+    }
+
+    /**
+     * 获取本次导入所需的全部字典类型
+     *
+     * @param configs 导入规则
+     * @return list
+     */
+    private List<String> getDictType(List<SysImportExcelTemplateDetails> configs) {
+        List<String> dictTypes = new ArrayList<>();
+        for (SysImportExcelTemplateDetails detail : configs) {
+            if ("sys_dict".equals(detail.getReplaceTable())) {
+                dictTypes.add(detail.getReplaceTableDictType());
+            }
+        }
+        return dictTypes;
     }
 
     /**
@@ -212,12 +252,14 @@ public class SysImportExcelDataServiceImpl extends ServiceImpl<SysImportExcelTem
      * @param importExcelTemplate 模板信息
      * @param configs             导入规则
      * @param data                行
+     * @param cacheMap            缓存
      * @return SysImportExcelTemporary
      */
     private SysImportExcelTemporary getTemporaryInfo(SysUser sysUser,
                                                      SysImportExcelTemplate importExcelTemplate,
                                                      List<SysImportExcelTemplateDetails> configs,
-                                                     List<Object> data) {
+                                                     List<Object> data,
+                                                     Map<String, String> cacheMap) {
         try {
             Class temporaryClass = Class.forName("com.frame.easy.modular.sys.model.SysImportExcelTemporary");
             Object object = temporaryClass.newInstance();
@@ -226,10 +268,20 @@ public class SysImportExcelDataServiceImpl extends ServiceImpl<SysImportExcelTem
             while (configLength-- > 0) {
                 Method method = temporaryClass.getMethod("setField" + (configLength + 1), String.class);
                 // 简单验证,此处只做非空检查
-                if (data.size() <= configLength || Validator.isEmpty(data.get(configLength))) {
+                boolean addVerificationResults = (data.size() <= configLength || Validator.isEmpty(data.get(configLength)))
+                        && ImportConst.REQUIRED == configs.get(configLength).getRequired();
+                if (addVerificationResults) {
                     verificationResults.append(configs.get(configLength).getTitle()).append("不能为空;");
                 } else {
-                    method.invoke(object, objectToString(data.get(configLength)));
+                    // 将单元格数据转为string
+                    String cell = objectToString(data.get(configLength));
+                    // 转换数据
+                    try {
+                        cell = replaceData(cell, configs.get(configLength), cacheMap);
+                    } catch (EasyException e) {
+                        verificationResults.append(configs.get(configLength).getTitle()).append("转换失败;");
+                    }
+                    method.invoke(object, cell);
                 }
             }
             SysImportExcelTemporary temporary = (SysImportExcelTemporary) object;
@@ -239,6 +291,10 @@ public class SysImportExcelDataServiceImpl extends ServiceImpl<SysImportExcelTem
             // 设置验证结果
             if (StrUtil.isNotBlank(verificationResults)) {
                 temporary.setVerificationResults(verificationResults.toString());
+                temporary.setVerificationStatus(ImportConst.VERIFICATION_STATUS_FAIL);
+            } else {
+                // 成功
+                temporary.setVerificationStatus(ImportConst.VERIFICATION_STATUS_SUCCESS);
             }
             return temporary;
         } catch (ClassNotFoundException e) {
@@ -248,6 +304,40 @@ public class SysImportExcelDataServiceImpl extends ServiceImpl<SysImportExcelTem
             throw new EasyException(e.getMessage());
         }
     }
+
+    /**
+     * 替换数据
+     *
+     * @param data     原数据
+     * @param config   规则
+     * @param cacheMap 缓存
+     * @return 转换后数据
+     */
+    private String replaceData(String data, SysImportExcelTemplateDetails config, Map<String, String> cacheMap) {
+        // 转换后的值
+        String value;
+        if (StrUtil.isNotBlank(config.getReplaceTable())) {
+            // 字典表
+            if (ImportConst.SYS_DICT.equals(config.getReplaceTable())) {
+                value = cacheMap.get(config.getReplaceTableDictType() + data);
+            } else {
+                // 其他表
+                value = mapper.queryString(config.getReplaceTable(), config.getReplaceTableFieldName(),
+                        config.getReplaceTableFieldValue(), data);
+                // 能不能查到都放缓存里,防止重复从数据库查询
+                cacheMap.put(config.getReplaceTable() + data, value);
+            }
+            if (StrUtil.isBlank(value)) {
+                // 抛出转换失败异常
+                throw new EasyException(BusinessException.IMPORT_REPLACE_FAIL);
+            }
+        } else {
+            // 转换失败了直接用导入值
+            value = data;
+        }
+        return value;
+    }
+
 
     /**
      * 将object类型转为string

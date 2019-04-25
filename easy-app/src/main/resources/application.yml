@@ -3,7 +3,7 @@ project:
 spring:
     profiles:
         # dev - 开发模式 / prod - 生产模式
-        active: prod
+        active: dev
     resources:
         # 静态资源映射
         static-locations: ["file:${project.file-upload-path}/", "classpath:/static/"]

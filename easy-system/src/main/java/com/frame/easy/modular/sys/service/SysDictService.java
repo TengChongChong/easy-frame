@@ -28,6 +28,13 @@ public interface SysDictService {
      * @return List<SysDict>
      */
     List<SysDict> dictTypeDicts(String dictType);
+    /**
+     * 根据字典类型获取字典
+     *
+     * @param dictTypes 字典类型
+     * @return List<SysDict>
+     */
+    List<SysDict> selectDictType(List<String> dictTypes);
 
     /**
      * 详情

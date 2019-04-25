@@ -40,22 +40,22 @@ public class SampleExportDataServiceImpl extends ServiceImpl<SampleGeneralMapper
         if (object != null) {
             // 姓名
             if (Validator.isNotEmpty(object.getName())) {
-                queryWrapper.like("name", object.getName());
+                queryWrapper.like("t.name", object.getName());
             }
             // 年龄
             if (Validator.isNotEmpty(object.getAge())) {
-                queryWrapper.eq("age", object.getAge());
+                queryWrapper.eq("t.age", object.getAge());
             }
             // 手机号码
             if (Validator.isNotEmpty(object.getPhone())) {
-                queryWrapper.eq("phone", object.getPhone());
+                queryWrapper.eq("t.phone", object.getPhone());
             }
             // 状态
             if (Validator.isNotEmpty(object.getStatus())) {
-                queryWrapper.eq("status", object.getStatus());
+                queryWrapper.eq("t.status", object.getStatus());
             }
         }
-        List<SampleGeneral> list = mapper.selectList(queryWrapper);
+        List<SampleGeneral> list = mapper.selectData(queryWrapper);
         List<List<Object>> rows = CollUtil.newArrayList();
         for (SampleGeneral general : list) {
             rows.add(Arrays.asList(general.getName(), general.getSex(), general.getAge(),

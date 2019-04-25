@@ -5,21 +5,20 @@ import cn.hutool.core.lang.Validator;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.frame.easy.common.constant.SysConst;
-import com.frame.easy.common.page.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.frame.easy.common.constant.CommonConst;
-import com.frame.easy.common.status.CommonStatus;
+import com.frame.easy.common.constant.SysConst;
+import com.frame.easy.common.page.Page;
 import com.frame.easy.common.select.Select;
-import com.frame.easy.config.properties.ProjectProperties;
+import com.frame.easy.common.status.CommonStatus;
 import com.frame.easy.exception.EasyException;
-import com.frame.easy.util.ShiroUtil;
-import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysDictMapper;
 import com.frame.easy.modular.sys.dao.SysDictTypeMapper;
 import com.frame.easy.modular.sys.model.SysDict;
 import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.service.SysDictService;
+import com.frame.easy.util.ShiroUtil;
+import com.frame.easy.util.ToolUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,6 +70,17 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     public List<SysDict> dictTypeDicts(String dictType) {
         ToolUtil.checkParams(dictType);
         return mapper.dictTypeDicts(dictType, CommonStatus.ENABLE.getCode());
+    }
+
+    @Override
+    public List<SysDict> selectDictType(List<String> dictTypes) {
+        if(dictTypes == null || dictTypes.size() == 0){
+            return null;
+        }
+        QueryWrapper<SysDict> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("code, name, dict_type");
+        queryWrapper.in("dict_type", dictTypes);
+        return list(queryWrapper);
     }
 
     @Override

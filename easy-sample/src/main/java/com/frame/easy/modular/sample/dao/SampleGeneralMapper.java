@@ -1,7 +1,9 @@
 package com.frame.easy.modular.sample.dao;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.frame.easy.modular.sample.model.SampleGeneral;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,8 +16,8 @@ import java.util.List;
 public interface SampleGeneralMapper extends BaseMapper<SampleGeneral> {
     /**
      * 查询数据用于测试导出
-     *
+     * @param queryWrapper 查询条件
      * @return 数据列表
      */
-    List<List<String>> selectDate();
+    List<SampleGeneral> selectData(@Param("ew") QueryWrapper<SampleGeneral> queryWrapper);
 }

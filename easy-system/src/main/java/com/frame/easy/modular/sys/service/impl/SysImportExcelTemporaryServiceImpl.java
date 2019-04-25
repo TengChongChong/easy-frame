@@ -55,7 +55,11 @@ public class SysImportExcelTemporaryServiceImpl extends ServiceImpl<SysImportExc
                 queryWrapper.and(i -> i.like("field1", object.getField1()));
             }
         }
-        return (Page) page(ToolUtil.getPage(object), queryWrapper);
+        Page page = ToolUtil.getPage(object);
+        if(Validator.isEmpty(page.ascs()) && Validator.isEmpty(page.descs())){
+            page.setAsc("verification_status");
+        }
+        return (Page) page(page, queryWrapper);
     }
 
     /**

@@ -7250,12 +7250,23 @@ var mTool = function () {
     var getDictElement = function (code, dict) {
         var cur_dict = dict[code];
         if (cur_dict == null) {
-            cur_dict = {
-                css: 'm-badge m-badge--success m-badge--wide',
-                name: code
+            // 如果没有对应的字典,检查已知字典是否设置了css
+            if (dict != null && dict.length > 0 && mUtil.isNotBlank(dict[0].css)) {
+                cur_dict = {
+                    css: 'm-badge m-badge--success m-badge--wide',
+                    name: code
+                }
             }
         }
-        return '<span class="' + cur_dict.css + '">' + cur_dict.name + '</span>';
+        if (cur_dict != null) {
+            if (mUtil.isNotBlank(cur_dict.css)) {
+                return '<span class="' + cur_dict.css + '">' + cur_dict.name + '</span>';
+            } else {
+                return cur_dict.name;
+            }
+        } else {
+            return code;
+        }
     };
 
     return {
@@ -8832,7 +8843,7 @@ var mWizard = function (elementId, options) {
                             return $(td).data('field') === n.field;
                         })[0];
                         if (typeof column !== 'undefined') {
-                            if (typeof column.dictType !== 'undefined') {
+                            if (typeof column.dictType !== 'undefined' && mUtil.isNotBlank(column.dictType)) {
                                 column.template = function (row) {
                                     var dicts = null;
                                     if (typeof column.dictType === 'string') {

@@ -10,7 +10,10 @@ var mImportData = function () {
      * 模板代码
      */
     var importCode = null;
-
+    /**
+     * 文件上传
+     * @type {null}
+     */
     var mDropZone = null;
     /**
      * 初始化文件上传
@@ -78,6 +81,37 @@ var mImportData = function () {
                     $('#import-temporary').html('<div class="alert alert-danger" role="alert"><strong>导入模板无效</strong> 模板未设置导入规则，暂时无法使用</div>');
                 } else {
                     columns = res.data;
+                    columns.push({
+                        field: 'verificationResults',
+                        width: 200,
+                        title: '效验结果',
+                        overflow: 'visible',
+                        locked: {
+                            right: 'md'
+                        },
+                        template: function (row, index, datatable) {
+                            if ('0' === row.verificationStatus) {
+                                return '<span class="m--font-danger ell" title="' + row.verificationResults + '">' + row.verificationResults + '</span>';
+                            } else {
+                                return '<span class="m--font-success">验证通过</span>';
+                            }
+                        }
+                    });
+                    columns.push({
+                        field: 'Actions',
+                        width: 40,
+                        title: '操作',
+                        sortable: false,
+                        overflow: 'visible',
+                        locked: {
+                            right: 'md'
+                        },
+                        template: function (row, index, datatable) {
+                            return '<a href="#" onclick="mApp.openPage(\'' + row.field1 + '\', \''+basePath+'/auth/sys/import/excel/temporary/input/' + row.id + '\')" class="' + mTool.ACTIONS_INFO + '" title="编辑">\
+                                <i class="la la-edit"></i>\
+                            </a>';
+                        }
+                    });
                 }
             }
         });
@@ -86,44 +120,10 @@ var mImportData = function () {
      * 初始化列表
      */
     var initTable = function () {
-        var _columns = columns;
-        // 验证结果&操作列
-        _columns.push({
-            field: 'verificationResults',
-            width: 200,
-            title: '效验结果',
-            overflow: 'visible',
-            locked: {
-                right: 'md'
-            },
-            template: function (row, index, datatable) {
-                if (mUtil.isNotBlank(row.verificationResults)) {
-                    return '<span class="m--font-danger ell" title="' + row.verificationResults + '">' + row.verificationResults + '</span>';
-                } else {
-                    return '<span class="m--font-success">验证通过</span>';
-                }
-            }
-        });
-        _columns.push({
-            field: 'Actions',
-            width: 40,
-            title: '操作',
-            sortable: false,
-            overflow: 'visible',
-            locked: {
-                right: 'md'
-            },
-            template: function (row, index, datatable) {
-                return '<a href="#" onclick="mApp.openPage(\'' + row.field1 + '\', \''+basePath+'/auth/sys/import/excel/temporary/input/' + row.id + '\')" class="' + mTool.ACTIONS_INFO + '" title="编辑">\
-                                <i class="la la-edit"></i>\
-                            </a>';
-            }
-        });
-
         var options = {
             url: basePath + '/auth/sys/import/excel/temporary/select',
             // 列配置
-            columns: _columns
+            columns: columns
         };
         mImportData.dataTable = mTool.initDataTable(options);
     };
@@ -136,6 +136,10 @@ var mImportData = function () {
                 wait: '#temporary-list',
                 url: basePath + '/auth/sys/import/excel/temporary/clean/my/import/' + importCode,
                 success: function () {
+                    if(mImportData.dataTable != null){
+                        // 销毁表格
+                        mImportData.dataTable.destroy();
+                    }
                     $('#temporary-list').addClass('m--hide');
                     $('#import-temporary').removeClass('m--hide');
                     mApp.animateCSS('#import-temporary', mApp.getAnimate('in'), null);

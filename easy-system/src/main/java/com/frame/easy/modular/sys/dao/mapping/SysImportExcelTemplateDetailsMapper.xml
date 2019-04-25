@@ -25,7 +25,7 @@
         replace_table_field_value, replace_table_dict_type, order_no, required, is_only
     </sql>
     <select id="selectTableHeadByTemplateCode" resultType="com.frame.easy.common.table.Column">
-        select title from sys_import_excel_template_details
+        select title,replace_table_dict_type as dictType from sys_import_excel_template_details
         where template_id = #{templateId} order by order_no
     </select>
 

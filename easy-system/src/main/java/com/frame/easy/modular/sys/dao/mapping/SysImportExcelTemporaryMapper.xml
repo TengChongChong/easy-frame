@@ -7,6 +7,7 @@
         <id column="id" property="id" />
         <result column="template_id" property="templateId" />
         <result column="user_id" property="userId" />
+        <result column="verification_status" property="verificationStatus" />
         <result column="verification_results" property="verificationResults" />
         <result column="field1" property="field1" />
         <result column="field2" property="field2" />

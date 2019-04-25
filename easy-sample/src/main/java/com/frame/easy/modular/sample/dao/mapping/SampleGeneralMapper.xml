@@ -21,10 +21,13 @@
     <sql id="Base_Column_List">
         id, name, sex, phone, address, create_user, create_date, edit_user, edit_date, status, age
     </sql>
-    <select id="selectDate" resultMap="BaseResultMap">
-        select
-         <include refid="Base_Column_List"></include>
-         from sample_general
+    <select id="selectData" resultMap="BaseResultMap">
+        select t.id,t.name,t.age,d.name as sex,t.phone,t.address,d2.name as status,t.create_date from sample_general t
+        left join sys_dict d on d.code = t.sex and d.dict_type = 'sex'
+        left join sys_dict d2 on d2.code = t.status and d2.dict_type = 'commonStatus'
+        <where>
+            ${ew.sqlSegment}
+        </where>
     </select>
 
 </mapper>

@@ -58,8 +58,12 @@ public enum BusinessException implements EasyServiceException{
     IMPORT_TEMPLATE_NO_DATA(500, "请至少录入一条数据后导入"),
     // 导入失败
     IMPORT_INSERT_FAIL(500, "导入失败，请稍后重试"),
+    // 文件类型错误
     IMPORT_FILE_TYPE_ERROR(500, "请上传excel文件"),
+    // 文件不存在
     IMPORT_FILE_NOT_FIND(500, "读取文件失败[文件不存在]"),
+    // 转换失败
+    IMPORT_REPLACE_FAIL(500, "转换失败"),
     /**
      * 字典
      */
