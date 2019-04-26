@@ -7,7 +7,9 @@ import org.springframework.stereotype.Component;
 
 /**
  * 获取spring容器中的bean
+ *
  * @author tengchong
+ * @date 2019-04-26
  */
 @Component
 public class SpringContextHolder implements ApplicationContextAware {
@@ -19,14 +21,31 @@ public class SpringContextHolder implements ApplicationContextAware {
         SpringContextHolder.applicationContext = applicationContext;
     }
 
+    /**
+     * 获取 ApplicationContext
+     *
+     * @return ApplicationContext
+     */
     public static ApplicationContext getApplicationContext() {
         return applicationContext;
     }
+    /**
+     * 通过name获取Bean
+     *
+     * @param beanName class
+     * @return bean
+     */
     public static <T> T getBean(String beanName) {
         checkApplicationContext();
         return (T) applicationContext.getBean(beanName);
     }
 
+    /**
+     * 通过Class获取Bean
+     *
+     * @param requiredType class
+     * @return bean
+     */
     public static <T> T getBean(Class<T> requiredType) {
         checkApplicationContext();
         return applicationContext.getBean(requiredType);
