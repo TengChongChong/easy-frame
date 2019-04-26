@@ -13,6 +13,27 @@ var importExcelTemplateDetails = function () {
      */
     var tableCache = {};
     /**
+     * 偏好设置
+     * 选择以下表如果替换字段没选默认为以下值
+     */
+    var setting = {
+        // 字典
+        'sys_dict': {
+            name: 'name',
+            value: 'code'
+        },
+        // 组织机构
+        'sys_department': {
+            name: 'name',
+            value: 'id'
+        },
+        // 行政区划
+        'sys_district': {
+            name: 'name',
+            value: 'code'
+        }
+    };
+    /**
      * 加载配置
      */
     var loadConfig = function () {
@@ -114,8 +135,18 @@ var importExcelTemplateDetails = function () {
             // 如果选择的是字典表,启用类别选项
             $('select.table-name').change(function () {
                 var tableName = $(this).val();
-                if ('sys_dict' === tableName) {
-                    refreshSelectPicker($(this).parents('tr').find('select.dict-type').removeAttr('disabled'));
+                if (setting[tableName] != null) {
+                    var $tr = $(this).parents('tr');
+                    refreshSelectPicker($tr.find('select.dict-type').removeAttr('disabled'));
+                    // 如果导入值或者替换值没选默认设置为name与code
+                    var $replaceTableFieldName = $tr.find('select[name="replaceTableFieldName"]');
+                    if (mUtil.isBlank($replaceTableFieldName.data('value'))) {
+                        refreshSelectPicker($replaceTableFieldName.val(setting[tableName].name));
+                    }
+                    var $replaceTableFieldValue = $tr.find('select[name="replaceTableFieldValue"]');
+                    if (mUtil.isBlank($replaceTableFieldValue.data('value'))) {
+                        refreshSelectPicker($replaceTableFieldValue.val(setting[tableName].value));
+                    }
                 } else {
                     refreshSelectPicker($(this).parents('tr').find('select.dict-type').attr('disabled', true));
                 }
@@ -176,7 +207,7 @@ var importExcelTemplateDetails = function () {
                 if ($row.find('[name="needImport"]').is(':checked')) {
                     var _config = {};
                     $row.find('[name]').each(function (index, element) {
-                        if(!element.disabled){
+                        if (!element.disabled) {
                             if (element.type === 'checkbox') {
                                 if (element.checked) {
                                     _config[element.name] = 1;
@@ -186,7 +217,7 @@ var importExcelTemplateDetails = function () {
                             } else {
                                 _config[element.name] = element.value;
                             }
-                        }else{
+                        } else {
                             _config[element.name] = '';
                         }
                     });
