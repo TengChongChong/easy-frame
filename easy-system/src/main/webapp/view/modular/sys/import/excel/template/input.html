@@ -22,7 +22,15 @@
                     <#form:input tips="用于检查当前登录用户是否允许使用此模板" id="permissionCode" name="权限代码" required="true" value="${object.permissionCode}" />
                 </div>
                 <div class="col-12">
-                    <#form:textarea id="callback" name="回调" value="${object.callback}" />
+                    <div class="form-group row">
+                        <label class="col-md-2 col-4 control-label " for="callback">
+                            回调：
+                        </label>
+                        <div class="col-md-10 col-8">
+                            <input class="form-control " id="callback" name="callback" value="${object.callback}"/>
+                            <span class="m-form__help">用于导入前&后处理数据（需实现com.frame.easy.base.service.ImportService），如不需要可忽略。示例（com.frame.easy.modular.sample.service.impl.SampleImportDataServiceImpl）</span>
+                        </div>
+                    </div>
                 </div>
                 <!-- end:表单区域 -->
             </div>
