@@ -1,5 +1,11 @@
 package com.frame.easy.modular.sys.service;
 
+import com.frame.easy.modular.sys.model.SysImportSummary;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.ResponseEntity;
+
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 数据导入
  *
@@ -11,25 +17,42 @@ public interface SysImportExcelDataService {
     /**
      * 检查上次导入数据
      *
-     * @param importCode 导入代码
+     * @param template 模板id
      * @return true/false
      */
-    boolean checkLastData(String importCode);
+    boolean checkLastData(Long template);
 
     /**
      * 验证并解析文件
      *
-     * @param importCode 导入代码
-     * @param path excel文件路径
+     * @param templateId 模板id
+     * @param path       excel文件路径
      * @return true/false
      */
-    boolean analysis(String importCode, String path);
+    boolean analysis(Long templateId, String path);
 
     /**
-     * 插入数据
+     * 查询指定导入汇总信息
      *
-     * @param importCode 导入代码
+     * @param templateId 模板id
+     * @return 导入汇总
+     */
+    SysImportSummary selectSummary(Long templateId);
+
+    /**
+     * 插入验证成功数据
+     *
+     * @param templateId 模板id
      * @return true/false
      */
-    boolean insertData(String importCode);
+    int insertData(Long templateId);
+
+    /**
+     * 导出验证失败数据
+     *
+     * @param templateId 模板id
+     * @param request    request
+     * @return 文件
+     */
+    ResponseEntity<FileSystemResource> exportVerificationFailData(Long templateId, HttpServletRequest request);
 }

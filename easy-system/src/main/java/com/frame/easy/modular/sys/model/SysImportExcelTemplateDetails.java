@@ -1,13 +1,14 @@
 package com.frame.easy.modular.sys.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.frame.easy.common.page.Page;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.frame.easy.base.model.IModel;
+import com.frame.easy.common.page.Page;
+
+import java.io.Serializable;
 
 /**
  * 导入模板详情
@@ -40,7 +41,7 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     /**
      * 字段长度
      */
-    private Integer fieldLength;
+    private String fieldLength;
 
     /**
      * 字段类型
@@ -122,11 +123,11 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     public void setTitle(String title) {
         this.title = title;
     }
-    public Integer getFieldLength() {
+    public String getFieldLength() {
         return fieldLength;
     }
 
-    public void setFieldLength(Integer fieldLength) {
+    public void setFieldLength(String fieldLength) {
         this.fieldLength = fieldLength;
     }
     public String getFieldType() {

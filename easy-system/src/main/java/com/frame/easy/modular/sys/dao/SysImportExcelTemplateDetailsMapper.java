@@ -20,5 +20,5 @@ public interface SysImportExcelTemplateDetailsMapper extends BaseMapper<SysImpor
      * @param templateId 模板id
      * @return heads
      */
-    List<Column> selectTableHeadByTemplateCode(@Param("templateId") Long templateId);
+    List<Column> selectTableHeadByTemplateId(@Param("templateId") Long templateId);
 }

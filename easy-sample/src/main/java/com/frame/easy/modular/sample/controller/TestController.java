@@ -23,7 +23,7 @@ public class TestController {
     @RequestMapping(value="/test")
     @ResponseBody
     public Tips testException(){
-        ExcelUtil.readBySax("/Users/tengchong/Downloads/test10.xlsx", 0, createRowHandler());
+        ExcelUtil.readBySax("/Users/tengchong/Downloads/导出数据示例-2019-04-26.xlsx", 2, createRowHandler());
 
 //        ExcelReader reader = ExcelUtil.getReader("/Users/tengchong/Downloads/test.xlsx");
 //        List<List<Object>> readAll = reader.read();
@@ -34,7 +34,6 @@ public class TestController {
         System.out.println("保存数据:" + DateUtil.now() + dataList.size());
         return true;
     }
-
 
     private RowHandler createRowHandler() {
         return new RowHandler() {

@@ -1778,7 +1778,7 @@ var mApp = function () {
                 }
             }
         }
-        return $(option.selector).dropzone(option);
+        return new Dropzone(option.selector, option);
     };
 
     /**
@@ -5811,16 +5811,18 @@ var mTabs = function (selector, options) {
         customCallback: function () {
             var iframe = defaultOptions.pageContainer.children('.active');
             if (iframe.length > 0) {
-                // 检查是否需要刷新页面
-                if (mUtil.isFunction(iframe[0].contentWindow.mTab.needRefresh) && iframe[0].contentWindow.mTab.needRefresh()) {
-                    Plugin.refreshActivePage();
-                }
-                // 检查是否需要提交表单
-                if (mUtil.isFunction(iframe[0].contentWindow.mTab.needSubmitForm) && iframe[0].contentWindow.mTab.needSubmitForm()) {
-                    // var form_element = $($(iframe[0].contentDocument).find('.m-form')[0]);
-                    var $btn = $(iframe[0].contentDocument).find('.btn.btn-search');
-                    if ($btn.length > 0) {
-                        $btn.click();
+                if(typeof iframe[0].contentWindow.mTab !== 'undefined'){
+                    // 检查是否需要刷新页面
+                    if (mUtil.isFunction(iframe[0].contentWindow.mTab.needRefresh) && iframe[0].contentWindow.mTab.needRefresh()) {
+                        Plugin.refreshActivePage();
+                    }
+                    // 检查是否需要提交表单
+                    if (mUtil.isFunction(iframe[0].contentWindow.mTab.needSubmitForm) && iframe[0].contentWindow.mTab.needSubmitForm()) {
+                        // var form_element = $($(iframe[0].contentDocument).find('.m-form')[0]);
+                        var $btn = $(iframe[0].contentDocument).find('.btn.btn-search');
+                        if ($btn.length > 0) {
+                            $btn.click();
+                        }
                     }
                 }
             }

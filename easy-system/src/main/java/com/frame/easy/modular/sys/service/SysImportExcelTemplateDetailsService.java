@@ -23,10 +23,10 @@ public interface SysImportExcelTemplateDetailsService {
     /**
      * 根据模板代码获取表格表头
      *
-     * @param templateCode 模板代码
+     * @param templateId 模板id
      * @return heads
      */
-    List<Column> selectTableHeadByTemplateCode(String templateCode);
+    List<Column> selectTableHeadByTemplateCode(Long templateId);
 
     /**
      * 保存

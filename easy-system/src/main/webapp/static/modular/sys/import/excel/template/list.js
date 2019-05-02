@@ -20,7 +20,8 @@ var mSysImportExcelTemplateList = function () {
                 },
                 {
                     field: 'importCode',
-                    title: '模板代码'
+                    title: '模板代码',
+                    width: 200
                 },
                 {
                     field: 'permissionCode',
@@ -31,12 +32,9 @@ var mSysImportExcelTemplateList = function () {
                     title: '导入表'
                 },
                 {
-                    field: 'startRow',
-                    title: '起始行'
-                },
-                {
                     field: 'callback',
-                    title: '回调'
+                    title: '回调',
+                    width: 200
                 },
                 {
                     field: 'Actions',

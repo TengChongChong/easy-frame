@@ -75,7 +75,7 @@ public class RedisSessionDAO extends AbstractSessionDAO {
                 return null;
             }
         }
-        logger.debug("readSession("+request.getServletPath()+"):", sessionId.toString());
+        logger.debug("readSession(" + request.getServletPath() + "):", sessionId.toString());
         // 从缓存中获取session
         return (Session) RedisUtil.get(getKey(sessionId.toString()));
     }

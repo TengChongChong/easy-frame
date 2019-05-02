@@ -4,29 +4,27 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.frame.easy.modular.sys.model.SysImportExcelTemplateDetails">
-        <id column="id" property="id" />
-        <result column="template_id" property="templateId" />
-        <result column="field_name" property="fieldName" />
-        <result column="title" property="title" />
-        <result column="field_length" property="fieldLength" />
-        <result column="field_type" property="fieldType" />
-        <result column="replace_table" property="replaceTable" />
-        <result column="replace_table_field_name" property="replaceTableFieldName" />
-        <result column="replace_table_field_value" property="replaceTableFieldValue" />
-        <result column="replace_table_dict_type" property="replaceTableDictType" />
-        <result column="order_no" property="orderNo" />
-        <result column="required" property="required" />
-        <result column="is_only" property="isOnly" />
+        <id column="id" property="id"/>
+        <result column="template_id" property="templateId"/>
+        <result column="field_name" property="fieldName"/>
+        <result column="title" property="title"/>
+        <result column="field_length" property="fieldLength"/>
+        <result column="field_type" property="fieldType"/>
+        <result column="replace_table" property="replaceTable"/>
+        <result column="replace_table_field_name" property="replaceTableFieldName"/>
+        <result column="replace_table_field_value" property="replaceTableFieldValue"/>
+        <result column="replace_table_dict_type" property="replaceTableDictType"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="required" property="required"/>
+        <result column="is_only" property="isOnly"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, template_id, field_name, title, field_length, field_type, replace_table, replace_table_field_name,
-        replace_table_field_value, replace_table_dict_type, order_no, required, is_only
-    </sql>
-    <select id="selectTableHeadByTemplateCode" resultType="com.frame.easy.common.table.Column">
-        select title,replace_table_dict_type as dictType from sys_import_excel_template_details
-        where template_id = #{templateId} order by order_no
+    <select id="selectTableHeadByTemplateId" resultType="com.frame.easy.common.table.Column">
+        select title, replace_table_dict_type as dictType
+        from sys_import_excel_template_details
+        where template_id = #{templateId}
+        order by order_no
     </select>
 
 </mapper>

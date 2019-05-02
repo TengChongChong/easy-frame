@@ -154,6 +154,7 @@ public class SysImportExcelTemplateServiceImpl extends ServiceImpl<SysImportExce
     public ResponseEntity<FileSystemResource> downloadTemplate(String importCode, HttpServletRequest request) {
         ToolUtil.checkParams(importCode);
         QueryWrapper<SysImportExcelTemplate> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("id, name");
         queryWrapper.eq("import_code", importCode);
         SysImportExcelTemplate sysImportExcelTemplate = getOne(queryWrapper);
         if (sysImportExcelTemplate != null) {

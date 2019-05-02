@@ -1,32 +1,38 @@
 package com.frame.easy.modular.sys.service.impl;
 
+import cn.hutool.core.date.DateException;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.poi.excel.ExcelReader;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.frame.easy.base.service.ImportService;
+import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.constant.ImportConst;
 import com.frame.easy.exception.BusinessException;
 import com.frame.easy.exception.EasyException;
 import com.frame.easy.modular.sys.dao.SysImportExcelDataMapper;
-import com.frame.easy.modular.sys.dao.SysImportExcelTemporaryMapper;
 import com.frame.easy.modular.sys.model.*;
-import com.frame.easy.modular.sys.service.SysDictService;
-import com.frame.easy.modular.sys.service.SysImportExcelDataService;
-import com.frame.easy.modular.sys.service.SysImportExcelTemplateDetailsService;
-import com.frame.easy.modular.sys.service.SysImportExcelTemplateService;
+import com.frame.easy.modular.sys.service.*;
 import com.frame.easy.util.ShiroUtil;
+import com.frame.easy.util.SpringContextHolder;
 import com.frame.easy.util.ToolUtil;
+import com.frame.easy.util.http.HttpUtil;
 import com.frame.easy.util.office.ExcelUtil;
+import com.frame.easy.util.office.ImportExportUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -38,38 +44,51 @@ import java.util.*;
  * @date 2019-04-17
  */
 @Service
-public class SysImportExcelDataServiceImpl extends ServiceImpl<SysImportExcelTemporaryMapper, SysImportExcelTemporary> implements SysImportExcelDataService {
+public class SysImportExcelDataServiceImpl implements SysImportExcelDataService {
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    /**
+     * 导入模板
+     */
     @Autowired
     private SysImportExcelTemplateService importExcelTemplateService;
+    /**
+     * 导入规则
+     */
     @Autowired
     private SysImportExcelTemplateDetailsService importExcelTemplateDetailsService;
+
+    /**
+     * 临时表
+     */
+    @Autowired
+    private SysImportExcelTemporaryService importExcelTemporaryService;
+
+    /**
+     * 字典
+     */
     @Autowired
     private SysDictService sysDictService;
+    /**
+     * 导入数据mapper
+     */
     @Autowired
     private SysImportExcelDataMapper mapper;
 
     @Override
-    public boolean checkLastData(String importCode) {
-        ToolUtil.checkParams(importCode);
-        SysImportExcelTemplate importExcelTemplate = importExcelTemplateService.getByImportCode(importCode);
-        if (importExcelTemplate != null) {
-            SysUser sysUser = ShiroUtil.getCurrentUser();
-            QueryWrapper<SysImportExcelTemporary> selectLastData = new QueryWrapper<>();
-            selectLastData.eq("user_id", sysUser.getId());
-            selectLastData.eq("template_id", importExcelTemplate.getId());
-            return count(selectLastData) > 0;
-        }
-        return false;
+    public boolean checkLastData(Long template) {
+        ToolUtil.checkParams(template);
+        return importExcelTemporaryService.checkLastData(template);
     }
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public boolean analysis(String importCode, String path) {
-        ToolUtil.checkParams(importCode);
+    public boolean analysis(Long templateId, String path) {
+        ToolUtil.checkParams(templateId);
         ToolUtil.checkParams(path);
         // 检查模板信息
-        SysImportExcelTemplate importExcelTemplate = importExcelTemplateService.getByImportCode(importCode);
+        SysImportExcelTemplate importExcelTemplate = importExcelTemplateService.input(templateId);
         if (importExcelTemplate == null) {
             // 获取模板信息失败
             throw new EasyException(BusinessException.IMPORT_GET_TEMPLATE_FAIL);
@@ -102,7 +121,7 @@ public class SysImportExcelDataServiceImpl extends ServiceImpl<SysImportExcelTem
                     data.remove(0);
                     SysUser sysUser = ShiroUtil.getCurrentUser();
                     // 清空上次导入的信息
-                    cleanLastImport(sysUser, importExcelTemplate);
+                    cleanLastImport(importExcelTemplate);
                     // 插入数据到临时表
                     if (!insertData(sysUser, importExcelTemplate, configs, data)) {
                         throw new EasyException(BusinessException.IMPORT_INSERT_FAIL);
@@ -120,17 +139,19 @@ public class SysImportExcelDataServiceImpl extends ServiceImpl<SysImportExcelTem
         return false;
     }
 
+    @Override
+    public SysImportSummary selectSummary(Long templateId) {
+        ToolUtil.checkParams(templateId);
+        return importExcelTemporaryService.selectImportSummary(templateId);
+    }
+
     /**
      * 清除上次导入的信息
      *
-     * @param sysUser             当前登录用户
      * @param importExcelTemplate 导入模板信息
      */
-    private void cleanLastImport(SysUser sysUser, SysImportExcelTemplate importExcelTemplate) {
-        QueryWrapper<SysImportExcelTemporary> deleteLastData = new QueryWrapper<>();
-        deleteLastData.eq("template_id", importExcelTemplate.getId());
-        deleteLastData.eq("user_id", sysUser.getId());
-        remove(deleteLastData);
+    private void cleanLastImport(SysImportExcelTemplate importExcelTemplate) {
+        importExcelTemporaryService.cleanMyImport(importExcelTemplate.getId());
     }
 
     /**
@@ -212,7 +233,7 @@ public class SysImportExcelDataServiceImpl extends ServiceImpl<SysImportExcelTem
         for (List<Object> row : rows) {
             temporaries.add(getTemporaryInfo(sysUser, importExcelTemplate, configs, row, cacheMap));
         }
-        return saveBatch(temporaries);
+        return importExcelTemporaryService.saveBatch(temporaries);
     }
 
     /**
@@ -261,7 +282,7 @@ public class SysImportExcelDataServiceImpl extends ServiceImpl<SysImportExcelTem
                                                      List<Object> data,
                                                      Map<String, String> cacheMap) {
         try {
-            Class temporaryClass = Class.forName("com.frame.easy.modular.sys.model.SysImportExcelTemporary");
+            Class temporaryClass = ImportExportUtil.getTemporaryClass();
             Object object = temporaryClass.newInstance();
             StringBuffer verificationResults = new StringBuffer();
             int configLength = configs.size();
@@ -275,12 +296,20 @@ public class SysImportExcelDataServiceImpl extends ServiceImpl<SysImportExcelTem
                 } else {
                     // 将单元格数据转为string
                     String cell = objectToString(data.get(configLength));
-                    // 转换数据
+                    // 转换数据 name to code/id
                     try {
                         cell = replaceData(cell, configs.get(configLength), cacheMap);
                     } catch (EasyException e) {
                         verificationResults.append(configs.get(configLength).getTitle()).append("转换失败;");
                     }
+
+                    // 验证数据格式以及长度
+                    try {
+                        verificationData(cell, configs.get(configLength));
+                    } catch (EasyException e) {
+                        verificationResults.append(e.getMessage());
+                    }
+
                     method.invoke(object, cell);
                 }
             }
@@ -297,13 +326,95 @@ public class SysImportExcelDataServiceImpl extends ServiceImpl<SysImportExcelTem
                 temporary.setVerificationStatus(ImportConst.VERIFICATION_STATUS_SUCCESS);
             }
             return temporary;
-        } catch (ClassNotFoundException e) {
-            throw new EasyException("com.frame.easy.modular.sys.model.SysImportExcelTemporary 未找到");
         } catch (IllegalAccessException | InvocationTargetException | InstantiationException | NoSuchMethodException e) {
             e.printStackTrace();
             throw new EasyException(e.getMessage());
         }
     }
+
+    //====================================== str: 数据类型&长度验证 ======================================/
+
+    /**
+     * 验证数据类型是否正确
+     * 只验证date、int、long、double类型
+     *
+     * @param data   单元格中内容
+     * @param config 单元格导入规则
+     */
+    private void verificationData(String data, SysImportExcelTemplateDetails config) {
+        if (ImportExportUtil.isDate(config.getFieldType())) {
+            try {
+                DateUtil.parse(data);
+            } catch (DateException e) {
+                throw new EasyException(config.getTitle() + "必须为常见日期格式;");
+            }
+        } else if (ImportExportUtil.isInteger(config.getFieldType())) {
+            try {
+                Integer.parseInt(data);
+            } catch (NumberFormatException e) {
+                throw new EasyException(config.getTitle() + "必须为整数;");
+            }
+        } else if (ImportExportUtil.isLong(config.getFieldType())) {
+            try {
+                Long.parseLong(data);
+            } catch (NumberFormatException e) {
+                throw new EasyException(config.getTitle() + "必须为整数;");
+            }
+        } else if (ImportExportUtil.isDouble(config.getFieldType())) {
+            try {
+                Double.parseDouble(data);
+            } catch (NumberFormatException e) {
+                throw new EasyException(config.getTitle() + "必须为小数或整数;");
+            }
+        }
+        // 验证数据长度是否符合字段设置
+        verificationLength(data, config);
+    }
+
+    /**
+     * 验证数据长度是否符合字段长度要求
+     *
+     * @param data   单元格数据
+     * @param config 单元格导入规则
+     * @return true/false
+     */
+    private boolean verificationLength(String data, SysImportExcelTemplateDetails config) {
+        if (StrUtil.isNotBlank(config.getFieldLength())) {
+            if (ImportConst.FIELD_LENGRH_ARBITRARILY.equals(config.getFieldLength())) {
+                return true;
+            } else if (config.getFieldLength().contains(CommonConst.SPLIT)) {
+                // 小数格式,检查小数点前后是否超出限制
+                int integerLength = Integer.parseInt(config.getFieldLength().split(CommonConst.SPLIT)[0]);
+                int decimalLength = Integer.parseInt(config.getFieldLength().split(CommonConst.SPLIT)[1]);
+                String integerStr, decimalStr = null;
+                if (data.contains(CommonConst.DECIMAL_POINT)) {
+                    integerStr = data.substring(0, data.indexOf(CommonConst.DECIMAL_POINT));
+                    decimalStr = data.substring(data.indexOf(CommonConst.DECIMAL_POINT));
+                } else {
+                    integerStr = data;
+                }
+                if (integerStr.length() > integerLength) {
+                    throw new EasyException(config.getTitle() + "整数部分超出限制[" + integerLength + "];");
+                }
+                if (decimalStr != null) {
+                    if (decimalStr.length() > decimalLength) {
+                        throw new EasyException(config.getTitle() + "小数部分超出限制[" + decimalLength + "];");
+                    }
+                }
+            } else {
+                try {
+                    int length = Integer.parseInt(config.getFieldLength());
+                    if (data.length() > length) {
+                        throw new EasyException(config.getTitle() + "长度超出限制[" + config.getFieldLength() + "];");
+                    }
+                } catch (NumberFormatException e) {
+                    // 如果长度不是int就不进行验证
+                }
+            }
+        }
+        return true;
+    }
+    //====================================== end: 数据类型验证 ======================================/
 
     /**
      * 替换数据
@@ -354,11 +465,97 @@ public class SysImportExcelDataServiceImpl extends ServiceImpl<SysImportExcelTem
     }
 
     @Override
-    public boolean insertData(String importCode) {
-        return false;
+    @Transactional(rollbackFor = RuntimeException.class)
+    public int insertData(Long templateId) {
+        ToolUtil.checkParams(templateId);
+        SysUser sysUser = ShiroUtil.getCurrentUser();
+        SysImportExcelTemplate importExcelTemplate = importExcelTemplateService.input(templateId);
+        // 检查是否有权限访问
+        if (StrUtil.isNotBlank(importExcelTemplate.getPermissionCode())) {
+            if (!hasPermission(importExcelTemplate.getPermissionCode())) {
+                // 无权导入
+                throw new EasyException("无权访问导入" + importExcelTemplate.getName());
+            }
+        }
+        // 回调Bean
+        ImportService importService = null;
+        if (StrUtil.isNotBlank(importExcelTemplate.getCallback())) {
+            importService = SpringContextHolder.getBean(importExcelTemplate.getCallback());
+            boolean isSuccess = importService.beforeImport(templateId, sysUser.getId());
+            if (!isSuccess) {
+                throw new EasyException("执行导入前回调失败");
+            }
+        }
+        // 插入的字段
+        List<String> insertFields = new ArrayList<>();
+        // 查询字段
+        List<String> selectFields = new ArrayList<>();
+        // 导入规则
+        List<SysImportExcelTemplateDetails> configs = importExcelTemplateDetailsService.selectDetails(importExcelTemplate.getId());
+        if (configs != null && configs.size() > 0) {
+            for (int i = 0; i < configs.size(); i++) {
+                insertFields.add(configs.get(i).getFieldName());
+                selectFields.add("field" + (i + 1));
+            }
+            int count = mapper.insert(importExcelTemplate.getImportTable(),
+                    StrUtil.join(",", insertFields),
+                    StrUtil.join(",", selectFields),
+                    importExcelTemplate.getId(),
+                    sysUser.getId(),
+                    ImportConst.VERIFICATION_STATUS_SUCCESS);
+            // 调用导入后回调
+            if (importService != null) {
+                boolean isSuccess = importService.afterImport();
+                if (!isSuccess) {
+                    throw new EasyException("执行导入后回调失败");
+                }
+                // 删除导入成功的数据
+                isSuccess = importExcelTemporaryService.cleanSuccessData(templateId);
+                if (!isSuccess) {
+                    throw new EasyException("删除验证成功数据失败");
+                }
+            }
+            return count;
+        } else {
+            throw new EasyException("模板[" + importExcelTemplate.getImportCode() + "]未配置导入规则");
+        }
     }
 
-    public static void main(String[] args) {
+    @Override
+    public ResponseEntity<FileSystemResource> exportVerificationFailData(Long templateId, HttpServletRequest request) {
+        ToolUtil.checkParams(templateId);
+        SysUser sysUser = ShiroUtil.getCurrentUser();
+        SysImportExcelTemplate importExcelTemplate = importExcelTemplateService.input(templateId);
+        // 导入规则
+        List<SysImportExcelTemplateDetails> configs = importExcelTemplateDetailsService.selectDetails(importExcelTemplate.getId());
+        if (configs != null && configs.size() > 0) {
+            List<String> selectFields = new ArrayList<>();
+            int configSize = configs.size();
+            while (configSize-- > 0){
+                selectFields.add("field" + (configSize + 1));
+            }
+            // 验证结果
+            selectFields.add("verification_results");
+            // 查询验证失败数据
+            List<SysImportExcelTemporary> temporaryList = mapper.selectVerificationFailData(StrUtil.join(",", selectFields),
+                    importExcelTemplate.getId(),
+                    sysUser.getId(),
+                    ImportConst.VERIFICATION_STATUS_FAIL);
+            // 数据
+            List<List<Object>> rows = ImportExportUtil.toExportData(temporaryList, configs, true);
 
+            // 表头
+            List<String> titles = ImportExportUtil.getTitles(configs, true);
+            String path = ExcelUtil.writFile(rows, titles.toArray(new String[]{}),
+                    importExcelTemplate.getName() + "验证失败数据", "验证失败", null);
+            try {
+                return HttpUtil.getResponseEntity(new File(path),
+                        importExcelTemplate.getName() + "验证失败数据" + DateUtil.today() + ExcelUtil.EXCEL_SUFFIX_XLSX, request);
+            } catch (UnsupportedEncodingException e) {
+                throw new EasyException("导出文件失败");
+            }
+        } else {
+            throw new EasyException("模板[" + importExcelTemplate.getImportCode() + "]未配置导入规则");
+        }
     }
 }

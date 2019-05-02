@@ -11,6 +11,7 @@
     <div class="m-portlet__body">
         <form class="m-form animated" id="import-temporary">
             <input type="hidden" id="importCode" value="${object.importCode}">
+            <input type="hidden" id="templateId" value="${object.id}">
             <input type="hidden" id="hasLast" value="${hasLast}">
             <input type="hidden" id="path">
             <div class="alert alert-info" role="alert">
@@ -31,20 +32,25 @@
         </form>
         <form class="m-form m--hide animated" id="temporary-list">
             @if(hasLast){
-            <div class="alert alert-info" role="alert">
+            <div class="alert alert-info alert-dismissible" id="last-tip" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                </button>
                 <i class="la la-exclamation"></i> 表格中为上次导入未确认数据，如要放弃请点击重新选择文件
             </div>
             @}
+            <div class="m--hide" id="summary-info" role="alert">
+                <i class="la la-bar-chart"></i>
+            </div>
             <div class="btn-row">
-                <#button id="" btnType="info" icon="la la-cloud-download" name="导出错误数据" />
-                <#button id="" btnType="success" icon="la la-save" name="保存正确数据到正式表" />
+                <#button id="save-formal" btnType="success" icon="la la-save" name="保存正确数据到正式表" />
+                <#button id="export-fail" btnType="info" icon="la la-cloud-download" name="导出错误数据" />
                 <#button id="re-selection" btnType="warning" icon="la la-cloud-upload" name="重新选择文件" />
                 <div class="col-md-3 col-12 m--pull-right">
                     <div class="query-modular">
                         <div class="row">
                             <input type="hidden" name="templateId" value="${object.id}">
                             <div class="input-group">
-                                <input type="text" name="field1" class="form-control" placeholder="请输入关键字搜索">
+                                <input type="text" id="field1" name="field1" class="form-control" placeholder="请输入关键字搜索">
                                 <div class="input-group-append">
                                     <button class="btn btn-secondary" type="button" onclick="mTool.selectData(this)"><i
                                             class="la la-search"></i></button>

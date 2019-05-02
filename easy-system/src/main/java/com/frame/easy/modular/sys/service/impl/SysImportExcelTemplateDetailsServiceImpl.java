@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.frame.easy.common.table.Column;
 import com.frame.easy.modular.sys.dao.SysImportExcelTemplateDetailsMapper;
-import com.frame.easy.modular.sys.model.SysImportExcelTemplate;
 import com.frame.easy.modular.sys.model.SysImportExcelTemplateDetails;
 import com.frame.easy.modular.sys.service.SysImportExcelTemplateDetailsService;
 import com.frame.easy.modular.sys.service.SysImportExcelTemplateService;
@@ -47,18 +46,14 @@ public class SysImportExcelTemplateDetailsServiceImpl extends ServiceImpl<SysImp
     }
 
     @Override
-    public List<Column> selectTableHeadByTemplateCode(String templateCode) {
-        ToolUtil.checkParams(templateCode);
-        SysImportExcelTemplate template = importExcelTemplateService.getByImportCode(templateCode);
-        if(template != null){
-            List<Column> columns = mapper.selectTableHeadByTemplateCode(template.getId());
-            int columnsLength = columns.size();
-            while (columnsLength-- > 0){
-                columns.get(columnsLength).setField("field" + (columnsLength + 1));
-            }
-            return columns;
+    public List<Column> selectTableHeadByTemplateCode(Long templateId) {
+        ToolUtil.checkParams(templateId);
+        List<Column> columns = mapper.selectTableHeadByTemplateId(templateId);
+        int columnsLength = columns.size();
+        while (columnsLength-- > 0) {
+            columns.get(columnsLength).setField("field" + (columnsLength + 1));
         }
-        return null;
+        return columns;
     }
 
     /**

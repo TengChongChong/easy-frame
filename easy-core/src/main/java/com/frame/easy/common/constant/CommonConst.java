@@ -21,6 +21,10 @@ public class CommonConst {
      */
     public static final String SPLIT2 = ";";
     /**
+     * 小数点
+     */
+    public static final String DECIMAL_POINT = ".";
+    /**
      * false
      */
     public static final String FALSE = "false";

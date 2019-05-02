@@ -22,7 +22,6 @@ import org.springframework.web.util.UrlPathHelper;
 import springfox.documentation.annotations.ApiIgnore;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.DocumentationCache;
@@ -83,7 +82,7 @@ public class SwaggerConfig {
      * SwaggerUI资源访问
      *
      * @param servletContext servletContext
-     * @param order 排序
+     * @param order          排序
      * @return SimpleUrlHandlerMapping
      * @throws Exception Exception
      */
@@ -103,7 +102,7 @@ public class SwaggerConfig {
             resourceHttpRequestHandler.setServletContext(servletContext);
             resourceHttpRequestHandler.afterPropertiesSet();
             //设置新的路径
-            urlMap.put(DEFAULT_PATH + "/webjars/**", resourceHttpRequestHandler);
+            urlMap.put("/webjars/**", resourceHttpRequestHandler);
         }
         {
             PathResourceResolver pathResourceResolver = new PathResourceResolver();

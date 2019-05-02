@@ -4,9 +4,11 @@ import com.frame.easy.common.constant.SessionConst;
 import com.frame.easy.common.constant.SysConst;
 import com.frame.easy.common.redis.RedisPrefix;
 import com.frame.easy.util.RedisUtil;
+import com.frame.easy.web.Servlets;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
+import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +54,11 @@ public class KickOutSessionFilter extends AccessControlFilter {
      */
     @Override
     protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
+        String uri = ((ShiroHttpServletRequest) servletRequest).getRequestURI();
+        // 如果是静态文件 不验证
+        if (Servlets.isStaticRequest(uri)) {
+            return true;
+        }
         Subject subject = getSubject(servletRequest, servletResponse);
         if(subject.isAuthenticated() || (SysConst.projectProperties.getLoginRemember() && subject.isRemembered())){
             // 已认证或系统开启记住密我并且通过记住我登录

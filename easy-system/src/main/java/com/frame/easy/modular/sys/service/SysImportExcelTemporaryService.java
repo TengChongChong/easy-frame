@@ -2,6 +2,9 @@ package com.frame.easy.modular.sys.service;
 
 import com.frame.easy.common.page.Page;
 import com.frame.easy.modular.sys.model.SysImportExcelTemporary;
+import com.frame.easy.modular.sys.model.SysImportSummary;
+
+import java.util.List;
 
 /**
  * 导入临时表
@@ -18,6 +21,15 @@ public interface SysImportExcelTemporaryService {
     Page select(SysImportExcelTemporary object);
 
     /**
+     * 查询数据
+     *
+     * @param templateId 模板id
+     * @param userId 用户id
+     * @param status 状态
+     * @return 数据列表
+     */
+    List<SysImportExcelTemporary> selectData(Long templateId, Long userId, String status);
+    /**
      * 详情
      *
      * @param id id
@@ -31,14 +43,28 @@ public interface SysImportExcelTemporaryService {
      * @return 是否成功
      */
     boolean delete(String ids);
-
+    /**
+     * 检查上次导入数据
+     *
+     * @param templateId 模板id
+     * @return true/false
+     */
+    boolean checkLastData(Long templateId);
     /**
      * 清空指定导入代码中数据
      *
-     * @param templateCode 导入代码
+     * @param templateId 模板id
      * @return true/false
      */
-    boolean cleanMyImport(String templateCode);
+    boolean cleanMyImport(Long templateId);
+
+    /**
+     * 删除验证成功的数据,用于保存数据后删除数据
+     *
+     * @param templateId 模板id
+     * @return true/false
+     */
+    boolean cleanSuccessData(Long templateId);
 
     /**
      * 清空指定模板ids数据
@@ -49,10 +75,25 @@ public interface SysImportExcelTemporaryService {
     boolean deleteByTemplateIds(String templateIds);
 
     /**
+     * 获取导入汇总信息
+     *
+     * @param templateId 模板id
+     * @return 导入汇总
+     */
+    SysImportSummary selectImportSummary(Long templateId);
+    /**
      * 保存
      *
      * @param object 表单内容
      * @return 保存后信息
      */
     SysImportExcelTemporary saveData(SysImportExcelTemporary object);
+
+    /**
+     * 批量插入
+     *
+     * @param list 数据
+     * @return true/false
+     */
+    boolean saveBatch(List<SysImportExcelTemporary> list);
 }

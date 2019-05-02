@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.po.TableField;
 import com.baomidou.mybatisplus.generator.config.po.TableFill;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 
 import java.sql.Connection;
@@ -60,7 +61,7 @@ public class ConfigBuilder {
      */
     public ConfigBuilder(DataSourceConfig dataSourceConfig, StrategyConfig strategyConfig) {
         // 全局配置
-        this.globalConfig = new GlobalConfig();
+        this.globalConfig = getGlobalConfig();
         this.dataSourceConfig = dataSourceConfig;
         handlerDataSource(dataSourceConfig);
         // 策略配置
@@ -72,6 +73,16 @@ public class ConfigBuilder {
         handlerStrategy(this.strategyConfig);
     }
 
+    /**
+     * 全局设置
+     *
+     * @return GlobalConfig
+     */
+    private GlobalConfig getGlobalConfig(){
+        GlobalConfig globalConfig = new GlobalConfig();
+        globalConfig.setDateType(DateType.ONLY_DATE);
+        return globalConfig;
+    }
 
 
     // ************************ 曝露方法 BEGIN*****************************

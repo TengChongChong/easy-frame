@@ -47,7 +47,7 @@ spring:
                 login-password: 123
             web-stat-filter:
                 # 排除一些静态资源，以提高效率
-                exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+                exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico'
 # actuator 监控
 management:
     endpoints:

@@ -66,10 +66,40 @@ var importExcelTemplateDetails = function () {
          * @param detail {object|null} 导入规则
          */
         var generateRow = function (field, detail) {
+            /**
+             * 获取字段类型
+             *
+             * @param type {string} 字段类型
+             * @return {string}
+             */
+            var getFieldType = function (type) {
+                if (type.indexOf('(') > -1) {
+                    return type.substring(0, type.indexOf('('));
+                } else {
+                    return type;
+                }
+            };
+            /**
+             * 获取字段长度
+             *
+             * @param type {string} 字段类型
+             * @return {string|number}
+             */
+            var getFieldLength = function (type) {
+                if (type.indexOf('(') > -1) {
+                    return type.substring(type.indexOf('(') + 1, type.indexOf(')'));
+                } else {
+                    return '';
+                }
+            };
             templateSet.append('<tr data-field="' + field['name'] + '">\
                     <td class="cell-base text-center"><div class="m--block-center" style="width: 20px;">' + getCheckbox('needImport', (detail ? 'checked' : null)) + '</div></td>\
                     <td class="cell-base m--padding-top-15"><input type="hidden" name="columnName" value="' + field['name'] + '" />' + (field['keyFlag'] ? '<i class="text-info la la-key"></i>' : '') + field['name'] + '</td>\
-                    <td class="cell-base m--padding-top-15"><input type="hidden" name="type" value="' + field['type'] + '">' + field['type'] + '</td>\
+                    <td class="cell-base m--padding-top-15">\
+                        <input type="hidden" name="fieldType" value="' + getFieldType(field['type']) + '">\
+                        <input type="hidden" name="fieldLength" value="' + getFieldLength(field['type']) + '">' +
+                field['type'] + '\
+                    </td>\
                     <td class="cell-base"><div class="m--block-center" style="width: 75px;">' + getInput('title', detail ? detail.title : (field.comment)) + '</div></td>\
                     <td class="cell-base text-center"><div class="m--block-center" style="width: 20px;">' + getCheckbox('needReplace', (detail && detail.replaceTableFieldName ? 'checked' : '')) + '</div></td>\
                     <td class="cell-base"><div class="m--block-center" style="width: 200px;">' + getSelect('table-name', 'replaceTable', detail ? detail.replaceTable : null) + '</div></td>\
@@ -171,11 +201,13 @@ var importExcelTemplateDetails = function () {
             var tableList = loadTableList();
             if (tableList != null && tableList.length > 0) {
                 var html = '';
+                // 表select
                 $(tableList).each(function (index, obj) {
                     html += '<option data-comment="' + obj.text + '" value="' + obj.value + '">' +
                         (mUtil.isNotBlank(obj.text) ? obj.value + '(' + obj.text + ')' : obj.value) + '</option>';
                 });
                 var $tableSelect = $('select.table-name');
+                // 初始化表以及绑定事件
                 $tableSelect.append(html).change(function () {
                     var $replaceTableFieldName = $(this).parents('tr').find('[name="replaceTableFieldName"]');
                     var $replaceTableFieldValue = $(this).parents('tr').find('[name="replaceTableFieldValue"]');
@@ -202,6 +234,7 @@ var importExcelTemplateDetails = function () {
         var getFieldConfig = function () {
             var rows = $('#template-set > tbody > tr');
             var configs = [];
+            // 获取配置
             $(rows).each(function (index, row) {
                 var $row = $(row);
                 if ($row.find('[name="needImport"]').is(':checked')) {
@@ -234,6 +267,7 @@ var importExcelTemplateDetails = function () {
             mUtil.offButtonWait($btn);
             return;
         }
+        // 保存
         mUtil.ajax({
             url: mTool.getBaseUrl() + 'save/data/' + templateId,
             data: JSON.stringify(configs),
@@ -251,7 +285,6 @@ var importExcelTemplateDetails = function () {
                 mTool.successTip(mTool.commonTips.success, '导入规则已保存');
             }
         });
-
     };
     /**
      * 加载表列表

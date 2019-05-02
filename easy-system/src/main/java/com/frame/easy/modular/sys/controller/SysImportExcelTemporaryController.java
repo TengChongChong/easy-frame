@@ -96,12 +96,12 @@ public class SysImportExcelTemporaryController extends BaseController {
     /**
      * 清空指定导入代码中数据
      *
-     * @param templateCode 导入代码
+     * @param templateId 模板id
      * @return Tips
      */
-    @RequestMapping("clean/my/import/{templateCode}")
+    @RequestMapping("clean/my/import/{templateId}")
     @ResponseBody
-    public Tips cleanMyImport(@PathVariable("templateCode") String templateCode){
-        return Tips.getSuccessTips(service.cleanMyImport(templateCode));
+    public Tips cleanMyImport(@PathVariable("templateId") Long templateId){
+        return Tips.getSuccessTips(service.cleanMyImport(templateId));
     }
 }

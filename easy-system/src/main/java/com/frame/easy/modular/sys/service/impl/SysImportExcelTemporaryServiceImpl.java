@@ -3,10 +3,11 @@ package com.frame.easy.modular.sys.service.impl;
 import cn.hutool.core.lang.Validator;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.frame.easy.common.constant.ImportConst;
 import com.frame.easy.common.page.Page;
 import com.frame.easy.modular.sys.dao.SysImportExcelTemporaryMapper;
-import com.frame.easy.modular.sys.model.SysImportExcelTemplate;
 import com.frame.easy.modular.sys.model.SysImportExcelTemporary;
+import com.frame.easy.modular.sys.model.SysImportSummary;
 import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.service.SysImportExcelTemplateService;
 import com.frame.easy.modular.sys.service.SysImportExcelTemporaryService;
@@ -56,10 +57,16 @@ public class SysImportExcelTemporaryServiceImpl extends ServiceImpl<SysImportExc
             }
         }
         Page page = ToolUtil.getPage(object);
-        if(Validator.isEmpty(page.ascs()) && Validator.isEmpty(page.descs())){
+        if (Validator.isEmpty(page.ascs()) && Validator.isEmpty(page.descs())) {
             page.setAsc("verification_status");
         }
         return (Page) page(page, queryWrapper);
+    }
+
+    @Override
+    public List<SysImportExcelTemporary> selectData(Long templateId, Long userId, String status) {
+
+        return null;
     }
 
     /**
@@ -92,17 +99,33 @@ public class SysImportExcelTemporaryServiceImpl extends ServiceImpl<SysImportExc
     }
 
     @Override
-    public boolean cleanMyImport(String templateCode) {
-        ToolUtil.checkParams(templateCode);
-        SysImportExcelTemplate template = importExcelTemplateService.getByImportCode(templateCode);
-        if (template != null) {
-            SysUser sysUser = ShiroUtil.getCurrentUser();
-            QueryWrapper<SysImportExcelTemporary> clean = new QueryWrapper<>();
-            clean.eq("user_id", sysUser.getId());
-            clean.eq("template_id", template.getId());
-            return remove(clean);
-        }
-        return false;
+    public boolean checkLastData(Long templateId) {
+        SysUser sysUser = ShiroUtil.getCurrentUser();
+        QueryWrapper<SysImportExcelTemporary> selectLastData = new QueryWrapper<>();
+        selectLastData.eq("user_id", sysUser.getId());
+        selectLastData.eq("template_id", templateId);
+        return count(selectLastData) > 0;
+    }
+
+    @Override
+    public boolean cleanMyImport(Long templateId) {
+        ToolUtil.checkParams(templateId);
+        SysUser sysUser = ShiroUtil.getCurrentUser();
+        QueryWrapper<SysImportExcelTemporary> clean = new QueryWrapper<>();
+        clean.eq("user_id", sysUser.getId());
+        clean.eq("template_id", templateId);
+        return remove(clean);
+    }
+
+    @Override
+    public boolean cleanSuccessData(Long templateId) {
+        SysUser sysUser = ShiroUtil.getCurrentUser();
+        // 删除已导入成功的数据
+        QueryWrapper<SysImportExcelTemporary> deleteSuccess = new QueryWrapper<>();
+        deleteSuccess.eq("verification_status", ImportConst.VERIFICATION_STATUS_SUCCESS);
+        deleteSuccess.eq("user_id", sysUser.getId());
+        deleteSuccess.eq("template_id", templateId);
+        return remove(deleteSuccess);
     }
 
     @Override
@@ -114,8 +137,34 @@ public class SysImportExcelTemporaryServiceImpl extends ServiceImpl<SysImportExc
     }
 
     @Override
+    public SysImportSummary selectImportSummary(Long templateId) {
+        SysUser sysUser = ShiroUtil.getCurrentUser();
+        List<SysImportExcelTemporary> temporaries = getBaseMapper().selectImportSummary(templateId, sysUser.getId());
+        SysImportSummary summary = new SysImportSummary();
+        if (temporaries != null && temporaries.size() > 0) {
+            for (SysImportExcelTemporary temporary : temporaries) {
+                int count = Integer.parseInt(temporary.getField1());
+                if (ImportConst.VERIFICATION_STATUS_SUCCESS.equals(temporary.getVerificationStatus())) {
+                    summary.setSuccess(count);
+                }
+                if (ImportConst.VERIFICATION_STATUS_FAIL.equals(temporary.getVerificationStatus())) {
+                    summary.setFail(count);
+                }
+            }
+            summary.setTotal(summary.getSuccess() + summary.getFail());
+        }
+        return summary;
+    }
+
+    @Override
     public SysImportExcelTemporary saveData(SysImportExcelTemporary object) {
         ToolUtil.checkParams(object);
         return (SysImportExcelTemporary) ToolUtil.checkResult(updateById(object), object);
     }
+
+    @Override
+    public boolean saveBatch(List<SysImportExcelTemporary> list) {
+        return super.saveBatch(list);
+    }
+
 }

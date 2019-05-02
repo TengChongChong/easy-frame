@@ -4,16 +4,19 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.frame.easy.modular.sys.model.SysMailVerifies">
-        <id column="id" property="id" />
-        <result column="user_id" property="userId" />
-        <result column="mail" property="mail" />
-        <result column="code" property="code" />
-        <result column="expired" property="expired" />
-        <result column="type" property="type" />
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="mail" property="mail"/>
+        <result column="code" property="code"/>
+        <result column="expired" property="expired"/>
+        <result column="type" property="type"/>
     </resultMap>
 
     <select id="getMailByUserId" resultType="java.lang.String">
-        select mail from sys_mail_verifies where user_id = #{userId} and type = #{type}
+        select mail
+        from sys_mail_verifies
+        where user_id = #{userId}
+          and type = #{type}
     </select>
 
 </mapper>

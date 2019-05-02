@@ -4,66 +4,69 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.frame.easy.modular.sys.model.SysImportExcelTemporary">
-        <id column="id" property="id" />
-        <result column="template_id" property="templateId" />
-        <result column="user_id" property="userId" />
-        <result column="verification_status" property="verificationStatus" />
-        <result column="verification_results" property="verificationResults" />
-        <result column="field1" property="field1" />
-        <result column="field2" property="field2" />
-        <result column="field3" property="field3" />
-        <result column="field4" property="field4" />
-        <result column="field5" property="field5" />
-        <result column="field6" property="field6" />
-        <result column="field7" property="field7" />
-        <result column="field8" property="field8" />
-        <result column="field9" property="field9" />
-        <result column="field10" property="field10" />
-        <result column="field11" property="field11" />
-        <result column="field12" property="field12" />
-        <result column="field13" property="field13" />
-        <result column="field14" property="field14" />
-        <result column="field15" property="field15" />
-        <result column="field16" property="field16" />
-        <result column="field17" property="field17" />
-        <result column="field18" property="field18" />
-        <result column="field19" property="field19" />
-        <result column="field20" property="field20" />
-        <result column="field21" property="field21" />
-        <result column="field22" property="field22" />
-        <result column="field23" property="field23" />
-        <result column="field24" property="field24" />
-        <result column="field25" property="field25" />
-        <result column="field26" property="field26" />
-        <result column="field27" property="field27" />
-        <result column="field28" property="field28" />
-        <result column="field29" property="field29" />
-        <result column="field30" property="field30" />
-        <result column="field31" property="field31" />
-        <result column="field32" property="field32" />
-        <result column="field33" property="field33" />
-        <result column="field34" property="field34" />
-        <result column="field35" property="field35" />
-        <result column="field36" property="field36" />
-        <result column="field37" property="field37" />
-        <result column="field38" property="field38" />
-        <result column="field39" property="field39" />
-        <result column="field40" property="field40" />
-        <result column="field41" property="field41" />
-        <result column="field42" property="field42" />
-        <result column="field43" property="field43" />
-        <result column="field44" property="field44" />
-        <result column="field45" property="field45" />
-        <result column="field46" property="field46" />
-        <result column="field47" property="field47" />
-        <result column="field48" property="field48" />
-        <result column="field49" property="field49" />
-        <result column="field50" property="field50" />
+        <id column="id" property="id"/>
+        <result column="template_id" property="templateId"/>
+        <result column="user_id" property="userId"/>
+        <result column="verification_status" property="verificationStatus"/>
+        <result column="verification_results" property="verificationResults"/>
+        <result column="field1" property="field1"/>
+        <result column="field2" property="field2"/>
+        <result column="field3" property="field3"/>
+        <result column="field4" property="field4"/>
+        <result column="field5" property="field5"/>
+        <result column="field6" property="field6"/>
+        <result column="field7" property="field7"/>
+        <result column="field8" property="field8"/>
+        <result column="field9" property="field9"/>
+        <result column="field10" property="field10"/>
+        <result column="field11" property="field11"/>
+        <result column="field12" property="field12"/>
+        <result column="field13" property="field13"/>
+        <result column="field14" property="field14"/>
+        <result column="field15" property="field15"/>
+        <result column="field16" property="field16"/>
+        <result column="field17" property="field17"/>
+        <result column="field18" property="field18"/>
+        <result column="field19" property="field19"/>
+        <result column="field20" property="field20"/>
+        <result column="field21" property="field21"/>
+        <result column="field22" property="field22"/>
+        <result column="field23" property="field23"/>
+        <result column="field24" property="field24"/>
+        <result column="field25" property="field25"/>
+        <result column="field26" property="field26"/>
+        <result column="field27" property="field27"/>
+        <result column="field28" property="field28"/>
+        <result column="field29" property="field29"/>
+        <result column="field30" property="field30"/>
+        <result column="field31" property="field31"/>
+        <result column="field32" property="field32"/>
+        <result column="field33" property="field33"/>
+        <result column="field34" property="field34"/>
+        <result column="field35" property="field35"/>
+        <result column="field36" property="field36"/>
+        <result column="field37" property="field37"/>
+        <result column="field38" property="field38"/>
+        <result column="field39" property="field39"/>
+        <result column="field40" property="field40"/>
+        <result column="field41" property="field41"/>
+        <result column="field42" property="field42"/>
+        <result column="field43" property="field43"/>
+        <result column="field44" property="field44"/>
+        <result column="field45" property="field45"/>
+        <result column="field46" property="field46"/>
+        <result column="field47" property="field47"/>
+        <result column="field48" property="field48"/>
+        <result column="field49" property="field49"/>
+        <result column="field50" property="field50"/>
     </resultMap>
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, template_id, user_id, verification_results, field1, field2, field3, field4, field5, field6, field7, field8, field9, field10, field11, field12, field13, field14, field15, field16, field17, field18, field19, field20, field21, field22, field23, field24, field25, field26, field27, field28, field29, field30, field31, field32, field33, field34, field35, field36, field37, field38, field39, field40, field41, field42, field43, field44, field45, field46, field47, field48, field49, field50
-    </sql>
+    <select id="selectImportSummary" resultType="com.frame.easy.modular.sys.model.SysImportExcelTemporary">
+        select verification_status, count(1) as field1
+        from sys_import_excel_temporary
+        where template_id = #{templateId}
+          and user_id = #{userId}
+        group by verification_status
+    </select>
 
 </mapper>
