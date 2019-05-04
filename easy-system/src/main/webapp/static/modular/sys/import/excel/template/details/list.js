@@ -144,8 +144,8 @@ var importExcelTemplateDetails = function () {
             if (mUtil.isNotBlank(tableName)) {
                 var fields = selectTableFields(tableName);
                 $(fields).each(function (index, obj) {
-                    html += '<option value="' + obj.name + '" ' + (value === obj.name ? 'selected' : '') + '>' +
-                        obj.name + (mUtil.isNotBlank(obj.comment) ? '(' + obj.comment + ')' : '') + '</option>';
+                    html += '<option data-subtext="' + obj.comment + '" value="' + obj.name + '" ' + (value === obj.name ? 'selected' : '') + '>' +
+                        obj.name + '</option>';
                 });
             }
             refreshSelectPicker($element.html(html));
@@ -203,8 +203,8 @@ var importExcelTemplateDetails = function () {
                 var html = '';
                 // 表select
                 $(tableList).each(function (index, obj) {
-                    html += '<option data-comment="' + obj.text + '" value="' + obj.value + '">' +
-                        (mUtil.isNotBlank(obj.text) ? obj.value + '(' + obj.text + ')' : obj.value) + '</option>';
+                    html += '<option data-subtext="' + obj.text + '" value="' + obj.value + '">' +
+                        obj.value + '</option>';
                 });
                 var $tableSelect = $('select.table-name');
                 // 初始化表以及绑定事件

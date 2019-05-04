@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.frame.easy.base.model.IModel;
 import com.frame.easy.common.page.Page;
+import com.frame.easy.util.office.ImportExportUtil;
 
 import java.io.Serializable;
 
@@ -16,8 +17,8 @@ import java.io.Serializable;
  * @author TengChong
  * @date 2019-04-10
  */
- @TableName("sys_import_excel_template_details")
-public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateDetails> implements IModel, Serializable{
+@TableName("sys_import_excel_template_details")
+public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateDetails> implements IModel, Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
@@ -86,14 +87,24 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     /**
      * 是否需要导入
      */
-    @TableField(exist=false)
+    @TableField(exist = false)
     private boolean needImport;
     //
     /**
      * 分页&排序信息
      */
-    @TableField(exist=false)
+    @TableField(exist = false)
     private Page page;
+    /**
+     * 是否是日期
+     */
+    @TableField(exist = false)
+    private boolean isDate;
+    /**
+     * 是否是数字
+     */
+    @TableField(exist = false)
+    private boolean isNumber;
 
     public Long getId() {
         return id;
@@ -102,6 +113,7 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     public void setId(Long id) {
         this.id = id;
     }
+
     public Long getTemplateId() {
         return templateId;
     }
@@ -109,6 +121,7 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     public void setTemplateId(Long templateId) {
         this.templateId = templateId;
     }
+
     public String getFieldName() {
         return fieldName;
     }
@@ -116,6 +129,7 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     public void setFieldName(String fieldName) {
         this.fieldName = fieldName;
     }
+
     public String getTitle() {
         return title;
     }
@@ -123,6 +137,7 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     public void setTitle(String title) {
         this.title = title;
     }
+
     public String getFieldLength() {
         return fieldLength;
     }
@@ -130,6 +145,7 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     public void setFieldLength(String fieldLength) {
         this.fieldLength = fieldLength;
     }
+
     public String getFieldType() {
         return fieldType;
     }
@@ -137,6 +153,7 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     public void setFieldType(String fieldType) {
         this.fieldType = fieldType;
     }
+
     public String getReplaceTable() {
         return replaceTable;
     }
@@ -144,6 +161,7 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     public void setReplaceTable(String replaceTable) {
         this.replaceTable = replaceTable;
     }
+
     public String getReplaceTableFieldName() {
         return replaceTableFieldName;
     }
@@ -151,6 +169,7 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     public void setReplaceTableFieldName(String replaceTableFieldName) {
         this.replaceTableFieldName = replaceTableFieldName;
     }
+
     public String getReplaceTableFieldValue() {
         return replaceTableFieldValue;
     }
@@ -174,6 +193,7 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     public void setOrderNo(Integer orderNo) {
         this.orderNo = orderNo;
     }
+
     public Integer getRequired() {
         return required;
     }
@@ -181,6 +201,7 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     public void setRequired(Integer required) {
         this.required = required;
     }
+
     public Integer getIsOnly() {
         return isOnly;
     }
@@ -188,6 +209,7 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     public void setIsOnly(Integer isOnly) {
         this.isOnly = isOnly;
     }
+
     @Override
     public Page getPage() {
         return page;
@@ -204,4 +226,25 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     public void setNeedImport(boolean needImport) {
         this.needImport = needImport;
     }
+
+    /**
+     * 是否日期格式
+     *
+     * @return true/false
+     */
+    public boolean getIsDate() {
+        return ImportExportUtil.isDate(this.fieldType);
+    }
+
+    /**
+     * 是否数字
+     *
+     * @return true/false
+     */
+    public boolean getIsNumber() {
+        return ImportExportUtil.isInteger(this.fieldType) ||
+                ImportExportUtil.isLong(this.fieldType) ||
+                ImportExportUtil.isDouble(this.fieldType);
+    }
+
 }

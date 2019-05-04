@@ -193,8 +193,8 @@ var mGeneration = function () {
             success: function (res) {
                 if (mUtil.isArray(res.data) && res.data.length > 0) {
                     $(res.data).each(function (index, obj) {
-                        tableName.append('<option data-comment="' + obj.text + '" value="' + obj.value + '">' +
-                            (mUtil.isNotBlank(obj.text) ? obj.value + '(' + obj.text + ')' : obj.value) + '</option>');
+                        tableName.append('<option data-subtext="' + obj.text + '" value="' + obj.value + '">' +
+                            obj.value + '</option>');
                     });
                     tableName.selectpicker().change(function () {
                         tableChange();
@@ -264,7 +264,7 @@ var mGeneration = function () {
         generationTool.resetForm();
         var checkedOption = $('#tableName > :checked');
         var tableName = checkedOption.attr('value');
-        var tableComment = checkedOption.data('comment');
+        var tableComment = checkedOption.data('subtext');
         if (mUtil.isNotBlank(tableName)) {
             if (mUtil.isNotBlank(tableComment)) {
                 $('#businessName, #menuName').val(tableComment);

@@ -1,14 +1,19 @@
 package com.frame.easy.modular.sys.service.impl;
 
 import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.constant.ImportConst;
 import com.frame.easy.common.page.Page;
+import com.frame.easy.exception.EasyException;
 import com.frame.easy.modular.sys.dao.SysImportExcelTemporaryMapper;
+import com.frame.easy.modular.sys.model.SysImportExcelTemplateDetails;
 import com.frame.easy.modular.sys.model.SysImportExcelTemporary;
 import com.frame.easy.modular.sys.model.SysImportSummary;
 import com.frame.easy.modular.sys.model.SysUser;
+import com.frame.easy.modular.sys.service.SysImportExcelTemplateDetailsService;
 import com.frame.easy.modular.sys.service.SysImportExcelTemplateService;
 import com.frame.easy.modular.sys.service.SysImportExcelTemporaryService;
 import com.frame.easy.util.ShiroUtil;
@@ -32,6 +37,9 @@ public class SysImportExcelTemporaryServiceImpl extends ServiceImpl<SysImportExc
     @Autowired
     private SysImportExcelTemplateService importExcelTemplateService;
 
+    @Autowired
+    private SysImportExcelTemplateDetailsService importExcelTemplateDetailsService;
+
     /**
      * 列表
      *
@@ -42,25 +50,55 @@ public class SysImportExcelTemporaryServiceImpl extends ServiceImpl<SysImportExc
     public Page select(SysImportExcelTemporary object) {
         QueryWrapper<SysImportExcelTemporary> queryWrapper = new QueryWrapper<>();
         // 导入用户id
-        if (Validator.isNotEmpty(object.getUserId())) {
-            queryWrapper.eq("user_id", ShiroUtil.getCurrentUser().getId());
+        queryWrapper.eq("user_id", ShiroUtil.getCurrentUser().getId());
+        if (object == null || object.getTemplateId() == null) {
+            // 必须指定模板id
+            throw new EasyException("未指定模板id");
         }
-        if (object != null) {
-            // 查询条件
-            // 模板id
-            if (Validator.isNotEmpty(object.getTemplateId())) {
-                queryWrapper.eq("template_id", object.getTemplateId());
+        // 查询导入规则,用户翻译转换后的字段
+        List<SysImportExcelTemplateDetails> configs = importExcelTemplateDetailsService.selectDetails(object.getTemplateId());
+        StringBuilder selectFields = new StringBuilder();
+        StringBuilder leftJoinTables = new StringBuilder();
+        for (int i = 0; i < configs.size(); i++) {
+            // 如果设置了转换表,除了字典表数据在前端处理,其他表从数据库查询
+            if (StrUtil.isNotBlank(configs.get(i).getReplaceTable()) &&
+                    !ImportConst.SYS_DICT.equals(configs.get(i).getReplaceTable())) {
+                // 替换表
+                String tableName = configs.get(i).getReplaceTable();
+                // 表别名
+                String tableSlug = configs.get(i).getReplaceTable() + configs.get(i).getOrderNo();
+                // 拼接查询字段
+                selectFields.append("(case when ").append(tableSlug).append(".").append(configs.get(i).getReplaceTableFieldName())
+                        .append(" is null then temp.field").append(i + 1).append(" else ")
+                        .append(tableSlug).append(".").append(configs.get(i).getReplaceTableFieldName())
+                        .append(" end) as field").append(i + 1);
+                // 拼接left join
+                leftJoinTables.append("left join ").append(tableName).append(" ").append(tableSlug)
+                        .append(" on ")
+                        .append(tableSlug).append(".").append(configs.get(i).getReplaceTableFieldValue())
+                        .append(" = temp.field").append(i + 1).append(" ");
+            } else {
+                // 没有设置转换表,直接查询
+                selectFields.append("temp.field").append(i + 1);
             }
-            // 关键字暂时只关联field1查询
-            if (Validator.isNotEmpty(object.getField1())) {
-                queryWrapper.and(i -> i.like("field1", object.getField1()));
-            }
+            // 始终在最后添加 , 因为后面还有个verification_results字段
+            selectFields.append(CommonConst.SPLIT);
+        }
+        // 查询条件
+        // 模板id
+        if (Validator.isNotEmpty(object.getTemplateId())) {
+            queryWrapper.eq("template_id", object.getTemplateId());
+        }
+        // 关键字暂时只关联field1查询
+        if (Validator.isNotEmpty(object.getField1())) {
+            queryWrapper.and(i -> i.like("field1", object.getField1()));
         }
         Page page = ToolUtil.getPage(object);
         if (Validator.isEmpty(page.ascs()) && Validator.isEmpty(page.descs())) {
             page.setAsc("verification_status");
         }
-        return (Page) page(page, queryWrapper);
+        page.setRecords(baseMapper.select(page, selectFields.toString(), leftJoinTables.toString(), queryWrapper));
+        return page;
     }
 
     @Override

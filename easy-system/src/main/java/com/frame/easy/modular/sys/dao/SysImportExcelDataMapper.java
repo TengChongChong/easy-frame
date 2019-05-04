@@ -1,5 +1,6 @@
 package com.frame.easy.modular.sys.dao;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.frame.easy.modular.sys.model.SysImportExcelTemporary;
 import org.apache.ibatis.annotations.Param;
 
@@ -45,14 +46,12 @@ public interface SysImportExcelDataMapper {
     /**
      * 查询验证失败的数据
      *
-     * @param fields                 要查询的字段
-     * @param templateId             模板id
-     * @param userId                 用户id
-     * @param verificationStatusFail 状态
+     * @param selectFields  查询列
+     * @param leftJoinTable 链接表
+     * @param queryWrapper  查询条件
      * @return 数据
      */
-    List<SysImportExcelTemporary> selectVerificationFailData(@Param("fields") String fields,
-                                                             @Param("templateId") Long templateId,
-                                                             @Param("userId") Long userId,
-                                                             @Param("verificationStatusFail") String verificationStatusFail);
+    List<SysImportExcelTemporary> selectVerificationFailData(@Param("selectFields") String selectFields,
+                                                             @Param("leftJoinTable") String leftJoinTable,
+                                                             @Param("ew") QueryWrapper<SysImportExcelTemporary> queryWrapper);
 }

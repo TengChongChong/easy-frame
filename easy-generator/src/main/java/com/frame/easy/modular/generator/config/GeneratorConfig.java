@@ -1,6 +1,7 @@
 package com.frame.easy.modular.generator.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.frame.easy.modular.generator.constant.Const;
 
@@ -26,6 +27,8 @@ public class GeneratorConfig extends AbstractGeneratorConfig {
         globalConfig.setOpen(false);
         // 作者
         globalConfig.setAuthor(generator.getAuthor());
+        // 设置时间类型对应策略 (只使用 java.util.date 代替)
+        globalConfig.setDateType(DateType.ONLY_DATE);
     }
 
     private void dataSourceConfig() {

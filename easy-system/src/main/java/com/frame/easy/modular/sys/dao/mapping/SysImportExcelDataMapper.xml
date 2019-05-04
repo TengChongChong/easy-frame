@@ -17,10 +17,11 @@
     </select>
     <select id="selectVerificationFailData"
             resultType="com.frame.easy.modular.sys.model.SysImportExcelTemporary">
-        select ${fields}
-        from sys_import_excel_temporary
-        where user_id = #{userId}
-          and template_id = #{templateId}
-          and verification_status = #{verificationStatusFail}
+        select ${selectFields} temp.verification_results,temp.verification_status
+        from sys_import_excel_temporary temp
+        ${leftJoinTable}
+        <where>
+            ${ew.sqlSegment}
+        </where>
     </select>
 </mapper>

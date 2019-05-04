@@ -11,20 +11,53 @@
                     <div class="form-group row">
                         <label class="col-4 control-label" for="field${index}">
                             @var required = '';
-                            @if(1 == detail.required){
+                            @if(ImportConst.REQUIRED == detail.required){
                             @required = 'required';
                             <span class="required">*</span>
                             @}
                             ${detail.title}：
                         </label>
                         <div class="col-8">
-                            <input type="text" class="form-control " id="field${index}" name="field${index}"
-                                   value="${object['field' + index]}" ${required}>
+                            @if(strUtil.isNotBlank(detail.replaceTable)){
+                                @if(ImportConst.SYS_DICT == detail.replaceTable){
+                                    <select class="form-control m-bootstrap-select select-picker" data-value="${object['field' + index]}"
+                                            id="field${index}" name="field${index}" data-dict-type="${detail.replaceTableDictType}">
+                                    </select>
+                                @} else {
+                                    <input type="text" class="form-control " id="field${index}" name="field${index}"
+                                           value="${object['field' + index]}" ${required}>
+                                @}
+                            @} else {
+                                @if(detail.isDate){
+                                    <input type="text" class="form-control date-picker" id="field${index}" name="field${index}"
+                                       data-format="yyyy-mm-dd hh:ii:ss" value="${object['field' + index]}" ${required}>
+                                @}else if(detail.isNumber){
+                                    <input type="number" class="form-control " id="field${index}" name="field${index}"
+                                       value="${object['field' + index]}" ${required}>
+                                @}else{
+                                    <input type="text" class="form-control " id="field${index}" name="field${index}"
+                                           value="${object['field' + index]}" ${required}>
+                                @}
+                            @}
                         </div>
                     </div>
                 </div>
                 @index++;
                 @}
+                <div class="col-12">
+                    <div class="form-group m-form__group row">
+                        <label class="col-md-2 col-4 control-label">
+                            校验结果：
+                        </label>
+                        <div class="col-8">
+                            @if(ImportConst.VERIFICATION_STATUS_SUCCESS == object.verificationStatus){
+                            <span class="m-form__control-static m--font-success">验证通过</span>
+                            @} else {
+                            <span class="m-form__control-static m--font-danger">${object.verificationResults}</span>
+                            @}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="m-portlet__foot m-portlet__foot--fit">

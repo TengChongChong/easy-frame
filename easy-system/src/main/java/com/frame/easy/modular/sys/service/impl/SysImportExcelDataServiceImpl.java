@@ -6,6 +6,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.poi.excel.ExcelReader;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.frame.easy.base.service.ImportService;
 import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.constant.ImportConst;
@@ -529,21 +530,45 @@ public class SysImportExcelDataServiceImpl implements SysImportExcelDataService 
         // 导入规则
         List<SysImportExcelTemplateDetails> configs = importExcelTemplateDetailsService.selectDetails(importExcelTemplate.getId());
         if (configs != null && configs.size() > 0) {
-            List<String> selectFields = new ArrayList<>();
-            int configSize = configs.size();
-            while (configSize-- > 0){
-                selectFields.add("field" + (configSize + 1));
+            StringBuilder selectFields = new StringBuilder();
+            StringBuilder leftJoinTables = new StringBuilder();
+            for (int i = 0; i < configs.size(); i++) {
+                // 如果设置了转换表,除了字典表数据在前端处理,其他表从数据库查询
+                if (StrUtil.isNotBlank(configs.get(i).getReplaceTable())) {
+                    // 替换表
+                    String tableName = configs.get(i).getReplaceTable();
+                    // 表别名
+                    String tableSlug = configs.get(i).getReplaceTable() + configs.get(i).getOrderNo();
+                    // 拼接查询字段
+                    selectFields.append("(case when ").append(tableSlug).append(".").append(configs.get(i).getReplaceTableFieldName())
+                            .append(" is null then temp.field").append(i + 1).append(" else ")
+                            .append(tableSlug).append(".").append(configs.get(i).getReplaceTableFieldName())
+                            .append(" end) as field").append(i + 1);
+                    // 拼接left join
+                    leftJoinTables.append("left join ").append(tableName).append(" ").append(tableSlug)
+                            .append(" on ")
+                            .append(tableSlug).append(".").append(configs.get(i).getReplaceTableFieldValue())
+                            .append(" = temp.field").append(i + 1).append(" ");
+                    if (ImportConst.SYS_DICT.equals(configs.get(i).getReplaceTable())) {
+                        leftJoinTables.append(" and ").append(tableSlug).append(".dict_type = '").append(configs.get(i).getReplaceTableDictType()).append("' ");
+                    }
+                } else {
+                    // 没有设置转换表,直接查询
+                    selectFields.append("temp.field").append(i + 1);
+                }
+                // 始终在最后添加 , 因为后面还有个verification_results字段
+                selectFields.append(CommonConst.SPLIT);
             }
-            // 验证结果
-            selectFields.add("verification_results");
+            QueryWrapper<SysImportExcelTemporary> queryWrapper = new QueryWrapper<>();
+            // 导入用户id
+            queryWrapper.eq("user_id", ShiroUtil.getCurrentUser().getId());
+            queryWrapper.eq("template_id", importExcelTemplate.getId());
             // 查询验证失败数据
-            List<SysImportExcelTemporary> temporaryList = mapper.selectVerificationFailData(StrUtil.join(",", selectFields),
-                    importExcelTemplate.getId(),
-                    sysUser.getId(),
-                    ImportConst.VERIFICATION_STATUS_FAIL);
+            List<SysImportExcelTemporary> temporaryList = mapper.selectVerificationFailData(selectFields.toString(),
+                    leftJoinTables.toString(),
+                    queryWrapper);
             // 数据
             List<List<Object>> rows = ImportExportUtil.toExportData(temporaryList, configs, true);
-
             // 表头
             List<String> titles = ImportExportUtil.getTitles(configs, true);
             String path = ExcelUtil.writFile(rows, titles.toArray(new String[]{}),

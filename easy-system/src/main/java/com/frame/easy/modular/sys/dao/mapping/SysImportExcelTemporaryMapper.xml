@@ -68,5 +68,12 @@
           and user_id = #{userId}
         group by verification_status
     </select>
-
+    <select id="select" resultType="com.frame.easy.modular.sys.model.SysImportExcelTemporary">
+        select temp.id, ${selectFields} temp.verification_results,temp.verification_status
+        from sys_import_excel_temporary temp
+        ${leftJoinTable}
+        <where>
+            ${ew.sqlSegment}
+        </where>
+    </select>
 </mapper>
