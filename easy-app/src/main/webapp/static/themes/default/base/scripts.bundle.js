@@ -2074,10 +2074,10 @@ var mApp = function () {
                 return 4;
             } else if (format.length === 'yyyy-mm'.length) {
                 return 3;
-            } else if (format.length === 'hh:ii'.length) {
-                return 0;
-            } else {
+            } else if(format.length === 'yyyy-mm-dd'.length){
                 return 2;
+            } else {
+                return 0;
             }
         }
 
@@ -2108,6 +2108,7 @@ var mApp = function () {
             if (typeof config.minView === 'undefined') {
                 config.minView = getMinView(config.format);
             }
+            console.log(config);
             $element.datetimepicker(config);
         });
     };
