@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import com.frame.easy.modular.sys.model.SysConfig;
 import com.frame.easy.modular.sys.service.SysConfigService;
 
+import javax.validation.Valid;
+
 /**
  * 系统参数
  *
@@ -102,7 +104,7 @@ public class SysConfigController extends BaseController {
     @RequestMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sys:config:save")
-    public Tips saveData(SysConfig object){
+    public Tips saveData(@Valid SysConfig object){
         logger.debug("/auth/sys/config/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }

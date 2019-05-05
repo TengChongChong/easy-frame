@@ -10,6 +10,8 @@ import com.frame.easy.common.page.Page;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.frame.easy.base.model.IModel;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +36,7 @@ public class SysUser extends Model<SysUser> implements Serializable, IModel {
     /**
      * 用户名
      */
+    @NotEmpty(message = "用户名不能为空")
     private String username;
     /**
      * 密码
@@ -68,6 +71,7 @@ public class SysUser extends Model<SysUser> implements Serializable, IModel {
     /**
      * 状态(1.正常 2.冻结 0.已删除)
      */
+    @NotNull(message = "状态不能为空")
     private Integer status;
     /**
      * 最后登录时间

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 /**
  * 用户管理
  *
@@ -130,7 +132,7 @@ public class SysUserController extends BaseController {
     @PostMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sys:user:save")
-    public Object saveData(SysUser object) {
+    public Object saveData(@Valid SysUser object) {
         logger.debug("/auth/sys/user/save/data");
         return Tips.getSuccessTips(service.saveData(object, true));
     }

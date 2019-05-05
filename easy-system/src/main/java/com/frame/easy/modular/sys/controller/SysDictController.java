@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 /**
  * 字典管理
  *
@@ -119,7 +121,7 @@ public class SysDictController extends BaseController {
     @PostMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sys:dict:save")
-    public Tips saveData(SysDict object) {
+    public Tips saveData(@Valid SysDict object) {
         logger.debug("/auth/sys/dict/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }

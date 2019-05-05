@@ -1,15 +1,16 @@
 package com.frame.easy.modular.sys.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
-import java.util.Date;
-
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.frame.easy.base.model.IModel;
 import com.frame.easy.common.page.Page;
+
+import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 系统参数
@@ -27,11 +28,13 @@ public class SysConfig extends Model<SysConfig> implements IModel, Serializable{
     /**
      * key
      */
+    @NotEmpty(message = "key不能为空")
     private String sysKey;
 
     /**
      * value
      */
+    @NotEmpty(message = "value不能为空")
     private String value;
 
     /**
@@ -42,6 +45,7 @@ public class SysConfig extends Model<SysConfig> implements IModel, Serializable{
     /**
      * 类型
      */
+    @NotEmpty(message = "类型不能为空")
     private String type;
 
     /**

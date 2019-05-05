@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -42,6 +44,7 @@ public class SysPermissions extends Model<SysPermissions> {
     /**
      * 权限名称
      */
+    @NotEmpty(message = "名称不能为空")
     private String name;
     /**
      * 图标
@@ -62,10 +65,12 @@ public class SysPermissions extends Model<SysPermissions> {
     /**
      * 类型
      */
+    @NotNull(message = "类型不能为空")
     private Integer type;
     /**
      * 状态
      */
+    @NotNull(message = "状态不能为空")
     private Integer status;
     /**
      * 是否默认打开

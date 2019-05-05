@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 /**
  * 行政区划
  *
@@ -87,7 +89,7 @@ public class SysDistrictController extends BaseController {
     @PostMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sys:district:save")
-    public Tips saveData(SysDistrict object) {
+    public Tips saveData(@Valid SysDistrict object) {
         logger.debug("/auth/sys/district/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }

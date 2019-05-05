@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 
 /**
  * 权限管理
@@ -117,7 +119,7 @@ public class SysPermissionsController extends BaseController {
     @PostMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sys:permissions:save")
-    public Object saveData(SysPermissions object) {
+    public Object saveData(@Valid SysPermissions object) {
         logger.debug("/auth/sys/permissions/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 /**
  * 角色管理
  *
@@ -123,7 +125,7 @@ public class SysRoleController extends BaseController {
     @PostMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sys:role:save")
-    public Object saveData(SysRole object) {
+    public Object saveData(@Valid SysRole object) {
         logger.debug("/auth/sys/role/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }

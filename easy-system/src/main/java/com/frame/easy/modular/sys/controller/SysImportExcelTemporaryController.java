@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.Valid;
+
 /**
  * 导入临时表
  * 注: 如提示权限问题需要给用户分配 "系统功能 > 数据导入" 权限
@@ -74,7 +76,7 @@ public class SysImportExcelTemporaryController extends BaseController {
     @RequestMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("import:data")
-    public Tips saveData(SysImportExcelTemporary object){
+    public Tips saveData(@Valid SysImportExcelTemporary object){
         logger.debug("/auth/sys/import/excel/temporary/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 /**
  * 字典类型
  *
@@ -86,7 +88,7 @@ public class SysDictTypeController extends BaseController {
     @PostMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sys:dict:type:save")
-    public Tips saveData(SysDictType object) {
+    public Tips saveData(@Valid SysDictType object) {
         logger.debug("/auth/sys/dict/type/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }

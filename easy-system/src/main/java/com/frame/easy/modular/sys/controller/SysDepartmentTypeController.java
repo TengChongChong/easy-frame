@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 /**
  * 机构类型管理
  *
@@ -100,7 +102,7 @@ public class SysDepartmentTypeController extends BaseController {
     @PostMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sys:depart:type:save")
-    public Object saveData(SysDepartmentType object) {
+    public Object saveData(@Valid SysDepartmentType object) {
         logger.debug("/auth/sys/depart/type/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }

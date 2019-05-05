@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.frame.easy.common.page.Page;
 import com.frame.easy.base.model.IModel;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -36,10 +38,12 @@ public class SysDict extends Model<SysDict> implements IModel {
     /**
      * 编码
      */
+    @NotEmpty(message = "编码不能为空")
     private String code;
     /**
      * 名称
      */
+    @NotEmpty(message = "名称不能为空")
     private String name;
     /**
      * 图标
@@ -52,10 +56,12 @@ public class SysDict extends Model<SysDict> implements IModel {
     /**
      * 状态
      */
+    @NotNull(message = "状态不能为空")
     private Integer status;
     /**
      * 字典类型
      */
+    @NotEmpty(message = "类型不能为空")
     private String dictType;
     /**
      * css

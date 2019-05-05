@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 
@@ -21,6 +22,7 @@ public class SysDistrict extends Model<SysDictType> {
     /**
      * 名称
      */
+    @NotEmpty(message = "名称不能为空")
     private String name;
     /**
      * 父 ID
@@ -49,6 +51,7 @@ public class SysDistrict extends Model<SysDictType> {
     /**
      * 行政代码
      */
+    @NotEmpty(message = "代码不能为空")
     private String code;
     /**
      * 区号

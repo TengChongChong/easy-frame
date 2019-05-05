@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.frame.easy.base.model.IModel;
 import com.frame.easy.common.page.Page;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -21,11 +22,13 @@ public class SysImportExcelTemporary extends Model<SysImportExcelTemporary> impl
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
+    @NotNull(message = "id不能为空")
     private Long id;
 
     /**
      * 模板id
      */
+    @NotNull(message = "模板id不能为空")
     private Long templateId;
 
     /**

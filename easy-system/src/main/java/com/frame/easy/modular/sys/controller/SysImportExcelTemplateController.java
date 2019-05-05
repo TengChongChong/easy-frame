@@ -13,6 +13,7 @@ import com.frame.easy.modular.sys.model.SysImportExcelTemplate;
 import com.frame.easy.modular.sys.service.SysImportExcelTemplateService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 /**
  * 导入模板
@@ -106,7 +107,7 @@ public class SysImportExcelTemplateController extends BaseController {
     @RequestMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sys:import:excel:template:save")
-    public Tips saveData(SysImportExcelTemplate object){
+    public Tips saveData(@Valid SysImportExcelTemplate object){
         logger.debug("/auth/sys/import/excel/template/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }

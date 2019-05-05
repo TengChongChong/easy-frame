@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.frame.easy.common.page.Page;
 import com.frame.easy.base.model.IModel;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -26,14 +28,17 @@ public class SysDictType extends Model<SysDictType> implements IModel {
     /**
      * 类别名称
      */
+    @NotEmpty(message = "名称不能为空")
     private String name;
     /**
      * 字典类别
      */
+    @NotEmpty(message = "类型不能为空")
     private String type;
     /**
      * 状态
      */
+    @NotNull(message = "状态不能为空")
     private Integer status;
 
     //

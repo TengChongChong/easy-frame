@@ -9,6 +9,8 @@ import com.frame.easy.base.model.IModel;
 import com.frame.easy.common.page.Page;
 import com.frame.easy.util.office.ImportExportUtil;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -27,16 +29,19 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     /**
      * 模板id
      */
+    @NotNull(message = "模板id不能为空")
     private Long templateId;
 
     /**
      * 数据库字段名
      */
+    @NotEmpty(message = "数据库字段名不能为空")
     private String fieldName;
 
     /**
      * 标题
      */
+    @NotEmpty(message = "标题不能为空")
     private String title;
 
     /**
@@ -47,6 +52,7 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     /**
      * 字段类型
      */
+    @NotEmpty(message = "字段类型不能为空")
     private String fieldType;
 
     /**
@@ -72,6 +78,7 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     /**
      * 排序值
      */
+    @NotNull(message = "排序值不能为空")
     private Integer orderNo;
 
     /**

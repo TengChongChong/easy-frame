@@ -1,11 +1,13 @@
 package com.frame.easy.modular.sys.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -34,6 +36,7 @@ public class SysRole extends Model<SysRole> {
     /**
      * 角色名称
      */
+    @NotEmpty(message = "名称不能为空")
     private String name;
     /**
      * 部门id
@@ -46,6 +49,7 @@ public class SysRole extends Model<SysRole> {
     /**
      * 状态(1.启用 0.禁用)
      */
+    @NotNull(message = "状态不能为空")
     private Integer status;
     /**
      * 乐观锁保留字段
