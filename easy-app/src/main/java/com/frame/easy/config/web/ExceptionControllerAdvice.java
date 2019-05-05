@@ -3,13 +3,13 @@ package com.frame.easy.config.web;
 import cn.hutool.core.util.StrUtil;
 import com.frame.easy.common.status.ProfilesActiveStatus;
 import com.frame.easy.config.properties.ProjectProperties;
+import com.frame.easy.exception.EasyException;
 import com.frame.easy.modular.sys.model.SysException;
 import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.service.SysExceptionService;
 import com.frame.easy.result.Tips;
-import com.frame.easy.exception.EasyException;
-import com.frame.easy.web.Servlets;
 import com.frame.easy.util.ShiroUtil;
+import com.frame.easy.web.Servlets;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -17,8 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +30,7 @@ import java.util.Date;
  * @author tengchong
  * @date 2018/10/22
  */
-@RestControllerAdvice
+@ControllerAdvice
 public class ExceptionControllerAdvice {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -94,7 +94,6 @@ public class ExceptionControllerAdvice {
             return errorModelAndView(request.getRequestURI(), HttpStatus.UNAUTHORIZED.value(), "您无权限访问此资源", e);
         }
     }
-
 
     /**
      * 未知异常
