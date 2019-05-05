@@ -1499,10 +1499,23 @@ var mUtil = function () {
          * @param errorThrown
          */
         ajaxError: function (XMLHttpRequest, textStatus, errorThrown) {
-            console.error(XMLHttpRequest);
-            console.error(textStatus);
-            console.error(errorThrown);
-            mTool.errorTip(XMLHttpRequest.responseJSON.error + '[' + XMLHttpRequest.responseJSON.code + ']', XMLHttpRequest.responseJSON.path);
+            var res = XMLHttpRequest.responseJSON;
+            if (mTool.httpCode.bad_request === res.code) { // 无效请求
+                if (typeof res.errors !== 'undefined') {
+                    var errors = [];
+                    $(res.errors).each(function (index, error) {
+                        errors.push(error.defaultMessage);
+                    });
+                    mTool.errorTip(mTool.commonTips.fail, errors.join('<br/>'));
+                } else {
+                    mTool.errorTip(mTool.commonTips.fail, res.message);
+                }
+            } else {
+                console.error(XMLHttpRequest);
+                console.error(textStatus);
+                console.error(errorThrown);
+                mTool.errorTip(XMLHttpRequest.responseJSON.error + '[' + XMLHttpRequest.responseJSON.code + ']', XMLHttpRequest.responseJSON.path);
+            }
         },
         /**
          * 显示等待遮罩
@@ -1543,7 +1556,7 @@ var mUtil = function () {
         },
         /**
          * 封装jquery.ajax方法
-         * 拓展属性如下
+         * @param config {object} 参数
          *  config.wait 打开等待遮罩选择器
          *  config.needAlert 失败时是否使用系统mTool.alertWarning弹出data.msg提示;
          *  当不需要提示时可以自定义config.fail(data)方法自定义错误提示
@@ -1551,6 +1564,44 @@ var mUtil = function () {
          * @param config
          */
         ajax: function (config) {
+            /**
+             * 失败处理
+             *
+             * @param config {object} 参数
+             * @param res {object} 服务器返回
+             */
+            var failCallback = function (config, res) {
+                if (config.needAlert == null || config.needAlert) {
+                    if (mUtil.isNotBlank(res.message)) {
+                        if (mTool.httpCode.unauthorized === res.code) { // 无权访问
+                            mTool.errorTip(mTool.commonTips.unauthorized, res.message);
+                            // 权限可能被修改,刷新缓存用户数据
+                            mTool.getUser(false);
+                        } else if (mTool.httpCode.internalServerError === res.code) { // 业务异常
+                            mTool.errorTip(mTool.commonTips.fail, res.message);
+                        } else if (mTool.httpCode.bad_request === res.code) { // 无效请求
+                            if (typeof res.errors !== 'undefined') {
+                                var errors = [];
+                                $(res.errors).each(function (index, error) {
+                                    errors.push(error.defaultMessage);
+                                });
+                                mTool.errorTip(mTool.commonTips.fail, errors.join('<br/>'));
+                            } else {
+                                mTool.errorTip(mTool.commonTips.fail, res.message);
+                            }
+                        } else {
+                            mTool.errorTip('错误代码[' + res.code + ']', res.message);
+                        }
+                    }
+                } else {
+                    if (mUtil.isNotBlank(res.message)) {
+                        console.warn(res.message);
+                    }
+                }
+                if (mUtil.isFunction(config.fail)) {
+                    config.fail(res);
+                }
+            };
             if (mUtil.isNotBlank(config)) {
                 if (mUtil.isNotBlank(config.wait)) {
                     mUtil.openWait(config.wait);
@@ -1584,26 +1635,7 @@ var mUtil = function () {
                                     config.success(res);
                                 }
                             } else {
-                                if (config.needAlert == null || config.needAlert) {
-                                    if (mUtil.isNotBlank(res.message)) {
-                                        if (mTool.httpCode.unauthorized === res.code) { // 无权访问
-                                            mTool.errorTip(mTool.commonTips.unauthorized, res.message);
-                                            // 权限可能被修改,刷新缓存用户数据
-                                            mTool.getUser(false);
-                                        } else if (mTool.httpCode.internalServerError === res.code) { // 业务异常
-                                            mTool.errorTip(mTool.commonTips.fail, res.message);
-                                        } else {
-                                            mTool.errorTip('错误代码[' + res.code + ']', res.message);
-                                        }
-                                    }
-                                } else {
-                                    if (mUtil.isNotBlank(res.message)) {
-                                        console.warn(res.message);
-                                    }
-                                }
-                                if (mUtil.isFunction(config.fail)) {
-                                    config.fail(res);
-                                }
+                                failCallback(config, res);
                             }
                         } else {
                             if (mUtil.isFunction(config.success)) {
@@ -2108,7 +2140,6 @@ var mApp = function () {
             if (typeof config.minView === 'undefined') {
                 config.minView = getMinView(config.format);
             }
-            console.log(config);
             $element.datetimepicker(config);
         });
     };
@@ -6167,6 +6198,7 @@ var mTool = function () {
         currentUser: 'current_user', // 缓存中当前登录用户key
         httpCode: {
             success: 200, // 成功
+            bad_request: 400, // 无效请求
             unauthorized: 401, // 无权访问
             internalServerError: 500 // 异常
         },
