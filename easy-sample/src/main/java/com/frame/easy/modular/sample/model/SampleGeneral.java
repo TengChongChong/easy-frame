@@ -1,15 +1,14 @@
 package com.frame.easy.modular.sample.model;
 
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.frame.easy.base.model.IModel;
+import com.frame.easy.common.page.Page;
+
 import java.io.Serializable;
 import java.util.Date;
-
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.frame.easy.common.page.Page;
-import com.frame.easy.base.model.IModel;
 
 /**
  * 代码生成示例
@@ -21,7 +20,7 @@ import com.frame.easy.base.model.IModel;
 public class SampleGeneral extends Model<SampleGeneral> implements IModel, Serializable{
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Long id;
 
     /**

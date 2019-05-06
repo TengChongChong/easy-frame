@@ -20,7 +20,7 @@ import java.util.Date;
 @TableName("sys_department_type")
 public class SysDepartmentType extends Model<SysDepartmentType> {
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Long id;
     /**
      * 父id

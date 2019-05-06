@@ -23,7 +23,7 @@ import java.io.Serializable;
 public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateDetails> implements IModel, Serializable {
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Long id;
 
     /**

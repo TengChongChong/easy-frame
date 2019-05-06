@@ -28,7 +28,7 @@ public class ${config.modelName} extends Model<${config.modelName}> implements <
      */
     <% } %>
     <% if(field.keyFlag) { %>
-    @TableId(value = "${field.name}", type = IdType.AUTO)
+    @TableId(value = "${field.name}")
     <% } %>
     private ${field.propertyType} ${field.propertyName};
 

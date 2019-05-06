@@ -27,7 +27,7 @@ public class SysUser extends Model<SysUser> implements Serializable, IModel {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Long id;
     /**
      * 部门id

@@ -2,7 +2,6 @@ package com.frame.easy.modular.sys.model;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.io.Serializable;
@@ -16,7 +15,7 @@ import java.io.Serializable;
 @TableName("sys_department_type_role")
 public class SysDepartmentTypeRole extends Model<SysDepartmentTypeRole> {
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Long id;
     /**
      * 部门类型id

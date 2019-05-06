@@ -18,7 +18,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 public class SysMailVerifies extends Model<SysMailVerifies> implements Serializable{
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Long id;
 
     /**

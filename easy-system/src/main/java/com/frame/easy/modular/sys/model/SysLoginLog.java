@@ -19,7 +19,7 @@ public class SysLoginLog extends Model<SysLoginLog> {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Long id;
     /**
      * 日志名称

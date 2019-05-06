@@ -3,11 +3,10 @@ package com.frame.easy.modular.sys.model;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.frame.easy.common.page.Page;
 import com.frame.easy.base.model.IModel;
+import com.frame.easy.common.page.Page;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -23,7 +22,7 @@ import java.io.Serializable;
 public class SysDictType extends Model<SysDictType> implements IModel {
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Long id;
     /**
      * 类别名称

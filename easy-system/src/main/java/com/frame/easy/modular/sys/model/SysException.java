@@ -22,7 +22,7 @@ import com.frame.easy.base.model.IModel;
 public class SysException extends Model<SysException> implements IModel, Serializable{
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Long id;
 
     /**

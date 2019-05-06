@@ -23,7 +23,7 @@ public class SysPermissions extends Model<SysPermissions> {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Long id;
     /**
      * 父id

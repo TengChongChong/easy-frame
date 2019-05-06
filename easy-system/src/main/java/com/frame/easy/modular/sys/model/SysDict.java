@@ -25,7 +25,7 @@ public class SysDict extends Model<SysDict> implements IModel {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Long id;
     /**
      * 排序值

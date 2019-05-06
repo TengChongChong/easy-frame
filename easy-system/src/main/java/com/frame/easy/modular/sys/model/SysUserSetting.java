@@ -19,7 +19,7 @@ public class SysUserSetting extends Model<SysUserSetting> implements Serializabl
     /**
      * 用户id
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Long id;
 
     /**

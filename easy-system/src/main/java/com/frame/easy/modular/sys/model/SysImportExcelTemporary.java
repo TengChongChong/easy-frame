@@ -21,7 +21,7 @@ import java.io.Serializable;
 public class SysImportExcelTemporary extends Model<SysImportExcelTemporary> implements IModel, Serializable{
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     @NotNull(message = "id不能为空")
     private Long id;
 

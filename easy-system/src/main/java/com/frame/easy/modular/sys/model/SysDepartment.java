@@ -1,6 +1,5 @@
 package com.frame.easy.modular.sys.model;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -25,7 +24,7 @@ public class SysDepartment extends Model<SysDepartment> implements IModel {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value="id", type= IdType.AUTO)
+    @TableId(value="id")
     private Long id;
     /**
      * 父id

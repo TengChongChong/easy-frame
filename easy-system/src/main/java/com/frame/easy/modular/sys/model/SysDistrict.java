@@ -17,7 +17,7 @@ import java.io.Serializable;
 public class SysDistrict extends Model<SysDictType> {
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Long id;
     /**
      * 名称
