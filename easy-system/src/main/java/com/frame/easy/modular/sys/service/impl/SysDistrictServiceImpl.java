@@ -34,9 +34,6 @@ import java.util.List;
 @Service
 public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDistrict> implements SysDistrictService {
 
-    @Autowired
-    private SysDistrictMapper mapper;
-
     @Override
     public List<JsTree> selectData(Long pId) {
         List<JsTree> jsTrees;
@@ -47,17 +44,17 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
             JsTree jsTree = JsTreeUtil.getBaseNode();
             // 项目名称
             jsTree.setText("行政区划");
-            jsTree.setChildren(mapper.selectData(JsTreeUtil.baseId));
+            jsTree.setChildren(getBaseMapper().selectData(JsTreeUtil.baseId));
             jsTrees.add(jsTree);
         } else {
-            jsTrees = mapper.selectData(pId);
+            jsTrees = getBaseMapper().selectData(pId);
         }
         return jsTrees;
     }
 
     @Override
     public List<JsTree> selectAll() {
-        List<JsTree> jsTrees = mapper.selectAll();
+        List<JsTree> jsTrees = getBaseMapper().selectAll();
         JsTree jsTree = new JsTree();
         State state = new State();
         jsTree.setId(JsTreeUtil.baseId);
@@ -79,7 +76,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
             sysDistrict.setId(JsTreeUtil.baseId);
             sysDistrict.setName("行政区划");
         } else {
-            sysDistrict = mapper.selectInfo(id);
+            sysDistrict = getBaseMapper().selectInfo(id);
         }
         return sysDistrict;
     }
@@ -129,7 +126,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
     public SysDistrict saveData(SysDistrict object) {
         ToolUtil.checkParams(object);
         if (object.getOrderNo() == null) {
-            object.setOrderNo(mapper.getMaxOrderNo(object.getpId()) + 1);
+            object.setOrderNo(getBaseMapper().getMaxOrderNo(object.getpId()) + 1);
         }
         if (StrUtil.isNotBlank(object.getName())) {
             if (StrUtil.isNotBlank(object.getPinyin())) {
@@ -159,7 +156,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
                 int str = Math.min(position, oldPosition);
                 // 拖动影响顺序节点数量
                 int length = Math.abs(position - oldPosition) + 1;
-                List<SysDistrict> oldSysDistrict = mapper.selectOrderInfo(parent, str, length);
+                List<SysDistrict> oldSysDistrict = getBaseMapper().selectOrderInfo(parent, str, length);
                 List<SysDistrict> newSysDistrict = new ArrayList<>();
                 // 是否需要偏移
                 boolean needDeviation = false;
@@ -186,7 +183,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
                 }
                 isSuccess = updateBatchById(newSysDistrict);
             } else {
-                List<SysDistrict> oldSysDistrict = mapper.selectOrderInfo(parent, null, null);
+                List<SysDistrict> oldSysDistrict = getBaseMapper().selectOrderInfo(parent, null, null);
                 List<SysDistrict> newSysDistrict = new ArrayList<>();
                 // 是否需要偏移
                 boolean needDeviation = false;
@@ -221,7 +218,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
     @Override
     public List<JsTree> search(String title) {
         if (Validator.isNotEmpty(title)) {
-            return mapper.search("%" + title + "%");
+            return getBaseMapper().search("%" + title + "%");
         } else {
             throw new EasyException("请输入关键字后重试！");
         }
@@ -233,7 +230,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
         if (pId != 0L) {
             SysDistrict district = getById(pId);
             if (district != null) {
-                return mapper.selectByPId(district.getpId());
+                return getBaseMapper().selectByPId(district.getpId());
             }
         }
         return null;

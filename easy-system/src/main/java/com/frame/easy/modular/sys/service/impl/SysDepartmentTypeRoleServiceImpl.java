@@ -25,9 +25,6 @@ import java.util.List;
 @Service
 public class SysDepartmentTypeRoleServiceImpl extends ServiceImpl<SysDepartmentTypeRoleMapper, SysDepartmentTypeRole> implements SysDepartmentTypeRoleService {
 
-    @Autowired
-    private SysDepartmentTypeRoleMapper mapper;
-
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
     public boolean saveDepartTypeRole(Long deptTypeId, String roles) {
@@ -61,6 +58,6 @@ public class SysDepartmentTypeRoleServiceImpl extends ServiceImpl<SysDepartmentT
     @Override
     public List<JsTree> selectRoleByDepart(String deptId) {
         ToolUtil.checkParams(deptId);
-        return mapper.selectRoleByDepart(deptId);
+        return getBaseMapper().selectRoleByDepart(deptId);
     }
 }

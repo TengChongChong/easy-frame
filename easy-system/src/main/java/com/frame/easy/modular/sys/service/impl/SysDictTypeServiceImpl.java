@@ -26,9 +26,6 @@ import java.util.List;
 @Service
 public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDictType> implements SysDictTypeService {
 
-    @Autowired
-    private SysDictTypeMapper mapper;
-
     @Override
     public Page select(SysDictType sysDictType) {
         QueryWrapper<SysDictType> queryWrapper = new QueryWrapper<>();
@@ -48,7 +45,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
 
     @Override
     public List<SysDictType> selectAll() {
-        return mapper.selectList(null);
+        return getBaseMapper().selectList(null);
     }
 
     @Transactional(rollbackFor = RuntimeException.class)
@@ -58,7 +55,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
         List<String> idList = Arrays.asList(ids.split(CommonConst.SPLIT));
         QueryWrapper<SysDictType> queryWrapper = new QueryWrapper<>();
         queryWrapper.in("dt.id", idList);
-        if (mapper.countDict(queryWrapper) > 0) {
+        if (getBaseMapper().countDict(queryWrapper) > 0) {
             throw new EasyException("所选字典类型中包含字典，请删除字典后重试");
         }
         return ToolUtil.checkResult(removeByIds(idList));
@@ -79,7 +76,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
         if (Validator.isNotEmpty(object.getId())) {
             queryWrapper.ne("id", object.getId());
         }
-        int count = mapper.selectCount(queryWrapper);
+        int count = getBaseMapper().selectCount(queryWrapper);
         if (count > 0) {
             throw new EasyException("字典类别代码 " + object.getType() + " 已存在");
         }

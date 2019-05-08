@@ -13,9 +13,6 @@ import ${import};
 @Service
 public class ${config.modelName}ServiceImpl extends ServiceImpl<${config.modelName}Mapper, ${config.modelName}> implements ${config.modelName}Service {
 
-    @Autowired
-    private ${config.modelName}Mapper mapper;
-
     <% if(config.genSelect){ %>
     /**
      * 列表

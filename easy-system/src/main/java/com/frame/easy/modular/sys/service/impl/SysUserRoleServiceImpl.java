@@ -28,9 +28,6 @@ import java.util.List;
 @Service
 public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUserRole> implements SysUserRoleService {
 
-    @Autowired
-    private SysUserRoleMapper mapper;
-
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
     public boolean saveUserRole(Long userId, String roles) {
@@ -63,17 +60,17 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
 
     @Override
     public List<String> selectPermissionsByUserId(Long userId) {
-        return mapper.selectPermissionsByUserId(userId, PermissionsStatus.ENABLE.getCode());
+        return getBaseMapper().selectPermissionsByUserId(userId, PermissionsStatus.ENABLE.getCode());
     }
 
     @Override
     public List<SysPermissions> selectMenusByUserId(Long userId) {
-        return mapper.selectMenusByUserId(userId, PermissionsStatus.ENABLE.getCode(), PermissionsType.ENABLE.getCode());
+        return getBaseMapper().selectMenusByUserId(userId, PermissionsStatus.ENABLE.getCode(), PermissionsType.ENABLE.getCode());
     }
 
 
     @Override
     public List<String> selectRoleByUserId(Long userId) {
-        return mapper.selectRoleByUserId(userId, RoleStatus.ENABLE.getCode());
+        return getBaseMapper().selectRoleByUserId(userId, RoleStatus.ENABLE.getCode());
     }
 }

@@ -1,14 +1,12 @@
 package com.frame.easy.modular.sys.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.frame.easy.modular.sys.dao.SysUserSettingMapper;
+import com.frame.easy.modular.sys.model.SysUserSetting;
+import com.frame.easy.modular.sys.service.SysUserSettingService;
 import com.frame.easy.util.ToolUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.frame.easy.common.page.Page;
-import com.frame.easy.modular.sys.model.SysUserSetting;
-import com.frame.easy.modular.sys.dao.SysUserSettingMapper;
-import com.frame.easy.modular.sys.service.SysUserSettingService;
 
 /**
  * 用户偏好设置
@@ -18,9 +16,6 @@ import com.frame.easy.modular.sys.service.SysUserSettingService;
  */
 @Service
 public class SysUserSettingServiceImpl extends ServiceImpl<SysUserSettingMapper, SysUserSetting> implements SysUserSettingService {
-
-    @Autowired
-    private SysUserSettingMapper mapper;
 
     /**
      * 保存

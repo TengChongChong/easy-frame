@@ -37,8 +37,6 @@ import java.util.List;
 @Service
 public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> implements SysDictService {
 
-    @Autowired
-    private SysDictMapper mapper;
 
     @Autowired
     private SysDictTypeMapper dictTypeMapper;
@@ -62,14 +60,14 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
             }
         }
         Page page = ToolUtil.getPage(sysDict);
-        page.setRecords(mapper.select(page, queryWrapper));
+        page.setRecords(getBaseMapper().select(page, queryWrapper));
         return page;
     }
 
     @Override
     public List<SysDict> dictTypeDicts(String dictType) {
         ToolUtil.checkParams(dictType);
-        return mapper.dictTypeDicts(dictType, CommonStatus.ENABLE.getCode());
+        return getBaseMapper().dictTypeDicts(dictType, CommonStatus.ENABLE.getCode());
     }
 
     @Override
@@ -86,7 +84,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     @Override
     public SysDict input(Long id) {
         ToolUtil.checkParams(id);
-        return mapper.selectById(id);
+        return getBaseMapper().selectById(id);
     }
 
     @Override
@@ -95,14 +93,14 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         object.setStatus(CommonStatus.ENABLE.getCode());
         object.setDictType(dictType);
         if (pId != null) {
-            SysDict parentDict = mapper.selectById(pId);
+            SysDict parentDict = getBaseMapper().selectById(pId);
             object.setpCode(parentDict.getCode());
             // 如果点击的是新增下级字典,字典类别默认为父字典的字典类型
             object.setDictType(parentDict.getDictType());
         }
         if (Validator.isNotEmpty(object.getDictType())) {
             // 有字典类型,自动设置排序值
-            object.setOrderNo(mapper.getMaxOrderNo(object.getDictType()) + 1);
+            object.setOrderNo(getBaseMapper().getMaxOrderNo(object.getDictType()) + 1);
         }
         return object;
     }
@@ -125,7 +123,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         if (object.getId() != null) {
             queryWrapper.ne("id", object.getId());
         }
-        int count = mapper.selectCount(queryWrapper);
+        int count = getBaseMapper().selectCount(queryWrapper);
         if (count > 0) {
             throw new EasyException("字典类型 " + object.getDictType() + " 中已存在编码为 " + object.getCode() + " 的字典，请修改后重试");
         }
@@ -137,7 +135,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
             object.setCreateDate(new Date());
         }
         if (object.getOrderNo() == null) {
-            object.setOrderNo(mapper.getMaxOrderNo(object.getDictType()) + 1);
+            object.setOrderNo(getBaseMapper().getMaxOrderNo(object.getDictType()) + 1);
         }
 
         return (SysDict) ToolUtil.checkResult(saveOrUpdate(object), object);
@@ -150,7 +148,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 
     @Override
     public boolean generateDictData() {
-        List<SysDict> sysDicts = mapper.generateDictData(CommonStatus.ENABLE.getCode());
+        List<SysDict> sysDicts = getBaseMapper().generateDictData(CommonStatus.ENABLE.getCode());
         if (Validator.isNotEmpty(sysDicts)) {
             JSONObject sysDictData = new JSONObject();
             String oldDictType = null;

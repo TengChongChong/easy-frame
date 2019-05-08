@@ -26,9 +26,6 @@ import com.frame.easy.modular.sys.service.SysExceptionService;
 @Service
 public class SysExceptionServiceImpl extends ServiceImpl<SysExceptionMapper, SysException> implements SysExceptionService {
 
-    @Autowired
-    private SysExceptionMapper mapper;
-
     /**
      * 列表
      *
@@ -66,7 +63,7 @@ public class SysExceptionServiceImpl extends ServiceImpl<SysExceptionMapper, Sys
             }
         }
         Page page = ToolUtil.getPage(object);
-        page.setRecords(mapper.select(page, queryWrapper));
+        page.setRecords(getBaseMapper().select(page, queryWrapper));
         return page;
     }
 
@@ -79,7 +76,7 @@ public class SysExceptionServiceImpl extends ServiceImpl<SysExceptionMapper, Sys
     @Override
     public SysException input(Long id) {
         ToolUtil.checkParams(id);
-        return mapper.getById(id);
+        return getBaseMapper().getById(id);
     }
 
     /**

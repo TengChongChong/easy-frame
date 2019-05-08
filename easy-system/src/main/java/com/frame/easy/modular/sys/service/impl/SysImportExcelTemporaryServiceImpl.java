@@ -197,6 +197,13 @@ public class SysImportExcelTemporaryServiceImpl extends ServiceImpl<SysImportExc
     @Override
     public SysImportExcelTemporary saveData(SysImportExcelTemporary object) {
         ToolUtil.checkParams(object);
+        // 保存之前检查数据状态
+        List<SysImportExcelTemplateDetails> configs = importExcelTemplateDetailsService.selectDetails(object.getTemplateId());
+        if (configs != null && configs.size() > 0) {
+            for (int i = 0; i < configs.size(); i++) {
+                
+            }
+        }
         return (SysImportExcelTemporary) ToolUtil.checkResult(updateById(object), object);
     }
 

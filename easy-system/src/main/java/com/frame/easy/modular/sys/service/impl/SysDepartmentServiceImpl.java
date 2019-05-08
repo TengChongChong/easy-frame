@@ -38,9 +38,6 @@ import java.util.List;
 public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, SysDepartment> implements SysDepartmentService {
 
     @Autowired
-    private SysDepartmentMapper mapper;
-
-    @Autowired
     private SysDepartmentTypeService sysDepartmentTypeService;
 
     @Autowired
@@ -54,10 +51,10 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
             jsTrees = new ArrayList<>();
             // 根节点
             JsTree jsTree = JsTreeUtil.getBaseNode();
-            jsTree.setChildren(mapper.selectData(JsTreeUtil.baseId));
+            jsTree.setChildren(getBaseMapper().selectData(JsTreeUtil.baseId));
             jsTrees.add(jsTree);
         } else {
-            jsTrees = mapper.selectData(pId);
+            jsTrees = getBaseMapper().selectData(pId);
         }
         return jsTrees;
     }
@@ -65,7 +62,7 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
     @Override
     public List<JsTree> search(String title) {
         if (Validator.isNotEmpty(title)) {
-            return mapper.search("%" + title + "%");
+            return getBaseMapper().search("%" + title + "%");
         } else {
             throw new RuntimeException("请输入关键字后重试！");
         }
@@ -92,7 +89,7 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
             }
         }
         Page page = ToolUtil.getPage(sysDepartment);
-        page.setRecords(mapper.select(page, queryWrapper));
+        page.setRecords(getBaseMapper().select(page, queryWrapper));
         return page;
     }
 
@@ -154,7 +151,7 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
             if (object.getId() != null) {
                 queryWrapper.ne("id", object.getId());
             }
-            int count = mapper.selectCount(queryWrapper);
+            int count = getBaseMapper().selectCount(queryWrapper);
             if (count > 0) {
                 throw new EasyException("已存在编码为[" + object.getCode() + "]的机构，请修改后重试");
             }
@@ -170,7 +167,7 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
             object.setCreateUser(sysUser.getId());
         }
         if (object.getOrderNo() == null) {
-            object.setOrderNo(mapper.getMaxOrderNo(object.getTypeCode()) + 1);
+            object.setOrderNo(getBaseMapper().getMaxOrderNo(object.getTypeCode()) + 1);
         }
         return (SysDepartment) ToolUtil.checkResult(saveOrUpdate(object), object);
     }
@@ -184,7 +181,7 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
             } else {
                 queryWrapper.eq("dt.id", typeIds);
             }
-            return mapper.selectCountByTypeIds(queryWrapper);
+            return getBaseMapper().selectCountByTypeIds(queryWrapper);
         }
         return 0;
     }
@@ -219,11 +216,11 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
         // 获取当前机构下级机构类型
         if (Validator.isNotEmpty(pId) && !pId.equals(JsTreeUtil.baseId)) {
             SysDepartment sysDepartment = getById(pId);
-            option = mapper.selectOptionByTypeCode(sysDepartment.getTypeCode());
+            option = getBaseMapper().selectOptionByTypeCode(sysDepartment.getTypeCode());
         }
         // 当前机构类型
         if (Validator.isNotEmpty(departType)) {
-            option = mapper.selectOptionByPTypeCode(departType);
+            option = getBaseMapper().selectOptionByPTypeCode(departType);
         }
         return option;
     }

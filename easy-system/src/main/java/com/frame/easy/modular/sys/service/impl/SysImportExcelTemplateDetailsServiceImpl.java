@@ -27,9 +27,6 @@ public class SysImportExcelTemplateDetailsServiceImpl extends ServiceImpl<SysImp
     @Autowired
     private SysImportExcelTemplateService importExcelTemplateService;
 
-    @Autowired
-    private SysImportExcelTemplateDetailsMapper mapper;
-
     /**
      * 获取已配置字段
      *
@@ -48,7 +45,7 @@ public class SysImportExcelTemplateDetailsServiceImpl extends ServiceImpl<SysImp
     @Override
     public List<Column> selectTableHeadByTemplateCode(Long templateId) {
         ToolUtil.checkParams(templateId);
-        List<Column> columns = mapper.selectTableHeadByTemplateId(templateId);
+        List<Column> columns = getBaseMapper().selectTableHeadByTemplateId(templateId);
         int columnsLength = columns.size();
         while (columnsLength-- > 0) {
             columns.get(columnsLength).setField("field" + (columnsLength + 1));

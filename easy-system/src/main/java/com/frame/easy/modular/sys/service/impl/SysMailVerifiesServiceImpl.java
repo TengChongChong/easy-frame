@@ -27,9 +27,6 @@ import java.util.Date;
 public class SysMailVerifiesServiceImpl extends ServiceImpl<SysMailVerifiesMapper, SysMailVerifies> implements SysMailVerifiesService {
 
     @Autowired
-    private SysMailVerifiesMapper mapper;
-
-    @Autowired
     private SysUserService sysUserService;
 
 
@@ -100,7 +97,7 @@ public class SysMailVerifiesServiceImpl extends ServiceImpl<SysMailVerifiesMappe
 
     @Override
     public String getMailByUserId(Long userId) {
-        return mapper.getMailByUserId(userId, MailConst.MAIL_BINDING_MAIL);
+        return getBaseMapper().getMailByUserId(userId, MailConst.MAIL_BINDING_MAIL);
     }
 
     @Override

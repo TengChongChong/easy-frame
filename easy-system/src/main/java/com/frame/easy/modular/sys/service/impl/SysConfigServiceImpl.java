@@ -30,8 +30,6 @@ import com.frame.easy.modular.sys.service.SysConfigService;
 @Service
 public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig> implements SysConfigService {
 
-    @Autowired
-    private SysConfigMapper mapper;
     /**
      * 列表
      *
