@@ -4,6 +4,7 @@
         <#portlet:head title="详情信息" icon="la la-file-text-o"/>
         <div class="m-portlet__body">
             <input type="hidden" name="id" value="${object.id}">
+            <input type="hidden" name="templateId" value="${object.templateId}">
             <div class="row">
                 @var index = 1;
                 @for(detail in details){
