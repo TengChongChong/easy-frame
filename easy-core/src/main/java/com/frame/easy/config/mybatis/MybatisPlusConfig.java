@@ -7,16 +7,13 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * MybatisPlus Config
+ *
  * @author tengchong
  * @date 2019-01-15
  */
 @Configuration
 @MapperScan("com.frame.easy.modular.*.dao")
 public class MybatisPlusConfig {
-//    public GlobalConfig globalConfig(){
-//        GlobalConfig config = new GlobalConfig();
-//        config.set
-//    }
     /**
      * 分页插件
      */
