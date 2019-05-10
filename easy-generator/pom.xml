@@ -12,7 +12,7 @@
 
     <artifactId>easy-generator</artifactId>
     <name>easy-generator</name>
-    <description>基础功能</description>
+    <description>代码生成</description>
 
     <packaging>jar</packaging>
 
