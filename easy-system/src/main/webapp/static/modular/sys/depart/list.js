@@ -98,16 +98,16 @@ var mDepartList = function () {
                 },
                 {
                     field: 'code',
-                    title: '机构代码',
+                    title: '机构代码'
                 },
                 {
                     field: 'name',
-                    title: '机构名称',
+                    title: '机构名称'
                 },
                 {
                     field: 'typeCode',
-                    title: '机构类型',
-                    width: 60
+                    title: '机构类型'
+                    // width: 60
                 },
                 {
                     field: 'orderNo',
