@@ -19,24 +19,29 @@ public interface QuartzService {
     /**
      * 添加任务
      *
-     * @param schedulerJob
+     * @param schedulerJob 任务详情
      */
     void addJob(SchedulerJob schedulerJob);
 
     /**
      * 操作任务
-     * @param jobName 任务名称
+     *
+     * @param jobCode         任务代码
      * @param schedulerStatus 任务状态
      */
-    void operateJob(String jobName, SchedulerStatus schedulerStatus);
+    void operateJob(String jobCode, SchedulerStatus schedulerStatus);
 
     /**
      * 全部开始
+     *
+     * @throws SchedulerException 异常
      */
     void startAll() throws SchedulerException;
 
     /**
      * 全部暂停
+     *
+     * @throws SchedulerException 异常
      */
     void pauseAll() throws SchedulerException;
 }

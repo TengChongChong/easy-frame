@@ -30,7 +30,10 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
      * 名称
      */
     private String name;
-
+    /**
+     * 代码
+     */
+    private String code;
     /**
      * cron表达式
      */
@@ -50,6 +53,11 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
      * 状态
      */
     private String status;
+
+    /**
+     * 上次执行时间
+     */
+    private Date lastRunDate;
 
     /**
      * 乐观锁
@@ -167,5 +175,21 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
 
     public void setPage(Page page) {
         this.page = page;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Date getLastRunDate() {
+        return lastRunDate;
+    }
+
+    public void setLastRunDate(Date lastRunDate) {
+        this.lastRunDate = lastRunDate;
     }
 }

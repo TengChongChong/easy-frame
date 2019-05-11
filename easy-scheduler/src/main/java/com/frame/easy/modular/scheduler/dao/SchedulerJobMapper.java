@@ -1,8 +1,11 @@
 package com.frame.easy.modular.scheduler.dao;
 
-import com.frame.easy.modular.scheduler.model.SchedulerJob;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.frame.easy.modular.scheduler.model.SchedulerJob;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 定时任务 
@@ -17,5 +20,13 @@ public interface SchedulerJobMapper extends BaseMapper<SchedulerJob> {
      * @param id 任务id
      * @return 任务名称
      */
-    String getJobNameById(@Param("id") Long id);
+    String getJobCodeById(@Param("id") Long id);
+
+    /**
+     * 根据查询条件查询任务代码
+     *
+     * @param queryWrapper 查询条件
+     * @return 任务代码列表
+     */
+    List<SchedulerJob> selectSchedulerJobCodes(@Param("ew") QueryWrapper<SchedulerJob> queryWrapper);
 }

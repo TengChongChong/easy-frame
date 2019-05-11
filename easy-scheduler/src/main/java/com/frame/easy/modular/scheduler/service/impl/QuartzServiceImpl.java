@@ -44,13 +44,13 @@ public class QuartzServiceImpl implements QuartzService {
     public void addJob(SchedulerJob schedulerJob) {
         if (schedulerJob != null) {
             // 创建触发器
-            Trigger trigger = TriggerBuilder.newTrigger().withIdentity(schedulerJob.getName())
+            Trigger trigger = TriggerBuilder.newTrigger().withIdentity(schedulerJob.getCode())
                     .withSchedule(CronScheduleBuilder.cronSchedule(schedulerJob.getCron()))
                     .startNow()
                     .build();
             // 创建任务
             JobDetail jobDetail = JobBuilder.newJob(QuartzFactory.class)
-                    .withIdentity(schedulerJob.getName())
+                    .withIdentity(schedulerJob.getCode())
                     .build();
             // 传入调度任务对象
             jobDetail.getJobDataMap().put(SchedulerConst.SCHEDULER_JOB_KEY, schedulerJob);
@@ -63,12 +63,12 @@ public class QuartzServiceImpl implements QuartzService {
     }
 
     @Override
-    public void operateJob(String jobName, SchedulerStatus schedulerStatus) {
-        JobKey jobKey = new JobKey(jobName);
+    public void operateJob(String jobCode, SchedulerStatus schedulerStatus) {
+        JobKey jobKey = new JobKey(jobCode);
         try {
             JobDetail jobDetail = scheduler.getJobDetail(jobKey);
             if (jobDetail == null) {
-                throw new EasyException("定时任务[" + jobName + "]不存在");
+                throw new EasyException("定时任务[" + jobCode + "]不存在");
             }
             switch (schedulerStatus) {
                 case ENABLE:
@@ -83,8 +83,8 @@ public class QuartzServiceImpl implements QuartzService {
                 default:
             }
         } catch (SchedulerException e) {
-            logger.warn("获取定时任务[" + jobName + "]失败", e);
-            throw new EasyException("获取定时任务[" + jobName + "]失败");
+            logger.warn("获取定时任务[" + jobCode + "]失败", e);
+            throw new EasyException("获取定时任务[" + jobCode + "]失败");
         }
     }
 

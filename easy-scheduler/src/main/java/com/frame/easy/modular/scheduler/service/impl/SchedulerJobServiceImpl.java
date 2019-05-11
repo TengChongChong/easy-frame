@@ -114,7 +114,17 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
     public boolean delete(String ids) {
         ToolUtil.checkParams(ids);
         List<String> idList = Arrays.asList(ids.split(","));
-        return ToolUtil.checkResult(removeByIds(idList));
+        QueryWrapper<SchedulerJob> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("id", idList);
+        List<SchedulerJob> schedulerJobs = getBaseMapper().selectSchedulerJobCodes(queryWrapper);
+        boolean isSuccess = removeByIds(idList);
+        if (isSuccess) {
+            // 删除成功后删除任务
+            for (SchedulerJob schedulerJob : schedulerJobs) {
+                quartzService.operateJob(schedulerJob.getCode(), SchedulerStatus.DELETE);
+            }
+        }
+        return isSuccess;
     }
 
     /**
@@ -129,7 +139,7 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
         ToolUtil.checkParams(object);
         SysUser currentUser = ShiroUtil.getCurrentUser();
         // 更新前的任务名称
-        String oldJobName = null;
+        String jobJobCode = null;
         object.setEditDate(new Date());
         object.setEditUser(currentUser.getId());
         if (object.getId() == null) {
@@ -137,14 +147,14 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
             object.setCreateDate(new Date());
             object.setCreateUser(currentUser.getId());
         } else {
-            oldJobName = getBaseMapper().getJobNameById(object.getId());
+            jobJobCode = getBaseMapper().getJobCodeById(object.getId());
 
         }
         boolean isSuccess = saveOrUpdate(object);
-        if(isSuccess){
+        if (isSuccess) {
             // 如果是新增直接添加任务,如果是修改则删除原任务后重新添加
-            if(StrUtil.isNotBlank(oldJobName)){
-                quartzService.operateJob(oldJobName, SchedulerStatus.DELETE);
+            if (StrUtil.isNotBlank(jobJobCode)) {
+                quartzService.operateJob(jobJobCode, SchedulerStatus.DELETE);
             }
             quartzService.addJob(object);
         }
@@ -156,7 +166,7 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
         ToolUtil.checkParams(id);
         boolean updateSuccess = updateJobStatus(SchedulerStatus.ENABLE.getCode(), String.valueOf(id));
         if (updateSuccess) {
-            quartzService.operateJob(getBaseMapper().getJobNameById(id), SchedulerStatus.ENABLE);
+            quartzService.operateJob(getBaseMapper().getJobCodeById(id), SchedulerStatus.ENABLE);
         } else {
             throw new EasyException("更新任务状态失败");
         }
@@ -167,7 +177,7 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
         ToolUtil.checkParams(id);
         boolean updateSuccess = updateJobStatus(SchedulerStatus.DISABLE.getCode(), String.valueOf(id));
         if (updateSuccess) {
-            quartzService.operateJob(getBaseMapper().getJobNameById(id), SchedulerStatus.DISABLE);
+            quartzService.operateJob(getBaseMapper().getJobCodeById(id), SchedulerStatus.DISABLE);
         } else {
             throw new EasyException("更新任务状态失败");
         }
@@ -202,6 +212,7 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
             throw new EasyException("暂停任务失败");
         }
     }
+
 
     /**
      * 更改任务状态
