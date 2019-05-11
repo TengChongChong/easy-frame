@@ -28,6 +28,7 @@ public interface ${config.modelName}Service {
     ${config.modelName} input(Long id);
     <% } %>
     <% if(config.genAdd){ %>
+
     /**
      * 新增
      *
@@ -36,6 +37,7 @@ public interface ${config.modelName}Service {
     ${config.modelName} add();
     <% } %>
     <% if(config.genDelete){ %>
+
     /**
      * 删除
      *
@@ -45,6 +47,7 @@ public interface ${config.modelName}Service {
     boolean delete(String ids);
     <% } %>
     <% if(config.genSave){ %>
+
     /**
      * 保存
      *
