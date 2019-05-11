@@ -109,7 +109,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     public boolean delete(String ids) {
         ToolUtil.checkParams(ids);
         List<String> idList = Arrays.asList(ids.split(CommonConst.SPLIT));
-        return ToolUtil.checkResult(removeByIds(idList));
+        return removeByIds(idList);
     }
 
     @Transactional(rollbackFor = RuntimeException.class)

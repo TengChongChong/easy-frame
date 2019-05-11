@@ -4,18 +4,14 @@ import cn.hutool.core.lang.Validator;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.frame.easy.common.constant.CommonConst;
-import com.frame.easy.common.redis.RedisPrefix;
-import com.frame.easy.common.status.CommonStatus;
 import com.frame.easy.common.jstree.JsTree;
 import com.frame.easy.common.jstree.JsTreeUtil;
 import com.frame.easy.common.jstree.State;
+import com.frame.easy.common.redis.RedisPrefix;
+import com.frame.easy.common.status.CommonStatus;
 import com.frame.easy.exception.BusinessException;
 import com.frame.easy.exception.EasyException;
 import com.frame.easy.exception.ExceptionEnum;
-import com.frame.easy.util.RedisUtil;
-import com.frame.easy.util.ShiroUtil;
-import com.frame.easy.util.SysConfigUtil;
-import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysRoleMapper;
 import com.frame.easy.modular.sys.model.SysRole;
 import com.frame.easy.modular.sys.model.SysUser;
@@ -23,11 +19,14 @@ import com.frame.easy.modular.sys.service.SysDepartmentTypeRoleService;
 import com.frame.easy.modular.sys.service.SysRolePermissionsService;
 import com.frame.easy.modular.sys.service.SysRoleService;
 import com.frame.easy.modular.sys.service.SysUserRoleService;
+import com.frame.easy.util.RedisUtil;
+import com.frame.easy.util.ShiroUtil;
+import com.frame.easy.util.SysConfigUtil;
+import com.frame.easy.util.ToolUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -139,7 +138,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             // 删除部门类型可分配的角色
             sysDepartmentTypeRoleService.deleteDepartTypeRole(String.valueOf(id));
         }
-        return ToolUtil.checkResult(isSuccess);
+        return isSuccess;
     }
 
     @Transactional(rollbackFor = RuntimeException.class)
@@ -161,7 +160,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             // 删除部门类型可分配的角色
             sysDepartmentTypeRoleService.deleteDepartTypeRole(ids);
         }
-        return ToolUtil.checkResult(isSuccess);
+        return isSuccess;
     }
 
     @Override

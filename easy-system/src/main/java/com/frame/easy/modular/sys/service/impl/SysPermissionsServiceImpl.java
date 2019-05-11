@@ -139,7 +139,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
             sysRolePermissionsService.deleteRolePermissions(String.valueOf(id));
         }
 
-        return ToolUtil.checkResult(isSuccess);
+        return isSuccess;
     }
 
     @Transactional(rollbackFor = RuntimeException.class)
@@ -159,7 +159,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
             // 同时删除已分配的权限
             sysRolePermissionsService.deleteRolePermissions(ids);
         }
-        return ToolUtil.checkResult(isSuccess);
+        return isSuccess;
     }
 
     @Override

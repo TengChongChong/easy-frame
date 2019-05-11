@@ -118,7 +118,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
             throw new EasyException(BusinessException.EXIST_CHILD.getMessage());
         }
         List<String> idList = Arrays.asList(ids.split(CommonConst.SPLIT));
-        return ToolUtil.checkResult(removeByIds(idList));
+        return removeByIds(idList);
     }
 
     @Transactional(rollbackFor = RuntimeException.class)

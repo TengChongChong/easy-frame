@@ -102,7 +102,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             // 删除分配给用户的权限
             sysUserRoleService.deleteUserRoleByUserIds(ids);
         }
-        return ToolUtil.checkResult(isSuccess);
+        return isSuccess;
     }
 
     @Override

@@ -90,7 +90,7 @@ public class SysExceptionServiceImpl extends ServiceImpl<SysExceptionMapper, Sys
     public boolean delete(String ids) {
         ToolUtil.checkParams(ids);
         List<String> idList = Arrays.asList(ids.split(","));
-        return ToolUtil.checkResult(removeByIds(idList));
+        return removeByIds(idList);
     }
 
     /**

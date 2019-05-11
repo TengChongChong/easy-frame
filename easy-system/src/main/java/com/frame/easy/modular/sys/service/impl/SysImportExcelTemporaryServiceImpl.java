@@ -133,7 +133,7 @@ public class SysImportExcelTemporaryServiceImpl extends ServiceImpl<SysImportExc
     public boolean delete(String ids) {
         ToolUtil.checkParams(ids);
         List<String> idList = Arrays.asList(ids.split(","));
-        return ToolUtil.checkResult(removeByIds(idList));
+        return removeByIds(idList);
     }
 
     @Override

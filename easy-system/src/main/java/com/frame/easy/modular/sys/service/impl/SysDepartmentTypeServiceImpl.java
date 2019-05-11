@@ -135,7 +135,7 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
             // 删除部门类型可选择的角色
             departmentTypeRoleService.deleteDepartTypeRole(String.valueOf(id));
         }
-        return ToolUtil.checkResult(isSuccess);
+        return isSuccess;
     }
 
     @Transactional(rollbackFor = RuntimeException.class)
@@ -160,7 +160,7 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
             // 删除部门类型可选择的角色
             departmentTypeRoleService.deleteDepartTypeRoleByDepartTypeIds(ids);
         }
-        return ToolUtil.checkResult(isSuccess);
+        return isSuccess;
     }
 
     @Override

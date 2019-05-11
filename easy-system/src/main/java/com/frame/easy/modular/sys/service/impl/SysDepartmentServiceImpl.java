@@ -137,7 +137,7 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
             throw new EasyException("所选部门中包含 " + userCount + " 个用户，请移除后重试");
         }
         List<String> idList = Arrays.asList(ids.split(CommonConst.SPLIT));
-        return ToolUtil.checkResult(removeByIds(idList));
+        return removeByIds(idList);
     }
 
     @Transactional(rollbackFor = RuntimeException.class)

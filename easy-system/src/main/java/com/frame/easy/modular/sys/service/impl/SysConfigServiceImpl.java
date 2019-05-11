@@ -104,7 +104,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
         if(isSuccess){
             refreshCache();
         }
-        return ToolUtil.checkResult(isSuccess);
+        return isSuccess;
     }
 
     /**

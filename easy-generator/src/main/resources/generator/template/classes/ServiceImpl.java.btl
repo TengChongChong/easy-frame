@@ -70,7 +70,7 @@ public class ${config.modelName}ServiceImpl extends ServiceImpl<${config.modelNa
     public boolean delete(String ids) {
         ToolUtil.checkParams(ids);
         List<String> idList = Arrays.asList(ids.split(","));
-        return ToolUtil.checkResult(removeByIds(idList));
+        return removeByIds(idList);
     }
     <% } %>
     <% if(config.genSave){ %>

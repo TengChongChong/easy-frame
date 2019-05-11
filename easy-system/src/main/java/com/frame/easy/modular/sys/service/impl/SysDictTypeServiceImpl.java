@@ -58,7 +58,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
         if (getBaseMapper().countDict(queryWrapper) > 0) {
             throw new EasyException("所选字典类型中包含字典，请删除字典后重试");
         }
-        return ToolUtil.checkResult(removeByIds(idList));
+        return removeByIds(idList);
     }
 
     @Transactional(rollbackFor = RuntimeException.class)
