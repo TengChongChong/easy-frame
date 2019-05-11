@@ -18,25 +18,37 @@
     <!--<packaging>jar</packaging>-->
 
     <dependencies>
+        <!-- 核心 -->
         <dependency>
             <groupId>com.frame</groupId>
             <artifactId>easy-core</artifactId>
+            <scope>compile</scope>
         </dependency>
+        <!-- 系统 -->
+        <dependency>
+            <groupId>com.frame</groupId>
+            <artifactId>easy-system</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <!-- 业务(可选) -->
+        <dependency>
+            <groupId>com.frame</groupId>
+            <artifactId>easy-business</artifactId>
+        </dependency>
+        <!-- 代码生成(可选) -->
         <dependency>
             <groupId>com.frame</groupId>
             <artifactId>easy-generator</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.frame</groupId>
-            <artifactId>easy-system</artifactId>
-        </dependency>
+        <!-- 示例(可选) -->
         <dependency>
             <groupId>com.frame</groupId>
             <artifactId>easy-sample</artifactId>
         </dependency>
+        <!-- 定时任务(可选) -->
         <dependency>
             <groupId>com.frame</groupId>
-            <artifactId>easy-business</artifactId>
+            <artifactId>easy-scheduler</artifactId>
         </dependency>
         <!-- str: spring boot -->
         <dependency>
@@ -53,6 +65,7 @@
             <resource>
                 <directory>src/main/webapp</directory>
             </resource>
+            <!-- str: 把其他模块页面&资源引入 -->
             <resource>
                 <directory>../easy-system/src/main/webapp</directory>
             </resource>
@@ -65,6 +78,10 @@
             <resource>
                 <directory>../easy-business/src/main/webapp</directory>
             </resource>
+            <resource>
+                <directory>../easy-scheduler/src/main/webapp</directory>
+            </resource>
+            <!-- end: 把其他模块页面&资源引入 -->
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>

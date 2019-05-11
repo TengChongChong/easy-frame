@@ -15,14 +15,14 @@
     <description>业务模块</description>
 
     <dependencies>
-        <dependency>
-            <groupId>com.frame</groupId>
-            <artifactId>easy-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.frame</groupId>
-            <artifactId>easy-system</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.frame</groupId>-->
+<!--            <artifactId>easy-core</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.frame</groupId>-->
+<!--            <artifactId>easy-system</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
     <build>
         <resources>
