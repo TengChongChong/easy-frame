@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frame.easy.modular.scheduler.dao.SchedulerJobMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.frame.easy.modular.scheduler.model.SchedulerJob">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="cron" property="cron" />
+        <result column="bean" property="bean" />
+        <result column="method" property="method" />
+        <result column="status" property="status" />
+        <result column="version" property="version" />
+        <result column="create_user" property="createUser" />
+        <result column="create_date" property="createDate" />
+        <result column="edit_user" property="editUser" />
+        <result column="edit_date" property="editDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, cron, bean, method, status, version, create_user, create_date, edit_user, edit_date
+    </sql>
+    <select id="getJobNameById" resultType="java.lang.String">
+        select name from scheduler_job where id = #{id}
+    </select>
+
+</mapper>

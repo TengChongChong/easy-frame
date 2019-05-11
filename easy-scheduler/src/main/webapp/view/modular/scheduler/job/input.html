@@ -1,0 +1,37 @@
+@layout("/common/container.html"){
+<form class="m-form">
+    <div class="m-portlet" m-portlet="true">
+        <#portlet:head title="定时任务 " icon="la la-bars"/>
+        <div class="m-portlet__body">
+            <div class="row">
+                <!-- str:表单区域 -->
+                <input type="hidden" id="id" name="id" value="${object.id}" />
+                <div class="col-lg-6 col-12">
+                    <#form:input id="name" name="名称" value="${object.name}" />
+                </div>
+                <div class="col-lg-6 col-12">
+                    <#form:input id="cron" name="cron表达式" value="${object.cron}" />
+                </div>
+                <div class="col-lg-6 col-12">
+                    <#form:input id="bean" name="bean" value="${object.bean}" />
+                </div>
+                <div class="col-lg-6 col-12">
+                    <#form:input id="method" name="method" value="${object.method}" />
+                </div>
+                <div class="col-lg-6 col-12">
+                    <#form:select class="select-picker" dataDictType="commonStatus" id="status" name="状态" value="${object.status}" />
+                </div>
+                <!-- end:表单区域 -->
+            </div>
+        </div>
+        <div class="m-portlet__foot m-portlet__foot--fit">
+            <div class="m-form__actions text-center">
+                <#btn:save permission="scheduler:job:save"/>
+            </div>
+        </div>
+    </div>
+</form>
+<!--begin::页面脚本 -->
+<script src="${ctxPath}/static/modular/scheduler/job/input.js?v=${version()}" type="text/javascript"></script>
+<!--end::页面脚本 -->
+@}
