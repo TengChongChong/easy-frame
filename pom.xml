@@ -18,6 +18,7 @@
         <module>easy-system</module>
         <module>easy-sample</module>
         <module>easy-business</module>
+        <module>easy-scheduler</module>
     </modules>
 
     <!-- Spring Boot -->
@@ -51,6 +52,7 @@
         <xerces.version>2.11.0</xerces.version>
         <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
         <docker.image.prefix>springboot</docker.image.prefix>
+        <quartz.version>2.3.1</quartz.version>
     </properties>
 
     <dependencyManagement>
@@ -59,15 +61,17 @@
                 <groupId>com.frame</groupId>
                 <artifactId>easy-core</artifactId>
                 <version>${easy.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.frame</groupId>
-                <artifactId>easy-app</artifactId>
-                <version>${easy.version}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>com.frame</groupId>
                 <artifactId>easy-system</artifactId>
+                <version>${easy.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.frame</groupId>
+                <artifactId>easy-app</artifactId>
                 <version>${easy.version}</version>
             </dependency>
             <dependency>
@@ -83,6 +87,11 @@
             <dependency>
                 <groupId>com.frame</groupId>
                 <artifactId>easy-business</artifactId>
+                <version>${easy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.frame</groupId>
+                <artifactId>easy-scheduler</artifactId>
                 <version>${easy.version}</version>
             </dependency>
         </dependencies>
