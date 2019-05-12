@@ -46,7 +46,7 @@ public class QuartzConfig {
         factory.setJobFactory(jobFactory);
         factory.setQuartzProperties(quartzProperties());
 
-        //jdbc store
+        // dataSource
         factory.setDataSource(dataSource);
         factory.setTransactionManager(transactionManager);
 
