@@ -1,6 +1,5 @@
 package com.frame.easy.modular.sys.model;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -9,7 +8,7 @@ import com.frame.easy.base.model.IModel;
 import com.frame.easy.common.page.Page;
 import com.frame.easy.util.office.ImportExportUtil;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -35,13 +34,13 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     /**
      * 数据库字段名
      */
-    @NotEmpty(message = "数据库字段名不能为空")
+    @NotBlank(message = "数据库字段名不能为空")
     private String fieldName;
 
     /**
      * 标题
      */
-    @NotEmpty(message = "标题不能为空")
+    @NotBlank(message = "标题不能为空")
     private String title;
 
     /**
@@ -52,7 +51,7 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     /**
      * 字段类型
      */
-    @NotEmpty(message = "字段类型不能为空")
+    @NotBlank(message = "字段类型不能为空")
     private String fieldType;
 
     /**

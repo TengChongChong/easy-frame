@@ -8,17 +8,18 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.frame.easy.base.model.IModel;
 import com.frame.easy.common.page.Page;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 定时任务 
+ * 定时任务
  *
  * @author TengChong
  * @date 2019-05-11
  */
- @TableName("scheduler_job")
-public class SchedulerJob extends Model<SchedulerJob> implements IModel, Serializable{
+@TableName("scheduler_job")
+public class SchedulerJob extends Model<SchedulerJob> implements IModel, Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -30,29 +31,35 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
     /**
      * 名称
      */
+    @NotBlank(message = "名称不能为空")
     private String name;
     /**
      * 代码
      */
+    @NotBlank(message = "代码不能为空")
     private String code;
     /**
      * cron表达式
      */
+    @NotBlank(message = "cron表达式不能为空")
     private String cron;
 
     /**
      * bean
      */
+    @NotBlank(message = "bean不能为空")
     private String bean;
 
     /**
      * method
      */
+    @NotBlank(message = "method不能为空")
     private String method;
 
     /**
      * 状态
      */
+    @NotBlank(message = "状态不能为空")
     private String status;
 
     /**
@@ -92,7 +99,7 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
     /**
      * 分页&排序信息
      */
-    @TableField(exist=false)
+    @TableField(exist = false)
     private Page page;
 
     public SchedulerJob() {
@@ -109,6 +116,7 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
@@ -116,6 +124,7 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
     public void setName(String name) {
         this.name = name;
     }
+
     public String getCron() {
         return cron;
     }
@@ -123,6 +132,7 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
     public void setCron(String cron) {
         this.cron = cron;
     }
+
     public String getBean() {
         return bean;
     }
@@ -130,6 +140,7 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
     public void setBean(String bean) {
         this.bean = bean;
     }
+
     public String getMethod() {
         return method;
     }
@@ -137,6 +148,7 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
     public void setMethod(String method) {
         this.method = method;
     }
+
     public String getStatus() {
         return status;
     }
@@ -144,6 +156,7 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
     public void setStatus(String status) {
         this.status = status;
     }
+
     public Integer getVersion() {
         return version;
     }
@@ -151,6 +164,7 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
     public void setVersion(Integer version) {
         this.version = version;
     }
+
     public Long getCreateUser() {
         return createUser;
     }
@@ -158,6 +172,7 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
     public void setCreateUser(Long createUser) {
         this.createUser = createUser;
     }
+
     public Date getCreateDate() {
         return createDate;
     }
@@ -165,6 +180,7 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
+
     public Long getEditUser() {
         return editUser;
     }
@@ -172,6 +188,7 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
     public void setEditUser(Long editUser) {
         this.editUser = editUser;
     }
+
     public Date getEditDate() {
         return editDate;
     }
@@ -179,6 +196,7 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
     public void setEditDate(Date editDate) {
         this.editDate = editDate;
     }
+
     @Override
     public Page getPage() {
         return page;

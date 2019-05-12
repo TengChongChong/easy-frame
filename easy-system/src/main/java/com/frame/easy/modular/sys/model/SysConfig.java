@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.frame.easy.base.model.IModel;
 import com.frame.easy.common.page.Page;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -27,13 +27,13 @@ public class SysConfig extends Model<SysConfig> implements IModel, Serializable{
     /**
      * key
      */
-    @NotEmpty(message = "key不能为空")
+    @NotBlank(message = "key不能为空")
     private String sysKey;
 
     /**
      * value
      */
-    @NotEmpty(message = "value不能为空")
+    @NotBlank(message = "value不能为空")
     private String value;
 
     /**
@@ -44,7 +44,7 @@ public class SysConfig extends Model<SysConfig> implements IModel, Serializable{
     /**
      * 类型
      */
-    @NotEmpty(message = "类型不能为空")
+    @NotBlank(message = "类型不能为空")
     private String type;
 
     /**

@@ -3,13 +3,12 @@ package com.frame.easy.modular.sys.model;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.frame.easy.common.page.Page;
 import com.frame.easy.base.model.IModel;
+import com.frame.easy.common.page.Page;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
@@ -38,12 +37,12 @@ public class SysDict extends Model<SysDict> implements IModel {
     /**
      * 编码
      */
-    @NotEmpty(message = "编码不能为空")
+    @NotBlank(message = "编码不能为空")
     private String code;
     /**
      * 名称
      */
-    @NotEmpty(message = "名称不能为空")
+    @NotBlank(message = "名称不能为空")
     private String name;
     /**
      * 图标
@@ -61,7 +60,7 @@ public class SysDict extends Model<SysDict> implements IModel {
     /**
      * 字典类型
      */
-    @NotEmpty(message = "类型不能为空")
+    @NotBlank(message = "类型不能为空")
     private String dictType;
     /**
      * css

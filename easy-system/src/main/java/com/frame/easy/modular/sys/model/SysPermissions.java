@@ -1,12 +1,11 @@
 package com.frame.easy.modular.sys.model;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
@@ -44,7 +43,7 @@ public class SysPermissions extends Model<SysPermissions> {
     /**
      * 权限名称
      */
-    @NotEmpty(message = "名称不能为空")
+    @NotBlank(message = "名称不能为空")
     private String name;
     /**
      * 图标

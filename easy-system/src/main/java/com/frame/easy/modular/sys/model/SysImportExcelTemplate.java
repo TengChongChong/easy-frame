@@ -1,6 +1,5 @@
 package com.frame.easy.modular.sys.model;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -8,7 +7,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.frame.easy.base.model.IModel;
 import com.frame.easy.common.page.Page;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -27,13 +26,13 @@ public class SysImportExcelTemplate extends Model<SysImportExcelTemplate> implem
     /**
      * 导入模板名称
      */
-    @NotEmpty(message = "名称不能为空")
+    @NotBlank(message = "名称不能为空")
     private String name;
 
     /**
      * 导入表
      */
-    @NotEmpty(message = "导入表不能为空")
+    @NotBlank(message = "导入表不能为空")
     private String importTable;
 
     /**
@@ -49,14 +48,14 @@ public class SysImportExcelTemplate extends Model<SysImportExcelTemplate> implem
     /**
      * 模板代码
      */
-    @NotEmpty(message = "模板代码不能为空")
+    @NotBlank(message = "模板代码不能为空")
     private String importCode;
 
     /**
      * 权限代码
      * 用于检查当前登录用户是否允许使用此模板
      */
-    @NotEmpty(message = "权限代码不能为空")
+    @NotBlank(message = "权限代码不能为空")
     private String permissionCode;
 
     //

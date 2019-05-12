@@ -7,22 +7,22 @@
                 <!-- str:表单区域 -->
                 <input type="hidden" id="id" name="id" value="${object.id}" />
                 <div class="col-lg-6 col-12">
-                    <#form:input id="name" name="名称" value="${object.name}" />
+                    <#form:input id="name" required="true" name="名称" value="${object.name}" />
                 </div>
                 <div class="col-lg-6 col-12">
-                    <#form:input id="code" name="代码" value="${object.code}" />
+                    <#form:input id="code" required="true" name="代码" value="${object.code}" />
                 </div>
                 <div class="col-lg-6 col-12">
-                    <#form:input id="cron" name="cron表达式" value="${object.cron}" />
+                    <#form:input id="cron" required="true" name="cron表达式" value="${object.cron}" />
                 </div>
                 <div class="col-lg-6 col-12">
-                    <#form:input id="bean" name="bean" value="${object.bean}" />
+                    <#form:input id="bean" required="true" name="bean" value="${object.bean}" />
                 </div>
                 <div class="col-lg-6 col-12">
-                    <#form:input id="method" name="method" value="${object.method}" />
+                    <#form:input id="method" required="true" name="method" value="${object.method}" />
                 </div>
                 <div class="col-lg-6 col-12">
-                    <#form:select class="select-picker" dataDictType="schedulerJobStatus" id="status" name="状态" value="${object.status}" />
+                    <#form:select class="select-picker" required="true" dataDictType="schedulerJobStatus" id="status" name="状态" value="${object.status}" />
                 </div>
                 <!-- end:表单区域 -->
             </div>

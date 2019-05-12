@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.frame.easy.base.model.IModel;
 import com.frame.easy.common.page.Page;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
@@ -37,7 +37,7 @@ public class SysDepartment extends Model<SysDepartment> implements IModel {
     /**
      * 机构类型编码
      */
-    @NotEmpty(message = "机构类型不能为空")
+    @NotBlank(message = "机构类型不能为空")
     private String typeCode;
     /**
      * 机构代码
@@ -46,7 +46,7 @@ public class SysDepartment extends Model<SysDepartment> implements IModel {
     /**
      * 全称
      */
-    @NotEmpty(message = "名称不能为空")
+    @NotBlank(message = "名称不能为空")
     private String name;
     /**
      * 简称
