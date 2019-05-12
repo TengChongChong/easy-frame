@@ -30,7 +30,7 @@ public class ${config.modelName} extends Model<${config.modelName}> implements <
     <% if(field.keyFlag) { %>
     @TableId(value = "${field.name}")
     <% } %>
-    private ${field.propertyType} ${field.propertyName};
+    ${GeneratorJavaUtil.generatorVerification(field.propertyName, config.fieldSets)}private ${field.propertyType} ${field.propertyName};
 
     <% } %>
     //

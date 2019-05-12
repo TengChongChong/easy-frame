@@ -113,7 +113,7 @@ public class ${config.modelName}Controller extends BaseController {
     <% if(config.permissionsCode != null && config.permissionsCode != '') { %>
     @RequiresPermissions("${config.permissionsCode}:save")
     <% } %>
-    public Tips saveData(${config.modelName} object){
+    public Tips saveData(@Valid ${config.modelName} object){
         logger.debug("/auth/${config.controllerMapping}/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }

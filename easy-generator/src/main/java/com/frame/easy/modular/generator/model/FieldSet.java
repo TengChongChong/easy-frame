@@ -31,6 +31,10 @@ public class FieldSet {
      * 属性名称
      */
     private String propertyName;
+    /**
+     * 属性类型
+     */
+    private String propertyType;
 
     /**
      * 是否显示在list 表格字段中
@@ -60,10 +64,6 @@ public class FieldSet {
      * 输入框类型
      */
     private String elementType;
-    /**
-     * 输入框label
-     */
-    private String inputLabel;
     /**
      * 匹配方式
      */
@@ -229,14 +229,6 @@ public class FieldSet {
         this.newRow = newRow;
     }
 
-    public String getInputLabel() {
-        return inputLabel;
-    }
-
-    public void setInputLabel(String inputLabel) {
-        this.inputLabel = inputLabel;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -259,5 +251,13 @@ public class FieldSet {
 
     public void setPropertyName(String propertyName) {
         this.propertyName = propertyName;
+    }
+
+    public String getPropertyType() {
+        return propertyType;
+    }
+
+    public void setPropertyType(String propertyType) {
+        this.propertyType = propertyType;
     }
 }

@@ -40,6 +40,10 @@ public class ModelConfig {
             // 自定义接口
             imports.add("com.frame.easy.base.model.IModel");
         }
+        if(generator.getGenSave()){
+            imports.add("javax.validation.constraints.NotBlank");
+            imports.add("javax.validation.constraints.NotNull");
+        }
         this.imports = imports;
         this.path = Const.JAVA_PATH +
                 generator.getModelPackage().replace(".", File.separator) + File.separator +

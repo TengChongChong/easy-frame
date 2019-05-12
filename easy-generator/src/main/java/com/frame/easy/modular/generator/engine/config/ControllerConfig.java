@@ -36,6 +36,10 @@ public class ControllerConfig {
         imports.add("org.springframework.web.bind.annotation.*");
         imports.add(generator.getModelPackage() + Const.PACKAGE_SPLIT + generator.getModelName());
         imports.add(generator.getServicePackage() + Const.PACKAGE_SPLIT + generator.getModelName() + "Service");
+        if(generator.getGenSave()){
+            // 表达验证
+            imports.add("javax.validation.Valid");
+        }
         this.imports = imports;
         this.path = Const.JAVA_PATH +
                 generator.getControllerPackage().replace(".", File.separator) + File.separator +
