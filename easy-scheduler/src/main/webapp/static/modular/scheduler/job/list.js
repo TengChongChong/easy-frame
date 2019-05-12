@@ -55,7 +55,7 @@ var mSchedulerJobList = function () {
                     template: function (row, index, datatable) {
                         var _btn = '';
                         if (mTool.hasPermissions('scheduler:job:save')) {
-                            _btn += '<a href="#" onclick="mTool.editById(this, \'' + row.id + '\')" class="' + mTool.ACTIONS_DANGER + '" title="编辑">\
+                            _btn += '<a href="#" onclick="mTool.editById(this, \'' + row.id + '\', \'' + row.name + '\')" class="' + mTool.ACTIONS_DANGER + '" title="编辑">\
                                 <i class="la la-edit"></i>\
                             </a>';
                         }

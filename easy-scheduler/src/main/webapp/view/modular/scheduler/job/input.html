@@ -16,13 +16,13 @@
                     <#form:input id="cron" required="true" name="cron表达式" value="${object.cron}" />
                 </div>
                 <div class="col-lg-6 col-12">
+                    <#form:select class="select-picker" required="true" dataDictType="schedulerJobStatus" id="status" name="状态" value="${object.status}" />
+                </div>
+                <div class="col-lg-6 col-12">
                     <#form:input id="bean" required="true" name="bean" value="${object.bean}" />
                 </div>
                 <div class="col-lg-6 col-12">
                     <#form:input id="method" required="true" name="method" value="${object.method}" />
-                </div>
-                <div class="col-lg-6 col-12">
-                    <#form:select class="select-picker" required="true" dataDictType="schedulerJobStatus" id="status" name="状态" value="${object.status}" />
                 </div>
                 <!-- end:表单区域 -->
             </div>
