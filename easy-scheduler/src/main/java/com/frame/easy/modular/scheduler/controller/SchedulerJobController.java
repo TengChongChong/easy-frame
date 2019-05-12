@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import com.frame.easy.modular.scheduler.model.SchedulerJob;
 import com.frame.easy.modular.scheduler.service.SchedulerJobService;
 
+import javax.validation.Valid;
+
 /**
  * 定时任务 
  *
@@ -102,7 +104,7 @@ public class SchedulerJobController extends BaseController {
     @RequestMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("scheduler:job:save")
-    public Tips saveData(SchedulerJob object){
+    public Tips saveData(@Valid SchedulerJob object){
         logger.debug("/auth/scheduler/job/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }

@@ -11,11 +11,199 @@
  Target Server Version : 50718
  File Encoding         : 65001
 
- Date: 11/05/2019 23:34:18
+ Date: 12/05/2019 20:51:39
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for qrtz_blob_triggers
+-- ----------------------------
+DROP TABLE IF EXISTS `qrtz_blob_triggers`;
+CREATE TABLE `qrtz_blob_triggers` (
+  `sched_name` varchar(120) COLLATE utf8mb4_bin NOT NULL,
+  `trigger_name` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `trigger_group` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `blob_data` blob,
+  PRIMARY KEY (`sched_name`,`trigger_name`,`trigger_group`),
+  CONSTRAINT `qrtz_blob_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;;
+
+-- ----------------------------
+-- Table structure for qrtz_calendars
+-- ----------------------------
+DROP TABLE IF EXISTS `qrtz_calendars`;
+CREATE TABLE `qrtz_calendars` (
+  `sched_name` varchar(120) COLLATE utf8mb4_bin NOT NULL,
+  `calendar_name` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `calendar` blob NOT NULL,
+  PRIMARY KEY (`sched_name`,`calendar_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;;
+
+-- ----------------------------
+-- Table structure for qrtz_cron_triggers
+-- ----------------------------
+DROP TABLE IF EXISTS `qrtz_cron_triggers`;
+CREATE TABLE `qrtz_cron_triggers` (
+  `sched_name` varchar(120) COLLATE utf8mb4_bin NOT NULL,
+  `trigger_name` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `trigger_group` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `cron_expression` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `time_zone_id` varchar(80) COLLATE utf8mb4_bin DEFAULT NULL,
+  PRIMARY KEY (`sched_name`,`trigger_name`,`trigger_group`),
+  CONSTRAINT `qrtz_cron_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;;
+
+-- ----------------------------
+-- Table structure for qrtz_fired_triggers
+-- ----------------------------
+DROP TABLE IF EXISTS `qrtz_fired_triggers`;
+CREATE TABLE `qrtz_fired_triggers` (
+  `sched_name` varchar(120) COLLATE utf8mb4_bin NOT NULL,
+  `entry_id` varchar(95) COLLATE utf8mb4_bin NOT NULL,
+  `trigger_name` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `trigger_group` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `instance_name` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `fired_time` bigint(13) NOT NULL,
+  `sched_time` bigint(13) NOT NULL,
+  `priority` int(11) NOT NULL,
+  `state` varchar(16) COLLATE utf8mb4_bin NOT NULL,
+  `job_name` varchar(200) COLLATE utf8mb4_bin DEFAULT NULL,
+  `job_group` varchar(200) COLLATE utf8mb4_bin DEFAULT NULL,
+  `is_nonconcurrent` varchar(1) COLLATE utf8mb4_bin DEFAULT NULL,
+  `requests_recovery` varchar(1) COLLATE utf8mb4_bin DEFAULT NULL,
+  PRIMARY KEY (`sched_name`,`entry_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;;
+
+-- ----------------------------
+-- Table structure for qrtz_job_details
+-- ----------------------------
+DROP TABLE IF EXISTS `qrtz_job_details`;
+CREATE TABLE `qrtz_job_details` (
+  `sched_name` varchar(120) COLLATE utf8mb4_bin NOT NULL,
+  `job_name` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `job_group` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `description` varchar(250) COLLATE utf8mb4_bin DEFAULT NULL,
+  `job_class_name` varchar(250) COLLATE utf8mb4_bin NOT NULL,
+  `is_durable` varchar(1) COLLATE utf8mb4_bin NOT NULL,
+  `is_nonconcurrent` varchar(1) COLLATE utf8mb4_bin NOT NULL,
+  `is_update_data` varchar(1) COLLATE utf8mb4_bin NOT NULL,
+  `requests_recovery` varchar(1) COLLATE utf8mb4_bin NOT NULL,
+  `job_data` blob,
+  PRIMARY KEY (`sched_name`,`job_name`,`job_group`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;;
+
+-- ----------------------------
+-- Table structure for qrtz_locks
+-- ----------------------------
+DROP TABLE IF EXISTS `qrtz_locks`;
+CREATE TABLE `qrtz_locks` (
+  `sched_name` varchar(120) COLLATE utf8mb4_bin NOT NULL,
+  `lock_name` varchar(40) COLLATE utf8mb4_bin NOT NULL,
+  PRIMARY KEY (`sched_name`,`lock_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;;
+
+-- ----------------------------
+-- Records of qrtz_locks
+-- ----------------------------
+BEGIN;
+INSERT INTO `qrtz_locks` VALUES ('easy-frame-quartz', 'STATE_ACCESS');
+INSERT INTO `qrtz_locks` VALUES ('easy-frame-quartz', 'TRIGGER_ACCESS');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for qrtz_paused_trigger_grps
+-- ----------------------------
+DROP TABLE IF EXISTS `qrtz_paused_trigger_grps`;
+CREATE TABLE `qrtz_paused_trigger_grps` (
+  `sched_name` varchar(120) COLLATE utf8mb4_bin NOT NULL,
+  `trigger_group` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  PRIMARY KEY (`sched_name`,`trigger_group`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;;
+
+-- ----------------------------
+-- Table structure for qrtz_scheduler_state
+-- ----------------------------
+DROP TABLE IF EXISTS `qrtz_scheduler_state`;
+CREATE TABLE `qrtz_scheduler_state` (
+  `sched_name` varchar(120) COLLATE utf8mb4_bin NOT NULL,
+  `instance_name` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `last_checkin_time` bigint(13) NOT NULL,
+  `checkin_interval` bigint(13) NOT NULL,
+  PRIMARY KEY (`sched_name`,`instance_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;;
+
+-- ----------------------------
+-- Records of qrtz_scheduler_state
+-- ----------------------------
+BEGIN;
+INSERT INTO `qrtz_scheduler_state` VALUES ('easy-frame-quartz', 'localhost1557665296071', 1557665497758, 7500);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for qrtz_simple_triggers
+-- ----------------------------
+DROP TABLE IF EXISTS `qrtz_simple_triggers`;
+CREATE TABLE `qrtz_simple_triggers` (
+  `sched_name` varchar(120) COLLATE utf8mb4_bin NOT NULL,
+  `trigger_name` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `trigger_group` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `repeat_count` bigint(7) NOT NULL,
+  `repeat_interval` bigint(12) NOT NULL,
+  `times_triggered` bigint(10) NOT NULL,
+  PRIMARY KEY (`sched_name`,`trigger_name`,`trigger_group`),
+  CONSTRAINT `qrtz_simple_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;;
+
+-- ----------------------------
+-- Table structure for qrtz_simprop_triggers
+-- ----------------------------
+DROP TABLE IF EXISTS `qrtz_simprop_triggers`;
+CREATE TABLE `qrtz_simprop_triggers` (
+  `sched_name` varchar(120) COLLATE utf8mb4_bin NOT NULL,
+  `trigger_name` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `trigger_group` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `str_prop_1` varchar(512) COLLATE utf8mb4_bin DEFAULT NULL,
+  `str_prop_2` varchar(512) COLLATE utf8mb4_bin DEFAULT NULL,
+  `str_prop_3` varchar(512) COLLATE utf8mb4_bin DEFAULT NULL,
+  `int_prop_1` int(11) DEFAULT NULL,
+  `int_prop_2` int(11) DEFAULT NULL,
+  `long_prop_1` bigint(20) DEFAULT NULL,
+  `long_prop_2` bigint(20) DEFAULT NULL,
+  `dec_prop_1` decimal(13,4) DEFAULT NULL,
+  `dec_prop_2` decimal(13,4) DEFAULT NULL,
+  `bool_prop_1` varchar(1) COLLATE utf8mb4_bin DEFAULT NULL,
+  `bool_prop_2` varchar(1) COLLATE utf8mb4_bin DEFAULT NULL,
+  PRIMARY KEY (`sched_name`,`trigger_name`,`trigger_group`),
+  CONSTRAINT `qrtz_simprop_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;;
+
+-- ----------------------------
+-- Table structure for qrtz_triggers
+-- ----------------------------
+DROP TABLE IF EXISTS `qrtz_triggers`;
+CREATE TABLE `qrtz_triggers` (
+  `sched_name` varchar(120) COLLATE utf8mb4_bin NOT NULL,
+  `trigger_name` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `trigger_group` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `job_name` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `job_group` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `description` varchar(250) COLLATE utf8mb4_bin DEFAULT NULL,
+  `next_fire_time` bigint(13) DEFAULT NULL,
+  `prev_fire_time` bigint(13) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
+  `trigger_state` varchar(16) COLLATE utf8mb4_bin NOT NULL,
+  `trigger_type` varchar(8) COLLATE utf8mb4_bin NOT NULL,
+  `start_time` bigint(13) NOT NULL,
+  `end_time` bigint(13) DEFAULT NULL,
+  `calendar_name` varchar(200) COLLATE utf8mb4_bin DEFAULT NULL,
+  `misfire_instr` smallint(2) DEFAULT NULL,
+  `job_data` blob,
+  PRIMARY KEY (`sched_name`,`trigger_name`,`trigger_group`),
+  KEY `sched_name` (`sched_name`,`job_name`,`job_group`),
+  CONSTRAINT `qrtz_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `job_name`, `job_group`) REFERENCES `qrtz_job_details` (`sched_name`, `job_name`, `job_group`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;;
 
 -- ----------------------------
 -- Table structure for sample_general
@@ -10091,7 +10279,14 @@ CREATE TABLE `scheduler_job` (
   `code` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '任务代码',
   `last_run_date` datetime DEFAULT NULL COMMENT '上次执行时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='定时任务 ';;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='定时任务 ';;
+
+-- ----------------------------
+-- Records of scheduler_job
+-- ----------------------------
+BEGIN;
+INSERT INTO `scheduler_job` VALUES (1, '示例任务', '0/5 * * * * ?', 'sampleJob', 'sampleJob', '2', NULL, 126, '2019-05-12 09:36:10', 126, '2019-05-12 09:36:10', 'sample-job', '2019-05-12 20:39:25');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for scheduler_job_log
@@ -10103,7 +10298,68 @@ CREATE TABLE `scheduler_job_log` (
   `run_date` datetime DEFAULT NULL COMMENT '执行时间',
   `time_consuming` int(10) DEFAULT NULL COMMENT '耗时',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='定时任务执行日志';;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='定时任务执行日志';;
+
+-- ----------------------------
+-- Records of scheduler_job_log
+-- ----------------------------
+BEGIN;
+INSERT INTO `scheduler_job_log` VALUES (1, 1, '2019-05-12 10:57:21', 99);
+INSERT INTO `scheduler_job_log` VALUES (2, 1, '2019-05-12 10:57:25', 16);
+INSERT INTO `scheduler_job_log` VALUES (3, 1, '2019-05-12 10:57:30', 26);
+INSERT INTO `scheduler_job_log` VALUES (4, 1, '2019-05-12 10:57:35', 10);
+INSERT INTO `scheduler_job_log` VALUES (5, 1, '2019-05-12 10:57:40', 30);
+INSERT INTO `scheduler_job_log` VALUES (6, 1, '2019-05-12 10:57:45', 10);
+INSERT INTO `scheduler_job_log` VALUES (7, 1, '2019-05-12 10:57:50', 12);
+INSERT INTO `scheduler_job_log` VALUES (8, 1, '2019-05-12 10:57:55', 35);
+INSERT INTO `scheduler_job_log` VALUES (9, 1, '2019-05-12 10:58:00', 22);
+INSERT INTO `scheduler_job_log` VALUES (10, 1, '2019-05-12 10:58:05', 23);
+INSERT INTO `scheduler_job_log` VALUES (11, 1, '2019-05-12 10:58:10', 11);
+INSERT INTO `scheduler_job_log` VALUES (12, 1, '2019-05-12 10:58:15', 22);
+INSERT INTO `scheduler_job_log` VALUES (13, 1, '2019-05-12 10:58:20', 198);
+INSERT INTO `scheduler_job_log` VALUES (14, 1, '2019-05-12 10:58:25', 10);
+INSERT INTO `scheduler_job_log` VALUES (15, 1, '2019-05-12 10:58:30', 9);
+INSERT INTO `scheduler_job_log` VALUES (16, 1, '2019-05-12 10:58:35', 12);
+INSERT INTO `scheduler_job_log` VALUES (17, 1, '2019-05-12 10:58:40', 71);
+INSERT INTO `scheduler_job_log` VALUES (18, 1, '2019-05-12 10:58:45', 14);
+INSERT INTO `scheduler_job_log` VALUES (19, 1, '2019-05-12 10:58:50', 14);
+INSERT INTO `scheduler_job_log` VALUES (20, 1, '2019-05-12 10:58:55', 10);
+INSERT INTO `scheduler_job_log` VALUES (21, 1, '2019-05-12 10:59:00', 8);
+INSERT INTO `scheduler_job_log` VALUES (22, 1, '2019-05-12 10:59:05', 20);
+INSERT INTO `scheduler_job_log` VALUES (23, 1, '2019-05-12 10:59:10', 19);
+INSERT INTO `scheduler_job_log` VALUES (24, 1, '2019-05-12 10:59:15', 26);
+INSERT INTO `scheduler_job_log` VALUES (25, 1, '2019-05-12 10:59:20', 362);
+INSERT INTO `scheduler_job_log` VALUES (26, 1, '2019-05-12 10:59:25', 12);
+INSERT INTO `scheduler_job_log` VALUES (27, 1, '2019-05-12 10:59:30', 20);
+INSERT INTO `scheduler_job_log` VALUES (28, 1, '2019-05-12 10:59:35', 12);
+INSERT INTO `scheduler_job_log` VALUES (29, 1, '2019-05-12 10:59:40', 10);
+INSERT INTO `scheduler_job_log` VALUES (30, 1, '2019-05-12 10:59:45', 16);
+INSERT INTO `scheduler_job_log` VALUES (31, 1, '2019-05-12 10:59:50', 26);
+INSERT INTO `scheduler_job_log` VALUES (32, 1, '2019-05-12 10:59:55', 10);
+INSERT INTO `scheduler_job_log` VALUES (33, 1, '2019-05-12 11:00:00', 9);
+INSERT INTO `scheduler_job_log` VALUES (34, 1, '2019-05-12 11:41:50', 55);
+INSERT INTO `scheduler_job_log` VALUES (35, 1, '2019-05-12 11:41:55', 13);
+INSERT INTO `scheduler_job_log` VALUES (36, 1, '2019-05-12 11:42:00', 15);
+INSERT INTO `scheduler_job_log` VALUES (37, 1, '2019-05-12 11:42:05', 11);
+INSERT INTO `scheduler_job_log` VALUES (38, 1, '2019-05-12 11:42:10', 16);
+INSERT INTO `scheduler_job_log` VALUES (39, 1, '2019-05-12 11:42:15', 33);
+INSERT INTO `scheduler_job_log` VALUES (40, 1, '2019-05-12 11:42:20', 11);
+INSERT INTO `scheduler_job_log` VALUES (41, 1, '2019-05-12 11:42:25', 11);
+INSERT INTO `scheduler_job_log` VALUES (42, 1, '2019-05-12 11:42:30', 24);
+INSERT INTO `scheduler_job_log` VALUES (43, 1, '2019-05-12 11:42:35', 15);
+INSERT INTO `scheduler_job_log` VALUES (44, 1, '2019-05-12 11:42:40', 11);
+INSERT INTO `scheduler_job_log` VALUES (45, 1, '2019-05-12 11:42:45', 16);
+INSERT INTO `scheduler_job_log` VALUES (46, 1, '2019-05-12 11:42:50', 12);
+INSERT INTO `scheduler_job_log` VALUES (47, 1, '2019-05-12 11:42:55', 11);
+INSERT INTO `scheduler_job_log` VALUES (48, 1, '2019-05-12 11:43:00', 14);
+INSERT INTO `scheduler_job_log` VALUES (49, 1, '2019-05-12 20:38:55', 78);
+INSERT INTO `scheduler_job_log` VALUES (50, 1, '2019-05-12 20:39:00', 10);
+INSERT INTO `scheduler_job_log` VALUES (51, 1, '2019-05-12 20:39:05', 8);
+INSERT INTO `scheduler_job_log` VALUES (52, 1, '2019-05-12 20:39:10', 9);
+INSERT INTO `scheduler_job_log` VALUES (53, 1, '2019-05-12 20:39:15', 13);
+INSERT INTO `scheduler_job_log` VALUES (54, 1, '2019-05-12 20:39:20', 7);
+INSERT INTO `scheduler_job_log` VALUES (55, 1, '2019-05-12 20:39:25', 9);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for sys_config
@@ -10243,7 +10499,7 @@ CREATE TABLE `sys_dict` (
   `css` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'class',
   `icon` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '图标',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1068 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='字典';;
+) ENGINE=InnoDB AUTO_INCREMENT=1070 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='字典';;
 
 -- ----------------------------
 -- Records of sys_dict
@@ -10312,6 +10568,8 @@ INSERT INTO `sys_dict` VALUES (1064, 4, '', 'import', 'import', '', 1, 'module',
 INSERT INTO `sys_dict` VALUES (1065, 1, '', '菜单', '1', '', 1, 'permissionsType', 126, '2019-04-17 21:22:59', 126, '2019-04-17 21:22:59', '', '');
 INSERT INTO `sys_dict` VALUES (1066, 2, '', '权限', '2', '', 1, 'permissionsType', 126, '2019-04-17 21:23:09', 126, '2019-04-17 21:23:09', '', '');
 INSERT INTO `sys_dict` VALUES (1067, 5, '', 'scheduler', 'scheduler', '', 1, 'module', 126, '2019-05-11 22:59:39', 126, '2019-05-11 22:59:39', '', '');
+INSERT INTO `sys_dict` VALUES (1068, 1, '', '开启', '1', '', 1, 'schedulerJobStatus', 126, '2019-05-12 10:12:32', 126, '2019-05-12 10:12:55', 'm-badge m-badge--success m-badge--wide', '');
+INSERT INTO `sys_dict` VALUES (1069, 2, '', '暂停', '2', '', 1, 'schedulerJobStatus', 126, '2019-05-12 10:12:48', 126, '2019-05-12 10:16:36', 'm-badge m-badge--warning m-badge--wide', '');
 COMMIT;
 
 -- ----------------------------
@@ -10324,7 +10582,7 @@ CREATE TABLE `sys_dict_type` (
   `type` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '字典类别',
   `status` int(2) DEFAULT NULL COMMENT '状态',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='字典类别';;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='字典类别';;
 
 -- ----------------------------
 -- Records of sys_dict_type
@@ -10347,6 +10605,7 @@ INSERT INTO `sys_dict_type` VALUES (21, '主题', 'themes', 1);
 INSERT INTO `sys_dict_type` VALUES (22, '提示类型', 'tipType', 1);
 INSERT INTO `sys_dict_type` VALUES (23, '性别', 'sex', 1);
 INSERT INTO `sys_dict_type` VALUES (24, '权限类型', 'permissionsType', 1);
+INSERT INTO `sys_dict_type` VALUES (25, '任务状态', 'schedulerJobStatus', 1);
 COMMIT;
 
 -- ----------------------------
@@ -14341,11 +14600,10 @@ INSERT INTO `sys_permissions` VALUES (231, '', '', NULL, '文件上传', 'la la-
 INSERT INTO `sys_permissions` VALUES (234, '', '', NULL, '系统功能', 'la la-cubes', '', 32, 1, 2, 1, NULL, '', 126, '2019-04-21 15:10:10', 126, '2019-04-21 15:10:10', NULL, 0, '');
 INSERT INTO `sys_permissions` VALUES (235, 'import:data', '', NULL, '数据导入', 'la la-cloud-upload', '', 1, 2, 2, 1, NULL, '', 126, '2019-04-21 15:10:26', 126, '2019-04-21 15:10:43', NULL, 234, '');
 INSERT INTO `sys_permissions` VALUES (236, 'scheduler:job:select', '', NULL, '定时任务 ', 'la la-dashboard', '/auth/scheduler/job/list', 3, 2, 1, 1, NULL, '', 126, '2019-05-11 17:49:15', 126, '2019-05-11 17:54:05', NULL, 164, '');
-INSERT INTO `sys_permissions` VALUES (237, 'scheduler:job:save', NULL, NULL, '保存/修改', 'la la-save', NULL, 1, 3, 2, 1, NULL, NULL, 126, '2019-05-11 17:49:15', 126, '2019-05-11 17:49:15', NULL, 236, NULL);
-INSERT INTO `sys_permissions` VALUES (238, 'scheduler:job:delete', NULL, NULL, '删除', 'la la-trash', NULL, 2, 3, 2, 1, NULL, NULL, 126, '2019-05-11 17:49:15', 126, '2019-05-11 17:49:15', NULL, 236, NULL);
-INSERT INTO `sys_permissions` VALUES (239, 'scheduler:job:add', NULL, NULL, '新增', 'la la-plus', NULL, 3, 3, 2, 1, NULL, NULL, 126, '2019-05-11 17:49:15', 126, '2019-05-11 17:49:15', NULL, 236, NULL);
-INSERT INTO `sys_permissions` VALUES (240, 'scheduler:job:log:select', NULL, NULL, '定时任务执行日志', 'la la-bars', '/auth/scheduler/job/log/list', 33, 1, 1, 1, NULL, NULL, 126, '2019-05-11 23:00:36', 126, '2019-05-11 23:00:36', NULL, 0, NULL);
-INSERT INTO `sys_permissions` VALUES (241, 'scheduler:job:log:save', NULL, NULL, '保存/修改', 'la la-save', NULL, 1, 2, 2, 1, NULL, NULL, 126, '2019-05-11 23:00:36', 126, '2019-05-11 23:00:36', NULL, 240, NULL);
+INSERT INTO `sys_permissions` VALUES (237, 'scheduler:job:save', NULL, NULL, '保存/修改', 'la la-save', NULL, 2, 3, 2, 1, NULL, NULL, 126, '2019-05-11 17:49:15', 126, '2019-05-11 17:49:15', NULL, 236, NULL);
+INSERT INTO `sys_permissions` VALUES (238, 'scheduler:job:delete', NULL, NULL, '删除', 'la la-trash', NULL, 3, 3, 2, 1, NULL, NULL, 126, '2019-05-11 17:49:15', 126, '2019-05-11 17:49:15', NULL, 236, NULL);
+INSERT INTO `sys_permissions` VALUES (239, 'scheduler:job:add', NULL, NULL, '新增', 'la la-plus', NULL, 4, 3, 2, 1, NULL, NULL, 126, '2019-05-11 17:49:15', 126, '2019-05-11 17:49:15', NULL, 236, NULL);
+INSERT INTO `sys_permissions` VALUES (240, 'scheduler:job:log:select', '', NULL, '执行日志', 'la la-file-text', '', 1, 3, 2, 1, NULL, '', 126, '2019-05-11 23:00:36', 126, '2019-05-12 10:35:53', NULL, 236, '');
 COMMIT;
 
 -- ----------------------------
@@ -14373,7 +14631,7 @@ CREATE TABLE `sys_role` (
 -- Records of sys_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role` VALUES (3, 88, 0, '系统管理员', NULL, 'sys:admin', '2018-11-26 23:14:42', 1, 126, '2019-05-11 17:55:01', '1', NULL, '拥有至高无上的权利');
+INSERT INTO `sys_role` VALUES (3, 89, 0, '系统管理员', NULL, 'sys:admin', '2018-11-26 23:14:42', 1, 126, '2019-05-12 10:59:44', '1', NULL, '拥有至高无上的权利');
 INSERT INTO `sys_role` VALUES (4, 68, 0, '演示', NULL, 'demonstration', '2018-11-27 07:48:43', 1, 126, '2019-01-21 20:48:46', '1', NULL, '');
 COMMIT;
 
@@ -14386,148 +14644,149 @@ CREATE TABLE `sys_role_permissions` (
   `permissions_id` bigint(20) NOT NULL,
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5471 DEFAULT CHARSET=utf8 COMMENT='角色权限';;
+) ENGINE=InnoDB AUTO_INCREMENT=5608 DEFAULT CHARSET=utf8 COMMENT='角色权限';;
 
 -- ----------------------------
 -- Records of sys_role_permissions
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role_permissions` VALUES (3, 0, 5335);
-INSERT INTO `sys_role_permissions` VALUES (3, 2, 5336);
-INSERT INTO `sys_role_permissions` VALUES (3, 4, 5337);
-INSERT INTO `sys_role_permissions` VALUES (3, 5, 5338);
-INSERT INTO `sys_role_permissions` VALUES (3, 6, 5339);
-INSERT INTO `sys_role_permissions` VALUES (3, 7, 5340);
-INSERT INTO `sys_role_permissions` VALUES (3, 8, 5341);
-INSERT INTO `sys_role_permissions` VALUES (3, 14, 5342);
-INSERT INTO `sys_role_permissions` VALUES (3, 15, 5343);
-INSERT INTO `sys_role_permissions` VALUES (3, 16, 5344);
-INSERT INTO `sys_role_permissions` VALUES (3, 17, 5345);
-INSERT INTO `sys_role_permissions` VALUES (3, 19, 5346);
-INSERT INTO `sys_role_permissions` VALUES (3, 20, 5347);
-INSERT INTO `sys_role_permissions` VALUES (3, 21, 5348);
-INSERT INTO `sys_role_permissions` VALUES (3, 32, 5349);
-INSERT INTO `sys_role_permissions` VALUES (3, 33, 5350);
-INSERT INTO `sys_role_permissions` VALUES (3, 51, 5351);
-INSERT INTO `sys_role_permissions` VALUES (3, 52, 5352);
-INSERT INTO `sys_role_permissions` VALUES (3, 53, 5353);
-INSERT INTO `sys_role_permissions` VALUES (3, 54, 5354);
-INSERT INTO `sys_role_permissions` VALUES (3, 55, 5355);
-INSERT INTO `sys_role_permissions` VALUES (3, 56, 5356);
-INSERT INTO `sys_role_permissions` VALUES (3, 60, 5357);
-INSERT INTO `sys_role_permissions` VALUES (3, 61, 5358);
-INSERT INTO `sys_role_permissions` VALUES (3, 62, 5359);
-INSERT INTO `sys_role_permissions` VALUES (3, 63, 5360);
-INSERT INTO `sys_role_permissions` VALUES (3, 64, 5361);
-INSERT INTO `sys_role_permissions` VALUES (3, 65, 5362);
-INSERT INTO `sys_role_permissions` VALUES (3, 66, 5363);
-INSERT INTO `sys_role_permissions` VALUES (3, 67, 5364);
-INSERT INTO `sys_role_permissions` VALUES (3, 68, 5365);
-INSERT INTO `sys_role_permissions` VALUES (3, 69, 5366);
-INSERT INTO `sys_role_permissions` VALUES (3, 70, 5367);
-INSERT INTO `sys_role_permissions` VALUES (3, 71, 5368);
-INSERT INTO `sys_role_permissions` VALUES (3, 72, 5369);
-INSERT INTO `sys_role_permissions` VALUES (3, 73, 5370);
-INSERT INTO `sys_role_permissions` VALUES (3, 74, 5371);
-INSERT INTO `sys_role_permissions` VALUES (3, 75, 5372);
-INSERT INTO `sys_role_permissions` VALUES (3, 76, 5373);
-INSERT INTO `sys_role_permissions` VALUES (3, 77, 5374);
-INSERT INTO `sys_role_permissions` VALUES (3, 78, 5375);
-INSERT INTO `sys_role_permissions` VALUES (3, 79, 5376);
-INSERT INTO `sys_role_permissions` VALUES (3, 80, 5377);
-INSERT INTO `sys_role_permissions` VALUES (3, 81, 5378);
-INSERT INTO `sys_role_permissions` VALUES (3, 82, 5379);
-INSERT INTO `sys_role_permissions` VALUES (3, 83, 5380);
-INSERT INTO `sys_role_permissions` VALUES (3, 84, 5381);
-INSERT INTO `sys_role_permissions` VALUES (3, 85, 5382);
-INSERT INTO `sys_role_permissions` VALUES (3, 87, 5383);
-INSERT INTO `sys_role_permissions` VALUES (3, 93, 5384);
-INSERT INTO `sys_role_permissions` VALUES (3, 94, 5385);
-INSERT INTO `sys_role_permissions` VALUES (3, 95, 5386);
-INSERT INTO `sys_role_permissions` VALUES (3, 97, 5387);
-INSERT INTO `sys_role_permissions` VALUES (3, 149, 5388);
-INSERT INTO `sys_role_permissions` VALUES (3, 150, 5389);
-INSERT INTO `sys_role_permissions` VALUES (3, 151, 5390);
-INSERT INTO `sys_role_permissions` VALUES (3, 152, 5391);
-INSERT INTO `sys_role_permissions` VALUES (3, 157, 5392);
-INSERT INTO `sys_role_permissions` VALUES (3, 158, 5393);
-INSERT INTO `sys_role_permissions` VALUES (3, 159, 5394);
-INSERT INTO `sys_role_permissions` VALUES (3, 160, 5395);
-INSERT INTO `sys_role_permissions` VALUES (3, 161, 5396);
-INSERT INTO `sys_role_permissions` VALUES (3, 162, 5397);
-INSERT INTO `sys_role_permissions` VALUES (3, 164, 5398);
-INSERT INTO `sys_role_permissions` VALUES (3, 165, 5399);
-INSERT INTO `sys_role_permissions` VALUES (3, 166, 5400);
-INSERT INTO `sys_role_permissions` VALUES (3, 167, 5401);
-INSERT INTO `sys_role_permissions` VALUES (3, 168, 5402);
-INSERT INTO `sys_role_permissions` VALUES (3, 169, 5403);
-INSERT INTO `sys_role_permissions` VALUES (3, 170, 5404);
-INSERT INTO `sys_role_permissions` VALUES (3, 172, 5405);
-INSERT INTO `sys_role_permissions` VALUES (3, 173, 5406);
-INSERT INTO `sys_role_permissions` VALUES (3, 174, 5407);
-INSERT INTO `sys_role_permissions` VALUES (3, 175, 5408);
-INSERT INTO `sys_role_permissions` VALUES (3, 176, 5409);
-INSERT INTO `sys_role_permissions` VALUES (3, 177, 5410);
-INSERT INTO `sys_role_permissions` VALUES (3, 178, 5411);
-INSERT INTO `sys_role_permissions` VALUES (3, 179, 5412);
-INSERT INTO `sys_role_permissions` VALUES (3, 180, 5413);
-INSERT INTO `sys_role_permissions` VALUES (3, 181, 5414);
-INSERT INTO `sys_role_permissions` VALUES (3, 182, 5415);
-INSERT INTO `sys_role_permissions` VALUES (3, 183, 5416);
-INSERT INTO `sys_role_permissions` VALUES (3, 184, 5417);
-INSERT INTO `sys_role_permissions` VALUES (3, 185, 5418);
-INSERT INTO `sys_role_permissions` VALUES (3, 186, 5419);
-INSERT INTO `sys_role_permissions` VALUES (3, 187, 5420);
-INSERT INTO `sys_role_permissions` VALUES (3, 188, 5421);
-INSERT INTO `sys_role_permissions` VALUES (3, 189, 5422);
-INSERT INTO `sys_role_permissions` VALUES (3, 190, 5423);
-INSERT INTO `sys_role_permissions` VALUES (3, 191, 5424);
-INSERT INTO `sys_role_permissions` VALUES (3, 192, 5425);
-INSERT INTO `sys_role_permissions` VALUES (3, 193, 5426);
-INSERT INTO `sys_role_permissions` VALUES (3, 194, 5427);
-INSERT INTO `sys_role_permissions` VALUES (3, 195, 5428);
-INSERT INTO `sys_role_permissions` VALUES (3, 196, 5429);
-INSERT INTO `sys_role_permissions` VALUES (3, 197, 5430);
-INSERT INTO `sys_role_permissions` VALUES (3, 198, 5431);
-INSERT INTO `sys_role_permissions` VALUES (3, 199, 5432);
-INSERT INTO `sys_role_permissions` VALUES (3, 200, 5433);
-INSERT INTO `sys_role_permissions` VALUES (3, 201, 5434);
-INSERT INTO `sys_role_permissions` VALUES (3, 202, 5435);
-INSERT INTO `sys_role_permissions` VALUES (3, 203, 5436);
-INSERT INTO `sys_role_permissions` VALUES (3, 204, 5437);
-INSERT INTO `sys_role_permissions` VALUES (3, 205, 5438);
-INSERT INTO `sys_role_permissions` VALUES (3, 206, 5439);
-INSERT INTO `sys_role_permissions` VALUES (3, 207, 5440);
-INSERT INTO `sys_role_permissions` VALUES (3, 208, 5441);
-INSERT INTO `sys_role_permissions` VALUES (3, 209, 5442);
-INSERT INTO `sys_role_permissions` VALUES (3, 210, 5443);
-INSERT INTO `sys_role_permissions` VALUES (3, 211, 5444);
-INSERT INTO `sys_role_permissions` VALUES (3, 212, 5445);
-INSERT INTO `sys_role_permissions` VALUES (3, 213, 5446);
-INSERT INTO `sys_role_permissions` VALUES (3, 214, 5447);
-INSERT INTO `sys_role_permissions` VALUES (3, 215, 5448);
-INSERT INTO `sys_role_permissions` VALUES (3, 216, 5449);
-INSERT INTO `sys_role_permissions` VALUES (3, 217, 5450);
-INSERT INTO `sys_role_permissions` VALUES (3, 218, 5451);
-INSERT INTO `sys_role_permissions` VALUES (3, 219, 5452);
-INSERT INTO `sys_role_permissions` VALUES (3, 220, 5453);
-INSERT INTO `sys_role_permissions` VALUES (3, 221, 5454);
-INSERT INTO `sys_role_permissions` VALUES (3, 222, 5455);
-INSERT INTO `sys_role_permissions` VALUES (3, 223, 5456);
-INSERT INTO `sys_role_permissions` VALUES (3, 224, 5457);
-INSERT INTO `sys_role_permissions` VALUES (3, 225, 5458);
-INSERT INTO `sys_role_permissions` VALUES (3, 226, 5459);
-INSERT INTO `sys_role_permissions` VALUES (3, 227, 5460);
-INSERT INTO `sys_role_permissions` VALUES (3, 228, 5461);
-INSERT INTO `sys_role_permissions` VALUES (3, 229, 5462);
-INSERT INTO `sys_role_permissions` VALUES (3, 230, 5463);
-INSERT INTO `sys_role_permissions` VALUES (3, 231, 5464);
-INSERT INTO `sys_role_permissions` VALUES (3, 234, 5465);
-INSERT INTO `sys_role_permissions` VALUES (3, 235, 5466);
-INSERT INTO `sys_role_permissions` VALUES (3, 236, 5467);
-INSERT INTO `sys_role_permissions` VALUES (3, 237, 5468);
-INSERT INTO `sys_role_permissions` VALUES (3, 238, 5469);
-INSERT INTO `sys_role_permissions` VALUES (3, 239, 5470);
+INSERT INTO `sys_role_permissions` VALUES (3, 0, 5471);
+INSERT INTO `sys_role_permissions` VALUES (3, 2, 5472);
+INSERT INTO `sys_role_permissions` VALUES (3, 4, 5473);
+INSERT INTO `sys_role_permissions` VALUES (3, 5, 5474);
+INSERT INTO `sys_role_permissions` VALUES (3, 6, 5475);
+INSERT INTO `sys_role_permissions` VALUES (3, 7, 5476);
+INSERT INTO `sys_role_permissions` VALUES (3, 8, 5477);
+INSERT INTO `sys_role_permissions` VALUES (3, 14, 5478);
+INSERT INTO `sys_role_permissions` VALUES (3, 15, 5479);
+INSERT INTO `sys_role_permissions` VALUES (3, 16, 5480);
+INSERT INTO `sys_role_permissions` VALUES (3, 17, 5481);
+INSERT INTO `sys_role_permissions` VALUES (3, 19, 5482);
+INSERT INTO `sys_role_permissions` VALUES (3, 20, 5483);
+INSERT INTO `sys_role_permissions` VALUES (3, 21, 5484);
+INSERT INTO `sys_role_permissions` VALUES (3, 32, 5485);
+INSERT INTO `sys_role_permissions` VALUES (3, 33, 5486);
+INSERT INTO `sys_role_permissions` VALUES (3, 51, 5487);
+INSERT INTO `sys_role_permissions` VALUES (3, 52, 5488);
+INSERT INTO `sys_role_permissions` VALUES (3, 53, 5489);
+INSERT INTO `sys_role_permissions` VALUES (3, 54, 5490);
+INSERT INTO `sys_role_permissions` VALUES (3, 55, 5491);
+INSERT INTO `sys_role_permissions` VALUES (3, 56, 5492);
+INSERT INTO `sys_role_permissions` VALUES (3, 60, 5493);
+INSERT INTO `sys_role_permissions` VALUES (3, 61, 5494);
+INSERT INTO `sys_role_permissions` VALUES (3, 62, 5495);
+INSERT INTO `sys_role_permissions` VALUES (3, 63, 5496);
+INSERT INTO `sys_role_permissions` VALUES (3, 64, 5497);
+INSERT INTO `sys_role_permissions` VALUES (3, 65, 5498);
+INSERT INTO `sys_role_permissions` VALUES (3, 66, 5499);
+INSERT INTO `sys_role_permissions` VALUES (3, 67, 5500);
+INSERT INTO `sys_role_permissions` VALUES (3, 68, 5501);
+INSERT INTO `sys_role_permissions` VALUES (3, 69, 5502);
+INSERT INTO `sys_role_permissions` VALUES (3, 70, 5503);
+INSERT INTO `sys_role_permissions` VALUES (3, 71, 5504);
+INSERT INTO `sys_role_permissions` VALUES (3, 72, 5505);
+INSERT INTO `sys_role_permissions` VALUES (3, 73, 5506);
+INSERT INTO `sys_role_permissions` VALUES (3, 74, 5507);
+INSERT INTO `sys_role_permissions` VALUES (3, 75, 5508);
+INSERT INTO `sys_role_permissions` VALUES (3, 76, 5509);
+INSERT INTO `sys_role_permissions` VALUES (3, 77, 5510);
+INSERT INTO `sys_role_permissions` VALUES (3, 78, 5511);
+INSERT INTO `sys_role_permissions` VALUES (3, 79, 5512);
+INSERT INTO `sys_role_permissions` VALUES (3, 80, 5513);
+INSERT INTO `sys_role_permissions` VALUES (3, 81, 5514);
+INSERT INTO `sys_role_permissions` VALUES (3, 82, 5515);
+INSERT INTO `sys_role_permissions` VALUES (3, 83, 5516);
+INSERT INTO `sys_role_permissions` VALUES (3, 84, 5517);
+INSERT INTO `sys_role_permissions` VALUES (3, 85, 5518);
+INSERT INTO `sys_role_permissions` VALUES (3, 87, 5519);
+INSERT INTO `sys_role_permissions` VALUES (3, 93, 5520);
+INSERT INTO `sys_role_permissions` VALUES (3, 94, 5521);
+INSERT INTO `sys_role_permissions` VALUES (3, 95, 5522);
+INSERT INTO `sys_role_permissions` VALUES (3, 97, 5523);
+INSERT INTO `sys_role_permissions` VALUES (3, 149, 5524);
+INSERT INTO `sys_role_permissions` VALUES (3, 150, 5525);
+INSERT INTO `sys_role_permissions` VALUES (3, 151, 5526);
+INSERT INTO `sys_role_permissions` VALUES (3, 152, 5527);
+INSERT INTO `sys_role_permissions` VALUES (3, 157, 5528);
+INSERT INTO `sys_role_permissions` VALUES (3, 158, 5529);
+INSERT INTO `sys_role_permissions` VALUES (3, 159, 5530);
+INSERT INTO `sys_role_permissions` VALUES (3, 160, 5531);
+INSERT INTO `sys_role_permissions` VALUES (3, 161, 5532);
+INSERT INTO `sys_role_permissions` VALUES (3, 162, 5533);
+INSERT INTO `sys_role_permissions` VALUES (3, 164, 5534);
+INSERT INTO `sys_role_permissions` VALUES (3, 165, 5535);
+INSERT INTO `sys_role_permissions` VALUES (3, 166, 5536);
+INSERT INTO `sys_role_permissions` VALUES (3, 167, 5537);
+INSERT INTO `sys_role_permissions` VALUES (3, 168, 5538);
+INSERT INTO `sys_role_permissions` VALUES (3, 169, 5539);
+INSERT INTO `sys_role_permissions` VALUES (3, 170, 5540);
+INSERT INTO `sys_role_permissions` VALUES (3, 172, 5541);
+INSERT INTO `sys_role_permissions` VALUES (3, 173, 5542);
+INSERT INTO `sys_role_permissions` VALUES (3, 174, 5543);
+INSERT INTO `sys_role_permissions` VALUES (3, 175, 5544);
+INSERT INTO `sys_role_permissions` VALUES (3, 176, 5545);
+INSERT INTO `sys_role_permissions` VALUES (3, 177, 5546);
+INSERT INTO `sys_role_permissions` VALUES (3, 178, 5547);
+INSERT INTO `sys_role_permissions` VALUES (3, 179, 5548);
+INSERT INTO `sys_role_permissions` VALUES (3, 180, 5549);
+INSERT INTO `sys_role_permissions` VALUES (3, 181, 5550);
+INSERT INTO `sys_role_permissions` VALUES (3, 182, 5551);
+INSERT INTO `sys_role_permissions` VALUES (3, 183, 5552);
+INSERT INTO `sys_role_permissions` VALUES (3, 184, 5553);
+INSERT INTO `sys_role_permissions` VALUES (3, 185, 5554);
+INSERT INTO `sys_role_permissions` VALUES (3, 186, 5555);
+INSERT INTO `sys_role_permissions` VALUES (3, 187, 5556);
+INSERT INTO `sys_role_permissions` VALUES (3, 188, 5557);
+INSERT INTO `sys_role_permissions` VALUES (3, 189, 5558);
+INSERT INTO `sys_role_permissions` VALUES (3, 190, 5559);
+INSERT INTO `sys_role_permissions` VALUES (3, 191, 5560);
+INSERT INTO `sys_role_permissions` VALUES (3, 192, 5561);
+INSERT INTO `sys_role_permissions` VALUES (3, 193, 5562);
+INSERT INTO `sys_role_permissions` VALUES (3, 194, 5563);
+INSERT INTO `sys_role_permissions` VALUES (3, 195, 5564);
+INSERT INTO `sys_role_permissions` VALUES (3, 196, 5565);
+INSERT INTO `sys_role_permissions` VALUES (3, 197, 5566);
+INSERT INTO `sys_role_permissions` VALUES (3, 198, 5567);
+INSERT INTO `sys_role_permissions` VALUES (3, 199, 5568);
+INSERT INTO `sys_role_permissions` VALUES (3, 200, 5569);
+INSERT INTO `sys_role_permissions` VALUES (3, 201, 5570);
+INSERT INTO `sys_role_permissions` VALUES (3, 202, 5571);
+INSERT INTO `sys_role_permissions` VALUES (3, 203, 5572);
+INSERT INTO `sys_role_permissions` VALUES (3, 204, 5573);
+INSERT INTO `sys_role_permissions` VALUES (3, 205, 5574);
+INSERT INTO `sys_role_permissions` VALUES (3, 206, 5575);
+INSERT INTO `sys_role_permissions` VALUES (3, 207, 5576);
+INSERT INTO `sys_role_permissions` VALUES (3, 208, 5577);
+INSERT INTO `sys_role_permissions` VALUES (3, 209, 5578);
+INSERT INTO `sys_role_permissions` VALUES (3, 210, 5579);
+INSERT INTO `sys_role_permissions` VALUES (3, 211, 5580);
+INSERT INTO `sys_role_permissions` VALUES (3, 212, 5581);
+INSERT INTO `sys_role_permissions` VALUES (3, 213, 5582);
+INSERT INTO `sys_role_permissions` VALUES (3, 214, 5583);
+INSERT INTO `sys_role_permissions` VALUES (3, 215, 5584);
+INSERT INTO `sys_role_permissions` VALUES (3, 216, 5585);
+INSERT INTO `sys_role_permissions` VALUES (3, 217, 5586);
+INSERT INTO `sys_role_permissions` VALUES (3, 218, 5587);
+INSERT INTO `sys_role_permissions` VALUES (3, 219, 5588);
+INSERT INTO `sys_role_permissions` VALUES (3, 220, 5589);
+INSERT INTO `sys_role_permissions` VALUES (3, 221, 5590);
+INSERT INTO `sys_role_permissions` VALUES (3, 222, 5591);
+INSERT INTO `sys_role_permissions` VALUES (3, 223, 5592);
+INSERT INTO `sys_role_permissions` VALUES (3, 224, 5593);
+INSERT INTO `sys_role_permissions` VALUES (3, 225, 5594);
+INSERT INTO `sys_role_permissions` VALUES (3, 226, 5595);
+INSERT INTO `sys_role_permissions` VALUES (3, 227, 5596);
+INSERT INTO `sys_role_permissions` VALUES (3, 228, 5597);
+INSERT INTO `sys_role_permissions` VALUES (3, 229, 5598);
+INSERT INTO `sys_role_permissions` VALUES (3, 230, 5599);
+INSERT INTO `sys_role_permissions` VALUES (3, 231, 5600);
+INSERT INTO `sys_role_permissions` VALUES (3, 234, 5601);
+INSERT INTO `sys_role_permissions` VALUES (3, 235, 5602);
+INSERT INTO `sys_role_permissions` VALUES (3, 236, 5603);
+INSERT INTO `sys_role_permissions` VALUES (3, 237, 5604);
+INSERT INTO `sys_role_permissions` VALUES (3, 238, 5605);
+INSERT INTO `sys_role_permissions` VALUES (3, 239, 5606);
+INSERT INTO `sys_role_permissions` VALUES (3, 240, 5607);
 COMMIT;
 
 -- ----------------------------
