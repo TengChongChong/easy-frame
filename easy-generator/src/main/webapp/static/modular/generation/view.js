@@ -226,7 +226,7 @@ var mGeneration = function () {
                     <td class="cell-base m--padding-top-15">' + field['type'] + '</td>\
                     <td class="cell-base m--padding-top-15"><div title="' + field['comment'] + '" class="ell" style="max-width: 140px;">' + field['comment'] + '<span/></td>\
                     <td class="cell-base m--padding-top-15">' + field['propertyName'] + '</td>\
-                    <td class="cell-base m--padding-top-15">' + field['propertyType'] + '</td>\
+                    <td class="cell-base m--padding-top-15"><input type="hidden" name="propertyType" value="' + field['propertyType'] + '">' + field['propertyType'] + '</td>\
                     <td class="border-left cell-list">' + generationTool.getCheckbox('showInList', generationTool.getCheckStatusByPreferenceSetting(field['propertyName'], preferenceSetting.list.exclude)) + '</td>\
                     <td class="cell-list">' + generationTool.getInput('title', field['comment']) + '</td>\
                     <td class="cell-list">' + generationTool.getCheckbox('showInSearch', generationTool.getCheckStatusByPreferenceSetting(field['propertyName'], preferenceSetting.list.excludeSearch)) + '</td>\
@@ -234,7 +234,7 @@ var mGeneration = function () {
                     <td class="cell-input">' + generationTool.getDictSelect('grid', 'listGrid', '4/4/8') + '</td>\
                     <td class="border-left cell-input">' + generationTool.getCheckbox('showInInput', generationTool.getCheckStatusByPreferenceSetting(field['propertyName'], preferenceSetting.input.exclude)) + '</td>\
                     <td class="cell-input">' + generationTool.getInput('label', field['comment']) + '</td>\
-                    <td class="cell-input">' + generationTool.getDictSelect('elementType', 'elementType', generationTool.getDefaultDictByPreferenceSetting(field['propertyName'], preferenceSetting.input.type, 'text')) + '</td>\
+                    <td class="cell-input">' + generationTool.getDictSelect('elementType', 'elementType', generationTool.getDefaultDictByPreferenceSetting(field['propertyName'], preferenceSetting.input.type, 'text', field['propertyType'])) + '</td>\
                     <td class="cell-input">' + generationTool.getDictSelect('grid', 'inputGrid', '6/4/8') + '</td>\
                     <td class="cell-input">\
                         <select class="form-control m-bootstrap-select select-picker"\

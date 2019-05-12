@@ -51,7 +51,9 @@ var preferenceSetting = {
             date: ['date', 'birthday', 'buildDate'],
             datetime: ['strDate', 'endDate']
         }
-    }
+    },
+    number: ['Integer', 'Long', 'Double', 'BigInteger', 'BigDecimal'],
+    date: ['Date']
 };
 //== 模板
 var template = {
@@ -381,13 +383,27 @@ var generationTool = {
      * @param propertyName {string} 列名
      * @param setting {object} 偏好设置
      * @param defaultValue {string} 默认值
+     * @param propertyType {string|null} 属性类型
      * @return {string} 选中状态
      */
-    getDefaultDictByPreferenceSetting: function (propertyName, setting, defaultValue) {
+    getDefaultDictByPreferenceSetting: function (propertyName, setting, defaultValue, propertyType) {
         if (typeof setting !== 'undefined') {
             for (var type in setting) {
                 if (setting[type].indexOf(propertyName) > -1) {
                     return type;
+                }
+            }
+        }
+        // 根据属性类型获取
+        if(mUtil.isNotBlank(propertyType)){
+            for(var type in preferenceSetting.number){
+                if(preferenceSetting.number[type] === propertyType){
+                    return 'number';
+                }
+            }
+            for(var type in preferenceSetting.date){
+                if(preferenceSetting.date[type] === propertyType){
+                    return 'date';
                 }
             }
         }
