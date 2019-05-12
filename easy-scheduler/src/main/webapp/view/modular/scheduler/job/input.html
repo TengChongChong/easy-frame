@@ -1,7 +1,7 @@
 @layout("/common/container.html"){
 <form class="m-form">
     <div class="m-portlet" m-portlet="true">
-        <#portlet:head title="定时任务 " icon="la la-bars"/>
+        <#portlet:head title="定时任务 " icon="la la-dashboard"/>
         <div class="m-portlet__body">
             <div class="row">
                 <!-- str:表单区域 -->
@@ -22,7 +22,7 @@
                     <#form:input id="method" name="method" value="${object.method}" />
                 </div>
                 <div class="col-lg-6 col-12">
-                    <#form:select class="select-picker" dataDictType="commonStatus" id="status" name="状态" value="${object.status}" />
+                    <#form:select class="select-picker" dataDictType="schedulerJobStatus" id="status" name="状态" value="${object.status}" />
                 </div>
                 <!-- end:表单区域 -->
             </div>
