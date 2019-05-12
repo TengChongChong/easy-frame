@@ -26,10 +26,10 @@ public interface QuartzService {
     /**
      * 操作任务
      *
-     * @param jobCode         任务代码
+     * @param schedulerJob    任务详情
      * @param schedulerStatus 任务状态
      */
-    void operateJob(String jobCode, SchedulerStatus schedulerStatus);
+    void operateJob(SchedulerJob schedulerJob, SchedulerStatus schedulerStatus);
 
     /**
      * 全部开始

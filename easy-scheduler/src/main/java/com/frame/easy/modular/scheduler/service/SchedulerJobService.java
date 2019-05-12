@@ -59,6 +59,14 @@ public interface SchedulerJobService {
     SchedulerJob saveData(SchedulerJob object);
 
     /**
+     * 更新最后执行时间
+     *
+     * @param id 数据id
+     * @return true/false
+     */
+    boolean updateLastRunDate(Long id);
+
+    /**
      * 开始指定任务
      *
      * @param id 任务id

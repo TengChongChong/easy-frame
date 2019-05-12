@@ -11,13 +11,13 @@
                             <#form:input id="name" name="名称" />
                         </div>
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                            <#form:input id="cron" name="cron表达式" />
+                            <#form:input id="code" name="代码" />
                         </div>
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <#form:input id="bean" name="bean" />
                         </div>
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                            <#form:select class="select-picker" dataDictType="commonStatus" id="status" name="状态" />
+                            <#form:select class="select-picker" dataDictType="schedulerJobStatus" id="status" name="状态" />
                         </div>
                         <!--end:查询条件区域-->
                     </div>
@@ -30,6 +30,8 @@
             <div class="btn-row">
                 <#btn:add permission="scheduler:job:add"/>
                 <#btn:delete permission="scheduler:job:delete"/>
+                <#button btnType="success" click="mSchedulerJobList.startJob(this)" icon="la la-check" name="全部开启" permission="scheduler:job:save"/>
+                <#button btnType="warning" click="mSchedulerJobList.pauseJob(this)" icon="la la-ban" name="全部暂停" permission="scheduler:job:save"/>
             </div>
             <div class="m_datatable" id="scheduler_job-list"></div>
         </form>

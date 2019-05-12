@@ -1,16 +1,15 @@
 package com.frame.easy.modular.scheduler.model;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.frame.easy.common.page.Page;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.frame.easy.base.model.IModel;
+import com.frame.easy.common.page.Page;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 定时任务执行日志
@@ -36,12 +35,13 @@ public class SchedulerJobLog extends Model<SchedulerJobLog> implements IModel, S
     /**
      * 执行时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date runDate;
 
     /**
      * 耗时
      */
-    private Integer timeConsuming;
+    private Long timeConsuming;
 
     //
     /**
@@ -49,6 +49,15 @@ public class SchedulerJobLog extends Model<SchedulerJobLog> implements IModel, S
      */
     @TableField(exist=false)
     private Page page;
+
+    public SchedulerJobLog() {
+    }
+
+    public SchedulerJobLog(Long jobId, Date runDate, Long timeConsuming) {
+        this.jobId = jobId;
+        this.runDate = runDate;
+        this.timeConsuming = timeConsuming;
+    }
 
     public Long getId() {
         return id;
@@ -71,11 +80,11 @@ public class SchedulerJobLog extends Model<SchedulerJobLog> implements IModel, S
     public void setRunDate(Date runDate) {
         this.runDate = runDate;
     }
-    public Integer getTimeConsuming() {
+    public Long getTimeConsuming() {
         return timeConsuming;
     }
 
-    public void setTimeConsuming(Integer timeConsuming) {
+    public void setTimeConsuming(Long timeConsuming) {
         this.timeConsuming = timeConsuming;
     }
     @Override

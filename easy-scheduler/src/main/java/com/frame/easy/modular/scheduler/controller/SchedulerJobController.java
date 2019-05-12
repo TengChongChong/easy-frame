@@ -106,4 +106,62 @@ public class SchedulerJobController extends BaseController {
         logger.debug("/auth/scheduler/job/save/data");
         return Tips.getSuccessTips(service.saveData(object));
     }
+
+    /**
+     * 开启
+     *
+     * @param id 数据id
+     * @return Tips
+     */
+    @RequestMapping("/start/{ids}")
+    @ResponseBody
+    @RequiresPermissions("scheduler:job:save")
+    public Tips start(@PathVariable("ids") Long id) {
+        logger.debug("/auth/scheduler/job/start/" + id);
+        service.start(id);
+        return Tips.getSuccessTips();
+    }
+    /**
+     * 暂停
+     *
+     * @param id 数据id
+     * @return Tips
+     */
+    @RequestMapping("/pause/{ids}")
+    @ResponseBody
+    @RequiresPermissions("scheduler:job:save")
+    public Tips pause(@PathVariable("ids") Long id) {
+        logger.debug("/auth/scheduler/job/pause/" + id);
+        service.pause(id);
+        return Tips.getSuccessTips();
+    }
+
+    /**
+     * 全部开启
+     *
+     * @return Tips
+     */
+    @RequestMapping("/start/all")
+    @ResponseBody
+    @RequiresPermissions("scheduler:job:save")
+    public Tips startAll() {
+        logger.debug("/auth/scheduler/job/start/all");
+        service.startAll();
+        return Tips.getSuccessTips();
+    }
+
+    /**
+     * 全部暂停
+     *
+     * @return Tips
+     */
+    @RequestMapping("/pause/all")
+    @ResponseBody
+    @RequiresPermissions("scheduler:job:save")
+    public Tips pauseAll() {
+        logger.debug("/auth/scheduler/job/pause/all");
+        service.pauseAll();
+        return Tips.getSuccessTips();
+    }
+
 }

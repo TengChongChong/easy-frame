@@ -19,6 +19,10 @@ var mSchedulerJobList = function () {
                     title: '名称'
                 },
                 {
+                    field: 'code',
+                    title: '代码'
+                },
+                {
                     field: 'cron',
                     title: 'cron表达式'
                 },
@@ -33,15 +37,11 @@ var mSchedulerJobList = function () {
                 {
                     field: 'status',
                     title: '状态',
-                    dictType: 'commonStatus'
+                    dictType: 'schedulerJobStatus'
                 },
                 {
-                    field: 'editUser',
-                    title: '修改人'
-                },
-                {
-                    field: 'editDate',
-                    title: '修改时间'
+                    field: 'lastRunDate',
+                    title: '上次执行时间'
                 },
                 {
                     field: 'Actions',
@@ -64,6 +64,21 @@ var mSchedulerJobList = function () {
                                 <i class="la la-trash"></i>\
                             </a>';
                         }
+                        if (mTool.hasPermissions('scheduler:job:save')) {
+                            _btn += '<a href="#" onclick="mSchedulerJobList.startJob(this, \'' + row.id + '\')" class="' + mTool.ACTIONS_SUCCESS + '" title="启用">\
+                                <i class="la la-check"></i>\
+                            </a>';
+                        }
+                        if (mTool.hasPermissions('scheduler:job:save')) {
+                            _btn += '<a href="#" onclick="mSchedulerJobList.pauseJob(this, \'' + row.id + '\')" class="' + mTool.ACTIONS_WARN + '" title="暂停">\
+                                <i class="la la-ban"></i>\
+                            </a>';
+                        }
+                        if (mTool.hasPermissions('scheduler:job:log:select')) {
+                            _btn += '<a href="#" onclick="mApp.openPage(\'' + row.name + '执行日志\', \'' + basePath + '/auth/scheduler/job/log/list/' + row.id + '\')" class="' + mTool.ACTIONS_INFO + '" title="查看日志">\
+                                <i class="la la-file-text"></i>\
+                            </a>';
+                        }
                         return _btn;
                     }
                 }
@@ -72,12 +87,72 @@ var mSchedulerJobList = function () {
         };
         mSchedulerJobList.dataTable = mTool.initDataTable(options);
     };
+    /**
+     * 开启任务
+     *
+     * @param el {element} 按钮对象
+     * @param id {number|null} 任务id,如果为空则开启全部任务
+     */
+    var startJob = function (el, id) {
+        var url = mTool.getBaseUrl() + 'start/';
+        if (mUtil.isBlank(id)) {
+            url += 'all';
+        } else {
+            url += id;
+        }
+        mUtil.ajax({
+            url: url,
+            success: function (res) {
+                mTool.selectData(el);
+                mTool.successTip(mTool.commonTips.success, '任务已开启');
+            }
+        });
+    };
+    /**
+     * 暂停任务
+     *
+     * @param el {element} 按钮对象
+     * @param id {number|null} 任务id,如果为空则暂停全部任务
+     */
+    var pauseJob = function (el, id) {
+        var url = mTool.getBaseUrl() + 'pause/';
+        if (mUtil.isBlank(id)) {
+            url += 'all';
+        } else {
+            url += id;
+        }
+        mUtil.ajax({
+            url: url,
+            success: function (res) {
+                mTool.selectData(el);
+                mTool.successTip(mTool.commonTips.success, '任务已暂停');
+            }
+        });
+    };
 
     return {
         //== 初始化页面
         init: function () {
             mTool.setBaseUrl(basePath + '/auth/scheduler/job/');
             initTable();
+        },
+        /**
+         * 开启任务
+         *
+         * @param el {element} 按钮对象
+         * @param id {number|null} 任务id,如果为空则开启全部任务
+         */
+        startJob: function (el, id) {
+            startJob(el, id);
+        },
+        /**
+         * 暂停任务
+         *
+         * @param el {element} 按钮对象
+         * @param id {number|null} 任务id,如果为空则暂停全部任务
+         */
+        pauseJob: function (el, id) {
+            pauseJob(el, id);
         }
     };
 }();

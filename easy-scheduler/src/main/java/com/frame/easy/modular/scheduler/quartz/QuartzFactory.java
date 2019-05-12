@@ -3,15 +3,19 @@ package com.frame.easy.modular.scheduler.quartz;
 import cn.hutool.core.util.StrUtil;
 import com.frame.easy.modular.scheduler.common.constant.SchedulerConst;
 import com.frame.easy.modular.scheduler.model.SchedulerJob;
+import com.frame.easy.modular.scheduler.model.SchedulerJobLog;
+import com.frame.easy.modular.scheduler.service.SchedulerJobLogService;
+import com.frame.easy.modular.scheduler.service.SchedulerJobService;
 import com.frame.easy.util.SpringContextHolder;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Date;
 
 /**
  * 任务调度工厂
@@ -19,12 +23,13 @@ import java.lang.reflect.Method;
  * @author tengchong
  * @date 2019-05-11
  */
+@Component
 public class QuartzFactory implements Job {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public void execute(JobExecutionContext context) throws JobExecutionException {
+    public void execute(JobExecutionContext context) {
         // 获取定时任务
         SchedulerJob schedulerJob = (SchedulerJob) context.getMergedJobDataMap().get(SchedulerConst.SCHEDULER_JOB_KEY);
         if (StrUtil.isNotBlank(schedulerJob.getBean())) {
@@ -34,8 +39,13 @@ public class QuartzFactory implements Job {
                     // 获取方法
                     Method method = object.getClass().getMethod(schedulerJob.getMethod());
                     try {
+                        Date startDate = new Date();
                         // 执行
                         method.invoke(object);
+                        // 更新最后执行时间
+                        updateLastRunDate(schedulerJob.getId());
+                        // 保存执行日志
+                        saveJobLog(schedulerJob, startDate);
                     } catch (IllegalAccessException | InvocationTargetException e) {
                         logger.warn("调用定时任务[" + schedulerJob.getName() + "] method[" + schedulerJob.getMethod() + "]失败", e);
                     }
@@ -48,5 +58,27 @@ public class QuartzFactory implements Job {
         } else {
             logger.warn("定时任务[" + schedulerJob.getName() + "]缺少bean");
         }
+    }
+
+    /**
+     * 更新最后执行时间
+     *
+     * @param id 任务id
+     */
+    private void updateLastRunDate(Long id) {
+        SchedulerJobService schedulerJobService = SpringContextHolder.getBean("schedulerJobServiceImpl");
+        schedulerJobService.updateLastRunDate(id);
+    }
+
+    /**
+     * 保存执行日志
+     *
+     * @param schedulerJob 任务详情
+     * @param startDate    任务开始执行时间
+     */
+    private void saveJobLog(SchedulerJob schedulerJob, Date startDate) {
+        SchedulerJobLogService schedulerJobLogService = SpringContextHolder.getBean("schedulerJobLogServiceImpl");
+        schedulerJobLogService.saveData(new SchedulerJobLog(schedulerJob.getId(),
+                startDate, System.currentTimeMillis() - startDate.getTime()));
     }
 }

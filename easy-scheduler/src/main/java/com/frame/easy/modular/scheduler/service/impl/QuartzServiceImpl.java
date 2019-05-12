@@ -1,6 +1,6 @@
 package com.frame.easy.modular.scheduler.service.impl;
 
-import com.frame.easy.exception.EasyException;
+import cn.hutool.core.util.StrUtil;
 import com.frame.easy.modular.scheduler.common.constant.SchedulerConst;
 import com.frame.easy.modular.scheduler.common.status.SchedulerStatus;
 import com.frame.easy.modular.scheduler.model.SchedulerJob;
@@ -42,7 +42,7 @@ public class QuartzServiceImpl implements QuartzService {
 
     @Override
     public void addJob(SchedulerJob schedulerJob) {
-        if (schedulerJob != null) {
+        if (checkJob(schedulerJob)) {
             // 创建触发器
             Trigger trigger = TriggerBuilder.newTrigger().withIdentity(schedulerJob.getCode())
                     .withSchedule(CronScheduleBuilder.cronSchedule(schedulerJob.getCron()))
@@ -62,13 +62,28 @@ public class QuartzServiceImpl implements QuartzService {
         }
     }
 
+    /**
+     * 检查任务是否可以添加到定时任务
+     *
+     * @param schedulerJob 任务
+     * @return true/false
+     */
+    private boolean checkJob(SchedulerJob schedulerJob) {
+        return schedulerJob != null &&
+                StrUtil.isNotBlank(schedulerJob.getCode()) &&
+                StrUtil.isNotBlank(schedulerJob.getCron()) &&
+                StrUtil.isNotBlank(schedulerJob.getBean()) &&
+                StrUtil.isNotBlank(schedulerJob.getMethod());
+    }
+
     @Override
-    public void operateJob(String jobCode, SchedulerStatus schedulerStatus) {
-        JobKey jobKey = new JobKey(jobCode);
+    public void operateJob(SchedulerJob schedulerJob, SchedulerStatus schedulerStatus) {
+        JobKey jobKey = new JobKey(schedulerJob.getCode());
         try {
             JobDetail jobDetail = scheduler.getJobDetail(jobKey);
             if (jobDetail == null) {
-                throw new EasyException("定时任务[" + jobCode + "]不存在");
+                // 如果任务里没有则添加任务
+                addJob(schedulerJob);
             }
             switch (schedulerStatus) {
                 case ENABLE:
@@ -83,18 +98,20 @@ public class QuartzServiceImpl implements QuartzService {
                 default:
             }
         } catch (SchedulerException e) {
-            logger.warn("获取定时任务[" + jobCode + "]失败", e);
-            throw new EasyException("获取定时任务[" + jobCode + "]失败");
+            logger.warn("获取定时任务[" + schedulerJob.getCode() + "]失败", e);
+//            throw new EasyException("获取定时任务[" + schedulerJob.getCode() + "]失败");
         }
     }
 
     @Override
     public void startAll() throws SchedulerException {
+        // 全部开始之前要将所有已开启任务添加到任务里
+        timingTask();
         scheduler.start();
     }
 
     @Override
     public void pauseAll() throws SchedulerException {
-        scheduler.pauseAll();
+        scheduler.standby();
     }
 }

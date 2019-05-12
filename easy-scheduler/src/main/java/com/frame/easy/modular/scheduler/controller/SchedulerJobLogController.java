@@ -1,14 +1,17 @@
 package com.frame.easy.modular.scheduler.controller;
 
 import com.frame.easy.base.controller.BaseController;
+import com.frame.easy.modular.scheduler.model.SchedulerJobLog;
+import com.frame.easy.modular.scheduler.service.SchedulerJobLogService;
 import com.frame.easy.result.Tips;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import com.frame.easy.modular.scheduler.model.SchedulerJobLog;
-import com.frame.easy.modular.scheduler.service.SchedulerJobLogService;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 定时任务执行日志
@@ -35,9 +38,10 @@ public class SchedulerJobLogController extends BaseController {
      *
      * @return String
      */
-    @RequestMapping("list")
-    public String list(){
-        logger.debug("/auth/scheduler/job/log/list");
+        @RequestMapping("list/{jobId}")
+    public String list(@PathVariable("jobId") String jobId, Model model) {
+        logger.debug("/auth/scheduler/job/log/list/" + jobId);
+        model.addAttribute("jobId", jobId);
         return PREFIX + "list";
     }
 
@@ -50,35 +54,8 @@ public class SchedulerJobLogController extends BaseController {
     @RequestMapping("select")
     @ResponseBody
     @RequiresPermissions("scheduler:job:log:select")
-    public Tips select(@RequestBody(required = false) SchedulerJobLog object){
+    public Tips select(@RequestBody(required = false) SchedulerJobLog object) {
         logger.debug("/auth/scheduler/job/log/select");
         return Tips.getSuccessTips(service.select(object));
-    }
-    /**
-     * 详情
-     *
-     * @param id id
-     * @return String
-     */
-    @RequestMapping("/input/{id}")
-    @RequiresPermissions("scheduler:job:log:select")
-    public String input(Model model, @PathVariable("id") Long id) {
-        logger.debug("/auth/scheduler/job/log/input/" + id);
-        model.addAttribute("object", service.input(id));
-        return PREFIX + "input";
-    }
-
-    /**
-     * 保存
-     *
-     * @param object 表单内容
-     * @return Tips
-     */
-    @RequestMapping("/save/data")
-    @ResponseBody
-    @RequiresPermissions("scheduler:job:log:save")
-    public Tips saveData(SchedulerJobLog object){
-        logger.debug("/auth/scheduler/job/log/save/data");
-        return Tips.getSuccessTips(service.saveData(object));
     }
 }

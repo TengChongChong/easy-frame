@@ -57,8 +57,8 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
                 queryWrapper.like("name", object.getName());
             }
             // cron表达式
-            if (Validator.isNotEmpty(object.getCron())) {
-                queryWrapper.eq("cron", object.getCron());
+            if (Validator.isNotEmpty(object.getCode())) {
+                queryWrapper.like("code", object.getCode());
             }
             // bean
             if (Validator.isNotEmpty(object.getBean())) {
@@ -74,7 +74,9 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
 
     @Override
     public List<SchedulerJob> selectAll() {
-        return getBaseMapper().selectList(null);
+        QueryWrapper<SchedulerJob> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("status", SchedulerStatus.ENABLE.getCode());
+        return getBaseMapper().selectList(queryWrapper);
     }
 
     /**
@@ -121,7 +123,7 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
         if (isSuccess) {
             // 删除成功后删除任务
             for (SchedulerJob schedulerJob : schedulerJobs) {
-                quartzService.operateJob(schedulerJob.getCode(), SchedulerStatus.DELETE);
+                quartzService.operateJob(schedulerJob, SchedulerStatus.DELETE);
             }
         }
         return isSuccess;
@@ -154,7 +156,7 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
         if (isSuccess) {
             // 如果是新增直接添加任务,如果是修改则删除原任务后重新添加
             if (StrUtil.isNotBlank(jobJobCode)) {
-                quartzService.operateJob(jobJobCode, SchedulerStatus.DELETE);
+                quartzService.operateJob(new SchedulerJob(jobJobCode), SchedulerStatus.DELETE);
             }
             quartzService.addJob(object);
         }
@@ -162,11 +164,22 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
     }
 
     @Override
+    public boolean updateLastRunDate(Long id) {
+        if (id != null) {
+            UpdateWrapper<SchedulerJob> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.set("last_run_date", new Date());
+            updateWrapper.eq("id", id);
+            return update(updateWrapper);
+        }
+        return false;
+    }
+
+    @Override
     public void start(Long id) {
         ToolUtil.checkParams(id);
         boolean updateSuccess = updateJobStatus(SchedulerStatus.ENABLE.getCode(), String.valueOf(id));
         if (updateSuccess) {
-            quartzService.operateJob(getBaseMapper().getJobCodeById(id), SchedulerStatus.ENABLE);
+            quartzService.operateJob(getById(id), SchedulerStatus.ENABLE);
         } else {
             throw new EasyException("更新任务状态失败");
         }
@@ -177,7 +190,7 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
         ToolUtil.checkParams(id);
         boolean updateSuccess = updateJobStatus(SchedulerStatus.DISABLE.getCode(), String.valueOf(id));
         if (updateSuccess) {
-            quartzService.operateJob(getBaseMapper().getJobCodeById(id), SchedulerStatus.DISABLE);
+            quartzService.operateJob(getById(id), SchedulerStatus.DISABLE);
         } else {
             throw new EasyException("更新任务状态失败");
         }
@@ -208,7 +221,7 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
                 throw new EasyException("更新任务状态失败");
             }
         } catch (SchedulerException e) {
-            logger.error("startAll()", e);
+            logger.error("pauseAll()", e);
             throw new EasyException("暂停任务失败");
         }
     }

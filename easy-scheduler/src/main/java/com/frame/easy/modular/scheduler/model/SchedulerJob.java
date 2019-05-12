@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.frame.easy.base.model.IModel;
 import com.frame.easy.common.page.Page;
 
@@ -57,6 +58,7 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
     /**
      * 上次执行时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date lastRunDate;
 
     /**
@@ -72,6 +74,7 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
     private Date createDate;
 
     /**
@@ -82,6 +85,7 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
     /**
      * 修改时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
     private Date editDate;
 
     //
@@ -90,6 +94,13 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
      */
     @TableField(exist=false)
     private Page page;
+
+    public SchedulerJob() {
+    }
+
+    public SchedulerJob(String code) {
+        this.code = code;
+    }
 
     public Long getId() {
         return id;
