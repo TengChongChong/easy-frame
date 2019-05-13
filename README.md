@@ -67,7 +67,13 @@
 
 ### 预览图
 ![登录](https://images.gitee.com/uploads/images/2019/0513/124414_16a2efc1_74191.png "登录页面.png")
-
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0513/125601_09cd39e3_74191.png "菜单管理.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0513/125611_5dd2c572_74191.png "系统参数.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0513/125621_c7841a83_74191.png "机构管理.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0513/125629_e15523c0_74191.png "机构管理-详情.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0513/125638_51cf77f5_74191.png "缓存监控.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0513/125646_ce9d7000_74191.png "异常日志.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0513/125654_2ee87db6_74191.png "异常详情.png")
 ### 如有帮助请star
 
 ### QQ群
