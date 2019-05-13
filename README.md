@@ -27,10 +27,11 @@
 ### 项目特点
 1. 权限配置到具体方法
 2. Beetl封装常用标签（/easy-app/src/main/webapp/view/common/tags）
-3. 拖拽式生成CRUD后端代码以及前端资源
-4. 集群定时任务
-5. 全局异常处理
-6. 数据导入验证/在线编辑
+3. 集群定时任务
+4. 全局异常处理
+5. 数据导入验证/在线编辑
+6. 拖拽式生成CRUD后端代码以及前端资源
+![代码生成](https://images.gitee.com/uploads/images/2019/0513/124457_07fcef0f_74191.gif "video.gif")
 
 ### 安装教程
 1. 执行/db/init.sql
@@ -63,6 +64,9 @@
 4. jQuery Validation
 5. Bootstrap Select
 6. ...
+
+### 预览图
+![登录](https://images.gitee.com/uploads/images/2019/0513/124414_16a2efc1_74191.png "登录页面.png")
 
 ### 如有帮助请star
 
