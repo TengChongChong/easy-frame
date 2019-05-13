@@ -4,6 +4,8 @@ var mSchedulerJobList = function () {
      * 初始化列表
      */
     var initTable = function () {
+        // 是否有修改任务权限
+        var hasSavePermissions = mTool.hasPermissions('scheduler:job:save');
         var options = {
             // 列配置
             columns: [
@@ -37,7 +39,18 @@ var mSchedulerJobList = function () {
                 {
                     field: 'status',
                     title: '状态',
-                    dictType: 'schedulerJobStatus'
+                    template: function (row) {
+                        if (hasSavePermissions) {
+                            return '<span class="m-switch m-switch--sm m-switch--icon">\
+                                    <label>\
+                                        <input data-id="' + row.id + '" type="checkbox" ' + ('1' === row.status ? 'checked="checked"' : '') + ' name="status">\
+                                        <span></span>\
+                                    </label>\
+                                </span>';
+                        } else {
+                            return mTool.getDictElement(row.status, mTool.getSysDictsObject('schedulerJobStatus'));
+                        }
+                    }
                 },
                 {
                     field: 'lastRunDate',
@@ -45,7 +58,7 @@ var mSchedulerJobList = function () {
                 },
                 {
                     field: 'Actions',
-                    width: 110,
+                    width: 70,
                     title: '操作',
                     sortable: false,
                     overflow: 'visible',
@@ -64,16 +77,6 @@ var mSchedulerJobList = function () {
                                 <i class="la la-trash"></i>\
                             </a>';
                         }
-                        if (mTool.hasPermissions('scheduler:job:save')) {
-                            _btn += '<a href="#" onclick="mSchedulerJobList.startJob(this, \'' + row.id + '\')" class="' + mTool.ACTIONS_SUCCESS + '" title="启用">\
-                                <i class="la la-check"></i>\
-                            </a>';
-                        }
-                        if (mTool.hasPermissions('scheduler:job:save')) {
-                            _btn += '<a href="#" onclick="mSchedulerJobList.pauseJob(this, \'' + row.id + '\')" class="' + mTool.ACTIONS_WARN + '" title="暂停">\
-                                <i class="la la-ban"></i>\
-                            </a>';
-                        }
                         if (mTool.hasPermissions('scheduler:job:log:select')) {
                             _btn += '<a href="#" onclick="mApp.openPage(\'' + row.name + '执行日志\', \'' + basePath + '/auth/scheduler/job/log/list/' + row.id + '\')" class="' + mTool.ACTIONS_INFO + '" title="查看日志">\
                                 <i class="la la-file-text"></i>\
@@ -86,6 +89,18 @@ var mSchedulerJobList = function () {
             ]
         };
         mSchedulerJobList.dataTable = mTool.initDataTable(options);
+    };
+    /**
+     * 绑定启用&暂停任务事件
+     */
+    var bindClickStatus = function () {
+        mSchedulerJobList.dataTable.on('click', '[name="status"]', function () {
+            if ($(this).is(':checked')) {
+                mSchedulerJobList.startJob(this, $(this).data('id'));
+            } else {
+                mSchedulerJobList.pauseJob(this, $(this).data('id'));
+            }
+        });
     };
     /**
      * 开启任务
@@ -135,6 +150,7 @@ var mSchedulerJobList = function () {
         init: function () {
             mTool.setBaseUrl(basePath + '/auth/scheduler/job/');
             initTable();
+            bindClickStatus();
         },
         /**
          * 开启任务
