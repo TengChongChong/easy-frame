@@ -30,6 +30,11 @@ public class ${config.modelName} extends Model<${config.modelName}> implements <
     <% if(field.keyFlag) { %>
     @TableId(value = "${field.name}")
     <% } %>
+    <% if("editUser" == field.propertyName || "editDate" == field.propertyName){ %>
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    <% } else if ("createUser" == field.propertyName || "createDate" == field.propertyName) { %>
+    @TableField(fill = FieldFill.INSERT)
+    <% } %>
     ${GeneratorJavaUtil.generatorVerification(field.propertyName, config.fieldSets)}private ${field.propertyType} ${field.propertyName};
 
     <% } %>

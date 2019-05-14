@@ -33,8 +33,9 @@ public class ModelConfig {
         imports.add("com.baomidou.mybatisplus.annotation.TableName");
         imports.add("com.baomidou.mybatisplus.annotation.IdType");
         imports.add("com.baomidou.mybatisplus.annotation.TableId");
+        imports.add("com.baomidou.mybatisplus.annotation.TableField");
+        imports.add("com.baomidou.mybatisplus.annotation.FieldFill");
         if(generator.getGenSelect()){
-            imports.add("com.baomidou.mybatisplus.annotation.TableField");
             // 自定义分页
             imports.add("com.frame.easy.common.page.Page");
             // 自定义接口
@@ -44,6 +45,7 @@ public class ModelConfig {
             imports.add("javax.validation.constraints.NotBlank");
             imports.add("javax.validation.constraints.NotNull");
         }
+
         this.imports = imports;
         this.path = Const.JAVA_PATH +
                 generator.getModelPackage().replace(".", File.separator) + File.separator +
