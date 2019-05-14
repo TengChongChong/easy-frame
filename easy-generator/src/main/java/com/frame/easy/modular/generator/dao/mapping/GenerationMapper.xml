@@ -10,12 +10,10 @@
     </resultMap>
 
     <select id="selectTable" resultType="com.frame.easy.common.select.Select">
-      select table_name as value,table_comment as text from information_schema.tables where table_schema=#{dbName} and table_type='BASE TABLE'
-    </select>
-    <select id="selectFields" resultType="com.frame.easy.modular.generator.model.FieldSet">
-      select column_name as columnName,is_nullable as isNullable,column_type as columnType,
-      column_key as columnKey,column_comment as columnComment
-      from information_schema.columns
-      where table_schema=#{dbName} and table_name=#{tableName};
+        select table_name as value, table_comment as text
+        from information_schema.tables
+        where table_schema = #{dbName}
+          and table_type = 'BASE TABLE'
+          and table_name not like 'qrtz_%'
     </select>
 </mapper>
