@@ -133,13 +133,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (Validator.isEmpty(object.getNickname())) {
             object.setNickname(object.getUsername());
         }
-        SysUser sysUser = ShiroUtil.getCurrentUser();
-        object.setEditDate(new Date());
-        object.setEditUser(sysUser.getId());
-        if (object.getId() == null) {
-            object.setCreateDate(new Date());
-            object.setCreateUser(sysUser.getId());
-        }
 
         boolean isSuccess = saveOrUpdate(object);
         if (isSuccess && updateAuthorization) {

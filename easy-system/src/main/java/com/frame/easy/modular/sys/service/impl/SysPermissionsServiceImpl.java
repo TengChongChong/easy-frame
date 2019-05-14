@@ -5,29 +5,28 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.frame.easy.common.constant.CommonConst;
-import com.frame.easy.common.status.PermissionsStatus;
-import com.frame.easy.common.type.PermissionsType;
 import com.frame.easy.common.jstree.JsTree;
 import com.frame.easy.common.jstree.JsTreeUtil;
 import com.frame.easy.common.jstree.State;
+import com.frame.easy.common.status.PermissionsStatus;
+import com.frame.easy.common.type.PermissionsType;
 import com.frame.easy.exception.BusinessException;
 import com.frame.easy.exception.EasyException;
 import com.frame.easy.exception.ExceptionEnum;
-import com.frame.easy.util.ShiroUtil;
-import com.frame.easy.util.SysConfigUtil;
-import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysPermissionsMapper;
 import com.frame.easy.modular.sys.model.SysPermissions;
 import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.service.SysPermissionsService;
 import com.frame.easy.modular.sys.service.SysRolePermissionsService;
+import com.frame.easy.util.ShiroUtil;
+import com.frame.easy.util.SysConfigUtil;
+import com.frame.easy.util.ToolUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -220,10 +219,6 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
                         }
                     }
                     SysUser sysUser = ShiroUtil.getCurrentUser();
-                    sysPermissions.setCreateUser(sysUser.getId());
-                    sysPermissions.setEditUser(sysUser.getId());
-                    sysPermissions.setCreateDate(new Date());
-                    sysPermissions.setEditDate(new Date());
                     sysPermissionsList.add(sysPermissions);
                 }
                 saveBatch(sysPermissionsList);
@@ -237,13 +232,6 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
     @Override
     public SysPermissions saveData(SysPermissions object) {
         ToolUtil.checkParams(object);
-        SysUser sysUser = ShiroUtil.getCurrentUser();
-        if (object.getId() == null) {
-            object.setCreateDate(new Date());
-            object.setCreateUser(sysUser.getId());
-        }
-        object.setEditDate(new Date());
-        object.setEditUser(sysUser.getId());
         if (Validator.isEmpty(object.getIcon())) {
             object.setIcon(JsTree.DEFAULT_ICON);
         }

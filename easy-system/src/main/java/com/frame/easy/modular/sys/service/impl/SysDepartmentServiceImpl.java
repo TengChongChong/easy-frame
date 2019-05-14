@@ -2,30 +2,27 @@ package com.frame.easy.modular.sys.service.impl;
 
 import cn.hutool.core.lang.Validator;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.frame.easy.common.jstree.JsTreeUtil;
-import com.frame.easy.common.page.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.frame.easy.common.constant.CommonConst;
-import com.frame.easy.common.status.CommonStatus;
 import com.frame.easy.common.jstree.JsTree;
+import com.frame.easy.common.jstree.JsTreeUtil;
+import com.frame.easy.common.page.Page;
 import com.frame.easy.common.select.Select;
+import com.frame.easy.common.status.CommonStatus;
 import com.frame.easy.exception.BusinessException;
 import com.frame.easy.exception.EasyException;
-import com.frame.easy.modular.sys.service.SysUserService;
-import com.frame.easy.util.ShiroUtil;
-import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysDepartmentMapper;
 import com.frame.easy.modular.sys.model.SysDepartment;
-import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.service.SysDepartmentService;
 import com.frame.easy.modular.sys.service.SysDepartmentTypeService;
+import com.frame.easy.modular.sys.service.SysUserService;
+import com.frame.easy.util.ToolUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -158,13 +155,6 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
         }
         if (object.getpId() == null) {
             object.setpId(JsTreeUtil.baseId);
-        }
-        SysUser sysUser = ShiroUtil.getCurrentUser();
-        object.setEditDate(new Date());
-        object.setEditUser(sysUser.getId());
-        if (object.getId() == null) {
-            object.setCreateDate(new Date());
-            object.setCreateUser(sysUser.getId());
         }
         if (object.getOrderNo() == null) {
             object.setOrderNo(getBaseMapper().getMaxOrderNo(object.getTypeCode()) + 1);

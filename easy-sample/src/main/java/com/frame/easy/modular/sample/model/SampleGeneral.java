@@ -1,5 +1,6 @@
 package com.frame.easy.modular.sample.model;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -46,21 +47,25 @@ public class SampleGeneral extends Model<SampleGeneral> implements IModel, Seria
     /**
      * 创建人
      */
+    @TableField(fill = FieldFill.INSERT)
     private Long createUser;
 
     /**
      * 创建时间
      */
+    @TableField(fill = FieldFill.INSERT)
     private Date createDate;
 
     /**
      * 编辑人
      */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long editUser;
 
     /**
      * 编辑时间
      */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date editDate;
 
     /**

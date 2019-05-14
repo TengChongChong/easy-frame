@@ -1,5 +1,6 @@
 package com.frame.easy.modular.sys.model;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -69,9 +70,13 @@ public class SysDepartment extends Model<SysDepartment> implements IModel {
      * 乐观锁保留字段
      */
     private Integer version;
+    @TableField(fill = FieldFill.INSERT)
     private Long createUser;
+    @TableField(fill = FieldFill.INSERT)
     private Date createDate;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long editUser;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date editDate;
 
     /**

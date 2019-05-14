@@ -1,5 +1,6 @@
 package com.frame.easy.modular.sys.model;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -9,6 +10,7 @@ import com.frame.easy.common.page.Page;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 导入模板
@@ -57,6 +59,15 @@ public class SysImportExcelTemplate extends Model<SysImportExcelTemplate> implem
      */
     @NotBlank(message = "权限代码不能为空")
     private String permissionCode;
+
+    @TableField(fill = FieldFill.INSERT)
+    private Date createDate;
+    @TableField(fill = FieldFill.INSERT)
+    private Long createUser;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private Long editUser;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private Date editDate;
 
     //
     /**
@@ -114,6 +125,38 @@ public class SysImportExcelTemplate extends Model<SysImportExcelTemplate> implem
 
     public void setPermissionCode(String permissionCode) {
         this.permissionCode = permissionCode;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Long getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(Long createUser) {
+        this.createUser = createUser;
+    }
+
+    public Long getEditUser() {
+        return editUser;
+    }
+
+    public void setEditUser(Long editUser) {
+        this.editUser = editUser;
+    }
+
+    public Date getEditDate() {
+        return editDate;
+    }
+
+    public void setEditDate(Date editDate) {
+        this.editDate = editDate;
     }
 
     @Override

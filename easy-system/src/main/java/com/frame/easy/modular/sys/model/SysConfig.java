@@ -1,5 +1,6 @@
 package com.frame.easy.modular.sys.model;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -50,21 +51,25 @@ public class SysConfig extends Model<SysConfig> implements IModel, Serializable{
     /**
      * 创建时间
      */
+    @TableField(fill = FieldFill.INSERT)
     private Date createDate;
 
     /**
      * 创建人
      */
+    @TableField(fill = FieldFill.INSERT)
     private Long createUser;
 
     /**
      * 编辑时间
      */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date editDate;
 
     /**
      * 编辑人
      */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long editUser;
 
     //

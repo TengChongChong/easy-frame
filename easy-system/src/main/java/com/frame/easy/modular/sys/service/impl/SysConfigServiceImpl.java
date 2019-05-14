@@ -125,13 +125,6 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
         if (count(queryWrapper) > 0) {
             throw new EasyException("key[" + object.getSysKey() + "]已存在");
         }
-        SysUser sysUser = ShiroUtil.getCurrentUser();
-        object.setEditDate(new Date());
-        object.setEditUser(sysUser.getId());
-        if (object.getId() == null) {
-            object.setCreateDate(new Date());
-            object.setCreateUser(sysUser.getId());
-        }
         updateCache(object);
         return (SysConfig) ToolUtil.checkResult(saveOrUpdate(object), object);
     }

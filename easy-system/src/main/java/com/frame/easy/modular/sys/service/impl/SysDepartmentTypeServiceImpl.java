@@ -190,15 +190,10 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
         boolean isModifyCode = false;
         SysDepartmentType oldDepartType = null;
         SysUser sysUser = ShiroUtil.getCurrentUser();
-        if (object.getId() == null) {
-            object.setCreateDate(new Date());
-            object.setCreateUser(sysUser.getId());
-        } else {
+        if (object.getId() != null) {
             oldDepartType = getById(object.getId());
             isModifyCode = !oldDepartType.getCode().equals(object.getCode());
         }
-        object.setEditDate(new Date());
-        object.setEditUser(sysUser.getId());
         // 机构类型代码不能重复
         QueryWrapper<SysDepartmentType> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("code", object.getCode());

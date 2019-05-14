@@ -7,15 +7,12 @@ import com.frame.easy.common.page.Page;
 import com.frame.easy.modular.sample.dao.SampleGeneralMapper;
 import com.frame.easy.modular.sample.model.SampleGeneral;
 import com.frame.easy.modular.sample.service.SampleGeneralService;
-import com.frame.easy.modular.sys.model.SysUser;
-import com.frame.easy.util.ShiroUtil;
 import com.frame.easy.util.ToolUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -109,14 +106,9 @@ public class SampleGeneralServiceImpl extends ServiceImpl<SampleGeneralMapper, S
     @Override
     public SampleGeneral saveData(SampleGeneral object) {
         ToolUtil.checkParams(object);
-        SysUser sysUser = ShiroUtil.getCurrentUser();
-        object.setEditUser(sysUser.getId());
-        object.setEditDate(new Date());
         if (object.getId() == null) {
             // 新增,设置默认值
             object.setStatus("1");
-            object.setCreateDate(new Date());
-            object.setCreateUser(sysUser.getId());
         }
         return (SampleGeneral) ToolUtil.checkResult(saveOrUpdate(object), object);
     }

@@ -17,6 +17,10 @@
         <result column="order_no" property="orderNo"/>
         <result column="required" property="required"/>
         <result column="is_only" property="isOnly"/>
+        <result column="create_date" property="createDate" />
+        <result column="create_user" property="createUser" />
+        <result column="edit_date" property="editDate" />
+        <result column="edit_user" property="editUser" />
     </resultMap>
 
     <!-- 通用查询结果列 -->

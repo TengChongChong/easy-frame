@@ -1,5 +1,6 @@
 package com.frame.easy.modular.sys.model;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -90,10 +91,14 @@ public class SysUser extends Model<SysUser> implements Serializable, IModel {
      */
     private String source;
 
+    @TableField(fill = FieldFill.INSERT)
     private Long createUser;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
+    @TableField(fill = FieldFill.INSERT)
     private Date createDate;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long editUser;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date editDate;
 
     //

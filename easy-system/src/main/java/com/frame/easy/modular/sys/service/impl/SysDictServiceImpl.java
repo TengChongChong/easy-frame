@@ -127,13 +127,6 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         if (count > 0) {
             throw new EasyException("字典类型 " + object.getDictType() + " 中已存在编码为 " + object.getCode() + " 的字典，请修改后重试");
         }
-        SysUser sysUser = ShiroUtil.getCurrentUser();
-        object.setEditDate(new Date());
-        object.setEditUser(sysUser.getId());
-        if (object.getId() == null) {
-            object.setCreateUser(sysUser.getId());
-            object.setCreateDate(new Date());
-        }
         if (object.getOrderNo() == null) {
             object.setOrderNo(getBaseMapper().getMaxOrderNo(object.getDictType()) + 1);
         }

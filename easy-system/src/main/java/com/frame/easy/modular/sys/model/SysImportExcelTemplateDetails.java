@@ -1,5 +1,6 @@
 package com.frame.easy.modular.sys.model;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -11,6 +12,7 @@ import com.frame.easy.util.office.ImportExportUtil;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 导入模板详情
@@ -89,7 +91,14 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
      * 是否唯一
      */
     private Integer isOnly;
-
+    @TableField(fill = FieldFill.INSERT)
+    private Date createDate;
+    @TableField(fill = FieldFill.INSERT)
+    private Long createUser;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private Long editUser;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private Date editDate;
     /**
      * 是否需要导入
      */
@@ -231,6 +240,38 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
 
     public void setNeedImport(boolean needImport) {
         this.needImport = needImport;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Long getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(Long createUser) {
+        this.createUser = createUser;
+    }
+
+    public Long getEditUser() {
+        return editUser;
+    }
+
+    public void setEditUser(Long editUser) {
+        this.editUser = editUser;
+    }
+
+    public Date getEditDate() {
+        return editDate;
+    }
+
+    public void setEditDate(Date editDate) {
+        this.editDate = editDate;
     }
 
     /**

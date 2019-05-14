@@ -183,13 +183,6 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public SysRole saveData(SysRole object) {
         ToolUtil.checkParams(object);
-        SysUser sysUser = ShiroUtil.getCurrentUser();
-        if (object.getId() == null) {
-            object.setCreateDate(new Date());
-            object.setCreateUser(sysUser.getId());
-        }
-        object.setEditDate(new Date());
-        object.setEditUser(sysUser.getId());
         if (object.getOrderNo() == null) {
             object.setOrderNo(getBaseMapper().getMaxOrderNo(object.getpId()) + 1);
         }

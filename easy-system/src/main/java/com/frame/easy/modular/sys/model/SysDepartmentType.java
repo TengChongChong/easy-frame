@@ -1,5 +1,6 @@
 package com.frame.easy.modular.sys.model;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -48,9 +49,13 @@ public class SysDepartmentType extends Model<SysDepartmentType> {
      */
     @NotNull(message = "状态不能为空")
     private Integer status;
+    @TableField(fill = FieldFill.INSERT)
     private Long createUser;
+    @TableField(fill = FieldFill.INSERT)
     private Date createDate;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long editUser;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date editDate;
 
     //
