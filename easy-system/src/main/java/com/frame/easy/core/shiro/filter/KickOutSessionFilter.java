@@ -4,7 +4,7 @@ import com.frame.easy.common.constant.SessionConst;
 import com.frame.easy.common.constant.SysConst;
 import com.frame.easy.common.redis.RedisPrefix;
 import com.frame.easy.util.RedisUtil;
-import com.frame.easy.web.Servlets;
+import com.frame.easy.util.web.Servlets;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;

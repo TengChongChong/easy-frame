@@ -6,7 +6,7 @@ import com.frame.easy.common.constant.SessionConst;
 import com.frame.easy.base.controller.BaseController;
 import com.frame.easy.result.Tips;
 import com.frame.easy.util.ShiroUtil;
-import com.frame.easy.web.Servlets;
+import com.frame.easy.util.web.Servlets;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
@@ -43,10 +43,12 @@ public class LoginController extends BaseController {
         HttpServletRequest request = Servlets.getRequest();
         if ((request != null ? request.getParameter(SessionConst.FORCE_LOGOUT) : null) != null) {
             model.addAttribute("message", "您已经被管理员强制退出，请重新登录！");
+
             return PREFIX + "login";
         }
         if ((request != null ? request.getParameter(SessionConst.LOGIN_ELSEWHERE) : null) != null) {
             model.addAttribute("message", "您的账号在其他地方登录，您被迫退出，请重新登录！");
+
             return PREFIX + "login";
         }
         // 已登录

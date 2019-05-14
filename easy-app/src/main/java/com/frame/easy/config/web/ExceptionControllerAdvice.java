@@ -9,7 +9,7 @@ import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.service.SysExceptionService;
 import com.frame.easy.result.Tips;
 import com.frame.easy.util.ShiroUtil;
-import com.frame.easy.web.Servlets;
+import com.frame.easy.util.web.Servlets;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;

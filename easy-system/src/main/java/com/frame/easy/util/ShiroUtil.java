@@ -5,6 +5,7 @@ import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.service.ShiroService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,7 +98,10 @@ public class ShiroUtil {
     public static SysUser getCurrentUser() {
         SysUser user = (SysUser) getAttribute(SessionConst.USER_SESSION_KEY);
         if (user == null) {
-            user = (SysUser) SecurityUtils.getSubject().getPrincipals().getPrimaryPrincipal();
+            PrincipalCollection principalCollection = SecurityUtils.getSubject().getPrincipals();
+            if (principalCollection != null) {
+                user = (SysUser) principalCollection.getPrimaryPrincipal();
+            }
         }
         return user;
     }

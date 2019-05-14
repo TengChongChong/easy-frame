@@ -1,4 +1,4 @@
-package com.frame.easy.web;
+package com.frame.easy.util.web;
 
 import com.frame.easy.common.constant.CommonConst;
 import org.slf4j.Logger;
