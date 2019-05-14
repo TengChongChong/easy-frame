@@ -16,7 +16,15 @@
                     <#form:input id="cron" required="true" name="cron表达式" value="${object.cron}" />
                 </div>
                 <div class="col-lg-6 col-12">
-                    <#form:select class="select-picker" required="true" dataDictType="schedulerJobStatus" id="status" name="状态" value="${object.status}" />
+                    <div class="form-group row">
+                        <label class="col-4 control-label">
+                            <span class="required">*</span>
+                            状态：
+                        </label>
+                        <div class="col-8">
+                            <div class="radio-dict" data-dict-type="schedulerJobStatus" data-value="${object.status}" data-name="status" data-required="true"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-6 col-12">
                     <#form:input id="bean" required="true" name="bean" value="${object.bean}" />
