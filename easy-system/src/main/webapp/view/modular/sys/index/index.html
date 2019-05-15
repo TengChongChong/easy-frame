@@ -25,43 +25,38 @@
                     <div class="m-stack m-stack--ver m-stack--general">
                         <div class="m-stack__item m-stack__item--middle m-brand__logo">
                             <a href="index.html" class="m-brand__logo-wrapper">
-                                <!--<img alt="" src="${ctxPath}/static/themes/default/media/img/logo/logo_default_dark.png"/>-->
                                 ${projectName()}
                             </a>
                         </div>
                         <div class="m-stack__item m-stack__item--middle m-brand__tools">
 
-                            <!-- BEGIN: Left m-card-user__picAside Minimize Toggle -->
+                            <!-- BEGIN: 收起&展开菜单 -->
                             <a href="javascript:;" id="m_aside_left_minimize_toggle"
                                class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-desktop-inline-block  ">
                                 <span></span>
                             </a>
+                            <!-- END: 收起&展开菜单 -->
 
-                            <!-- END -->
-
-                            <!-- BEGIN: Responsive Aside Left Menu Toggler -->
+                            <!-- BEGIN: 移动端下收起&展开菜单 -->
                             <a href="javascript:;" id="m_aside_left_offcanvas_toggle"
                                class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-tablet-and-mobile-inline-block">
                                 <span></span>
                             </a>
+                            <!-- END: 移动端下收起&展开菜单 -->
 
-                            <!-- END -->
-
-                            <!-- BEGIN: Responsive Header Menu Toggler -->
+                            <!-- BEGIN: 移动端下收起&展开横向菜单 -->
                             <a id="m_aside_header_menu_mobile_toggle" href="javascript:;"
                                class="m-brand__icon m-brand__toggler m--visible-tablet-and-mobile-inline-block">
                                 <span></span>
                             </a>
+                            <!-- END: 移动端下收起&展开横向菜单 -->
 
-                            <!-- END -->
-
-                            <!-- BEGIN: Topbar Toggler -->
+                            <!-- BEGIN: 更多 -->
                             <a id="m_aside_header_topbar_mobile_toggle" href="javascript:;"
                                class="m-brand__icon m--visible-tablet-and-mobile-inline-block">
                                 <i class="flaticon-more"></i>
                             </a>
-
-                            <!-- BEGIN: Topbar Toggler -->
+                            <!-- BEGIN: 更多 -->
                         </div>
                     </div>
                 </div>
@@ -75,21 +70,28 @@
                         <i class="la la-close"></i>
                     </button>
                     <div id="m_header_menu" class="m-header-menu m-aside-header-menu-mobile m-aside-header-menu-mobile--offcanvas m-header-menu--skin-light m-header-menu--submenu-skin-light m-aside-header-menu-mobile--skin-dark m-aside-header-menu-mobile--submenu-skin-dark ">
-                        <ul class="m-menu__nav  m-menu__nav--submenu-arrow"></ul>
+                        <ul class="m-menu__nav m-menu__nav--submenu-arrow"></ul>
                     </div>
                     <!-- END: 水平菜单 -->
 
-                    <!-- BEGIN: Topbar -->
+                    <!-- BEGIN: 右侧工具条 -->
                     <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general m-stack--fluid">
                         <div class="m-stack__item m-topbar__nav-wrapper">
                             <ul class="m-topbar__nav m-nav m-nav--inline">
+                                <li class="m-nav__item m-topbar__notifications m-topbar__notifications--img">
+                                    <a href="#" class="m-nav__link m-dropdown__toggle" id="">
+                                        <span class="m-nav__link-icon">
+                                            <i class="la la-arrows"></i>
+                                        </span>
+                                    </a>
+                                </li>
                                 <li class="m-nav__item m-topbar__notifications m-topbar__notifications--img m-dropdown m-dropdown--large m-dropdown--header-bg-fill m-dropdown--arrow m-dropdown--align-center 	m-dropdown--mobile-full-width"
                                     m-dropdown-toggle="click" m-dropdown-persistent="1">
                                     <a href="#" class="m-nav__link m-dropdown__toggle" id="m_topbar_notification_icon">
                                         <span class="m-nav__link-badge m-badge m-badge--dot m-badge--dot-small m-badge--danger"></span>
                                         <span class="m-nav__link-icon">
-													<i class="flaticon-music-2"></i>
-												</span>
+                                            <i class="flaticon-music-2"></i>
+                                        </span>
                                     </a>
                                     <div class="m-dropdown__wrapper">
                                         <span class="m-dropdown__arrow m-dropdown__arrow--center"></span>
@@ -303,14 +305,14 @@
                                 <li id="m_quick_sidebar_toggle" class="m-nav__item">
                                     <a href="#" class="m-nav__link m-dropdown__toggle">
                                         <span class="m-nav__link-icon">
-                                            <i class="flaticon-grid-menu"></i>
+                                            <i class="flaticon-cogwheel"></i>
                                         </span>
                                     </a>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <!-- END: Topbar -->
+                    <!-- END: 右侧工具条 -->
                 </div>
             </div>
         </div>
@@ -328,13 +330,12 @@
             <!-- BEGIN: 侧边菜单 -->
             <div id="m_ver_menu" class="m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark "
                  m-menu-vertical="1" m-menu-scrollable="1" m-menu-dropdown-timeout="500" style="position: relative;">
-
             </div>
             <!-- END: 侧边菜单 -->
         </div>
         <!-- END: 左侧 -->
 
-        <!-- BEGIN: site-contabs -->
+        <!-- BEGIN: 标签页 -->
         <div class="site-contabs">
             <div class="btn-group left-group">
                 <a class="btn btn-default icon-btn to-left">
@@ -390,13 +391,13 @@
                 </div>
             </div>
         </div>
-        <!-- END: site-contabs -->
-        <!-- BEGIN: iframe -->
+        <!-- END: 标签页 -->
+
+        <!-- BEGIN: 页面 -->
         <div class="page-container">
             <iframe src="${ctxPath}/auth/dashboard" frameborder="0" name="iframe-1" class="page-frame active animation-fade"></iframe>
         </div>
-        <!-- END: iframe -->
-
+        <!-- END: 页面 -->
     </div>
     <!-- end:: Body -->
 
@@ -413,62 +414,13 @@
         <span id="m_quick_sidebar_close" class="m-quick-sidebar__close">
             <i class="la la-close"></i>
         </span>
-        <ul id="m_quick_sidebar_tabs" class="nav nav-tabs m-tabs m-tabs-line m-tabs-line--brand" role="tablist">
-            <li class="nav-item m-tabs__item">
-                <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_quick_sidebar_tabs_messenger"
-                   role="tab">Messages</a>
-            </li>
-            <li class="nav-item m-tabs__item">
-                <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_quick_sidebar_tabs_settings" role="tab">Settings</a>
-            </li>
-            <li class="nav-item m-tabs__item">
-                <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_quick_sidebar_tabs_logs" role="tab">Logs</a>
-            </li>
-        </ul>
         <div class="tab-content">
-            <div class="tab-pane active" id="m_quick_sidebar_tabs_messenger" role="tabpanel">
-                <div class="m-messenger m-messenger--message-arrow m-messenger--skin-light">
-                    <div class="m-messenger__messages m-scrollable">
-                        <div class="m-messenger__wrapper">
-                            <div class="m-messenger__message m-messenger__message--in">
-                                <div class="m-messenger__message-pic">
-                                    <span class="m-type m--bg-brand">
-                                        <span class="m--font-light">冲</span>
-                                    </span>
-                                </div>
-                                <div class="m-messenger__message-body">
-                                    <div class="m-messenger__message-arrow"></div>
-                                    <div class="m-messenger__message-content">
-                                        <div class="m-messenger__message-username">
-                                            Megan wrote
-                                        </div>
-                                        <div class="m-messenger__message-text">
-                                            Hi Bob. What time will be the meeting ?
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="m-messenger__seperator"></div>
-                    <div class="m-messenger__form">
-                        <div class="m-messenger__form-controls">
-                            <input type="text" name="" placeholder="Type here..." class="m-messenger__form-input">
-                        </div>
-                        <div class="m-messenger__form-tools">
-                            <a href="" class="m-messenger__form-attachment">
-                                <i class="la la-paperclip"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane" id="m_quick_sidebar_tabs_settings" role="tabpanel">
+            <div class="tab-pane active" id="m_quick_sidebar_tabs_settings" role="tabpanel" >
                 <div class="m-list-settings m-scrollable">
                     <div class="m-list-settings__group">
                         <div class="m-list-settings__heading">一般设置</div>
                         <div class="m-list-settings__item">
-                            <span class="m-list-settings__item-label">Email Notifications</span>
+                            <span class="m-list-settings__item-label">右上角提示</span>
                             <span class="m-list-settings__item-control">
                                 <span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
                                     <label>
@@ -479,7 +431,7 @@
                             </span>
                         </div>
                         <div class="m-list-settings__item">
-                            <span class="m-list-settings__item-label">Site Tracking</span>
+                            <span class="m-list-settings__item-label">固定头部</span>
                             <span class="m-list-settings__item-control">
                                 <span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
                                     <label>
@@ -489,7 +441,39 @@
                                 </span>
                             </span>
                         </div>
-
+                        <div class="m-list-settings__item">
+                            <span class="m-list-settings__item-label">固定底部</span>
+                            <span class="m-list-settings__item-control">
+                                <span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
+                                    <label>
+                                        <input type="checkbox" name="">
+                                        <span></span>
+                                    </label>
+                                </span>
+                            </span>
+                        </div>
+                        <div class="m-list-settings__item">
+                            <span class="m-list-settings__item-label">默认收起菜单</span>
+                            <span class="m-list-settings__item-control">
+                                <span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
+                                    <label>
+                                        <input type="checkbox" name="">
+                                        <span></span>
+                                    </label>
+                                </span>
+                            </span>
+                        </div>
+                        <div class="m-list-settings__item">
+                            <span class="m-list-settings__item-label">暗色主题</span>
+                            <span class="m-list-settings__item-control">
+                                <span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
+                                    <label>
+                                        <input type="checkbox" name="">
+                                        <span></span>
+                                    </label>
+                                </span>
+                            </span>
+                        </div>
                     </div>
                     <div class="m-list-settings__group">
                         <div class="m-list-settings__heading">系统设置</div>
@@ -514,58 +498,6 @@
                                     </label>
                                 </span>
                             </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane" id="m_quick_sidebar_tabs_logs" role="tabpanel">
-                <div class="m-list-timeline m-scrollable">
-                    <div class="m-list-timeline__group">
-                        <div class="m-list-timeline__heading">
-                            System Logs
-                        </div>
-                        <div class="m-list-timeline__items">
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-success"></span>
-                                <a href="" class="m-list-timeline__text">12 new users registered
-                                    <span class="m-badge m-badge--warning m-badge--wide">important</span>
-                                </a>
-                                <span class="m-list-timeline__time">Just now</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-info"></span>
-                                <a href="" class="m-list-timeline__text">System shutdown</a>
-                                <span class="m-list-timeline__time">11 mins</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-danger"></span>
-                                <a href="" class="m-list-timeline__text">New invoice received</a>
-                                <span class="m-list-timeline__time">20 mins</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-warning"></span>
-                                <a href="" class="m-list-timeline__text">Database overloaded 89%
-                                    <span class="m-badge m-badge--success m-badge--wide">resolved</span>
-                                </a>
-                                <span class="m-list-timeline__time">1 hr</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-success"></span>
-                                <a href="" class="m-list-timeline__text">System error</a>
-                                <span class="m-list-timeline__time">2 hrs</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-info"></span>
-                                <a href="" class="m-list-timeline__text">Production server down
-                                    <span class="m-badge m-badge--danger m-badge--wide">pending</span>
-                                </a>
-                                <span class="m-list-timeline__time">3 hrs</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-success"></span>
-                                <a href="" class="m-list-timeline__text">Production server up</a>
-                                <span class="m-list-timeline__time">5 hrs</span>
-                            </div>
                         </div>
                     </div>
                 </div>

@@ -12146,11 +12146,11 @@ var mLayout = function() {
     };
 }();
 
-$(document).ready(function() {
-    if (mUtil.isAngularVersion() === false) {
-        mLayout.init();
-    }
-});
+// $(document).ready(function() {
+//     if (mUtil.isAngularVersion() === false) {
+//         mLayout.init();
+//     }
+// });
 
 var mQuickSidebar = function() {
     var topbarAside = $('#m_quick_sidebar');

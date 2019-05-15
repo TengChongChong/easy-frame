@@ -3,7 +3,13 @@
 <!-- begin::Head -->
 <head>
     @include("meta.html"){}
-    <title>${projectName()}</title>
+    <title>
+        @if(isNotEmpty(title)){
+            ${title} - ${projectName()}
+        @} else {
+            ${projectName()}
+        @}
+    </title>
     @include("base-styles.html"){}
     @include("base-scripts.html"){}
 </head>

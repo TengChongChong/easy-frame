@@ -1,4 +1,4 @@
-@layout("/common/container.html"){
+@layout("/common/container.html", {"title" : "导入模板"}){
 <style>
     #template-set th {
         vertical-align: middle;
@@ -11,7 +11,7 @@
     <input type="hidden" id="templateId" value="${object.id}">
     <input type="hidden" id="importTable" value="${object.importTable}">
     <div class="m-portlet">
-        <#portlet:head title="导入模板详情" icon="la la-cloud-upload"/>
+        <#portlet:head title="导入模板" icon="la la-cloud-upload"/>
         <div class="m-portlet__body">
             <div class="row">
                 <!-- str:表单区域 -->
