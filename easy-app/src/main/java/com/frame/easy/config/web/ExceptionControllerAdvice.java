@@ -17,8 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +30,7 @@ import java.util.Date;
  * @author tengchong
  * @date 2018/10/22
  */
-@ControllerAdvice
+@RestControllerAdvice
 public class ExceptionControllerAdvice {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -102,10 +102,27 @@ public class ExceptionControllerAdvice {
     public Object handleException(HttpServletRequest request, RuntimeException e) {
         logger.debug("未知异常", e);
         // 将异常记录到表中
+        saveLog(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                request.getRequestURI(), e);
+        if (Servlets.isAjaxRequest(request)) {
+            return Tips.getErrorTips(e.getMessage());
+        } else {
+            return errorModelAndView(request.getRequestURI(), HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), e);
+        }
+    }
+
+    /**
+     * 保存异常信息
+     *
+     * @param code 错误代码
+     * @param uri 请求地址
+     * @param e 异常信息
+     */
+    private void saveLog(int code, String uri, Exception e){
         SysException sysException = new SysException();
-        sysException.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        sysException.setCode(code);
         sysException.setMessage(e.getMessage());
-        sysException.setUrl(request.getRequestURI());
+        sysException.setUrl(uri);
         sysException.setTriggerTime(new Date());
         sysException.setType(e.getClass().getName());
         sysException.setTrace(StrUtil.join("\n\t", e.getStackTrace()));
@@ -114,14 +131,7 @@ public class ExceptionControllerAdvice {
             sysException.setUserId(currentUser.getId());
         }
         sysExceptionService.saveData(sysException);
-
-        if (Servlets.isAjaxRequest(request)) {
-            return Tips.getErrorTips(e.getMessage());
-        } else {
-            return errorModelAndView(request.getRequestURI(), HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), e);
-        }
     }
-
     /**
      * 获取错误提示页面信息
      *
