@@ -10,6 +10,14 @@ public class Select {
     private String value;
     private String text;
 
+    public Select() {
+    }
+
+    public Select(String value, String text) {
+        this.value = value;
+        this.text = text;
+    }
+
     public String getValue() {
         return value;
     }
