@@ -32,7 +32,7 @@ var mIndex = function () {
                     </li>'
                 );
             }
-            mLayout.init();
+            // mLayout.init();
             bindMenuClick();
             setDefaultHorMenu();
         }
