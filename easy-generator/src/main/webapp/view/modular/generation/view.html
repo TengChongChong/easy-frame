@@ -164,6 +164,11 @@
                         <div class="m-wizard__form-step m-wizard__form-step--current" id="m_wizard_form_step_1">
                             <div class="row">
                                 <div class="col-md-6 col-12">
+                                    <#form:select id="dataSource" name="数据源" required="true"
+                                    class="m-bootstrap-select select-picker"
+                                    dataDictType='dataSource' other="data-live-search='true'"/>
+                                </div>
+                                <div class="col-md-6 col-12">
                                     <#form:select id="tableName" name="表名" required="true"
                                     other="data-live-search='true'"/>
                                 </div>

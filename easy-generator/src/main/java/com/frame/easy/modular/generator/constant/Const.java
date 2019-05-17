@@ -60,4 +60,8 @@ public class Const {
      * service.impl 包路径
      */
     public static String SERVICE_IMPL_PACKAGE = "service.impl";
+    /**
+     * 生成代码时要排除的表前缀
+     */
+    public static final String[] EXCLUDE_TABLE_PREFIX = new String[]{"qrtz_"};
 }

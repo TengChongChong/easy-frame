@@ -23,14 +23,16 @@ public interface GenerationService {
     /**
      * 获取表名
      *
+     * @param dataSourceCode 数据源
      * @return List<Select>
      */
-    List<Select> selectTable();
+    List<Select> selectTable(String dataSourceCode);
     /**
      * 根据表名获取字段列表
      *
+     * @param dataSourceCode 数据源
      * @param tableName 表名
      * @return List<Select>
      */
-    TableInfo selectFields(String tableName);
+    TableInfo selectFields(String dataSourceCode, String tableName);
 }

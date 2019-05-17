@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 @Configuration
 public class JacksonConfig {
     @Bean
-    public ObjectMapper objectMapper(){
+    public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new SimpleDateFormat(DatePattern.NORM_DATETIME_PATTERN));
         //忽略未知属性 防止解析报错

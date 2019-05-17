@@ -15,9 +15,7 @@ import com.frame.easy.exception.EasyException;
 import com.frame.easy.modular.sys.dao.SysDictMapper;
 import com.frame.easy.modular.sys.dao.SysDictTypeMapper;
 import com.frame.easy.modular.sys.model.SysDict;
-import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.service.SysDictService;
-import com.frame.easy.util.ShiroUtil;
 import com.frame.easy.util.ToolUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -85,6 +82,14 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     public SysDict input(Long id) {
         ToolUtil.checkParams(id);
         return getBaseMapper().selectById(id);
+    }
+
+    @Override
+    public SysDict getDictByCode(String type, String code) {
+        QueryWrapper<SysDict> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("code", code);
+        queryWrapper.eq("dict_type", type);
+        return getOne(queryWrapper);
     }
 
     @Override

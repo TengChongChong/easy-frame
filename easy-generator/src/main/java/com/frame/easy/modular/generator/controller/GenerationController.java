@@ -35,27 +35,31 @@ public class GenerationController extends BaseController {
 
     /**
      * 获取表名
+     *
+     * @param dataSourceCode 数据源
      * @return Tips
      */
     @RequiresRoles("sys:admin")
     @RequestMapping("/select/table")
     @ResponseBody
-    public Tips selectTable(){
+    public Tips selectTable(String dataSourceCode){
         logger.debug("/auth/generation/select/table");
-        return Tips.getSuccessTips(service.selectTable());
+        return Tips.getSuccessTips(service.selectTable(dataSourceCode));
     }
 
     /**
      * 根据表名获取字段列表
+     *
+     * @param dataSourceCode 数据源
      * @param tableName 表名
      * @return Tips
      */
     @RequiresRoles("sys:admin")
     @RequestMapping("/select/fields")
     @ResponseBody
-    public Tips selectFields(String tableName){
+    public Tips selectFields(String dataSourceCode, String tableName){
         logger.debug("/auth/generation/select/fields");
-        return Tips.getSuccessTips(service.selectFields(tableName));
+        return Tips.getSuccessTips(service.selectFields(dataSourceCode, tableName));
     }
 
     /**

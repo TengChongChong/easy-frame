@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.frame.easy.base.model.IModel;
 import com.frame.easy.common.page.Page;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,7 +16,7 @@ import java.util.Date;
  * 代码生成示例
  *
  * @author TengChong
- * @date 2019-04-09
+ * @date 2019-05-14
  */
  @TableName("sample_general")
 public class SampleGeneral extends Model<SampleGeneral> implements IModel, Serializable{
@@ -27,16 +28,19 @@ public class SampleGeneral extends Model<SampleGeneral> implements IModel, Seria
     /**
      * 姓名
      */
+    @NotBlank(message = "姓名不能为空")
     private String name;
 
     /**
      * 性别
      */
+    @NotBlank(message = "性别不能为空")
     private String sex;
 
     /**
      * 手机号码
      */
+    @NotBlank(message = "手机号码不能为空")
     private String phone;
 
     /**

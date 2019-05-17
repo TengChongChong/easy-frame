@@ -91,6 +91,12 @@
             <version>${velocity.version}</version>
         </dependency>
         <!-- end: mybatis-plus -->
+        <!-- 动态数据源 dynamic-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <version>${dynamic.version}</version>
+        </dependency>
 
         <!-- fast json -->
         <dependency>

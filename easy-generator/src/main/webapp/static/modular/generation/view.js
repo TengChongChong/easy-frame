@@ -183,20 +183,36 @@ var mGeneration = function () {
         });
     };
     /**
-     * 加载表
+     * 加载数据源
      */
-    var initTableSelect = function () {
-        var tableName = $('#tableName');
+    var dataSourceChange = function () {
+        var dataSource = $('#dataSource').val();
+        if (mUtil.isNotBlank(dataSource)) {
+            initTableSelect(dataSource);
+        } else {
+            $('#tableName').empty().selectpicker();
+        }
+    };
+    /**
+     * 加载表
+     *
+     * @param dataSourceCode 数据源
+     */
+    var initTableSelect = function (dataSourceCode) {
+        var tableName = $('#tableName').empty();
         tableName.append('<option value="">&nbsp;</option>');
         mUtil.ajax({
             url: mTool.getBaseUrl() + 'select/table',
+            data: {
+                dataSourceCode: dataSourceCode
+            },
             success: function (res) {
                 if (mUtil.isArray(res.data) && res.data.length > 0) {
                     $(res.data).each(function (index, obj) {
                         tableName.append('<option data-subtext="' + obj.text + '" value="' + obj.value + '">' +
                             obj.value + '</option>');
                     });
-                    tableName.selectpicker().change(function () {
+                    tableName.selectpicker('refresh').change(function () {
                         tableChange();
                     });
                 }
@@ -318,7 +334,7 @@ var mGeneration = function () {
      */
     var initInput = function (configs, content, array, type) {
         if (configs.length > 0) {
-            if('input' === type){
+            if ('input' === type) {
                 hideProperty = [];
             }
             $(configs).each(function (index, config) {
@@ -340,7 +356,7 @@ var mGeneration = function () {
                         }
                     }
                 } else {
-                    if('input' === type){
+                    if ('input' === type) {
                         hideProperty.push(config.propertyName);
                     }
                 }
@@ -527,9 +543,12 @@ var mGeneration = function () {
          */
         init: function () {
             mTool.setBaseUrl(basePath + '/auth/generation/');
+            $('#dataSource').change(function () {
+                dataSourceChange();
+            });
+            $('#tableName').html('<option value="">请先选择数据源</option>').selectpicker();
             initWizard();
             initSubmit();
-            initTableSelect();
             generationTool.setDefault();
             generationTool.initGeneratorTemplate();
             generationTool.initDictType();

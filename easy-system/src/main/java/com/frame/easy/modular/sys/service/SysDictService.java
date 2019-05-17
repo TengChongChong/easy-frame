@@ -45,6 +45,15 @@ public interface SysDictService {
     SysDict input(Long id);
 
     /**
+     * 根据编码查询字典信息
+     *
+     * @param type 类型
+     * @param code 编码
+     * @return SysDict
+     */
+    SysDict getDictByCode(String type, String code);
+
+    /**
      * 新增
      *
      * @param pId      上级id

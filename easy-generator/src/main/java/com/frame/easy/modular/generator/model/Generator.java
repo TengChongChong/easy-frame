@@ -15,6 +15,10 @@ import java.util.List;
  */
 public class Generator {
     /**
+     * 数据源
+     */
+    private String dataSource;
+    /**
      * 数据库类型
      */
     private String dbType;
@@ -548,5 +552,13 @@ public class Generator {
 
     public void setJquery(String jquery) {
         this.jquery = jquery;
+    }
+
+    public String getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(String dataSource) {
+        this.dataSource = dataSource;
     }
 }

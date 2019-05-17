@@ -40,18 +40,19 @@ spring:
         # 默认的数据过期时间 30 分钟 单位: 秒
         expire: 1800
     datasource:
-        druid:
-            driver-class-name: com.mysql.cj.jdbc.Driver
-            url: jdbc:mysql://localhost:3306/easy-frame?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMulQueries=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-            db-name: easy-frame
-            password: 123456
-            username: root
+        dynamic:
+            datasource:
+                master:
+                    driver-class-name: com.mysql.cj.jdbc.Driver
+                    url: jdbc:mysql://localhost:3306/easy-frame?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMulQueries=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+                    username: root
+                    password: 123456
+                slave_1:
+                    driver-class-name: com.mysql.cj.jdbc.Driver
+                    url: jdbc:mysql://localhost:3306/easy-frame-slave?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMulQueries=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+                    username: root
+                    password: 123456
 # beetl
 beetl:
     #是否检测文件变化,生成环境勿配置
     resource-auto-check: true
-# mybatis
-mybatis-plus:
-    global-config:
-        # 刷新mapping文件,生产环境勿配置
-        refresh: true
