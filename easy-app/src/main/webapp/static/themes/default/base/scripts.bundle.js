@@ -383,14 +383,6 @@ var mUtil = function () {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         },
 
-        /**
-         * 是否为使用Angular版本
-         * @returns {boolean}
-         */
-        isAngularVersion: function () {
-            return window.Zone !== undefined;
-        },
-
         //== jQuery 解决方案
 
         //== Deep extend:  $.extend(true, {}, objA, objB);
@@ -6660,7 +6652,7 @@ var mTool = function () {
      * @param url {string} url
      * @param method {string} 方法名
      * @param suffix {string|null} 后缀
-     * @returns {string|*}
+     * @returns {string|*} 处理后的url
      */
     var getUrl = function (url, method, suffix) {
         if (mUtil.isBlank(url)) {
@@ -11766,7 +11758,7 @@ var mWizard = function(elementId, options) {
         extensions: {}
     };
 }(jQuery));
-var mLayout = function() {
+var mLayout = function () {
     var header;
     var horMenu;
     var asideMenu;
@@ -11779,7 +11771,7 @@ var mLayout = function() {
     var mainPortlet;
 
     //== Header
-    var initStickyHeader = function() {
+    var initStickyHeader = function () {
         var tmp;
         var headerEl = mUtil.get('m_header');
         var options = {
@@ -11815,7 +11807,7 @@ var mLayout = function() {
     };
 
     //== Hor menu
-    var initHorMenu = function() {
+    var initHorMenu = function () {
         // init aside left offcanvas
         horMenuOffcanvas = new mOffcanvas('m_header_menu', {
             overlay: true,
@@ -11841,7 +11833,7 @@ var mLayout = function() {
     };
 
     //== Aside menu
-    var initLeftAsideMenu = function() {
+    var initLeftAsideMenu = function () {
         //== Init aside menu
         var menu = mUtil.get('m_ver_menu');
         var menuDesktopMode = (mUtil.attr(menu, 'm-menu-dropdown') === '1' ? 'dropdown' : 'accordion');
@@ -11849,10 +11841,10 @@ var mLayout = function() {
         var scroll;
         if (mUtil.attr(menu, 'm-menu-scrollable') === '1') {
             scroll = {
-                height: function() {
+                height: function () {
                     if (mUtil.isInResponsiveRange('desktop')) {
                         return mUtil.getViewPort().height - parseInt(mUtil.css('m_header', 'height'));
-                    }                   
+                    }
                 }
             };
         }
@@ -11886,7 +11878,7 @@ var mLayout = function() {
     };
 
     //== Aside
-    var initLeftAside = function() {
+    var initLeftAside = function () {
         // init aside left offcanvas
         var body = mUtil.get('body');
         var asideLeft = mUtil.get('m_aside_left');
@@ -11907,13 +11899,13 @@ var mLayout = function() {
             var insideTm;
             var outsideTm;
 
-            mUtil.addEvent(asideLeft, 'mouseenter', function() {
+            mUtil.addEvent(asideLeft, 'mouseenter', function () {
                 if (outsideTm) {
                     clearTimeout(outsideTm);
                     outsideTm = null;
                 }
 
-                insideTm = setTimeout(function() {
+                insideTm = setTimeout(function () {
                     if (mUtil.hasClass(body, 'm-aside-left--minimize') && mUtil.isInResponsiveRange('desktop')) {
                         mUtil.removeClass(body, 'm-aside-left--minimize');
                         mUtil.addClass(body, 'm-aside-left--minimize-hover');
@@ -11923,13 +11915,13 @@ var mLayout = function() {
                 }, 300);
             });
 
-            mUtil.addEvent(asideLeft, 'mouseleave', function() {
+            mUtil.addEvent(asideLeft, 'mouseleave', function () {
                 if (insideTm) {
                     clearTimeout(insideTm);
                     insideTm = null;
                 }
 
-                outsideTm = setTimeout(function() {
+                outsideTm = setTimeout(function () {
                     if (mUtil.hasClass(body, 'm-aside-left--minimize-hover') && mUtil.isInResponsiveRange('desktop')) {
                         mUtil.removeClass(body, 'm-aside-left--minimize-hover');
                         mUtil.addClass(body, 'm-aside-left--minimize');
@@ -11942,7 +11934,7 @@ var mLayout = function() {
     };
 
     //== Sidebar toggle
-    var initLeftAsideToggle = function() {
+    var initLeftAsideToggle = function () {
         if ($('#m_aside_left_minimize_toggle').length === 0) {
             return;
         }
@@ -11951,13 +11943,13 @@ var mLayout = function() {
             target: 'body',
             targetState: 'm-brand--minimize m-aside-left--minimize',
             togglerState: 'm-brand__toggler--active'
-        }); 
+        });
 
-        asideLeftToggle.on('toggle', function(toggle) {     
+        asideLeftToggle.on('toggle', function (toggle) {
             if (mUtil.get('main_portlet')) {
-                mainPortlet.updateSticky();      
-            } 
-            
+                mainPortlet.updateSticky();
+            }
+
             horMenu.pauseDropdownHover(800);
             asideMenu.pauseDropdownHover(800);
 
@@ -11968,8 +11960,8 @@ var mLayout = function() {
             // the body tag in order to initialize the minimized left aside mode during page loading.
         });
 
-        asideLeftToggle.on('beforeToggle', function(toggle) {   
-            var body = mUtil.get('body'); 
+        asideLeftToggle.on('beforeToggle', function (toggle) {
+            var body = mUtil.get('body');
             if (mUtil.hasClass(body, 'm-aside-left--minimize') === false && mUtil.hasClass(body, 'm-aside-left--minimize-hover')) {
                 mUtil.removeClass(body, 'm-aside-left--minimize-hover');
             }
@@ -11977,8 +11969,8 @@ var mLayout = function() {
     };
 
     //== Sidebar hide
-    var initLeftAsideHide = function() {
-        if ($('#m_aside_left_hide_toggle').length === 0 ) {
+    var initLeftAsideHide = function () {
+        if ($('#m_aside_left_hide_toggle').length === 0) {
             return;
         }
 
@@ -11988,7 +11980,7 @@ var mLayout = function() {
             togglerState: 'm-brand__toggler--active'
         });
 
-        initLeftAsideHide.on('toggle', function(toggle) {
+        initLeftAsideHide.on('toggle', function (toggle) {
             horMenu.pauseDropdownHover(800);
             asideMenu.pauseDropdownHover(800);
 
@@ -12001,9 +11993,52 @@ var mLayout = function() {
     };
 
     //== Topbar
-    var initTopbar = function() {
-        $('#m_aside_header_topbar_mobile_toggle').click(function() {
+    var initTopbar = function () {
+        /**
+         * 全屏
+         *
+         * @param element {object} 要全屏的元素
+         */
+        function launchFullscreen(element) {
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            } else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullScreen();
+            }
+        }
+
+        /**
+         * 退出全屏
+         */
+        function exitFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+        }
+
+        $('#m_aside_header_topbar_mobile_toggle').click(function () {
             $('body').toggleClass('m-topbar--on');
+        });
+
+        $('#full-screen').click(function () {
+            var $this = $(this);
+            if (1 === $this.data('full-screen')) {
+                $this.data('full-screen', 0);
+                exitFullscreen();
+            } else {
+                $this.data('full-screen', 1);
+                launchFullscreen(document.documentElement);
+            }
         });
 
         // Animated Notification Icon 
@@ -12021,7 +12056,7 @@ var mLayout = function() {
     };
 
     //== Scrolltop
-    var initScrollTop = function() {
+    var initScrollTop = function () {
         new mScrollTop('m_scroll_top', {
             offset: 300,
             speed: 600
@@ -12029,18 +12064,18 @@ var mLayout = function() {
     };
 
     //== Main portlet(sticky portlet)
-    var createMainPortlet = function() {
+    var createMainPortlet = function () {
         return new mPortlet('main_portlet', {
             sticky: {
-                offset: parseInt(mUtil.css( mUtil.get('m_header'), 'height')),
+                offset: parseInt(mUtil.css(mUtil.get('m_header'), 'height')),
                 zIndex: 90,
                 position: {
-                    top: function() {
-                        return parseInt(mUtil.css( mUtil.get('m_header'), 'height') );
+                    top: function () {
+                        return parseInt(mUtil.css(mUtil.get('m_header'), 'height'));
                     },
-                    left: function() {
-                        var left = parseInt(mUtil.css( mUtil.getByClass('m-content'), 'paddingLeft'));
-                        
+                    left: function () {
+                        var left = parseInt(mUtil.css(mUtil.getByClass('m-content'), 'paddingLeft'));
+
                         if (mUtil.isInResponsiveRange('desktop')) {
                             //left += parseInt(mUtil.css(mUtil.get('m_aside_left'), 'width') );
                             if (mUtil.hasClass(mUtil.get('body'), 'm-aside-left--minimize')) {
@@ -12048,12 +12083,12 @@ var mLayout = function() {
                             } else {
                                 left += 255; // need to use hardcoded width of the aside
                             }
-                        } 
+                        }
 
-                        return left; 
+                        return left;
                     },
-                    right: function() {
-                        return parseInt(mUtil.css( mUtil.getByClass('m-content'), 'paddingRight') );
+                    right: function () {
+                        return parseInt(mUtil.css(mUtil.getByClass('m-content'), 'paddingRight'));
                     }
                 }
             }
@@ -12061,45 +12096,45 @@ var mLayout = function() {
     };
 
     return {
-        init: function() {
+        init: function () {
             this.initHeader();
             this.initAside();
             this.initMainPortlet();
         },
 
-        initMainPortlet: function() {
+        initMainPortlet: function () {
             if (!mUtil.get('main_portlet')) {
                 return;
             }
-            
+
             mainPortlet = createMainPortlet();
             mainPortlet.initSticky();
-            
-            mUtil.addResizeHandler(function(){
+
+            mUtil.addResizeHandler(function () {
                 mainPortlet.updateSticky();
             });
         },
 
-        resetMainPortlet: function() {
+        resetMainPortlet: function () {
             mainPortlet.destroySticky();
             mainPortlet = createMainPortlet();
             mainPortlet.initSticky();
         },
 
-        initHeader: function() {
+        initHeader: function () {
             initStickyHeader();
             initHorMenu();
             initTopbar();
             initScrollTop();
         },
 
-        initAside: function() { 
+        initAside: function () {
             initLeftAside();
             initLeftAsideMenu();
             initLeftAsideToggle();
             initLeftAsideHide();
 
-            this.onLeftSidebarToggle(function(e) {
+            this.onLeftSidebarToggle(function (e) {
                 //== Update sticky portlet
                 if (mainPortlet) {
                     mainPortlet.updateSticky();
@@ -12108,37 +12143,37 @@ var mLayout = function() {
                 //== Reload datatable
                 var datatables = $('.m-datatable');
                 if (datatables) {
-                    datatables.each(function() {
+                    datatables.each(function () {
                         $(this).mDatatable('redraw');
                     });
-                }                
+                }
             });
         },
         /**
          * 获取侧边菜单
          */
-        getAsideMenu: function() {
+        getAsideMenu: function () {
             return asideMenu;
         },
         /**
          * 获取水平方向菜单
          */
-        getHorMenu: function() {
+        getHorMenu: function () {
             return horMenu;
         },
-        onLeftSidebarToggle: function(handler) {
+        onLeftSidebarToggle: function (handler) {
             if (asideLeftToggle) {
                 asideLeftToggle.on('toggle', handler);
             }
         },
 
-        closeMobileAsideMenuOffcanvas: function() {
+        closeMobileAsideMenuOffcanvas: function () {
             if (mUtil.isMobileDevice()) {
                 asideMenuOffcanvas.hide();
             }
         },
 
-        closeMobileHorMenuOffcanvas: function() {
+        closeMobileHorMenuOffcanvas: function () {
             if (mUtil.isMobileDevice()) {
                 horMenuOffcanvas.hide();
             }
@@ -12146,11 +12181,9 @@ var mLayout = function() {
     };
 }();
 
-// $(document).ready(function() {
-//     if (mUtil.isAngularVersion() === false) {
-//         mLayout.init();
-//     }
-// });
+$(document).ready(function () {
+    mLayout.init();
+});
 
 var mQuickSidebar = function() {
     var topbarAside = $('#m_quick_sidebar');

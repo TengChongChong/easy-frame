@@ -29589,7 +29589,8 @@ select.m-select2 {
     right: -13px !important; }
   .m-quick-sidebar.m-quick-sidebar--tabbed .m-quick-sidebar__close {
     top: 16px;
-    right: 30px; }
+    right: 30px;
+    z-index: 1; }
   .m-quick-sidebar.m-quick-sidebar--tabbed .m-tabs.m-tabs-line {
     margin: 0 0 30px 0; }
     .m-quick-sidebar.m-quick-sidebar--tabbed .m-tabs.m-tabs-line > .m-tabs__item > .m-tabs__link {
