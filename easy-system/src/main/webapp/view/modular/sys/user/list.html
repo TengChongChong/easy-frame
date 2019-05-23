@@ -1,10 +1,10 @@
 @layout("/common/container.html", {"title" : "用户管理"}){
-<div class="m-portlet" m-portlet="true">
+<div class="kt-portlet" kt-portlet="true">
     <#portlet:head title="用户管理" icon="la la-user"/>
-    <div class="m-portlet__body">
+    <div class="kt-portlet__body">
         <div class="row">
             <div class="col-lg-3 col-md-4 col-12 border-right">
-                <form class="m-form m--padding-bottom-15">
+                <form class="kt-form kt--padding-bottom-15">
                     <div class="input-group">
                         <input type="text" id="depart-title" class="form-control" placeholder="请输入关键字">
                         <div class="input-group-append">
@@ -15,18 +15,18 @@
 
                 <div id="depart-tree"></div>
 
-                <div id="search-depart" class="m--hide">
+                <div id="search-depart" class="kt--hide">
                     <div class="tree"></div>
-                    <button type="button" class="btn btn-metal btn-xs back-btn m--margin-top-5"><i
+                    <button type="button" class="btn btn-metal btn-xs back-btn kt--margin-top-5"><i
                             class="la la-undo"></i> 返回
                     </button>
                 </div>
             </div>
             <div class="col-lg-9 col-md-8 col-12">
-                <form class="m-form m--hide">
-                    <div class="m-stack m-stack--ver m-stack--general query-modular">
+                <form class="kt-form kt--hide">
+                    <div class="kt-stack kt-stack--ver kt-stack--general query-modular">
                         <input type="hidden" name="deptId" id="deptId">
-                        <div class="m-stack__item m-stack__item--fluid">
+                        <div class="kt-stack__item kt-stack__item--fluid">
                             <div class="row">
                                 <div class="col-xl-4 col-lg-6 col-12">
                                     <#form:input id="username" name="用户名"/>
@@ -39,18 +39,18 @@
                                 </div>
                                 <div class="col-xl-4 col-lg-6 col-12">
                                     <div class="form-group row">
-                                        <label class="col-4 control-label">状态：</label>
+                                        <label class="col-4 col-form-label">状态：</label>
                                         <div class="col-8">
-                                            <select class="form-control m-bootstrap-select select-picker"
+                                            <select class="form-control kt-bootstrap-select select-picker"
                                                     id="status" name="status" data-dict-type="commonStatus"
-                                                    onchange="mTool.selectData(this)">
+                                                    onchange="KTTool.selectData(this)">
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="m-stack__item query-btn-group">
+                        <div class="kt-stack__item query-btn-group">
                             <#btn:search />
                             <#btn:reset />
                         </div>
@@ -63,7 +63,7 @@
                         <#button btnType="success" click="mUserList.enableUser(this)" icon="la la-check" name="启用用户" permission="sys:user:enable" />
 
                     </div>
-                    <div class="m_datatable" id="user-list"></div>
+                    <div class="kt_datatable" id="user-list"></div>
                 </form>
             </div>
         </div>

@@ -1,10 +1,10 @@
 @layout("/common/container.html", {"title" : "系统参数"}){
-<div class="m-portlet" m-portlet="true">
+<div class="kt-portlet" kt-portlet="true">
     <#portlet:head title="系统参数" icon="la la-gears"/>
-    <div class="m-portlet__body">
-        <form class="m-form">
-            <div class="m-stack m-stack--ver m-stack--general query-modular">
-                <div class="m-stack__item m-stack__item--fluid">
+    <div class="kt-portlet__body">
+        <form class="kt-form">
+            <div class="kt-stack kt-stack--ver kt-stack--general query-modular">
+                <div class="kt-stack__item kt-stack__item--fluid">
                     <div class="row">
                         <!--str:查询条件区域-->
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
@@ -19,7 +19,7 @@
                         <!--end:查询条件区域-->
                     </div>
                 </div>
-                <div class="m-stack__item query-btn-group">
+                <div class="kt-stack__item query-btn-group">
                     <#btn:search />
                     <#btn:reset />
                 </div>
@@ -28,7 +28,7 @@
                 <#btn:add permission="sys:config:add"/>
                 <#btn:delete permission="sys:config:delete"/>
             </div>
-            <div class="m_datatable" id="sys_config-list"></div>
+            <div class="kt_datatable" id="sys_config-list"></div>
         </form>
     </div>
 </div>

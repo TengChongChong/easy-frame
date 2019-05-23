@@ -1,18 +1,18 @@
 @layout("/common/container.html", {"title" : "字典"}){
-<div class="m-portlet" m-portlet="true">
+<div class="kt-portlet" kt-portlet="true">
     <#portlet:head title="字典" icon="la la-book"/>
-    <div class="m-portlet__body">
-        <form class="m-form">
-            <div class="m-stack m-stack--ver m-stack--general query-modular">
-                <div class="m-stack__item m-stack__item--fluid">
+    <div class="kt-portlet__body">
+        <form class="kt-form">
+            <div class="kt-stack kt-stack--ver kt-stack--general query-modular">
+                <div class="kt-stack__item kt-stack__item--fluid">
                     <div class="row">
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <div class="form-group row">
-                                <label class="col-4 control-label">字典类型</label>
+                                <label class="col-4 col-form-label">字典类型</label>
                                 <div class="col-8">
-                                    <select class="form-control m-bootstrap-select select-picker auto-params"
+                                    <select class="form-control kt-bootstrap-select select-picker auto-params"
                                             data-live-search="true" id="dictType" name="dictType"
-                                            onchange="mTool.selectData(this)">
+                                            onchange="KTTool.selectData(this)">
                                         <option value=""></option>
                                         @for(dictType in dictTypes){
                                             <option value="${dictType.value}">${dictType.text}</option>
@@ -29,17 +29,17 @@
                         </div>
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <div class="form-group row">
-                                <label class="col-4 control-label">状态</label>
+                                <label class="col-4 col-form-label">状态</label>
                                 <div class="col-8">
-                                    <select class="form-control m-bootstrap-select select-picker"
-                                            id="status" name="status" data-dict-type="commonStatus" onchange="mTool.selectData(this)">
+                                    <select class="form-control kt-bootstrap-select select-picker"
+                                            id="status" name="status" data-dict-type="commonStatus" onchange="KTTool.selectData(this)">
                                     </select>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="m-stack__item query-btn-group">
+                <div class="kt-stack__item query-btn-group">
                     <#btn:search />
                     <#btn:reset />
                 </div>
@@ -47,10 +47,10 @@
             <div class="btn-row">
                 <#btn:add permission="sys:dict:delete"/>
                 <#btn:delete permission="sys:dict:delete"/>
-                <#button btnType="info" name="字典类别维护" icon="la la-bars" click="mApp.openPage('字典类别维护', '${ctxPath}/auth/sys/dict/type/list')" permission="sys:dict:type:select"/>
+                <#button btnType="info" name="字典类别维护" icon="la la-bars" click="KTApp.openPage('字典类别维护', '${ctxPath}/auth/sys/dict/type/list')" permission="sys:dict:type:select"/>
                 <#button btnType="info" name="生成静态文件" icon="la la-code" click="mDictList.generateDictData()" role="sys:admin"/>
             </div>
-            <div class="m_datatable" id="dict-list"></div>
+            <div class="kt_datatable" id="dict-list"></div>
         </form>
     </div>
 </div>

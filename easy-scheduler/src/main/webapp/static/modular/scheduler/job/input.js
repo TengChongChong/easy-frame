@@ -4,7 +4,7 @@ var mSchedulerJobInput = function () {
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/scheduler/job/');
+            KTTool.setBaseUrl(basePath + '/auth/scheduler/job/');
         }
     };
 }();

@@ -8,12 +8,12 @@ var mIndex = function () {
     var loadMenu = function () {
         var menus = currentUser.menus;
         if (typeof menus !== 'undefined') {
-            var $menuNav = $('#m_ver_menu > ul');
+            var $menuNav = $('#kt_aside_menu > ul');
 
             // 水平菜单
-            var $horizontalMenu = $('#m_header_menu > ul');
+            var $horizontalMenu = $('#kt_header_menu > ul');
             // 侧边菜单
-            var $varMenu = $('#m_ver_menu');
+            var $varMenu = $('#kt_aside_menu');
 
             if (menus.length > 0) {
 
@@ -26,14 +26,14 @@ var mIndex = function () {
                 $varMenu.append(initVarMenu(menus));
             } else {
                 $menuNav.append(
-                    '<li class="m-menu__section ">\
-                        <h4 class="m-menu__section-text">用户暂无菜单</h4>\
-                        <i class="m-menu__section-icon flaticon-more-v2"></i>\
+                    '<li class="kt-menu__section ">\
+                        <h4 class="kt-menu__section-text">用户暂无菜单</h4>\
+                        <i class="kt-menu__section-icon flaticon-more-v2"></i>\
                     </li>'
                 );
             }
             // mLayout.init();
-            bindMenuClick();
+            // bindMenuClick();
             setDefaultHorMenu();
         }
     };
@@ -46,8 +46,8 @@ var mIndex = function () {
     var initHorizontalMenu = function (menus) {
         var html = '';
         $(menus).each(function (index, menu) {
-            html += '<li class="m-menu__item m-menu__item--rel">\
-                        <a data-target="#sub_menu_' + menu.id + '" href="javascript:;" class="m-menu__link">' + getMenuIcon(menu, true) + getMenuText(menu) + '</a>\
+            html += '<li class="kt-menu__item kt-menu__item--rel">\
+                        <a data-target="#sub_menu_' + menu.id + '" href="javascript:;" class="kt-menu__link">' + getMenuIcon(menu, true) + getMenuText(menu) + '</a>\
                     </li>';
         });
         return html;
@@ -62,7 +62,7 @@ var mIndex = function () {
         var html = '';
         $(menus).each(function (index, menu) {
             if (typeof menu.children !== 'undefined') {
-                html += '<ul id="sub_menu_' + menu.id + '" style="display: none;" class="m-menu__nav m-menu__nav--dropdown-submenu-arrow">' + initMenu(menu.children, true) + '</ul>';
+                html += '<ul id="sub_menu_' + menu.id + '" style="display: none;" class="kt-menu__nav">' + initMenu(menu.children, true) + '</ul>';
             }
         });
         return html;
@@ -126,9 +126,9 @@ var mIndex = function () {
      */
     var getMenuIcon = function (menu, isBase) {
         if (isBase) {
-            return '<i class="m-menu__link-icon ' + menu.icon + '"></i>';
+            return '<span class="kt-menu__link-icon">' + menu.icon + '</span>';
         } else {
-            return '<i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>';
+            return '<i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>';
         }
     };
     /**
@@ -138,7 +138,7 @@ var mIndex = function () {
      * @returns {string} html
      */
     var getMenuText = function (menu) {
-        return '<span class="m-menu__link-text">' + menu.name + '</span>';
+        return '<span class="kt-menu__link-text">' + menu.name + '</span>';
     };
     /**
      * 获取菜单url
@@ -147,7 +147,7 @@ var mIndex = function () {
      * @returns {string} url
      */
     var getMenuUrl = function (url) {
-        return basePath + (mUtil.isNotBlank(url) ? url : '');
+        return basePath + (KTUtil.isNotBlank(url) ? url : '');
     };
     /**
      * 检查是否有子菜单
@@ -166,7 +166,7 @@ var mIndex = function () {
      * @returns {string} html
      */
     var getMenuLink = function (content, menu) {
-        return '<a href="javascript:;" class="m-menu__link ' + (hasSubMenu(menu.children) ? 'm-menu__toggle' : '') + '" data-url="' + getMenuUrl(menu.url) + '">' + content + '</a>';
+        return '<a href="javascript:;" class="kt-menu__link ' + (hasSubMenu(menu.children) ? 'kt-menu__toggle' : '') + '" data-url="' + getMenuUrl(menu.url) + '">' + content + '</a>';
     };
     /**
      * 获取菜单html代码
@@ -176,23 +176,21 @@ var mIndex = function () {
      * @returns {string} html
      */
     var getMenuHtml = function (menu, isBase) {
-        var menuArrow = '<i class="m-menu__ver-arrow la la-angle-right"></i>';
+        var menuArrow = '<i class="kt-menu__ver-arrow la la-angle-right"></i>';
         if (typeof menu !== 'undefined') {
-            var _html = '<li class="m-menu__item ' + (hasSubMenu(menu.children) ? 'm-menu__item--submenu' : '') + '" aria-haspopup="true">';
+            var _html = '<li class="kt-menu__item ' + (hasSubMenu(menu.children) ? 'kt-menu__item--submenu' : '') + '" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">';
             if (hasSubMenu(menu.children)) {
                 _html += getMenuLink(getMenuIcon(menu, isBase) + getMenuText(menu) + menuArrow, menu) +
-                    '<div class="m-menu__submenu ">\
-                        <span class="m-menu__arrow"></span>\
-                        <ul class="m-menu__subnav">' + initMenu(menu.children, false) + '</ul>\
+                    '<div class="kt-menu__submenu ">\
+                        <span class="kt-menu__arrow"></span>\
+                        <ul class="kt-menu__subnav">' + initMenu(menu.children, false) + '</ul>\
                     </div>';
             } else {
                 if (isBase) {
                     _html += getMenuLink(
                         getMenuIcon(menu, isBase) +
-                        '<span class="m-menu__link-title">\
-                            <span class="m-menu__link-wrap">\
-                                ' + getMenuText(menu) + '\
-                            </span>\
+                        '<span class="kt-menu__link-text">\
+                            ' + getMenuText(menu) + '\
                         </span>'
                         , menu);
                 } else {
@@ -210,28 +208,28 @@ var mIndex = function () {
      * @param $menu
      */
     var horMenuClick = function ($menu) {
-        $menu.parents('ul').children().removeClass('m-menu__item--active');
-        $menu.parent().addClass('m-menu__item--active');
+        $menu.parents('ul').children().removeClass('kt-menu__item--active');
+        $menu.parent().addClass('kt-menu__item--active');
         var target = $menu.data('target');
         var $target = $(target);
         if ($target.length > 0) {
             // 放到缓存里刷新页面后自动选中上次选中项
-            mTool.setCache('hor-menu', target);
+            KTTool.setCache('hor-menu', target);
             // 有目标子菜单
-            $('#m_ver_menu').children('ul').hide();
+            $('#kt_aside_menu').children('ul').hide();
             $target.show();
-            mApp.animateCSS(target, mApp.getAnimate('in'), null);
+            KTApp.animateCSS(target, KTApp.getAnimate('in'), null);
         } else {
-            mApp.openPage($menu.text(), $menu.data('url'));
+            KTApp.openPage($menu.text(), $menu.data('url'));
         }
     };
     /**
      * 设置默认横向水平菜单选中项
      */
     var setDefaultHorMenu = function () {
-        var target = mTool.getCache('hor-menu');
+        var target = KTTool.getCache('hor-menu');
         var $menu;
-        if (mUtil.isNotBlank(target)) {
+        if (KTUtil.isNotBlank(target)) {
             var _menu = $('[data-target="' + target + '"]');
             if (_menu.length > 0) {
                 // 如果缓存里有选中的
@@ -239,7 +237,7 @@ var mIndex = function () {
             }
         }
         if ($menu == null) {
-            $menu = $('#m_header_menu > ul > li:nth-child(1) > a');
+            $menu = $('#kt_header_menu > ul > li:nth-child(1) > a');
         }
         horMenuClick($menu);
     };
@@ -247,16 +245,16 @@ var mIndex = function () {
      * 添加点击菜单事件
      */
     var bindMenuClick = function () {
-        mLayout.getAsideMenu().on('linkClick', function (obj, menu) {
+        KTLayout.getAsideMenu().on('click', function (obj, menu) {
             var $menu = $(menu);
             var url = $menu.data('url');
-            if (mUtil.isBlank(url)) {
+            if (KTUtil.isBlank(url)) {
                 url = basePath + '/global/in-development';
             }
-            mApp.openPage($menu.text(), url);
+            KTApp.openPage($menu.text(), url);
             return false;
         });
-        mLayout.getHorMenu().on('linkClick', function (obj, menu) {
+        KTLayout.getHeaderMenu().on('click', function (obj, menu) {
             horMenuClick($(menu));
             return false;
         });
@@ -265,9 +263,19 @@ var mIndex = function () {
      * 添加点击链接事件
      */
     var bindLinkClick = function () {
-        $('.m-menu-link').click(function () {
-            mApp.openPage($(this).data('tab-title'), $(this).data('url'));
-            $('.m-topbar__user-profile').removeClass('m-dropdown--open');
+        var selector = '.kt-menu__item > .kt-menu__link:not(.kt-menu__toggle):not(.kt-menu__link--toggle-skip)';
+        $('#kt_header_menu').on('click', selector, function(e) {
+            e.preventDefault();
+            horMenuClick($(this));
+        });
+        $('#kt_aside_menu').on('click', selector, function(e) {
+            e.preventDefault();
+            var $menu = $(this);
+            var url = $menu.data('url');
+            if (KTUtil.isBlank(url)) {
+                url = basePath + '/global/in-development';
+            }
+            KTApp.openPage($menu.text(), url);
         });
     };
 
@@ -275,8 +283,8 @@ var mIndex = function () {
         //== 初始化页面
         init: function () {
             // 更新缓存中的当前登录用户
-            currentUser = mTool.getUser(false);
-            mApp.initTabs();
+            currentUser = KTTool.getUser(false);
+            KTApp.initTabs();
             loadMenu();
             bindLinkClick();
         }

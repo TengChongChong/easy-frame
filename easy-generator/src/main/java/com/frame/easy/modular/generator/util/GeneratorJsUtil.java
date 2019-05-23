@@ -46,7 +46,7 @@ public class GeneratorJsUtil {
                     GeneratorUtil.getTab(tab) + "    title: '#',\n" +
                     GeneratorUtil.getTab(tab) + "    sortable: false, // 禁用此列排序\n" +
                     GeneratorUtil.getTab(tab) + "    width: 40,\n" +
-                    GeneratorUtil.getTab(tab) + "    selector: {class: 'm-checkbox--solid m-checkbox--brand'}\n" +
+                    GeneratorUtil.getTab(tab) + "    selector: {class: 'kt-checkbox--solid kt-checkbox--brand'}\n" +
                     GeneratorUtil.getTab(tab) + "}";
         }
         if (StrUtil.isNotBlank(fieldSet.getDictType())) {
@@ -87,9 +87,9 @@ public class GeneratorJsUtil {
                     GeneratorUtil.getTab(tab) + "        var _btn = '';\n";
             if (generator.getGenSave()) {
                 if (StrUtil.isNotBlank(generator.getPermissionsCode())) {
-                    js += GeneratorUtil.getTab(tab + 2) + "if (mTool.hasPermissions('" + generator.getPermissionsCode() + ":save')) {\n";
+                    js += GeneratorUtil.getTab(tab + 2) + "if (KTTool.hasPermissions('" + generator.getPermissionsCode() + ":save')) {\n";
                 }
-                js += GeneratorUtil.getTab(tab + 3) + "_btn += '<a href=\"#\" onclick=\"mTool.editById(this, \\\'' + row.id + '\\\')\" class=\"' + mTool.ACTIONS_DANGER + '\" title=\"编辑\">\\\n" +
+                js += GeneratorUtil.getTab(tab + 3) + "_btn += '<a href=\"#\" onclick=\"KTTool.editById(this, \\\'' + row.id + '\\\')\" class=\"' + KTTool.ACTIONS_DANGER + '\" title=\"编辑\">\\\n" +
                         GeneratorUtil.getTab(tab + 3) + "    <i class=\"la la-edit\"></i>\\\n" +
                         GeneratorUtil.getTab(tab + 3) + "</a>';\n";
                 if (StrUtil.isNotBlank(generator.getPermissionsCode())) {
@@ -98,9 +98,9 @@ public class GeneratorJsUtil {
             }
             if (generator.getGenDelete()) {
                 if (StrUtil.isNotBlank(generator.getPermissionsCode())) {
-                    js += GeneratorUtil.getTab(tab + 2) + "if (mTool.hasPermissions('" + generator.getPermissionsCode() + ":delete')) {\n";
+                    js += GeneratorUtil.getTab(tab + 2) + "if (KTTool.hasPermissions('" + generator.getPermissionsCode() + ":delete')) {\n";
                 }
-                js += GeneratorUtil.getTab(tab + 3) + "_btn += '<a href=\"#\" onclick=\"mTool.deleteById(this, \\\'' + row.id + '\\\')\" class=\"' + mTool.ACTIONS_DANGER + '\" title=\"删除\">\\\n" +
+                js += GeneratorUtil.getTab(tab + 3) + "_btn += '<a href=\"#\" onclick=\"KTTool.deleteById(this, \\\'' + row.id + '\\\')\" class=\"' + KTTool.ACTIONS_DANGER + '\" title=\"删除\">\\\n" +
                         GeneratorUtil.getTab(tab + 3) + "    <i class=\"la la-trash\"></i>\\\n" +
                         GeneratorUtil.getTab(tab + 3) + "</a>';\n";
                 if (StrUtil.isNotBlank(generator.getPermissionsCode())) {

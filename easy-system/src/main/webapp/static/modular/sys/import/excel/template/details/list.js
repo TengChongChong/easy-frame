@@ -93,28 +93,28 @@ var importExcelTemplateDetails = function () {
                 }
             };
             templateSet.append('<tr data-field="' + field['name'] + '">\
-                    <td class="cell-base text-center"><div class="m--block-center" style="width: 20px;">' + getCheckbox('needImport', (detail ? 'checked' : null)) + '</div></td>\
-                    <td class="cell-base m--padding-top-15"><input type="hidden" name="columnName" value="' + field['name'] + '" />' + (field['keyFlag'] ? '<i class="text-info la la-key"></i>' : '') + field['name'] + '</td>\
-                    <td class="cell-base m--padding-top-15">\
+                    <td class="cell-base text-center"><div class="kt--block-center" style="width: 20px;">' + getCheckbox('needImport', (detail ? 'checked' : null)) + '</div></td>\
+                    <td class="cell-base kt--padding-top-15"><input type="hidden" name="columnName" value="' + field['name'] + '" />' + (field['keyFlag'] ? '<i class="text-info la la-key"></i>' : '') + field['name'] + '</td>\
+                    <td class="cell-base kt--padding-top-15">\
                         <input type="hidden" name="fieldType" value="' + getFieldType(field['type']) + '">\
                         <input type="hidden" name="fieldLength" value="' + getFieldLength(field['type']) + '">' +
                 field['type'] + '\
                     </td>\
-                    <td class="cell-base"><div class="m--block-center" style="width: 75px;">' + getInput('title', detail ? detail.title : (field.comment)) + '</div></td>\
-                    <td class="cell-base text-center"><div class="m--block-center" style="width: 20px;">' + getCheckbox('needReplace', (detail && detail.replaceTableFieldName ? 'checked' : '')) + '</div></td>\
-                    <td class="cell-base"><div class="m--block-center" style="width: 200px;">' + getSelect('table-name', 'replaceTable', detail ? detail.replaceTable : null) + '</div></td>\
+                    <td class="cell-base"><div class="kt--block-center" style="width: 75px;">' + getInput('title', detail ? detail.title : (field.comment)) + '</div></td>\
+                    <td class="cell-base text-center"><div class="kt--block-center" style="width: 20px;">' + getCheckbox('needReplace', (detail && detail.replaceTableFieldName ? 'checked' : '')) + '</div></td>\
+                    <td class="cell-base"><div class="kt--block-center" style="width: 200px;">' + getSelect('table-name', 'replaceTable', detail ? detail.replaceTable : null) + '</div></td>\
                     <td class="cell-base">\
-                        <div class="m--block-center" style="width: 120px;">\
-                            <select disabled class="form-control m-bootstrap-select dict-type select-picker" data-value="' + (detail ? detail.replaceTableDictType : '') + '" \
+                        <div class="kt--block-center" style="width: 120px;">\
+                            <select disabled class="form-control kt-bootstrap-select dict-type select-picker" data-value="' + (detail ? detail.replaceTableDictType : '') + '" \
                                     name="replaceTableDictType" data-live-search="true">' + getDictTypeOption(detail ? detail.replaceTableDictType : null) + '\
                             </select>\
                         </div>\
                     </td>\
-                    <td class="cell-base"><div class="m--block-center" style="width: 120px;">' + getSelect('table-field', 'replaceTableFieldName', detail ? detail.replaceTableFieldName : null) + '</div></td>\
-                    <td class="cell-base"><div class="m--block-center" style="width: 120px;">' + getSelect('table-field', 'replaceTableFieldValue', detail ? detail.replaceTableFieldValue : null) + '</div></td>\
-                    <td class="cell-base text-center"><div class="m--block-center" style="width: 20px;">' + getCheckbox('required', (detail && detail.required ? 'checked' : '')) + '</div></td>\
-                    <td class="cell-base text-center"><div class="m--block-center" style="width: 20px;">' + getCheckbox('isOnly', (detail && detail.isOnly ? 'checked' : '')) + '</div></td>\
-                    <td class="cell-base"><div class="m--block-center" style="width: 40px;">' + getInput('orderNo', detail ? detail.orderNo : null) + '</div></td>\
+                    <td class="cell-base"><div class="kt--block-center" style="width: 120px;">' + getSelect('table-field', 'replaceTableFieldName', detail ? detail.replaceTableFieldName : null) + '</div></td>\
+                    <td class="cell-base"><div class="kt--block-center" style="width: 120px;">' + getSelect('table-field', 'replaceTableFieldValue', detail ? detail.replaceTableFieldValue : null) + '</div></td>\
+                    <td class="cell-base text-center"><div class="kt--block-center" style="width: 20px;">' + getCheckbox('required', (detail && detail.required ? 'checked' : '')) + '</div></td>\
+                    <td class="cell-base text-center"><div class="kt--block-center" style="width: 20px;">' + getCheckbox('isOnly', (detail && detail.isOnly ? 'checked' : '')) + '</div></td>\
+                    <td class="cell-base"><div class="kt--block-center" style="width: 40px;">' + getInput('orderNo', detail ? detail.orderNo : null) + '</div></td>\
                 </tr>');
         };
         /**
@@ -141,7 +141,7 @@ var importExcelTemplateDetails = function () {
          */
         var initTableField = function ($element, tableName, value) {
             var html = '';
-            if (mUtil.isNotBlank(tableName)) {
+            if (KTUtil.isNotBlank(tableName)) {
                 var fields = selectTableFields(tableName);
                 $(fields).each(function (index, obj) {
                     html += '<option data-subtext="' + obj.comment + '" value="' + obj.name + '" ' + (value === obj.name ? 'selected' : '') + '>' +
@@ -170,11 +170,11 @@ var importExcelTemplateDetails = function () {
                     refreshSelectPicker($tr.find('select.dict-type').removeAttr('disabled'));
                     // 如果导入值或者替换值没选默认设置为name与code
                     var $replaceTableFieldName = $tr.find('select[name="replaceTableFieldName"]');
-                    if (mUtil.isBlank($replaceTableFieldName.data('value'))) {
+                    if (KTUtil.isBlank($replaceTableFieldName.data('value'))) {
                         refreshSelectPicker($replaceTableFieldName.val(setting[tableName].name));
                     }
                     var $replaceTableFieldValue = $tr.find('select[name="replaceTableFieldValue"]');
-                    if (mUtil.isBlank($replaceTableFieldValue.data('value'))) {
+                    if (KTUtil.isBlank($replaceTableFieldValue.data('value'))) {
                         refreshSelectPicker($replaceTableFieldValue.val(setting[tableName].value));
                     }
                 } else {
@@ -214,7 +214,7 @@ var importExcelTemplateDetails = function () {
                     initTableField($replaceTableFieldName, $(this).val(), $replaceTableFieldName.data('value'));
                     initTableField($replaceTableFieldValue, $(this).val(), $replaceTableFieldValue.data('value'));
                 });
-                mApp.initSelectPicker('.table-name, .table-field, .dict-type');
+                KTApp.initSelectPicker('.table-name, .table-field, .dict-type');
                 $tableSelect.change();
             }
             //
@@ -225,7 +225,7 @@ var importExcelTemplateDetails = function () {
      * 保存配置
      */
     var saveData = function ($btn) {
-        mUtil.setButtonWait($btn);
+        KTUtil.setButtonWait($btn);
         /**
          * 根据勾选的checkbox获取配置
          *
@@ -263,26 +263,26 @@ var importExcelTemplateDetails = function () {
         };
         var configs = getFieldConfig();
         if (configs.length === 0) {
-            mTool.warnTip(mTool.commonTips.fail, '请至少配置一条导入规则');
-            mUtil.offButtonWait($btn);
+            KTTool.warnTip(KTTool.commonTips.fail, '请至少配置一条导入规则');
+            KTUtil.offButtonWait($btn);
             return;
         }
         // 保存
-        mUtil.ajax({
-            url: mTool.getBaseUrl() + 'save/data/' + templateId,
+        KTUtil.ajax({
+            url: KTTool.getBaseUrl() + 'save/data/' + templateId,
             data: JSON.stringify(configs),
             contentType: 'application/json',
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-                mUtil.offButtonWait($btn);
-                mUtil.ajaxError(XMLHttpRequest, textStatus, errorThrown);
+                KTUtil.offButtonWait($btn);
+                KTUtil.ajaxError(XMLHttpRequest, textStatus, errorThrown);
             },
             fail: function (res) {
-                mUtil.offButtonWait($btn);
-                mTool.warnTip(mTool.commonTips.fail, res.message);
+                KTUtil.offButtonWait($btn);
+                KTTool.warnTip(KTTool.commonTips.fail, res.message);
             },
             success: function (res) {
-                mUtil.offButtonWait($btn);
-                mTool.successTip(mTool.commonTips.success, '导入规则已保存');
+                KTUtil.offButtonWait($btn);
+                KTTool.successTip(KTTool.commonTips.success, '导入规则已保存');
             }
         });
     };
@@ -292,7 +292,7 @@ var importExcelTemplateDetails = function () {
      */
     var loadTableList = function () {
         var tableList = null;
-        mUtil.ajax({
+        KTUtil.ajax({
             url: basePath + '/auth/generation/select/table',
             async: false,
             success: function (res) {
@@ -311,7 +311,7 @@ var importExcelTemplateDetails = function () {
             $($elements).each(function (index, element) {
                 var $element = $(element);
                 $element.selectpicker('refresh');
-                if (mUtil.isNotBlank($element.data('value'))) {
+                if (KTUtil.isNotBlank($element.data('value'))) {
                     $element.val($element.data('value')).change();
                 }
             });
@@ -325,7 +325,7 @@ var importExcelTemplateDetails = function () {
      */
     var loadTableFields = function (tableName) {
         var tableFields = null;
-        mUtil.ajax({
+        KTUtil.ajax({
             url: basePath + '/auth/generation/select/fields',
             async: false,
             data: {
@@ -344,8 +344,8 @@ var importExcelTemplateDetails = function () {
      */
     var loadTemplateDetails = function () {
         var templateDetails = null;
-        mUtil.ajax({
-            url: mTool.getBaseUrl() + 'select/details/' + templateId,
+        KTUtil.ajax({
+            url: KTTool.getBaseUrl() + 'select/details/' + templateId,
             async: false,
             success: function (res) {
                 templateDetails = res.data;
@@ -360,7 +360,7 @@ var importExcelTemplateDetails = function () {
      * @return {string}
      */
     var getDictTypeOption = function (value) {
-        if (mUtil.isArray(importExcelTemplateDetails.dictType) && importExcelTemplateDetails.dictType.length > 0) {
+        if (KTUtil.isArray(importExcelTemplateDetails.dictType) && importExcelTemplateDetails.dictType.length > 0) {
             var _html = '<option value=""></option>';
             $(importExcelTemplateDetails.dictType).each(function (index, _dt) {
                 _html += '<option ' + (_dt.type === value ? 'checked' : '') + ' value="' + _dt.type + '">' + _dt.name + '</option>'
@@ -374,7 +374,7 @@ var importExcelTemplateDetails = function () {
      */
     var initDictType = function () {
         var dictType = null;
-        mUtil.ajax({
+        KTUtil.ajax({
             url: basePath + '/auth/sys/dict/type/select/all',
             async: false,
             success: function (res) {
@@ -392,7 +392,7 @@ var importExcelTemplateDetails = function () {
      * @return {string}
      */
     var getSelect = function (className, name, value) {
-        return '<select disabled class="form-control m-bootstrap-select ' + className + '" name="' + name + '" \
+        return '<select disabled class="form-control kt-bootstrap-select ' + className + '" name="' + name + '" \
                     data-value="' + value + '" data-live-search="true"><option value=""></option></select>';
     };
     /**
@@ -402,7 +402,7 @@ var importExcelTemplateDetails = function () {
      * @return {string}
      */
     var getCheckbox = function (name, status) {
-        return '<label class="m-checkbox">\
+        return '<label class="kt-checkbox">\
                     <input type="checkbox" name="' + name + '" value="1" ' + (status ? status : '') + '>\
                     <span></span>\
                 </label>';
@@ -415,7 +415,7 @@ var importExcelTemplateDetails = function () {
      */
     var getInput = function (name, value) {
         return '<input type="text" class="form-control" name="' + name + '" \
-                    value="' + (mUtil.isNotBlank(value) ? value : '') + '" />';
+                    value="' + (KTUtil.isNotBlank(value) ? value : '') + '" />';
     };
     /**
      * 设置模板id
@@ -436,7 +436,7 @@ var importExcelTemplateDetails = function () {
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/import/excel/template/details/');
+            KTTool.setBaseUrl(basePath + '/auth/sys/import/excel/template/details/');
             importExcelTemplateDetails.dictType = initDictType();
             loadConfig();
             $('.btn-save').removeAttr('onclick').click(function () {

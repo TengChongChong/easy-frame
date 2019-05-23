@@ -1,16 +1,16 @@
-<div class="m-portlet m-portlet--full-height m-portlet--tabs">
-    <div class="m-portlet__head">
-        <div class="m-portlet__head-tools">
-            <ul class="nav nav-tabs m-tabs m-tabs-line   m-tabs-line--left m-tabs-line--primary" role="tablist">
-                <li class="nav-item m-tabs__item">
-                    <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#m_user_profile_tab_1"
+<div class="kt-portlet kt-portlet--full-height kt-portlet--tabs">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-tools">
+            <ul class="nav nav-tabs kt-tabs kt-tabs-line   kt-tabs-line--left kt-tabs-line--primary" role="tablist">
+                <li class="nav-item kt-tabs__item">
+                    <a class="nav-link kt-tabs__link active show" data-toggle="tab" href="#m_user_profile_tab_1"
                        role="tab" aria-selected="true">
-                        <i class="flaticon-share m--hide"></i>
+                        <i class="flaticon-share kt--hide"></i>
                         个人资料
                     </a>
                 </li>
-                <li class="nav-item m-tabs__item">
-                    <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_2" role="tab"
+                <li class="nav-item kt-tabs__item">
+                    <a class="nav-link kt-tabs__link" data-toggle="tab" href="#m_user_profile_tab_2" role="tab"
                        aria-selected="false">
                         安全设置
                     </a>
@@ -20,64 +20,64 @@
     </div>
     <div class="tab-content">
         <div class="tab-pane active show" id="m_user_profile_tab_1">
-            <form class="m-form m-form--fit m-form--label-align-right">
-                <div class="m-portlet__body">
-                    <div class="form-group m-form__group row">
+            <form class="kt-form kt-form--fit kt-form--label-align-right">
+                <div class="kt-portlet__body">
+                    <div class="form-group kt-form__group row">
                         <label for="nickname" class="col-sm-2 col-3 col-form-label">昵称：</label>
                         <div class="col-7">
                             <input id="nickname" name="nickname" class="form-control" type="text"
                                    value="${user.nickname}">
                         </div>
                     </div>
-                    <div class="form-group m-form__group row">
+                    <div class="form-group kt-form__group row">
                         <label class="col-sm-2 col-3 col-form-label">性别：</label>
                         <div class="col-7">
-                            <div class="m-radio-inline">
+                            <div class="kt-radio-inline">
                                 <#form:radio name="sex" text="男" value="1" checked="${user.sex}" required="true"/>
                                 <#form:radio name="sex" text="女" value="2" checked="${user.sex}"/>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group m-form__group row">
+                    <div class="form-group kt-form__group row">
                         <label for="birthday" class="col-sm-2 col-3 col-form-label">生日：</label>
                         <div class="col-7">
                             <input id="birthday" name="birthday" class="form-control date-picker" type="text"
                                    value="${user.birthday,dateFormat='yyyy-MM-dd'}">
                         </div>
                     </div>
-                    <div class="form-group m-form__group row">
+                    <div class="form-group kt-form__group row">
                         <label for="birthday" class="col-sm-2 col-3 col-form-label">部门：</label>
                         <div class="col-7">
-                            <span class="m-form__control-static">${user.department.name}</span>
+                            <span class="kt-form__control-static">${user.department.name}</span>
                         </div>
                     </div>
                 </div>
-                <div class="m-portlet__foot m-portlet__foot--fit">
-                    <div class="m-form__actions text-center">
+                <div class="kt-portlet__foot kt-portlet__foot--fit">
+                    <div class="kt-form__actions text-center">
                         <#button name="保存" icon="la la-save" click="mPersonalCenter.saveUserInfo(this)"/>
                     </div>
                 </div>
             </form>
         </div>
         <div class="tab-pane" id="m_user_profile_tab_2">
-            <form class="m-form m-form--label-align-right">
-                <div class="m-portlet__body">
+            <form class="kt-form kt-form--label-align-right">
+                <div class="kt-portlet__body">
                     <ul class="security-setting">
                         <li>
-                            <div class="m-stack m-stack--ver m-stack--general">
-                                <div class="m-stack__item m-stack__item--center m-stack__item--middle icon">
-                                    <span class="m-type m-type--lg m--bg-info">
-                                        <span class="m--font-light">
+                            <div class="kt-stack kt-stack--ver kt-stack--general">
+                                <div class="kt-stack__item kt-stack__item--center kt-stack__item--middle icon">
+                                    <span class="kt-type kt-type--lg kt--bg-info">
+                                        <span class="kt--font-light">
                                             <i class="la la-envelope"></i>
                                         </span>
                                     </span>
                                 </div>
-                                <div class="m-stack__item m-stack__item--middle m-stack__item--fluid describe">
+                                <div class="kt-stack__item kt-stack__item--middle kt-stack__item--fluid describe">
                                     @if(strUtil.isNotBlank(user.email)){
                                         <h4 class="text-success">
                                             ${user.email}
                                             @if(!user.mailIsVerifies){
-                                                <span class="m-badge m-badge--warning m-badge--wide">待验证</span>
+                                                <span class="kt-badge kt-badge--warning kt-badge--wide">待验证</span>
                                             @}
                                             <a class="btn btn-sm btn-link change-mail" href="javascript:">更改</a>
                                         </h4>
@@ -89,15 +89,15 @@
                             </div>
                         </li>
                         <li>
-                            <div class="m-stack m-stack--ver m-stack--general">
-                                <div class="m-stack__item m-stack__item--center m-stack__item--middle icon">
-                                    <span class="m-type m-type--lg m--bg-info">
-                                        <span class="m--font-light">
+                            <div class="kt-stack kt-stack--ver kt-stack--general">
+                                <div class="kt-stack__item kt-stack__item--center kt-stack__item--middle icon">
+                                    <span class="kt-type kt-type--lg kt--bg-info">
+                                        <span class="kt--font-light">
                                             <i class="la la-mobile"></i>
                                         </span>
                                     </span>
                                 </div>
-                                <div class="m-stack__item m-stack__item--middle m-stack__item--fluid describe">
+                                <div class="kt-stack__item kt-stack__item--middle kt-stack__item--fluid describe">
                                     @if(strUtil.isNotBlank(user.phone)){
                                     <h4 class="text-success">${user.phone} <a class="btn btn-sm btn-link change-phone" href="javascript:">更改</a></h4>
                                     @}else{
@@ -109,8 +109,8 @@
                         </li>
                     </ul>
                 </div>
-                <div class="m-portlet__foot m-portlet__foot--fit">
-                    <div class="m-form__actions text-center">
+                <div class="kt-portlet__foot kt-portlet__foot--fit">
+                    <div class="kt-form__actions text-center">
                         <#button name="保存" icon="la la-save" click="mPersonalCenter.saveUserSecuritySetting(this)"/>
                     </div>
                 </div>

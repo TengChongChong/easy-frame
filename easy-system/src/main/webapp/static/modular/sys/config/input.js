@@ -12,7 +12,7 @@ var mSysConfigInput = function () {
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/config/');
+            KTTool.setBaseUrl(basePath + '/auth/sys/config/');
             initDataType();
         }
     };

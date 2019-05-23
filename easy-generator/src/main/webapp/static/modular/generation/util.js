@@ -285,9 +285,9 @@ var generationTool = {
      */
     setLatelyPath: function () {
         var projectPath = $('#projectPath').val();
-        if (mUtil.isNotBlank(projectPath)) {
-            var latelyPath = mTool.getCache('latelyPath');
-            if (mUtil.isNotBlank(latelyPath)) {
+        if (KTUtil.isNotBlank(projectPath)) {
+            var latelyPath = KTTool.getCache('latelyPath');
+            if (KTUtil.isNotBlank(latelyPath)) {
                 latelyPath = $.parseJSON(latelyPath);
                 // 检查是否路径已缓存
                 $(latelyPath).each(function (index, path) {
@@ -303,7 +303,7 @@ var generationTool = {
                 latelyPath = [];
             }
             latelyPath.unshift(projectPath);
-            mTool.setCache('latelyPath', latelyPath);
+            KTTool.setCache('latelyPath', latelyPath);
         }
     },
     /**
@@ -312,8 +312,8 @@ var generationTool = {
      * @return {array|null}
      */
     getLatelyPath: function () {
-        var latelyPath = mTool.getCache('latelyPath');
-        if (mUtil.isNotBlank(latelyPath)) {
+        var latelyPath = KTTool.getCache('latelyPath');
+        if (KTUtil.isNotBlank(latelyPath)) {
             latelyPath = $.parseJSON(latelyPath);
         } else {
             latelyPath = null;
@@ -337,7 +337,7 @@ var generationTool = {
      * @return {string}
      */
     getDictSelect: function (dictType, name, value) {
-        return '<select class="form-control m-bootstrap-select select-picker" name="' + name + '" \
+        return '<select class="form-control kt-bootstrap-select select-picker" name="' + name + '" \
                     data-value="' + value + '" data-dict-type="' + dictType + '" data-live-search="true"></select>';
     },
     /**
@@ -347,7 +347,7 @@ var generationTool = {
      * @return {string}
      */
     getCheckbox: function (name, status) {
-        return '<label class="m-checkbox">\
+        return '<label class="kt-checkbox">\
                         <input type="checkbox" name="' + name + '" value="true" ' + status + '>\
                         <span></span>\
                     </label>';
@@ -360,7 +360,7 @@ var generationTool = {
      */
     getInput: function (name, value) {
         return '<div style="width: 100px;"><input type="text" class="form-control" name="' + name + '" \
-                    value="' + (mUtil.isNotBlank(value) ? value : '') + '" /></div>';
+                    value="' + (KTUtil.isNotBlank(value) ? value : '') + '" /></div>';
     },
     /**
      * 根据偏好设置获取checkbox是否默认选中
@@ -370,7 +370,7 @@ var generationTool = {
      * @return {string} 选中状态
      */
     getCheckStatusByPreferenceSetting: function (propertyName, setting) {
-        if (mUtil.isArray(setting) && setting.length > 0) {
+        if (KTUtil.isArray(setting) && setting.length > 0) {
             if (setting.indexOf(propertyName) > -1) {
                 return '';
             }
@@ -395,7 +395,7 @@ var generationTool = {
             }
         }
         // 根据属性类型获取
-        if(mUtil.isNotBlank(propertyType)){
+        if(KTUtil.isNotBlank(propertyType)){
             for(var type in preferenceSetting.number){
                 if(preferenceSetting.number[type] === propertyType){
                     return 'number';
@@ -417,7 +417,7 @@ var generationTool = {
      * @return {string}
      */
     getDictTypeOption: function (propertyName) {
-        if (mUtil.isArray(generationTool.dictType) && generationTool.dictType.length > 0) {
+        if (KTUtil.isArray(generationTool.dictType) && generationTool.dictType.length > 0) {
             var _html = '<option value=""></option>';
             $(generationTool.dictType).each(function (index, _dt) {
                 _html += '<option ' + (_dt.type === propertyName ? 'checked' : '') + ' value="' + _dt.type + '">' + _dt.name + '</option>'
@@ -487,7 +487,7 @@ var generationTool = {
                 $('#projectPath').val($(this).html());
             });
         }
-        $('#author').val(mTool.getUser(true)['nickname']);
+        $('#author').val(KTTool.getUser(true)['nickname']);
     },
 
     /**
@@ -535,7 +535,7 @@ var generationTool = {
      * 查询字典类型
      */
     initDictType: function () {
-        mUtil.ajax({
+        KTUtil.ajax({
             url: basePath + '/auth/sys/dict/type/select/all',
             success: function (res) {
                 generationTool.dictType = res.data;
@@ -630,7 +630,7 @@ var generationTool = {
         }else{
             gridClass = generationTool.getGridClass(config.inputGrid);
         }
-        gridClass += (config.elementType === 'hidden' ? ' m--hide' : '');
+        gridClass += (config.elementType === 'hidden' ? ' kt--hide' : '');
         return template.group(gridClass, generationTool.generationContent(config, type), config.propertyName);
     },
     /**

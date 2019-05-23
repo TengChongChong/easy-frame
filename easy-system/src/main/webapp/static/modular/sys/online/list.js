@@ -18,7 +18,7 @@ var mOnlineList = function () {
                     title: '#',
                     sortable: false, // 禁用此列排序
                     width: 40,
-                    selector: {class: 'm-checkbox--solid m-checkbox--brand'}
+                    selector: {class: 'kt-checkbox--solid kt-checkbox--brand'}
                 },
                 {
                     field: 'username',
@@ -55,8 +55,8 @@ var mOnlineList = function () {
                     },
                     template: function (row, index, datatable) {
                         var _btn = '';
-                        if (mTool.hasPermissions('sys:online:force')) {
-                            _btn += '<a href="#" onclick="mOnlineList.forceLogin(\'' + row.sessionId + '\')" class="' + mTool.ACTIONS_DANGER + '" title="下线">\
+                        if (KTTool.hasPermissions('sys:online:force')) {
+                            _btn += '<a href="#" onclick="mOnlineList.forceLogin(\'' + row.sessionId + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="下线">\
                                 <i class="la la-sign-out"></i>\
                             </a>';
                         }
@@ -65,11 +65,11 @@ var mOnlineList = function () {
                 }
             ]
         };
-        mUtil.ajax({
-            url: mTool.getBaseUrl() + 'select',
+        KTUtil.ajax({
+            url: KTTool.getBaseUrl() + 'select',
             success: function (res) {
                 options.data.source = res.data;
-                mOnlineList.dataTable = mTool.initDataTable(options);
+                mOnlineList.dataTable = KTTool.initDataTable(options);
             }
         });
     };
@@ -79,17 +79,17 @@ var mOnlineList = function () {
      * @param sessionId {string} 会话id
      */
     var forceLogin = function (sessionId) {
-        mUtil.ajax({
-            url: mTool.getBaseUrl() + 'force/logout/' + sessionId,
+        KTUtil.ajax({
+            url: KTTool.getBaseUrl() + 'force/logout/' + sessionId,
             success: function (res) {
-                mTool.successTip(mTool.commonTips.success, '会话已踢出');
+                KTTool.successTip(KTTool.commonTips.success, '会话已踢出');
             }
         });
     };
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/online/');
+            KTTool.setBaseUrl(basePath + '/auth/sys/online/');
             initTable();
         },
         /**

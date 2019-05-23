@@ -12,7 +12,7 @@ var mExportDataList = function () {
                     title: '#',
                     sortable: false, // 禁用此列排序
                     width: 40,
-                    selector: {class: 'm-checkbox--solid m-checkbox--brand'},
+                    selector: {class: 'kt-checkbox--solid kt-checkbox--brand'},
                 },
                 {
                     field: 'name',
@@ -50,13 +50,13 @@ var mExportDataList = function () {
                 }
             ]
         };
-        mExportDataList.dataTable = mTool.initDataTable(options);
+        mExportDataList.dataTable = KTTool.initDataTable(options);
     };
 
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sample/import/data/');
+            KTTool.setBaseUrl(basePath + '/auth/sample/import/data/');
             initTable();
         }
     };
@@ -66,7 +66,7 @@ var mExportDataList = function () {
  *
  * @return {boolean} true/false
  */
-mTab.needSubmitForm = function () {
+KTTabneedSubmitForm = function () {
     return true;
 };
 //== 初始化

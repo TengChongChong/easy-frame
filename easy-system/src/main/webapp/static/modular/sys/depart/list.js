@@ -30,10 +30,10 @@ var mDepartList = function () {
      */
     var search = function () {
         var permissionsTitle = $('#depart-type-title').val();
-        if (mUtil.isNotBlank(permissionsTitle)) {
+        if (KTUtil.isNotBlank(permissionsTitle)) {
             $('#depart-type-tree').addClass('m--hide');
             $('#search-depart-type').removeClass('m--hide');
-            mUtil.ajax({
+            KTUtil.ajax({
                 type: 'get',
                 wait: '#search-depart-type',
                 data: {
@@ -61,7 +61,7 @@ var mDepartList = function () {
                 }
             });
         } else {
-            mTool.warnTip(mTool.commonTips.fail, '请输入关键字搜索');
+            KTTool.warnTip(KTTool.commonTips.fail, '请输入关键字搜索');
         }
     };
     /**
@@ -70,11 +70,11 @@ var mDepartList = function () {
      * @param node
      */
     var activateNode = function (node) {
-        if (mUtil.isNotBlank(node.data)) {
+        if (KTUtil.isNotBlank(node.data)) {
             $('#typeCode').val(node.data);
             if (firstClick) {
                 initTable();
-                $('.m-form').removeClass('m--hide');
+                $('.kt-form').removeClass('m--hide');
                 firstClick = false;
             } else {
                 $('.btn-search').click();
@@ -94,7 +94,7 @@ var mDepartList = function () {
                     title: '#',
                     sortable: false, // 禁用此列排序
                     width: 40,
-                    selector: {class: 'm-checkbox--solid m-checkbox--brand'},
+                    selector: {class: 'kt-checkbox--solid kt-checkbox--brand'},
                 },
                 {
                     field: 'code',
@@ -119,7 +119,7 @@ var mDepartList = function () {
                     field: 'status',
                     title: '状态',
                     width: 60,
-                    dictType: mTool.commonDict // 这里设置机构类型名称{string}或机构{object}
+                    dictType: KTTool.commonDict // 这里设置机构类型名称{string}或机构{object}
                 },
                 {
                     field: 'Actions',
@@ -132,16 +132,16 @@ var mDepartList = function () {
                     },
                     template: function (row, index, datatable) {
                         var _btn = '';
-                        if (mTool.hasPermissions('sys:depart:save')) {
-                            _btn += '<a href="#" onclick="mTool.addData(this, \'新增机构\', null,  ' + row.id + ')" class="' + mTool.ACTIONS_SUCCESS + '" title="新增下级">\
+                        if (KTTool.hasPermissions('sys:depart:save')) {
+                            _btn += '<a href="#" onclick="KTTool.addData(this, \'新增机构\', null,  ' + row.id + ')" class="' + KTTool.ACTIONS_SUCCESS + '" title="新增下级">\
                                 <i class="la la-plus"></i>\
                             </a>\
-                            <a href="#" onclick="mTool.editById(this, ' + row.id + ', \'' + row.name + '\')" class="' + mTool.ACTIONS_DANGER + '" title="编辑">\
+                            <a href="#" onclick="KTTool.editById(this, ' + row.id + ', \'' + row.name + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="编辑">\
 							    <i class="la la-edit"></i>\
 						    </a>';
                         }
-                        if (mTool.hasPermissions('sys:depart:delete')) {
-                            _btn += '<a href="#" onclick="mTool.deleteById(this, ' + row.id + ')" class="' + mTool.ACTIONS_DANGER + '" title="删除">\
+                        if (KTTool.hasPermissions('sys:depart:delete')) {
+                            _btn += '<a href="#" onclick="KTTool.deleteById(this, ' + row.id + ')" class="' + KTTool.ACTIONS_DANGER + '" title="删除">\
                                 <i class="la la-trash"></i>\
                             </a>';
                         }
@@ -150,14 +150,14 @@ var mDepartList = function () {
                 }
             ]
         };
-        mDepartList.dataTable = mTool.initDataTable(options);
+        mDepartList.dataTable = KTTool.initDataTable(options);
     };
 
     /**
      * 新增
      */
     var addDepart = function () {
-        mApp.openPage('新增机构', mTool.getBaseUrl() + 'add?typeCode=' + $('#typeCode').val());
+        KTApp.openPage('新增机构', KTTool.getBaseUrl() + 'add?typeCode=' + $('#typeCode').val());
     };
     /**
      * 新增下级
@@ -165,14 +165,14 @@ var mDepartList = function () {
      * @param pId {string} 上级id
      */
     var addSubDepart = function (pId) {
-        mApp.openPage('新增机构', mTool.getBaseUrl() + 'add/' + pId);
+        KTApp.openPage('新增机构', KTTool.getBaseUrl() + 'add/' + pId);
     };
 
 
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/depart/');
+            KTTool.setBaseUrl(basePath + '/auth/sys/depart/');
             initDepartTypeTree();
             $('#search-depart-type-btn').click(search);
             $('.back-btn').click(function () {
@@ -197,7 +197,7 @@ var mDepartList = function () {
         }
     };
 }();
-mTab.needSubmitForm = function () {
+KTTabneedSubmitForm = function () {
     return true;
 }
 //== 初始化

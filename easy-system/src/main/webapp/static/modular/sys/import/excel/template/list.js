@@ -12,7 +12,7 @@ var mSysImportExcelTemplateList = function () {
                     title: '#',
                     sortable: false, // 禁用此列排序
                     width: 40,
-                    selector: {class: 'm-checkbox--solid m-checkbox--brand'}
+                    selector: {class: 'kt-checkbox--solid kt-checkbox--brand'}
                 },
                 {
                     field: 'name',
@@ -26,6 +26,10 @@ var mSysImportExcelTemplateList = function () {
                 {
                     field: 'permissionCode',
                     title: '权限代码'
+                },
+                {
+                    field: 'dataSource',
+                    title: '数据源'
                 },
                 {
                     field: 'importTable',
@@ -47,20 +51,20 @@ var mSysImportExcelTemplateList = function () {
                     },
                     template: function (row, index, datatable) {
                         var _btn = '';
-                        if (mTool.hasPermissions('sys:import:excel:template:save')) {
-                            _btn += '<a href="#" onclick="mTool.editById(this, \'' + row.id + '\', \'' + row.name + '\')" class="' + mTool.ACTIONS_INFO + '" title="编辑">\
+                        if (KTTool.hasPermissions('sys:import:excel:template:save')) {
+                            _btn += '<a href="#" onclick="KTTool.editById(this, \'' + row.id + '\', \'' + row.name + '\')" class="' + KTTool.ACTIONS_INFO + '" title="编辑">\
                                 <i class="la la-edit"></i>\
                             </a>';
-                            _btn += '<a href="#" onclick="mApp.openPage(\'' + row.name + '\', \'' + basePath + '/auth/sys/import/excel/template/details/list/' + row.id + '\')" class="' + mTool.ACTIONS_INFO + '" title="编辑导入规则">\
+                            _btn += '<a href="#" onclick="KTApp.openPage(\'' + row.name + '\', \'' + basePath + '/auth/sys/import/excel/template/details/list/' + row.id + '\')" class="' + KTTool.ACTIONS_INFO + '" title="编辑导入规则">\
                                 <i class="la la-gear"></i>\
                             </a>';
                         }
-                        if (mTool.hasPermissions('sys:import:excel:template:delete')) {
-                            _btn += '<a href="#" onclick="mTool.deleteById(this, \'' + row.id + '\')" class="' + mTool.ACTIONS_DANGER + '" title="删除">\
+                        if (KTTool.hasPermissions('sys:import:excel:template:delete')) {
+                            _btn += '<a href="#" onclick="KTTool.deleteById(this, \'' + row.id + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="删除">\
                                 <i class="la la-trash"></i>\
                             </a>';
                         }
-                        _btn += '<a href="#" onclick="mSysImportExcelTemplateList.downloadTemplate(\'' + row.importCode + '\')" class="' + mTool.ACTIONS_SUCCESS + '" title="下载模板">\
+                        _btn += '<a href="#" onclick="mSysImportExcelTemplateList.downloadTemplate(\'' + row.importCode + '\')" class="' + KTTool.ACTIONS_SUCCESS + '" title="下载模板">\
                                 <i class="la la-cloud-download"></i>\
                             </a>';
                         return _btn;
@@ -69,7 +73,7 @@ var mSysImportExcelTemplateList = function () {
 
             ]
         };
-        mSysImportExcelTemplateList.dataTable = mTool.initDataTable(options);
+        mSysImportExcelTemplateList.dataTable = KTTool.initDataTable(options);
     };
     /**
      * 下载模板
@@ -77,13 +81,13 @@ var mSysImportExcelTemplateList = function () {
      * @param importCode {string} 模板代码
      */
     var downloadTemplate = function (importCode) {
-        mTool.downloadFile(mTool.getBaseUrl() + '/download/template/' + importCode);
+        KTTool.downloadFile(KTTool.getBaseUrl() + '/download/template/' + importCode);
     };
 
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/import/excel/template/');
+            KTTool.setBaseUrl(basePath + '/auth/sys/import/excel/template/');
             initTable();
         },
         /**
@@ -101,7 +105,7 @@ var mSysImportExcelTemplateList = function () {
  *
  * @return {boolean} true/false
  */
-mTab.needSubmitForm = function () {
+KTTabneedSubmitForm = function () {
     return true;
 };
 //== 初始化

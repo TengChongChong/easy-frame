@@ -17,7 +17,7 @@ var mRoleView = function () {
                 check_callback: true,
                 data: {
                     url: function (node) {
-                        var url = mTool.getBaseUrl() + 'select/data';
+                        var url = KTTool.getBaseUrl() + 'select/data';
                         if ('#' != node.id) {
                             url += '?pId=' + node.id;
                         }
@@ -33,46 +33,46 @@ var mRoleView = function () {
                 show_at_node: true,
                 items: function (){
                     var _items = {};
-                    if (mTool.hasPermissions('sys:role:add')) {
+                    if (KTTool.hasPermissions('sys:role:add')) {
                         _items.add = {
                             label: '新增下级',
                             icon: 'la la-plus',
                             action: function (data) {
-                                addRole(mTool.getClickNode(data).id);
+                                addRole(KTTool.getClickNode(data).id);
                             }
                         };
                     }
-                    if (mTool.hasPermissions('sys:role:save')) {
+                    if (KTTool.hasPermissions('sys:role:save')) {
                         _items.edit = {
                             label: '修改',
                             icon: 'la la-edit',
                             action: function (data) {
-                                activateNode(mTool.getClickNode(data));
+                                activateNode(KTTool.getClickNode(data));
                             }
                         };
                     }
-                    if (mTool.hasPermissions('sys:role:delete')) {
+                    if (KTTool.hasPermissions('sys:role:delete')) {
                         _items.delete = {
                             label: '删除',
                             icon: 'la la-trash',
                             action: function (data) {
-                                batchDelete(mTool.getOperationNodes(data).join(','));
+                                batchDelete(KTTool.getOperationNodes(data).join(','));
                             }
                         };
                     }
-                    if (mTool.hasPermissions('sys:role:status')) {
+                    if (KTTool.hasPermissions('sys:role:status')) {
                         _items.enable = {
                             label: '启用',
                             icon: 'la la-check',
                             action: function (data) {
-                                setStatus(mTool.getOperationNodes(data).join(','), 1);
+                                setStatus(KTTool.getOperationNodes(data).join(','), 1);
                             }
                         };
                         _items.disabled = {
                             label: '禁用',
                             icon: 'la la-ban',
                             action: function (data) {
-                                setStatus(mTool.getOperationNodes(data).join(','), 2);
+                                setStatus(KTTool.getOperationNodes(data).join(','), 2);
                             }
                         };
                     }
@@ -80,7 +80,7 @@ var mRoleView = function () {
                 }
             }
         };
-        if (mTool.hasPermissions('sys:role:move')) {
+        if (KTTool.hasPermissions('sys:role:move')) {
             option.plugins = ['dnd', 'types', 'contextmenu'];
         } else {
             option.plugins = ['types', 'contextmenu'];
@@ -97,13 +97,13 @@ var mRoleView = function () {
                 oldPosition: data.old_position
             };
             if (moveData.parent != moveData.oldParent || moveData.position != moveData.oldPosition) {
-                mUtil.ajax({
+                KTUtil.ajax({
                     type: 'get',
                     wait: '#roles-tree',
                     data: moveData,
-                    url: mTool.getBaseUrl() + 'move',
+                    url: KTTool.getBaseUrl() + 'move',
                     success: function (res) {
-                        mTool.successTip(mTool.commonTips.success, '位置已保存');
+                        KTTool.successTip(KTTool.commonTips.success, '位置已保存');
                     }
                 });
             }
@@ -114,16 +114,16 @@ var mRoleView = function () {
      */
     var searchRoles = function () {
         var roleTitle = $('#role-title').val();
-        if (mUtil.isNotBlank(roleTitle)) {
+        if (KTUtil.isNotBlank(roleTitle)) {
             $('#roles-tree').addClass('m--hide');
             $('#search-role').removeClass('m--hide');
-            mUtil.ajax({
+            KTUtil.ajax({
                 type: 'get',
                 wait: '#search-role',
                 data: {
                     title: roleTitle
                 },
-                url: mTool.getBaseUrl() + 'search',
+                url: KTTool.getBaseUrl() + 'search',
                 success: function (res) {
                     var $tree = $('#search-role').find('.tree');
                     if ($tree.jstree(true)) {
@@ -146,14 +146,14 @@ var mRoleView = function () {
      * @param node
      */
     var activateNode = function (node) {
-        mUtil.ajax({
+        KTUtil.ajax({
             type: 'get',
             dataType: 'html',
             wait: '#role-info',
-            url: mTool.getBaseUrl() + 'input/' + node.id,
+            url: KTTool.getBaseUrl() + 'input/' + node.id,
             success: function (res) {
                 $('#role-info').html(res);
-                mApp.initComponents();
+                KTApp.initComponents();
                 initPermissionsTree();
             }
         })
@@ -164,10 +164,10 @@ var mRoleView = function () {
      * @param status {number} 状态
      */
     var setStatus = function (ids, status) {
-        if (mUtil.isNotBlank(ids)) {
-            mUtil.ajax({
+        if (KTUtil.isNotBlank(ids)) {
+            KTUtil.ajax({
                 wait: '#roles-tree',
-                url: mTool.getBaseUrl() + 'set/' + ids + '/status/' + status,
+                url: KTTool.getBaseUrl() + 'set/' + ids + '/status/' + status,
                 success: function (res) {
                     var type = status == 1 ? 'default' : 'disabled';
                     var _id = $('#id').val();
@@ -176,7 +176,7 @@ var mRoleView = function () {
                         if (id == _id) {
                             $('[name="status"][value="' + status + '"]').prop('checked', true);
                         }
-                        mTool.saveNode('#roles-tree', {
+                        KTTool.saveNode('#roles-tree', {
                             id: id,
                             type: type
                         });
@@ -184,7 +184,7 @@ var mRoleView = function () {
                 }
             });
         } else {
-            mTool.warnTip(mTool.commonTips.fail, '请选择角色后重试');
+            KTTool.warnTip(KTTool.commonTips.fail, '请选择角色后重试');
         }
     };
 
@@ -194,16 +194,16 @@ var mRoleView = function () {
      * @param el {object} html 元素
      */
     var saveData = function (el) {
-        var checked = mTool.getCheckedNodes('#permissions-tree', 'id');
+        var checked = KTTool.getCheckedNodes('#permissions-tree', 'id');
         $('#permissions').val(checked.join(','));
-        mTool.saveData(el, null, null, null, function (res) {
-            mTool.saveNode('#roles-tree', {
+        KTTool.saveData(el, null, null, null, function (res) {
+            KTTool.saveNode('#roles-tree', {
                 id: res.data.id,
                 pId: res.data.pId,
                 text: res.data.name
             });
             // 删除缓存用户数据
-            mTool.cacheRemove(mTool.currentUser);
+            KTTool.cacheRemove(KTTool.currentUser);
         });
     };
 
@@ -214,9 +214,9 @@ var mRoleView = function () {
      * @param id 要删除的数据id
      */
     var deleteById = function (el, id) {
-        mTool.deleteById(el, id, null, false, function (res) {
+        KTTool.deleteById(el, id, null, false, function (res) {
             $('#role-info').html('');
-            mTool.deleteNode('#roles-tree', id);
+            KTTool.deleteNode('#roles-tree', id);
         })
     };
     /**
@@ -225,13 +225,13 @@ var mRoleView = function () {
      * @param ids {string} 要删除的节点id
      */
     var batchDelete = function (ids) {
-        if (mUtil.isNotBlank(ids)) {
-            mUtil.alertConfirm(mTool.commonTips.delete.title, mTool.commonTips.delete.subtitle, function () {
-                mUtil.ajax({
+        if (KTUtil.isNotBlank(ids)) {
+            KTUtil.alertConfirm(KTTool.commonTips.delete.title, KTTool.commonTips.delete.subtitle, function () {
+                KTUtil.ajax({
                     wait: '#roles-tree',
-                    url: mTool.getBaseUrl() + 'batch/delete/' + ids,
+                    url: KTTool.getBaseUrl() + 'batch/delete/' + ids,
                     success: function (res) {
-                        mTool.deleteNode('#roles-tree', ids);
+                        KTTool.deleteNode('#roles-tree', ids);
                         // 如果删除的ids,已在右边打开,则清空
                         var _id = $('#id').val();
                         $(ids.split(',')).each(function (i, id) {
@@ -243,7 +243,7 @@ var mRoleView = function () {
                 });
             })
         } else {
-            mTool.warnTip(mTool.commonTips.fail, '请选择角色后重试');
+            KTTool.warnTip(KTTool.commonTips.fail, '请选择角色后重试');
         }
     };
     /**
@@ -252,17 +252,17 @@ var mRoleView = function () {
      * @param pId {string} 上级id
      */
     var addRole = function (pId) {
-        if (mUtil.isBlank(pId)) {
+        if (KTUtil.isBlank(pId)) {
             pId = $('#id').val();
         }
-        mUtil.ajax({
+        KTUtil.ajax({
             type: 'get',
             dataType: 'html',
             wait: '#role-info',
-            url: mTool.getBaseUrl() + 'add/' + pId,
+            url: KTTool.getBaseUrl() + 'add/' + pId,
             success: function (res) {
                 $('#role-info').html(res);
-                mApp.initComponents();
+                KTApp.initComponents();
                 initPermissionsTree();
             }
         });
@@ -271,7 +271,7 @@ var mRoleView = function () {
      * 初始化权限tree
      */
     var initPermissionsTree = function () {
-        mUtil.ajax({
+        KTUtil.ajax({
             url: basePath + '/auth/sys/permissions/select/all',
             success: function (res) {
                 $('#permissions-tree').jstree({
@@ -284,7 +284,7 @@ var mRoleView = function () {
                         keep_selected_style: false
                     }
                 }).on('loaded.jstree', function (e, data) {
-                    mTool.checkNodes('#permissions-tree', $('#permissions').val());
+                    KTTool.checkNodes('#permissions-tree', $('#permissions').val());
                 });
             }
         });
@@ -293,7 +293,7 @@ var mRoleView = function () {
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/role/');
+            KTTool.setBaseUrl(basePath + '/auth/sys/role/');
             $('#search-role-btn').click(searchRoles);
             initRolesTree();
             $('.back-btn').click(function () {

@@ -5,7 +5,7 @@ var mSchedulerJobList = function () {
      */
     var initTable = function () {
         // 是否有修改任务权限
-        var hasSavePermissions = mTool.hasPermissions('scheduler:job:save');
+        var hasSavePermissions = KTTool.hasPermissions('scheduler:job:save');
         var options = {
             // 列配置
             columns: [
@@ -14,7 +14,7 @@ var mSchedulerJobList = function () {
                     title: '#',
                     sortable: false, // 禁用此列排序
                     width: 40,
-                    selector: {class: 'm-checkbox--solid m-checkbox--brand'},
+                    selector: {class: 'kt-checkbox--solid kt-checkbox--brand'},
                 },
                 {
                     field: 'name',
@@ -41,14 +41,14 @@ var mSchedulerJobList = function () {
                     title: '状态',
                     template: function (row) {
                         if (hasSavePermissions) {
-                            return '<span class="m-switch m-switch--sm m-switch--icon">\
+                            return '<span class="kt-switch kt-switch--sm kt-switch--icon">\
                                     <label>\
                                         <input data-id="' + row.id + '" type="checkbox" ' + ('1' === row.status ? 'checked="checked"' : '') + ' name="status">\
                                         <span></span>\
                                     </label>\
                                 </span>';
                         } else {
-                            return mTool.getDictElement(row.status, mTool.getSysDictsObject('schedulerJobStatus'));
+                            return KTTool.getDictElement(row.status, KTTool.getSysDictsObject('schedulerJobStatus'));
                         }
                     }
                 },
@@ -58,7 +58,7 @@ var mSchedulerJobList = function () {
                 },
                 {
                     field: 'Actions',
-                    width: 70,
+                    width: 100,
                     title: '操作',
                     sortable: false,
                     overflow: 'visible',
@@ -67,18 +67,18 @@ var mSchedulerJobList = function () {
                     },
                     template: function (row, index, datatable) {
                         var _btn = '';
-                        if (mTool.hasPermissions('scheduler:job:save')) {
-                            _btn += '<a href="#" onclick="mTool.editById(this, \'' + row.id + '\', \'' + row.name + '\')" class="' + mTool.ACTIONS_DANGER + '" title="编辑">\
+                        if (KTTool.hasPermissions('scheduler:job:save')) {
+                            _btn += '<a href="#" onclick="KTTool.editById(this, \'' + row.id + '\', \'' + row.name + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="编辑">\
                                 <i class="la la-edit"></i>\
                             </a>';
                         }
-                        if (mTool.hasPermissions('scheduler:job:delete')) {
-                            _btn += '<a href="#" onclick="mTool.deleteById(this, \'' + row.id + '\')" class="' + mTool.ACTIONS_DANGER + '" title="删除">\
+                        if (KTTool.hasPermissions('scheduler:job:delete')) {
+                            _btn += '<a href="#" onclick="KTTool.deleteById(this, \'' + row.id + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="删除">\
                                 <i class="la la-trash"></i>\
                             </a>';
                         }
-                        if (mTool.hasPermissions('scheduler:job:log:select')) {
-                            _btn += '<a href="#" onclick="mApp.openPage(\'' + row.name + '执行日志\', \'' + basePath + '/auth/scheduler/job/log/list/' + row.id + '\')" class="' + mTool.ACTIONS_INFO + '" title="查看日志">\
+                        if (KTTool.hasPermissions('scheduler:job:log:select')) {
+                            _btn += '<a href="#" onclick="KTApp.openPage(\'' + row.name + '执行日志\', \'' + basePath + '/auth/scheduler/job/log/list/' + row.id + '\')" class="' + KTTool.ACTIONS_INFO + '" title="查看日志">\
                                 <i class="la la-file-text"></i>\
                             </a>';
                         }
@@ -88,7 +88,7 @@ var mSchedulerJobList = function () {
 
             ]
         };
-        mSchedulerJobList.dataTable = mTool.initDataTable(options);
+        mSchedulerJobList.dataTable = KTTool.initDataTable(options);
     };
     /**
      * 绑定启用&暂停任务事件
@@ -109,17 +109,17 @@ var mSchedulerJobList = function () {
      * @param id {number|null} 任务id,如果为空则开启全部任务
      */
     var startJob = function (el, id) {
-        var url = mTool.getBaseUrl() + 'start/';
-        if (mUtil.isBlank(id)) {
+        var url = KTTool.getBaseUrl() + 'start/';
+        if (KTUtil.isBlank(id)) {
             url += 'all';
         } else {
             url += id;
         }
-        mUtil.ajax({
+        KTUtil.ajax({
             url: url,
             success: function (res) {
-                mTool.selectData(el);
-                mTool.successTip(mTool.commonTips.success, '任务已开启');
+                KTTool.selectData(el);
+                KTTool.successTip(KTTool.commonTips.success, '任务已开启');
             }
         });
     };
@@ -130,17 +130,17 @@ var mSchedulerJobList = function () {
      * @param id {number|null} 任务id,如果为空则暂停全部任务
      */
     var pauseJob = function (el, id) {
-        var url = mTool.getBaseUrl() + 'pause/';
-        if (mUtil.isBlank(id)) {
+        var url = KTTool.getBaseUrl() + 'pause/';
+        if (KTUtil.isBlank(id)) {
             url += 'all';
         } else {
             url += id;
         }
-        mUtil.ajax({
+        KTUtil.ajax({
             url: url,
             success: function (res) {
-                mTool.selectData(el);
-                mTool.successTip(mTool.commonTips.success, '任务已暂停');
+                KTTool.selectData(el);
+                KTTool.successTip(KTTool.commonTips.success, '任务已暂停');
             }
         });
     };
@@ -148,7 +148,7 @@ var mSchedulerJobList = function () {
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/scheduler/job/');
+            KTTool.setBaseUrl(basePath + '/auth/scheduler/job/');
             initTable();
             bindClickStatus();
         },
@@ -177,7 +177,7 @@ var mSchedulerJobList = function () {
  *
  * @return {boolean} true/false
  */
-mTab.needSubmitForm = function () {
+KTTabneedSubmitForm = function () {
     return true;
 };
 //== 初始化

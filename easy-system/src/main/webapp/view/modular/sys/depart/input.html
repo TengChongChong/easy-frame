@@ -1,19 +1,19 @@
 @layout("/common/container.html", {"title" : "机构"}){
-<form class="m-form">
-    <div class="m-portlet" m-portlet="true">
+<form class="kt-form">
+    <div class="kt-portlet" kt-portlet="true">
         <#portlet:head title="机构" icon="la la-bars"/>
-        <div class="m-portlet__body">
+        <div class="kt-portlet__body">
 
             <input type="hidden" id="id" name="id" value="${object.id}">
             <div class="row">
                 <div class="col-md-6 col-12">
                     <div class="form-group row">
-                        <label class="col-4 control-label">
+                        <label class="col-4 col-form-label">
                             <span class="required">*</span>
                             机构类型：
                         </label>
                         <div class="col-8">
-                            <select class="form-control m-bootstrap-select select-picker auto-params"
+                            <select class="form-control kt-bootstrap-select select-picker auto-params"
                                     required
                                     data-live-search="true" id="typeCode" name="typeCode"
                                     data-value="${object.typeCode}">
@@ -26,11 +26,11 @@
                 </div>
                 <div class="col-md-6 col-12">
                     <div class="form-group row">
-                        <label class="col-4 control-label">
+                        <label class="col-4 col-form-label">
                             上级机构：
                         </label>
                         <div class="col-8">
-                            <select class="form-control m-bootstrap-select select-picker auto-params"
+                            <select class="form-control kt-bootstrap-select select-picker auto-params"
                                     data-live-search="true" id="pId" name="pId" data-value="${object.pId}">
                                 @if(isEmpty(parentDeparts)){
                                     <option value="">无</option>
@@ -54,12 +54,12 @@
                 </div>
                 <div class="col-md-6 col-12">
                     <div class="form-group row">
-                        <label class="col-4 control-label">
+                        <label class="col-4 col-form-label">
                             <span class="required">*</span>
                             状态：
                         </label>
                         <div class="col-8">
-                            <div class="m-radio-inline">
+                            <div class="kt-radio-inline">
                                 <#form:radio name="status" text="启用" value="1" checked="${object.status}" required="true"/>
                                 <#form:radio name="status" text="禁用" value="2" checked="${object.status}"/>
                             </div>
@@ -74,8 +74,8 @@
                 </div>
             </div>
         </div>
-        <div class="m-portlet__foot m-portlet__foot--fit">
-            <div class="m-form__actions text-center">
+        <div class="kt-portlet__foot kt-portlet__foot--fit">
+            <div class="kt-form__actions text-center">
                 <#btn:save permission="sys:depart:save"/>
             </div>
         </div>

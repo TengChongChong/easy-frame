@@ -9,21 +9,21 @@
 </head>
 <!-- end::Head -->
 <!-- begin::Body -->
-<body class="m--skin- m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--fixed m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default">
+<body class="kt--skin- kt-header--fixed kt-header--fixed-mobile kt-aside-left--enabled kt-aside-left--skin-dark kt-aside-left--fixed kt-aside-left--offcanvas kt-footer--push kt-aside--offcanvas-default">
 <!-- begin:: Page -->
-<div class="m-grid m-grid--hor m-grid--root m-page">
+<div class="kt-grid kt-grid--hor kt-grid--root kt-page">
     @if(isDev){
-    <div class="m-portlet m-portlet--tabs m-portlet--danger m-portlet--head-solid-bg m-portlet--bordered">
-        <div class="m-portlet__head">
-            <div class="m-portlet__head-caption">
-                <div class="m-portlet__head-title">
-                    <h3 class="m-portlet__head-text">
+    <div class="kt-portlet kt-portlet--tabs kt-portlet--danger kt-portlet--head-solid-bg kt-portlet--bordered">
+        <div class="kt-portlet__head">
+            <div class="kt-portlet__head-caption">
+                <div class="kt-portlet__head-title">
+                    <h3 class="kt-portlet__head-text">
                         500
                     </h3>
                 </div>
             </div>
         </div>
-        <div class="m-portlet__body">
+        <div class="kt-portlet__body">
             <div class="tab-content">
                 <div class="row">
                     <div class="col-2">
@@ -51,13 +51,13 @@
         </div>
     </div>
     @}else{
-    <div class="m-grid__item m-grid__item--fluid m-grid m-error-1"
+    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-error-1"
          style="background-image: url(${ctxPath}/static/app/media/img/error/bg-error.jpg);">
-        <div class="m-error_container">
-            <span class="m-error_number">
+        <div class="kt-error_container">
+            <span class="kt-error_number">
                 <h1>500</h1>
             </span>
-            <p class="m-error_desc">
+            <p class="kt-error_desc">
                 服务器开小差了，请等等再试吧！
             </p>
         </div>

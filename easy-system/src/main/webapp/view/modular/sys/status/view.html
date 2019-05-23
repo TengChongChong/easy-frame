@@ -1,59 +1,59 @@
 @layout("/common/container.html", {"title" : "服务器状态"}){
 <div class="row">
-    <div class="col-md-6 col-12 m--hide">
-        <div class="m-portlet" m-portlet="true">
-            <div class="m-portlet__head">
-                <div class="m-portlet__head-caption">
-                    <div class="m-portlet__head-title">
-                        <span class="m-portlet__head-icon">
+    <div class="col-md-6 col-12 kt--hide">
+        <div class="kt-portlet" kt-portlet="true">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-caption">
+                    <div class="kt-portlet__head-title">
+                        <span class="kt-portlet__head-icon">
                             <i class="la la-server"></i>
                         </span>
-                        <h3 class="m-portlet__head-text">
+                        <h3 class="kt-portlet__head-text">
                             CPU
                         </h3>
                     </div>
                 </div>
             </div>
-            <div class="m-portlet__body m--padding-5">
+            <div class="kt-portlet__body kt--padding-5">
                 <div class="cpu-charts charts"></div>
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-12 m--hide">
-        <div class="m-portlet" m-portlet="true">
-            <div class="m-portlet__head">
-                <div class="m-portlet__head-caption">
-                    <div class="m-portlet__head-title">
-                        <span class="m-portlet__head-icon">
+    <div class="col-md-6 col-12 kt--hide">
+        <div class="kt-portlet" kt-portlet="true">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-caption">
+                    <div class="kt-portlet__head-title">
+                        <span class="kt-portlet__head-icon">
                             <i class="la la-server""></i>
                         </span>
-                        <h3 class="m-portlet__head-text">
+                        <h3 class="kt-portlet__head-text">
                             内存
                         </h3>
                     </div>
                 </div>
             </div>
-            <div class="m-portlet__body  m--padding-5">
+            <div class="kt-portlet__body  kt--padding-5">
                 <div class="jvm-charts charts"></div>
             </div>
         </div>
     </div>
     <div class="col-12">
-        <div class="m-portlet" m-portlet="true">
-            <div class="m-portlet__head">
-                <div class="m-portlet__head-caption">
-                    <div class="m-portlet__head-title">
-                        <span class="m-portlet__head-icon">
+        <div class="kt-portlet" kt-portlet="true">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-caption">
+                    <div class="kt-portlet__head-title">
+                        <span class="kt-portlet__head-icon">
                             <i class="la la-server"></i>
                         </span>
-                        <h3 class="m-portlet__head-text">
+                        <h3 class="kt-portlet__head-text">
                             Java虚拟机信息
                         </h3>
                     </div>
                 </div>
             </div>
-            <div class="m-portlet__body">
-                <table class="table table-striped m-table">
+            <div class="kt-portlet__body">
+                <table class="table table-striped kt-table">
                     <tbody>
                     <tr>
                         <td>名称</td>
@@ -72,21 +72,21 @@
             </div>
         </div>
 
-        <div class="m-portlet" m-portlet="true">
-            <div class="m-portlet__head">
-                <div class="m-portlet__head-caption">
-                    <div class="m-portlet__head-title">
-                        <span class="m-portlet__head-icon">
+        <div class="kt-portlet" kt-portlet="true">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-caption">
+                    <div class="kt-portlet__head-title">
+                        <span class="kt-portlet__head-icon">
                             <i class="la la-server"></i>
                         </span>
-                        <h3 class="m-portlet__head-text">
+                        <h3 class="kt-portlet__head-text">
                             系统参数
                         </h3>
                     </div>
                 </div>
             </div>
-            <div class="m-portlet__body">
-                <table class="table table-striped m-table">
+            <div class="kt-portlet__body">
+                <table class="table table-striped kt-table">
                     <tbody>
                     <tr>
                         <td>系统名称</td>
@@ -100,9 +100,9 @@
                         <td>开启登录验证码</td>
                         <td>
                             @if(object.projectProperties.projectLoginVerificationCode){
-                            <span class="m-badge m-badge--success m-badge--wide">启用</span>
+                            <span class="kt-badge kt-badge--success kt-badge--wide">启用</span>
                             @}else{
-                            <span class="m-badge m-badge--danger m-badge--wide">禁用</span>
+                            <span class="kt-badge kt-badge--danger kt-badge--wide">禁用</span>
                             @}
                         </td>
                         <td>会话有效期</td>
@@ -112,9 +112,9 @@
                         <td>启用记住密码</td>
                         <td>
                             @if(object.projectProperties.projectLoginRemember){
-                            <span class="m-badge m-badge--success m-badge--wide">启用</span>
+                            <span class="kt-badge kt-badge--success kt-badge--wide">启用</span>
                             @}else{
-                            <span class="m-badge m-badge--danger m-badge--wide">禁用</span>
+                            <span class="kt-badge kt-badge--danger kt-badge--wide">禁用</span>
                             @}
                         </td>
                         <td>记住密码有效期</td>
@@ -131,21 +131,21 @@
             </div>
         </div>
 
-        <div class="m-portlet" m-portlet="true">
-            <div class="m-portlet__head">
-                <div class="m-portlet__head-caption">
-                    <div class="m-portlet__head-title">
-                        <span class="m-portlet__head-icon">
+        <div class="kt-portlet" kt-portlet="true">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-caption">
+                    <div class="kt-portlet__head-title">
+                        <span class="kt-portlet__head-icon">
                             <i class="la la-server""></i>
                         </span>
-                        <h3 class="m-portlet__head-text">
+                        <h3 class="kt-portlet__head-text">
                             服务器信息
                         </h3>
                     </div>
                 </div>
             </div>
-            <div class="m-portlet__body">
-                <table class="table table-striped m-table">
+            <div class="kt-portlet__body">
+                <table class="table table-striped kt-table">
                     <tbody>
                     <tr>
                         <td>服务器名称</td>

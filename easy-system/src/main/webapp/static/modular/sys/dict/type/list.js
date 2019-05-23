@@ -10,7 +10,7 @@ var mDictTypeList = function () {
                     sortable: false, // 禁用此列排序
                     width: 40,
                     class: 'text-center',
-                    selector: {class: 'm-checkbox--solid m-checkbox--brand'},
+                    selector: {class: 'kt-checkbox--solid kt-checkbox--brand'},
                     edit: {
                         tag: 'input',
                         type: 'hidden'
@@ -35,10 +35,10 @@ var mDictTypeList = function () {
                 {
                     field: 'status',
                     title: '状态',
-                    dictType: mTool.commonDict, // 这里设置字典类型名称{string}或字典{object}
+                    dictType: KTTool.commonDict, // 这里设置字典类型名称{string}或字典{object}
                     edit: {
                         tag: 'select',
-                        option: mTool.commonDict,
+                        option: KTTool.commonDict,
                         default: '1'
                     }
 
@@ -59,13 +59,13 @@ var mDictTypeList = function () {
                     },
                     template: function (row, index, datatable) {
                         var _btn = '';
-                        if (mTool.hasPermissions('sys:dict:type:save')) {
-                            _btn += '<a href="#" onclick="mDictTypeList.editDictType(this)" class="' + mTool.ACTIONS_SUCCESS + '" title="编辑">\
+                        if (KTTool.hasPermissions('sys:dict:type:save')) {
+                            _btn += '<a href="#" onclick="mDictTypeList.editDictType(this)" class="' + KTTool.ACTIONS_SUCCESS + '" title="编辑">\
                                 <i class="la la-edit"></i>\
                             </a>';
                         }
-                        if (mTool.hasPermissions('sys:dict:type:delete')) {
-                            _btn += '<a href="#" onclick="mDictTypeList.deleteDictType(this, ' + row.id + ')" class="' + mTool.ACTIONS_DANGER + '" title="删除">\
+                        if (KTTool.hasPermissions('sys:dict:type:delete')) {
+                            _btn += '<a href="#" onclick="mDictTypeList.deleteDictType(this, ' + row.id + ')" class="' + KTTool.ACTIONS_DANGER + '" title="删除">\
                                 <i class="la la-trash"></i>\
                             </a>';
                         }
@@ -73,7 +73,7 @@ var mDictTypeList = function () {
                     },
                 }],
         };
-        mDictTypeList.dataTable = mTool.initDataTable(options)
+        mDictTypeList.dataTable = KTTool.initDataTable(options)
     };
     /**
      * 保存字典类别
@@ -86,7 +86,7 @@ var mDictTypeList = function () {
             wait: row,
             data: data,
             needAlert: false,
-            url: mTool.getBaseUrl() + mTool.urlSuffix.saveData,
+            url: KTTool.getBaseUrl() + KTTool.urlSuffix.saveData,
             fail: function(res){
                 toastr.warning(res.message, '操作失败');
             },
@@ -96,7 +96,7 @@ var mDictTypeList = function () {
                 row.attr('data-id', res.data.id);
             }
         };
-        mUtil.ajax(ajaxParams);
+        KTUtil.ajax(ajaxParams);
     };
     /**
      * 添加字典类别
@@ -122,29 +122,29 @@ var mDictTypeList = function () {
      * @param id {string} 要删除的数据id
      */
     var deleteDictType = function (element, id) {
-        mUtil.alertConfirm(mTool.commonTips.delete.title, mTool.commonTips.delete.subtitle, function () {
+        KTUtil.alertConfirm(KTTool.commonTips.delete.title, KTTool.commonTips.delete.subtitle, function () {
             var row = $(element).parents('tr.m-datatable__row');
             var ajaxParams = {
                 wait: row,
                 needAlert: false,
-                url: mTool.getBaseUrl() + mTool.urlSuffix.deleteById + id,
+                url: KTTool.getBaseUrl() + KTTool.urlSuffix.deleteById + id,
                 fail: function(res){
-                    toastr.errorTip(res.message, mTool.commonTips.fail);
+                    toastr.errorTip(res.message, KTTool.commonTips.fail);
                 },
                 success: function (res) {
-                    mTool.successTip('字典类型删除成功', mTool.commonTips.success);
+                    KTTool.successTip('字典类型删除成功', KTTool.commonTips.success);
                     mDictTypeList.dataTable.row(row);
                     mDictTypeList.dataTable.remove();
                 }
             };
-            mUtil.ajax(ajaxParams);
+            KTUtil.ajax(ajaxParams);
         });
     };
 
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/dict/type/');
+            KTTool.setBaseUrl(basePath + '/auth/sys/dict/type/');
             initTable();
         },
         /**

@@ -4,7 +4,7 @@ var mSampleGeneralInput = function () {
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sample/general/');
+            KTTool.setBaseUrl(basePath + '/auth/sample/general/');
         }
     };
 }();

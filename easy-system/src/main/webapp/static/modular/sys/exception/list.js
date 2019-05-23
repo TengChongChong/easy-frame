@@ -12,7 +12,7 @@ var mSysExceptionList = function () {
                     title: '#',
                     sortable: false, // 禁用此列排序
                     width: 40,
-                    selector: {class: 'm-checkbox--solid m-checkbox--brand'},
+                    selector: {class: 'kt-checkbox--solid kt-checkbox--brand'},
                 },
                 {
                     field: 'code',
@@ -57,11 +57,11 @@ var mSysExceptionList = function () {
                     },
                     template: function (row, index, datatable) {
                         var _btn = '';
-                        _btn += '<a href="#" onclick="mTool.editById(this, \'' + row.id + '\')" class="' + mTool.ACTIONS_INFO + '" title="查看">\
+                        _btn += '<a href="#" onclick="KTTool.editById(this, \'' + row.id + '\')" class="' + KTTool.ACTIONS_INFO + '" title="查看">\
                             <i class="la la-search"></i>\
                         </a>';
-                        if (mTool.hasPermissions('sys:exception:delete')) {
-                            _btn += '<a href="#" onclick="mTool.deleteById(this, \'' + row.id + '\')" class="' + mTool.ACTIONS_DANGER + '" title="删除">\
+                        if (KTTool.hasPermissions('sys:exception:delete')) {
+                            _btn += '<a href="#" onclick="KTTool.deleteById(this, \'' + row.id + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="删除">\
                                 <i class="la la-trash"></i>\
                             </a>';
                         }
@@ -71,13 +71,13 @@ var mSysExceptionList = function () {
 
             ]
         };
-        mSysExceptionList.dataTable = mTool.initDataTable(options);
+        mSysExceptionList.dataTable = KTTool.initDataTable(options);
     };
 
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/exception/');
+            KTTool.setBaseUrl(basePath + '/auth/sys/exception/');
             initTable();
         }
     };
@@ -87,7 +87,7 @@ var mSysExceptionList = function () {
  *
  * @return {boolean} true/false
  */
-mTab.needSubmitForm = function () {
+KTTabneedSubmitForm = function () {
     return true;
 };
 //== 初始化

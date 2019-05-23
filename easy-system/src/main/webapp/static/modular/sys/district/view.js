@@ -14,7 +14,7 @@ var mDistrictView = function () {
                 check_callback: true,
                 data: {
                     url: function (node) {
-                        var url = mTool.getBaseUrl() + 'select/data';
+                        var url = KTTool.getBaseUrl() + 'select/data';
                         if ('#' != node.id) {
                             url += '?pId=' + node.id;
                         }
@@ -30,51 +30,51 @@ var mDistrictView = function () {
                 show_at_node: true,
                 items: function () {
                     var _items = {};
-                    if (mTool.hasPermissions('sys:district:add')) {
+                    if (KTTool.hasPermissions('sys:district:add')) {
                         _items.add = {
                             label: '新增下级',
                             icon: 'la la-plus',
                             action: function (data) {
-                                addDistrict(mTool.getClickNode(data).id);
+                                addDistrict(KTTool.getClickNode(data).id);
                             }
                         }
                     }
-                    if (mTool.hasPermissions('sys:district:save')) {
+                    if (KTTool.hasPermissions('sys:district:save')) {
                         _items.edit = {
                             label: '修改',
                             icon: 'la la-edit',
                             _disabled: function (data) {
-                                var node = mTool.getClickNode(data);
+                                var node = KTTool.getClickNode(data);
                                 return node.id == '1';
                             },
                             action: function (data) {
-                                activateNode(mTool.getClickNode(data));
+                                activateNode(KTTool.getClickNode(data));
                             }
                         };
                     }
-                    if (mTool.hasPermissions('sys:district:delete')) {
+                    if (KTTool.hasPermissions('sys:district:delete')) {
                         _items.delete = {
                             label: '删除',
                             icon: 'la la-trash',
                             _disabled: function (data) {
-                                var node = mTool.getClickNode(data);
+                                var node = KTTool.getClickNode(data);
                                 return node.id == '1';
                             },
                             action: function (data) {
-                                batchDelete(mTool.getOperationNodes(data).join(','));
+                                batchDelete(KTTool.getOperationNodes(data).join(','));
                             }
                         };
                     }
-                    if (mTool.hasPermissions('sys:district:save')) {
+                    if (KTTool.hasPermissions('sys:district:save')) {
                         _items.copy = {
                             label: '复制',
                             icon: 'la la-copy',
                             _disabled: function (data) {
-                                var node = mTool.getClickNode(data);
+                                var node = KTTool.getClickNode(data);
                                 return node.id == '1';
                             },
                             action: function (data) {
-                                copyNode($.jstree.reference(data.reference), mTool.getOperationNodes(data));
+                                copyNode($.jstree.reference(data.reference), KTTool.getOperationNodes(data));
                             }
                         };
                         _items.paste = {
@@ -84,31 +84,31 @@ var mDistrictView = function () {
                                 return !$.jstree.reference(data.reference).can_paste();
                             },
                             action: function (data) {
-                                pasteNode($.jstree.reference(data.reference), mTool.getClickNode(data));
+                                pasteNode($.jstree.reference(data.reference), KTTool.getClickNode(data));
                             }
                         };
                     }
-                    if (mTool.hasPermissions('sys:district:status')) {
+                    if (KTTool.hasPermissions('sys:district:status')) {
                         _items.enable = {
                             label: '启用',
                             icon: 'la la-check',
                             _disabled: function (data) {
-                                var node = mTool.getClickNode(data);
+                                var node = KTTool.getClickNode(data);
                                 return node.id == '1';
                             },
                             action: function (data) {
-                                setStatus(mTool.getOperationNodes(data).join(','), 1);
+                                setStatus(KTTool.getOperationNodes(data).join(','), 1);
                             }
                         };
                         _items.disabled = {
                             label: '禁用',
                             icon: 'la la-ban',
                             _disabled: function (data) {
-                                var node = mTool.getClickNode(data);
+                                var node = KTTool.getClickNode(data);
                                 return node.id == '1';
                             },
                             action: function (data) {
-                                setStatus(mTool.getOperationNodes(data).join(','), 2);
+                                setStatus(KTTool.getOperationNodes(data).join(','), 2);
                             }
                         };
                     }
@@ -116,7 +116,7 @@ var mDistrictView = function () {
                 }
             }
         };
-        if (mTool.hasPermissions('sys:district:move')) {
+        if (KTTool.hasPermissions('sys:district:move')) {
             option.plugins = ['dnd', 'types', 'contextmenu'];
         } else {
             option.plugins = ['types', 'contextmenu'];
@@ -133,13 +133,13 @@ var mDistrictView = function () {
                 oldPosition: data.old_position
             };
             if (moveData.parent != moveData.oldParent || moveData.position != moveData.oldPosition) {
-                mUtil.ajax({
+                KTUtil.ajax({
                     type: 'get',
                     wait: '#district-tree',
                     data: moveData,
-                    url: mTool.getBaseUrl() + 'move',
+                    url: KTTool.getBaseUrl() + 'move',
                     success: function (res) {
-                        mTool.successTip(mTool.commonTips.success, '位置已保存');
+                        KTTool.successTip(KTTool.commonTips.success, '位置已保存');
                     }
                 });
             }
@@ -150,16 +150,16 @@ var mDistrictView = function () {
      */
     var searchDistrict = function () {
         var permissionsTitle = $('#district-title').val();
-        if (mUtil.isNotBlank(permissionsTitle)) {
+        if (KTUtil.isNotBlank(permissionsTitle)) {
             $('#district-tree').addClass('m--hide');
             $('#search-permissions').removeClass('m--hide');
-            mUtil.ajax({
+            KTUtil.ajax({
                 type: 'get',
                 wait: '#search-permissions',
                 data: {
                     title: permissionsTitle
                 },
-                url: mTool.getBaseUrl() + 'search',
+                url: KTTool.getBaseUrl() + 'search',
                 success: function (res) {
                     var $tree = $('#search-permissions').find('.tree');
                     if ($tree.jstree(true)) {
@@ -183,7 +183,7 @@ var mDistrictView = function () {
      * @param nodeIds {array} 数组
      */
     var copyNode = function (tree, nodeIds) {
-        if (mUtil.isArray(nodeIds)) {
+        if (KTUtil.isArray(nodeIds)) {
             var nodes = [];
             $(nodeIds).each(function (i, id) {
                 var _node = tree.get_node(id);
@@ -204,17 +204,17 @@ var mDistrictView = function () {
      */
     var pasteNode = function (tree, node) {
         var buffer = tree.get_buffer();
-        if (mUtil.isArray(buffer.node)) {
+        if (KTUtil.isArray(buffer.node)) {
             var ids = [];
             $(buffer.node).each(function (i, _node) {
                 ids.push(_node.id);
             });
-            mUtil.ajax({
-                url: mTool.getBaseUrl() + 'copy/' + ids.join(',') + '/to/' + node.id,
+            KTUtil.ajax({
+                url: KTTool.getBaseUrl() + 'copy/' + ids.join(',') + '/to/' + node.id,
                 wait: '#district-tree',
                 success: function (res) {
                     $(res.data).each(function (i, _node) {
-                        mTool.saveNode('#district-tree', {
+                        KTTool.saveNode('#district-tree', {
                             id: _node.id,
                             pId: _node.pId,
                             text: _node.name,
@@ -224,7 +224,7 @@ var mDistrictView = function () {
                 }
             });
         } else {
-            mTool.warnTip(mTool.commonTips.fail, '请先复制节点后重试');
+            KTTool.warnTip(KTTool.commonTips.fail, '请先复制节点后重试');
         }
     };
     /**
@@ -233,14 +233,14 @@ var mDistrictView = function () {
      * @param node
      */
     var activateNode = function (node) {
-        mUtil.ajax({
+        KTUtil.ajax({
             type: 'get',
             dataType: 'html',
             wait: '#district-info',
-            url: mTool.getBaseUrl() + 'input/' + node.id,
+            url: KTTool.getBaseUrl() + 'input/' + node.id,
             success: function (res) {
                 $('#district-info').html(res);
-                mApp.initComponents();
+                KTApp.initComponents();
             }
         })
     };
@@ -251,8 +251,8 @@ var mDistrictView = function () {
      * @param el {object} html 元素
      */
     var saveData = function (el) {
-        mTool.saveData(el, null, null, null, function (res) {
-            mTool.saveNode('#district-tree', {
+        KTTool.saveData(el, null, null, null, function (res) {
+            KTTool.saveNode('#district-tree', {
                 id: res.data.id,
                 pId: res.data.pId,
                 text: res.data.name + res.data.extra + res.data.suffix
@@ -266,10 +266,10 @@ var mDistrictView = function () {
      */
     var deleteById = function (el) {
         var id = $('#id').val();
-        mTool.deleteById(el, id, null, false, function (res) {
+        KTTool.deleteById(el, id, null, false, function (res) {
             console.log(res);
             $('#district-info').html('');
-            mTool.deleteNode('#district-tree', id);
+            KTTool.deleteNode('#district-tree', id);
         })
     };
     /**
@@ -279,10 +279,10 @@ var mDistrictView = function () {
      * @param status {number} 状态
      */
     var setStatus = function (ids, status) {
-        if (mUtil.isNotBlank(ids)) {
-            mUtil.ajax({
+        if (KTUtil.isNotBlank(ids)) {
+            KTUtil.ajax({
                 wait: '#district-tree',
-                url: mTool.getBaseUrl() + 'set/' + ids + '/status/' + status,
+                url: KTTool.getBaseUrl() + 'set/' + ids + '/status/' + status,
                 success: function (res) {
                     var type = status == 1 ? 'default' : 'disabled';
                     var _id = $('#id').val();
@@ -291,7 +291,7 @@ var mDistrictView = function () {
                         if (id == _id) {
                             $('[name="status"][value="' + status + '"]').prop('checked', true);
                         }
-                        mTool.saveNode('#district-tree', {
+                        KTTool.saveNode('#district-tree', {
                             id: id,
                             type: type
                         });
@@ -299,7 +299,7 @@ var mDistrictView = function () {
                 }
             });
         } else {
-            mTool.warnTip(mTool.commonTips.fail, '请选择角色后重试');
+            KTTool.warnTip(KTTool.commonTips.fail, '请选择角色后重试');
         }
     };
     /**
@@ -308,13 +308,13 @@ var mDistrictView = function () {
      * @param ids {string} 要删除的节点id
      */
     var batchDelete = function (ids) {
-        if (mUtil.isNotBlank(ids)) {
-            mUtil.alertConfirm(mTool.commonTips.delete.title, mTool.commonTips.delete.subtitle, function () {
-                mUtil.ajax({
+        if (KTUtil.isNotBlank(ids)) {
+            KTUtil.alertConfirm(KTTool.commonTips.delete.title, KTTool.commonTips.delete.subtitle, function () {
+                KTUtil.ajax({
                     wait: '#district-tree',
-                    url: mTool.getBaseUrl() + 'batch/delete/' + ids,
+                    url: KTTool.getBaseUrl() + 'batch/delete/' + ids,
                     success: function (res) {
-                        mTool.deleteNode('#district-tree', ids);
+                        KTTool.deleteNode('#district-tree', ids);
                         // 如果删除的ids,已在右边打开,则清空
                         var _id = $('#id').val();
                         $(ids.split(',')).each(function (i, id) {
@@ -326,7 +326,7 @@ var mDistrictView = function () {
                 });
             })
         } else {
-            mTool.warnTip(mTool.commonTips.fail, '请选择角色后重试');
+            KTTool.warnTip(KTTool.commonTips.fail, '请选择角色后重试');
         }
     };
 
@@ -336,17 +336,17 @@ var mDistrictView = function () {
      * @param pId {string} 上级id
      */
     var addDistrict = function (pId) {
-        if (mUtil.isBlank(pId)) {
+        if (KTUtil.isBlank(pId)) {
             pId = $('#id').val();
         }
-        mUtil.ajax({
+        KTUtil.ajax({
             type: 'get',
             dataType: 'html',
             wait: '#district-info',
-            url: mTool.getBaseUrl() + 'add/' + pId,
+            url: KTTool.getBaseUrl() + 'add/' + pId,
             success: function (res) {
                 $('#district-info').html(res);
-                mApp.initComponents();
+                KTApp.initComponents();
             }
         });
     };
@@ -367,7 +367,7 @@ var mDistrictView = function () {
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/district/');
+            KTTool.setBaseUrl(basePath + '/auth/sys/district/');
             initDistrictTree();
             $('#search-district-btn').click(searchDistrict);
             $('.back-btn').click(function () {

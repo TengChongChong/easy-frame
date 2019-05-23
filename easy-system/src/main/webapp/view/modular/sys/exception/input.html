@@ -1,59 +1,59 @@
 @layout("/common/container.html", {"title" : "异常日志"}){
-<form class="m-form">
-    <div class="m-portlet" m-portlet="true">
+<form class="kt-form">
+    <div class="kt-portlet" kt-portlet="true">
         <#portlet:head title="异常日志" icon="la la-bars"/>
-        <div class="m-portlet__body">
+        <div class="kt-portlet__body">
             <div class="row">
                 <!-- str:表单区域 -->
                 <input type="hidden" id="id" name="id" value="${object.id}" />
                 <div class="col-lg-6 col-12">
-                    <div class="form-group m-form__group row">
-                        <label class="col-4 control-label">
+                    <div class="form-group kt-form__group row">
+                        <label class="col-4 col-form-label">
                             错误代码：
                         </label>
                         <div class="col-8">
-                            <span class="m-form__control-static">${object.code}</span>
+                            <span class="kt-form__control-static">${object.code}</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-12">
-                    <div class="form-group m-form__group row">
-                        <label class="col-4 control-label">
+                    <div class="form-group kt-form__group row">
+                        <label class="col-4 col-form-label">
                             异常类型：
                         </label>
                         <div class="col-8">
-                            <span class="m-form__control-static">${object.type}</span>
+                            <span class="kt-form__control-static">${object.type}</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-12">
-                    <div class="form-group m-form__group row">
-                        <label class="col-md-2 col-4 control-label">
+                    <div class="form-group kt-form__group row">
+                        <label class="col-md-2 col-4 col-form-label">
                             请求地址：
                         </label>
                         <div class="col-md-10 col-8">
-                            <span class="m-form__control-static">${object.url}</span>
+                            <span class="kt-form__control-static">${object.url}</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-12">
-                    <div class="form-group m-form__group row">
-                        <label class="col-md-2 col-4 control-label">
+                    <div class="form-group kt-form__group row">
+                        <label class="col-md-2 col-4 col-form-label">
                             错误信息：
                         </label>
                         <div class="col-md-10 col-8">
-                            <span class="m-form__control-static">${object.message}</span>
+                            <span class="kt-form__control-static">${object.message}</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-12">
-                    <div class="form-group m-form__group row">
-                        <label class="col-md-2 col-4 control-label">
+                    <div class="form-group kt-form__group row">
+                        <label class="col-md-2 col-4 col-form-label">
                             错误堆栈：
                         </label>
                         <div class="col-md-10 col-8">
-                            <div class="m-scrollable" data-scrollable="true" style="max-height: 400px;">
-                                <div id="trace" class="m-form__control-static">
+                            <div class="kt-scrollable" data-scrollable="true" style="max-height: 400px;">
+                                <div id="trace" class="kt-form__control-static">
                                     ${strutil.replace(object.trace, '\n\t', '<br>')}
                                 </div>
                             </div>
@@ -61,30 +61,30 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-12">
-                    <div class="form-group m-form__group row">
-                        <label class="col-4 control-label">
+                    <div class="form-group kt-form__group row">
+                        <label class="col-4 col-form-label">
                             触发用户：
                         </label>
                         <div class="col-8">
-                            <span class="m-form__control-static">${object.nickname}</span>
+                            <span class="kt-form__control-static">${object.nickname}</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-12">
-                    <div class="form-group m-form__group row">
-                        <label class="col-4 control-label">
+                    <div class="form-group kt-form__group row">
+                        <label class="col-4 col-form-label">
                             触发时间：
                         </label>
                         <div class="col-8">
-                            <span class="m-form__control-static">${object.triggerTime,dateFormat='yyyy-MM-dd HH:mm'}</span>
+                            <span class="kt-form__control-static">${object.triggerTime,dateFormat='yyyy-MM-dd HH:mm'}</span>
                         </div>
                     </div>
                 </div>
                 <!-- end:表单区域 -->
             </div>
         </div>
-        <div class="m-portlet__foot m-portlet__foot--fit">
-            <div class="m-form__actions text-center">
+        <div class="kt-portlet__foot kt-portlet__foot--fit">
+            <div class="kt-form__actions text-center">
                 <#btn:save permission="sys:exception:save"/>
             </div>
         </div>

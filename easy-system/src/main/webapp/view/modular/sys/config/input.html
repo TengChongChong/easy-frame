@@ -1,8 +1,8 @@
 @layout("/common/container.html", {"title" : "系统参数"}){
-<form class="m-form">
-    <div class="m-portlet" m-portlet="true">
+<form class="kt-form">
+    <div class="kt-portlet" kt-portlet="true">
         <#portlet:head title="系统参数" icon="la la-gears"/>
-        <div class="m-portlet__body">
+        <div class="kt-portlet__body">
             <div class="row">
                 <!-- str:表单区域 -->
                 <input type="hidden" id="id" name="id" value="${object.id}" />
@@ -21,8 +21,8 @@
                 <!-- end:表单区域 -->
             </div>
         </div>
-        <div class="m-portlet__foot m-portlet__foot--fit">
-            <div class="m-form__actions text-center">
+        <div class="kt-portlet__foot kt-portlet__foot--fit">
+            <div class="kt-form__actions text-center">
                 <#btn:save permission="sys:config:save"/>
             </div>
         </div>

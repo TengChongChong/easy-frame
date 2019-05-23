@@ -11,7 +11,7 @@ var mPermissionsView = function () {
                 check_callback: true,
                 data: {
                     url: function (node) {
-                        var url = mTool.getBaseUrl() + 'select/data';
+                        var url = KTTool.getBaseUrl() + 'select/data';
                         if ('#' !== node.id) {
                             url += '?pId=' + node.id;
                         }
@@ -27,55 +27,55 @@ var mPermissionsView = function () {
                 show_at_node: true,
                 items: function () {
                     var _items = {};
-                    if (mTool.hasPermissions('sys:permissions:add')) {
+                    if (KTTool.hasPermissions('sys:permissions:add')) {
                         _items.add = {
                             label: '新增下级',
                             icon: 'la la-plus',
                             _disabled: function (data) {
-                                var node = mTool.getClickNode(data);
+                                var node = KTTool.getClickNode(data);
                                 return node.levels < 4;
                             },
                             action: function (data) {
-                                addPermission(mTool.getClickNode(data).id);
+                                addPermission(KTTool.getClickNode(data).id);
                             }
                         }
                     }
-                    if (mTool.hasPermissions('sys:permissions:save')) {
+                    if (KTTool.hasPermissions('sys:permissions:save')) {
                         _items.edit = {
                             label: '修改',
                             icon: 'la la-edit',
                             _disabled: function (data) {
-                                var node = mTool.getClickNode(data);
+                                var node = KTTool.getClickNode(data);
                                 return node.id === '0';
                             },
                             action: function (data) {
-                                activateNode(mTool.getClickNode(data));
+                                activateNode(KTTool.getClickNode(data));
                             }
                         };
                     }
-                    if (mTool.hasPermissions('sys:permissions:delete')) {
+                    if (KTTool.hasPermissions('sys:permissions:delete')) {
                         _items.delete = {
                             label: '删除',
                             icon: 'la la-trash',
                             _disabled: function (data) {
-                                var node = mTool.getClickNode(data);
+                                var node = KTTool.getClickNode(data);
                                 return node.id === '0';
                             },
                             action: function (data) {
-                                batchDelete(mTool.getOperationNodes(data).join(','));
+                                batchDelete(KTTool.getOperationNodes(data).join(','));
                             }
                         };
                     }
-                    if (mTool.hasPermissions('sys:permissions:save')) {
+                    if (KTTool.hasPermissions('sys:permissions:save')) {
                         _items.copy = {
                             label: '复制',
                             icon: 'la la-copy',
                             _disabled: function (data) {
-                                var node = mTool.getClickNode(data);
+                                var node = KTTool.getClickNode(data);
                                 return node.id === '0';
                             },
                             action: function (data) {
-                                copyNode($.jstree.reference(data.reference), mTool.getOperationNodes(data));
+                                copyNode($.jstree.reference(data.reference), KTTool.getOperationNodes(data));
                             }
                         };
                         _items.paste = {
@@ -85,31 +85,31 @@ var mPermissionsView = function () {
                                 return !$.jstree.reference(data.reference).can_paste();
                             },
                             action: function (data) {
-                                pasteNode($.jstree.reference(data.reference), mTool.getClickNode(data));
+                                pasteNode($.jstree.reference(data.reference), KTTool.getClickNode(data));
                             }
                         };
                     }
-                    if (mTool.hasPermissions('sys:permissions:status')) {
+                    if (KTTool.hasPermissions('sys:permissions:status')) {
                         _items.enable = {
                             label: '启用',
                             icon: 'la la-check',
                             _disabled: function (data) {
-                                var node = mTool.getClickNode(data);
+                                var node = KTTool.getClickNode(data);
                                 return node.id === '0';
                             },
                             action: function (data) {
-                                setStatus(mTool.getOperationNodes(data).join(','), 1);
+                                setStatus(KTTool.getOperationNodes(data).join(','), 1);
                             }
                         };
                         _items.disabled = {
                             label: '禁用',
                             icon: 'la la-ban',
                             _disabled: function (data) {
-                                var node = mTool.getClickNode(data);
+                                var node = KTTool.getClickNode(data);
                                 return node.id === '0';
                             },
                             action: function (data) {
-                                setStatus(mTool.getOperationNodes(data).join(','), 2);
+                                setStatus(KTTool.getOperationNodes(data).join(','), 2);
                             }
                         };
                     }
@@ -117,7 +117,7 @@ var mPermissionsView = function () {
                 }
             }
         };
-        if (mTool.hasPermissions('sys:permissions:move')) {
+        if (KTTool.hasPermissions('sys:permissions:move')) {
             option.plugins = ['dnd', 'types', 'contextmenu'];
         } else {
             option.plugins = ['types', 'contextmenu'];
@@ -134,13 +134,13 @@ var mPermissionsView = function () {
                 oldPosition: data.old_position
             };
             if (moveData.parent != moveData.oldParent || moveData.position != moveData.oldPosition) {
-                mUtil.ajax({
+                KTUtil.ajax({
                     type: 'get',
                     wait: '#permissions-tree',
                     data: moveData,
-                    url: mTool.getBaseUrl() + 'move',
+                    url: KTTool.getBaseUrl() + 'move',
                     success: function (res) {
-                        mTool.successTip(mTool.commonTips.success, '位置已保存');
+                        KTTool.successTip(KTTool.commonTips.success, '位置已保存');
                     }
                 });
             }
@@ -151,16 +151,16 @@ var mPermissionsView = function () {
      */
     var searchPermissions = function () {
         var permissionsTitle = $('#permissions-title').val();
-        if (mUtil.isNotBlank(permissionsTitle)) {
+        if (KTUtil.isNotBlank(permissionsTitle)) {
             $('#permissions-tree').addClass('m--hide');
             $('#search-permissions').removeClass('m--hide');
-            mUtil.ajax({
+            KTUtil.ajax({
                 type: 'get',
                 wait: '#search-permissions',
                 data: {
                     title: permissionsTitle
                 },
-                url: mTool.getBaseUrl() + 'search',
+                url: KTTool.getBaseUrl() + 'search',
                 success: function (res) {
                     var $tree = $('#search-permissions').find('.tree');
                     if ($tree.jstree(true)) {
@@ -184,7 +184,7 @@ var mPermissionsView = function () {
      * @param nodeIds {array} 数组
      */
     var copyNode = function (tree, nodeIds) {
-        if (mUtil.isArray(nodeIds)) {
+        if (KTUtil.isArray(nodeIds)) {
             var nodes = [];
             $(nodeIds).each(function (i, id) {
                 var _node = tree.get_node(id);
@@ -205,17 +205,17 @@ var mPermissionsView = function () {
      */
     var pasteNode = function (tree, node) {
         var buffer = tree.get_buffer();
-        if (mUtil.isArray(buffer.node)) {
+        if (KTUtil.isArray(buffer.node)) {
             var ids = [];
             $(buffer.node).each(function (i, _node) {
                 ids.push(_node.id);
             });
-            mUtil.ajax({
-                url: mTool.getBaseUrl() + 'copy/' + ids.join(',') + '/to/' + node.id,
+            KTUtil.ajax({
+                url: KTTool.getBaseUrl() + 'copy/' + ids.join(',') + '/to/' + node.id,
                 wait: '#permissions-tree',
                 success: function (res) {
                     $(res.data).each(function (i, _node) {
-                        mTool.saveNode('#permissions-tree', {
+                        KTTool.saveNode('#permissions-tree', {
                             id: _node.id,
                             pId: _node.pId,
                             text: _node.name,
@@ -225,7 +225,7 @@ var mPermissionsView = function () {
                 }
             });
         } else {
-            mTool.warnTip(mTool.commonTips.fail, '请先复制节点后重试');
+            KTTool.warnTip(KTTool.commonTips.fail, '请先复制节点后重试');
         }
     };
     /**
@@ -234,14 +234,14 @@ var mPermissionsView = function () {
      * @param node
      */
     var activateNode = function (node) {
-        mUtil.ajax({
+        KTUtil.ajax({
             type: 'get',
             dataType: 'html',
             wait: '#permissions-info',
-            url: mTool.getBaseUrl() + 'input/' + node.id,
+            url: KTTool.getBaseUrl() + 'input/' + node.id,
             success: function (res) {
                 $('#permissions-info').html(res);
-                mApp.initComponents();
+                KTApp.initComponents();
             }
         })
     };
@@ -252,8 +252,8 @@ var mPermissionsView = function () {
      * @param el {object} html 元素
      */
     var saveData = function (el) {
-        mTool.saveData(el, null, null, null, function (res) {
-            mTool.saveNode('#permissions-tree', {
+        KTTool.saveData(el, null, null, null, function (res) {
+            KTTool.saveNode('#permissions-tree', {
                 id: res.data.id,
                 pId: res.data.pId,
                 text: res.data.name,
@@ -268,10 +268,10 @@ var mPermissionsView = function () {
      */
     var deleteById = function (el) {
         var id = $('#id').val();
-        mTool.deleteById(el, id, null, false, function (res) {
+        KTTool.deleteById(el, id, null, false, function (res) {
             console.log(res);
             $('#permissions-info').html('');
-            mTool.deleteNode('#permissions-tree', id);
+            KTTool.deleteNode('#permissions-tree', id);
         })
     };
     /**
@@ -281,10 +281,10 @@ var mPermissionsView = function () {
      * @param status {number} 状态
      */
     var setStatus = function (ids, status) {
-        if (mUtil.isNotBlank(ids)) {
-            mUtil.ajax({
+        if (KTUtil.isNotBlank(ids)) {
+            KTUtil.ajax({
                 wait: '#permissions-tree',
-                url: mTool.getBaseUrl() + 'set/' + ids + '/status/' + status,
+                url: KTTool.getBaseUrl() + 'set/' + ids + '/status/' + status,
                 success: function (res) {
                     var type = status == 1 ? 'default' : 'disabled';
                     var _id = $('#id').val();
@@ -293,7 +293,7 @@ var mPermissionsView = function () {
                         if (id == _id) {
                             $('[name="status"][value="' + status + '"]').prop('checked', true);
                         }
-                        mTool.saveNode('#permissions-tree', {
+                        KTTool.saveNode('#permissions-tree', {
                             id: id,
                             type: type
                         });
@@ -301,7 +301,7 @@ var mPermissionsView = function () {
                 }
             });
         } else {
-            mTool.warnTip(mTool.commonTips.fail, '请选择角色后重试');
+            KTTool.warnTip(KTTool.commonTips.fail, '请选择角色后重试');
         }
     };
     /**
@@ -310,13 +310,13 @@ var mPermissionsView = function () {
      * @param ids {string} 要删除的节点id
      */
     var batchDelete = function (ids) {
-        if (mUtil.isNotBlank(ids)) {
-            mUtil.alertConfirm(mTool.commonTips.delete.title, mTool.commonTips.delete.subtitle, function () {
-                mUtil.ajax({
+        if (KTUtil.isNotBlank(ids)) {
+            KTUtil.alertConfirm(KTTool.commonTips.delete.title, KTTool.commonTips.delete.subtitle, function () {
+                KTUtil.ajax({
                     wait: '#permissions-tree',
-                    url: mTool.getBaseUrl() + 'batch/delete/' + ids,
+                    url: KTTool.getBaseUrl() + 'batch/delete/' + ids,
                     success: function (res) {
-                        mTool.deleteNode('#permissions-tree', ids);
+                        KTTool.deleteNode('#permissions-tree', ids);
                         // 如果删除的ids,已在右边打开,则清空
                         var _id = $('#id').val();
                         $(ids.split(',')).each(function (i, id) {
@@ -328,7 +328,7 @@ var mPermissionsView = function () {
                 });
             })
         } else {
-            mTool.warnTip(mTool.commonTips.fail, '请选择角色后重试');
+            KTTool.warnTip(KTTool.commonTips.fail, '请选择角色后重试');
         }
     };
 
@@ -338,17 +338,17 @@ var mPermissionsView = function () {
      * @param pId {string|null} 上级id
      */
     var addPermission = function (pId) {
-        if (mUtil.isBlank(pId)) {
+        if (KTUtil.isBlank(pId)) {
             pId = $('#id').val();
         }
-        mUtil.ajax({
+        KTUtil.ajax({
             type: 'get',
             dataType: 'html',
             wait: '#permissions-info',
-            url: mTool.getBaseUrl() + 'add/' + pId,
+            url: KTTool.getBaseUrl() + 'add/' + pId,
             success: function (res) {
                 $('#permissions-info').html(res);
-                mApp.initComponents();
+                KTApp.initComponents();
             }
         });
     };
@@ -369,7 +369,7 @@ var mPermissionsView = function () {
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/permissions/');
+            KTTool.setBaseUrl(basePath + '/auth/sys/permissions/');
             initPermissionsTree();
             $('#search-permissions-btn').click(searchPermissions);
             $('.back-btn').click(function () {

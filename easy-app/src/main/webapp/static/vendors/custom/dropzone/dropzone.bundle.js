@@ -2864,7 +2864,7 @@ var Dropzone = function (_Emitter) {
 
 Dropzone.initClass();
 
-Dropzone.version = "5.5.0";
+Dropzone.version = "5.5.1";
 
 // This is a map of options for your different dropzones. Add configurations
 // to this object for your different dropzone elemens.
@@ -3528,62 +3528,3 @@ function __guardMethod__(obj, methodName, transform) {
     return undefined;
   }
 }
-Dropzone.autoDiscover = false;
-/**
- * 没有任何文件被添加的时候的提示文本
- */
-Dropzone.dictDefaultMessage = "拖动文件到这里或者点击选择文件上传";
-
-/**
- * Fallback 情况下的提示文本
- */
-Dropzone.dictFallbackMessage = "您的浏览器不支持拖动上传";
-
-/**
- * The text that will be added before the fallback form.
- * If you provide a  fallback element yourself, or if this option is `null` this will
- * be ignored.
- */
-Dropzone.dictFallbackText = "Please use the fallback form below to upload your files like in the olden days.";
-
-/**
- * 文件大小过大时的提示文本
- * `{{filesize}}` 和 `{{maxFilesize}}` 将会被替换为设定值.
- */
-Dropzone.dictFileTooBig = "文件大小超过上限 ({{filesize}}MiB). 最大允许上传: {{maxFilesize}}MiB.";
-
-/**
- * 文件类型被拒绝时的提示文本
- */
-Dropzone.dictInvalidFileType = "您无法上传此类型文件";
-
-/**
- * 请求无效
- */
-Dropzone.dictResponseError = "请求失败 {{statusCode}}";
-
-/**
- * 取消上传链接的文本
- */
-Dropzone.dictCancelUpload = "取消上传";
-
-/**
- * 手动取消上传时显示的文本
- */
-Dropzone.dictUploadCanceled = "已取消上传";
-
-/**
- * 取消上传确认信息的文本
- */
-Dropzone.dictCancelUploadConfirmation = "确定要取消上传吗？";
-
-/**
- * 移除文件链接的文本
- */
-Dropzone.dictRemoveFile = "移除文件";
-
-/**
- * 超过最大文件数量的提示文本
- * The string `{{maxFiles}}` will be replaced by the configuration value.
- */
-Dropzone.dictMaxFilesExceeded = "最多允许上传 {{maxFiles}} 个文件";

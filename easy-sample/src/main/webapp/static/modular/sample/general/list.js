@@ -12,7 +12,7 @@ var mSampleGeneralList = function () {
                     title: '#',
                     sortable: false, // 禁用此列排序
                     width: 40,
-                    selector: {class: 'm-checkbox--solid m-checkbox--brand'},
+                    selector: {class: 'kt-checkbox--solid kt-checkbox--brand'},
                 },
                 {
                     field: 'name',
@@ -59,13 +59,13 @@ var mSampleGeneralList = function () {
                     },
                     template: function (row, index, datatable) {
                         var _btn = '';
-                        if (mTool.hasPermissions('sample:general:save')) {
-                            _btn += '<a href="#" onclick="mTool.editById(this, \'' + row.id + '\', \'' + row.name + '\')" class="' + mTool.ACTIONS_DANGER + '" title="编辑">\
+                        if (KTTool.hasPermissions('sample:general:save')) {
+                            _btn += '<a href="#" onclick="KTTool.editById(this, \'' + row.id + '\', \'' + row.name + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="编辑">\
                                 <i class="la la-edit"></i>\
                             </a>';
                         }
-                        if (mTool.hasPermissions('sample:general:delete')) {
-                            _btn += '<a href="#" onclick="mTool.deleteById(this, \'' + row.id + '\')" class="' + mTool.ACTIONS_DANGER + '" title="删除">\
+                        if (KTTool.hasPermissions('sample:general:delete')) {
+                            _btn += '<a href="#" onclick="KTTool.deleteById(this, \'' + row.id + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="删除">\
                                 <i class="la la-trash"></i>\
                             </a>';
                         }
@@ -75,13 +75,13 @@ var mSampleGeneralList = function () {
 
             ]
         };
-        mSampleGeneralList.dataTable = mTool.initDataTable(options);
+        mSampleGeneralList.dataTable = KTTool.initDataTable(options);
     };
 
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sample/general/');
+            KTTool.setBaseUrl(basePath + '/auth/sample/general/');
             initTable();
         }
     };
@@ -91,7 +91,7 @@ var mSampleGeneralList = function () {
  *
  * @return {boolean} true/false
  */
-mTab.needSubmitForm = function () {
+KTTabneedSubmitForm = function () {
     return true;
 };
 //== 初始化

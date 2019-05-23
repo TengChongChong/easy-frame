@@ -1,8 +1,8 @@
 @layout("/common/container.html", {"title" : "定时任务"}){
-<form class="m-form">
-    <div class="m-portlet" m-portlet="true">
+<form class="kt-form">
+    <div class="kt-portlet" kt-portlet="true">
         <#portlet:head title="定时任务 " icon="la la-dashboard"/>
-        <div class="m-portlet__body">
+        <div class="kt-portlet__body">
             <div class="row">
                 <!-- str:表单区域 -->
                 <input type="hidden" id="id" name="id" value="${object.id}" />
@@ -17,7 +17,7 @@
                 </div>
                 <div class="col-lg-6 col-12">
                     <div class="form-group row">
-                        <label class="col-4 control-label">
+                        <label class="col-4 col-form-label">
                             <span class="required">*</span>
                             状态：
                         </label>
@@ -35,8 +35,8 @@
                 <!-- end:表单区域 -->
             </div>
         </div>
-        <div class="m-portlet__foot m-portlet__foot--fit">
-            <div class="m-form__actions text-center">
+        <div class="kt-portlet__foot kt-portlet__foot--fit">
+            <div class="kt-form__actions text-center">
                 <#btn:save permission="scheduler:job:save"/>
             </div>
         </div>

@@ -13,12 +13,12 @@ var mSysExceptionInput = function () {
         var $trace = $('#trace');
         if ($trace.length > 0) {
             var trace = $trace.html();
-            if (mUtil.isNotBlank(trace)) {
+            if (KTUtil.isNotBlank(trace)) {
                 var traces = trace.split('<br>');
                 $trace.empty();
                 $(traces).each(function (index, _trace) {
                     if (_trace.indexOf(package) > -1) {
-                        $trace.append('<span class="m--font-danger">' + _trace + '</span><br>');
+                        $trace.append('<span class="kt--font-danger">' + _trace + '</span><br>');
                     } else {
                         $trace.append(_trace + '<br>')
                     }
@@ -29,7 +29,7 @@ var mSysExceptionInput = function () {
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/exception/');
+            KTTool.setBaseUrl(basePath + '/auth/sys/exception/');
             initTrace();
         }
     };

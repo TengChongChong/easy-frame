@@ -137,7 +137,7 @@ public class GeneratorHtmlUtil {
         } else {
             labelClass = "col-4";
         }
-        return "<label class=\"" + labelClass + " control-label\"" +
+        return "<label class=\"" + labelClass + " col-form-label\"" +
                 ((!"radio".equals(fieldSet.getElementType()) && !"checkbox".equals(fieldSet.getElementType())) ? " for=\"" + fieldSet.getPropertyName() + "\"" : "") + ">" + fieldSet.getLabel() + "</label>";
     }
 
@@ -319,7 +319,7 @@ public class GeneratorHtmlUtil {
             }
             html.append("></div>");
         } else {
-            html.append("<div class=\"m-radio-inline\"></div>");
+            html.append("<div class=\"kt-radio-inline\"></div>");
         }
         return wrap(fieldSet, html, tab, pageType);
     }
@@ -345,7 +345,7 @@ public class GeneratorHtmlUtil {
             }
             html.append("></div>");
         } else {
-            html.append("<div class=\"m-checkbox-inline\"></div>");
+            html.append("<div class=\"kt-checkbox-inline\"></div>");
         }
         return wrap(fieldSet, html, tab, pageType);
     }

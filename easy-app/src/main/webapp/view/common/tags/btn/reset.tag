@@ -5,7 +5,7 @@
     role      : 当前登录用户必须属于此角色标识才显示
     permission: 当前登录用户必须拥有此权限标识才显示
 @*/
-<button type="button" class="btn btn-info m-btn--icon btn-reset">
+<button type="button" class="btn btn-info btn-reset">
     <span><i class="la la-refresh"></i> 重置</span>
 </button>
 

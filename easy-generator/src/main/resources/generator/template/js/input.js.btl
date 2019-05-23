@@ -1,14 +1,14 @@
 //== ${config.businessName}-详情页
-var m${config.modelName}Input = function () {
+var ${config.modelName}Input = function () {
 
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/${config.controllerMapping}/');
+            KTTool.setBaseUrl(basePath + '/auth/${config.controllerMapping}/');
         }
     };
 }();
 //== 初始化
 ${config.jquery}(document).ready(function () {
-    m${config.modelName}Input.init();
+    ${config.modelName}Input.init();
 });

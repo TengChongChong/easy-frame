@@ -30,10 +30,10 @@ var mUserList = function () {
      */
     var search = function () {
         var permissionsTitle = $('#depart-title').val();
-        if (mUtil.isNotBlank(permissionsTitle)) {
+        if (KTUtil.isNotBlank(permissionsTitle)) {
             $('#depart-tree').addClass('m--hide');
             $('#search-depart').removeClass('m--hide');
-            mUtil.ajax({
+            KTUtil.ajax({
                 type: 'get',
                 wait: '#search-depart',
                 data: {
@@ -61,7 +61,7 @@ var mUserList = function () {
                 }
             });
         } else {
-            mTool.warnTip(mTool.commonTips.fail, '请输入关键字搜索');
+            KTTool.warnTip(KTTool.commonTips.fail, '请输入关键字搜索');
         }
     };
     /**
@@ -70,11 +70,11 @@ var mUserList = function () {
      * @param node
      */
     var activateNode = function (node) {
-        if (mUtil.isNotBlank(node.id) && node.id != 0) {
+        if (KTUtil.isNotBlank(node.id) && node.id != 0) {
             $('#deptId').val(node.id);
             if (firstClick) {
                 initTable();
-                $('.m-form').removeClass('m--hide');
+                $('.kt-form').removeClass('m--hide');
                 firstClick = false;
             } else {
                 $('.btn-search').click();
@@ -89,11 +89,11 @@ var mUserList = function () {
      * @returns {*}
      */
     var checkParams = function (el, ids) {
-        if (mUtil.isBlank(ids)) {
-            var $dataTable = $(el).parents('.m-form').find('.m_datatable');
+        if (KTUtil.isBlank(ids)) {
+            var $dataTable = $(el).parents('.kt-form').find('.kt_datatable');
             if (typeof $dataTable !== 'undefined' && $dataTable.length > 0) {
-                var _ids = mTool.getSelectData($dataTable);
-                if (mTool.checkSelectDataIsNotEmpty(_ids, true)) {
+                var _ids = KTTool.getSelectData($dataTable);
+                if (KTTool.checkSelectDataIsNotEmpty(_ids, true)) {
                     ids = _ids.join(',');
                 }
             }
@@ -109,11 +109,11 @@ var mUserList = function () {
     var disableUser = function (el, ids) {
         ids = checkParams(el, ids);
         if (ids) {
-            mUtil.alertConfirm('确定要禁用用户吗？', '禁用后用户无法登录', function () {
-                mUtil.ajax({
-                    url: mTool.getBaseUrl() + 'disable/user/' + ids,
+            KTUtil.alertConfirm('确定要禁用用户吗？', '禁用后用户无法登录', function () {
+                KTUtil.ajax({
+                    url: KTTool.getBaseUrl() + 'disable/user/' + ids,
                     success: function (res) {
-                        mTool.selectData(el);
+                        KTTool.selectData(el);
                     }
                 });
             });
@@ -127,10 +127,10 @@ var mUserList = function () {
     var enableUser = function (el, ids) {
         ids = checkParams(el, ids);
         if (ids) {
-            mUtil.ajax({
-                url: mTool.getBaseUrl() + 'enable/user/' + ids,
+            KTUtil.ajax({
+                url: KTTool.getBaseUrl() + 'enable/user/' + ids,
                 success: function (res) {
-                    mTool.selectData(el);
+                    KTTool.selectData(el);
                 }
             });
         }
@@ -143,11 +143,11 @@ var mUserList = function () {
     var resetPassword = function (el, ids) {
         ids = checkParams(el, ids);
         if (ids) {
-            mUtil.alertConfirm('确定要重置密码吗？', '重置后用户无法使用旧密码登录', function () {
-                mUtil.ajax({
-                    url: mTool.getBaseUrl() + 'reset/password/' + ids,
+            KTUtil.alertConfirm('确定要重置密码吗？', '重置后用户无法使用旧密码登录', function () {
+                KTUtil.ajax({
+                    url: KTTool.getBaseUrl() + 'reset/password/' + ids,
                     success: function (res) {
-                        mTool.successTip(mTool.commonTips.success, '密码重置成功！');
+                        KTTool.successTip(KTTool.commonTips.success, '密码重置成功！');
                     }
                 });
             });
@@ -166,7 +166,7 @@ var mUserList = function () {
                     title: '#',
                     sortable: false, // 禁用此列排序
                     width: 40,
-                    selector: {class: 'm-checkbox--solid m-checkbox--brand'},
+                    selector: {class: 'kt-checkbox--solid kt-checkbox--brand'},
                     locked: {
                         left: 'md'
                     }
@@ -190,7 +190,7 @@ var mUserList = function () {
                     field: 'status',
                     title: '状态',
                     width: 70,
-                    dictType: mTool.commonDict // 这里设置机构类型名称{string}或机构{object}
+                    dictType: KTTool.commonDict // 这里设置机构类型名称{string}或机构{object}
                 },
                 {
                     field: 'lastLogin',
@@ -212,28 +212,28 @@ var mUserList = function () {
                     },
                     template: function (row, index, datatable) {
                         var _btn = '';
-                        if (mTool.hasPermissions('sys:user:save')) {
-                            _btn += '<a href="#" onclick="mTool.editById(this, ' + row.id + ', \'' + row.username + '\')" class="' + mTool.ACTIONS_ACCENT + '" title="编辑">\
+                        if (KTTool.hasPermissions('sys:user:save')) {
+                            _btn += '<a href="#" onclick="KTTool.editById(this, ' + row.id + ', \'' + row.username + '\')" class="' + KTTool.ACTIONS_ACCENT + '" title="编辑">\
                                 <i class="la la-edit"></i>\
                             </a>';
                         }
-                        if (mTool.hasPermissions('sys:user:delete')) {
-                            _btn += '<a href="#" onclick="mTool.deleteById(this, ' + row.id + ')" class="' + mTool.ACTIONS_DANGER + '" title="删除">\
+                        if (KTTool.hasPermissions('sys:user:delete')) {
+                            _btn += '<a href="#" onclick="KTTool.deleteById(this, ' + row.id + ')" class="' + KTTool.ACTIONS_DANGER + '" title="删除">\
                                 <i class="la la-trash"></i>\
                             </a>';
                         }
-                        if (mTool.hasPermissions('sys:user:reset:password')) {
-                            _btn += '<a href="#" onclick="mUserList.resetPassword(this, ' + row.id + ')" class="' + mTool.ACTIONS_WARN + '" title="重置密码">\
+                        if (KTTool.hasPermissions('sys:user:reset:password')) {
+                            _btn += '<a href="#" onclick="mUserList.resetPassword(this, ' + row.id + ')" class="' + KTTool.ACTIONS_WARN + '" title="重置密码">\
                                 <i class="la la-refresh"></i>\
                             </a>';
                         }
-                        if (mTool.hasPermissions('sys:user:disable')) {
-                            _btn += '<a href="#" onclick="mUserList.disableUser(this, ' + row.id + ')" class="' + mTool.ACTIONS_WARN + '" title="禁用用户">\
+                        if (KTTool.hasPermissions('sys:user:disable')) {
+                            _btn += '<a href="#" onclick="mUserList.disableUser(this, ' + row.id + ')" class="' + KTTool.ACTIONS_WARN + '" title="禁用用户">\
                                 <i class="la la-ban"></i>\
                             </a>';
                         }
-                        if (mTool.hasPermissions('sys:user:enable')) {
-                            _btn += '<a href="#" onclick="mUserList.enableUser(this, ' + row.id + ')" class="' + mTool.ACTIONS_SUCCESS + '" title="启用用户">\
+                        if (KTTool.hasPermissions('sys:user:enable')) {
+                            _btn += '<a href="#" onclick="mUserList.enableUser(this, ' + row.id + ')" class="' + KTTool.ACTIONS_SUCCESS + '" title="启用用户">\
                                 <i class="la la-check"></i>\
                             </a>';
                         }
@@ -242,20 +242,20 @@ var mUserList = function () {
                 }
             ]
         };
-        mUserList.dataTable = mTool.initDataTable(options);
+        mUserList.dataTable = KTTool.initDataTable(options);
     };
 
     /**
      * 新增
      */
     var addUser = function () {
-        mApp.openPage('新增用户', mTool.getBaseUrl() + 'add/' + $('#deptId').val());
+        KTApp.openPage('新增用户', KTTool.getBaseUrl() + 'add/' + $('#deptId').val());
     };
 
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/user/');
+            KTTool.setBaseUrl(basePath + '/auth/sys/user/');
             initDepartTree();
             $('#search-depart-btn').click(search);
             $('.back-btn').click(function () {
@@ -296,7 +296,7 @@ var mUserList = function () {
         }
     };
 }();
-mTab.needSubmitForm = function () {
+KTTabneedSubmitForm = function () {
     return true;
 };
 //== 初始化

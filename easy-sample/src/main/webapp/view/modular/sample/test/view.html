@@ -1,12 +1,12 @@
 @layout("/common/container.html", {"title" : "个人中心"}){
-<div class="m-portlet" m-portlet="true">
+<div class="kt-portlet" kt-portlet="true">
     <#portlet:head title="个人中心" icon="la la-bars"/>
-    <div class="m-portlet__body">
-        <form class="m-form">
+    <div class="kt-portlet__body">
+        <form class="kt-form">
         <div class="row">
             <div class="col-md-6 col-12">
                 <div class="form-group row">
-                    <label class="col-4 control-label">
+                    <label class="col-4 col-form-label">
                         选择部门：
                     </label>
                     <div class="col-8">
@@ -35,7 +35,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form class="m-form m--padding-bottom-15">
+                <form class="kt-form kt--padding-bottom-15">
                     <div class="input-group">
                         <input type="text" id="depart-title" class="form-control" placeholder="请输入关键字">
                         <div class="input-group-append">
@@ -46,9 +46,9 @@
 
                 <div id="depart-tree"></div>
 
-                <div id="search-depart" class="m--hide">
+                <div id="search-depart" class="kt--hide">
                     <div class="tree"></div>
-                    <button type="button" class="btn btn-metal btn-xs back-btn m--margin-top-5"><i
+                    <button type="button" class="btn btn-metal btn-xs back-btn kt--margin-top-5"><i
                             class="la la-undo"></i> 返回
                     </button>
                 </div>
@@ -65,10 +65,10 @@
     function showModal(){
         $('#m_modal_5').modal();
         $('.back-btn').click();
-        mTool.getTree('#depart-tree').refresh();
+        KTTool.getTree('#depart-tree').refresh();
     }
     function reloadTree() {
-        // mTool.getTree('#depart-tree').refresh();
+        // KTTool.getTree('#depart-tree').refresh();
 
     }
     var initDepartTree = function () {
@@ -100,10 +100,10 @@
      */
     var search = function () {
         var permissionsTitle = $('#depart-title').val();
-        if (mUtil.isNotBlank(permissionsTitle)) {
+        if (KTUtil.isNotBlank(permissionsTitle)) {
             $('#depart-tree').addClass('m--hide');
             $('#search-depart').removeClass('m--hide');
-            mUtil.ajax({
+            KTUtil.ajax({
                 type: 'get',
                 wait: '#search-depart',
                 data: {
@@ -131,7 +131,7 @@
                 }
             });
         } else {
-            mTool.warnTip(mTool.commonTips.fail, '请输入关键字搜索');
+            KTTool.warnTip(KTTool.commonTips.fail, '请输入关键字搜索');
         }
     };
     $(document).ready(function () {

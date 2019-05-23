@@ -1,5 +1,5 @@
 //== ${config.businessName}-列表页
-var m${config.modelName}List = function () {
+var ${config.modelName}List = function () {
     /**
      * 初始化列表
      */
@@ -20,13 +20,13 @@ var m${config.modelName}List = function () {
                 ${GeneratorJsUtil.getActions(config, 4)}
             ]
         };
-        m${config.modelName}List.dataTable = mTool.initDataTable(options);
+        ${config.modelName}List.dataTable = KTTool.initDataTable(options);
     };
 
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/${config.controllerMapping}/');
+            KTTool.setBaseUrl(basePath + '/auth/${config.controllerMapping}/');
             initTable();
         }
     };
@@ -36,10 +36,10 @@ var m${config.modelName}List = function () {
  *
  * @return {boolean} true/false
  */
-mTab.needSubmitForm = function () {
+KTTab.needSubmitForm = function () {
     return true;
 };
 //== 初始化
 ${config.jquery}(document).ready(function () {
-    m${config.modelName}List.init();
+    ${config.modelName}List.init();
 });

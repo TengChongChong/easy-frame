@@ -25,8 +25,8 @@ var mRetrievePassword = function () {
         var needValid = $('#m_wizard_form_step_2').find('input');
         if (needValid.length > 0) {
             if (needValid.valid()) {
-                mUtil.ajax({
-                    url: mTool.getBaseUrl() + 'send/mail',
+                KTUtil.ajax({
+                    url: KTTool.getBaseUrl() + 'send/mail',
                     wait: '.m-portlet',
                     data: {
                         username: $('#username').val(),
@@ -48,8 +48,8 @@ var mRetrievePassword = function () {
         var needValid = $('#m_wizard_form_step_3').find('input');
         if (needValid.length > 0) {
             if (needValid.valid()) {
-                mUtil.ajax({
-                    url: mTool.getBaseUrl() + 'verifies/' + username + '/' + $.md5(code),
+                KTUtil.ajax({
+                    url: KTTool.getBaseUrl() + 'verifies/' + username + '/' + $.md5(code),
                     wait: '.m-portlet',
                     success: function (res) {
                         wizard.goTo(4);
@@ -78,8 +78,8 @@ var mRetrievePassword = function () {
             if (needValid.valid()) {
                 var username = $('#username').val();
                 var code = $('#verificationCode').val();
-                mUtil.ajax({
-                    url: mTool.getBaseUrl() + 'reset/password/' + username + '/' + $.md5(code),
+                KTUtil.ajax({
+                    url: KTTool.getBaseUrl() + 'reset/password/' + username + '/' + $.md5(code),
                     wait: '.m-portlet',
                     data:{
                         password: $.md5($('#password').val())
@@ -134,7 +134,7 @@ var mRetrievePassword = function () {
                 wizard.goTo(2);
             } else if ('phone' === model) {
                 // 通过手机找回
-                mTool.warnTip(mTool.commonTips.fail, '暂未开放，请使用邮箱找回密码');
+                KTTool.warnTip(KTTool.commonTips.fail, '暂未开放，请使用邮箱找回密码');
             }
         });
     };
@@ -150,7 +150,7 @@ var mRetrievePassword = function () {
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/sys/user/retrieve/password/');
+            KTTool.setBaseUrl(basePath + '/sys/user/retrieve/password/');
             initWizard();
             bindResetPassword();
             bind();

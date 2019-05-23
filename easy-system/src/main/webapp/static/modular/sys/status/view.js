@@ -29,7 +29,7 @@ var mStatusList = function () {
     return {
         //== 初始化页面
         init: function () {
-            // mTool.setBaseUrl('/auth/sys/roles/');
+            // KTTool.setBaseUrl('/auth/sys/roles/');
             // initRolesTree();
             // initCharts('.cpu-charts', [10, 20, 30, 50, 60, 70, 80]);
             // initCharts('.jvm-charts', [10, 20, 30, 50, 60, 70, 80]);

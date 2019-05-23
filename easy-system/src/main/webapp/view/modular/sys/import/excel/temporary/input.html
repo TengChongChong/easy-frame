@@ -1,8 +1,8 @@
 @layout("/common/container.html", {"title" : "详情信息"}){
-<form class="m-form">
-    <div class="m-portlet" m-portlet="true">
+<form class="kt-form">
+    <div class="kt-portlet" kt-portlet="true">
         <#portlet:head title="详情信息" icon="la la-file-text-o"/>
-        <div class="m-portlet__body">
+        <div class="kt-portlet__body">
             <input type="hidden" name="id" value="${object.id}">
             <input type="hidden" name="templateId" value="${object.templateId}">
             <div class="row">
@@ -10,7 +10,7 @@
                 @for(detail in details){
                 <div class="col-md-6 col-12">
                     <div class="form-group row">
-                        <label class="col-4 control-label" for="field${index}">
+                        <label class="col-4 col-form-label" for="field${index}">
                             @var required = '';
                             @if(ImportConst.REQUIRED == detail.required){
                             @required = 'required';
@@ -21,7 +21,7 @@
                         <div class="col-8">
                             @if(strUtil.isNotBlank(detail.replaceTable)){
                                 @if(ImportConst.SYS_DICT == detail.replaceTable){
-                                    <select class="form-control m-bootstrap-select select-picker" data-value="${object['field' + index]}"
+                                    <select class="form-control kt-bootstrap-select select-picker" data-value="${object['field' + index]}"
                                             id="field${index}" name="field${index}" data-dict-type="${detail.replaceTableDictType}">
                                     </select>
                                 @} else {
@@ -46,23 +46,23 @@
                 @index++;
                 @}
                 <div class="col-12">
-                    <div class="form-group m-form__group row">
-                        <label class="col-md-2 col-4 control-label">
+                    <div class="form-group kt-form__group row">
+                        <label class="col-md-2 col-4 col-form-label">
                             校验结果：
                         </label>
                         <div class="col-8">
                             @if(ImportConst.VERIFICATION_STATUS_SUCCESS == object.verificationStatus){
-                            <span class="m-form__control-static m--font-success">验证通过</span>
+                            <span class="kt-form__control-static kt--font-success">验证通过</span>
                             @} else {
-                            <span class="m-form__control-static m--font-danger">${object.verificationResults}</span>
+                            <span class="kt-form__control-static kt--font-danger">${object.verificationResults}</span>
                             @}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="m-portlet__foot m-portlet__foot--fit">
-            <div class="m-form__actions text-center">
+        <div class="kt-portlet__foot kt-portlet__foot--fit">
+            <div class="kt-form__actions text-center">
                 <#btn:save/>
             </div>
         </div>

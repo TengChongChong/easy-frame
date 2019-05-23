@@ -22,7 +22,7 @@
         @validateRule = validateRule + " required";
     @}
 @}
-<label class="m-radio">
+<label class="kt-radio">
     <input class="${class!}" type="radio" name="${name}" value="${value}" ${validateRule!}
            @if(isNotEmpty(checked) && isNotEmpty(value) && strUtil.toString(value) == strUtil.toString(checked)){
             checked

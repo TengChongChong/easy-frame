@@ -9,9 +9,9 @@ var mRedisView = function () {
      */
     var deleteKey = function () {
         var _delKey = function (key) {
-            mUtil.ajax({
+            KTUtil.ajax({
                 wait: '.m-portlet',
-                url: mTool.getBaseUrl() + 'delete/' + key,
+                url: KTTool.getBaseUrl() + 'delete/' + key,
                 success: function (res) {
                     resetDetails();
                     $('[data-key="' + key + '"]').remove();
@@ -19,7 +19,7 @@ var mRedisView = function () {
             });
         };
         var key = $('#key').val();
-        if (mUtil.isNotBlank(key)) {
+        if (KTUtil.isNotBlank(key)) {
             var subTitle;
             // 登录次数累计
             if (key.indexOf('account:') > -1) {
@@ -31,15 +31,15 @@ var mRedisView = function () {
             } else {
                 subTitle = '删除将会造成不可预计问题';
             }
-            if (mUtil.isNotBlank(subTitle)) {
-                mUtil.alertConfirm('删除key', subTitle + '，确定要删除吗？', function () {
+            if (KTUtil.isNotBlank(subTitle)) {
+                KTUtil.alertConfirm('删除key', subTitle + '，确定要删除吗？', function () {
                     _delKey(key);
                 });
             } else {
                 _delKey(key);
             }
         } else {
-            mTool.warnTip('删除失败', '请先选择要删除的key');
+            KTTool.warnTip('删除失败', '请先选择要删除的key');
         }
     };
     /**
@@ -48,11 +48,11 @@ var mRedisView = function () {
      * @param key {string} 键
      */
     var getDetails = function (key) {
-        if (mUtil.isNotBlank(key)) {
+        if (KTUtil.isNotBlank(key)) {
             resetDetails();
-            mUtil.ajax({
+            KTUtil.ajax({
                 wait: '.key-details',
-                url: mTool.getBaseUrl() + 'get/' + key,
+                url: KTTool.getBaseUrl() + 'get/' + key,
                 success: function (res) {
                     $('#key').val(res.data.key);
                     $('#expire').val(res.data.expire);
@@ -81,9 +81,9 @@ var mRedisView = function () {
      * @param prefix 前缀
      */
     var getKeys = function (prefix) {
-        mUtil.ajax({
+        KTUtil.ajax({
             wait: '.redis-keys',
-            url: mTool.getBaseUrl() + 'select/' + prefix,
+            url: KTTool.getBaseUrl() + 'select/' + prefix,
             success: function (res) {
                 keys = res.data;
                 resetDetails();
@@ -110,21 +110,21 @@ var mRedisView = function () {
      * @param keys {array} 搜索结果
      */
     var loadKeys = function (keys) {
-        if (mUtil.isArray(keys)) {
+        if (KTUtil.isArray(keys)) {
             var $redisKeys = $('.redis-keys');
             $redisKeys.empty();
             if (keys.length > 0) {
                 $(keys).each(function (index, key) {
-                    $redisKeys.append('<a href="javascript:;" class="m-list-search__result-item" data-key="' + key + '">\
-                        <span class="m-list-search__result-item-icon">\
-                            <i class="la la-database m--font-warning"></i>\
+                    $redisKeys.append('<a href="javascript:;" class="kt-list-search__result-item" data-key="' + key + '">\
+                        <span class="kt-list-search__result-item-icon">\
+                            <i class="la la-database kt--font-warning"></i>\
                         </span>\
-                        <span class="m-list-search__result-item-text">' + key + '</span>\
+                        <span class="kt-list-search__result-item-text">' + key + '</span>\
                     </a>');
                 });
             } else {
-                $redisKeys.html('<a href="javascript:;" class="m-list-search__result-item">\
-                        <span class="m-list-search__result-item-text">暂无数据</span>\
+                $redisKeys.html('<a href="javascript:;" class="kt-list-search__result-item">\
+                        <span class="kt-list-search__result-item-text">暂无数据</span>\
                     </a>');
             }
         }
@@ -135,13 +135,13 @@ var mRedisView = function () {
     var initPrefix = function () {
         // 从字典获取
         var prefixes = sysDict.redisPrefix;
-        if (mUtil.isArray(prefixes)) {
+        if (KTUtil.isArray(prefixes)) {
             var $redisPrefixes = $('.redis-prefixes');
             $(prefixes).each(function (index, prefix) {
-                $redisPrefixes.append('<li class="m-nav__item">\
-                       <a href="javascript:;" class="m-nav__link" data-prefix="' + prefix.code + '">\
-                           <i class="m-nav__link-icon ' + (mUtil.isNotBlank(prefix.icon) ? prefix.icon : 'la la-bars') + '"></i>\
-                           <span class="m-nav__link-text">' + prefix.name + '</span>\
+                $redisPrefixes.append('<li class="kt-nav__item">\
+                       <a href="javascript:;" class="kt-nav__link" data-prefix="' + prefix.code + '">\
+                           <i class="kt-nav__link-icon ' + (KTUtil.isNotBlank(prefix.icon) ? prefix.icon : 'la la-bars') + '"></i>\
+                           <span class="kt-nav__link-text">' + prefix.name + '</span>\
                        </a>\
                    </li>');
             });
@@ -172,12 +172,12 @@ var mRedisView = function () {
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/redis/');
+            KTTool.setBaseUrl(basePath + '/auth/sys/redis/');
             initPrefix();
             bind();
-            var viewPort = mUtil.getViewPort();
-            mUtil.scrollerInit($('.redis-keys')[0], {height: viewPort.height - 270});
-            mUtil.scrollerInit($('.redis-value')[0], {height: viewPort.height - 320});
+            var viewPort = KTUtil.getViewPort();
+            KTUtil.scrollerInit($('.redis-keys')[0], {height: viewPort.height - 270});
+            KTUtil.scrollerInit($('.redis-value')[0], {height: viewPort.height - 320});
 
         }
     };

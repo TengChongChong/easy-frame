@@ -12,7 +12,7 @@ var mSysConfigList = function () {
                     title: '#',
                     sortable: false, // 禁用此列排序
                     width: 40,
-                    selector: {class: 'm-checkbox--solid m-checkbox--brand'},
+                    selector: {class: 'kt-checkbox--solid kt-checkbox--brand'},
                 },
                 {
                     field: 'sysKey',
@@ -45,13 +45,13 @@ var mSysConfigList = function () {
                     },
                     template: function (row, index, datatable) {
                         var _btn = '';
-                        if (mTool.hasPermissions('sys:config:save')) {
-                            _btn += '<a href="#" onclick="mTool.editById(this, \'' + row.id + '\', \'' + row.sysKey + '\')" class="' + mTool.ACTIONS_DANGER + '" title="编辑">\
+                        if (KTTool.hasPermissions('sys:config:save')) {
+                            _btn += '<a href="#" onclick="KTTool.editById(this, \'' + row.id + '\', \'' + row.sysKey + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="编辑">\
                                 <i class="la la-edit"></i>\
                             </a>';
                         }
-                        if (mTool.hasPermissions('sys:config:delete')) {
-                            _btn += '<a href="#" onclick="mTool.deleteById(this, \'' + row.id + '\')" class="' + mTool.ACTIONS_DANGER + '" title="删除">\
+                        if (KTTool.hasPermissions('sys:config:delete')) {
+                            _btn += '<a href="#" onclick="KTTool.deleteById(this, \'' + row.id + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="删除">\
                                 <i class="la la-trash"></i>\
                             </a>';
                         }
@@ -61,13 +61,13 @@ var mSysConfigList = function () {
 
             ]
         };
-        mSysConfigList.dataTable = mTool.initDataTable(options);
+        mSysConfigList.dataTable = KTTool.initDataTable(options);
     };
 
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/config/');
+            KTTool.setBaseUrl(basePath + '/auth/sys/config/');
             initTable();
         }
     };
@@ -77,7 +77,7 @@ var mSysConfigList = function () {
  *
  * @return {boolean} true/false
  */
-mTab.needSubmitForm = function () {
+KTTabneedSubmitForm = function () {
     return true;
 };
 //== 初始化

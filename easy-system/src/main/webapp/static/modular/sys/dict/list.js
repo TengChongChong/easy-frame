@@ -9,27 +9,27 @@ var mDictList = function () {
                     title: '#',
                     sortable: false, // 禁用此列排序
                     width: 40,
-                    selector: {class: 'm-checkbox--solid m-checkbox--brand'},
+                    selector: {class: 'kt-checkbox--solid kt-checkbox--brand'},
                 },
                 {
                     field: 'code',
-                    title: '字典编码',
+                    title: '字典编码'
                 },
                 {
                     field: 'name',
-                    title: '字典名称',
+                    title: '字典名称'
                 },
                 {
                     field: 'dictType',
-                    title: '字典类型',
+                    title: '字典类型'
                 },
                 {
                     field: 'css',
                     title: 'Classes',
                     width: 60,
                     template: function (row, index, datatable) {
-                        if (mUtil.isNotBlank(row.css)) {
-                            return '<span class="m-badge ' + row.css + ' m-badge--wide"></span>';
+                        if (KTUtil.isNotBlank(row.css)) {
+                            return '<span class="kt-badge ' + row.css + ' kt-badge--wide"></span>';
                         } else {
                             return '--';
                         }
@@ -45,7 +45,7 @@ var mDictList = function () {
                     field: 'status',
                     title: '状态',
                     width: 60,
-                    dictType: mTool.commonDict // 这里设置字典类型名称{string}或字典{object}
+                    dictType: KTTool.commonDict // 这里设置字典类型名称{string}或字典{object}
                 },
                 {
                     field: 'Actions',
@@ -58,18 +58,18 @@ var mDictList = function () {
                     },
                     template: function (row, index, datatable) {
                         var _btn = '';
-                        if (mTool.hasPermissions('sys:dict:add')) {
-                            _btn += '<a href="#" onclick="mTool.addData(this, \'新增字典\', null,  ' + row.id + ')" class="' + mTool.ACTIONS_SUCCESS + '" title="新增下级">\
+                        if (KTTool.hasPermissions('sys:dict:add')) {
+                            _btn += '<a href="#" onclick="KTTool.addData(this, \'新增字典\', null,  ' + row.id + ')" class="' + KTTool.ACTIONS_SUCCESS + '" title="新增下级">\
                                 <i class="la la-plus"></i>\
                             </a>';
                         }
-                        if (mTool.hasPermissions('sys:dict:delete')) {
-                            _btn += '<a href="#" onclick="mTool.editById(this, ' + row.id + ', \'' + row.name + '\')" class="' + mTool.ACTIONS_ACCENT + '" title="编辑">\
+                        if (KTTool.hasPermissions('sys:dict:delete')) {
+                            _btn += '<a href="#" onclick="KTTool.editById(this, ' + row.id + ', \'' + row.name + '\')" class="' + KTTool.ACTIONS_ACCENT + '" title="编辑">\
                                 <i class="la la-edit"></i>\
                             </a>';
                         }
-                        if (mTool.hasPermissions('sys:dict:save')) {
-                            _btn += '<a href="#" onclick="mTool.deleteById(this, ' + row.id + ')" class="' + mTool.ACTIONS_DANGER + '" title="删除">\
+                        if (KTTool.hasPermissions('sys:dict:save')) {
+                            _btn += '<a href="#" onclick="KTTool.deleteById(this, ' + row.id + ')" class="' + KTTool.ACTIONS_DANGER + '" title="删除">\
                                 <i class="la la-trash"></i>\
                             </a>';
                         }
@@ -78,17 +78,17 @@ var mDictList = function () {
                 }
             ]
         };
-        mDictList.dataTable = mTool.initDataTable(options);
+        mDictList.dataTable = KTTool.initDataTable(options);
     };
     /**
      * 生成静态文件
      */
     var generateDictData = function () {
-        mUtil.alertConfirm('确定要生成静态文件吗？', '此操作会将数据库中字典数据生成js文件', function () {
-            mUtil.ajax({
-                url: mTool.getBaseUrl() + 'generate/dict/data',
+        KTUtil.alertConfirm('确定要生成静态文件吗？', '此操作会将数据库中字典数据生成js文件', function () {
+            KTUtil.ajax({
+                url: KTTool.getBaseUrl() + 'generate/dict/data',
                 success: function (res) {
-                    mTool.successTip(mTool.commonTips.success, '静态文件生成成功');
+                    KTTool.successTip(KTTool.commonTips.success, '静态文件生成成功');
                 }
             });
         });
@@ -97,7 +97,7 @@ var mDictList = function () {
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/dict/');
+            KTTool.setBaseUrl(basePath + '/auth/sys/dict/');
             initTable();
         },
         /**
@@ -108,7 +108,7 @@ var mDictList = function () {
         }
     };
 }();
-mTab.needSubmitForm = function () { return true; };
+KTTabneedSubmitForm = function () { return true; };
 //== 初始化
 $(document).ready(function () {
     mDictList.init();

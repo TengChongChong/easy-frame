@@ -1,10 +1,10 @@
 @layout("/common/container.html", {"title" : "在线用户"}){
-<div class="m-portlet" m-portlet="true">
+<div class="kt-portlet" kt-portlet="true">
     <#portlet:head title="在线用户" icon="la la-users"/>
-    <div class="m-portlet__body">
-        <form class="m-form">
-            <div class="m-stack m-stack--ver m-stack--general query-modular">
-                <div class="m-stack__item m-stack__item--fluid">
+    <div class="kt-portlet__body">
+        <form class="kt-form">
+            <div class="kt-stack kt-stack--ver kt-stack--general query-modular">
+                <div class="kt-stack__item kt-stack__item--fluid">
                     <div class="row">
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <#form:input id="username" name="用户名"/>
@@ -17,12 +17,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="m-stack__item query-btn-group">
+                <div class="kt-stack__item query-btn-group">
                     <#btn:search />
                     <#btn:reset />
                 </div>
             </div>
-            <div class="m_datatable" id="online-list"></div>
+            <div class="kt_datatable" id="online-list"></div>
         </form>
     </div>
 </div>

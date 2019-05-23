@@ -6,14 +6,14 @@ var mPersonalCenter = function () {
      * @param url {string} url
      */
     var loadPage = function (url) {
-        mUtil.ajax({
+        KTUtil.ajax({
             url: url,
             type: 'get',
             wait: '#m-right-page',
             dataType: 'html',
             success: function (res) {
                 $('#m-right-page').html(res);
-                mApp.initComponents();
+                KTApp.initComponents();
             }
         });
     };
@@ -37,15 +37,15 @@ var mPersonalCenter = function () {
      * @param element
      */
     var saveMail = function (element) {
-        var $form = $(element).parents('.m-form');
+        var $form = $(element).parents('.kt-form');
         if($form.valid()) {
-            mUtil.ajax({
-                url: mTool.getBaseUrl() + 'application/binding/mail',
+            KTUtil.ajax({
+                url: KTTool.getBaseUrl() + 'application/binding/mail',
                 data: {
                     mail: $form.find('#mail').val()
                 },
                 success: function (res) {
-                    mTool.successTip(mTool.commonTips.success, '邮件已发送，请于24小时内前往邮箱验证');
+                    KTTool.successTip(KTTool.commonTips.success, '邮件已发送，请于24小时内前往邮箱验证');
                 }
             });
             $('#change-mail').modal('hide');
@@ -79,13 +79,13 @@ var mPersonalCenter = function () {
      * @param data
      */
     var saveUserAvatar = function (data) {
-        mUtil.ajax({
-            url: mTool.getBaseUrl() + 'save/user/avatar',
+        KTUtil.ajax({
+            url: KTTool.getBaseUrl() + 'save/user/avatar',
             data: {
                 path: data.path
             },
             success: function (res) {
-                mTool.successTip(mTool.commonTips.success, '头像更改成功，刷新页面后生效');
+                KTTool.successTip(KTTool.commonTips.success, '头像更改成功，刷新页面后生效');
                 var $userAvatar = $('.user-avatar');
                 var $userAvatarImg = $userAvatar.find('img');
                 if ($userAvatarImg.length > 0) {
@@ -102,8 +102,8 @@ var mPersonalCenter = function () {
      * 保存用户信息
      */
     var saveUserInfo = function (el) {
-        mTool.saveData(el, mTool.getBaseUrl() + 'save/user/info', false, null, function () {
-            mTool.successTip(mTool.commonTips.success, '资料更改成功，刷新页面后生效');
+        KTTool.saveData(el, KTTool.getBaseUrl() + 'save/user/info', false, null, function () {
+            KTTool.successTip(KTTool.commonTips.success, '资料更改成功，刷新页面后生效');
             refreshLocalCache();
         });
     };
@@ -111,7 +111,7 @@ var mPersonalCenter = function () {
      * 保存用户安全设置
      */
     var saveUserSecuritySetting = function (el) {
-        mTool.saveData(el, mTool.getBaseUrl() + 'save/user/security/setting', null, null, function () {
+        KTTool.saveData(el, KTTool.getBaseUrl() + 'save/user/security/setting', null, null, function () {
             refreshLocalCache();
         });
     };
@@ -119,7 +119,7 @@ var mPersonalCenter = function () {
      * 保存用户设置
      */
     var saveUserSetting = function (el) {
-        mTool.saveData(el, mTool.getBaseUrl() + 'save/user/setting', null, null, function () {
+        KTTool.saveData(el, KTTool.getBaseUrl() + 'save/user/setting', null, null, function () {
             refreshLocalCache();
         });
     };
@@ -127,12 +127,12 @@ var mPersonalCenter = function () {
      * 刷新本地缓存用户信息
      */
     var refreshLocalCache = function () {
-        mTool.getUser(false);
+        KTTool.getUser(false);
     };
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/user/personal/center/');
+            KTTool.setBaseUrl(basePath + '/auth/sys/user/personal/center/');
             // 绑定事件
             bind();
             bindPersonalSettings();

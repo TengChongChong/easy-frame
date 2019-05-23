@@ -22,7 +22,7 @@
         @validateRule = validateRule + " required";
     @}
 @}
-<label class="m-checkbox">
+<label class="kt-checkbox">
     <input class="${class!}" type="checkbox" name="${name}" value="${value}" ${validateRule!} ${other!}
            @if(isNotEmpty(checked) && isNotEmpty(value) && strUtil.toString(value) == strUtil.toString(checked)){
             checked

@@ -1,4 +1,4 @@
-<form class="m-form">
+<form class="kt-form">
     <input type="hidden" id="id" name="id" value="${object.id}">
     <input type="hidden" name="pId" value="${object.pId}">
     <input type="hidden" id="permissions" name="permissions" value="${object.permissions}">
@@ -12,12 +12,12 @@
             <#form:input id="name" name="角色名称" value="${object.name}" required="true"/>
             @if(isSysRole){
                 <div class="form-group row">
-                    <label class="col-4 control-label">
+                    <label class="col-4 col-form-label">
                         <span class="required">*</span>
                         角色状态：
                     </label>
                     <div class="col-8">
-                        <div class="m-radio-inline">
+                        <div class="kt-radio-inline">
                             <#form:radio name="status" text="启用" value="1" checked="${object.status}" required="true"/>
                             <#form:radio name="status" text="禁用" value="2" checked="${object.status}"/>
                         </div>
@@ -25,7 +25,7 @@
                 </div>
                 <#form:input id="slug" name="角色标识" value="${object.code}" tips="controller中定义的角色标识"/>
                 <div class="form-group row">
-                    <label class="col-4 control-label">
+                    <label class="col-4 col-form-label">
                         备注：
                     </label>
                     <div class="col-8">
@@ -37,11 +37,11 @@
         <div class="col-md-6 col-12">
             @if(isSysRole){
             <div class="form-group row">
-                <label class="col-4 control-label">
+                <label class="col-4 col-form-label">
                     权限：
                 </label>
                 <div class="col-8">
-                    <div class="m-scrollable" data-scrollable="true" style="max-height: 400px">
+                    <div class="kt-scrollable" data-scrollable="true" style="max-height: 400px">
                         <div id="permissions-tree"></div>
                     </div>
                 </div>

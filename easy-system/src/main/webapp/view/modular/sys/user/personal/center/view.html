@@ -31,16 +31,16 @@
 </style>
 <div class="row">
     <div class="col-xl-3 col-lg-4">
-        <div class="m-portlet m-portlet--full-height  ">
-            <div class="m-portlet__body">
-                <div class="m-card-profile">
-                    <div class="m-card-profile__pic">
-                        <div class="m-card-profile__pic-wrapper user-avatar" data-aspect-ratio="1">
+        <div class="kt-portlet kt-portlet--full-height  ">
+            <div class="kt-portlet__body">
+                <div class="kt-card-profile">
+                    <div class="kt-card-profile__pic">
+                        <div class="kt-card-profile__pic-wrapper user-avatar" data-aspect-ratio="1">
                             @if(strUtil.isNotBlank(user.avatar)){
                             <img src="${ctxPath}${user.avatar}" alt=""/>
                             @}else{
-                            <span class="m-type m-type--lg m--bg-warning">
-                                <span class="m--font-light">${strutil.subStringTo('tengchong', strutil.length(user.nickname) - 1, strutil.length(user.nickname))}</span>
+                            <span class="kt-type kt-type--lg kt--bg-warning">
+                                <span class="kt--font-light">${strutil.subStringTo('tengchong', strutil.length(user.nickname) - 1, strutil.length(user.nickname))}</span>
                             </span>
                             @}
                             <div class="change-avatar">
@@ -48,54 +48,54 @@
                             </div>
                         </div>
                     </div>
-                    <div class="m-card-profile__details">
-                        <span class="m-card-profile__name">${user.nickname}</span>
-                        <span class="m-card-profile__email m-link">${user.department.name}</span>
+                    <div class="kt-card-profile__details">
+                        <span class="kt-card-profile__name">${user.nickname}</span>
+                        <span class="kt-card-profile__email kt-link">${user.department.name}</span>
                     </div>
                 </div>
-                <ul class="m-nav m-nav--hover-bg m-portlet-fit--sides">
-                    <li class="m-nav__separator m-nav__separator--fit"></li>
-                    <li class="m-nav__section m--hide">
-                        <span class="m-nav__section-text">Section</span>
+                <ul class="kt-nav kt-nav--hover-bg kt-portlet-fit--sides">
+                    <li class="kt-nav__separator kt-nav__separator--fit"></li>
+                    <li class="kt-nav__section kt--hide">
+                        <span class="kt-nav__section-text">Section</span>
                     </li>
-                    <li class="m-nav__item">
+                    <li class="kt-nav__item">
                         <a href="javascript:;" data-url="${ctxPath}/auth/sys/user/personal/center/personal/settings"
-                           class="m-nav__link active">
-                            <i class="m-nav__link-icon flaticon-profile-1"></i>
-                            <span class="m-nav__link-title">
-                                <span class="m-nav__link-wrap">
-                                    <span class="m-nav__link-text">个人设置</span>
+                           class="kt-nav__link active">
+                            <i class="kt-nav__link-icon flaticon-profile-1"></i>
+                            <span class="kt-nav__link-title">
+                                <span class="kt-nav__link-wrap">
+                                    <span class="kt-nav__link-text">个人设置</span>
                                 </span>
                             </span>
                         </a>
                     </li>
-                    <li class="m-nav__item">
+                    <li class="kt-nav__item">
                         <a href="javascript:;" data-url="${ctxPath}/auth/sys/user/personal/center/task/to/do"
-                           class="m-nav__link">
-                            <i class="m-nav__link-icon flaticon-signs"></i>
-                            <span class="m-nav__link-text">代办任务</span>
-                            <span class="m-nav__link-badge">
-                                <span class="m-badge m-badge--success">2</span>
+                           class="kt-nav__link">
+                            <i class="kt-nav__link-icon flaticon-signs"></i>
+                            <span class="kt-nav__link-text">代办任务</span>
+                            <span class="kt-nav__link-badge">
+                                <span class="kt-badge kt-badge--success">2</span>
                             </span>
                         </a>
                     </li>
-                    <li class="m-nav__item">
+                    <li class="kt-nav__item">
                         <a href="javascript:;" data-url="${ctxPath}/auth/sys/user/personal/center/message"
-                           class="m-nav__link">
-                            <i class="m-nav__link-icon flaticon-chat-1"></i>
-                            <span class="m-nav__link-text">我的消息</span>
-                            <span class="m-nav__link-badge">
-                                <span class="m-badge m-badge--success">2</span>
+                           class="kt-nav__link">
+                            <i class="kt-nav__link-icon flaticon-chat-1"></i>
+                            <span class="kt-nav__link-text">我的消息</span>
+                            <span class="kt-nav__link-badge">
+                                <span class="kt-badge kt-badge--success">2</span>
                             </span>
                         </a>
                     </li>
                 </ul>
-                <div class="m-portlet__body-separator"></div>
+                <div class="kt-portlet__body-separator"></div>
                 <p>上次登录：${user.lastLogin,dateFormat='yyyy-MM-dd HH:mm'}</p>
             </div>
         </div>
     </div>
-    <div class="col-xl-9 col-lg-8" id="m-right-page">
+    <div class="col-xl-9 col-lg-8" id="kt-right-page">
 
     </div>
 </div>
@@ -236,7 +236,7 @@
 <!--begin::密保邮箱-->
 <div class="modal fade" id="change-mail" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form class="m-form">
+        <form class="kt-form">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">更改邮箱</h5>
@@ -245,7 +245,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group m-form__group row">
+                    <div class="form-group kt-form__group row">
                         <label for="mail" class="col-2 col-form-label">密保邮箱：</label>
                         <div class="col-10">
                             <input type="email" id="mail" class="form-control" placeholder="请输入邮箱" required>
@@ -273,8 +273,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form class="m-form">
-                    <div class="form-group m-form__group row">
+                <form class="kt-form">
+                    <div class="form-group kt-form__group row">
                         <label for="phone" class="col-sm-2 col-3 col-form-label">密保手机：</label>
                         <div class="col-sm-10 col-9">
                             <div class="input-group">
@@ -285,7 +285,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group m-form__group row">
+                    <div class="form-group kt-form__group row">
                         <label for="phone" class="col-2 col-form-label">验证码：</label>
                         <div class="col-10">
                             <input type="number" id="code" class="form-control" placeholder="请输入短信验证码">

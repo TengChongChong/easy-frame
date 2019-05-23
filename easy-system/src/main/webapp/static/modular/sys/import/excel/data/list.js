@@ -28,7 +28,7 @@ var mImportData = function () {
      * 初始化文件上传
      */
     var initDropzone = function () {
-        mDropZone = mApp.initDropzone({
+        mDropZone = KTApp.initDropzone({
             selector: '#upload-excel',
             acceptedFiles: ".xlsx, .xls",
             success: function (res) {
@@ -42,31 +42,31 @@ var mImportData = function () {
      * @param importCode {string} 模板代码
      */
     var downloadTemplate = function (importCode) {
-        mTool.downloadFile(basePath + '/auth/sys/import/excel/template/download/template/' + importCode);
+        KTTool.downloadFile(basePath + '/auth/sys/import/excel/template/download/template/' + importCode);
     };
     /**
      * 导入数据
      */
     var importData = function () {
         var path = $('#path').val();
-        if (mUtil.isNotBlank(path)) {
-            mUtil.ajax({
+        if (KTUtil.isNotBlank(path)) {
+            KTUtil.ajax({
                 wait: '#import-temporary',
-                url: mTool.getBaseUrl() + 'analysis/' + templateId,
+                url: KTTool.getBaseUrl() + 'analysis/' + templateId,
                 data: {
                     path: path
                 },
                 success: function (res) {
                     if (res.data) {
-                        mTool.infoTip(mTool.commonTips.success, '数据导入成功，正在加载数据...');
+                        KTTool.infoTip(KTTool.commonTips.success, '数据导入成功，正在加载数据...');
                         showImportTable();
                     } else {
-                        mTool.errorTip(mTool.commonTips.fail, '导入失败');
+                        KTTool.errorTip(KTTool.commonTips.fail, '导入失败');
                     }
                 }
             });
         } else {
-            mTool.warnTip(mTool.commonTips.fail, '请先上传文件');
+            KTTool.warnTip(KTTool.commonTips.fail, '请先上传文件');
         }
     };
     /**
@@ -75,7 +75,7 @@ var mImportData = function () {
     var showImportTable = function () {
         $('#import-temporary').addClass('m--hide');
         $('#temporary-list').removeClass('m--hide');
-        mApp.animateCSS('#temporary-list', mApp.getAnimate('in'), function () {
+        KTApp.animateCSS('#temporary-list', KTApp.getAnimate('in'), function () {
             // 加载导入数据
             initTable();
             // 加载汇总信息
@@ -86,7 +86,7 @@ var mImportData = function () {
      * 查询导入模板表头
      */
     var selectTableHead = function () {
-        mUtil.ajax({
+        KTUtil.ajax({
             url: basePath + '/auth/sys/import/excel/template/details/select/table/head/' + templateId,
             success: function (res) {
                 if (res.data == null || res.data.length === 0) {
@@ -103,9 +103,9 @@ var mImportData = function () {
                         },
                         template: function (row, index, datatable) {
                             if ('0' === row.verificationStatus) {
-                                return '<span class="m--font-danger ell" title="' + row.verificationResults.replaceAll(';', ';\r\n') + '">' + row.verificationResults + '</span>';
+                                return '<span class="kt--font-danger ell" title="' + row.verificationResults.replaceAll(';', ';\r\n') + '">' + row.verificationResults + '</span>';
                             } else {
-                                return '<span class="m--font-success">验证通过</span>';
+                                return '<span class="kt--font-success">验证通过</span>';
                             }
                         }
                     });
@@ -119,7 +119,7 @@ var mImportData = function () {
                             right: 'md'
                         },
                         template: function (row, index, datatable) {
-                            return '<a href="#" onclick="mApp.openPage(\'' + row.field1 + '\', \'' + basePath + '/auth/sys/import/excel/temporary/input/' + row.id + '\')" class="' + mTool.ACTIONS_INFO + '" title="编辑">\
+                            return '<a href="#" onclick="KTApp.openPage(\'' + row.field1 + '\', \'' + basePath + '/auth/sys/import/excel/temporary/input/' + row.id + '\')" class="' + KTTool.ACTIONS_INFO + '" title="编辑">\
                                 <i class="la la-edit"></i>\
                             </a>';
                         }
@@ -132,8 +132,8 @@ var mImportData = function () {
      * 加载汇总信息
      */
     var initSummary = function () {
-        mUtil.ajax({
-            url: mTool.getBaseUrl() + 'select/summary/' + templateId,
+        KTUtil.ajax({
+            url: KTTool.getBaseUrl() + 'select/summary/' + templateId,
             success: function (res) {
                 importTotal = res.data.total;
                 if (res.data.total) {
@@ -171,14 +171,14 @@ var mImportData = function () {
             // 列配置
             columns: columns
         };
-        mImportData.dataTable = mTool.initDataTable(options);
+        mImportData.dataTable = KTTool.initDataTable(options);
     };
     /**
      * 重新选择文件
      */
     var reSelectionFile = function () {
-        mUtil.alertConfirm('确定要放弃待确认数据吗？', '该操作无法撤销，请谨慎操作', function () {
-            mUtil.ajax({
+        KTUtil.alertConfirm('确定要放弃待确认数据吗？', '该操作无法撤销，请谨慎操作', function () {
+            KTUtil.ajax({
                 wait: '#temporary-list',
                 url: basePath + '/auth/sys/import/excel/temporary/clean/my/import/' + templateId,
                 success: function () {
@@ -198,23 +198,23 @@ var mImportData = function () {
         $('#last-tip').remove();
         $('#summary-info, #temporary-list').addClass('m--hide');
         $('#import-temporary, #export-fail, #save-formal').removeClass('m--hide');
-        mApp.animateCSS('#import-temporary', mApp.getAnimate('in'), null);
+        KTApp.animateCSS('#import-temporary', KTApp.getAnimate('in'), null);
         mDropZone.removeAllFiles();
     };
     /**
      * 保存数据到正式表
      */
     var insertData = function () {
-        mUtil.ajax({
-            url: mTool.getBaseUrl() + 'insert/data/' + templateId,
+        KTUtil.ajax({
+            url: KTTool.getBaseUrl() + 'insert/data/' + templateId,
             success: function (res) {
-                mTool.successTip(mTool.commonTips.success, '成功导入 ' + res.data + ' 条数据');
+                KTTool.successTip(KTTool.commonTips.success, '成功导入 ' + res.data + ' 条数据');
                 // 如果全部导入成功了,就返回选择文件页面;如果部分成功了就刷新汇总信息以及列表
                 if (importTotal === res.data) {
                     showSelectionFileView();
                 } else {
                     // 刷新表格
-                    mTool.selectData($('#field1').val(''));
+                    KTTool.selectData($('#field1').val(''));
                     // 刷新汇总信息
                     initSummary();
                 }
@@ -227,7 +227,7 @@ var mImportData = function () {
      * @param $el 按钮
      */
     var exportVerificationFailData = function ($el) {
-        mTool.exportData($el, mTool.getBaseUrl() + 'export/verification/fail/data/' + templateId);
+        KTTool.exportData($el, KTTool.getBaseUrl() + 'export/verification/fail/data/' + templateId);
     };
     /**
      * 绑定事件
@@ -252,7 +252,7 @@ var mImportData = function () {
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/import/excel/data/');
+            KTTool.setBaseUrl(basePath + '/auth/sys/import/excel/data/');
             importCode = $('#importCode').val();
             templateId = $('#templateId').val();
             selectTableHead();

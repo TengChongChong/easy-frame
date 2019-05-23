@@ -1,5 +1,5 @@
 //== 登录 Class
-var mLogin = function () {
+var login = function () {
     /**
      * 登录失败累计多少次后需要输入验证码后才可以登录
      * @type {number}
@@ -19,14 +19,14 @@ var mLogin = function () {
      * @param msg 文字
      */
     var showMsg = function (form, type, msg) {
-        var alert = $('<div class="m-alert alert alert-' + type + ' alert-dismissible" role="alert">\
+        var alert = $('<div class="alert alert-' + type + '" role="alert">\
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>\
 			<span></span>\
 		</div>');
 
         form.find('.alert').remove();
         alert.prependTo(form);
-        mUtil.animateClass(alert[0], 'fadeIn animated');
+        KTUtil.animateClass(alert[0], 'fadeIn animated');
         alert.find('span').html(msg);
     };
     /**
@@ -36,15 +36,15 @@ var mLogin = function () {
      * @return {boolean} true/false
      */
     var validate = function ($form, data) {
-        if (mUtil.isBlank(data.username)) {
+        if (KTUtil.isBlank(data.username)) {
             showMsg($form, 'danger', '请输入用户名');
             return false;
         }
-        if (mUtil.isBlank(data.password)) {
+        if (KTUtil.isBlank(data.password)) {
             showMsg($form, 'danger', '请输入密码');
             return false;
         }
-        if (loginAttempts >= loginAttemptsVerificationCode && mUtil.isBlank(data.code)) {
+        if (loginAttempts >= loginAttemptsVerificationCode && KTUtil.isBlank(data.code)) {
             showMsg($form, 'danger', '请输入验证码');
             return false;
         }
@@ -64,29 +64,29 @@ var mLogin = function () {
         if (validate($form, data)) {
             data.password = $.md5(data.password);
             var $btnLogin = $('#btn-login');
-            mUtil.setButtonWait($btnLogin);
-            mUtil.ajax({
+            KTUtil.setButtonWait($btnLogin);
+            KTUtil.ajax({
                 url: basePath + '/login',
                 type: 'post',
                 data: data,
                 needAlert: false,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    mUtil.offButtonWait($btnLogin);
+                    KTUtil.offButtonWait($btnLogin);
                     showMsg($form, 'danger', '网络异常，请稍后重试');
                 },
                 fail: function (res) {
                     loginAttempts++;
-                    mUtil.offButtonWait($btnLogin);
+                    KTUtil.offButtonWait($btnLogin);
                     if(loginAttempts >= loginAttemptsVerificationCode || '请输入验证码' === res.message){
                         // 登录失败次数达到设定值,需要输入验证码才能登录
-                        $('.verification-group').removeClass('m--hide');
+                        $('.verification-group').removeClass('kt-hide');
                         changeVerificationCode();
                     }
                     showMsg($form, 'danger', res.message);
                 },
                 success: function (res) {
                     showMsg($form, 'success', '登录成功');
-                    if (mUtil.isNotBlank(basePath)) {
+                    if (KTUtil.isNotBlank(basePath)) {
                         window.location.href = basePath;
                     } else {
                         window.location.href = '/';
@@ -120,5 +120,5 @@ var mLogin = function () {
 
 //== Class 初始化
 $(document).ready(function () {
-    mLogin.init();
+    login.init();
 });

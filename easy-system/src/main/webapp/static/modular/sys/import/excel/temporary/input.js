@@ -3,7 +3,7 @@ var temporaryInput = function () {
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/import/excel/temporary/');
+            KTTool.setBaseUrl(basePath + '/auth/sys/import/excel/temporary/');
         }
     };
 }();

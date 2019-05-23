@@ -1,15 +1,15 @@
-<form class="m-form">
+<form class="kt-form">
     <input type="hidden" id="id" name="id" value="${object.id}">
     @var isSysDistrict = object.id != 0;
     <div class="row">
         @if(isSysDistrict){
         <div class="col-md-6 col-12">
             <div class="form-group row">
-                <label class="col-4 control-label" for="pId">
+                <label class="col-4 col-form-label" for="pId">
                     上级行政区划：
                 </label>
                 <div class="col-8">
-                    <select class="form-control m-bootstrap-select select-picker auto-params"
+                    <select class="form-control kt-bootstrap-select select-picker auto-params"
                             data-live-search="true" id="pId" name="pId" data-value="${object.pId}">
                         @if(isEmpty(parentSelect)){
                             <option value="">无</option>

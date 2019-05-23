@@ -6,12 +6,12 @@ var mUserInput = function () {
      * @param el {object} html 元素
      */
     var save = function (el) {
-        var checked = mTool.getCheckedNodes('#roles-tree', 'id');
+        var checked = KTTool.getCheckedNodes('#roles-tree', 'id');
         $('#roles').val(checked.join(','));
-        mTool.saveData(el, null, null, null, function (res) {
+        KTTool.saveData(el, null, null, null, function (res) {
             // 如果改的是自己的账户,刷新缓存用户数据
-            if(res.data.id == mTool.getUser().id){
-                mTool.cacheRemove(mTool.currentUser);
+            if(res.data.id == KTTool.getUser().id){
+                KTTool.cacheRemove(KTTool.currentUser);
             }
         });
     };
@@ -19,7 +19,7 @@ var mUserInput = function () {
      * 初始化权限tree
      */
     var initRolesTree = function () {
-        mUtil.ajax({
+        KTUtil.ajax({
             url: basePath + '/auth/sys/depart/type/role/select/role/' + $('#deptId').val(),
             success: function (res) {
                 // 处理数据, 将parent不存在的节点parent全设置为#
@@ -46,7 +46,7 @@ var mUserInput = function () {
                         keep_selected_style: false
                     }
                 }).on('loaded.jstree', function (e, data) {
-                    mTool.checkNodes('#roles-tree', $('#roles').val());
+                    KTTool.checkNodes('#roles-tree', $('#roles').val());
                 });
             }
         });
@@ -71,7 +71,7 @@ var mUserInput = function () {
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/user/');
+            KTTool.setBaseUrl(basePath + '/auth/sys/user/');
             initRolesTree();
         },
         /**

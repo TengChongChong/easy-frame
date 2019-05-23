@@ -7,9 +7,9 @@ var mDictInput = function () {
      */
     var loadUpDicts = function (dictType) {
         var $pCode = $('#pCode');
-        if (mUtil.isNotBlank(dictType)) {
-            mUtil.ajax({
-                url: mTool.getBaseUrl() + dictType + '/dicts',
+        if (KTUtil.isNotBlank(dictType)) {
+            KTUtil.ajax({
+                url: KTTool.getBaseUrl() + dictType + '/dicts',
                 success: function (res) {
                     console.log(res);
                     $pCode.empty();
@@ -21,7 +21,7 @@ var mDictInput = function () {
                     } else {
                         $pCode.html('<option value="">暂无父字典</option>')
                     }
-                    if (mUtil.isNotBlank($pCode.attr('data-value'))) {
+                    if (KTUtil.isNotBlank($pCode.attr('data-value'))) {
                         $pCode.val($pCode.attr('data-value'));
                     }
                     $pCode.selectpicker('refresh');
@@ -58,7 +58,7 @@ var mDictInput = function () {
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/sys/dict/');
+            KTTool.setBaseUrl(basePath + '/auth/sys/dict/');
             bind();
         },
     };

@@ -32,6 +32,12 @@ public class SysImportExcelTemplate extends Model<SysImportExcelTemplate> implem
     private String name;
 
     /**
+     * 数据源
+     */
+    @NotBlank(message = "数据源不能为空")
+    private String dataSource;
+
+    /**
      * 导入表
      */
     @NotBlank(message = "导入表不能为空")
@@ -157,6 +163,14 @@ public class SysImportExcelTemplate extends Model<SysImportExcelTemplate> implem
 
     public void setEditDate(Date editDate) {
         this.editDate = editDate;
+    }
+
+    public String getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(String dataSource) {
+        this.dataSource = dataSource;
     }
 
     @Override

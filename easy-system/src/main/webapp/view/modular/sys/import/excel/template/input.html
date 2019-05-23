@@ -1,8 +1,8 @@
 @layout("/common/container.html", {"title" : "导入模板"}){
-<form class="m-form">
-    <div class="m-portlet" m-portlet="true">
+<form class="kt-form">
+    <div class="kt-portlet" kt-portlet="true">
         <#portlet:head title="导入模板" icon="la la-cloud-upload"/>
-        <div class="m-portlet__body">
+        <div class="kt-portlet__body">
             <div class="row">
                 <!-- str:表单区域 -->
                 <input type="hidden" id="id" name="id" value="${object.id}" />
@@ -15,7 +15,7 @@
                 <div class="col-lg-6 col-12">
                     <#form:input id="importCode" tips="模板代码不可重复" name="模板代码" required="true" value="${object.importCode}" />
                 </div>
-                <div class="col-lg-6 col-12 m--hide">
+                <div class="col-lg-6 col-12 kt--hide">
                     <#form:input type="number" tips="包含标题行的开始行号" id="startRow" name="起始行" required="true" value="${object.startRow}" />
                 </div>
                 <div class="col-lg-6 col-12">
@@ -23,20 +23,20 @@
                 </div>
                 <div class="col-12">
                     <div class="form-group row">
-                        <label class="col-md-2 col-4 control-label " for="callback">
+                        <label class="col-md-2 col-4 col-form-label " for="callback">
                             回调Bean：
                         </label>
                         <div class="col-md-10 col-8">
                             <input class="form-control " id="callback" name="callback" value="${object.callback}"/>
-                            <span class="m-form__help">用于导入前&后处理数据（需实现com.frame.easy.base.service.ImportService），如不需要可忽略。示例（sampleImportDataServiceImpl）</span>
+                            <span class="kt-form__help">用于导入前&后处理数据（需实现com.frame.easy.base.service.ImportService），如不需要可忽略。示例（sampleImportDataServiceImpl）</span>
                         </div>
                     </div>
                 </div>
                 <!-- end:表单区域 -->
             </div>
         </div>
-        <div class="m-portlet__foot m-portlet__foot--fit">
-            <div class="m-form__actions text-center">
+        <div class="kt-portlet__foot kt-portlet__foot--fit">
+            <div class="kt-form__actions text-center">
                 <#btn:save permission="sys:import:excel:template:save"/>
             </div>
         </div>

@@ -15,7 +15,7 @@
     @btnType = "info";
 @}
 @if((isEmpty(permission) && isEmpty(role)) || (isNotEmpty(permission) && isEmpty(role) && shiro.hasPermission(permission)) || (isNotEmpty(role) && isEmpty(permission) && shiro.hasRole(role)) || (shiro.hasPermission(permission) && shiro.hasRole(role))){
-    <button type="button" class="btn btn-${btnType} ${btnClass!} m-btn--icon" onclick="${click!}" id="${id!}">
+    <button type="button" class="btn btn-${btnType} ${btnClass!}" onclick="${click!}" id="${id!}">
         <span>
         @if(isNotEmpty(icon)){
             <i class="${icon}"></i>&nbsp;

@@ -7,42 +7,42 @@
         background-color: #f4f3f8;
     }
 </style>
-<form class="m-form">
+<form class="kt-form">
     <input type="hidden" id="templateId" value="${object.id}">
     <input type="hidden" id="importTable" value="${object.importTable}">
-    <div class="m-portlet">
+    <div class="kt-portlet">
         <#portlet:head title="导入模板" icon="la la-cloud-upload"/>
-        <div class="m-portlet__body">
+        <div class="kt-portlet__body">
             <div class="row">
                 <!-- str:表单区域 -->
                 <input type="hidden" id="id" name="id" value="${object.id}" />
                 <div class="col-lg-4 col-12">
-                    <div class="form-group m-form__group row">
-                        <label class="col-4 control-label">
+                    <div class="form-group kt-form__group row">
+                        <label class="col-4 col-form-label">
                             模板名称：
                         </label>
                         <div class="col-8">
-                            <span class="m-form__control-static">${object.name}</span>
+                            <span class="kt-form__control-static">${object.name}</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-12">
-                    <div class="form-group m-form__group row">
-                        <label class="col-4 control-label">
+                    <div class="form-group kt-form__group row">
+                        <label class="col-4 col-form-label">
                             模板代码：
                         </label>
                         <div class="col-8">
-                            <span class="m-form__control-static">${object.importCode}</span>
+                            <span class="kt-form__control-static">${object.importCode}</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-12">
-                    <div class="form-group m-form__group row">
-                        <label class="col-4 control-label">
+                    <div class="form-group kt-form__group row">
+                        <label class="col-4 col-form-label">
                             导入表：
                         </label>
                         <div class="col-8">
-                            <span class="m-form__control-static">${object.importTable}</span>
+                            <span class="kt-form__control-static">${object.importTable}</span>
                         </div>
                     </div>
                 </div>
@@ -86,8 +86,8 @@
                 <!-- end:表单区域 -->
             </div>
         </div>
-        <div class="m-portlet__foot m-portlet__foot--fit">
-            <div class="m-form__actions text-center">
+        <div class="kt-portlet__foot kt-portlet__foot--fit">
+            <div class="kt-form__actions text-center">
                 <#btn:save permission="sys:import:excel:template:save"/>
             </div>
         </div>

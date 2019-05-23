@@ -114,7 +114,7 @@ var mGeneration = function () {
         wizard.on('change', function (wizardObj) {
             isGoTo = false;
             // 每次切换,页面回到顶部
-            mUtil.scrollTop();
+            KTUtil.scrollTop();
             if (wizardObj.currentStep === 4) {
                 initStepList();
             }
@@ -144,7 +144,7 @@ var mGeneration = function () {
                 $('#m_wizard_form_step_1 input, #m_wizard_form_step_1 select,' +
                     ' #m_wizard_form_step_2 input, #m_wizard_form_step_2 select, [name="replace"]').each(function (index, element) {
                     var $element = $(element);
-                    if (mUtil.isNotBlank($element.attr('name'))) {
+                    if (KTUtil.isNotBlank($element.attr('name'))) {
                         if ('checkbox' === $element.attr('type')) {
                             data[$element.attr('name')] = $element.prop('checked');
                         } else {
@@ -162,22 +162,22 @@ var mGeneration = function () {
             var $btn = $(this);
             var data = getData();
             console.log(data);
-            mUtil.setButtonWait($btn);
-            mUtil.ajax({
-                url: mTool.getBaseUrl() + 'generate',
+            KTUtil.setButtonWait($btn);
+            KTUtil.ajax({
+                url: KTTool.getBaseUrl() + 'generate',
                 data: JSON.stringify(data),
                 contentType: 'application/json',
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    mUtil.offButtonWait($btn);
-                    mUtil.ajaxError(XMLHttpRequest, textStatus, errorThrown);
+                    KTUtil.offButtonWait($btn);
+                    KTUtil.ajaxError(XMLHttpRequest, textStatus, errorThrown);
                 },
                 fail: function (res) {
-                    mUtil.offButtonWait($btn);
-                    mTool.warnTip(mTool.commonTips.fail, res.message);
+                    KTUtil.offButtonWait($btn);
+                    KTTool.warnTip(KTTool.commonTips.fail, res.message);
                 },
                 success: function (res) {
-                    mUtil.offButtonWait($btn);
-                    mTool.successTip(mTool.commonTips.success, '文件生成成功');
+                    KTUtil.offButtonWait($btn);
+                    KTTool.successTip(KTTool.commonTips.success, '文件生成成功');
                 }
             });
         });
@@ -187,7 +187,7 @@ var mGeneration = function () {
      */
     var dataSourceChange = function () {
         var dataSource = $('#dataSource').val();
-        if (mUtil.isNotBlank(dataSource)) {
+        if (KTUtil.isNotBlank(dataSource)) {
             initTableSelect(dataSource);
         } else {
             $('#tableName').empty().selectpicker();
@@ -201,13 +201,13 @@ var mGeneration = function () {
     var initTableSelect = function (dataSourceCode) {
         var tableName = $('#tableName').empty();
         tableName.append('<option value="">&nbsp;</option>');
-        mUtil.ajax({
-            url: mTool.getBaseUrl() + 'select/table',
+        KTUtil.ajax({
+            url: KTTool.getBaseUrl() + 'select/table',
             data: {
                 dataSourceCode: dataSourceCode
             },
             success: function (res) {
-                if (mUtil.isArray(res.data) && res.data.length > 0) {
+                if (KTUtil.isArray(res.data) && res.data.length > 0) {
                     $(res.data).each(function (index, obj) {
                         tableName.append('<option data-subtext="' + obj.text + '" value="' + obj.value + '">' +
                             obj.value + '</option>');
@@ -237,12 +237,12 @@ var mGeneration = function () {
              */
             var getConfigRow = function (index, field) {
                 return '<tr data-name="' + field['name'] + '" data-property-name="' + field['propertyName'] + '">\
-                    <td class="cell-base m--padding-top-15">' + (index + 1) + '</td>\
-                    <td class="cell-base m--padding-top-15"><input type="hidden" name="columnName" value="' + field['name'] + '" />' + (field['keyFlag'] ? '<i class="text-info la la-key"></i>' : '') + field['name'] + '</td>\
-                    <td class="cell-base m--padding-top-15">' + field['type'] + '</td>\
-                    <td class="cell-base m--padding-top-15"><div title="' + field['comment'] + '" class="ell" style="max-width: 140px;">' + field['comment'] + '<span/></td>\
-                    <td class="cell-base m--padding-top-15">' + field['propertyName'] + '</td>\
-                    <td class="cell-base m--padding-top-15"><input type="hidden" name="propertyType" value="' + field['propertyType'] + '">' + field['propertyType'] + '</td>\
+                    <td class="cell-base kt--padding-top-15">' + (index + 1) + '</td>\
+                    <td class="cell-base kt--padding-top-15"><input type="hidden" name="columnName" value="' + field['name'] + '" />' + (field['keyFlag'] ? '<i class="text-info la la-key"></i>' : '') + field['name'] + '</td>\
+                    <td class="cell-base kt--padding-top-15">' + field['type'] + '</td>\
+                    <td class="cell-base kt--padding-top-15"><div title="' + field['comment'] + '" class="ell" style="max-width: 140px;">' + field['comment'] + '<span/></td>\
+                    <td class="cell-base kt--padding-top-15">' + field['propertyName'] + '</td>\
+                    <td class="cell-base kt--padding-top-15"><input type="hidden" name="propertyType" value="' + field['propertyType'] + '">' + field['propertyType'] + '</td>\
                     <td class="border-left cell-list">' + generationTool.getCheckbox('showInList', generationTool.getCheckStatusByPreferenceSetting(field['propertyName'], preferenceSetting.list.exclude)) + '</td>\
                     <td class="cell-list">' + generationTool.getInput('title', field['comment']) + '</td>\
                     <td class="cell-list">' + generationTool.getCheckbox('showInSearch', generationTool.getCheckStatusByPreferenceSetting(field['propertyName'], preferenceSetting.list.excludeSearch)) + '</td>\
@@ -253,7 +253,7 @@ var mGeneration = function () {
                     <td class="cell-input">' + generationTool.getDictSelect('elementType', 'elementType', generationTool.getDefaultDictByPreferenceSetting(field['propertyName'], preferenceSetting.input.type, 'text', field['propertyType'])) + '</td>\
                     <td class="cell-input">' + generationTool.getDictSelect('grid', 'inputGrid', '6/4/8') + '</td>\
                     <td class="cell-input">\
-                        <select class="form-control m-bootstrap-select select-picker"\
+                        <select class="form-control kt-bootstrap-select select-picker"\
                                 name="dictType" data-live-search="true">' + generationTool.getDictTypeOption(field['name']) + '\
                         </select>\
                     </td>\
@@ -261,8 +261,8 @@ var mGeneration = function () {
                     <td class="cell-input">' + generationTool.getDictSelect('verification', 'validate', '') + '</td>\
                 </tr>'
             };
-            mUtil.ajax({
-                url: mTool.getBaseUrl() + 'select/fields',
+            KTUtil.ajax({
+                url: KTTool.getBaseUrl() + 'select/fields',
                 data: {
                     tableName: tableName
                 },
@@ -271,7 +271,7 @@ var mGeneration = function () {
                     $(res.data.fields).each(function (index, field) {
                         fieldSet.append(getConfigRow(index, field));
                     });
-                    mApp.initSelectPicker(fieldSet.find('[data-dict-type], .select-picker'));
+                    KTApp.initSelectPicker(fieldSet.find('[data-dict-type], .select-picker'));
                     new PerfectScrollbar('#field-set-scrollable');
                 }
             });
@@ -281,8 +281,8 @@ var mGeneration = function () {
         var checkedOption = $('#tableName > :checked');
         var tableName = checkedOption.attr('value');
         var tableComment = checkedOption.data('subtext');
-        if (mUtil.isNotBlank(tableName)) {
-            if (mUtil.isNotBlank(tableComment)) {
+        if (KTUtil.isNotBlank(tableName)) {
+            if (KTUtil.isNotBlank(tableComment)) {
                 $('#businessName, #menuName').val(tableComment);
             }
             $('#module').val(generationTool.getModule(tableName)).trigger("change");
@@ -465,73 +465,73 @@ var mGeneration = function () {
         var generationFile = $('#generation-file > .m-list-timeline__items');
         generationFile.empty();
         if (checkIsChecked('modelSwitch')) {
-            generationFile.append('<div class="m-list-timeline__item">\
-                    <span class="m-list-timeline__badge"></span>\
-                    <span class="m-list-timeline__icon fab fa-java"></span>\
-                    <span class="m-list-timeline__text">' + generationTool.getFilePath('model') + '</span>\
+            generationFile.append('<div class="kt-list-timeline__item">\
+                    <span class="kt-list-timeline__badge"></span>\
+                    <span class="kt-list-timeline__icon fab fa-java"></span>\
+                    <span class="kt-list-timeline__text">' + generationTool.getFilePath('model') + '</span>\
                 </div>');
         }
         if (checkIsChecked('daoSwitch')) {
-            generationFile.append('<div class="m-list-timeline__item">\
-                    <span class="m-list-timeline__badge"></span>\
-                    <span class="m-list-timeline__icon fab fa-java"></span>\
-                    <span class="m-list-timeline__text">' + generationTool.getFilePath('dao') + '</span>\
+            generationFile.append('<div class="kt-list-timeline__item">\
+                    <span class="kt-list-timeline__badge"></span>\
+                    <span class="kt-list-timeline__icon fab fa-java"></span>\
+                    <span class="kt-list-timeline__text">' + generationTool.getFilePath('dao') + '</span>\
                 </div>');
         }
         if (checkIsChecked('mappingSwitch')) {
-            generationFile.append('<div class="m-list-timeline__item">\
-                    <span class="m-list-timeline__badge"></span>\
-                    <span class="m-list-timeline__icon fa fa-file-excel"></span>\
-                    <span class="m-list-timeline__text">' + generationTool.getFilePath('mapping') + '</span>\
+            generationFile.append('<div class="kt-list-timeline__item">\
+                    <span class="kt-list-timeline__badge"></span>\
+                    <span class="kt-list-timeline__icon fa fa-file-excel"></span>\
+                    <span class="kt-list-timeline__text">' + generationTool.getFilePath('mapping') + '</span>\
                 </div>');
         }
         if (checkIsChecked('serviceSwitch')) {
-            generationFile.append('<div class="m-list-timeline__item">\
-                    <span class="m-list-timeline__badge"></span>\
-                    <span class="m-list-timeline__icon fab fa-java"></span>\
-                    <span class="m-list-timeline__text">' + generationTool.getFilePath('service') + '</span>\
+            generationFile.append('<div class="kt-list-timeline__item">\
+                    <span class="kt-list-timeline__badge"></span>\
+                    <span class="kt-list-timeline__icon fab fa-java"></span>\
+                    <span class="kt-list-timeline__text">' + generationTool.getFilePath('service') + '</span>\
                 </div>');
         }
         if (checkIsChecked('serviceImplSwitch')) {
-            generationFile.append('<div class="m-list-timeline__item">\
-                    <span class="m-list-timeline__badge"></span>\
-                    <span class="m-list-timeline__icon fab fa-java"></span>\
-                    <span class="m-list-timeline__text">' + generationTool.getFilePath('serviceImpl') + '</span>\
+            generationFile.append('<div class="kt-list-timeline__item">\
+                    <span class="kt-list-timeline__badge"></span>\
+                    <span class="kt-list-timeline__icon fab fa-java"></span>\
+                    <span class="kt-list-timeline__text">' + generationTool.getFilePath('serviceImpl') + '</span>\
                 </div>');
         }
         if (checkIsChecked('controllerSwitch')) {
-            generationFile.append('<div class="m-list-timeline__item">\
-                    <span class="m-list-timeline__badge"></span>\
-                    <span class="m-list-timeline__icon fab fa-java"></span>\
-                    <span class="m-list-timeline__text">' + generationTool.getFilePath('controller') + '</span>\
+            generationFile.append('<div class="kt-list-timeline__item">\
+                    <span class="kt-list-timeline__badge"></span>\
+                    <span class="kt-list-timeline__icon fab fa-java"></span>\
+                    <span class="kt-list-timeline__text">' + generationTool.getFilePath('controller') + '</span>\
                 </div>');
         }
         if (checkIsChecked('listSwitch')) {
-            generationFile.append('<div class="m-list-timeline__item">\
-                    <span class="m-list-timeline__badge"></span>\
-                    <span class="m-list-timeline__icon fab fa-html5"></span>\
-                    <span class="m-list-timeline__text">' + generationTool.getFilePath('list.html') + '</span>\
+            generationFile.append('<div class="kt-list-timeline__item">\
+                    <span class="kt-list-timeline__badge"></span>\
+                    <span class="kt-list-timeline__icon fab fa-html5"></span>\
+                    <span class="kt-list-timeline__text">' + generationTool.getFilePath('list.html') + '</span>\
                 </div>');
         }
         if (checkIsChecked('listJsSwitch')) {
-            generationFile.append('<div class="m-list-timeline__item">\
-                    <span class="m-list-timeline__badge"></span>\
-                    <span class="m-list-timeline__icon fab fa-js-square"></span>\
-                    <span class="m-list-timeline__text">' + generationTool.getFilePath('list.js') + '</span>\
+            generationFile.append('<div class="kt-list-timeline__item">\
+                    <span class="kt-list-timeline__badge"></span>\
+                    <span class="kt-list-timeline__icon fab fa-js-square"></span>\
+                    <span class="kt-list-timeline__text">' + generationTool.getFilePath('list.js') + '</span>\
                 </div>');
         }
         if (checkIsChecked('inputSwitch')) {
-            generationFile.append('<div class="m-list-timeline__item">\
-                    <span class="m-list-timeline__badge"></span>\
-                    <span class="m-list-timeline__icon fab fa-html5"></span>\
-                    <span class="m-list-timeline__text">' + generationTool.getFilePath('input.html') + '</span>\
+            generationFile.append('<div class="kt-list-timeline__item">\
+                    <span class="kt-list-timeline__badge"></span>\
+                    <span class="kt-list-timeline__icon fab fa-html5"></span>\
+                    <span class="kt-list-timeline__text">' + generationTool.getFilePath('input.html') + '</span>\
                 </div>');
         }
         if (checkIsChecked('inputJsSwitch')) {
-            generationFile.append('<div class="m-list-timeline__item">\
-                    <span class="m-list-timeline__badge"></span>\
-                    <span class="m-list-timeline__icon fab fa-js-square"></span>\
-                    <span class="m-list-timeline__text">' + generationTool.getFilePath('input.js') + '</span>\
+            generationFile.append('<div class="kt-list-timeline__item">\
+                    <span class="kt-list-timeline__badge"></span>\
+                    <span class="kt-list-timeline__icon fab fa-js-square"></span>\
+                    <span class="kt-list-timeline__text">' + generationTool.getFilePath('input.js') + '</span>\
                 </div>');
         }
     };
@@ -542,7 +542,7 @@ var mGeneration = function () {
          * 初始化页面
          */
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/generation/');
+            KTTool.setBaseUrl(basePath + '/auth/generation/');
             $('#dataSource').change(function () {
                 dataSourceChange();
             });

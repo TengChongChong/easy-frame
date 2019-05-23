@@ -20,13 +20,13 @@ var mSchedulerJobLogList = function () {
                 }
             ]
         };
-        mSchedulerJobLogList.dataTable = mTool.initDataTable(options);
+        mSchedulerJobLogList.dataTable = KTTool.initDataTable(options);
     };
 
     return {
         //== 初始化页面
         init: function () {
-            mTool.setBaseUrl(basePath + '/auth/scheduler/job/log/');
+            KTTool.setBaseUrl(basePath + '/auth/scheduler/job/log/');
             initTable();
         }
     };
@@ -36,7 +36,7 @@ var mSchedulerJobLogList = function () {
  *
  * @return {boolean} true/false
  */
-mTab.needSubmitForm = function () {
+KTTabneedSubmitForm = function () {
     return true;
 };
 //== 初始化
