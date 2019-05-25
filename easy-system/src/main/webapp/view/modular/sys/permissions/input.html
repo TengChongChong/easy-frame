@@ -87,7 +87,7 @@
     <div class="row">
         <div class="col text-center">
             @if(isSysPermissions){
-                <#button btnType="info" name="保存" icon="la la-save" click="mPermissionsView.saveData(this)" permission="sys:permissions:save"/>
+                <#button btnType="success" name="保存" icon="la la-save" click="mPermissionsView.saveData(this)" permission="sys:permissions:save"/>
             @}
             @if(isNotEmpty(object.id)){
                 @if(isSysPermissions){
