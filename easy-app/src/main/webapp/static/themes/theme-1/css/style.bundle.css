@@ -23241,7 +23241,7 @@ strong {
 
 .btn [class^="la-"],
 .btn [class*=" la-"] {
-  margin-top: 1px; }
+  margin-top: 0; }
 
 .btn [class^="fa-"],
 .btn [class*=" fa-"] {
@@ -23250,7 +23250,7 @@ strong {
 .btn.btn-lg [class^="la-"], .btn-group-lg > .btn [class^="la-"],
 .btn.btn-lg [class*=" la-"],
 .btn-group-lg > .btn [class*=" la-"] {
-  margin-top: 0; }
+  margin-top: -1px; }
 
 .btn.btn-sm [class^="la-"], .btn-group-sm > .btn [class^="la-"],
 .btn.btn-sm [class*=" la-"],
