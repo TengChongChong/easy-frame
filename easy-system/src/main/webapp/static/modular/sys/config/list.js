@@ -36,7 +36,7 @@ var mSysConfigList = function () {
                 },
                 {
                     field: 'Actions',
-                    width: 110,
+                    width: 70,
                     title: '操作',
                     sortable: false,
                     overflow: 'visible',

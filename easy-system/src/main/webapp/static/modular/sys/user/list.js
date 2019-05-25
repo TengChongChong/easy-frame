@@ -31,8 +31,8 @@ var mUserList = function () {
     var search = function () {
         var permissionsTitle = $('#depart-title').val();
         if (KTUtil.isNotBlank(permissionsTitle)) {
-            $('#depart-tree').addClass('m--hide');
-            $('#search-depart').removeClass('m--hide');
+            $('#depart-tree').addClass('kt-hide');
+            $('#search-depart').removeClass('kt-hide');
             KTUtil.ajax({
                 type: 'get',
                 wait: '#search-depart',
@@ -74,7 +74,7 @@ var mUserList = function () {
             $('#deptId').val(node.id);
             if (firstClick) {
                 initTable();
-                $('.kt-form').removeClass('m--hide');
+                $('.kt-form').removeClass('kt-hide');
                 firstClick = false;
             } else {
                 $('.btn-search').click();
@@ -259,8 +259,8 @@ var mUserList = function () {
             initDepartTree();
             $('#search-depart-btn').click(search);
             $('.back-btn').click(function () {
-                $('#search-depart').addClass('m--hide');
-                $('#depart-tree').removeClass('m--hide');
+                $('#search-depart').addClass('kt-hide');
+                $('#depart-tree').removeClass('kt-hide');
                 $('#depart-title').val('');
             });
         },

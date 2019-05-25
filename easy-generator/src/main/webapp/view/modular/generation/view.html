@@ -352,17 +352,19 @@
                                     <div class="alert alert-info" role="alert">
                                         <i class="la la-exclamation"></i> 可拖动蓝色虚线区域更改元素位置
                                     </div>
-                                    <div class="kt-stack kt-stack--ver kt-stack--general query-modular">
-                                        <div class="kt-stack__item kt-stack__item--fluid">
-                                            <div class="gridly search-body" id="search-body"></div>
-                                        </div>
-                                        <div class="kt-stack__item query-btn-group">
-                                            <button type="button" class="btn btn-info">
-                                                <i class="la la-search"></i> 查询
-                                            </button>
-                                            <button type="button" class="btn btn-info">
-                                                <i class="la la-refresh"></i> 重置
-                                            </button>
+                                    <div class="query-modular">
+                                        <div class="kt-stack kt-stack--ver kt-stack--general">
+                                            <div class="kt-stack__item kt-stack__item--fluid">
+                                                <div class="gridly search-body" id="search-body"></div>
+                                            </div>
+                                            <div class="kt-stack__item query-btn-group">
+                                                <button type="button" class="btn btn-info">
+                                                    <i class="la la-search"></i> 查询
+                                                </button>
+                                                <button type="button" class="btn btn-info">
+                                                    <i class="la la-refresh"></i> 重置
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="btn-row">
@@ -373,7 +375,7 @@
                                             <i class="la la-trash"></i> 删除
                                         </button>
                                     </div>
-                                    <div class="kt-stack kt-stack--ver kt-stack--general query-modular">
+                                    <div class="kt-stack kt-stack--ver kt-stack--general">
                                         <div class="kt-stack__item kt-stack__item--fluid">
                                             <div class="gridly list-body" id="list-body"></div>
                                         </div>
@@ -399,7 +401,7 @@
                                     </div>
                                     <div class="gridly input-body" id="input-body"></div>
                                 </div>
-                                <div class="kt-portlet__foot kt-portlet__foot--fit">
+                                <div class="kt-portlet__foot">
                                     <div class="kt-form__actions text-center">
                                         <button type="button" class="btn btn-info">
                                             <i class="la la-save"></i> 保存
@@ -412,7 +414,7 @@
 
                         <!--begin: 表单向导 Step 6-->
                         <div class="kt-wizard__form-step" id="m_wizard_form_step_6">
-                            <div class="kt-section kt--margin-bottom-5">
+                            <div class="kt-section kt-margin-b-5">
                                 <h3 class="kt-section__heading">
                                     即将生成以下文件
                                 </h3>
@@ -434,11 +436,11 @@
                     <!--end: Form Body -->
 
                     <!--begin: Form Actions -->
-                    <div class="kt-portlet__foot kt-portlet__foot--fit">
+                    <div class="kt-portlet__foot">
                         <div class="kt-form__actions kt-form__actions">
                             <div class="row">
                                 <div class="col-lg-2"></div>
-                                <div class="col-lg-4 col-md-6 kt--align-left">
+                                <div class="col-lg-4 col-md- kt-align-left">
                                     <button class="btn btn-sm btn-secondary kt-btn kt-btn--custom kt-btn--icon"
                                             data-wizard-action="prev">
                                         <span>
@@ -447,7 +449,7 @@
                                         </span>
                                     </button>
                                 </div>
-                                <div class="col-lg-4 col-md-6 kt--align-right">
+                                <div class="col-lg-4 col-md-6 kt-align-right">
                                     <button class="btn btn-sm btn-success kt-btn kt-btn--custom kt-btn--icon"
                                             data-wizard-action="submit">
                                         <span>

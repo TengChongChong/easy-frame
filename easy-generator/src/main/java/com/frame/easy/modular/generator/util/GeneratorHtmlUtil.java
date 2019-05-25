@@ -138,7 +138,7 @@ public class GeneratorHtmlUtil {
             labelClass = "col-4";
         }
         return "<label class=\"" + labelClass + " col-form-label\"" +
-                ((!"radio".equals(fieldSet.getElementType()) && !"checkbox".equals(fieldSet.getElementType())) ? " for=\"" + fieldSet.getPropertyName() + "\"" : "") + ">" + fieldSet.getLabel() + "</label>";
+                ((!"radio".equals(fieldSet.getElementType()) && !"checkbox".equals(fieldSet.getElementType())) ? " for=\"" + fieldSet.getPropertyName() + "\"" : "") + ">" + fieldSet.getLabel() + "：</label>";
     }
 
     /**

@@ -15,7 +15,7 @@
                 <div class="col-lg-6 col-12">
                     <#form:input id="importCode" tips="模板代码不可重复" name="模板代码" required="true" value="${object.importCode}" />
                 </div>
-                <div class="col-lg-6 col-12 kt--hide">
+                <div class="col-lg-6 col-12 kt-hide">
                     <#form:input type="number" tips="包含标题行的开始行号" id="startRow" name="起始行" required="true" value="${object.startRow}" />
                 </div>
                 <div class="col-lg-6 col-12">
@@ -28,14 +28,14 @@
                         </label>
                         <div class="col-md-10 col-8">
                             <input class="form-control " id="callback" name="callback" value="${object.callback}"/>
-                            <span class="kt-form__help">用于导入前&后处理数据（需实现com.frame.easy.base.service.ImportService），如不需要可忽略。示例（sampleImportDataServiceImpl）</span>
+                            <span class="form-text text-muted">用于导入前&后处理数据（需实现com.frame.easy.base.service.ImportService），如不需要可忽略。示例（sampleImportDataServiceImpl）</span>
                         </div>
                     </div>
                 </div>
                 <!-- end:表单区域 -->
             </div>
         </div>
-        <div class="kt-portlet__foot kt-portlet__foot--fit">
+        <div class="kt-portlet__foot">
             <div class="kt-form__actions text-center">
                 <#btn:save permission="sys:import:excel:template:save"/>
             </div>

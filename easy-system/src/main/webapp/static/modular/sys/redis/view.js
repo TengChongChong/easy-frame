@@ -57,11 +57,11 @@ var mRedisView = function () {
                     $('#key').val(res.data.key);
                     $('#expire').val(res.data.expire);
                     if (typeof res.data.value !== 'object') {
-                        $('#value-json').addClass('m--hide');
-                        $('#value').removeClass('m--hide').val(JSON.stringify(res.data.value));
+                        $('#value-json').addClass('kt-hide');
+                        $('#value').removeClass('kt-hide').val(JSON.stringify(res.data.value));
                     } else {
-                        $('#value').addClass('m--hide');
-                        $('#value-json').removeClass('m--hide').JSONView(res.data);
+                        $('#value').addClass('kt-hide');
+                        $('#value-json').removeClass('kt-hide').JSONView(res.data);
                     }
                 }
             });
@@ -72,8 +72,8 @@ var mRedisView = function () {
      */
     var resetDetails = function () {
         $('#key, #expire, #value').val('');
-        $('#value-json').addClass('m--hide');
-        $('#value').removeClass('m--hide');
+        $('#value-json').addClass('kt-hide');
+        $('#value').removeClass('kt-hide');
     };
     /**
      * 查询keys

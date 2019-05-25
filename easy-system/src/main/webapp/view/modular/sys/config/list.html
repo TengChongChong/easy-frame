@@ -3,25 +3,27 @@
     <#portlet:head title="系统参数" icon="la la-gears"/>
     <div class="kt-portlet__body">
         <form class="kt-form">
-            <div class="kt-stack kt-stack--ver kt-stack--general query-modular">
-                <div class="kt-stack__item kt-stack__item--fluid">
-                    <div class="row">
-                        <!--str:查询条件区域-->
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                            <#form:input id="sysKey" name="key" />
+            <div class="query-modular">
+                <div class="kt-stack kt-stack--ver kt-stack--general">
+                    <div class="kt-stack__item kt-stack__item--fluid">
+                        <div class="row">
+                            <!--str:查询条件区域-->
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                                <#form:input id="sysKey" name="key" />
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                                <#form:input id="value" name="value" />
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                                <#form:select class="select-picker" dataDictType="dataType" id="type" name="类型" />
+                            </div>
+                            <!--end:查询条件区域-->
                         </div>
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                            <#form:input id="value" name="value" />
-                        </div>
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                            <#form:select class="select-picker" dataDictType="dataType" id="type" name="类型" />
-                        </div>
-                        <!--end:查询条件区域-->
                     </div>
-                </div>
-                <div class="kt-stack__item query-btn-group">
-                    <#btn:search />
-                    <#btn:reset />
+                    <div class="kt-stack__item query-btn-group">
+                        <#btn:search />
+                        <#btn:reset />
+                    </div>
                 </div>
             </div>
             <div class="btn-row">

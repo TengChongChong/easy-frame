@@ -115,8 +115,8 @@ var mRoleView = function () {
     var searchRoles = function () {
         var roleTitle = $('#role-title').val();
         if (KTUtil.isNotBlank(roleTitle)) {
-            $('#roles-tree').addClass('m--hide');
-            $('#search-role').removeClass('m--hide');
+            $('#roles-tree').addClass('kt-hide');
+            $('#search-role').removeClass('kt-hide');
             KTUtil.ajax({
                 type: 'get',
                 wait: '#search-role',
@@ -297,8 +297,8 @@ var mRoleView = function () {
             $('#search-role-btn').click(searchRoles);
             initRolesTree();
             $('.back-btn').click(function () {
-                $('#search-role').addClass('m--hide');
-                $('#roles-tree').removeClass('m--hide');
+                $('#search-role').addClass('kt-hide');
+                $('#roles-tree').removeClass('kt-hide');
                 $('#role-title').val('');
             });
         },

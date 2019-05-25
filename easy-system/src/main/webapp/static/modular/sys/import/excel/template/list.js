@@ -42,7 +42,7 @@ var mSysImportExcelTemplateList = function () {
                 },
                 {
                     field: 'Actions',
-                    width: 110,
+                    width: 130,
                     title: '操作',
                     sortable: false,
                     overflow: 'visible',

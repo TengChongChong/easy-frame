@@ -47,7 +47,7 @@
     </update>
 
     <select id="selectData" resultMap="JsTree">
-        select t.id,t.name as text,t.icon,
+        select t.id,concat(t.icon, '',t.name) as text,
           (case when (select count(1) from sys_permissions where p_id = t.id) > 0 then 'true' else 'false' end ) as children
         from sys_permissions t where t.p_id = #{pId} order by t.order_no
     </select>
@@ -64,7 +64,7 @@
         </if>
     </select>
     <select id="search" resultType="com.frame.easy.common.jstree.JsTree">
-        select t.id,t.name as text,t.icon
+        select t.id,concat(t.icon, '',t.name) as text
         from sys_permissions t where t.name like #{title} order by t.p_id,t.order_no
     </select>
     <select id="getMaxOrderNo" resultType="java.lang.Integer">

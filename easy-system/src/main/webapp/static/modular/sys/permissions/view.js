@@ -9,6 +9,9 @@ var mPermissionsView = function () {
             },
             core: {
                 check_callback: true,
+                themes: {
+                    icons: false
+                },
                 data: {
                     url: function (node) {
                         var url = KTTool.getBaseUrl() + 'select/data';
@@ -152,8 +155,8 @@ var mPermissionsView = function () {
     var searchPermissions = function () {
         var permissionsTitle = $('#permissions-title').val();
         if (KTUtil.isNotBlank(permissionsTitle)) {
-            $('#permissions-tree').addClass('m--hide');
-            $('#search-permissions').removeClass('m--hide');
+            $('#permissions-tree').addClass('kt-hide');
+            $('#search-permissions').removeClass('kt-hide');
             KTUtil.ajax({
                 type: 'get',
                 wait: '#search-permissions',
@@ -168,7 +171,10 @@ var mPermissionsView = function () {
                     }
                     $tree.jstree({
                         core: {
-                            data: res.data
+                            data: res.data,
+                            themes: {
+                                icons: false
+                            }
                         }
                     }).on('activate_node.jstree', function (e, data) {
                         activateNode(data.node);
@@ -256,8 +262,7 @@ var mPermissionsView = function () {
             KTTool.saveNode('#permissions-tree', {
                 id: res.data.id,
                 pId: res.data.pId,
-                text: res.data.name,
-                icon: res.data.icon
+                text: res.data.icon + res.data.name
             });
         });
     };
@@ -358,10 +363,17 @@ var mPermissionsView = function () {
      */
     var bindIconClick = function f() {
         $('#icon_modal').on('shown.bs.modal', function (e) {
-            $('.m-demo-icon').click(function () {
-                var icon = $(this).find('i').attr('class');
-                $('#permissions-icon > i').removeClass().addClass(icon);
-                $('#icon').val(icon);
+            $('.kt-demo-icon').click(function () {
+                var $i = $(this).find('.kt-demo-icon__preview > i');
+                if ($i.length > 0) {
+                    var icon = 'permissions-icon ' + $i.attr('class');
+                    $('#permissions-icon').empty().html('<i class="' + icon + '"></i>');
+                    $('#icon').val('<i class="' + icon + '"></i>');
+                } else {
+                    var $svg = $(this).find('.kt-demo-icon__preview');
+                    $('#permissions-icon').empty().html($svg.html());
+                    $('#icon').val($svg.html().trim());
+                }
                 $('#icon_modal').modal('hide');
             });
         });
@@ -373,8 +385,8 @@ var mPermissionsView = function () {
             initPermissionsTree();
             $('#search-permissions-btn').click(searchPermissions);
             $('.back-btn').click(function () {
-                $('#search-permissions').addClass('m--hide');
-                $('#permissions-tree').removeClass('m--hide');
+                $('#search-permissions').addClass('kt-hide');
+                $('#permissions-tree').removeClass('kt-hide');
                 $('#permissions-title').val('');
             });
             bindIconClick();

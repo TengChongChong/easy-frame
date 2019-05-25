@@ -1,10 +1,10 @@
-@layout("/common/container.html", {"title" : "角色"}){
+@layout("/common/container.html", {"title" : "角色", "plugin": "jstree"}){
 <div class="kt-portlet" kt-portlet="true">
     <#portlet:head title="角色" icon="la la-users"/>
     <div class="kt-portlet__body">
         <div class="row">
             <div class="col-lg-3 col-md-4 col-12 border-right">
-                <form class="kt-form kt--padding-bottom-15">
+                <form class="kt-form kt-padding-b-15">
                     <div class="input-group">
                         <input type="text" id="role-title" class="form-control" placeholder="请输入关键字">
                         <div class="input-group-append">
@@ -15,9 +15,9 @@
 
                 <div id="roles-tree"></div>
 
-                <div id="search-role" class="kt--hide">
+                <div id="search-role" class="kt-hide">
                     <div class="tree"></div>
-                    <button type="button" class="btn btn-metal btn-xs back-btn kt--margin-top-5"><i
+                    <button type="button" class="btn btn-metal btn-xs back-btn kt-margin-t-5"><i
                             class="la la-undo"></i> 返回
                     </button>
                 </div>

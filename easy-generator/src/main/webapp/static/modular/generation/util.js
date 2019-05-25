@@ -630,7 +630,7 @@ var generationTool = {
         }else{
             gridClass = generationTool.getGridClass(config.inputGrid);
         }
-        gridClass += (config.elementType === 'hidden' ? ' kt--hide' : '');
+        gridClass += (config.elementType === 'hidden' ? ' kt-hide' : '');
         return template.group(gridClass, generationTool.generationContent(config, type), config.propertyName);
     },
     /**

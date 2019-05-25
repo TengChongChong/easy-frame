@@ -50,16 +50,16 @@
                     图标：
                 </label>
                 <div class="col-8">
-                    <div class="input-group kt-input-group kt-input-group--square">
+                    <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="permissions-icon">
-                                <i class="${object.icon}"></i>
+                                ${object.icon}
                             </span>
                         </div>
                         <input type="text" class="form-control" id="icon" name="icon"
-                               aria-describedby="permissions-icon" value="${object.icon}">
+                               aria-describedby="permissions-icon" value='${object.icon}'>
                         <div class="input-group-append">
-                            <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#icon_modal">
+                            <button class="btn btn-secondary btn-icon" type="button" data-toggle="modal" data-target="#icon_modal">
                                 <i class="la la-search"></i>
                             </button>
                         </div>

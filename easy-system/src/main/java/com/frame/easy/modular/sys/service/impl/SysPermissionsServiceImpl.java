@@ -49,6 +49,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
             jsTrees = new ArrayList<>();
             // 根节点
             JsTree jsTree = JsTreeUtil.getBaseNode();
+            jsTree.setText("<i class=\"permissions-icon " + jsTree.getIcon() + "\"></i>" + jsTree.getText());
             jsTree.setChildren(getBaseMapper().selectData(JsTreeUtil.baseId));
             jsTrees.add(jsTree);
         } else {

@@ -3,28 +3,30 @@
     <#portlet:head title="代码生成示例" icon="la la-bars"/>
     <div class="kt-portlet__body">
         <form class="kt-form">
-            <div class="kt-stack kt-stack--ver kt-stack--general query-modular">
-                <div class="kt-stack__item kt-stack__item--fluid">
-                    <div class="row">
-                        <!--str:查询条件区域-->
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                            <#form:input id="name" name="姓名" />
+            <div class="query-modular">
+                <div class="kt-stack kt-stack--ver kt-stack--general">
+                    <div class="kt-stack__item kt-stack__item--fluid">
+                        <div class="row">
+                            <!--str:查询条件区域-->
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                                <#form:input id="name" name="姓名" />
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                                <#form:input type="number" id="age" name="年龄" />
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                                <#form:input id="phone" name="手机号码" />
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                                <#form:select class="select-picker" dataDictType="commonStatus" id="status" name="状态" />
+                            </div>
+                            <!--end:查询条件区域-->
                         </div>
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                            <#form:input type="number" id="age" name="年龄" />
-                        </div>
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                            <#form:input id="phone" name="手机号码" />
-                        </div>
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                            <#form:select class="select-picker" dataDictType="commonStatus" id="status" name="状态" />
-                        </div>
-                        <!--end:查询条件区域-->
                     </div>
-                </div>
-                <div class="kt-stack__item query-btn-group">
-                    <#btn:search />
-                    <#btn:reset />
+                    <div class="kt-stack__item query-btn-group">
+                        <#btn:search />
+                        <#btn:reset />
+                    </div>
                 </div>
             </div>
             <div class="btn-row">

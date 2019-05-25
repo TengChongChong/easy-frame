@@ -73,8 +73,8 @@ var mImportData = function () {
      * 显示导入表格
      */
     var showImportTable = function () {
-        $('#import-temporary').addClass('m--hide');
-        $('#temporary-list').removeClass('m--hide');
+        $('#import-temporary').addClass('kt-hide');
+        $('#temporary-list').removeClass('kt-hide');
         KTApp.animateCSS('#temporary-list', KTApp.getAnimate('in'), function () {
             // 加载导入数据
             initTable();
@@ -142,12 +142,12 @@ var mImportData = function () {
                     if (res.data.total === res.data.success) {
                         // 全部成功了
                         $summaryInfo.addClass('alert alert-success');
-                        $('#export-fail').addClass('m--hide');
+                        $('#export-fail').addClass('kt-hide');
                         html = '数据全部验证通过了，共 ' + res.data.total + ' 条数据';
                     } else if (res.data.total === res.data.fail) {
                         // 全部失败了
                         $summaryInfo.addClass('alert alert-danger');
-                        $('#save-formal').addClass('m--hide');
+                        $('#save-formal').addClass('kt-hide');
                         html = '数据全部验证失败了，共 ' + res.data.total + ' 条数据';
                     } else {
                         // 部分成功了
@@ -196,8 +196,8 @@ var mImportData = function () {
      */
     var showSelectionFileView = function () {
         $('#last-tip').remove();
-        $('#summary-info, #temporary-list').addClass('m--hide');
-        $('#import-temporary, #export-fail, #save-formal').removeClass('m--hide');
+        $('#summary-info, #temporary-list').addClass('kt-hide');
+        $('#import-temporary, #export-fail, #save-formal').removeClass('kt-hide');
         KTApp.animateCSS('#import-temporary', KTApp.getAnimate('in'), null);
         mDropZone.removeAllFiles();
     };

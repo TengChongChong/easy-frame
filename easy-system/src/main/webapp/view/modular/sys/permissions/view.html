@@ -1,10 +1,26 @@
-@layout("/common/container.html", {"title" : "菜单"}){
+@layout("/common/container.html", {"title": "菜单", "plugin": "jstree"}){
+<style>
+    .jstree .permissions-icon,
+    .jstree .kt-svg-icon{
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        vertical-align: top;
+        color: #c1bfd0;
+    }
+
+    .jstree .permissions-icon.la {
+        font-size: 1.5rem;
+    }
+</style>
 <div class="kt-portlet" kt-portlet="true">
     <#portlet:head title="菜单" icon="la la-bars"/>
     <div class="kt-portlet__body">
         <div class="row">
             <div class="col-lg-3 col-md-4 col-12 border-right">
-                <form class="kt-form kt--padding-bottom-15">
+                <form class="kt-form kt-padding-b-15">
                     <div class="input-group">
                         <input type="text" id="permissions-title" class="form-control" placeholder="请输入关键字">
                         <div class="input-group-append">
@@ -16,10 +32,10 @@
                     <div id="permissions-tree"></div>
                 </div>
 
-                <div id="search-permissions" class="kt--hide">
+                <div id="search-permissions" class="kt-hide">
                     <div class="tree"></div>
-                    <button type="button" class="btn btn-metal btn-xs back-btn kt--margin-top-5"><i
-                            class="la la-undo"></i> 返回
+                    <button type="button" class="btn btn-default btn-sm back-btn kt-margin-t-5"><i
+                            class="la la-arrow-left"></i> 返回
                     </button>
                 </div>
             </div>
@@ -30,8 +46,9 @@
     </div>
 </div>
 <!-- begin:: 图标 -->
-<div class="modal fade icon_modal" id="icon_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade icon_modal" id="icon_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">点击下方列表中的图标选择</h5>

@@ -89,7 +89,7 @@ var KTApp = function() {
     }
 
     var initScroll = function() {
-        $('[data-scroll="true"]').each(function() {
+        $('[data-scroll="true"], .kt-scrollable').each(function() {
             var el = $(this);
             KTUtil.scrollInit(this, {
                 mobileNativeScroll: true,
@@ -237,7 +237,9 @@ var KTApp = function() {
                 if (KTUtil.isNotBlank($element.data('value'))) {
                     $element.val($element.data('value'));
                 }
-                $element.selectpicker();
+                $element.selectpicker({
+                    noneSelectedText: ''
+                });
             }
         });
     };
@@ -294,9 +296,9 @@ var KTApp = function() {
                     if (KTUtil.isNotBlank(dictType)) {
                         // 方向
                         var direction = $element.data('direction');
-                        var containerClass = 'm-' + type + '-inline';
+                        var containerClass = 'kt-' + type + '-inline';
                         if ('vertical' === direction) {
-                            containerClass = 'm-' + type + '-list';
+                            containerClass = 'kt-' + type + '-list';
                         }
                         var dicts = KTTool.getSysDictArray(dictType);
                         if (dicts != null && dicts.length > 0) {
@@ -305,7 +307,7 @@ var KTApp = function() {
                             var required = $element.data('required');
                             var html = '<div class="' + containerClass + '">';
                             $(dicts).each(function (index, dict) {
-                                html += '<label class="m-' + type + '">\
+                                html += '<label class="kt-' + type + '">\
                                         <input name="' + name + '" value="' + dict.code + '" type="' + type + '" ' +
                                     defaultChecked(value, dict.code) + ' ' + (required ? 'required' : '') + '> ' + dict.name + '\
                                         <span></span>\
@@ -517,6 +519,8 @@ var KTApp = function() {
             initSticky();
             initAbsoluteDropdowns();
             initSelectPicker('.select-picker');
+            initCheckbox('.checkbox-dict');
+            initRadio('.radio-dict');
             initDatePicker('.date-picker');
         },
 
@@ -2364,7 +2368,7 @@ var KTUtil = function() {
             if (KTUtil.isTopPage()) {
                 window.parent.KTUtil.alert(obj);
             } else {
-                swal(obj);
+                swal.fire(obj);
             }
         },
         /**
@@ -2377,7 +2381,7 @@ var KTUtil = function() {
             if (KTUtil.isTopPage()) {
                 window.parent.KTUtil.alertInfo(title, subTitle);
             } else {
-                swal(title, subTitle, 'info');
+                swal.fire(title, subTitle, 'info');
             }
         },
         /**
@@ -2390,7 +2394,7 @@ var KTUtil = function() {
             if (KTUtil.isTopPage()) {
                 window.parent.KTUtil.alertSuccess(title, subTitle);
             } else {
-                swal(title, subTitle, 'success');
+                swal.fire(title, subTitle, 'success');
             }
         },
         /**
@@ -2403,7 +2407,7 @@ var KTUtil = function() {
             if (KTUtil.isTopPage()) {
                 window.parent.KTUtil.alertError(title, subTitle);
             } else {
-                swal(title, subTitle, "error");
+                swal.fire(title, subTitle, "error");
             }
         },
         /**
@@ -2416,7 +2420,7 @@ var KTUtil = function() {
             if (KTUtil.isTopPage()) {
                 window.parent.KTUtil.alertWarning(title, subTitle);
             } else {
-                swal(title, subTitle, "warning");
+                swal.fire(title, subTitle, "warning");
             }
         },
         /**
@@ -2431,7 +2435,7 @@ var KTUtil = function() {
             if (KTUtil.isTopPage()) {
                 window.parent.KTUtil.alertConfirm(title, subTitle, okCallback, cancelCallback);
             } else {
-                swal({
+                swal.fire({
                     title: title,
                     text: subTitle,
                     type: 'warning',
@@ -6281,7 +6285,7 @@ var KTTool = function () {
         if (util.isBlank(type)) {
             type = 'success';
         }
-        return 'btn btn-sm btn-clean btn-icon btn-icon-md table-actions';
+        return 'btn btn-sm btn-clean btn-icon btn-icon-md';
     };
     /**
      * 根据路径获取对象
@@ -7721,3673 +7725,3674 @@ var KTWizard = function(elementId, options) {
 'use strict';
 (function ($) {
 
-	var pluginName = 'KTDatatable';
-	var pfx = 'kt-';
-	var util = KTUtil;
-	var app = KTApp;
-	var tool = KTTool;
-
-	// 插件设置
-	$.fn[pluginName] = function (options) {
-		if ($(this).length === 0) {
-			console.log('No ' + pluginName + ' element exist.');
-			return;
-		}
-
-		// global variables
-		var datatable = this;
-
-		// 开启调试?
-		// 1) 每次刷新时将清除状态
-		// 2) 输出一些日志
-		datatable.debug = true;
-
-		datatable.API = {
-			record: null,
-			value: null,
-			params: null
-		};
-
-		var Plugin = {
-			/********************
-			 ** 私有
-			 ********************/
-			// 是否初始化
-			isInit: false,
-			// cell
-			cellOffset: 110,
-			// 图标
-			iconOffset: 15,
-			// 状态id
-			stateId: 'meta',
-			// ajax参数
-			ajaxParams: {},
-			// 分页
-			pagingObject: {},
-
-			init: function (options) {
-				// 是否普通表格
-				var isHtmlTable = false;
-				// 数据源选项空
-				if (options.data.source === null) {
-					// 当做普通表格处理
-					Plugin.extractTable();
-					isHtmlTable = true;
-				}
-
-				Plugin.setupBaseDOM.call();
-				Plugin.setupDOM(datatable.table);
-				// Plugin.spinnerCallback(true);
-
-				// 设置查询条件
-				Plugin.setDataSourceQuery(Plugin.getOption('data.source.read.params.query'));
-
-				// 渲染后事件
-				$(datatable).on(pfx + 'datatable--on-layout-updated', Plugin.afterRender);
-
-				// 如果是调试模式,移除状态
-				if (datatable.debug) Plugin.stateRemove(Plugin.stateId);
-
-				// 初始化拓展方法
-				$.each(Plugin.getOption('extensions'), function (extName, extOptions) {
-					if (typeof $.fn[pluginName][extName] === 'function')
-						new $.fn[pluginName][extName](datatable, extOptions);
-				});
-
-				// 获取数据
-				if (options.data.type === 'remote' || options.data.type === 'local') {
-					if (options.data.saveState === false
-						|| options.data.saveState.cookie === false
-						&& options.data.saveState.webstorage === false) {
-						Plugin.stateRemove(Plugin.stateId);
-					}
-					// 如果数据在本地并且指定数据
-					if (options.data.type === 'local' && typeof options.data.source === 'object') {
-						datatable.dataSet = datatable.originalDataSet = Plugin.dataMapCallback(options.data.source);
-					}
-					Plugin.dataRender();
-				}
-
-				// 如果是普通表格,移除head/foot并重新设置
-				if (isHtmlTable) {
-					$(datatable.tableHead).find('tr').remove();
-					$(datatable.tableFoot).find('tr').remove();
-				}
-				// 设置head
-				Plugin.setHeadTitle();
-				// 设置foot
-				if (Plugin.getOption('layout.footer')) {
-					Plugin.setHeadTitle(datatable.tableFoot);
-				}
-
-				// 如果未设置header则删除thead
-				if (typeof options.layout.header !== 'undefined' &&
-					options.layout.header === false) {
-					$(datatable.table).find('thead').remove();
-				}
-
-				// 如果未设置footer则删除tfoot
-				if (typeof options.layout.footer !== 'undefined' &&
-					options.layout.footer === false) {
-					$(datatable.table).find('tfoot').remove();
-				}
-
-				// 如果数据阻碍本地,更新布局
-				if (options.data.type === null ||
-					options.data.type === 'local') {
-					Plugin.setupCellField.call();
-					Plugin.setupTemplateCell.call();
-
-					// setup nested datatable, if option enabled
-					Plugin.setupSubDatatable.call();
-
-					// setup extra system column properties
-					Plugin.setupSystemColumn.call();
-					Plugin.redraw();
-				}
-
-				var width;
-				var initialWidth = false;
-				$(window).resize(function () {
-					// 获取初始宽度
-					if (!initialWidth) {
-						width = $(this).width();
-						initialWidth = true;
-					}
-					// 仅在浏览器窗口宽度改变时重选渲染
-					if ($(this).width() !== width) {
-						width = $(this).width();
-						Plugin.fullRender();
-					}
-				});
-				// 清空设置的高度
-				$(datatable).height('');
-
-				// search按回车时搜索
-				$(Plugin.getOption('search.input')).on('keyup', function (e) {
-					if (Plugin.getOption('search.onEnter') && e.which !== 13) return;
-					Plugin.search($(this).val());
-				});
-
-				return datatable;
-			},
-
-			/**
-			 * 提取静态table内容放入dataSource
-			 */
-			extractTable: function () {
-				var columns = [];
-				var headers = $(datatable).find('tr:first-child th').get().map(function (cell, i) {
-					var field = $(cell).data('field');
-					if (typeof field === 'undefined') {
-						field = $(cell).text().trim();
-					}
-					var column = {field: field, title: field};
-					for (var ii in options.columns) {
-						if (options.columns[ii].field === field) {
-							column = $.extend(true, {}, options.columns[ii], column);
-						}
-					}
-					columns.push(column);
-					return field;
-				});
-				// 自动创建 columns config
-				options.columns = columns;
-
-				var rowProp = [];
-				var source = [];
-
-				$(datatable).find('tr').each(function () {
-					if ($(this).find('td').length) {
-						rowProp.push($(this).prop('attributes'));
-					}
-					var td = {};
-					$(this).find('td').each(function (i, cell) {
-						td[headers[i]] = cell.innerHTML.trim();
-					});
-					if (!util.isEmpty(td)) {
-						source.push(td);
-					}
-				});
-
-				options.data.attr.rowProps = rowProp;
-				options.data.source = source;
-			},
-
-			/**
-			 * 更新布局
-			 */
-			layoutUpdate: function () {
-				// setup nested datatable, if option enabled
-				Plugin.setupSubDatatable.call();
-
-				// setup extra system column properties
-				Plugin.setupSystemColumn.call();
-
-				// 设置 hover event
-				Plugin.setupHover.call();
-
-				if (typeof options.detail === 'undefined'
-					// temporary disable lock column in subtable
-					&& Plugin.getDepth() === 1) {
-					// 锁定列
-					Plugin.lockTable.call();
-				}
-
-				Plugin.columnHide.call();
-
-				Plugin.resetScroll();
-
-				// 如果不是已锁定的列
-				if (!Plugin.isLocked()) {
-					Plugin.redraw.call();
-					// check if its not a subtable and has autoHide option enabled
-					if (!Plugin.isSubtable() && Plugin.getOption('rows.autoHide') === true) {
-						Plugin.autoHide();
-					}
-					// reset row
-					$(datatable.table).find('.' + pfx + 'datatable__row').css('height', '');
-				}
-
-				Plugin.rowEvenOdd.call();
-
-				Plugin.sorting.call();
-
-				Plugin.scrollbar.call();
-
-				if (!Plugin.isInit) {
-					// run once dropdown inside datatable
-					Plugin.dropdownFix();
-					$(datatable).trigger(pfx + 'datatable--on-init', {
-						table: $(datatable.wrap).attr('id'),
-						options: options
-					});
-					Plugin.isInit = true;
-				}
-
-				$(datatable).trigger(pfx + 'datatable--on-layout-updated', {table: $(datatable.wrap).attr('id')});
-			},
-			/**
-			 * 锁定表
-			 * @return {{init: init, lockEnabled: boolean, enable: enable}}
-			 */
-			lockTable: function () {
-				var lock = {
-					lockEnabled: false,
-					init: function () {
-						// check if table should be locked columns
-						lock.lockEnabled = Plugin.lockEnabledColumns();
-						if (lock.lockEnabled.left.length === 0 &&
-							lock.lockEnabled.right.length === 0) {
-							return;
-						}
-						lock.enable();
-					},
-					enable: function () {
-						var enableLock = function (tablePart) {
-							// 如果已经有锁定列
-							if ($(tablePart).find('.' + pfx + 'datatable__lock').length > 0) {
-								Plugin.log('Locked container already exist in: ', tablePart);
-								return;
-							}
-							// 如果为空
-							if ($(tablePart).find('.' + pfx + 'datatable__row').length === 0) {
-								Plugin.log('No row exist in: ', tablePart);
-								return;
-							}
-
-							// 锁定div容器
-							var lockLeft = $('<div/>').addClass(pfx + 'datatable__lock ' + pfx + 'datatable__lock--left');
-							var lockScroll = $('<div/>').addClass(pfx + 'datatable__lock ' + pfx + 'datatable__lock--scroll');
-							var lockRight = $('<div/>').addClass(pfx + 'datatable__lock ' + pfx + 'datatable__lock--right');
-
-							$(tablePart).find('.' + pfx + 'datatable__row').each(function () {
-								// 创建新row用于锁定列并设置数据
-								var rowLeft = $('<tr/>').addClass(pfx + 'datatable__row').data('obj', $(this).data('obj')).appendTo(lockLeft);
-								var rowScroll = $('<tr/>').addClass(pfx + 'datatable__row').data('obj', $(this).data('obj')).appendTo(lockScroll);
-								var rowRight = $('<tr/>').addClass(pfx + 'datatable__row').data('obj', $(this).data('obj')).appendTo(lockRight);
-								$(this).find('.' + pfx + 'datatable__cell').each(function () {
-									var locked = $(this).data('locked');
-									if (typeof locked !== 'undefined') {
-										if (typeof locked.left !== 'undefined' || locked === true) {
-											// 如果没设置锁定在左边还是右边,默认锁定在左边
-											$(this).appendTo(rowLeft);
-										}
-										if (typeof locked.right !== 'undefined') {
-											$(this).appendTo(rowRight);
-										}
-									} else {
-										$(this).appendTo(rowScroll);
-									}
-								});
-								// 移除旧row
-								$(this).remove();
-							});
-
-							if (lock.lockEnabled.left.length > 0) {
-								$(datatable.wrap).addClass(pfx + 'datatable--lock');
-								$(lockLeft).appendTo(tablePart);
-							}
-							if (lock.lockEnabled.left.length > 0 || lock.lockEnabled.right.length > 0) {
-								$(lockScroll).appendTo(tablePart);
-							}
-							if (lock.lockEnabled.right.length > 0) {
-								$(datatable.wrap).addClass(pfx + 'datatable--lock');
-								$(lockRight).appendTo(tablePart);
-							}
-						};
-
-						$(datatable.table).find('thead,tbody,tfoot').each(function () {
-							var tablePart = this;
-							if ($(this).find('.' + pfx + 'datatable__lock').length === 0) {
-								$(this).ready(function () {
-									enableLock(tablePart);
-								});
-							}
-						});
-					}
-				};
-				lock.init();
-				return lock;
-			},
-
-			/**
-			 * 调整大小后重新渲染
-			 */
-			fullRender: function () {
-				$(datatable.tableHead).empty();
-				Plugin.setHeadTitle();
-				if (Plugin.getOption('layout.footer')) {
-					$(datatable.tableFoot).empty();
-					Plugin.setHeadTitle(datatable.tableFoot);
-				}
-
-				Plugin.spinnerCallback(true);
-				$(datatable.wrap).removeClass(pfx + 'datatable--loaded');
-
-				Plugin.insertData();
-			},
-			/**
-			 * 获取锁定列
-			 * @return {{left: Array, right: Array}}
-			 */
-			lockEnabledColumns: function () {
-				var screen = $(window).width();
-				var columns = options.columns;
-				var enabled = {left: [], right: []};
-				$.each(columns, function (i, column) {
-					if (typeof column.locked !== 'undefined') {
-						if (typeof column.locked.left !== 'undefined') {
-							if (util.getBreakpoint(column.locked.left) <= screen) {
-								enabled['left'].push(column.locked.left);
-							}
-						}
-						if (typeof column.locked.right !== 'undefined') {
-							if (util.getBreakpoint(column.locked.right) <= screen) {
-								enabled['right'].push(column.locked.right);
-							}
-						}
-					}
-				});
-				return enabled;
-			},
-
-			/**
-			 * 执行 render 事件后
-			 * '+pfx+'-datatable--on-layout-updated
-			 * @param e
-			 * @param args
-			 */
-			afterRender: function (e, args) {
-				$(datatable).ready(function () {
-					// 重绘表格的锁定列
-					if (Plugin.isLocked()) {
-						Plugin.redraw();
-					}
-
-					$(datatable.tableBody).css('visibility', '');
-					$(datatable.wrap).addClass(pfx + 'datatable--loaded');
-
-					Plugin.spinnerCallback(false);
-				});
-			},
-			/**
-			 * 修复dropdown
-			 */
-			dropdownFix: function () {
-				var dropdownMenu;
-				$('body').on('show.bs.dropdown', '.' + pfx + 'datatable .' + pfx + 'datatable__body', function (e) {
-					dropdownMenu = $(e.target).find('.dropdown-menu');
-					$('body').append(dropdownMenu.detach());
-					dropdownMenu.css('display', 'block');
-					dropdownMenu.position({
-						'my': 'right top',
-						'at': 'right bottom',
-						'of': $(e.relatedTarget)
-					});
-					// 如果表格在modal里面
-					if (datatable.closest('.modal').length) {
-						// 增加下拉的 z-index
-						dropdownMenu.css('z-index', '2000');
-					}
-				}).on('hide.bs.dropdown', '.' + pfx + 'datatable .' + pfx + 'datatable__body', function (e) {
-					$(e.target).append(dropdownMenu.detach());
-					dropdownMenu.hide();
-				});
-			},
-
-			hoverTimer: 0,
-			isScrolling: false,
-
-			setupHover: function () {
-				$(window).scroll(function (e) {
-					// 滚动时停止hoverTimer
-					clearTimeout(Plugin.hoverTimer);
-					Plugin.isScrolling = true;
-				});
-
-				$(datatable.tableBody).find('.' + pfx + 'datatable__cell').off('mouseenter', 'mouseleave').on('mouseenter', function () {
-					// reset scroll timer to hover class
-					Plugin.hoverTimer = setTimeout(function () {
-						Plugin.isScrolling = false;
-					}, 200);
-					if (Plugin.isScrolling) return;
-
-					// normal table
-					var row = $(this).closest('.' + pfx + 'datatable__row').addClass(pfx + 'datatable__row--hover');
-					var index = $(row).index() + 1;
-
-					// 锁定表格
-					$(row).closest('.' + pfx + 'datatable__lock').parent().find('.' + pfx + 'datatable__row:nth-child(' + index + ')').addClass(pfx + 'datatable__row--hover');
-				}).on('mouseleave', function () {
-					// 普通表格
-					var row = $(this).closest('.' + pfx + 'datatable__row').removeClass(pfx + 'datatable__row--hover');
-					var index = $(row).index() + 1;
-
-					// 锁定表格
-					$(row).closest('.' + pfx + 'datatable__lock').parent().find('.' + pfx + 'datatable__row:nth-child(' + index + ')').removeClass(pfx + 'datatable__row--hover');
-				});
-			},
-
-			/**
-			 * Adjust width of locked table containers by resize handler
-			 * 大小改变时,调整锁定表容器宽度
-			 * @returns {number}
-			 */
-			adjustLockContainer: function () {
-				if (!Plugin.isLocked()) return 0;
-
-				// refer to head dimension
-				var containerWidth = $(datatable.tableHead).width();
-				var lockLeft = $(datatable.tableHead).find('.' + pfx + 'datatable__lock--left').width();
-				var lockRight = $(datatable.tableHead).find('.' + pfx + 'datatable__lock--right').width();
-
-				if (typeof lockLeft === 'undefined') lockLeft = 0;
-				if (typeof lockRight === 'undefined') lockRight = 0;
-
-				var lockScroll = Math.floor(containerWidth - lockLeft - lockRight);
-				$(datatable.table).find('.' + pfx + 'datatable__lock--scroll').css('width', lockScroll);
-
-				return lockScroll;
-			},
-
-			/**
-			 * 拖拽调整大小
-			 *
-			 * todo; 暂未使用
-			 */
-			dragResize: function () {
-				var pressed = false;
-				var start = undefined;
-				var startX, startWidth;
-				$(datatable.tableHead).find('.' + pfx + 'datatable__cell').mousedown(function (e) {
-					start = $(this);
-					pressed = true;
-					startX = e.pageX;
-					startWidth = $(this).width();
-					$(start).addClass(pfx + 'datatable__cell--resizing');
-
-				}).mousemove(function (e) {
-					if (pressed) {
-						var i = $(start).index();
-						var tableBody = $(datatable.tableBody);
-						var ifLocked = $(start).closest('.' + pfx + 'datatable__lock');
-
-						if (ifLocked) {
-							var lockedIndex = $(ifLocked).index();
-							tableBody = $(datatable.tableBody).find('.' + pfx + 'datatable__lock').eq(lockedIndex);
-						}
-
-						$(tableBody).find('.' + pfx + 'datatable__row').each(function (tri, tr) {
-							$(tr).find('.' + pfx + 'datatable__cell').eq(i).width(startWidth + (e.pageX - startX)).children().width(startWidth + (e.pageX - startX));
-						});
-
-						$(start).children().css('width', startWidth + (e.pageX - startX));
-					}
-
-				}).mouseup(function () {
-					$(start).removeClass(pfx + 'datatable__cell--resizing');
-					pressed = false;
-				});
-
-				$(document).mouseup(function () {
-					$(start).removeClass(pfx + 'datatable__cell--resizing');
-					pressed = false;
-				});
-			},
-
-			/**
-			 * 在内容加载之前设置高度
-			 */
-			initHeight: function () {
-				if (options.layout.height && options.layout.scroll) {
-					var theadHeight = $(datatable.tableHead).find('.' + pfx + 'datatable__row').outerHeight();
-					var tfootHeight = $(datatable.tableFoot).find('.' + pfx + 'datatable__row').outerHeight();
-					var bodyHeight = options.layout.height;
-					if (theadHeight > 0) {
-						bodyHeight -= theadHeight;
-					}
-					if (tfootHeight > 0) {
-						bodyHeight -= tfootHeight;
-					}
-
-					// 滚动条抵消
-					bodyHeight -= 2;
-
-					$(datatable.tableBody).css('max-height', bodyHeight);
-
-					// 设置可滚动区域的固定高度
-					$(datatable.tableBody).find('.' + pfx + 'datatable__lock--scroll').css('height', bodyHeight);
-				}
-			},
-
-			/**
-			 * 设置基本DOM(table, thead, tbody, tfoot),如果不存在则创建
-			 */
-			setupBaseDOM: function () {
-				// 在初始化之前保持原始状态
-				datatable.initialDatatable = $(datatable).clone();
-
-				// 检查指定元素是否是table,如果不是就创建
-				if ($(datatable).prop('tagName') === 'TABLE') {
-					// 如果初始化的元素是table,用div包裹
-					datatable.table = $(datatable).removeClass(pfx + 'datatable').addClass(pfx + 'datatable__table');
-					if ($(datatable.table).parents('.' + pfx + 'datatable').length === 0) {
-						datatable.table.wrap($('<div/>').addClass(pfx + 'datatable').addClass(pfx + 'datatable--' + options.layout.theme));
-						datatable.wrap = $(datatable.table).parent();
-					}
-				} else {
-					// 创建表格
-					datatable.wrap = $(datatable).addClass(pfx + 'datatable').addClass(pfx + 'datatable--' + options.layout.theme);
-					datatable.table = $('<table/>').addClass(pfx + 'datatable__table').appendTo(datatable);
-				}
-
-				if (typeof options.layout.class !== 'undefined') {
-					$(datatable.wrap).addClass(options.layout.class);
-				}
-
-				$(datatable.table).removeClass(pfx + 'datatable--destroyed').css('display', 'block');
-
-				// 如果表格id为空
-				if (typeof $(datatable).attr('id') === 'undefined') {
-					// 禁用保存表格状态
-					Plugin.setOption('data.saveState', false);
-					// 设置唯一id
-					$(datatable.table).attr('id', util.getUniqueID(pfx + 'datatable--'));
-				}
-
-				// 设置表格最小高度
-				if (Plugin.getOption('layout.minHeight'))
-					$(datatable.table).css('min-height', Plugin.getOption('layout.minHeight'));
-				// 设置表格高度
-				if (Plugin.getOption('layout.height'))
-					$(datatable.table).css('max-height', Plugin.getOption('layout.height'));
-
-				if (options.data.type === null) {
-					// 移除表格width/display样式
-					$(datatable.table).css('width', '').css('display', '');
-				}
-
-				// 创建table > thead 元素
-				datatable.tableHead = $(datatable.table).find('thead');
-				if ($(datatable.tableHead).length === 0) {
-					datatable.tableHead = $('<thead/>').prependTo(datatable.table);
-				}
-
-				// 创建table > tbody 元素
-				datatable.tableBody = $(datatable.table).find('tbody');
-				if ($(datatable.tableBody).length === 0) {
-					datatable.tableBody = $('<tbody/>').appendTo(datatable.table);
-				}
-				// 创建table > tfoot 元素
-				if (typeof options.layout.footer !== 'undefined' && options.layout.footer) {
-					datatable.tableFoot = $(datatable.table).find('tfoot');
-					if ($(datatable.tableFoot).length === 0) {
-						datatable.tableFoot = $('<tfoot/>').appendTo(datatable.table);
-					}
-				}
-			},
-
-			/**
-			 * 设置列data属性
-			 */
-			setupCellField: function (tableParts) {
-				if (typeof tableParts === 'undefined') tableParts = $(datatable.table).children();
-				var columns = options.columns;
-				$.each(tableParts, function (part, tablePart) {
-					$(tablePart).find('.' + pfx + 'datatable__row').each(function (tri, tr) {
-						// prepare data
-						$(tr).find('.' + pfx + 'datatable__cell').each(function (tdi, td) {
-							if (typeof columns[tdi] !== 'undefined') {
-								$(td).data(columns[tdi]);
-							}
-						});
-					});
-				});
-			},
-
-			/**
-			 * 执行列template回调
-			 *
-			 * @param tablePart
-			 */
-			setupTemplateCell: function (tablePart) {
-				if (typeof tablePart === 'undefined') tablePart = datatable.tableBody;
-				var columns = options.columns;
-				$(tablePart).find('.' + pfx + 'datatable__row').each(function (tri, tr) {
-					// 获取row上面的data-obj属性
-					var obj = $(tr).data('obj') || {};
-
-					// 执行template之前的回调函数
-					var beforeTemplate = Plugin.getOption('rows.beforeTemplate');
-					if (typeof beforeTemplate === 'function') {
-						beforeTemplate($(tr), obj, tri);
-					}
-					// 如果 data-obj 是 undefined, 从表中收集
-					if (typeof obj === 'undefined') {
-						obj = {};
-						$(tr).find('.' + pfx + 'datatable__cell').each(function (tdi, td) {
-							// 根据列名称获取列设置
-							var column = $.grep(columns, function (n, i) {
-								return $(td).data('field') === n.field;
-							})[0];
-							if (typeof column !== 'undefined') {
-								obj[column['field']] = $(td).text();
-							}
-						});
-					}
-
-					$(tr).find('.' + pfx + 'datatable__cell').each(function (tdi, td) {
-						// 根据列名称获取列设置
-						var column = $.grep(columns, function (n, i) {
-							return $(td).data('field') === n.field;
-						})[0];
-						if (typeof column !== 'undefined') {
-							if (typeof column.dictType !== 'undefined' && util.isNotBlank(column.dictType)) {
-								column.template = function (row) {
-									var dicts = null;
-									if (typeof column.dictType === 'string') {
-										dicts = tool.getSysDictsObject(column.dictType);
-									} else {
-										dicts = column.dictType;
-									}
-									return tool.getDictElement(row[column.field], dicts);
-								}
-							}
-							// 列 template
-							if (typeof column.template !== 'undefined') {
-								var finalValue = '';
-								// template 设置
-								if (typeof column.template === 'string') {
-									finalValue = Plugin.dataPlaceholder(column.template, obj);
-								}
-								// template 回调函数
-								if (typeof column.template === 'function') {
-									finalValue = column.template(obj, tri, datatable);
-								}
-
-								// 如果引入了DOMPurify,用DOMPurify过滤xss
-								if (typeof DOMPurify !== 'undefined') {
-									finalValue = DOMPurify.sanitize(finalValue);
-								}
-
-								var span = document.createElement('span');
-								span.innerHTML = finalValue;
-
-								// 用span包起来放到td中
-								$(td).html(span);
-
-								// 设置 span overflow
-								if (typeof column.overflow !== 'undefined') {
-									$(span).css('overflow', column.overflow);
-									$(span).css('position', 'relative');
-								}
-							}
-						}
-					});
-
-					// 行template之后的回调函数
-					var afterTemplate = Plugin.getOption('rows.afterTemplate');
-					if (typeof afterTemplate === 'function') {
-						afterTemplate($(tr), obj, tri);
-					}
-				});
+    var pluginName = 'KTDatatable';
+    var pfx = 'kt-';
+    var util = KTUtil;
+    var app = KTApp;
+    var tool = KTTool;
+
+    // 插件设置
+    $.fn[pluginName] = function (options) {
+        if ($(this).length === 0) {
+            console.log('No ' + pluginName + ' element exist.');
+            return;
+        }
+
+        // global variables
+        var datatable = this;
+
+        // 开启调试?
+        // 1) 每次刷新时将清除状态
+        // 2) 输出一些日志
+        datatable.debug = true;
+
+        datatable.API = {
+            record: null,
+            value: null,
+            params: null
+        };
+
+        var Plugin = {
+            /********************
+             ** 私有
+             ********************/
+            // 是否初始化
+            isInit: false,
+            // cell
+            cellOffset: 110,
+            // 图标
+            iconOffset: 15,
+            // 状态id
+            stateId: 'meta',
+            // ajax参数
+            ajaxParams: {},
+            // 分页
+            pagingObject: {},
+
+            init: function (options) {
+                // 是否普通表格
+                var isHtmlTable = false;
+                // 数据源选项空
+                if (options.data.source === null) {
+                    // 当做普通表格处理
+                    Plugin.extractTable();
+                    isHtmlTable = true;
+                }
+
+                Plugin.setupBaseDOM.call();
+                Plugin.setupDOM(datatable.table);
+                // Plugin.spinnerCallback(true);
+
+                // 设置查询条件
+                Plugin.setDataSourceQuery(Plugin.getOption('data.source.read.params.query'));
+
+                // 渲染后事件
+                $(datatable).on(pfx + 'datatable--on-layout-updated', Plugin.afterRender);
+
+                // 如果是调试模式,移除状态
+                if (datatable.debug) Plugin.stateRemove(Plugin.stateId);
+
+                // 初始化拓展方法
+                $.each(Plugin.getOption('extensions'), function (extName, extOptions) {
+                    if (typeof $.fn[pluginName][extName] === 'function')
+                        new $.fn[pluginName][extName](datatable, extOptions);
+                });
+
+                // 获取数据
+                if (options.data.type === 'remote' || options.data.type === 'local') {
+                    if (options.data.saveState === false
+                        || options.data.saveState.cookie === false
+                        && options.data.saveState.webstorage === false) {
+                        Plugin.stateRemove(Plugin.stateId);
+                    }
+                    // 如果数据在本地并且指定数据
+                    if (options.data.type === 'local' && typeof options.data.source === 'object') {
+                        datatable.dataSet = datatable.originalDataSet = Plugin.dataMapCallback(options.data.source);
+                    }
+                    Plugin.dataRender();
+                }
+
+                // 如果是普通表格,移除head/foot并重新设置
+                if (isHtmlTable) {
+                    $(datatable.tableHead).find('tr').remove();
+                    $(datatable.tableFoot).find('tr').remove();
+                }
+                // 设置head
+                Plugin.setHeadTitle();
+                // 设置foot
+                if (Plugin.getOption('layout.footer')) {
+                    Plugin.setHeadTitle(datatable.tableFoot);
+                }
+
+                // 如果未设置header则删除thead
+                if (typeof options.layout.header !== 'undefined' &&
+                    options.layout.header === false) {
+                    $(datatable.table).find('thead').remove();
+                }
+
+                // 如果未设置footer则删除tfoot
+                if (typeof options.layout.footer !== 'undefined' &&
+                    options.layout.footer === false) {
+                    $(datatable.table).find('tfoot').remove();
+                }
+
+                // 如果数据阻碍本地,更新布局
+                if (options.data.type === null ||
+                    options.data.type === 'local') {
+                    Plugin.setupCellField.call();
+                    Plugin.setupTemplateCell.call();
+
+                    // setup nested datatable, if option enabled
+                    Plugin.setupSubDatatable.call();
+
+                    // setup extra system column properties
+                    Plugin.setupSystemColumn.call();
+                    Plugin.redraw();
+                }
+
+                var width;
+                var initialWidth = false;
+                $(window).resize(function () {
+                    // 获取初始宽度
+                    if (!initialWidth) {
+                        width = $(this).width();
+                        initialWidth = true;
+                    }
+                    // 仅在浏览器窗口宽度改变时重选渲染
+                    if ($(this).width() !== width) {
+                        width = $(this).width();
+                        Plugin.fullRender();
+                    }
+                });
+                // 清空设置的高度
+                $(datatable).height('');
+
+                // search按回车时搜索
+                $(Plugin.getOption('search.input')).on('keyup', function (e) {
+                    if (Plugin.getOption('search.onEnter') && e.which !== 13) return;
+                    Plugin.search($(this).val());
+                });
+
+                return datatable;
+            },
+
+            /**
+             * 提取静态table内容放入dataSource
+             */
+            extractTable: function () {
+                var columns = [];
+                var headers = $(datatable).find('tr:first-child th').get().map(function (cell, i) {
+                    var field = $(cell).data('field');
+                    if (typeof field === 'undefined') {
+                        field = $(cell).text().trim();
+                    }
+                    var column = {field: field, title: field};
+                    for (var ii in options.columns) {
+                        if (options.columns[ii].field === field) {
+                            column = $.extend(true, {}, options.columns[ii], column);
+                        }
+                    }
+                    columns.push(column);
+                    return field;
+                });
+                // 自动创建 columns config
+                options.columns = columns;
+
+                var rowProp = [];
+                var source = [];
+
+                $(datatable).find('tr').each(function () {
+                    if ($(this).find('td').length) {
+                        rowProp.push($(this).prop('attributes'));
+                    }
+                    var td = {};
+                    $(this).find('td').each(function (i, cell) {
+                        td[headers[i]] = cell.innerHTML.trim();
+                    });
+                    if (!util.isEmpty(td)) {
+                        source.push(td);
+                    }
+                });
+
+                options.data.attr.rowProps = rowProp;
+                options.data.source = source;
+            },
+
+            /**
+             * 更新布局
+             */
+            layoutUpdate: function () {
+                // setup nested datatable, if option enabled
+                Plugin.setupSubDatatable.call();
+
+                // setup extra system column properties
+                Plugin.setupSystemColumn.call();
+
+                // 设置 hover event
+                Plugin.setupHover.call();
+
+                if (typeof options.detail === 'undefined'
+                    // temporary disable lock column in subtable
+                    && Plugin.getDepth() === 1) {
+                    // 锁定列
+                    Plugin.lockTable.call();
+                }
+
+                Plugin.columnHide.call();
+
+                Plugin.resetScroll();
+
+                // 如果不是已锁定的列
+                if (!Plugin.isLocked()) {
+                    Plugin.redraw.call();
+                    // check if its not a subtable and has autoHide option enabled
+                    if (!Plugin.isSubtable() && Plugin.getOption('rows.autoHide') === true) {
+                        Plugin.autoHide();
+                    }
+                    // reset row
+                    $(datatable.table).find('.' + pfx + 'datatable__row').css('height', '');
+                }
+
+                Plugin.rowEvenOdd.call();
+
+                Plugin.sorting.call();
+
+                Plugin.scrollbar.call();
+
+                if (!Plugin.isInit) {
+                    // run once dropdown inside datatable
+                    Plugin.dropdownFix();
+                    $(datatable).trigger(pfx + 'datatable--on-init', {
+                        table: $(datatable.wrap).attr('id'),
+                        options: options
+                    });
+                    Plugin.isInit = true;
+                }
+
+                $(datatable).trigger(pfx + 'datatable--on-layout-updated', {table: $(datatable.wrap).attr('id')});
+            },
+            /**
+             * 锁定表
+             * @return {{init: init, lockEnabled: boolean, enable: enable}}
+             */
+            lockTable: function () {
+                var lock = {
+                    lockEnabled: false,
+                    init: function () {
+                        // check if table should be locked columns
+                        lock.lockEnabled = Plugin.lockEnabledColumns();
+                        if (lock.lockEnabled.left.length === 0 &&
+                            lock.lockEnabled.right.length === 0) {
+                            return;
+                        }
+                        lock.enable();
+                    },
+                    enable: function () {
+                        var enableLock = function (tablePart) {
+                            // 如果已经有锁定列
+                            if ($(tablePart).find('.' + pfx + 'datatable__lock').length > 0) {
+                                Plugin.log('Locked container already exist in: ', tablePart);
+                                return;
+                            }
+                            // 如果为空
+                            if ($(tablePart).find('.' + pfx + 'datatable__row').length === 0) {
+                                Plugin.log('No row exist in: ', tablePart);
+                                return;
+                            }
+
+                            // 锁定div容器
+                            var lockLeft = $('<div/>').addClass(pfx + 'datatable__lock ' + pfx + 'datatable__lock--left');
+                            var lockScroll = $('<div/>').addClass(pfx + 'datatable__lock ' + pfx + 'datatable__lock--scroll');
+                            var lockRight = $('<div/>').addClass(pfx + 'datatable__lock ' + pfx + 'datatable__lock--right');
+
+                            $(tablePart).find('.' + pfx + 'datatable__row').each(function () {
+                                // 创建新row用于锁定列并设置数据
+                                var rowLeft = $('<tr/>').addClass(pfx + 'datatable__row').data('obj', $(this).data('obj')).appendTo(lockLeft);
+                                var rowScroll = $('<tr/>').addClass(pfx + 'datatable__row').data('obj', $(this).data('obj')).appendTo(lockScroll);
+                                var rowRight = $('<tr/>').addClass(pfx + 'datatable__row').data('obj', $(this).data('obj')).appendTo(lockRight);
+                                $(this).find('.' + pfx + 'datatable__cell').each(function () {
+                                    var locked = $(this).data('locked');
+                                    if (typeof locked !== 'undefined') {
+                                        if (typeof locked.left !== 'undefined' || locked === true) {
+                                            // 如果没设置锁定在左边还是右边,默认锁定在左边
+                                            $(this).appendTo(rowLeft);
+                                        }
+                                        if (typeof locked.right !== 'undefined') {
+                                            $(this).appendTo(rowRight);
+                                        }
+                                    } else {
+                                        $(this).appendTo(rowScroll);
+                                    }
+                                });
+                                // 移除旧row
+                                $(this).remove();
+                            });
+
+                            if (lock.lockEnabled.left.length > 0) {
+                                $(datatable.wrap).addClass(pfx + 'datatable--lock');
+                                $(lockLeft).appendTo(tablePart);
+                            }
+                            if (lock.lockEnabled.left.length > 0 || lock.lockEnabled.right.length > 0) {
+                                $(lockScroll).appendTo(tablePart);
+                            }
+                            if (lock.lockEnabled.right.length > 0) {
+                                $(datatable.wrap).addClass(pfx + 'datatable--lock');
+                                $(lockRight).appendTo(tablePart);
+                            }
+                        };
+
+                        $(datatable.table).find('thead,tbody,tfoot').each(function () {
+                            var tablePart = this;
+                            if ($(this).find('.' + pfx + 'datatable__lock').length === 0) {
+                                $(this).ready(function () {
+                                    enableLock(tablePart);
+                                });
+                            }
+                        });
+                    }
+                };
+                lock.init();
+                return lock;
+            },
+
+            /**
+             * 调整大小后重新渲染
+             */
+            fullRender: function () {
+                $(datatable.tableHead).empty();
+                Plugin.setHeadTitle();
+                if (Plugin.getOption('layout.footer')) {
+                    $(datatable.tableFoot).empty();
+                    Plugin.setHeadTitle(datatable.tableFoot);
+                }
+
+                Plugin.spinnerCallback(true);
+                $(datatable.wrap).removeClass(pfx + 'datatable--loaded');
+
+                Plugin.insertData();
+            },
+            /**
+             * 获取锁定列
+             * @return {{left: Array, right: Array}}
+             */
+            lockEnabledColumns: function () {
+                var screen = $(window).width();
+                var columns = options.columns;
+                var enabled = {left: [], right: []};
+                $.each(columns, function (i, column) {
+                    if (typeof column.locked !== 'undefined') {
+                        if (typeof column.locked.left !== 'undefined') {
+                            if (util.getBreakpoint(column.locked.left) <= screen) {
+                                enabled['left'].push(column.locked.left);
+                            }
+                        }
+                        if (typeof column.locked.right !== 'undefined') {
+                            if (util.getBreakpoint(column.locked.right) <= screen) {
+                                enabled['right'].push(column.locked.right);
+                            }
+                        }
+                    }
+                });
+                return enabled;
+            },
+
+            /**
+             * 执行 render 事件后
+             * '+pfx+'-datatable--on-layout-updated
+             * @param e
+             * @param args
+             */
+            afterRender: function (e, args) {
+                $(datatable).ready(function () {
+                    // 重绘表格的锁定列
+                    if (Plugin.isLocked()) {
+                        Plugin.redraw();
+                    }
+
+                    $(datatable.tableBody).css('visibility', '');
+                    $(datatable.wrap).addClass(pfx + 'datatable--loaded');
+
+                    Plugin.spinnerCallback(false);
+                });
+            },
+            /**
+             * 修复dropdown
+             */
+            dropdownFix: function () {
+                var dropdownMenu;
+                $('body').on('show.bs.dropdown', '.' + pfx + 'datatable .' + pfx + 'datatable__body', function (e) {
+                    dropdownMenu = $(e.target).find('.dropdown-menu');
+                    $('body').append(dropdownMenu.detach());
+                    dropdownMenu.css('display', 'block');
+                    dropdownMenu.position({
+                        'my': 'right top',
+                        'at': 'right bottom',
+                        'of': $(e.relatedTarget)
+                    });
+                    // 如果表格在modal里面
+                    if (datatable.closest('.modal').length) {
+                        // 增加下拉的 z-index
+                        dropdownMenu.css('z-index', '2000');
+                    }
+                }).on('hide.bs.dropdown', '.' + pfx + 'datatable .' + pfx + 'datatable__body', function (e) {
+                    $(e.target).append(dropdownMenu.detach());
+                    dropdownMenu.hide();
+                });
+            },
+
+            hoverTimer: 0,
+            isScrolling: false,
+
+            setupHover: function () {
+                $(window).scroll(function (e) {
+                    // 滚动时停止hoverTimer
+                    clearTimeout(Plugin.hoverTimer);
+                    Plugin.isScrolling = true;
+                });
+
+                $(datatable.tableBody).find('.' + pfx + 'datatable__cell').off('mouseenter', 'mouseleave').on('mouseenter', function () {
+                    // reset scroll timer to hover class
+                    Plugin.hoverTimer = setTimeout(function () {
+                        Plugin.isScrolling = false;
+                    }, 200);
+                    if (Plugin.isScrolling) return;
+
+                    // normal table
+                    var row = $(this).closest('.' + pfx + 'datatable__row').addClass(pfx + 'datatable__row--hover');
+                    var index = $(row).index() + 1;
+
+                    // 锁定表格
+                    $(row).closest('.' + pfx + 'datatable__lock').parent().find('.' + pfx + 'datatable__row:nth-child(' + index + ')').addClass(pfx + 'datatable__row--hover');
+                }).on('mouseleave', function () {
+                    // 普通表格
+                    var row = $(this).closest('.' + pfx + 'datatable__row').removeClass(pfx + 'datatable__row--hover');
+                    var index = $(row).index() + 1;
+
+                    // 锁定表格
+                    $(row).closest('.' + pfx + 'datatable__lock').parent().find('.' + pfx + 'datatable__row:nth-child(' + index + ')').removeClass(pfx + 'datatable__row--hover');
+                });
+            },
+
+            /**
+             * Adjust width of locked table containers by resize handler
+             * 大小改变时,调整锁定表容器宽度
+             * @returns {number}
+             */
+            adjustLockContainer: function () {
+                if (!Plugin.isLocked()) return 0;
+
+                // refer to head dimension
+                var containerWidth = $(datatable.tableHead).width();
+                var lockLeft = $(datatable.tableHead).find('.' + pfx + 'datatable__lock--left').width();
+                var lockRight = $(datatable.tableHead).find('.' + pfx + 'datatable__lock--right').width();
+
+                if (typeof lockLeft === 'undefined') lockLeft = 0;
+                if (typeof lockRight === 'undefined') lockRight = 0;
+
+                var lockScroll = Math.floor(containerWidth - lockLeft - lockRight);
+                $(datatable.table).find('.' + pfx + 'datatable__lock--scroll').css('width', lockScroll);
+
+                return lockScroll;
+            },
+
+            /**
+             * 拖拽调整大小
+             *
+             * todo; 暂未使用
+             */
+            dragResize: function () {
+                var pressed = false;
+                var start = undefined;
+                var startX, startWidth;
+                $(datatable.tableHead).find('.' + pfx + 'datatable__cell').mousedown(function (e) {
+                    start = $(this);
+                    pressed = true;
+                    startX = e.pageX;
+                    startWidth = $(this).width();
+                    $(start).addClass(pfx + 'datatable__cell--resizing');
+
+                }).mousemove(function (e) {
+                    if (pressed) {
+                        var i = $(start).index();
+                        var tableBody = $(datatable.tableBody);
+                        var ifLocked = $(start).closest('.' + pfx + 'datatable__lock');
+
+                        if (ifLocked) {
+                            var lockedIndex = $(ifLocked).index();
+                            tableBody = $(datatable.tableBody).find('.' + pfx + 'datatable__lock').eq(lockedIndex);
+                        }
+
+                        $(tableBody).find('.' + pfx + 'datatable__row').each(function (tri, tr) {
+                            $(tr).find('.' + pfx + 'datatable__cell').eq(i).width(startWidth + (e.pageX - startX)).children().width(startWidth + (e.pageX - startX));
+                        });
+
+                        $(start).children().css('width', startWidth + (e.pageX - startX));
+                    }
+
+                }).mouseup(function () {
+                    $(start).removeClass(pfx + 'datatable__cell--resizing');
+                    pressed = false;
+                });
+
+                $(document).mouseup(function () {
+                    $(start).removeClass(pfx + 'datatable__cell--resizing');
+                    pressed = false;
+                });
+            },
+
+            /**
+             * 在内容加载之前设置高度
+             */
+            initHeight: function () {
+                if (options.layout.height && options.layout.scroll) {
+                    var theadHeight = $(datatable.tableHead).find('.' + pfx + 'datatable__row').outerHeight();
+                    var tfootHeight = $(datatable.tableFoot).find('.' + pfx + 'datatable__row').outerHeight();
+                    var bodyHeight = options.layout.height;
+                    if (theadHeight > 0) {
+                        bodyHeight -= theadHeight;
+                    }
+                    if (tfootHeight > 0) {
+                        bodyHeight -= tfootHeight;
+                    }
+
+                    // 滚动条抵消
+                    bodyHeight -= 2;
+
+                    $(datatable.tableBody).css('max-height', bodyHeight);
+
+                    // 设置可滚动区域的固定高度
+                    $(datatable.tableBody).find('.' + pfx + 'datatable__lock--scroll').css('height', bodyHeight);
+                }
+            },
+
+            /**
+             * 设置基本DOM(table, thead, tbody, tfoot),如果不存在则创建
+             */
+            setupBaseDOM: function () {
+                // 在初始化之前保持原始状态
+                datatable.initialDatatable = $(datatable).clone();
+
+                // 检查指定元素是否是table,如果不是就创建
+                if ($(datatable).prop('tagName') === 'TABLE') {
+                    // 如果初始化的元素是table,用div包裹
+                    datatable.table = $(datatable).removeClass(pfx + 'datatable').addClass(pfx + 'datatable__table');
+                    if ($(datatable.table).parents('.' + pfx + 'datatable').length === 0) {
+                        datatable.table.wrap($('<div/>').addClass(pfx + 'datatable').addClass(pfx + 'datatable--' + options.layout.theme));
+                        datatable.wrap = $(datatable.table).parent();
+                    }
+                } else {
+                    // 创建表格
+                    datatable.wrap = $(datatable).addClass(pfx + 'datatable').addClass(pfx + 'datatable--' + options.layout.theme);
+                    datatable.table = $('<table/>').addClass(pfx + 'datatable__table').appendTo(datatable);
+                }
+
+                if (typeof options.layout.class !== 'undefined') {
+                    $(datatable.wrap).addClass(options.layout.class);
+                }
+
+                $(datatable.table).removeClass(pfx + 'datatable--destroyed').css('display', 'block');
+
+                // 如果表格id为空
+                if (typeof $(datatable).attr('id') === 'undefined') {
+                    // 禁用保存表格状态
+                    Plugin.setOption('data.saveState', false);
+                    // 设置唯一id
+                    $(datatable.table).attr('id', util.getUniqueID(pfx + 'datatable--'));
+                }
+
+                // 设置表格最小高度
+                if (Plugin.getOption('layout.minHeight'))
+                    $(datatable.table).css('min-height', Plugin.getOption('layout.minHeight'));
+                // 设置表格高度
+                if (Plugin.getOption('layout.height'))
+                    $(datatable.table).css('max-height', Plugin.getOption('layout.height'));
+
+                if (options.data.type === null) {
+                    // 移除表格width/display样式
+                    $(datatable.table).css('width', '').css('display', '');
+                }
+
+                // 创建table > thead 元素
+                datatable.tableHead = $(datatable.table).find('thead');
+                if ($(datatable.tableHead).length === 0) {
+                    datatable.tableHead = $('<thead/>').prependTo(datatable.table);
+                }
+
+                // 创建table > tbody 元素
+                datatable.tableBody = $(datatable.table).find('tbody');
+                if ($(datatable.tableBody).length === 0) {
+                    datatable.tableBody = $('<tbody/>').appendTo(datatable.table);
+                }
+                // 创建table > tfoot 元素
+                if (typeof options.layout.footer !== 'undefined' && options.layout.footer) {
+                    datatable.tableFoot = $(datatable.table).find('tfoot');
+                    if ($(datatable.tableFoot).length === 0) {
+                        datatable.tableFoot = $('<tfoot/>').appendTo(datatable.table);
+                    }
+                }
+            },
+
+            /**
+             * 设置列data属性
+             */
+            setupCellField: function (tableParts) {
+                if (typeof tableParts === 'undefined') tableParts = $(datatable.table).children();
+                var columns = options.columns;
+                $.each(tableParts, function (part, tablePart) {
+                    $(tablePart).find('.' + pfx + 'datatable__row').each(function (tri, tr) {
+                        // prepare data
+                        $(tr).find('.' + pfx + 'datatable__cell').each(function (tdi, td) {
+                            if (typeof columns[tdi] !== 'undefined') {
+                                $(td).data(columns[tdi]);
+                            }
+                        });
+                    });
+                });
+            },
+
+            /**
+             * 执行列template回调
+             *
+             * @param tablePart
+             */
+            setupTemplateCell: function (tablePart) {
+                if (typeof tablePart === 'undefined') tablePart = datatable.tableBody;
+                var columns = options.columns;
+                $(tablePart).find('.' + pfx + 'datatable__row').each(function (tri, tr) {
+                    // 获取row上面的data-obj属性
+                    var obj = $(tr).data('obj') || {};
+
+                    // 执行template之前的回调函数
+                    var beforeTemplate = Plugin.getOption('rows.beforeTemplate');
+                    if (typeof beforeTemplate === 'function') {
+                        beforeTemplate($(tr), obj, tri);
+                    }
+                    // 如果 data-obj 是 undefined, 从表中收集
+                    if (typeof obj === 'undefined') {
+                        obj = {};
+                        $(tr).find('.' + pfx + 'datatable__cell').each(function (tdi, td) {
+                            // 根据列名称获取列设置
+                            var column = $.grep(columns, function (n, i) {
+                                return $(td).data('field') === n.field;
+                            })[0];
+                            if (typeof column !== 'undefined') {
+                                obj[column['field']] = $(td).text();
+                            }
+                        });
+                    }
+
+                    $(tr).find('.' + pfx + 'datatable__cell').each(function (tdi, td) {
+                        // 根据列名称获取列设置
+                        var column = $.grep(columns, function (n, i) {
+                            return $(td).data('field') === n.field;
+                        })[0];
+                        if (typeof column !== 'undefined') {
+                            if (typeof column.dictType !== 'undefined' && util.isNotBlank(column.dictType)) {
+                                column.template = function (row) {
+                                    var dicts = null;
+                                    if (typeof column.dictType === 'string') {
+                                        dicts = tool.getSysDictsObject(column.dictType);
+                                    } else {
+                                        dicts = column.dictType;
+                                    }
+                                    return tool.getDictElement(row[column.field], dicts);
+                                }
+                            }
+                            // 列 template
+                            if (typeof column.template !== 'undefined') {
+                                var finalValue = '';
+                                // template 设置
+                                if (typeof column.template === 'string') {
+                                    finalValue = Plugin.dataPlaceholder(column.template, obj);
+                                }
+                                // template 回调函数
+                                if (typeof column.template === 'function') {
+                                    finalValue = column.template(obj, tri, datatable);
+                                } else {
+                                    // 如果引入了DOMPurify,用DOMPurify过滤xss
+                                    if (typeof DOMPurify !== 'undefined') {
+                                        finalValue = DOMPurify.sanitize(finalValue);
+                                    }
+                                }
+
+
+                                var span = document.createElement('span');
+                                span.innerHTML = finalValue;
+
+                                // 用span包起来放到td中
+                                $(td).html(span);
+
+                                // 设置 span overflow
+                                if (typeof column.overflow !== 'undefined') {
+                                    $(span).css('overflow', column.overflow);
+                                    $(span).css('position', 'relative');
+                                }
+                            }
+                        }
+                    });
+
+                    // 行template之后的回调函数
+                    var afterTemplate = Plugin.getOption('rows.afterTemplate');
+                    if (typeof afterTemplate === 'function') {
+                        afterTemplate($(tr), obj, tri);
+                    }
+                });
                 $(tablePart).find('.table-actions').each(function () {
                     app.initTooltip($(this));
                 });
-			},
-
-			/**
-			 * 设置额外的列属性
-			 * 比如: checkbox
-			 */
-			setupSystemColumn: function () {
-				datatable.dataSet = datatable.dataSet || [];
-				// 无数据
-				if (datatable.dataSet.length === 0) return;
-
-				var columns = options.columns;
-				$(datatable.tableBody).find('.' + pfx + 'datatable__row').each(function (tri, tr) {
-					$(tr).find('.' + pfx + 'datatable__cell').each(function (tdi, td) {
-						// 根据列名获取列设置
-						var column = $.grep(columns, function (n, i) {
-							return $(td).data('field') === n.field;
-						})[0];
-						if (typeof column !== 'undefined') {
-							var value = $(td).text();
-
-							// 启用列选择器
-							if (typeof column.selector !== 'undefined' && column.selector !== false) {
-								// 检查checkbox是否已经存在
-								if ($(td).find('.' + pfx + 'checkbox [type="checkbox"]').length > 0) return;
-
-								$(td).addClass(pfx + 'datatable__cell--check');
-
-								// 添加 checkbox
-								var chk = $('<label/>').addClass(pfx + 'checkbox ' + pfx + 'checkbox--single').append($('<input/>').attr('type', 'checkbox').attr('value', value).on('click', function () {
-									if ($(this).is(':checked')) {
-										// 添加已勾选class
-										Plugin.setActive(this);
-									} else {
-										// 移除已勾选class
-										Plugin.setInactive(this);
-									}
-								})).append('&nbsp;<span></span>');
-
-								// 自定义class
-								if (typeof column.selector.class !== 'undefined') {
-									$(chk).addClass(column.selector.class);
-								}
-
-								$(td).children().html(chk);
-							}
-
-							// 启用子表切换
-							if (typeof column.subtable !== 'undefined' && column.subtable) {
-								// 检查子表是否存
-								if ($(td).find('.' + pfx + 'datatable__toggle-subtable').length > 0) return;
-								// 添加切换
-								$(td).children().html($('<a/>').addClass(pfx + 'datatable__toggle-subtable').attr('href', '#').attr('data-value', value).append($('<i/>').addClass(Plugin.getOption('layout.icons.rowDetail.collapse'))));
-							}
-						}
-					});
-				});
-
-				/**
-				 * 为header/footer初始化checkbox
-				 * @param tr
-				 */
-				var initCheckbox = function (tr) {
-					// 获取列设置
-					var column = $.grep(columns, function (n, i) {
-						return typeof n.selector !== 'undefined' && n.selector !== false;
-					})[0];
-
-					if (typeof column !== 'undefined') {
-						// 启用列checkbox
-						if (typeof column.selector !== 'undefined' && column.selector !== false) {
-							var td = $(tr).find('[data-field="' + column.field + '"]');
-							// 检查checkbox是否已经存在
-							if ($(td).find('.' + pfx + 'checkbox [type="checkbox"]').length > 0) return;
-
-							$(td).addClass(pfx + 'datatable__cell--check');
-
-							// 添加 checkbox
-							var chk = $('<label/>').addClass(pfx + 'checkbox ' + pfx + 'checkbox--single ' + pfx + 'checkbox--all').append($('<input/>').attr('type', 'checkbox').on('click', function () {
-								if ($(this).is(':checked')) {
-									Plugin.setActiveAll(true);
-								} else {
-									Plugin.setActiveAll(false);
-								}
-							})).append('&nbsp;<span></span>');
-
-							// 自定义class
-							if (typeof column.selector.class !== 'undefined') {
-								$(chk).addClass(column.selector.class);
-							}
-
-							$(td).children().html(chk);
-						}
-					}
-				};
-
-				if (options.layout.header) {
-					initCheckbox($(datatable.tableHead).find('.' + pfx + 'datatable__row').first());
-				}
-				if (options.layout.footer) {
-					initCheckbox($(datatable.tableFoot).find('.' + pfx + 'datatable__row').first());
-				}
-			},
-
-			/**
-			 * 调整宽度以匹配容器大小
-			 */
-			adjustCellsWidth: function () {
-				// 获取表格宽度
-				var containerWidth = $(datatable.tableBody).innerWidth() - Plugin.iconOffset;
-
-				// 获取总列数
-				var columns = $(datatable.tableBody).find('.' + pfx + 'datatable__row:first-child').find('.' + pfx + 'datatable__cell').// exclude expand icon
-				not('.' + pfx + 'datatable__toggle-detail').not(':hidden').length;
-
-				if (columns > 0) {
-					//  删除保留排序图标宽度
-					containerWidth = containerWidth - (Plugin.iconOffset * columns);
-					var minWidth = Math.floor(containerWidth / columns);
-
-					// 最小宽度
-					if (minWidth <= Plugin.cellOffset) {
-						minWidth = Plugin.cellOffset;
-					}
-
-					var maxWidthList = {};
-					$(datatable.table).find('.' + pfx + 'datatable__row').find('.' + pfx + 'datatable__cell').// exclude expand icon
-					not('.' + pfx + 'datatable__toggle-detail').not(':hidden').each(function (tdi, td) {
-
-						var width = minWidth;
-						var dataWidth = $(td).data('width');
-
-						if (typeof dataWidth !== 'undefined') {
-
-							if (dataWidth === 'auto') {
-								var field = $(td).data('field');
-								if (maxWidthList[field]) {
-									width = maxWidthList[field];
-								} else {
-									var cells = $(datatable.table).find('.' + pfx + 'datatable__cell[data-field="' + field + '"]');
-									width = maxWidthList[field] = Math.max.apply(null,
-										$(cells).map(function () {
-											return $(this).outerWidth();
-										}).get());
-								}
-							} else {
-								width = dataWidth;
-							}
-						}
-						$(td).children().css('width', Math.ceil(width));
-					});
-				}
-
-				return datatable;
-			},
-
-			/**
-			 * 调整高度以匹配容器大小
-			 */
-			adjustCellsHeight: function () {
-				$.each($(datatable.table).children(), function (part, tablePart) {
-					var totalRows = $(tablePart).find('.' + pfx + 'datatable__row').first().parent().find('.' + pfx + 'datatable__row').length;
-					for (var i = 1; i <= totalRows; i++) {
-						var rows = $(tablePart).find('.' + pfx + 'datatable__row:nth-child(' + i + ')');
-						if ($(rows).length > 0) {
-							var maxHeight = Math.max.apply(null, $(rows).map(function () {
-								return $(this).outerHeight();
-							}).get());
-							$(rows).css('height', Math.ceil(maxHeight));
-						}
-					}
-				});
-			},
-
-			/**
-			 * 设置table DOM class
-			 */
-			setupDOM: function (table) {
-				$(table).find('> thead').addClass(pfx + 'datatable__head');
-				$(table).find('> tbody').addClass(pfx + 'datatable__body');
-				$(table).find('> tfoot').addClass(pfx + 'datatable__foot');
-				$(table).find('tr').addClass(pfx + 'datatable__row');
-				$(table).find('tr > th, tr > td').addClass(pfx + 'datatable__cell');
-				$(table).find('tr > th, tr > td').each(function (i, td) {
-					if ($(td).find('span').length === 0) {
-						$(td).wrapInner($('<span/>').css('width', Plugin.cellOffset));
-					}
-				});
-			},
-
-			/**
-			 * 默认滚动条
-			 * @returns {{tableLocked: null, init: init, onScrolling: onScrolling}}
-			 */
-			scrollbar: function () {
-				var scroll = {
-					scrollable: null,
-					tableLocked: null,
-					initPosition: null,
-					init: function () {
-						var screen = util.getViewPort().width;
-						// 设置滚动条
-						if (options.layout.scroll) {
-							// 设置滚动class
-							$(datatable.wrap).addClass(pfx + 'datatable--scroll');
-
-							var scrollable = $(datatable.tableBody).find('.' + pfx + 'datatable__lock--scroll');
-
-							// 检查表格是否有数据
-							if ($(scrollable).find('.' + pfx + 'datatable__row').length > 0 && $(scrollable).length > 0) {
-								scroll.scrollHead = $(datatable.tableHead).find('> .' + pfx + 'datatable__lock--scroll > .' + pfx + 'datatable__row');
-								scroll.scrollFoot = $(datatable.tableFoot).find('> .' + pfx + 'datatable__lock--scroll > .' + pfx + 'datatable__row');
-								scroll.tableLocked = $(datatable.tableBody).find('.' + pfx + 'datatable__lock:not(.' + pfx + 'datatable__lock--scroll)');
-								if (Plugin.getOption('layout.customScrollbar') && util.detectIE() != 10 && screen > util.getBreakpoint('lg')) {
-									scroll.initCustomScrollbar(scrollable[0]);
-								} else {
-									scroll.initDefaultScrollbar(scrollable);
-								}
-							} else if ($(datatable.tableBody).find('.' + pfx + 'datatable__row').length > 0 && !datatable.isLocked()) {
-								scroll.scrollHead = $(datatable.tableHead).find('> .' + pfx + 'datatable__row');
-								scroll.scrollFoot = $(datatable.tableFoot).find('> .' + pfx + 'datatable__row');
-								if (Plugin.getOption('layout.customScrollbar') && util.detectIE() != 10 && screen > util.getBreakpoint('lg')) {
-									scroll.initCustomScrollbar(datatable.tableBody);
-								} else {
-									scroll.initDefaultScrollbar(datatable.tableBody);
-								}
-							}
-						}
-					},
-					initDefaultScrollbar: function (scrollable) {
-						// 获取初始坐标
-						scroll.initPosition = $(scrollable).scrollLeft();
-						$(scrollable).css('overflow-y', 'auto').off().on('scroll', scroll.onScrolling);
-						if (Plugin.getOption('rows.autoHide') !== true) {
-							$(scrollable).css('overflow-x', 'auto');
-						}
-					},
-					/**
-					 * 滚动回调
-					 * @param e
-					 */
-					onScrolling: function (e) {
-						var left = $(this).scrollLeft();
-						var top = $(this).scrollTop();
-						$(scroll.scrollHead).css('left', -left);
-						$(scroll.scrollFoot).css('left', -left);
-						$(scroll.tableLocked).each(function (i, table) {
-							if (Plugin.isLocked()) {
-								// scrollbar offset
-								top -= 1;
-							}
-							$(table).css('top', -top);
-						});
-					},
-					initCustomScrollbar: function (scrollable) {
-						scroll.scrollable = scrollable;
-						// create a new instance for table body with scrollbar
-						Plugin.initScrollbar(scrollable);
-						// 获取初始坐标
-						scroll.initPosition = $(scrollable).scrollLeft();
-						$(scrollable).off().on('scroll', scroll.onScrolling);
-					}
-				};
-				scroll.init();
-				return scroll;
-			},
-
-			/**
-			 * 初始化滚动条和复位位置
-			 * @param element
-			 * @param options
-			 */
-			initScrollbar: function (element, options) {
-				if (!element || !element.nodeName) {
-					return;
-				}
-				$(datatable.tableBody).css('overflow', '');
-				if (util.hasClass(element, 'ps')) {
-					$(element).data('ps').update();
-				} else {
-					var ps = new PerfectScrollbar(element, Object.assign({}, {
-						wheelSpeed: 0.5,
-						swipeEasing: true,
-						// wheelPropagation: false,
-						minScrollbarLength: 40,
-						maxScrollbarLength: 300,
-						suppressScrollX: Plugin.getOption('rows.autoHide') && !Plugin.isLocked()
-					}, options));
-					$(element).data('ps', ps);
-
-					// 拖动窗口大小重新设置滚动条
-					$(window).resize(function () {
-						ps.update();
-					});
-				}
-			},
-
-			/**
-			 * 根据options.columns设置表头标题
-			 */
-			setHeadTitle: function (tablePart) {
-				if (typeof tablePart === 'undefined') tablePart = datatable.tableHead;
-				tablePart = $(tablePart)[0];
-				var columns = options.columns;
-				var row = tablePart.getElementsByTagName('tr')[0];
-				var ths = tablePart.getElementsByTagName('td');
-
-				if (typeof row === 'undefined') {
-					row = document.createElement('tr');
-					tablePart.appendChild(row);
-				}
-
-				$.each(columns, function (i, column) {
-					var th = ths[i];
-					if (typeof th === 'undefined') {
-						th = document.createElement('th');
-						row.appendChild(th);
-					}
-
-					// 设置列标题
-					if (typeof column['title'] !== 'undefined') {
-						th.innerHTML = column.title;
-						th.setAttribute('data-field', column.field);
-						util.addClass(th, column.class);
-						// set disable autoHide or force enable
-						if (typeof column.autoHide !== 'undefined') {
-							if (column.autoHide !== true) {
-								th.setAttribute('data-autohide-disabled', column.autoHide);
-							} else {
-								th.setAttribute('data-autohide-enabled', column.autoHide);
-							}
-						}
-						$(th).data(column);
-					}
-
-					// 设置 header attr 属性
-					if (typeof column.attr !== 'undefined') {
-						$.each(column.attr, function (key, val) {
-							th.setAttribute(key, val);
-						});
-					}
-
-					// 为thead/tfoot添加文本对齐方式
-					if (typeof column.textAlign !== 'undefined') {
-						var align = typeof datatable.textAlign[column.textAlign] !== 'undefined' ? datatable.textAlign[column.textAlign] : '';
-						util.addClass(th, align);
-					}
-				});
-				Plugin.setupDOM(tablePart);
-			},
-
-			/**
-			 * 通过Ajax获取数据或本地数据
-			 */
-			dataRender: function (action) {
-				$(datatable.table).siblings('.' + pfx + 'datatable__pager').removeClass(pfx + 'datatable--paging-loaded');
-				/**
-				 * 构建参数
-				 * @return {*}
-				 */
-				var buildMeta = function () {
-					datatable.dataSet = datatable.dataSet || [];
-					Plugin.localDataUpdate();
-					// local pagination meta
-					var meta = Plugin.getDataSourceParam('page');
-					if (meta.size == null || meta.size === 0) {
-						meta.size = options.data.pageSize || 10;
-					}
-					if (meta.current == null || meta.current === 0) {
-						meta.current = 1;
-					}
-					meta.total = datatable.dataSet.length;
-					var start = Math.max(meta.size * (meta.current - 1), 0);
-					var end = Math.min(start + meta.size, meta.total);
-					datatable.dataSet = $(datatable.dataSet).slice(start, end);
-					return meta;
-				};
-				/**
-				 * 获取数据后
-				 * @param result
-				 */
-				var afterGetData = function (result) {
-					if (result == null || tool.httpCode.success === result.code) {
-						var localPagingCallback = function (ctx, meta) {
-							if (!$(ctx.pager).hasClass(pfx + 'datatable--paging-loaded')) {
-								$(ctx.pager).remove();
-								ctx.init(meta);
-							}
-							$(ctx.pager).off().on(pfx + 'datatable--on-goto-page', function (e) {
-								$(ctx.pager).remove();
-								ctx.init(meta);
-							});
-
-							var start = Math.max(meta.size * (meta.current - 1), 0);
-							var end = Math.min(start + meta.size, meta.total);
-
-							Plugin.localDataUpdate();
-							datatable.dataSet = $(datatable.dataSet).slice(start, end);
-
-							// 将数据插入到表格中
-							Plugin.insertData();
-						};
-						$(datatable.wrap).removeClass(pfx + 'datatable--error');
-						// 启用分页
-						if (options.pagination) {
-							if (options.data.serverPaging && options.data.type !== 'local') {
-								// 服务端分页
-								// 服务器端分页
-								if (tool.httpCode.success !== result.code) {
-									tool.errorTip('查询数据失败', result.message);
-									result.data = [];
-									result.data.current = 0;
-									result.data.size = 15;
-									result.data.total = 0;
-								}
-								var serverMeta = result.data;
-								if (serverMeta !== null) {
-									Plugin.pagingObject = Plugin.paging(serverMeta);
-								} else {
-									// 没有来自服务器响应的分页，使用本地分页
-									Plugin.pagingObject = Plugin.paging(buildMeta(), localPagingCallback);
-								}
-							} else {
-								// local pagination can be used by remote data also
-								// 本地分页也可由远程数据使用
-								Plugin.pagingObject = Plugin.paging(buildMeta(), localPagingCallback);
-							}
-						} else {
-							// 禁用分页
-							Plugin.localDataUpdate();
-						}
-						// 将数据插入到表格中
-						Plugin.insertData();
-					}
-				};
-
-				// 数据在本地
-				if (options.data.type === 'local'
-					|| options.data.serverSorting === false && action === 'sort'
-					|| options.data.serverFiltering === false && action === 'search'
-				) {
-					setTimeout(function () {
-						afterGetData();
-						Plugin.setAutoColumns();
-					});
-					return;
-				}
-
-				// 获取远程数据
-				Plugin.getData().done(afterGetData);
-			},
-
-			/**
-			 * 插入ajax数据
-			 */
-			insertData: function () {
-				datatable.dataSet = datatable.dataSet || [];
-				var params = Plugin.getDataSourceParam();
-
-				// 获取行属性
-				var pagination = params.pagination;
-				var start = (Math.max(pagination.current, 1) - 1) * pagination.size;
-				var end = Math.min(pagination.current, pagination.pages) * pagination.size;
-				var rowProps = {};
-				if (typeof options.data.attr.rowProps !== 'undefined' && options.data.attr.rowProps.length) {
-					rowProps = options.data.attr.rowProps.slice(start, end);
-				}
-
-				var tableBody = document.createElement('tbody');
-				tableBody.style.visibility = 'hidden';
-				var colLength = options.columns.length;
-
-				$.each(datatable.dataSet, function (rowIndex, row) {
-					var tr = document.createElement('tr');
-					tr.setAttribute('data-row', rowIndex);
-					// 设置tr上的data-obj
-					$(tr).data('obj', row);
-
-					if (typeof rowProps[rowIndex] !== 'undefined') {
-						$.each(rowProps[rowIndex], function () {
-							tr.setAttribute(this.name, this.value);
-						});
-					}
-
-					for (var a = 0; a < colLength; a += 1) {
-						var column = options.columns[a];
-						var classes = [];
-						// 添加排序class
-						if (Plugin.getObject('sort.field', params) === column.field) {
-							classes.push(pfx + 'datatable__cell--sorted');
-						}
-
-						// 设置文本对齐方式
-						if (typeof column.textAlign !== 'undefined') {
-							var align = typeof datatable.textAlign[column.textAlign] !== 'undefined' ? datatable.textAlign[column.textAlign] : '';
-							classes.push(align);
-						}
-
-						// var classAttr = '';
-						// 设置列class
-						if (typeof column.class !== 'undefined') {
-							classes.push(column.class);
-						}
-
-						var td = document.createElement('td');
-						util.addClass(td, classes.join(' '));
-						td.setAttribute('data-field', column.field);
-						// set disable autoHide or force enable
-						// 设置禁用自动隐藏或强制启用
-						if (typeof column.autoHide !== 'undefined') {
-							if (column.autoHide !== true) {
-								td.setAttribute('data-autohide-disabled', column.autoHide);
-							} else {
-								td.setAttribute('data-autohide-enabled', column.autoHide);
-							}
-						}
-						td.innerHTML = Plugin.getObject(column.field, row);
-						tr.appendChild(td);
-					}
-
-					tableBody.appendChild(tr);
-				});
-
-				// 显示无记录消息
-				if (datatable.dataSet.length === 0) {
-					var errorSpan = document.createElement('span');
-					util.addClass(errorSpan, pfx + 'datatable--error');
-					errorSpan.innerHTML = Plugin.getOption('translate.records.noRecords');
-					tableBody.appendChild(errorSpan);
-					$(datatable.wrap).addClass(pfx + 'datatable--error ' + pfx + 'datatable--loaded');
-					Plugin.spinnerCallback(false);
-				}
-
-				// 替换已存在的table body
-				$(datatable.tableBody).replaceWith(tableBody);
-				datatable.tableBody = tableBody;
-
-				// 更新布局
-				Plugin.setupDOM(datatable.table);
-				Plugin.setupCellField([datatable.tableBody]);
-				Plugin.setupTemplateCell(datatable.tableBody);
-				Plugin.layoutUpdate();
-			},
-			/**
-			 * 更新table组件
-			 */
-			updateTableComponents: function () {
-				datatable.tableHead = $(datatable.table).children('thead');
-				datatable.tableBody = $(datatable.table).children('tbody');
-				datatable.tableFoot = $(datatable.table).children('tfoot');
-			},
-
-			/**
-			 * 使用ajax获取数据
-			 */
-			getData: function () {
-				// Plugin.spinnerCallback(true);
-
-				var ajaxParams = {
-					contentType: 'application/json',
-					dataType: 'json',
-					method: 'POST',
-					data: {},
-					timeout: Plugin.getOption('data.source.read.timeout') || 1000 * 30
-				};
-
-				if (options.data.type === 'local') {
-					ajaxParams.url = options.data.source;
-				}
-
-				if (options.data.type === 'remote') {
-					var data = Plugin.getDataSourceParam();
-					// 如果没有启用服务端分页,删除参数中的分页信息
-					if (!Plugin.getOption('data.serverPaging')) {
-						delete data['page'];
-					} else {
-						// 如果数据来源于服务器并且在服务器分页,将排序信息放到参数中
-						if (typeof data.sort !== 'undefined') {
-							if ('asc' === data.sort.sort) {
-								data.page.ascs = [data.sort.field];
-							} else if ('desc' === data.sort.sort) {
-								data.page.descs = [data.sort.field];
-							}
-						}
-						delete data['sort'];
-					}
-
-					// 表单内参数是否需要带入
-					if (Plugin.getOption('data.source.autoQuery')) {
-						var formParams = tool.queryParams($(datatable.table).parents('form.kt-form').find('.query-modular input,.query-modular select'));
-						ajaxParams.data = $.extend(true, ajaxParams.data, formParams);
-					}
-
-					ajaxParams.data = $.extend({}, ajaxParams.data, data, Plugin.getOption('data.source.read.params'));
-					ajaxParams = $.extend({}, ajaxParams, Plugin.getOption('data.source.read'));
-
-					if (typeof ajaxParams.url !== 'string') ajaxParams.url = Plugin.getOption('data.source.read');
-					if (typeof ajaxParams.url !== 'string') ajaxParams.url = Plugin.getOption('data.source');
-					ajaxParams.method = Plugin.getOption('data.source.read.method') || 'POST';
-					ajaxParams.data = JSON.stringify(ajaxParams.data);
-				}
-				/**
-				 * 失败
-				 * @param jqXHR
-				 * @param textStatus
-				 * @param errorThrown
-				 */
-				var failBack = function (jqXHR, textStatus, errorThrown) {
-					$(datatable).trigger(pfx + 'datatable--on-ajax-fail', [jqXHR]);
-					$(datatable.tableBody).html($('<span/>').addClass(pfx + 'datatable--error').html(Plugin.getOption('translate.records.noRecords')));
-					$(datatable.wrap).addClass(pfx + 'datatable--error ' + pfx + 'datatable--loaded');
-					Plugin.spinnerCallback(false);
-				};
-
-				return $.ajax(ajaxParams).done(function (response, textStatus, jqXHR) {
-					if (tool.httpCode.success === response.code) {
-						datatable.lastResponse = response;
-						// extendible data map callback for custom dataSource
-						datatable.dataSet = datatable.originalDataSet = Plugin.dataMapCallback(response);
-						Plugin.setAutoColumns();
-						$(datatable).trigger(pfx + 'datatable--on-ajax-done', [datatable.dataSet]);
-					}else{
-						tool.errorTip('查询数据失败', response.message);
-						failBack(response.message);
-					}
-				}).fail(function (jqXHR, textStatus, errorThrown) {
-					failBack(jqXHR, textStatus, errorThrown);
-				}).always(function () {
-				});
-			},
-
-			/**
-			 * 分页
-			 * @param meta if null, 本地分页, 否则服务器分页
-			 * @param callback 回调
-			 */
-			paging: function (meta, callback) {
-				var pg = {
-					meta: null,
-					pager: null,
-					paginateEvent: null,
-					pagerLayout: {pagination: null, info: null},
-					callback: null,
-					init: function (meta) {
-						pg.meta = meta;
-
-						// 转为int类型
-						pg.meta.current = parseInt(pg.meta.current);
-						pg.meta.pages = parseInt(pg.meta.pages);
-						pg.meta.size = parseInt(pg.meta.size);
-						pg.meta.total = parseInt(pg.meta.total);
-
-						// 计算总页数
-						pg.meta.pages = Math.max(Math.ceil(pg.meta.total / pg.meta.size), 1);
-
-						// 当前页不能超过总页数
-						if (pg.meta.current > pg.meta.pages) pg.meta.current = pg.meta.pages;
-
-						// 设置唯一事件
-						pg.paginateEvent = Plugin.getTablePrefix();
-
-						pg.pager = $(datatable.table).siblings('.' + pfx + 'datatable__pager');
-						if ($(pg.pager).hasClass(pfx + 'datatable--paging-loaded')) return;
-
-						// 重新创建分页
-						$(pg.pager).remove();
-
-						// 无分页
-						if (pg.meta.pages === 0) return;
-
-						// 设置分页参数
-						Plugin.setDataSourceParam('page', {
-							current: pg.meta.current,
-							pages: pg.meta.pages,
-							size: pg.meta.size,
-							total: pg.meta.total
-						});
-
-						// 默认回调函数, 包含服务器分页
-						pg.callback = pg.serverCallback;
-						// 自定义回调函数
-						if (typeof callback === 'function') pg.callback = callback;
-
-						pg.addPaginateEvent();
-						pg.populate();
-
-						pg.meta.current = Math.max(pg.meta.current || 1, pg.meta.current);
-
-						$(datatable).trigger(pg.paginateEvent, pg.meta);
-
-						pg.pagingBreakpoint.call();
-						$(window).resize(pg.pagingBreakpoint);
-					},
-					serverCallback: function (ctx, meta) {
-						Plugin.dataRender();
-					},
-					/**
-					 * 生成分页工具条
-					 */
-					populate: function () {
-						var icons = Plugin.getOption('layout.icons.pagination');
-						var title = Plugin.getOption('translate.toolbar.pagination.items.default');
-						// 分页根元素
-						pg.pager = $('<div/>').addClass(pfx + 'datatable__pager ' + pfx + 'datatable--paging-loaded');
-						// 页码链接
-						var pagerNumber = $('<ul/>').addClass(pfx + 'datatable__pager-nav');
-						pg.pagerLayout['pagination'] = pagerNumber;
-
-						// 第一页/上一页 按钮
-						$('<li/>').append($('<a/>').attr('title', title.first).addClass(pfx + 'datatable__pager-link ' + pfx + 'datatable__pager-link--first').append($('<i/>').addClass(icons.first)).on('click', pg.gotoMorePage).attr('data-page', 1)).appendTo(pagerNumber);
-						$('<li/>').append($('<a/>').attr('title', title.prev).addClass(pfx + 'datatable__pager-link ' + pfx + 'datatable__pager-link--prev').append($('<i/>').addClass(icons.prev)).on('click', pg.gotoMorePage)).appendTo(pagerNumber);
-
-						// more previous pages
-						$('<li/>').append($('<a/>').attr('title', title.more).addClass(pfx + 'datatable__pager-link ' + pfx + 'datatable__pager-link--more-prev').html($('<i/>').addClass(icons.more)).on('click', pg.gotoMorePage)).appendTo(pagerNumber);
-
-						$('<li/>').append($('<input/>').attr('type', 'text').addClass(pfx + 'pager-input form-control').attr('title', title.input).on('keyup', function () {
-							// 当 keyup 更新 [data-page]
-							$(this).attr('data-page', Math.abs($(this).val()));
-						}).on('keypress', function (e) {
-							// 按回车
-							if (e.which === 13) pg.gotoMorePage(e);
-						})).appendTo(pagerNumber);
-
-						var pagesNumber = Plugin.getOption('toolbar.items.pagination.pages.desktop.pagesNumber');
-						var end = Math.ceil(pg.meta.current / pagesNumber) * pagesNumber;
-						var start = end - pagesNumber;
-						if (end > pg.meta.pages) {
-							end = pg.meta.pages;
-						}
-						for (var x = start; x < end; x++) {
-							var pageNumber = x + 1;
-							$('<li/>').append($('<a/>').addClass(pfx + 'datatable__pager-link ' + pfx + 'datatable__pager-link-number').text(pageNumber).attr('data-page', pageNumber).attr('title', pageNumber).on('click', pg.gotoPage)).appendTo(pagerNumber);
-						}
-
-						// more next pages
-						$('<li/>').append($('<a/>').attr('title', title.more).addClass(pfx + 'datatable__pager-link ' + pfx + 'datatable__pager-link--more-next').html($('<i/>').addClass(icons.more)).on('click', pg.gotoMorePage)).appendTo(pagerNumber);
-
-						// 下一页/最后一页 按钮
-						$('<li/>').append($('<a/>').attr('title', title.next).addClass(pfx + 'datatable__pager-link ' + pfx + 'datatable__pager-link--next').append($('<i/>').addClass(icons.next)).on('click', pg.gotoMorePage)).appendTo(pagerNumber);
-						$('<li/>').append($('<a/>').attr('title', title.last).addClass(pfx + 'datatable__pager-link ' + pfx + 'datatable__pager-link--last').append($('<i/>').addClass(icons.last)).on('click', pg.gotoMorePage).attr('data-page', pg.meta.pages)).appendTo(pagerNumber);
-
-						// 分页信息
-						if (Plugin.getOption('toolbar.items.info')) {
-							pg.pagerLayout['info'] = $('<div/>').addClass(pfx + 'datatable__pager-info').append($('<span/>').addClass(pfx + 'datatable__pager-detail'));
-						}
-
-						$.each(Plugin.getOption('toolbar.layout'), function (i, layout) {
-							$(pg.pagerLayout[layout]).appendTo(pg.pager);
-						});
-
-						// 页大小 select
-						var pageSizeSelect = $('<select/>').addClass('selectpicker ' + pfx + 'datatable__pager-size').attr('title', Plugin.getOption('translate.toolbar.pagination.items.default.select')).attr('data-width', '60px').val(pg.meta.size).on('change', pg.updatePerpage).prependTo(pg.pagerLayout['info']);
-
-						var pageSizes = Plugin.getOption('toolbar.items.pagination.pageSizeSelect');
-						// 如果未指定页大小设置,使用默认设置
-						if (pageSizes.length === 0) pageSizes = [10, 15, 20, 30, 50, 100];
-						$.each(pageSizes, function (i, size) {
-							var display = size;
-							if (size === -1) display = Plugin.getOption('translate.toolbar.pagination.items.default.all');
-							$('<option/>').attr('value', size).html(display).appendTo(pageSizeSelect);
-						});
-
-						// 初始化下拉插件
-						$(datatable).ready(function () {
-							$('.selectpicker').selectpicker().on('hide.bs.select', function () {
-								// fix dropup arrow icon on hide
-								$(this).closest('.bootstrap-select').removeClass('dropup');
-							}).siblings('.dropdown-toggle').attr('title', Plugin.getOption('translate.toolbar.pagination.items.default.select'));
-						});
-
-						pg.paste();
-					},
-					/**
-					 * 将分页工具条插入页码
-					 */
-					paste: function () {
-						// 根据toolbar.placement(top|bottom)插入分页工具条
-						$.each($.unique(Plugin.getOption('toolbar.placement')),
-							function (i, position) {
-								if (position === 'bottom') {
-									$(pg.pager).clone(true).insertAfter(datatable.table);
-								}
-								if (position === 'top') {
-									// 分页放到顶部需要额外的空间
-									$(pg.pager).clone(true).addClass(pfx + 'datatable__pager--top').insertBefore(datatable.table);
-								}
-							});
-					},
-					gotoMorePage: function (e) {
-						e.preventDefault();
-						// $(this) is a link of .'+pfx+'datatable__pager-link
-
-						if ($(this).attr('disabled') === 'disabled') return false;
-
-						var page = $(this).attr('data-page');
-
-						// event from text input
-						if (typeof page === 'undefined') {
-							page = $(e.target).attr('data-page');
-						}
-
-						pg.openPage(parseInt(page));
-						return false;
-					},
-					/**
-					 * 点击页码按钮
-					 *
-					 * @param e
-					 */
-					gotoPage: function (e) {
-						e.preventDefault();
-						// 如果点击的是当前页,忽略
-						if ($(this).hasClass(pfx + 'datatable__pager-link--active')) return;
-
-						pg.openPage(parseInt($(this).data('page')));
-					},
-					/**
-					 * 跳转到多少页
-					 * @param page {string} 页码
-					 */
-					openPage: function (page) {
-						// 当前页从1开始
-						pg.meta.current = parseInt(page);
-
-						$(datatable).trigger(pg.paginateEvent, pg.meta);
-						pg.callback(pg, pg.meta);
-
-						// 更新分页回调函数
-						$(pg.pager).trigger(pfx + 'datatable--on-goto-page', pg.meta);
-					},
-					/**
-					 * 改变页大小
-					 * @param e
-					 */
-					updatePerpage: function (e) {
-						e.preventDefault();
-
-						pg.pager = $(datatable.table).siblings('.' + pfx + 'datatable__pager').removeClass(pfx + 'datatable--paging-loaded');
-
-						// 改变页大小
-						if (e.originalEvent) {
-							pg.meta.size = parseInt($(this).val());
-						}
-
-						$(pg.pager).find('select.' + pfx + 'datatable__pager-size').val(pg.meta.size).attr('data-selected', pg.meta.size);
-
-						// 更新 dataSource 参数
-						Plugin.setDataSourceParam('page', {
-							current: pg.meta.current,
-							pages: pg.meta.pages,
-							size: pg.meta.size,
-							total: pg.meta.total
-						});
-
-						// 更新分页回调函数
-						$(pg.pager).trigger(pfx + 'datatable--on-update-perpage', pg.meta);
-						$(datatable).trigger(pg.paginateEvent, pg.meta);
-						pg.callback(pg, pg.meta);
-
-						// 更新分页信息
-						pg.updateInfo.call();
-					},
-					/**
-					 * 绑定分页事件
-					 *
-					 * @param e
-					 */
-					addPaginateEvent: function (e) {
-						$(datatable).off(pg.paginateEvent).on(pg.paginateEvent, function (e, meta) {
-							Plugin.spinnerCallback(true);
-
-							pg.pager = $(datatable.table).siblings('.' + pfx + 'datatable__pager');
-							var pagerNumber = $(pg.pager).find('.' + pfx + 'datatable__pager-nav');
-
-							// 设置当前页按钮状态
-							$(pagerNumber).find('.' + pfx + 'datatable__pager-link--active').removeClass(pfx + 'datatable__pager-link--active');
-							$(pagerNumber).find('.' + pfx + 'datatable__pager-link-number[data-page="' + meta.current + '"]').addClass(pfx + 'datatable__pager-link--active');
-
-							// 设置上一页下一页按钮页码
-							$(pagerNumber).find('.' + pfx + 'datatable__pager-link--prev').attr('data-page', Math.max(meta.current - 1, 1));
-							$(pagerNumber).find('.' + pfx + 'datatable__pager-link--next').attr('data-page', Math.min(meta.current + 1, meta.pages));
-
-							// 设置当前页页码
-							$(pg.pager).each(function () {
-								$(this).find('.' + pfx + 'pager-input[type="text"]').prop('value', meta.current);
-							});
-
-							$(pg.pager).find('.' + pfx + 'datatable__pager-nav').show();
-							if (meta.pages <= 1) {
-								// 如果不足2页,隐藏工具条
-								$(pg.pager).find('.' + pfx + 'datatable__pager-nav').hide();
-							}
-
-							// 更新 dataSource 参数
-							Plugin.setDataSourceParam('page', {
-								current: pg.meta.current,
-								pages: pg.meta.pages,
-								size: pg.meta.size,
-								total: pg.meta.total
-							});
-
-							$(pg.pager).find('select.' + pfx + 'datatable__pager-size').val(meta.size).attr('data-selected', meta.size);
-
-							// 清除选中行
-							$(datatable.table).find('.' + pfx + 'checkbox > [type="checkbox"]').prop('checked', false);
-							$(datatable.table).find('.' + pfx + 'datatable__row--active').removeClass(pfx + 'datatable__row--active');
-
-							pg.updateInfo.call();
-							pg.pagingBreakpoint.call();
-							// Plugin.resetScroll();
-						});
-					},
-					/**
-					 * 更新分页信息
-					 */
-					updateInfo: function () {
-						var start = Math.max(pg.meta.size * (pg.meta.current - 1) + 1, 1);
-						var end = Math.min(start + pg.meta.size - 1, pg.meta.total);
-						// 更新分页信息
-						$(pg.pager).find('.' + pfx + 'datatable__pager-info').find('.' + pfx + 'datatable__pager-detail').html(Plugin.dataPlaceholder(
-							Plugin.getOption('translate.toolbar.pagination.items.info'), {
-								start: start,
-								end: pg.meta.size === -1 ? pg.meta.total : end,
-								pageSize: pg.meta.size === -1 ||
-								pg.meta.size >= pg.meta.total
-									? pg.meta.total
-									: pg.meta.size,
-								total: pg.meta.total,
-							}));
-					},
-
-					/**
-					 * 根据当前屏幕尺寸更新分页工具条显示方式
-					 */
-					pagingBreakpoint: function () {
-						// keep page links reference
-						var pagerNumber = $(datatable.table).siblings('.' + pfx + 'datatable__pager').find('.' + pfx + 'datatable__pager-nav');
-						if ($(pagerNumber).length === 0) return;
-
-						var currentPage = Plugin.getCurrentPage();
-						var pagerInput = $(pagerNumber).find('.' + pfx + 'pager-input').closest('li');
-
-						// 重置
-						$(pagerNumber).find('li').show();
-
-						// 更新分页工具条
-						$.each(Plugin.getOption('toolbar.items.pagination.pages'),
-							function (mode, option) {
-								if (util.isInResponsiveRange(mode)) {
-									switch (mode) {
-										case 'desktop':
-										case 'tablet':
-											var end = Math.ceil(currentPage / option.pagesNumber) *
-												option.pagesNumber;
-											// var start = end - option.pagesNumber;
-											$(pagerInput).hide();
-											pg.meta = Plugin.getDataSourceParam('page');
-											pg.paginationUpdate();
-											break;
-
-										case 'mobile':
-											$(pagerInput).show();
-											$(pagerNumber).find('.' + pfx + 'datatable__pager-link--more-prev').closest('li').hide();
-											$(pagerNumber).find('.' + pfx + 'datatable__pager-link--more-next').closest('li').hide();
-											$(pagerNumber).find('.' + pfx + 'datatable__pager-link-number').closest('li').hide();
-											break;
-									}
-
-									return false;
-								}
-							});
-					},
-
-					/**
-					 * Update pagination number and button display
-					 */
-					paginationUpdate: function () {
-						var pager = $(datatable.table).siblings('.' + pfx + 'datatable__pager').find('.' + pfx + 'datatable__pager-nav'),
-							pagerMorePrev = $(pager).find('.' + pfx + 'datatable__pager-link--more-prev'),
-							pagerMoreNext = $(pager).find('.' + pfx + 'datatable__pager-link--more-next'),
-							pagerFirst = $(pager).find('.' + pfx + 'datatable__pager-link--first'),
-							pagerPrev = $(pager).find('.' + pfx + 'datatable__pager-link--prev'),
-							pagerNext = $(pager).find('.' + pfx + 'datatable__pager-link--next'),
-							pagerLast = $(pager).find('.' + pfx + 'datatable__pager-link--last');
-
-						// 获取可见页码
-						var pagerNumber = $(pager).find('.' + pfx + 'datatable__pager-link-number');
-						// 获取第一个页码的上一页页码
-						var morePrevPage = Math.max($(pagerNumber).first().data('page') - 1,
-							1);
-						$(pagerMorePrev).each(function (i, prev) {
-							$(prev).attr('data-page', morePrevPage);
-						});
-						// 判断是否要显示上一页按钮
-						if (morePrevPage === 1) {
-							$(pagerMorePrev).parent().hide();
-						} else {
-							$(pagerMorePrev).parent().show();
-						}
-
-						// 获取最后一个页码的下一页页码
-						var moreNextPage = Math.min($(pagerNumber).last().data('page') + 1,
-							pg.meta.pages);
-						$(pagerMoreNext).each(function (i, prev) {
-							$(pagerMoreNext).attr('data-page', moreNextPage).show();
-						});
-
-						// 判断是否要显示下一页按钮
-						if (moreNextPage === pg.meta.pages
-							// missing dot fix when last hidden page is one left
-							&& moreNextPage === $(pagerNumber).last().data('page')) {
-							$(pagerMoreNext).parent().hide();
-						} else {
-							$(pagerMoreNext).parent().show();
-						}
-
-						// 第一页/最后一页按钮状态
-						if (pg.meta.current === 1) {
-							$(pagerFirst).attr('disabled', true).addClass(pfx + 'datatable__pager-link--disabled');
-							$(pagerPrev).attr('disabled', true).addClass(pfx + 'datatable__pager-link--disabled');
-						} else {
-							$(pagerFirst).removeAttr('disabled').removeClass(pfx + 'datatable__pager-link--disabled');
-							$(pagerPrev).removeAttr('disabled').removeClass(pfx + 'datatable__pager-link--disabled');
-						}
-						if (pg.meta.current === pg.meta.pages) {
-							$(pagerNext).attr('disabled', true).addClass(pfx + 'datatable__pager-link--disabled');
-							$(pagerLast).attr('disabled', true).addClass(pfx + 'datatable__pager-link--disabled');
-						} else {
-							$(pagerNext).removeAttr('disabled').removeClass(pfx + 'datatable__pager-link--disabled');
-							$(pagerLast).removeAttr('disabled').removeClass(pfx + 'datatable__pager-link--disabled');
-						}
-
-						// 根据配置设置按钮显示/隐藏
-						var nav = Plugin.getOption('toolbar.items.pagination.navigation');
-						if (!nav.first) $(pagerFirst).remove();
-						if (!nav.prev) $(pagerPrev).remove();
-						if (!nav.next) $(pagerNext).remove();
-						if (!nav.last) $(pagerLast).remove();
-					}
-				};
-				pg.init(meta);
-				return pg;
-			},
-
-			/**
-			 * 根据屏幕尺寸与设置,隐藏/显示列
-			 * options[columns][i][responsive][visible/hidden]
-			 */
-			columnHide: function () {
-				var screen = util.getViewPort().width;
-				// foreach columns setting
-				$.each(options.columns, function (i, column) {
-					if (typeof column.responsive !== 'undefined') {
-						var field = column.field;
-						var tds = $.grep($(datatable.table).find('.' + pfx + 'datatable__cell'), function (n, i) {
-							return field === $(n).data('field');
-						});
-						if (util.getBreakpoint(column.responsive.hidden) >= screen) {
-							$(tds).hide();
-						} else {
-							$(tds).show();
-						}
-						if (util.getBreakpoint(column.responsive.visible) <= screen) {
-							$(tds).show();
-						} else {
-							$(tds).hide();
-						}
-					}
-				});
-			},
-
-			/**
-			 * 设置子表
-			 */
-			setupSubDatatable: function () {
-				var subTableCallback = Plugin.getOption('detail.content');
-				if (typeof subTableCallback !== 'function') return;
-
-				// subtable already exist
-				if ($(datatable.table).find('.' + pfx + 'datatable__subtable').length > 0) return;
-
-				$(datatable.wrap).addClass(pfx + 'datatable--subtable');
-
-				options.columns[0]['subtable'] = true;
-
-				// toggle on open sub table
-				var toggleSubTable = function (e) {
-					e.preventDefault();
-					// get parent row of this subtable
-					var parentRow = $(this).closest('.' + pfx + 'datatable__row');
-
-					// get subtable row for sub table
-					var subTableRow = $(parentRow).next('.' + pfx + 'datatable__row-subtable');
-					if ($(subTableRow).length === 0) {
-						// prepare DOM for sub table, each <tr> as parent and add <tr> as child table
-						subTableRow = $('<tr/>').addClass(pfx + 'datatable__row-subtable ' + pfx + 'datatable__row-loading').hide().append($('<td/>').addClass(pfx + 'datatable__subtable').attr('colspan', Plugin.getTotalColumns()));
-						$(parentRow).after(subTableRow);
-						// add class to even row
-						if ($(parentRow).hasClass(pfx + 'datatable__row--even')) {
-							$(subTableRow).addClass(pfx + 'datatable__row-subtable--even');
-						}
-					}
-
-					$(subTableRow).toggle();
-
-					var subTable = $(subTableRow).find('.' + pfx + 'datatable__subtable');
-
-					// get id from first column of parent row
-					var primaryKey = $(this).closest('[data-field]:first-child').find('.' + pfx + 'datatable__toggle-subtable').data('value');
-
-					var icon = $(this).find('i').removeAttr('class');
-
-					// prevent duplicate datatable init
-					if ($(parentRow).hasClass(pfx + 'datatable__row--subtable-expanded')) {
-						$(icon).addClass(Plugin.getOption('layout.icons.rowDetail.collapse'));
-						// remove expand class from parent row
-						$(parentRow).removeClass(pfx + 'datatable__row--subtable-expanded');
-						// trigger event on collapse
-						$(datatable).trigger(pfx + 'datatable--on-collapse-subtable', [parentRow]);
-					} else {
-						// expand and run callback function
-						$(icon).addClass(Plugin.getOption('layout.icons.rowDetail.expand'));
-						// add expand class to parent row
-						$(parentRow).addClass(pfx + 'datatable__row--subtable-expanded');
-						// trigger event on expand
-						$(datatable).trigger(pfx + 'datatable--on-expand-subtable', [parentRow]);
-					}
-
-					// prevent duplicate datatable init
-					if ($(subTable).find('.' + pfx + 'datatable').length === 0) {
-						// get data by primary id
-						$.map(datatable.dataSet, function (n, i) {
-							// primary id must be at the first column, otherwise e.data will be undefined
-							if (primaryKey === n[options.columns[0].field]) {
-								e.data = n;
-								return true;
-							}
-							return false;
-						});
-
-						// deprecated in v5.0.6
-						e.detailCell = subTable;
-
-						e.parentRow = parentRow;
-						e.subTable = subTable;
-
-						// run callback with event
-						subTableCallback(e);
-
-						$(subTable).children('.' + pfx + 'datatable').on(pfx + 'datatable--on-init', function (e) {
-							$(subTableRow).removeClass(pfx + 'datatable__row-loading');
-						});
-						if (Plugin.getOption('data.type') === 'local') {
-							$(subTableRow).removeClass(pfx + 'datatable__row-loading');
-						}
-					}
-				};
-
-				var columns = options.columns;
-				$(datatable.tableBody).find('.' + pfx + 'datatable__row').each(function (tri, tr) {
-					$(tr).find('.' + pfx + 'datatable__cell').each(function (tdi, td) {
-						// get column settings by field
-						var column = $.grep(columns, function (n, i) {
-							return $(td).data('field') === n.field;
-						})[0];
-						if (typeof column !== 'undefined') {
-							var value = $(td).text();
-							// enable column subtable toggle
-							if (typeof column.subtable !== 'undefined' && column.subtable) {
-								// check if subtable toggle exist
-								if ($(td).find('.' + pfx + 'datatable__toggle-subtable').length > 0) return;
-								// append subtable toggle
-								$(td).html($('<a/>').addClass(pfx + 'datatable__toggle-subtable').attr('href', '#').attr('data-value', value).attr('title', Plugin.getOption('detail.title')).on('click', toggleSubTable).append($('<i/>').css('width', $(td).data('width')).addClass(Plugin.getOption('layout.icons.rowDetail.collapse'))));
-							}
-						}
-					});
-				});
-
-				// $(datatable.tableHead).find('.'+pfx+'-datatable__row').first()
-			},
-
-			/**
-			 * dataSource mapping callback
-			 */
-			dataMapCallback: function (raw) {
-				// static dataset array
-				var dataSet = raw;
-				// dataset mapping callback
-				if (typeof Plugin.getOption('data.source.read.map') === 'function') {
-					return Plugin.getOption('data.source.read.map')(raw);
-				} else {
-					// default data mapping fallback
-					if (typeof raw !== 'undefined' && typeof raw.data !== 'undefined') {
-						dataSet = raw.data;
-					}
-				}
-				return dataSet;
-			},
-
-			isSpinning: false,
-			/**
-			 * 打开/关闭 BlockUI 等待提示
-			 * @param block
-			 * @param target
-			 */
-			spinnerCallback: function (block, target) {
-				if (typeof target === 'undefined') target = datatable;
-				// 获取遮罩设置
-				var spinnerOptions = Plugin.getOption('layout.spinner');
-				// spinner 被禁用
-				if (typeof spinnerOptions === 'undefined' || !spinnerOptions) {
-					return;
-				}
-				if (block) {
-					if (!Plugin.isSpinning) {
-						if (typeof spinnerOptions.message !== 'undefined' && spinnerOptions.message === true) {
-							// 使用默认提示文字
-							spinnerOptions.message = Plugin.getOption('translate.records.processing');
-						}
-						Plugin.isSpinning = true;
-						if (typeof app !== 'undefined') {
-							app.block(target, spinnerOptions);
-						}
-					}
-				} else {
-					Plugin.isSpinning = false;
-					if (typeof app !== 'undefined') {
-						app.unblock(target);
-					}
-				}
-			},
-
-			/**
-			 * 默认排序回调函数
-			 * @param data {array} 数据
-			 * @param sort {string} asc|desc 排序方式
-			 * @param column {object} 排序的列
-			 * @returns {*|Array.<T>|{sort, field}|{asc, desc}}
-			 */
-			sortCallback: function (data, sort, column) {
-				var type = column['type'] || 'string';
-				var format = column['format'] || '';
-				var field = column['field'];
-
-				return $(data).sort(function (a, b) {
-					var aField = a[field];
-					var bField = b[field];
-
-					switch (type) {
-						case 'date':
-							if (typeof moment === 'undefined') {
-								throw new Error('Moment.js is required.');
-							}
-							var diff = moment(aField, format).diff(moment(bField, format));
-							if (sort === 'asc') {
-								return diff > 0 ? 1 : diff < 0 ? -1 : 0;
-							} else {
-								return diff < 0 ? 1 : diff > 0 ? -1 : 0;
-							}
-							break;
-
-						case 'number':
-							if (isNaN(parseFloat(aField)) && aField != null) {
-								aField = Number(aField.replace(/[^0-9\.-]+/g, ''));
-							}
-							if (isNaN(parseFloat(bField)) && bField != null) {
-								bField = Number(bField.replace(/[^0-9\.-]+/g, ''));
-							}
-							aField = parseFloat(aField);
-							bField = parseFloat(bField);
-							if (sort === 'asc') {
-								return aField > bField ? 1 : aField < bField ? -1 : 0;
-							} else {
-								return aField < bField ? 1 : aField > bField ? -1 : 0;
-							}
-							break;
-
-						case 'string':
-						default:
-							if (sort === 'asc') {
-								return aField > bField ? 1 : aField < bField ? -1 : 0;
-							} else {
-								return aField < bField ? 1 : aField > bField ? -1 : 0;
-							}
-							break;
-					}
-				});
-			},
-
-			/**
-			 * 日志
-			 *
-			 * @param text {object} 文字
-			 * @param obj {object}
-			 */
-			log: function (text, obj) {
-				if (typeof obj === 'undefined') obj = '';
-				if (datatable.debug) {
-					console.log(text, obj);
-				}
-			},
-
-			/**
-			 *  Auto hide columnds overflow in row
-			 *  自动隐藏溢出列
-			 */
-			autoHide: function () {
-				var hiddenExist = false;
-				// force hide enabled
-				var hidDefault = $(datatable.table).find('[data-autohide-enabled]');
-				if (hidDefault.length) {
-					hiddenExist = true;
-					hidDefault.hide();
-				}
-
-				var toggleHiddenColumns = function (e) {
-					e.preventDefault();
-
-					var row = $(this).closest('.' + pfx + 'datatable__row');
-					var detailRow = $(row).next();
-
-					if (!$(detailRow).hasClass(pfx + 'datatable__row-detail')) {
-						$(this).find('i').removeClass(Plugin.getOption('layout.icons.rowDetail.collapse')).addClass(Plugin.getOption('layout.icons.rowDetail.expand'));
-
-						var hiddenCells = $(row).find('.' + pfx + 'datatable__cell:hidden');
-						var clonedCells = hiddenCells.clone().show();
-
-						detailRow = $('<tr/>').addClass(pfx + 'datatable__row-detail').insertAfter(row);
-						var detailRowTd = $('<td/>').addClass(pfx + 'datatable__detail').attr('colspan', Plugin.getTotalColumns()).appendTo(detailRow);
-
-						var detailSubTable = $('<table/>');
-						$(clonedCells).each(function () {
-							var field = $(this).data('field');
-							var column = $.grep(options.columns, function (n, i) {
-								return field === n.field;
-							})[0];
-							$(detailSubTable).append($('<tr class="' + pfx + 'datatable__row"></tr>').append($('<td class="' + pfx + 'datatable__cell"></td>').append($('<span/>').append(column.title))).append(this));
-						});
-						$(detailRowTd).append(detailSubTable);
-
-					} else {
-						$(this).find('i').removeClass(Plugin.getOption('layout.icons.rowDetail.expand')).addClass(Plugin.getOption('layout.icons.rowDetail.collapse'));
-						$(detailRow).remove();
-					}
-				};
-
-				setTimeout(function () {
-					$(datatable.table).find('.' + pfx + 'datatable__cell').show();
-					$(datatable.tableBody).each(function () {
-						var recursive = 0;
-						while ($(this)[0].offsetWidth < $(this)[0].scrollWidth && recursive < options.columns.length) {
-							$(datatable.table).find('.' + pfx + 'datatable__row').each(function (i) {
-								var cell = $(this).find('.' + pfx + 'datatable__cell:not(:hidden):not([data-autohide-disabled])').last();
-								$(cell).hide();
-								hiddenExist = true;
-							});
-							recursive++;
-						}
-					});
-
-					if (hiddenExist) {
-						// 改变列隐藏/显示
-						$(datatable.tableBody).find('.' + pfx + 'datatable__row').each(function () {
-							// if no toggle yet
-							if ($(this).find('.' + pfx + 'datatable__toggle-detail').length === 0) {
-								// add toggle
-								$(this).prepend($('<td/>').addClass(pfx + 'datatable__cell ' + pfx + 'datatable__toggle-detail').append($('<a/>').addClass(pfx + 'datatable__toggle-detail').attr('href', '').on('click', toggleHiddenColumns).append('<i class="' + Plugin.getOption('layout.icons.rowDetail.collapse') + '"></i>')));
-							}
-
-							// check if subtable toggle exist
-							if ($(datatable.tableHead).find('.' + pfx + 'datatable__toggle-detail').length === 0) {
-								// add empty column to the header and footer
-								$(datatable.tableHead).find('.' + pfx + 'datatable__row').first().prepend('<th class="' + pfx + 'datatable__cell ' + pfx + 'datatable__toggle-detail"><span></span></th>');
-								$(datatable.tableFoot).find('.' + pfx + 'datatable__row').first().prepend('<th class="' + pfx + 'datatable__cell ' + pfx + 'datatable__toggle-detail"><span></span></th>');
-							} else {
-								$(datatable.tableHead).find('.' + pfx + 'datatable__toggle-detail').find('span');
-							}
-						});
-					}
-				});
-
-				Plugin.adjustCellsWidth.call();
-			},
-
-			/**
-			 * 自动将服务器返回数据第一条作为表格标题
-			 */
-			setAutoColumns: function () {
-				if (Plugin.getOption('data.autoColumns')) {
-					$.each(datatable.dataSet[0], function (k, v) {
-						var found = $.grep(options.columns, function (n, i) {
-							return k === n.field;
-						});
-						if (found.length === 0) {
-							options.columns.push({field: k, title: k});
-						}
-					});
-					$(datatable.tableHead).find('.' + pfx + 'datatable__row').remove();
-					Plugin.setHeadTitle();
-					if (Plugin.getOption('layout.footer')) {
-						$(datatable.tableFoot).find('.' + pfx + 'datatable__row').remove();
-						Plugin.setHeadTitle(datatable.tableFoot);
-					}
-				}
-			},
-
-			/********************
-			 ** 工具
-			 ********************/
-
-			/**
-			 * 检查表格中是否有锁定列
-			 */
-			isLocked: function () {
-				var isLocked = Plugin.lockEnabledColumns();
-				return isLocked.left.length > 0 || isLocked.right.length > 0;
-			},
-
-			isSubtable: function () {
-				return util.hasClass(datatable.wrap[0], pfx + 'datatable--subtable') || false;
-			},
-
-			/**
-			 * 获取用于宽度计算的元素的额外空间 (包括 padding, margin, border)
-			 * @param element
-			 * @returns {number}
-			 */
-			getExtraSpace: function (element) {
-				var padding = parseInt($(element).css('paddingRight')) +
-					parseInt($(element).css('paddingLeft'));
-				var margin = parseInt($(element).css('marginRight')) +
-					parseInt($(element).css('marginLeft'));
-				var border = Math.ceil(
-					$(element).css('border-right-width').replace('px', ''));
-				return padding + margin + border;
-			},
-
-			/**
-			 * 将数组的数据插入{{}}模板占位符中
-			 * @param template {string} 模板
-			 * @param data {array} 数据
-			 * @returns {*}
-			 */
-			dataPlaceholder: function (template, data) {
-				var result = template;
-				$.each(data, function (key, val) {
-					result = result.replace('{{' + key + '}}', val);
-				});
-				return result;
-			},
-
-			/**
-			 * 获取表格唯一id
-			 *
-			 * @param suffix {string} 后缀
-			 * @returns {*}
-			 */
-			getTableId: function (suffix) {
-				if (typeof suffix === 'undefined') suffix = '';
-				var id = $(datatable).attr('id');
-				if (typeof id === 'undefined') {
-					id = $(datatable).attr('class').split(' ')[0];
-				}
-				return id + suffix;
-			},
-
-			/**
-			 * 根据表格级别获取表格前缀
-			 */
-			getTablePrefix: function (suffix) {
-				if (typeof suffix !== 'undefined') suffix = '-' + suffix;
-				return Plugin.getTableId() + '-' + Plugin.getDepth() + suffix;
-			},
-
-			/**
-			 * 获取当前表格在子表中的级别
-			 *
-			 * @returns {number}
-			 */
-			getDepth: function () {
-				var depth = 0;
-				var table = datatable.table;
-				do {
-					table = $(table).parents('.' + pfx + 'datatable__table');
-					depth++;
-				} while ($(table).length > 0);
-				return depth;
-			},
-
-			/**
-			 * 保存表格状态
-			 *
-			 * @param key {string} 关键字
-			 * @param value {object} 值
-			 */
-			stateKeep: function (key, value) {
-				key = Plugin.getTablePrefix(key);
-				if (Plugin.getOption('data.saveState') === false) return;
-				if (Plugin.getOption('data.saveState.webstorage') && localStorage) {
-					localStorage.setItem(key, JSON.stringify(value));
-				}
-				if (Plugin.getOption('data.saveState.cookie')) {
-					Cookies.set(key, JSON.stringify(value));
-				}
-			},
-
-			/**
-			 * 获取表格状态
-			 *
-			 * @param key {string} 关键字
-			 */
-			stateGet: function (key, defValue) {
-				key = Plugin.getTablePrefix(key);
-				if (Plugin.getOption('data.saveState') === false) return;
-				var value = null;
-				if (Plugin.getOption('data.saveState.webstorage') && localStorage) {
-					value = localStorage.getItem(key);
-				} else {
-					value = Cookies.get(key);
-				}
-				if (typeof value !== 'undefined' && value !== null) {
-					return JSON.parse(value);
-				}
-			},
-
-			/**
-			 * 更新cookies/localStorage中的状态
-			 *
-			 * @param key {string} 关键字
-			 * @param value {object} 值
-			 */
-			stateUpdate: function (key, value) {
-				var ori = Plugin.stateGet(key);
-				if (typeof ori === 'undefined' || ori === null) ori = {};
-				Plugin.stateKeep(key, $.extend({}, ori, value));
-			},
-
-			/**
-			 * 移除指定cookies/localStorage
-			 *
-			 * @param key {string} key
-			 */
-			stateRemove: function (key) {
-				key = Plugin.getTablePrefix(key);
-				if (localStorage) {
-					localStorage.removeItem(key);
-				}
-				Cookies.remove(key);
-			},
-
-			/**
-			 * 获取列数量
-			 */
-			getTotalColumns: function (tablePart) {
-				if (typeof tablePart === 'undefined') tablePart = datatable.tableBody;
-				return $(tablePart).find('.' + pfx + 'datatable__row').first().find('.' + pfx + 'datatable__cell').length;
-			},
-
-			/**
-			 * 获取表格中的一行
-			 *
-			 * @param tablePart {string} 表格选择器
-			 * @param row {int} 行号 从1开始
-			 * @param tdOnly {boolean} 只返回td
-			 * @returns {*}
-			 */
-			getOneRow: function (tablePart, row, tdOnly) {
-				if (typeof tdOnly === 'undefined') tdOnly = true;
-				// get list of <tr>
-				var result = $(tablePart).find('.' + pfx + 'datatable__row:not(.' + pfx + 'datatable__row-detail):nth-child(' + row + ')');
-				if (tdOnly) {
-					// get list of <td> or <th>
-					result = result.find('.' + pfx + 'datatable__cell');
-				}
-				return result;
-			},
-
-			/**
-			 * Sort table row at HTML level by column index.
-			 * todo; Not in use.
-			 * @param header Header sort clicked
-			 * @param sort asc|desc. Optional. Default asc
-			 * @param int Boolean. Optional. Comparison value parse to integer.
-			 *     Default false
-			 */
-			sortColumn: function (header, sort, int) {
-				if (typeof sort === 'undefined') sort = 'asc'; // desc
-				if (typeof int === 'undefined') int = false;
-
-				var column = $(header).index();
-				var rows = $(datatable.tableBody).find('.' + pfx + 'datatable__row');
-				var hIndex = $(header).closest('.' + pfx + 'datatable__lock').index();
-				if (hIndex !== -1) {
-					rows = $(datatable.tableBody).find('.' + pfx + 'datatable__lock:nth-child(' + (hIndex + 1) + ')').find('.' + pfx + 'datatable__row');
-				}
-
-				var container = $(rows).parent();
-				$(rows).sort(function (a, b) {
-					var tda = $(a).find('td:nth-child(' + column + ')').text();
-					var tdb = $(b).find('td:nth-child(' + column + ')').text();
-
-					if (int) {
-						// useful for integer type sorting
-						tda = parseInt(tda);
-						tdb = parseInt(tdb);
-					}
-
-					if (sort === 'asc') {
-						return tda > tdb ? 1 : tda < tdb ? -1 : 0;
-					} else {
-						return tda < tdb ? 1 : tda > tdb ? -1 : 0;
-					}
-				}).appendTo(container);
-			},
-
-			/**
-			 * 排序
-			 */
-			sorting: function () {
-				var sortObj = {
-					init: function () {
-						if (options.sortable) {
-							$(datatable.tableHead).find('.' + pfx + 'datatable__cell:not(.' + pfx + 'datatable__cell--check)').addClass(pfx + 'datatable__cell--sort').off('click').on('click', sortObj.sortClick);
-							// first init
-							sortObj.setIcon();
-						}
-					},
-					setIcon: function () {
-						var meta = Plugin.getDataSourceParam('sort');
-						if ($.isEmptyObject(meta)) return;
-
-						var column = Plugin.getColumnByField(meta.field);
-						// sort is disabled for this column
-						if (typeof column !== 'undefined' && typeof column.sortable !== 'undefined' && column.sortable === false) return;
-
-						// 获取head中的图标
-						var td = $(datatable.tableHead).find('.' + pfx + 'datatable__cell[data-field="' + meta.field + '"]').attr('data-sort', meta.sort);
-						var sorting = $(td).find('span');
-						var icon = $(sorting).find('i');
-
-						var icons = Plugin.getOption('layout.icons.sort');
-						// 更新图标; desc & asc
-						if ($(icon).length > 0) {
-							$(icon).removeAttr('class').addClass(icons[meta.sort]);
-						} else {
-							$(sorting).append($('<i/>').addClass(icons[meta.sort]));
-						}
-
-						// set sorted class to header on init
-						$(td).addClass(pfx + 'datatable__cell--sorted');
-					},
-					sortClick: function (e) {
-						var meta = Plugin.getDataSourceParam('sort');
-						var field = $(this).data('field');
-						var column = Plugin.getColumnByField(field);
-						// 如果该列已经禁用排序,移除排序按钮
-						if (typeof column.sortable !== 'undefined' && column.sortable === false) return;
-
-						// 设置header排序class
-						$(datatable.tableHead).find('th').removeClass(pfx + 'datatable__cell--sorted');
-						util.addClass(this, pfx + 'datatable__cell--sorted');
-
-						$(datatable.tableHead).find('.' + pfx + 'datatable__cell > span > i').remove();
-
-						if (options.sortable) {
-							Plugin.spinnerCallback(true);
-
-							var sort = 'desc';
-							if (Plugin.getObject('field', meta) === field) {
-								sort = Plugin.getObject('sort', meta);
-							}
-
-							// 排序方式
-							sort = typeof sort === 'undefined' || sort === 'desc'
-								? 'asc'
-								: 'desc';
-
-							// 更新排序方式
-							meta = {field: field, sort: sort};
-							Plugin.setDataSourceParam('sort', meta);
-
-							sortObj.setIcon();
-
-							setTimeout(function () {
-								Plugin.dataRender('sort');
-								$(datatable).trigger(pfx + 'datatable--on-sort', meta);
-							}, 300);
-						}
-					},
-				};
-				sortObj.init();
-			},
-
-			/**
-			 * 更新本地数据的 排序,过滤,分页
-			 * 在使用dataSet变量之前调用该方法
-			 *
-			 * @returns {*|null}
-			 */
-			localDataUpdate: function () {
-				var params = Plugin.getDataSourceParam();
-				if (typeof datatable.originalDataSet === 'undefined') {
-					datatable.originalDataSet = datatable.dataSet;
-				}
-
-				var field = Plugin.getObject('sort.field', params);
-				var sort = Plugin.getObject('sort.sort', params);
-				var column = Plugin.getColumnByField(field);
-				if (typeof column !== 'undefined' && Plugin.getOption('data.serverSorting') !== true) {
-					if (typeof column.sortCallback === 'function') {
-						datatable.dataSet = column.sortCallback(datatable.originalDataSet, sort, column);
-					} else {
-						datatable.dataSet = Plugin.sortCallback(datatable.originalDataSet, sort, column);
-					}
-				} else {
-					datatable.dataSet = datatable.originalDataSet;
-				}
-
-				// 如果启用服务端分页,不用在本地过滤
-				if (typeof params.query === 'object' && !Plugin.getOption('data.serverFiltering')) {
-					params.query = params.query || {};
-
-					var nestedSearch = function (obj) {
-						for (var field in obj) {
-							if (!obj.hasOwnProperty(field)) continue;
-							if (typeof obj[field] === 'string') {
-								if (obj[field].toLowerCase() == search || obj[field].toLowerCase().indexOf(search) !== -1) {
-									return true;
-								}
-							} else if (typeof obj[field] === 'number') {
-								if (obj[field] === search) {
-									return true;
-								}
-							} else if (typeof obj[field] === 'object') {
-								if (nestedSearch(obj[field])) {
-									return true;
-								}
-							}
-						}
-						return false;
-					};
-					// 获取查询条件
-					// 获取查询条件
-					$(Plugin.getOption('search.input')).each(function (index, element) {
-						var search = $(element).val();
-						var key = Plugin.getGeneralSearchKey(element);
-						if(util.isNotBlank(key)){
-							if (util.isNotBlank(search)) {
-								params.query[key] = search;
-							} else {
-								delete params.query[key];
-							}
-						}
-					});
-
-					// 移除数组中的空元素
-					$.each(params.query, function (k, v) {
-						if (v === '') {
-							delete params.query[k];
-						}
-					});
-
-					// 根据查询条件过滤
-					datatable.dataSet = Plugin.filterArray(datatable.dataSet, params.query);
-
-					// 重置数组index
-					datatable.dataSet = datatable.dataSet.filter(function () {
-						return true;
-					});
-				}
-
-				return datatable.dataSet;
-			},
-
-			/**
-			 * 过滤{key:value}数组
-			 *
-			 * @param list {array} 数组
-			 * @param args 查询条件
-			 * @param operator 关联(AND/OR/NOT)
-			 * @returns {*}
-			 */
-			filterArray: function (list, args, operator) {
-				if (typeof list !== 'object') {
-					return [];
-				}
-
-				if (typeof operator === 'undefined') operator = 'AND';
-
-				if (typeof args !== 'object') {
-					return list;
-				}
-
-				operator = operator.toUpperCase();
-
-				if ($.inArray(operator, ['AND', 'OR', 'NOT']) === -1) {
-					return [];
-				}
-
-				var count = Object.keys(args).length;
-				var filtered = [];
-
-				$.each(list, function (key, obj) {
-					var to_match = obj;
-
-					var matched = 0;
-					$.each(args, function (m_key, m_value) {
-						m_value = m_value instanceof Array ? m_value : [m_value];
-						var match_property = Plugin.getObject(m_key, to_match);
-						if (typeof match_property !== 'undefined' && match_property) {
-							var lhs = match_property.toString().toLowerCase();
-							m_value.forEach(function (item, index) {
-								if (item.toString().toLowerCase() == lhs || lhs.indexOf(item.toString().toLowerCase()) !== -1) {
-									matched++;
-								}
-							});
-						}
-					});
-
-					if (('AND' === operator && matched == count) ||
-						('OR' === operator && matched > 0) ||
-						('NOT' === operator && 0 == matched)) {
-						filtered[key] = obj;
-					}
-				});
-
-				list = filtered;
-
-				return list;
-			},
-
-			/**
-			 * 重置滚动条
-			 */
-			resetScroll: function () {
-				if (typeof options.detail === 'undefined' && Plugin.getDepth() === 1) {
-					$(datatable.table).find('.' + pfx + 'datatable__row').css('left', 0);
-					$(datatable.table).find('.' + pfx + 'datatable__lock').css('top', 0);
-					$(datatable.tableBody).scrollTop(0);
-				}
-			},
-
-			/**
-			 * 根据列名获取列
-			 *
-			 * @param field 列名
-			 * @returns {object}
-			 */
-			getColumnByField: function (field) {
-				if (typeof field === 'undefined') return;
-				var result;
-				$.each(options.columns, function (i, column) {
-					if (field === column.field) {
-						result = column;
-						return false;
-					}
-				});
-				return result;
-			},
-
-			/**
-			 * 获取默认排序列
-			 */
-			getDefaultSortColumn: function () {
-				var result;
-				$.each(options.columns, function (i, column) {
-					if (typeof column.sortable !== 'undefined'
-						&& $.inArray(column.sortable, ['asc', 'desc']) !== -1) {
-						result = {sort: column.sortable, field: column.field};
-						return false;
-					}
-				});
-				return result;
-			},
-
-			/**
-			 * 获取隐藏元素属性
-			 * @param element {object} 元素
-			 * @param includeMargin {boolean} 包括margin
-			 * @returns {{width: number, height: number, innerWidth: number, innerHeight: number, outerWidth: number, outerHeight: number}}
-			 */
-			getHiddenDimensions: function (element, includeMargin) {
-				var props = {
-						position: 'absolute',
-						visibility: 'hidden',
-						display: 'block',
-					},
-					dim = {
-						width: 0,
-						height: 0,
-						innerWidth: 0,
-						innerHeight: 0,
-						outerWidth: 0,
-						outerHeight: 0,
-					},
-					hiddenParents = $(element).parents().addBack().not(':visible');
-				includeMargin = (typeof includeMargin === 'boolean')
-					? includeMargin
-					: false;
-
-				var oldProps = [];
-				hiddenParents.each(function () {
-					var old = {};
-
-					for (var name in props) {
-						old[name] = this.style[name];
-						this.style[name] = props[name];
-					}
-
-					oldProps.push(old);
-				});
-
-				dim.width = $(element).width();
-				dim.outerWidth = $(element).outerWidth(includeMargin);
-				dim.innerWidth = $(element).innerWidth();
-				dim.height = $(element).height();
-				dim.innerHeight = $(element).innerHeight();
-				dim.outerHeight = $(element).outerHeight(includeMargin);
-
-				hiddenParents.each(function (i) {
-					var old = oldProps[i];
-					for (var name in props) {
-						this.style[name] = old[name];
-					}
-				});
-
-				return dim;
-			},
-			/**
-			 * 获取查询条件元素的name/id
-			 *
-			 * @returns {*}
-			 */
-			getGeneralSearchKey: function () {
-				var searchInput = $(Plugin.getOption('search.input'));
-				return $(searchInput).prop('name') || $(searchInput).prop('id');
-			},
-
-			/**
-			 * 根据路径获取对象
-			 *
-			 * @param path {string} 属性路径
-			 * @param object {object}
-			 * @returns {*}
-			 */
-			getObject: function (path, object) {
-				return path.split('.').reduce(function (obj, i) {
-					return obj !== null && typeof obj[i] !== 'undefined' ? obj[i] : null;
-				}, object);
-			},
-
-			/**
-			 * Extend object
-			 * @param obj
-			 * @param path
-			 * @param value
-			 * @returns {*}
-			 */
-			extendObj: function (obj, path, value) {
-				var levels = path.split('.'),
-					i = 0;
-
-				function createLevel(child) {
-					var name = levels[i++];
-					if (typeof child[name] !== 'undefined' && child[name] !== null) {
-						if (typeof child[name] !== 'object' &&
-							typeof child[name] !== 'function') {
-							child[name] = {};
-						}
-					} else {
-						child[name] = {};
-					}
-					if (i === levels.length) {
-						child[name] = value;
-					} else {
-						createLevel(child[name]);
-					}
-				}
-
-				createLevel(obj);
-				return obj;
-			},
-
-			rowEvenOdd: function () {
-				// row even class
-				$(datatable.tableBody).find('.' + pfx + 'datatable__row').removeClass(pfx + 'datatable__row--even');
-				if ($(datatable.wrap).hasClass(pfx + 'datatable--subtable')) {
-					$(datatable.tableBody).find('.' + pfx + 'datatable__row:not(.' + pfx + 'datatable__row-detail):even').addClass(pfx + 'datatable__row--even');
-				} else {
-					$(datatable.tableBody).find('.' + pfx + 'datatable__row:nth-child(even)').addClass(pfx + 'datatable__row--even');
-				}
-			},
-
-			/********************
-			 ** 公开方法
-			 ********************/
-
-			// 延迟时间
-			timer: 0,
-
-			/**
-			 *重绘
-			 * @returns {jQuery}
-			 */
-			redraw: function () {
-				Plugin.adjustCellsWidth.call();
-				if (Plugin.isLocked()) {
-					// fix hiding cell width issue
-					Plugin.scrollbar();
-					Plugin.resetScroll();
-					Plugin.adjustCellsHeight.call();
-				}
-				Plugin.adjustLockContainer.call();
-				Plugin.initHeight.call();
-				return datatable;
-			},
-
-			/**
-			 * 重新加载数据
-			 *
-			 * @returns {jQuery}
-			 */
-			load: function () {
-				Plugin.reload();
-				return datatable;
-			},
-
-			/**
-			 * 重新加载数据
-			 *
-			 * @returns {jQuery}
-			 */
-			reload: function () {
-				var delay = (function () {
-					return function (callback, ms) {
-						clearTimeout(Plugin.timer);
-						Plugin.timer = setTimeout(callback, ms);
-					};
-				})();
-				delay(function () {
-					// local only. remote pagination will skip this block
-					if (!options.data.serverFiltering) {
-						Plugin.localDataUpdate();
-					}
-					Plugin.dataRender();
-					$(datatable).trigger(pfx + 'datatable--on-reloaded');
-				}, Plugin.getOption('search.delay'));
-				return datatable;
-			},
-
-			/**
-			 * 根据数据id获取数据
-			 *
-			 * @param id {string} 数据id
-			 * @returns {jQuery}
-			 */
-			getRecord: function (id) {
-				if (typeof datatable.tableBody === 'undefined') datatable.tableBody = $(datatable.table).children('tbody');
-				$(datatable.tableBody).find('.' + pfx + 'datatable__cell:first-child').each(function (i, cell) {
-					if (id == $(cell).text()) {
-						var rowNumber = $(cell).closest('.' + pfx + 'datatable__row').index() + 1;
-						datatable.API.record = datatable.API.value = Plugin.getOneRow(datatable.tableBody, rowNumber);
-						return datatable;
-					}
-				});
-				return datatable;
-			},
-
-			/**
-			 * 根据列名获取列
-			 *
-			 * @param columnName {string} 列名
-			 * @returns {jQuery}
-			 */
-			getColumn: function (columnName) {
-				Plugin.setSelectedRecords();
-				datatable.API.value = $(datatable.API.record).find('[data-field="' + columnName + '"]');
-				return datatable;
-			},
-
-			/**
-			 * 销毁并还原表格
-			 *
-			 * @returns {jQuery}
-			 */
-			destroy: function () {
-				$(datatable).parent().find('.' + pfx + 'datatable__pager').remove();
-				var initialDatatable = $(datatable.initialDatatable).addClass(pfx + 'datatable--destroyed').show();
-				$(datatable).replaceWith(initialDatatable);
-				datatable = initialDatatable;
-				$(datatable).trigger(pfx + 'datatable--on-destroy');
-				Plugin.isInit = false;
-				initialDatatable = null;
-				return initialDatatable;
-			},
-
-			/**
-			 * 根据指定列排序
-			 *
-			 * @param field {string} 列名
-			 * @param sort {string} asc/desc 排序方式 (默认:asc)
-			 */
-			sort: function (field, sort) {
-				// toggle sort
-				sort = typeof sort === 'undefined' ? 'asc' : sort;
-
-				Plugin.spinnerCallback(true);
-
-				// 更新排序方式
-				var meta = {field: field, sort: sort};
-				Plugin.setDataSourceParam('sort', meta);
-
-				setTimeout(function () {
-					Plugin.dataRender('sort');
-					$(datatable).trigger(pfx + 'datatable--on-sort', meta);
-					$(datatable.tableHead).find('.' + pfx + 'datatable__cell > span > i').remove();
-				}, 300);
-
-				return datatable;
-			},
-
-			/**
-			 * 获取当前选中数据值
-			 *
-			 * @returns {array}
-			 */
-			getValue: function () {
-				return $(datatable.API.value).text();
-				// var ids = [];
-				// var selectedRecords = datatable.getSelectedRecords();
-				// if (selectedRecords != null && selectedRecords.length > 0) {
-				//     for (var i = 0; i < selectedRecords.length; i++) {
-				//         var _id = $(selectedRecords[i]).data('id');
-				//         if (typeof _id !== 'undefined') {
-				//             ids.push(_id);
-				//         }
-				//     }
-				// }
-				// return ids;
-			},
-
-			/**
-			 * 根据CheckBox设置行选中
-			 *
-			 * @param cell {string|number|object} checkbox value / checkbox element
-			 */
-			setActive: function (cell) {
-				if (typeof cell === 'string' || typeof cell === 'number') {
-					// 根据CheckBox id
-					cell = $(datatable.tableBody).find('.' + pfx + 'checkbox--single > [type="checkbox"][value="' + cell + '"]');
-				}
-
-				$(cell).prop('checked', true);
-
-				var ids = [];
-				$(cell).each(function (i, td) {
-					// 查找选中行
-					var row = $(td).closest('tr').addClass(pfx + 'datatable__row--active');
-					var colIndex = $(row).index() + 1;
-
-					// 锁定的列
-					$(row).closest('tbody').find('tr:nth-child(' + colIndex + ')').not('.' + pfx + 'datatable__row-subtable').addClass(pfx + 'datatable__row--active');
-
-					var id = $(td).attr('value');
-					if (typeof id !== 'undefined') {
-						ids.push(id);
-					}
-				});
-
-				$(datatable).trigger(pfx + 'datatable--on-check', [ids]);
-			},
-
-			/**
-			 * 根据CheckBox设置行不选中
-			 *
-			 * @param cell {string|number|object} checkbox value / checkbox element
-			 */
-			setInactive: function (cell) {
-				if (typeof cell === 'string' || typeof cell === 'number') {
-					// 根据CheckBox id
-					cell = $(datatable.tableBody).find('.' + pfx + 'checkbox--single > [type="checkbox"][value="' + cell + '"]');
-				}
-
-				$(cell).prop('checked', false);
-
-				var ids = [];
-				$(cell).each(function (i, td) {
-					// 获取选中行
-					var row = $(td).closest('tr').removeClass(pfx + 'datatable__row--active');
-					var colIndex = $(row).index() + 1;
-
-					// 锁定列
-					$(row).closest('tbody').find('tr:nth-child(' + colIndex + ')').not('.' + pfx + 'datatable__row-subtable').removeClass(pfx + 'datatable__row--active');
-
-					var id = $(td).attr('value');
-					if (typeof id !== 'undefined') {
-						ids.push(id);
-					}
-				});
-
-				$(datatable).trigger(pfx + 'datatable--on-uncheck', [ids]);
-			},
-
-			/**
-			 * Set all checkboxes active or inactive
-			 * @param active
-			 */
-			setActiveAll: function (active) {
-				var checkboxes = $(datatable.table).find('> tbody, > thead').find('tr').not('.' + pfx + 'datatable__row-subtable').find('.' + pfx + 'datatable__cell--check [type="checkbox"]');
-				if (active) {
-					Plugin.setActive(checkboxes);
-				} else {
-					Plugin.setInactive(checkboxes);
-				}
-			},
-
-			/**
-			 * @deprecated in v5.0.6
-			 * Get selected rows which are active
-			 * @returns {jQuery}
-			 */
-			setSelectedRecords: function () {
-				datatable.API.record = $(datatable.tableBody).find('.' + pfx + 'datatable__row--active');
-				return datatable;
-			},
-
-			/**
-			 * 获取选中记录
-			 * @returns {null}
-			 */
-			getSelectedRecords: function () {
-				// support old method
-				Plugin.setSelectedRecords();
-				datatable.API.record = datatable.rows('.' + pfx + 'datatable__row--active').nodes();
-				return datatable.API.record;
-			},
-
-			/**
-			 * 获取选项
-			 *
-			 * @param path 属性路径
-			 * @returns {object} 选项
-			 */
-			getOption: function (path) {
-				return Plugin.getObject(path, options);
-			},
-
-			/**
-			 * 设置选项
-			 *
-			 * @param path 属性路径
-			 * @param object {object} 选项
-			 */
-			setOption: function (path, object) {
-				options = Plugin.extendObj(options, path, object);
-			},
-
-			/**
-			 * 查询数据
-			 *
-			 * @param value 值
-			 * @param columns {array/string} 列名称
-			 */
-			search: function (value, columns) {
-				if (typeof columns !== 'undefined') columns = $.makeArray(columns);
-				var delay = (function () {
-					return function (callback, ms) {
-						clearTimeout(Plugin.timer);
-						Plugin.timer = setTimeout(callback, ms);
-					};
-				})();
-
-				delay(function () {
-					// 获取查询条件
-					var query = Plugin.getDataSourceQuery();
-
-					// 如果列名为空
-					if (typeof columns === 'undefined' && typeof value !== 'undefined') {
-						var key = Plugin.getGeneralSearchKey();
-						query[key] = value;
-					}
-
-					// 根据指定列明搜索,支持多列名
-					if (typeof columns === 'object') {
-						$.each(columns, function (k, column) {
-							query[column] = value;
-						});
-						// 移除空值
-						$.each(query, function (k, v) {
-							if (v === '' || $.isEmptyObject(v)) {
-								delete query[k];
-							}
-						});
-					}
-
-					Plugin.setDataSourceQuery(query);
-
-					// 如果是本地筛选
-					if (!options.data.serverFiltering) {
-						Plugin.localDataUpdate();
-					}
-					Plugin.dataRender('search');
-				}, Plugin.getOption('search.delay'));
-			},
-
-			/**
-			 * 设置数据源中对象
-			 *
-			 * @param param {string} 对象名称
-			 * @param value {object} 值
-			 */
-			setDataSourceParam: function (param, value) {
-				datatable.API.params = $.extend({}, {
-					pagination: {current: 1, size: Plugin.getOption('data.pageSize')},
-					sort: Plugin.getDefaultSortColumn(),
-					query: {}
-				}, datatable.API.params, Plugin.stateGet(Plugin.stateId));
-
-				datatable.API.params = Plugin.extendObj(datatable.API.params, param, value);
-
-				Plugin.stateKeep(Plugin.stateId, datatable.API.params);
-			},
-
-			/**
-			 * 获取数据源中指定对象
-			 *
-			 * @param param {string|null} 对象名称
-			 */
-			getDataSourceParam: function (param) {
-				datatable.API.params = $.extend({}, {
-					page: {current: 1, size: Plugin.getOption('data.pageSize')},
-					sort: Plugin.getDefaultSortColumn(),
-					query: {}
-				}, datatable.API.params, Plugin.stateGet(Plugin.stateId));
-
-				if (typeof param === 'string') {
-					return Plugin.getObject(param, datatable.API.params);
-				}
-
-				return datatable.API.params;
-			},
-
-			/**
-			 * 获取查询条件
-			 * 示例: datatable.getDataSourceParam('query');
-			 *
-			 * @returns {*}
-			 */
-			getDataSourceQuery: function () {
-				return Plugin.getDataSourceParam('query') || {};
-			},
-
-			/**
-			 * 设置查询条件
-			 * 示例: datatable.setDataSourceParam('query', query);
-			 *
-			 * @param query {string} 查询条件
-			 */
-			setDataSourceQuery: function (query) {
-				Plugin.setDataSourceParam('query', query);
-			},
-
-			/**
-			 * 获取当前页
-			 *
-			 * @returns {number}
-			 */
-			getCurrentPage: function () {
-				return $(datatable.table).siblings('.' + pfx + 'datatable__pager').last().find('.' + pfx + 'datatable__pager-nav').find('.' + pfx + 'datatable__pager-link.' + pfx + 'datatable__pager-link--active').data('page') || 1;
-			},
-
-			/**
-			 * 获取当前选中页大小(默认10)
-			 *
-			 * @returns {*|number}
-			 */
-			getPageSize: function () {
-				return $(datatable.table).siblings('.' + pfx + 'datatable__pager').last().find('select.' + pfx + 'datatable__pager-size').val() || 10;
-			},
-
-			/**
-			 * 获取工具条
-			 */
-			getTotalRows: function () {
-				return datatable.API.params.pagination.total;
-			},
-
-			/**
-			 * 获取表格所有数据
-			 *
-			 * @returns {*|null|Array}
-			 */
-			getDataSet: function () {
-				return datatable.originalDataSet;
-			},
-
-			/**
-			 * @deprecated in v5.0.6
-			 * Hide column by column's field name
-			 * 根据列名隐藏列
-			 * @param fieldName
-			 */
-			hideColumn: function (fieldName) {
-				// add hide option for this column
-				$.map(options.columns, function (column) {
-					if (fieldName === column.field) {
-						column.responsive = {hidden: 'xl'};
-					}
-					return column;
-				});
-				// hide current displayed column
-				var tds = $.grep($(datatable.table).find('.' + pfx + 'datatable__cell'), function (n, i) {
-					return fieldName === $(n).data('field');
-				});
-				$(tds).hide();
-			},
-
-			/**
-			 * @deprecated in v5.0.6
-			 * Show column by column's field name
-			 * 根据列名显示列
-			 * @param fieldName
-			 */
-			showColumn: function (fieldName) {
-				// add hide option for this column
-				$.map(options.columns, function (column) {
-					if (fieldName === column.field) {
-						delete column.responsive;
-					}
-					return column;
-				});
-				// hide current displayed column
-				var tds = $.grep($(datatable.table).find('.' + pfx + 'datatable__cell'), function (n, i) {
-					return fieldName === $(n).data('field');
-				});
-				$(tds).show();
-			},
-
-			nodeTr: [],
-			nodeTd: [],
-			nodeCols: [],
-			recentNode: [],
-
-			table: function () {
-				if (typeof datatable.table !== 'undefined') {
-					return datatable.table;
-				}
-			},
-
-			/**
-			 * 根据选择器查找第一行
-			 *
-			 * @param selector {string} 选择器
-			 * @returns {jQuery}
-			 */
-			row: function (selector) {
-				Plugin.rows(selector);
-				Plugin.nodeTr = Plugin.recentNode = $(Plugin.nodeTr).first();
-				return datatable;
-			},
-
-			/**
-			 *
-			 * 根据选择器查找多行
-			 *
-			 * @param selector {string} 选择器
-			 * @returns {jQuery}
-			 */
-			rows: function (selector) {
-				if (Plugin.isLocked()) {
-					Plugin.nodeTr = Plugin.recentNode = t(datatable.tableBody).find(selector).filter('.' + pfx + 'datatable__lock--scroll > .' + pfx + 'datatable__row');
-				} else {
-					Plugin.nodeTr = Plugin.recentNode = t(datatable.tableBody).find(selector).filter('.' + pfx + 'datatable__row');
-				}
-				return datatable;
-			},
-
-			/**
-			 * Select a single column from the table
-			 * 根据下标获取列
-			 *
-			 * @param index {int} 下标 从0开始
-			 * @returns {jQuery}
-			 */
-			column: function (index) {
-				Plugin.nodeCols = Plugin.recentNode = $(datatable.tableBody).find('.' + pfx + 'datatable__cell:nth-child(' + (index + 1) + ')');
-				return datatable;
-			},
-
-			/**
-			 * Select multiple columns from the table
-			 * 根据条件查询多列
-			 *
-			 * @param selector {String} 条件
-			 * @returns {jQuery}
-			 */
-			columns: function (selector) {
-				var context = datatable.table;
-				if (Plugin.nodeTr === Plugin.recentNode) {
-					context = Plugin.nodeTr;
-				}
-				var columns = $(context).find('.' + pfx + 'datatable__cell[data-field="' + selector + '"]');
-				if (columns.length > 0) {
-					Plugin.nodeCols = Plugin.recentNode = columns;
-				} else {
-					Plugin.nodeCols = Plugin.recentNode = $(context).find(selector).filter('.' + pfx + 'datatable__cell');
-				}
-				return datatable;
-			},
-			/**
-			 * 根据选择器查找第一个 cell
-			 *
-			 * @param selector {string} 选择器
-			 * @returns {jQuery}
-			 */
-			cell: function (selector) {
-				Plugin.cells(selector);
-				Plugin.nodeTd = Plugin.recentNode = $(Plugin.nodeTd).first();
-				return datatable;
-			},
-			/**
-			 * 根据选择器查找 cells
-			 *
-			 * @param selector {string} 选择器
-			 * @returns {jQuery}
-			 */
-			cells: function (selector) {
-				var cells = $(datatable.tableBody).find('.' + pfx + 'datatable__cell');
-				if (typeof selector !== 'undefined') {
-					cells = $(cells).filter(selector);
-				}
-				Plugin.nodeTd = Plugin.recentNode = cells;
-				return datatable;
-			},
-
-			/**
-			 * 删除选中的行
-			 *
-			 * @returns {jQuery}
-			 */
-			remove: function () {
-				if ($(Plugin.nodeTr.length) && Plugin.nodeTr === Plugin.recentNode) {
-					$(Plugin.nodeTr).remove();
-				}
-				Plugin.layoutUpdate();
-				return datatable;
-			},
-			/**
-			 * 删除指定的行
-
-			 * @param rows {jquery} 要删除的行
-			 * @returns {jQuery}
-			 */
-			removeRows: function (rows) {
-				if (typeof rows !== 'undefined' && rows.length > 0) {
-					rows.remove();
-				}
-				Plugin.layoutUpdate();
-				return datatable;
-			},
-			/**
-			 * 显示或隐藏行或列
-			 *
-			 * @param bool {boolean} 显示/隐藏
-			 */
-			visible: function (bool) {
-				if ($(Plugin.recentNode.length)) {
-					var locked = Plugin.lockEnabledColumns();
-					if (Plugin.recentNode === Plugin.nodeCols) {
-						var index = Plugin.recentNode.index();
-
-						if (Plugin.isLocked()) {
-							var scrollColumns = $(Plugin.recentNode).closest('.' + pfx + 'datatable__lock--scroll').length;
-							if (scrollColumns) {
-								// is at center of scrollable area
-								index += locked.left.length + 1;
-							} else if ($(Plugin.recentNode).closest('.' + pfx + 'datatable__lock--right').length) {
-								// is at the right locked table
-								index += locked.left.length + scrollColumns + 1;
-							}
-						}
-					}
-
-					if (bool) {
-						if (Plugin.recentNode === Plugin.nodeCols) {
-							delete options.columns[index].responsive;
-						}
-						$(Plugin.recentNode).show();
-					} else {
-						if (Plugin.recentNode === Plugin.nodeCols) {
-							Plugin.setOption('columns.' + index + '.responsive', {hidden: 'xl'});
-						}
-						$(Plugin.recentNode).hide();
-					}
-					Plugin.redraw();
-				}
-			},
-
-			/**
-			 * 根据选择的行或者列获取DOM元素
-			 *
-			 * @returns {Array}
-			 */
-			nodes: function () {
-				return Plugin.recentNode;
-			},
-
-			/**
-			 * 获取datatable
-			 *
-			 * @returns {jQuery}
-			 */
-			dataset: function () {
-				return datatable;
-			},
-
-			/**
-			 * 跳转到指定页
-			 * @param page {number} 页码
-			 */
-			gotoPage: function (page) {
-				Plugin.pagingObject.openPage(page);
-			},
-			/**
-			 * 新增一行数据
-			 */
-			addRow: function () {
-				var colLength = options.columns.length;
-				var tr = document.createElement('tr');
-				util.addClass(tr, pfx + 'datatable__row');
-				for (var i = 0; i < colLength; i++) {
-					var column = options.columns[i];
-					var element = Plugin.getColumnElement(column);
-					var td = document.createElement('td');
-					td.setAttribute('data-field', column.field);
-					util.addClass(td, pfx + 'datatable__cell ' + (typeof column.class != 'undefined' ? column.class : ''));
-					td.appendChild(element);
-					tr.appendChild(td);
-				}
-				datatable.tableBody.append(tr);
-
-				// 更新布局
-				Plugin.setupDOM(datatable.table);
-				Plugin.setupCellField([datatable.tableBody]);
-				Plugin.layoutUpdate();
-
-				if (datatable.hasClass('m-datatable--error')) {
-					datatable.removeClass('m-datatable--error');
-					datatable.find('span.m-datatable--error').remove();
-				}
-				$(tr).find('.table-actions').each(function () {
-					app.initTooltip($(this));
-				});
-			},
-			/**
-			 * 获取编辑表格列元素
-			 *
-			 * @param column {object} 列配置
-			 * @param defaultVal {string} 默认值
-			 * @returns {HTMLSpanElement | HTMLInputElement | HTMLSelectElement | HTMLButtonElement}
-			 */
-			getColumnElement: function (column, defaultVal) {
-				var element;
-				if (typeof column.edit !== 'undefined') {
-					switch (column.edit.tag) {
-						case 'input':
-							element = document.createElement('input');
-							element.setAttribute('type', column.edit.type);
-							util.addClass(element, 'form-control form-control-sm ' + column.edit.class);
-							if (typeof defaultVal !== 'undefined') {
-								element.value = defaultVal;
-							}
-							break;
-						case 'select':
-							element = document.createElement('select');
-							util.addClass(element, 'form-control form-control-sm ' + column.edit.class);
-							if (typeof column.edit.option !== 'undefined') {
-								if (typeof defaultVal === 'undefined') {
-									defaultVal = column.edit.default;
-								}
-								for (var key in column.edit.option) {
-									var opt = document.createElement('option');
-									opt.setAttribute('value', key);
-									if (key === defaultVal) {
-										opt.setAttribute('selected', 'true');
-									}
-									opt.innerText = column.edit.option[key].name;
-									element.appendChild(opt);
-								}
-							}
-							break;
-						case 'button':
-							element = document.createElement('button');
-							element.setAttribute('type', 'button');
-							element.setAttribute('title', column.edit.title);
-							element.innerHTML = column.edit.text;
-							util.addClass(element, tool.ACTIONS_SUCCESS);
-							if (typeof column.edit.click == 'function') {
-								element.onclick = function () {
-									column.edit.click($(this).parents('.' + pfx + 'datatable__row'), $(this).parents('.' + pfx + 'datatable__row').find('input, select').serializeArray());
-								}
-							}
-							break;
-						default:
-							element = document.createElement('input');
-							element.setAttribute('type', 'text');
-							util.addClass(element, 'form-control form-control-sm ' + column.edit.class);
-							if (typeof defaultVal !== 'undefined') {
-								element.value = defaultVal;
-							}
-					}
-					element.setAttribute('name', column.field);
-					util.addClass(element, column.edit.classes);
-				} else {
-					element = document.createElement('span');
-					element.innerText = '#';
-				}
-				return element;
-			},
-			/**
-			 * 编辑行
-			 *
-			 * @param element {object} 编辑按钮对象
-			 */
-			editRow: function (element) {
-				var colLength = options.columns.length;
-				var tr = $(element).parents('.' + pfx + 'datatable__row');
-				var data = datatable.dataSet[Number(tr.data('row'))];
-				for (var i = 0; i < colLength; i++) {
-					var column = options.columns[i];
-					element = Plugin.getColumnElement(column, data[column.field]);
-					var td = tr.find('td:eq(' + i + ')');
-					if (td.hasClass('m-datatable__cell--check')) {
-						td.find('span').append(element);
-					} else {
-						td.find('span').html(element);
-					}
-				}
-				tr.find('.table-actions').each(function () {
-					app.initTooltip($(this));
-				});
-			}
-		};
-
-		/**
-		 * Public API methods can be used directly by datatable
-		 */
-		$.each(Plugin, function (funcName, func) {
-			datatable[funcName] = func;
-		});
-
-		// 初始化插件
-		if (typeof options !== 'undefined') {
-			if (typeof options === 'string') {
-				var method = options;
-				datatable = $(this).data(pluginName);
-				if (typeof datatable !== 'undefined') {
-					options = datatable.options;
-					Plugin[method].apply(this, Array.prototype.slice.call(arguments, 1));
-				}
-			} else {
-				if (!datatable.data(pluginName) && !$(this).hasClass(pfx + 'datatable--loaded')) {
-					datatable.dataSet = null;
-					datatable.textAlign = {
-						left: pfx + 'datatable__cell--left',
-						center: pfx + 'datatable__cell--center',
-						right: pfx + 'datatable__cell--right'
-					};
-
-					// 合并默认与自定义option
-					options = $.extend(true, {}, $.fn[pluginName].defaults, options);
-
-					datatable.options = options;
-
-					// 初始化插件
-					Plugin.init.apply(this, [options]);
-
-					$(datatable.wrap).data(pluginName, datatable);
-				}
-			}
-		} else {
-			// 获取现有datatable
-			datatable = $(this).data(pluginName);
-			if (typeof datatable === 'undefined') {
-				$.error(pluginName + ' not initialized');
-			}
-			options = datatable.options;
-		}
-
-		return datatable;
-	};
-
-	// 默认设置
-	$.fn[pluginName].defaults = {
-		// 数据源
-		data: {
-			type: 'local',
-			source: null,
-			pageSize: 10, // 默认页大小
-			saveState: {
-				// 使用cookie/webstorage 保存表格状态(分页, 筛选, 排序)
-				cookie: false,
-				webstorage: true
-			},
-
-			serverPaging: false, // 在服务器分页
-			serverFiltering: false, // 在服务器进行数据过滤
-			serverSorting: false, // 在服务器进行排序
-
-			autoColumns: false, // 自动列
-			attr: {
-				rowProps: []
-			}
-		},
-
-		// 布局
-		layout: {
-			theme: 'default', // 主题
-			class: pfx + 'datatable--brand', // 容器 class
-			scroll: false, // 启用禁用垂直/水平滚动条
-			height: null, // 高度
-			minHeight: 300, // 最小高度
-			footer: false, // 显示/隐藏 footer
-			header: true, // 显示/隐藏 header
-			customScrollbar: true, // 自定义滚动条
-
-			// 等待提示样式
-			spinner: {
-				overlayColor: '#000',
-				opacity: 0,
-				type: 'loader',
-				state: 'brand',
-				message: true
-			},
-
-			// datatable 图标
-			icons: {
-				sort: {asc: 'flaticon2-arrow-up', desc: 'flaticon2-arrow-down'},
-				pagination: {
-					next: 'flaticon2-next',
-					prev: 'flaticon2-back',
-					first: 'flaticon2-fast-back',
-					last: 'flaticon2-fast-next',
-					more: 'flaticon-more-1'
-				},
-				rowDetail: {expand: 'fa fa-caret-down', collapse: 'fa fa-caret-right'}
-			}
-		},
-
-		// 列滚动
-		sortable: true,
-		// 分页
-		pagination: true,
-
-		// 列配置
-		columns: [],
-
-		search: {
-			// 通过keyup事件搜索
-			onEnter: false,
-			// 搜索框中提示文字
-			input: null,
-			// 搜索延迟 单位: 毫秒
-			delay: 400
-		},
-
-		rows: {
-			// callback
-			callback: function () {
-			},
-			// 在拼接<tr>内容前调用
-			beforeTemplate: function () {
-			},
-			// 在拼接<tr>内容后调用
-			afterTemplate: function () {
-			},
-			// 如果列溢出,自动隐藏非锁定列
-			autoHide: true
-		},
-
-		// 工具条
-		toolbar: {
-			// 布局
-			layout: ['pagination', 'info'],
-
-			// 设置工具条位于底部还是顶部
-			placement: ['bottom'],  //'top', 'bottom'
-
-			// 工具条选项
-			items: {
-				// 分页
-				pagination: {
-					// 分页类型(default or scroll)
-					type: 'default',
-
-					// 不同设备下页码按钮显示数量
-					pages: {
-						desktop: {
-							layout: 'default',
-							pagesNumber: 5
-						},
-						tablet: {
-							layout: 'default',
-							pagesNumber: 3
-						},
-						mobile: {
-							layout: 'compact'
-						}
-					},
-
-					// 导航按钮
-					navigation: {
-						prev: true, // 上一页
-						next: true, // 下一页
-						first: true, // 第一页
-						last: true // 最后一页
-					},
-
-					// 页大小select
-					pageSizeSelect: []
-				},
-
-				// 记录信息
-				info: true
-			}
-		},
-
-		// 自定义插件提示文字
-		translate: {
-			records: {
-				processing: '请稍候...',
-				noRecords: '未查找到数据'
-			},
-			toolbar: {
-				pagination: {
-					items: {
-						default: {
-							first: '第一页',
-							prev: '上一页',
-							next: '下一页',
-							last: '最后一页',
-							more: '更多页码',
-							input: '请输入页码',
-							select: '每页显示',
-							all: '全部'
-						},
-						info: '当前显示 {{start}} - {{end}} 共 {{total}} 条数据'
-					}
-				}
-			}
-		},
-		extensions: {}
-	};
+            },
+
+            /**
+             * 设置额外的列属性
+             * 比如: checkbox
+             */
+            setupSystemColumn: function () {
+                datatable.dataSet = datatable.dataSet || [];
+                // 无数据
+                if (datatable.dataSet.length === 0) return;
+
+                var columns = options.columns;
+                $(datatable.tableBody).find('.' + pfx + 'datatable__row').each(function (tri, tr) {
+                    $(tr).find('.' + pfx + 'datatable__cell').each(function (tdi, td) {
+                        // 根据列名获取列设置
+                        var column = $.grep(columns, function (n, i) {
+                            return $(td).data('field') === n.field;
+                        })[0];
+                        if (typeof column !== 'undefined') {
+                            var value = $(td).text();
+
+                            // 启用列选择器
+                            if (typeof column.selector !== 'undefined' && column.selector !== false) {
+                                // 检查checkbox是否已经存在
+                                if ($(td).find('.' + pfx + 'checkbox [type="checkbox"]').length > 0) return;
+
+                                $(td).addClass(pfx + 'datatable__cell--check');
+
+                                // 添加 checkbox
+                                var chk = $('<label/>').addClass(pfx + 'checkbox ' + pfx + 'checkbox--single').append($('<input/>').attr('type', 'checkbox').attr('value', value).on('click', function () {
+                                    if ($(this).is(':checked')) {
+                                        // 添加已勾选class
+                                        Plugin.setActive(this);
+                                    } else {
+                                        // 移除已勾选class
+                                        Plugin.setInactive(this);
+                                    }
+                                })).append('&nbsp;<span></span>');
+
+                                // 自定义class
+                                if (typeof column.selector.class !== 'undefined') {
+                                    $(chk).addClass(column.selector.class);
+                                }
+
+                                $(td).children().html(chk);
+                            }
+
+                            // 启用子表切换
+                            if (typeof column.subtable !== 'undefined' && column.subtable) {
+                                // 检查子表是否存
+                                if ($(td).find('.' + pfx + 'datatable__toggle-subtable').length > 0) return;
+                                // 添加切换
+                                $(td).children().html($('<a/>').addClass(pfx + 'datatable__toggle-subtable').attr('href', '#').attr('data-value', value).append($('<i/>').addClass(Plugin.getOption('layout.icons.rowDetail.collapse'))));
+                            }
+                        }
+                    });
+                });
+
+                /**
+                 * 为header/footer初始化checkbox
+                 * @param tr
+                 */
+                var initCheckbox = function (tr) {
+                    // 获取列设置
+                    var column = $.grep(columns, function (n, i) {
+                        return typeof n.selector !== 'undefined' && n.selector !== false;
+                    })[0];
+
+                    if (typeof column !== 'undefined') {
+                        // 启用列checkbox
+                        if (typeof column.selector !== 'undefined' && column.selector !== false) {
+                            var td = $(tr).find('[data-field="' + column.field + '"]');
+                            // 检查checkbox是否已经存在
+                            if ($(td).find('.' + pfx + 'checkbox [type="checkbox"]').length > 0) return;
+
+                            $(td).addClass(pfx + 'datatable__cell--check');
+
+                            // 添加 checkbox
+                            var chk = $('<label/>').addClass(pfx + 'checkbox ' + pfx + 'checkbox--single ' + pfx + 'checkbox--all').append($('<input/>').attr('type', 'checkbox').on('click', function () {
+                                if ($(this).is(':checked')) {
+                                    Plugin.setActiveAll(true);
+                                } else {
+                                    Plugin.setActiveAll(false);
+                                }
+                            })).append('&nbsp;<span></span>');
+
+                            // 自定义class
+                            if (typeof column.selector.class !== 'undefined') {
+                                $(chk).addClass(column.selector.class);
+                            }
+
+                            $(td).children().html(chk);
+                        }
+                    }
+                };
+
+                if (options.layout.header) {
+                    initCheckbox($(datatable.tableHead).find('.' + pfx + 'datatable__row').first());
+                }
+                if (options.layout.footer) {
+                    initCheckbox($(datatable.tableFoot).find('.' + pfx + 'datatable__row').first());
+                }
+            },
+
+            /**
+             * 调整宽度以匹配容器大小
+             */
+            adjustCellsWidth: function () {
+                // 获取表格宽度
+                var containerWidth = $(datatable.tableBody).innerWidth() - Plugin.iconOffset;
+
+                // 获取总列数
+                var columns = $(datatable.tableBody).find('.' + pfx + 'datatable__row:first-child').find('.' + pfx + 'datatable__cell').// exclude expand icon
+                not('.' + pfx + 'datatable__toggle-detail').not(':hidden').length;
+
+                if (columns > 0) {
+                    //  删除保留排序图标宽度
+                    containerWidth = containerWidth - (Plugin.iconOffset * columns);
+                    var minWidth = Math.floor(containerWidth / columns);
+
+                    // 最小宽度
+                    if (minWidth <= Plugin.cellOffset) {
+                        minWidth = Plugin.cellOffset;
+                    }
+
+                    var maxWidthList = {};
+                    $(datatable.table).find('.' + pfx + 'datatable__row').find('.' + pfx + 'datatable__cell').// exclude expand icon
+                    not('.' + pfx + 'datatable__toggle-detail').not(':hidden').each(function (tdi, td) {
+
+                        var width = minWidth;
+                        var dataWidth = $(td).data('width');
+
+                        if (typeof dataWidth !== 'undefined') {
+
+                            if (dataWidth === 'auto') {
+                                var field = $(td).data('field');
+                                if (maxWidthList[field]) {
+                                    width = maxWidthList[field];
+                                } else {
+                                    var cells = $(datatable.table).find('.' + pfx + 'datatable__cell[data-field="' + field + '"]');
+                                    width = maxWidthList[field] = Math.max.apply(null,
+                                        $(cells).map(function () {
+                                            return $(this).outerWidth();
+                                        }).get());
+                                }
+                            } else {
+                                width = dataWidth;
+                            }
+                        }
+                        $(td).children().css('width', Math.ceil(width));
+                    });
+                }
+
+                return datatable;
+            },
+
+            /**
+             * 调整高度以匹配容器大小
+             */
+            adjustCellsHeight: function () {
+                $.each($(datatable.table).children(), function (part, tablePart) {
+                    var totalRows = $(tablePart).find('.' + pfx + 'datatable__row').first().parent().find('.' + pfx + 'datatable__row').length;
+                    for (var i = 1; i <= totalRows; i++) {
+                        var rows = $(tablePart).find('.' + pfx + 'datatable__row:nth-child(' + i + ')');
+                        if ($(rows).length > 0) {
+                            var maxHeight = Math.max.apply(null, $(rows).map(function () {
+                                return $(this).outerHeight();
+                            }).get());
+                            $(rows).css('height', Math.ceil(maxHeight));
+                        }
+                    }
+                });
+            },
+
+            /**
+             * 设置table DOM class
+             */
+            setupDOM: function (table) {
+                $(table).find('> thead').addClass(pfx + 'datatable__head');
+                $(table).find('> tbody').addClass(pfx + 'datatable__body');
+                $(table).find('> tfoot').addClass(pfx + 'datatable__foot');
+                $(table).find('tr').addClass(pfx + 'datatable__row');
+                $(table).find('tr > th, tr > td').addClass(pfx + 'datatable__cell');
+                $(table).find('tr > th, tr > td').each(function (i, td) {
+                    if ($(td).find('span').length === 0) {
+                        $(td).wrapInner($('<span/>').css('width', Plugin.cellOffset));
+                    }
+                });
+            },
+
+            /**
+             * 默认滚动条
+             * @returns {{tableLocked: null, init: init, onScrolling: onScrolling}}
+             */
+            scrollbar: function () {
+                var scroll = {
+                    scrollable: null,
+                    tableLocked: null,
+                    initPosition: null,
+                    init: function () {
+                        var screen = util.getViewPort().width;
+                        // 设置滚动条
+                        if (options.layout.scroll) {
+                            // 设置滚动class
+                            $(datatable.wrap).addClass(pfx + 'datatable--scroll');
+
+                            var scrollable = $(datatable.tableBody).find('.' + pfx + 'datatable__lock--scroll');
+
+                            // 检查表格是否有数据
+                            if ($(scrollable).find('.' + pfx + 'datatable__row').length > 0 && $(scrollable).length > 0) {
+                                scroll.scrollHead = $(datatable.tableHead).find('> .' + pfx + 'datatable__lock--scroll > .' + pfx + 'datatable__row');
+                                scroll.scrollFoot = $(datatable.tableFoot).find('> .' + pfx + 'datatable__lock--scroll > .' + pfx + 'datatable__row');
+                                scroll.tableLocked = $(datatable.tableBody).find('.' + pfx + 'datatable__lock:not(.' + pfx + 'datatable__lock--scroll)');
+                                if (Plugin.getOption('layout.customScrollbar') && util.detectIE() != 10 && screen > util.getBreakpoint('lg')) {
+                                    scroll.initCustomScrollbar(scrollable[0]);
+                                } else {
+                                    scroll.initDefaultScrollbar(scrollable);
+                                }
+                            } else if ($(datatable.tableBody).find('.' + pfx + 'datatable__row').length > 0 && !datatable.isLocked()) {
+                                scroll.scrollHead = $(datatable.tableHead).find('> .' + pfx + 'datatable__row');
+                                scroll.scrollFoot = $(datatable.tableFoot).find('> .' + pfx + 'datatable__row');
+                                if (Plugin.getOption('layout.customScrollbar') && util.detectIE() != 10 && screen > util.getBreakpoint('lg')) {
+                                    scroll.initCustomScrollbar(datatable.tableBody);
+                                } else {
+                                    scroll.initDefaultScrollbar(datatable.tableBody);
+                                }
+                            }
+                        }
+                    },
+                    initDefaultScrollbar: function (scrollable) {
+                        // 获取初始坐标
+                        scroll.initPosition = $(scrollable).scrollLeft();
+                        $(scrollable).css('overflow-y', 'auto').off().on('scroll', scroll.onScrolling);
+                        if (Plugin.getOption('rows.autoHide') !== true) {
+                            $(scrollable).css('overflow-x', 'auto');
+                        }
+                    },
+                    /**
+                     * 滚动回调
+                     * @param e
+                     */
+                    onScrolling: function (e) {
+                        var left = $(this).scrollLeft();
+                        var top = $(this).scrollTop();
+                        $(scroll.scrollHead).css('left', -left);
+                        $(scroll.scrollFoot).css('left', -left);
+                        $(scroll.tableLocked).each(function (i, table) {
+                            if (Plugin.isLocked()) {
+                                // scrollbar offset
+                                top -= 1;
+                            }
+                            $(table).css('top', -top);
+                        });
+                    },
+                    initCustomScrollbar: function (scrollable) {
+                        scroll.scrollable = scrollable;
+                        // create a new instance for table body with scrollbar
+                        Plugin.initScrollbar(scrollable);
+                        // 获取初始坐标
+                        scroll.initPosition = $(scrollable).scrollLeft();
+                        $(scrollable).off().on('scroll', scroll.onScrolling);
+                    }
+                };
+                scroll.init();
+                return scroll;
+            },
+
+            /**
+             * 初始化滚动条和复位位置
+             * @param element
+             * @param options
+             */
+            initScrollbar: function (element, options) {
+                if (!element || !element.nodeName) {
+                    return;
+                }
+                $(datatable.tableBody).css('overflow', '');
+                if (util.hasClass(element, 'ps')) {
+                    $(element).data('ps').update();
+                } else {
+                    var ps = new PerfectScrollbar(element, Object.assign({}, {
+                        wheelSpeed: 0.5,
+                        swipeEasing: true,
+                        // wheelPropagation: false,
+                        minScrollbarLength: 40,
+                        maxScrollbarLength: 300,
+                        suppressScrollX: Plugin.getOption('rows.autoHide') && !Plugin.isLocked()
+                    }, options));
+                    $(element).data('ps', ps);
+
+                    // 拖动窗口大小重新设置滚动条
+                    $(window).resize(function () {
+                        ps.update();
+                    });
+                }
+            },
+
+            /**
+             * 根据options.columns设置表头标题
+             */
+            setHeadTitle: function (tablePart) {
+                if (typeof tablePart === 'undefined') tablePart = datatable.tableHead;
+                tablePart = $(tablePart)[0];
+                var columns = options.columns;
+                var row = tablePart.getElementsByTagName('tr')[0];
+                var ths = tablePart.getElementsByTagName('td');
+
+                if (typeof row === 'undefined') {
+                    row = document.createElement('tr');
+                    tablePart.appendChild(row);
+                }
+
+                $.each(columns, function (i, column) {
+                    var th = ths[i];
+                    if (typeof th === 'undefined') {
+                        th = document.createElement('th');
+                        row.appendChild(th);
+                    }
+
+                    // 设置列标题
+                    if (typeof column['title'] !== 'undefined') {
+                        th.innerHTML = column.title;
+                        th.setAttribute('data-field', column.field);
+                        util.addClass(th, column.class);
+                        // set disable autoHide or force enable
+                        if (typeof column.autoHide !== 'undefined') {
+                            if (column.autoHide !== true) {
+                                th.setAttribute('data-autohide-disabled', column.autoHide);
+                            } else {
+                                th.setAttribute('data-autohide-enabled', column.autoHide);
+                            }
+                        }
+                        $(th).data(column);
+                    }
+
+                    // 设置 header attr 属性
+                    if (typeof column.attr !== 'undefined') {
+                        $.each(column.attr, function (key, val) {
+                            th.setAttribute(key, val);
+                        });
+                    }
+
+                    // 为thead/tfoot添加文本对齐方式
+                    if (typeof column.textAlign !== 'undefined') {
+                        var align = typeof datatable.textAlign[column.textAlign] !== 'undefined' ? datatable.textAlign[column.textAlign] : '';
+                        util.addClass(th, align);
+                    }
+                });
+                Plugin.setupDOM(tablePart);
+            },
+
+            /**
+             * 通过Ajax获取数据或本地数据
+             */
+            dataRender: function (action) {
+                $(datatable.table).siblings('.' + pfx + 'datatable__pager').removeClass(pfx + 'datatable--paging-loaded');
+                /**
+                 * 构建参数
+                 * @return {*}
+                 */
+                var buildMeta = function () {
+                    datatable.dataSet = datatable.dataSet || [];
+                    Plugin.localDataUpdate();
+                    // local pagination meta
+                    var meta = Plugin.getDataSourceParam('page');
+                    if (meta.size == null || meta.size === 0) {
+                        meta.size = options.data.pageSize || 10;
+                    }
+                    if (meta.current == null || meta.current === 0) {
+                        meta.current = 1;
+                    }
+                    meta.total = datatable.dataSet.length;
+                    var start = Math.max(meta.size * (meta.current - 1), 0);
+                    var end = Math.min(start + meta.size, meta.total);
+                    datatable.dataSet = $(datatable.dataSet).slice(start, end);
+                    return meta;
+                };
+                /**
+                 * 获取数据后
+                 * @param result
+                 */
+                var afterGetData = function (result) {
+                    if (result == null || tool.httpCode.success === result.code) {
+                        var localPagingCallback = function (ctx, meta) {
+                            if (!$(ctx.pager).hasClass(pfx + 'datatable--paging-loaded')) {
+                                $(ctx.pager).remove();
+                                ctx.init(meta);
+                            }
+                            $(ctx.pager).off().on(pfx + 'datatable--on-goto-page', function (e) {
+                                $(ctx.pager).remove();
+                                ctx.init(meta);
+                            });
+
+                            var start = Math.max(meta.size * (meta.current - 1), 0);
+                            var end = Math.min(start + meta.size, meta.total);
+
+                            Plugin.localDataUpdate();
+                            datatable.dataSet = $(datatable.dataSet).slice(start, end);
+
+                            // 将数据插入到表格中
+                            Plugin.insertData();
+                        };
+                        $(datatable.wrap).removeClass(pfx + 'datatable--error');
+                        // 启用分页
+                        if (options.pagination) {
+                            if (options.data.serverPaging && options.data.type !== 'local') {
+                                // 服务端分页
+                                // 服务器端分页
+                                if (tool.httpCode.success !== result.code) {
+                                    tool.errorTip('查询数据失败', result.message);
+                                    result.data = [];
+                                    result.data.current = 0;
+                                    result.data.size = 15;
+                                    result.data.total = 0;
+                                }
+                                var serverMeta = result.data;
+                                if (serverMeta !== null) {
+                                    Plugin.pagingObject = Plugin.paging(serverMeta);
+                                } else {
+                                    // 没有来自服务器响应的分页，使用本地分页
+                                    Plugin.pagingObject = Plugin.paging(buildMeta(), localPagingCallback);
+                                }
+                            } else {
+                                // local pagination can be used by remote data also
+                                // 本地分页也可由远程数据使用
+                                Plugin.pagingObject = Plugin.paging(buildMeta(), localPagingCallback);
+                            }
+                        } else {
+                            // 禁用分页
+                            Plugin.localDataUpdate();
+                        }
+                        // 将数据插入到表格中
+                        Plugin.insertData();
+                    }
+                };
+
+                // 数据在本地
+                if (options.data.type === 'local'
+                    || options.data.serverSorting === false && action === 'sort'
+                    || options.data.serverFiltering === false && action === 'search'
+                ) {
+                    setTimeout(function () {
+                        afterGetData();
+                        Plugin.setAutoColumns();
+                    });
+                    return;
+                }
+
+                // 获取远程数据
+                Plugin.getData().done(afterGetData);
+            },
+
+            /**
+             * 插入ajax数据
+             */
+            insertData: function () {
+                datatable.dataSet = datatable.dataSet || [];
+                var params = Plugin.getDataSourceParam();
+
+                // 获取行属性
+                var pagination = params.pagination;
+                var start = (Math.max(pagination.current, 1) - 1) * pagination.size;
+                var end = Math.min(pagination.current, pagination.pages) * pagination.size;
+                var rowProps = {};
+                if (typeof options.data.attr.rowProps !== 'undefined' && options.data.attr.rowProps.length) {
+                    rowProps = options.data.attr.rowProps.slice(start, end);
+                }
+
+                var tableBody = document.createElement('tbody');
+                tableBody.style.visibility = 'hidden';
+                var colLength = options.columns.length;
+
+                $.each(datatable.dataSet, function (rowIndex, row) {
+                    var tr = document.createElement('tr');
+                    tr.setAttribute('data-row', rowIndex);
+                    // 设置tr上的data-obj
+                    $(tr).data('obj', row);
+
+                    if (typeof rowProps[rowIndex] !== 'undefined') {
+                        $.each(rowProps[rowIndex], function () {
+                            tr.setAttribute(this.name, this.value);
+                        });
+                    }
+
+                    for (var a = 0; a < colLength; a += 1) {
+                        var column = options.columns[a];
+                        var classes = [];
+                        // 添加排序class
+                        if (Plugin.getObject('sort.field', params) === column.field) {
+                            classes.push(pfx + 'datatable__cell--sorted');
+                        }
+
+                        // 设置文本对齐方式
+                        if (typeof column.textAlign !== 'undefined') {
+                            var align = typeof datatable.textAlign[column.textAlign] !== 'undefined' ? datatable.textAlign[column.textAlign] : '';
+                            classes.push(align);
+                        }
+
+                        // var classAttr = '';
+                        // 设置列class
+                        if (typeof column.class !== 'undefined') {
+                            classes.push(column.class);
+                        }
+
+                        var td = document.createElement('td');
+                        util.addClass(td, classes.join(' '));
+                        td.setAttribute('data-field', column.field);
+                        // set disable autoHide or force enable
+                        // 设置禁用自动隐藏或强制启用
+                        if (typeof column.autoHide !== 'undefined') {
+                            if (column.autoHide !== true) {
+                                td.setAttribute('data-autohide-disabled', column.autoHide);
+                            } else {
+                                td.setAttribute('data-autohide-enabled', column.autoHide);
+                            }
+                        }
+                        td.innerHTML = Plugin.getObject(column.field, row);
+                        tr.appendChild(td);
+                    }
+
+                    tableBody.appendChild(tr);
+                });
+
+                // 显示无记录消息
+                if (datatable.dataSet.length === 0) {
+                    var errorSpan = document.createElement('span');
+                    util.addClass(errorSpan, pfx + 'datatable--error');
+                    errorSpan.innerHTML = Plugin.getOption('translate.records.noRecords');
+                    tableBody.appendChild(errorSpan);
+                    $(datatable.wrap).addClass(pfx + 'datatable--error ' + pfx + 'datatable--loaded');
+                    Plugin.spinnerCallback(false);
+                }
+
+                // 替换已存在的table body
+                $(datatable.tableBody).replaceWith(tableBody);
+                datatable.tableBody = tableBody;
+
+                // 更新布局
+                Plugin.setupDOM(datatable.table);
+                Plugin.setupCellField([datatable.tableBody]);
+                Plugin.setupTemplateCell(datatable.tableBody);
+                Plugin.layoutUpdate();
+            },
+            /**
+             * 更新table组件
+             */
+            updateTableComponents: function () {
+                datatable.tableHead = $(datatable.table).children('thead');
+                datatable.tableBody = $(datatable.table).children('tbody');
+                datatable.tableFoot = $(datatable.table).children('tfoot');
+            },
+
+            /**
+             * 使用ajax获取数据
+             */
+            getData: function () {
+                // Plugin.spinnerCallback(true);
+
+                var ajaxParams = {
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    method: 'POST',
+                    data: {},
+                    timeout: Plugin.getOption('data.source.read.timeout') || 1000 * 30
+                };
+
+                if (options.data.type === 'local') {
+                    ajaxParams.url = options.data.source;
+                }
+
+                if (options.data.type === 'remote') {
+                    var data = Plugin.getDataSourceParam();
+                    // 如果没有启用服务端分页,删除参数中的分页信息
+                    if (!Plugin.getOption('data.serverPaging')) {
+                        delete data['page'];
+                    } else {
+                        // 如果数据来源于服务器并且在服务器分页,将排序信息放到参数中
+                        if (typeof data.sort !== 'undefined') {
+                            if ('asc' === data.sort.sort) {
+                                data.page.ascs = [data.sort.field];
+                            } else if ('desc' === data.sort.sort) {
+                                data.page.descs = [data.sort.field];
+                            }
+                        }
+                        delete data['sort'];
+                    }
+
+                    // 表单内参数是否需要带入
+                    if (Plugin.getOption('data.source.autoQuery')) {
+                        var formParams = tool.queryParams($(datatable.table).parents('form.kt-form').find('.query-modular input,.query-modular select'));
+                        ajaxParams.data = $.extend(true, ajaxParams.data, formParams);
+                    }
+
+                    ajaxParams.data = $.extend({}, ajaxParams.data, data, Plugin.getOption('data.source.read.params'));
+                    ajaxParams = $.extend({}, ajaxParams, Plugin.getOption('data.source.read'));
+
+                    if (typeof ajaxParams.url !== 'string') ajaxParams.url = Plugin.getOption('data.source.read');
+                    if (typeof ajaxParams.url !== 'string') ajaxParams.url = Plugin.getOption('data.source');
+                    ajaxParams.method = Plugin.getOption('data.source.read.method') || 'POST';
+                    ajaxParams.data = JSON.stringify(ajaxParams.data);
+                }
+                /**
+                 * 失败
+                 * @param jqXHR
+                 * @param textStatus
+                 * @param errorThrown
+                 */
+                var failBack = function (jqXHR, textStatus, errorThrown) {
+                    $(datatable).trigger(pfx + 'datatable--on-ajax-fail', [jqXHR]);
+                    $(datatable.tableBody).html($('<span/>').addClass(pfx + 'datatable--error').html(Plugin.getOption('translate.records.noRecords')));
+                    $(datatable.wrap).addClass(pfx + 'datatable--error ' + pfx + 'datatable--loaded');
+                    Plugin.spinnerCallback(false);
+                };
+
+                return $.ajax(ajaxParams).done(function (response, textStatus, jqXHR) {
+                    if (tool.httpCode.success === response.code) {
+                        datatable.lastResponse = response;
+                        // extendible data map callback for custom dataSource
+                        datatable.dataSet = datatable.originalDataSet = Plugin.dataMapCallback(response);
+                        Plugin.setAutoColumns();
+                        $(datatable).trigger(pfx + 'datatable--on-ajax-done', [datatable.dataSet]);
+                    } else {
+                        tool.errorTip('查询数据失败', response.message);
+                        failBack(response.message);
+                    }
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    failBack(jqXHR, textStatus, errorThrown);
+                }).always(function () {
+                });
+            },
+
+            /**
+             * 分页
+             * @param meta if null, 本地分页, 否则服务器分页
+             * @param callback 回调
+             */
+            paging: function (meta, callback) {
+                var pg = {
+                    meta: null,
+                    pager: null,
+                    paginateEvent: null,
+                    pagerLayout: {pagination: null, info: null},
+                    callback: null,
+                    init: function (meta) {
+                        pg.meta = meta;
+
+                        // 转为int类型
+                        pg.meta.current = parseInt(pg.meta.current);
+                        pg.meta.pages = parseInt(pg.meta.pages);
+                        pg.meta.size = parseInt(pg.meta.size);
+                        pg.meta.total = parseInt(pg.meta.total);
+
+                        // 计算总页数
+                        pg.meta.pages = Math.max(Math.ceil(pg.meta.total / pg.meta.size), 1);
+
+                        // 当前页不能超过总页数
+                        if (pg.meta.current > pg.meta.pages) pg.meta.current = pg.meta.pages;
+
+                        // 设置唯一事件
+                        pg.paginateEvent = Plugin.getTablePrefix();
+
+                        pg.pager = $(datatable.table).siblings('.' + pfx + 'datatable__pager');
+                        if ($(pg.pager).hasClass(pfx + 'datatable--paging-loaded')) return;
+
+                        // 重新创建分页
+                        $(pg.pager).remove();
+
+                        // 无分页
+                        if (pg.meta.pages === 0) return;
+
+                        // 设置分页参数
+                        Plugin.setDataSourceParam('page', {
+                            current: pg.meta.current,
+                            pages: pg.meta.pages,
+                            size: pg.meta.size,
+                            total: pg.meta.total
+                        });
+
+                        // 默认回调函数, 包含服务器分页
+                        pg.callback = pg.serverCallback;
+                        // 自定义回调函数
+                        if (typeof callback === 'function') pg.callback = callback;
+
+                        pg.addPaginateEvent();
+                        pg.populate();
+
+                        pg.meta.current = Math.max(pg.meta.current || 1, pg.meta.current);
+
+                        $(datatable).trigger(pg.paginateEvent, pg.meta);
+
+                        pg.pagingBreakpoint.call();
+                        $(window).resize(pg.pagingBreakpoint);
+                    },
+                    serverCallback: function (ctx, meta) {
+                        Plugin.dataRender();
+                    },
+                    /**
+                     * 生成分页工具条
+                     */
+                    populate: function () {
+                        var icons = Plugin.getOption('layout.icons.pagination');
+                        var title = Plugin.getOption('translate.toolbar.pagination.items.default');
+                        // 分页根元素
+                        pg.pager = $('<div/>').addClass(pfx + 'datatable__pager ' + pfx + 'datatable--paging-loaded');
+                        // 页码链接
+                        var pagerNumber = $('<ul/>').addClass(pfx + 'datatable__pager-nav');
+                        pg.pagerLayout['pagination'] = pagerNumber;
+
+                        // 第一页/上一页 按钮
+                        $('<li/>').append($('<a/>').attr('title', title.first).addClass(pfx + 'datatable__pager-link ' + pfx + 'datatable__pager-link--first').append($('<i/>').addClass(icons.first)).on('click', pg.gotoMorePage).attr('data-page', 1)).appendTo(pagerNumber);
+                        $('<li/>').append($('<a/>').attr('title', title.prev).addClass(pfx + 'datatable__pager-link ' + pfx + 'datatable__pager-link--prev').append($('<i/>').addClass(icons.prev)).on('click', pg.gotoMorePage)).appendTo(pagerNumber);
+
+                        // more previous pages
+                        $('<li/>').append($('<a/>').attr('title', title.more).addClass(pfx + 'datatable__pager-link ' + pfx + 'datatable__pager-link--more-prev').html($('<i/>').addClass(icons.more)).on('click', pg.gotoMorePage)).appendTo(pagerNumber);
+
+                        $('<li/>').append($('<input/>').attr('type', 'text').addClass(pfx + 'pager-input form-control').attr('title', title.input).on('keyup', function () {
+                            // 当 keyup 更新 [data-page]
+                            $(this).attr('data-page', Math.abs($(this).val()));
+                        }).on('keypress', function (e) {
+                            // 按回车
+                            if (e.which === 13) pg.gotoMorePage(e);
+                        })).appendTo(pagerNumber);
+
+                        var pagesNumber = Plugin.getOption('toolbar.items.pagination.pages.desktop.pagesNumber');
+                        var end = Math.ceil(pg.meta.current / pagesNumber) * pagesNumber;
+                        var start = end - pagesNumber;
+                        if (end > pg.meta.pages) {
+                            end = pg.meta.pages;
+                        }
+                        for (var x = start; x < end; x++) {
+                            var pageNumber = x + 1;
+                            $('<li/>').append($('<a/>').addClass(pfx + 'datatable__pager-link ' + pfx + 'datatable__pager-link-number').text(pageNumber).attr('data-page', pageNumber).attr('title', pageNumber).on('click', pg.gotoPage)).appendTo(pagerNumber);
+                        }
+
+                        // more next pages
+                        $('<li/>').append($('<a/>').attr('title', title.more).addClass(pfx + 'datatable__pager-link ' + pfx + 'datatable__pager-link--more-next').html($('<i/>').addClass(icons.more)).on('click', pg.gotoMorePage)).appendTo(pagerNumber);
+
+                        // 下一页/最后一页 按钮
+                        $('<li/>').append($('<a/>').attr('title', title.next).addClass(pfx + 'datatable__pager-link ' + pfx + 'datatable__pager-link--next').append($('<i/>').addClass(icons.next)).on('click', pg.gotoMorePage)).appendTo(pagerNumber);
+                        $('<li/>').append($('<a/>').attr('title', title.last).addClass(pfx + 'datatable__pager-link ' + pfx + 'datatable__pager-link--last').append($('<i/>').addClass(icons.last)).on('click', pg.gotoMorePage).attr('data-page', pg.meta.pages)).appendTo(pagerNumber);
+
+                        // 分页信息
+                        if (Plugin.getOption('toolbar.items.info')) {
+                            pg.pagerLayout['info'] = $('<div/>').addClass(pfx + 'datatable__pager-info').append($('<span/>').addClass(pfx + 'datatable__pager-detail'));
+                        }
+
+                        $.each(Plugin.getOption('toolbar.layout'), function (i, layout) {
+                            $(pg.pagerLayout[layout]).appendTo(pg.pager);
+                        });
+
+                        // 页大小 select
+                        var pageSizeSelect = $('<select/>').addClass('selectpicker ' + pfx + 'datatable__pager-size').attr('title', Plugin.getOption('translate.toolbar.pagination.items.default.select')).attr('data-width', '60px').val(pg.meta.size).on('change', pg.updatePerpage).prependTo(pg.pagerLayout['info']);
+
+                        var pageSizes = Plugin.getOption('toolbar.items.pagination.pageSizeSelect');
+                        // 如果未指定页大小设置,使用默认设置
+                        if (pageSizes.length === 0) pageSizes = [10, 15, 20, 30, 50, 100];
+                        $.each(pageSizes, function (i, size) {
+                            var display = size;
+                            if (size === -1) display = Plugin.getOption('translate.toolbar.pagination.items.default.all');
+                            $('<option/>').attr('value', size).html(display).appendTo(pageSizeSelect);
+                        });
+
+                        // 初始化下拉插件
+                        $(datatable).ready(function () {
+                            $('.selectpicker').selectpicker().on('hide.bs.select', function () {
+                                // fix dropup arrow icon on hide
+                                $(this).closest('.bootstrap-select').removeClass('dropup');
+                            }).siblings('.dropdown-toggle').attr('title', Plugin.getOption('translate.toolbar.pagination.items.default.select'));
+                        });
+
+                        pg.paste();
+                    },
+                    /**
+                     * 将分页工具条插入页码
+                     */
+                    paste: function () {
+                        // 根据toolbar.placement(top|bottom)插入分页工具条
+                        $.each($.unique(Plugin.getOption('toolbar.placement')),
+                            function (i, position) {
+                                if (position === 'bottom') {
+                                    $(pg.pager).clone(true).insertAfter(datatable.table);
+                                }
+                                if (position === 'top') {
+                                    // 分页放到顶部需要额外的空间
+                                    $(pg.pager).clone(true).addClass(pfx + 'datatable__pager--top').insertBefore(datatable.table);
+                                }
+                            });
+                    },
+                    gotoMorePage: function (e) {
+                        e.preventDefault();
+                        // $(this) is a link of .'+pfx+'datatable__pager-link
+
+                        if ($(this).attr('disabled') === 'disabled') return false;
+
+                        var page = $(this).attr('data-page');
+
+                        // event from text input
+                        if (typeof page === 'undefined') {
+                            page = $(e.target).attr('data-page');
+                        }
+
+                        pg.openPage(parseInt(page));
+                        return false;
+                    },
+                    /**
+                     * 点击页码按钮
+                     *
+                     * @param e
+                     */
+                    gotoPage: function (e) {
+                        e.preventDefault();
+                        // 如果点击的是当前页,忽略
+                        if ($(this).hasClass(pfx + 'datatable__pager-link--active')) return;
+
+                        pg.openPage(parseInt($(this).data('page')));
+                    },
+                    /**
+                     * 跳转到多少页
+                     * @param page {string} 页码
+                     */
+                    openPage: function (page) {
+                        // 当前页从1开始
+                        pg.meta.current = parseInt(page);
+
+                        $(datatable).trigger(pg.paginateEvent, pg.meta);
+                        pg.callback(pg, pg.meta);
+
+                        // 更新分页回调函数
+                        $(pg.pager).trigger(pfx + 'datatable--on-goto-page', pg.meta);
+                    },
+                    /**
+                     * 改变页大小
+                     * @param e
+                     */
+                    updatePerpage: function (e) {
+                        e.preventDefault();
+
+                        pg.pager = $(datatable.table).siblings('.' + pfx + 'datatable__pager').removeClass(pfx + 'datatable--paging-loaded');
+
+                        // 改变页大小
+                        if (e.originalEvent) {
+                            pg.meta.size = parseInt($(this).val());
+                        }
+
+                        $(pg.pager).find('select.' + pfx + 'datatable__pager-size').val(pg.meta.size).attr('data-selected', pg.meta.size);
+
+                        // 更新 dataSource 参数
+                        Plugin.setDataSourceParam('page', {
+                            current: pg.meta.current,
+                            pages: pg.meta.pages,
+                            size: pg.meta.size,
+                            total: pg.meta.total
+                        });
+
+                        // 更新分页回调函数
+                        $(pg.pager).trigger(pfx + 'datatable--on-update-perpage', pg.meta);
+                        $(datatable).trigger(pg.paginateEvent, pg.meta);
+                        pg.callback(pg, pg.meta);
+
+                        // 更新分页信息
+                        pg.updateInfo.call();
+                    },
+                    /**
+                     * 绑定分页事件
+                     *
+                     * @param e
+                     */
+                    addPaginateEvent: function (e) {
+                        $(datatable).off(pg.paginateEvent).on(pg.paginateEvent, function (e, meta) {
+                            Plugin.spinnerCallback(true);
+
+                            pg.pager = $(datatable.table).siblings('.' + pfx + 'datatable__pager');
+                            var pagerNumber = $(pg.pager).find('.' + pfx + 'datatable__pager-nav');
+
+                            // 设置当前页按钮状态
+                            $(pagerNumber).find('.' + pfx + 'datatable__pager-link--active').removeClass(pfx + 'datatable__pager-link--active');
+                            $(pagerNumber).find('.' + pfx + 'datatable__pager-link-number[data-page="' + meta.current + '"]').addClass(pfx + 'datatable__pager-link--active');
+
+                            // 设置上一页下一页按钮页码
+                            $(pagerNumber).find('.' + pfx + 'datatable__pager-link--prev').attr('data-page', Math.max(meta.current - 1, 1));
+                            $(pagerNumber).find('.' + pfx + 'datatable__pager-link--next').attr('data-page', Math.min(meta.current + 1, meta.pages));
+
+                            // 设置当前页页码
+                            $(pg.pager).each(function () {
+                                $(this).find('.' + pfx + 'pager-input[type="text"]').prop('value', meta.current);
+                            });
+
+                            $(pg.pager).find('.' + pfx + 'datatable__pager-nav').show();
+                            if (meta.pages <= 1) {
+                                // 如果不足2页,隐藏工具条
+                                $(pg.pager).find('.' + pfx + 'datatable__pager-nav').hide();
+                            }
+
+                            // 更新 dataSource 参数
+                            Plugin.setDataSourceParam('page', {
+                                current: pg.meta.current,
+                                pages: pg.meta.pages,
+                                size: pg.meta.size,
+                                total: pg.meta.total
+                            });
+
+                            $(pg.pager).find('select.' + pfx + 'datatable__pager-size').val(meta.size).attr('data-selected', meta.size);
+
+                            // 清除选中行
+                            $(datatable.table).find('.' + pfx + 'checkbox > [type="checkbox"]').prop('checked', false);
+                            $(datatable.table).find('.' + pfx + 'datatable__row--active').removeClass(pfx + 'datatable__row--active');
+
+                            pg.updateInfo.call();
+                            pg.pagingBreakpoint.call();
+                            // Plugin.resetScroll();
+                        });
+                    },
+                    /**
+                     * 更新分页信息
+                     */
+                    updateInfo: function () {
+                        var start = Math.max(pg.meta.size * (pg.meta.current - 1) + 1, 1);
+                        var end = Math.min(start + pg.meta.size - 1, pg.meta.total);
+                        // 更新分页信息
+                        $(pg.pager).find('.' + pfx + 'datatable__pager-info').find('.' + pfx + 'datatable__pager-detail').html(Plugin.dataPlaceholder(
+                            Plugin.getOption('translate.toolbar.pagination.items.info'), {
+                                start: start,
+                                end: pg.meta.size === -1 ? pg.meta.total : end,
+                                pageSize: pg.meta.size === -1 ||
+                                pg.meta.size >= pg.meta.total
+                                    ? pg.meta.total
+                                    : pg.meta.size,
+                                total: pg.meta.total,
+                            }));
+                    },
+
+                    /**
+                     * 根据当前屏幕尺寸更新分页工具条显示方式
+                     */
+                    pagingBreakpoint: function () {
+                        // keep page links reference
+                        var pagerNumber = $(datatable.table).siblings('.' + pfx + 'datatable__pager').find('.' + pfx + 'datatable__pager-nav');
+                        if ($(pagerNumber).length === 0) return;
+
+                        var currentPage = Plugin.getCurrentPage();
+                        var pagerInput = $(pagerNumber).find('.' + pfx + 'pager-input').closest('li');
+
+                        // 重置
+                        $(pagerNumber).find('li').show();
+
+                        // 更新分页工具条
+                        $.each(Plugin.getOption('toolbar.items.pagination.pages'),
+                            function (mode, option) {
+                                if (util.isInResponsiveRange(mode)) {
+                                    switch (mode) {
+                                        case 'desktop':
+                                        case 'tablet':
+                                            var end = Math.ceil(currentPage / option.pagesNumber) *
+                                                option.pagesNumber;
+                                            // var start = end - option.pagesNumber;
+                                            $(pagerInput).hide();
+                                            pg.meta = Plugin.getDataSourceParam('page');
+                                            pg.paginationUpdate();
+                                            break;
+
+                                        case 'mobile':
+                                            $(pagerInput).show();
+                                            $(pagerNumber).find('.' + pfx + 'datatable__pager-link--more-prev').closest('li').hide();
+                                            $(pagerNumber).find('.' + pfx + 'datatable__pager-link--more-next').closest('li').hide();
+                                            $(pagerNumber).find('.' + pfx + 'datatable__pager-link-number').closest('li').hide();
+                                            break;
+                                    }
+
+                                    return false;
+                                }
+                            });
+                    },
+
+                    /**
+                     * Update pagination number and button display
+                     */
+                    paginationUpdate: function () {
+                        var pager = $(datatable.table).siblings('.' + pfx + 'datatable__pager').find('.' + pfx + 'datatable__pager-nav'),
+                            pagerMorePrev = $(pager).find('.' + pfx + 'datatable__pager-link--more-prev'),
+                            pagerMoreNext = $(pager).find('.' + pfx + 'datatable__pager-link--more-next'),
+                            pagerFirst = $(pager).find('.' + pfx + 'datatable__pager-link--first'),
+                            pagerPrev = $(pager).find('.' + pfx + 'datatable__pager-link--prev'),
+                            pagerNext = $(pager).find('.' + pfx + 'datatable__pager-link--next'),
+                            pagerLast = $(pager).find('.' + pfx + 'datatable__pager-link--last');
+
+                        // 获取可见页码
+                        var pagerNumber = $(pager).find('.' + pfx + 'datatable__pager-link-number');
+                        // 获取第一个页码的上一页页码
+                        var morePrevPage = Math.max($(pagerNumber).first().data('page') - 1,
+                            1);
+                        $(pagerMorePrev).each(function (i, prev) {
+                            $(prev).attr('data-page', morePrevPage);
+                        });
+                        // 判断是否要显示上一页按钮
+                        if (morePrevPage === 1) {
+                            $(pagerMorePrev).parent().hide();
+                        } else {
+                            $(pagerMorePrev).parent().show();
+                        }
+
+                        // 获取最后一个页码的下一页页码
+                        var moreNextPage = Math.min($(pagerNumber).last().data('page') + 1,
+                            pg.meta.pages);
+                        $(pagerMoreNext).each(function (i, prev) {
+                            $(pagerMoreNext).attr('data-page', moreNextPage).show();
+                        });
+
+                        // 判断是否要显示下一页按钮
+                        if (moreNextPage === pg.meta.pages
+                            // missing dot fix when last hidden page is one left
+                            && moreNextPage === $(pagerNumber).last().data('page')) {
+                            $(pagerMoreNext).parent().hide();
+                        } else {
+                            $(pagerMoreNext).parent().show();
+                        }
+
+                        // 第一页/最后一页按钮状态
+                        if (pg.meta.current === 1) {
+                            $(pagerFirst).attr('disabled', true).addClass(pfx + 'datatable__pager-link--disabled');
+                            $(pagerPrev).attr('disabled', true).addClass(pfx + 'datatable__pager-link--disabled');
+                        } else {
+                            $(pagerFirst).removeAttr('disabled').removeClass(pfx + 'datatable__pager-link--disabled');
+                            $(pagerPrev).removeAttr('disabled').removeClass(pfx + 'datatable__pager-link--disabled');
+                        }
+                        if (pg.meta.current === pg.meta.pages) {
+                            $(pagerNext).attr('disabled', true).addClass(pfx + 'datatable__pager-link--disabled');
+                            $(pagerLast).attr('disabled', true).addClass(pfx + 'datatable__pager-link--disabled');
+                        } else {
+                            $(pagerNext).removeAttr('disabled').removeClass(pfx + 'datatable__pager-link--disabled');
+                            $(pagerLast).removeAttr('disabled').removeClass(pfx + 'datatable__pager-link--disabled');
+                        }
+
+                        // 根据配置设置按钮显示/隐藏
+                        var nav = Plugin.getOption('toolbar.items.pagination.navigation');
+                        if (!nav.first) $(pagerFirst).remove();
+                        if (!nav.prev) $(pagerPrev).remove();
+                        if (!nav.next) $(pagerNext).remove();
+                        if (!nav.last) $(pagerLast).remove();
+                    }
+                };
+                pg.init(meta);
+                return pg;
+            },
+
+            /**
+             * 根据屏幕尺寸与设置,隐藏/显示列
+             * options[columns][i][responsive][visible/hidden]
+             */
+            columnHide: function () {
+                var screen = util.getViewPort().width;
+                // foreach columns setting
+                $.each(options.columns, function (i, column) {
+                    if (typeof column.responsive !== 'undefined') {
+                        var field = column.field;
+                        var tds = $.grep($(datatable.table).find('.' + pfx + 'datatable__cell'), function (n, i) {
+                            return field === $(n).data('field');
+                        });
+                        if (util.getBreakpoint(column.responsive.hidden) >= screen) {
+                            $(tds).hide();
+                        } else {
+                            $(tds).show();
+                        }
+                        if (util.getBreakpoint(column.responsive.visible) <= screen) {
+                            $(tds).show();
+                        } else {
+                            $(tds).hide();
+                        }
+                    }
+                });
+            },
+
+            /**
+             * 设置子表
+             */
+            setupSubDatatable: function () {
+                var subTableCallback = Plugin.getOption('detail.content');
+                if (typeof subTableCallback !== 'function') return;
+
+                // subtable already exist
+                if ($(datatable.table).find('.' + pfx + 'datatable__subtable').length > 0) return;
+
+                $(datatable.wrap).addClass(pfx + 'datatable--subtable');
+
+                options.columns[0]['subtable'] = true;
+
+                // toggle on open sub table
+                var toggleSubTable = function (e) {
+                    e.preventDefault();
+                    // get parent row of this subtable
+                    var parentRow = $(this).closest('.' + pfx + 'datatable__row');
+
+                    // get subtable row for sub table
+                    var subTableRow = $(parentRow).next('.' + pfx + 'datatable__row-subtable');
+                    if ($(subTableRow).length === 0) {
+                        // prepare DOM for sub table, each <tr> as parent and add <tr> as child table
+                        subTableRow = $('<tr/>').addClass(pfx + 'datatable__row-subtable ' + pfx + 'datatable__row-loading').hide().append($('<td/>').addClass(pfx + 'datatable__subtable').attr('colspan', Plugin.getTotalColumns()));
+                        $(parentRow).after(subTableRow);
+                        // add class to even row
+                        if ($(parentRow).hasClass(pfx + 'datatable__row--even')) {
+                            $(subTableRow).addClass(pfx + 'datatable__row-subtable--even');
+                        }
+                    }
+
+                    $(subTableRow).toggle();
+
+                    var subTable = $(subTableRow).find('.' + pfx + 'datatable__subtable');
+
+                    // get id from first column of parent row
+                    var primaryKey = $(this).closest('[data-field]:first-child').find('.' + pfx + 'datatable__toggle-subtable').data('value');
+
+                    var icon = $(this).find('i').removeAttr('class');
+
+                    // prevent duplicate datatable init
+                    if ($(parentRow).hasClass(pfx + 'datatable__row--subtable-expanded')) {
+                        $(icon).addClass(Plugin.getOption('layout.icons.rowDetail.collapse'));
+                        // remove expand class from parent row
+                        $(parentRow).removeClass(pfx + 'datatable__row--subtable-expanded');
+                        // trigger event on collapse
+                        $(datatable).trigger(pfx + 'datatable--on-collapse-subtable', [parentRow]);
+                    } else {
+                        // expand and run callback function
+                        $(icon).addClass(Plugin.getOption('layout.icons.rowDetail.expand'));
+                        // add expand class to parent row
+                        $(parentRow).addClass(pfx + 'datatable__row--subtable-expanded');
+                        // trigger event on expand
+                        $(datatable).trigger(pfx + 'datatable--on-expand-subtable', [parentRow]);
+                    }
+
+                    // prevent duplicate datatable init
+                    if ($(subTable).find('.' + pfx + 'datatable').length === 0) {
+                        // get data by primary id
+                        $.map(datatable.dataSet, function (n, i) {
+                            // primary id must be at the first column, otherwise e.data will be undefined
+                            if (primaryKey === n[options.columns[0].field]) {
+                                e.data = n;
+                                return true;
+                            }
+                            return false;
+                        });
+
+                        // deprecated in v5.0.6
+                        e.detailCell = subTable;
+
+                        e.parentRow = parentRow;
+                        e.subTable = subTable;
+
+                        // run callback with event
+                        subTableCallback(e);
+
+                        $(subTable).children('.' + pfx + 'datatable').on(pfx + 'datatable--on-init', function (e) {
+                            $(subTableRow).removeClass(pfx + 'datatable__row-loading');
+                        });
+                        if (Plugin.getOption('data.type') === 'local') {
+                            $(subTableRow).removeClass(pfx + 'datatable__row-loading');
+                        }
+                    }
+                };
+
+                var columns = options.columns;
+                $(datatable.tableBody).find('.' + pfx + 'datatable__row').each(function (tri, tr) {
+                    $(tr).find('.' + pfx + 'datatable__cell').each(function (tdi, td) {
+                        // get column settings by field
+                        var column = $.grep(columns, function (n, i) {
+                            return $(td).data('field') === n.field;
+                        })[0];
+                        if (typeof column !== 'undefined') {
+                            var value = $(td).text();
+                            // enable column subtable toggle
+                            if (typeof column.subtable !== 'undefined' && column.subtable) {
+                                // check if subtable toggle exist
+                                if ($(td).find('.' + pfx + 'datatable__toggle-subtable').length > 0) return;
+                                // append subtable toggle
+                                $(td).html($('<a/>').addClass(pfx + 'datatable__toggle-subtable').attr('href', '#').attr('data-value', value).attr('title', Plugin.getOption('detail.title')).on('click', toggleSubTable).append($('<i/>').css('width', $(td).data('width')).addClass(Plugin.getOption('layout.icons.rowDetail.collapse'))));
+                            }
+                        }
+                    });
+                });
+
+                // $(datatable.tableHead).find('.'+pfx+'-datatable__row').first()
+            },
+
+            /**
+             * dataSource mapping callback
+             */
+            dataMapCallback: function (raw) {
+                // static dataset array
+                var dataSet = raw;
+                // dataset mapping callback
+                if (typeof Plugin.getOption('data.source.read.map') === 'function') {
+                    return Plugin.getOption('data.source.read.map')(raw);
+                } else {
+                    // default data mapping fallback
+                    if (typeof raw !== 'undefined' && typeof raw.data !== 'undefined') {
+                        dataSet = raw.data;
+                    }
+                }
+                return dataSet;
+            },
+
+            isSpinning: false,
+            /**
+             * 打开/关闭 BlockUI 等待提示
+             * @param block
+             * @param target
+             */
+            spinnerCallback: function (block, target) {
+                if (typeof target === 'undefined') target = datatable;
+                // 获取遮罩设置
+                var spinnerOptions = Plugin.getOption('layout.spinner');
+                // spinner 被禁用
+                if (typeof spinnerOptions === 'undefined' || !spinnerOptions) {
+                    return;
+                }
+                if (block) {
+                    if (!Plugin.isSpinning) {
+                        if (typeof spinnerOptions.message !== 'undefined' && spinnerOptions.message === true) {
+                            // 使用默认提示文字
+                            spinnerOptions.message = Plugin.getOption('translate.records.processing');
+                        }
+                        Plugin.isSpinning = true;
+                        if (typeof app !== 'undefined') {
+                            app.block(target, spinnerOptions);
+                        }
+                    }
+                } else {
+                    Plugin.isSpinning = false;
+                    if (typeof app !== 'undefined') {
+                        app.unblock(target);
+                    }
+                }
+            },
+
+            /**
+             * 默认排序回调函数
+             * @param data {array} 数据
+             * @param sort {string} asc|desc 排序方式
+             * @param column {object} 排序的列
+             * @returns {*|Array.<T>|{sort, field}|{asc, desc}}
+             */
+            sortCallback: function (data, sort, column) {
+                var type = column['type'] || 'string';
+                var format = column['format'] || '';
+                var field = column['field'];
+
+                return $(data).sort(function (a, b) {
+                    var aField = a[field];
+                    var bField = b[field];
+
+                    switch (type) {
+                        case 'date':
+                            if (typeof moment === 'undefined') {
+                                throw new Error('Moment.js is required.');
+                            }
+                            var diff = moment(aField, format).diff(moment(bField, format));
+                            if (sort === 'asc') {
+                                return diff > 0 ? 1 : diff < 0 ? -1 : 0;
+                            } else {
+                                return diff < 0 ? 1 : diff > 0 ? -1 : 0;
+                            }
+                            break;
+
+                        case 'number':
+                            if (isNaN(parseFloat(aField)) && aField != null) {
+                                aField = Number(aField.replace(/[^0-9\.-]+/g, ''));
+                            }
+                            if (isNaN(parseFloat(bField)) && bField != null) {
+                                bField = Number(bField.replace(/[^0-9\.-]+/g, ''));
+                            }
+                            aField = parseFloat(aField);
+                            bField = parseFloat(bField);
+                            if (sort === 'asc') {
+                                return aField > bField ? 1 : aField < bField ? -1 : 0;
+                            } else {
+                                return aField < bField ? 1 : aField > bField ? -1 : 0;
+                            }
+                            break;
+
+                        case 'string':
+                        default:
+                            if (sort === 'asc') {
+                                return aField > bField ? 1 : aField < bField ? -1 : 0;
+                            } else {
+                                return aField < bField ? 1 : aField > bField ? -1 : 0;
+                            }
+                            break;
+                    }
+                });
+            },
+
+            /**
+             * 日志
+             *
+             * @param text {object} 文字
+             * @param obj {object}
+             */
+            log: function (text, obj) {
+                if (typeof obj === 'undefined') obj = '';
+                if (datatable.debug) {
+                    console.log(text, obj);
+                }
+            },
+
+            /**
+             *  Auto hide columnds overflow in row
+             *  自动隐藏溢出列
+             */
+            autoHide: function () {
+                var hiddenExist = false;
+                // force hide enabled
+                var hidDefault = $(datatable.table).find('[data-autohide-enabled]');
+                if (hidDefault.length) {
+                    hiddenExist = true;
+                    hidDefault.hide();
+                }
+
+                var toggleHiddenColumns = function (e) {
+                    e.preventDefault();
+
+                    var row = $(this).closest('.' + pfx + 'datatable__row');
+                    var detailRow = $(row).next();
+
+                    if (!$(detailRow).hasClass(pfx + 'datatable__row-detail')) {
+                        $(this).find('i').removeClass(Plugin.getOption('layout.icons.rowDetail.collapse')).addClass(Plugin.getOption('layout.icons.rowDetail.expand'));
+
+                        var hiddenCells = $(row).find('.' + pfx + 'datatable__cell:hidden');
+                        var clonedCells = hiddenCells.clone().show();
+
+                        detailRow = $('<tr/>').addClass(pfx + 'datatable__row-detail').insertAfter(row);
+                        var detailRowTd = $('<td/>').addClass(pfx + 'datatable__detail').attr('colspan', Plugin.getTotalColumns()).appendTo(detailRow);
+
+                        var detailSubTable = $('<table/>');
+                        $(clonedCells).each(function () {
+                            var field = $(this).data('field');
+                            var column = $.grep(options.columns, function (n, i) {
+                                return field === n.field;
+                            })[0];
+                            $(detailSubTable).append($('<tr class="' + pfx + 'datatable__row"></tr>').append($('<td class="' + pfx + 'datatable__cell"></td>').append($('<span/>').append(column.title))).append(this));
+                        });
+                        $(detailRowTd).append(detailSubTable);
+
+                    } else {
+                        $(this).find('i').removeClass(Plugin.getOption('layout.icons.rowDetail.expand')).addClass(Plugin.getOption('layout.icons.rowDetail.collapse'));
+                        $(detailRow).remove();
+                    }
+                };
+
+                setTimeout(function () {
+                    $(datatable.table).find('.' + pfx + 'datatable__cell').show();
+                    $(datatable.tableBody).each(function () {
+                        var recursive = 0;
+                        while ($(this)[0].offsetWidth < $(this)[0].scrollWidth && recursive < options.columns.length) {
+                            $(datatable.table).find('.' + pfx + 'datatable__row').each(function (i) {
+                                var cell = $(this).find('.' + pfx + 'datatable__cell:not(:hidden):not([data-autohide-disabled])').last();
+                                $(cell).hide();
+                                hiddenExist = true;
+                            });
+                            recursive++;
+                        }
+                    });
+
+                    if (hiddenExist) {
+                        // 改变列隐藏/显示
+                        $(datatable.tableBody).find('.' + pfx + 'datatable__row').each(function () {
+                            // if no toggle yet
+                            if ($(this).find('.' + pfx + 'datatable__toggle-detail').length === 0) {
+                                // add toggle
+                                $(this).prepend($('<td/>').addClass(pfx + 'datatable__cell ' + pfx + 'datatable__toggle-detail').append($('<a/>').addClass(pfx + 'datatable__toggle-detail').attr('href', '').on('click', toggleHiddenColumns).append('<i class="' + Plugin.getOption('layout.icons.rowDetail.collapse') + '"></i>')));
+                            }
+
+                            // check if subtable toggle exist
+                            if ($(datatable.tableHead).find('.' + pfx + 'datatable__toggle-detail').length === 0) {
+                                // add empty column to the header and footer
+                                $(datatable.tableHead).find('.' + pfx + 'datatable__row').first().prepend('<th class="' + pfx + 'datatable__cell ' + pfx + 'datatable__toggle-detail"><span></span></th>');
+                                $(datatable.tableFoot).find('.' + pfx + 'datatable__row').first().prepend('<th class="' + pfx + 'datatable__cell ' + pfx + 'datatable__toggle-detail"><span></span></th>');
+                            } else {
+                                $(datatable.tableHead).find('.' + pfx + 'datatable__toggle-detail').find('span');
+                            }
+                        });
+                    }
+                });
+
+                Plugin.adjustCellsWidth.call();
+            },
+
+            /**
+             * 自动将服务器返回数据第一条作为表格标题
+             */
+            setAutoColumns: function () {
+                if (Plugin.getOption('data.autoColumns')) {
+                    $.each(datatable.dataSet[0], function (k, v) {
+                        var found = $.grep(options.columns, function (n, i) {
+                            return k === n.field;
+                        });
+                        if (found.length === 0) {
+                            options.columns.push({field: k, title: k});
+                        }
+                    });
+                    $(datatable.tableHead).find('.' + pfx + 'datatable__row').remove();
+                    Plugin.setHeadTitle();
+                    if (Plugin.getOption('layout.footer')) {
+                        $(datatable.tableFoot).find('.' + pfx + 'datatable__row').remove();
+                        Plugin.setHeadTitle(datatable.tableFoot);
+                    }
+                }
+            },
+
+            /********************
+             ** 工具
+             ********************/
+
+            /**
+             * 检查表格中是否有锁定列
+             */
+            isLocked: function () {
+                var isLocked = Plugin.lockEnabledColumns();
+                return isLocked.left.length > 0 || isLocked.right.length > 0;
+            },
+
+            isSubtable: function () {
+                return util.hasClass(datatable.wrap[0], pfx + 'datatable--subtable') || false;
+            },
+
+            /**
+             * 获取用于宽度计算的元素的额外空间 (包括 padding, margin, border)
+             * @param element
+             * @returns {number}
+             */
+            getExtraSpace: function (element) {
+                var padding = parseInt($(element).css('paddingRight')) +
+                    parseInt($(element).css('paddingLeft'));
+                var margin = parseInt($(element).css('marginRight')) +
+                    parseInt($(element).css('marginLeft'));
+                var border = Math.ceil(
+                    $(element).css('border-right-width').replace('px', ''));
+                return padding + margin + border;
+            },
+
+            /**
+             * 将数组的数据插入{{}}模板占位符中
+             * @param template {string} 模板
+             * @param data {array} 数据
+             * @returns {*}
+             */
+            dataPlaceholder: function (template, data) {
+                var result = template;
+                $.each(data, function (key, val) {
+                    result = result.replace('{{' + key + '}}', val);
+                });
+                return result;
+            },
+
+            /**
+             * 获取表格唯一id
+             *
+             * @param suffix {string} 后缀
+             * @returns {*}
+             */
+            getTableId: function (suffix) {
+                if (typeof suffix === 'undefined') suffix = '';
+                var id = $(datatable).attr('id');
+                if (typeof id === 'undefined') {
+                    id = $(datatable).attr('class').split(' ')[0];
+                }
+                return id + suffix;
+            },
+
+            /**
+             * 根据表格级别获取表格前缀
+             */
+            getTablePrefix: function (suffix) {
+                if (typeof suffix !== 'undefined') suffix = '-' + suffix;
+                return Plugin.getTableId() + '-' + Plugin.getDepth() + suffix;
+            },
+
+            /**
+             * 获取当前表格在子表中的级别
+             *
+             * @returns {number}
+             */
+            getDepth: function () {
+                var depth = 0;
+                var table = datatable.table;
+                do {
+                    table = $(table).parents('.' + pfx + 'datatable__table');
+                    depth++;
+                } while ($(table).length > 0);
+                return depth;
+            },
+
+            /**
+             * 保存表格状态
+             *
+             * @param key {string} 关键字
+             * @param value {object} 值
+             */
+            stateKeep: function (key, value) {
+                key = Plugin.getTablePrefix(key);
+                if (Plugin.getOption('data.saveState') === false) return;
+                if (Plugin.getOption('data.saveState.webstorage') && localStorage) {
+                    localStorage.setItem(key, JSON.stringify(value));
+                }
+                if (Plugin.getOption('data.saveState.cookie')) {
+                    Cookies.set(key, JSON.stringify(value));
+                }
+            },
+
+            /**
+             * 获取表格状态
+             *
+             * @param key {string} 关键字
+             */
+            stateGet: function (key, defValue) {
+                key = Plugin.getTablePrefix(key);
+                if (Plugin.getOption('data.saveState') === false) return;
+                var value = null;
+                if (Plugin.getOption('data.saveState.webstorage') && localStorage) {
+                    value = localStorage.getItem(key);
+                } else {
+                    value = Cookies.get(key);
+                }
+                if (typeof value !== 'undefined' && value !== null) {
+                    return JSON.parse(value);
+                }
+            },
+
+            /**
+             * 更新cookies/localStorage中的状态
+             *
+             * @param key {string} 关键字
+             * @param value {object} 值
+             */
+            stateUpdate: function (key, value) {
+                var ori = Plugin.stateGet(key);
+                if (typeof ori === 'undefined' || ori === null) ori = {};
+                Plugin.stateKeep(key, $.extend({}, ori, value));
+            },
+
+            /**
+             * 移除指定cookies/localStorage
+             *
+             * @param key {string} key
+             */
+            stateRemove: function (key) {
+                key = Plugin.getTablePrefix(key);
+                if (localStorage) {
+                    localStorage.removeItem(key);
+                }
+                Cookies.remove(key);
+            },
+
+            /**
+             * 获取列数量
+             */
+            getTotalColumns: function (tablePart) {
+                if (typeof tablePart === 'undefined') tablePart = datatable.tableBody;
+                return $(tablePart).find('.' + pfx + 'datatable__row').first().find('.' + pfx + 'datatable__cell').length;
+            },
+
+            /**
+             * 获取表格中的一行
+             *
+             * @param tablePart {string} 表格选择器
+             * @param row {int} 行号 从1开始
+             * @param tdOnly {boolean} 只返回td
+             * @returns {*}
+             */
+            getOneRow: function (tablePart, row, tdOnly) {
+                if (typeof tdOnly === 'undefined') tdOnly = true;
+                // get list of <tr>
+                var result = $(tablePart).find('.' + pfx + 'datatable__row:not(.' + pfx + 'datatable__row-detail):nth-child(' + row + ')');
+                if (tdOnly) {
+                    // get list of <td> or <th>
+                    result = result.find('.' + pfx + 'datatable__cell');
+                }
+                return result;
+            },
+
+            /**
+             * Sort table row at HTML level by column index.
+             * todo; Not in use.
+             * @param header Header sort clicked
+             * @param sort asc|desc. Optional. Default asc
+             * @param int Boolean. Optional. Comparison value parse to integer.
+             *     Default false
+             */
+            sortColumn: function (header, sort, int) {
+                if (typeof sort === 'undefined') sort = 'asc'; // desc
+                if (typeof int === 'undefined') int = false;
+
+                var column = $(header).index();
+                var rows = $(datatable.tableBody).find('.' + pfx + 'datatable__row');
+                var hIndex = $(header).closest('.' + pfx + 'datatable__lock').index();
+                if (hIndex !== -1) {
+                    rows = $(datatable.tableBody).find('.' + pfx + 'datatable__lock:nth-child(' + (hIndex + 1) + ')').find('.' + pfx + 'datatable__row');
+                }
+
+                var container = $(rows).parent();
+                $(rows).sort(function (a, b) {
+                    var tda = $(a).find('td:nth-child(' + column + ')').text();
+                    var tdb = $(b).find('td:nth-child(' + column + ')').text();
+
+                    if (int) {
+                        // useful for integer type sorting
+                        tda = parseInt(tda);
+                        tdb = parseInt(tdb);
+                    }
+
+                    if (sort === 'asc') {
+                        return tda > tdb ? 1 : tda < tdb ? -1 : 0;
+                    } else {
+                        return tda < tdb ? 1 : tda > tdb ? -1 : 0;
+                    }
+                }).appendTo(container);
+            },
+
+            /**
+             * 排序
+             */
+            sorting: function () {
+                var sortObj = {
+                    init: function () {
+                        if (options.sortable) {
+                            $(datatable.tableHead).find('.' + pfx + 'datatable__cell:not(.' + pfx + 'datatable__cell--check)').addClass(pfx + 'datatable__cell--sort').off('click').on('click', sortObj.sortClick);
+                            // first init
+                            sortObj.setIcon();
+                        }
+                    },
+                    setIcon: function () {
+                        var meta = Plugin.getDataSourceParam('sort');
+                        if ($.isEmptyObject(meta)) return;
+
+                        var column = Plugin.getColumnByField(meta.field);
+                        // sort is disabled for this column
+                        if (typeof column !== 'undefined' && typeof column.sortable !== 'undefined' && column.sortable === false) return;
+
+                        // 获取head中的图标
+                        var td = $(datatable.tableHead).find('.' + pfx + 'datatable__cell[data-field="' + meta.field + '"]').attr('data-sort', meta.sort);
+                        var sorting = $(td).find('span');
+                        var icon = $(sorting).find('i');
+
+                        var icons = Plugin.getOption('layout.icons.sort');
+                        // 更新图标; desc & asc
+                        if ($(icon).length > 0) {
+                            $(icon).removeAttr('class').addClass(icons[meta.sort]);
+                        } else {
+                            $(sorting).append($('<i/>').addClass(icons[meta.sort]));
+                        }
+
+                        // set sorted class to header on init
+                        $(td).addClass(pfx + 'datatable__cell--sorted');
+                    },
+                    sortClick: function (e) {
+                        var meta = Plugin.getDataSourceParam('sort');
+                        var field = $(this).data('field');
+                        var column = Plugin.getColumnByField(field);
+                        // 如果该列已经禁用排序,移除排序按钮
+                        if (typeof column.sortable !== 'undefined' && column.sortable === false) return;
+
+                        // 设置header排序class
+                        $(datatable.tableHead).find('th').removeClass(pfx + 'datatable__cell--sorted');
+                        util.addClass(this, pfx + 'datatable__cell--sorted');
+
+                        $(datatable.tableHead).find('.' + pfx + 'datatable__cell > span > i').remove();
+
+                        if (options.sortable) {
+                            Plugin.spinnerCallback(true);
+
+                            var sort = 'desc';
+                            if (Plugin.getObject('field', meta) === field) {
+                                sort = Plugin.getObject('sort', meta);
+                            }
+
+                            // 排序方式
+                            sort = typeof sort === 'undefined' || sort === 'desc'
+                                ? 'asc'
+                                : 'desc';
+
+                            // 更新排序方式
+                            meta = {field: field, sort: sort};
+                            Plugin.setDataSourceParam('sort', meta);
+
+                            sortObj.setIcon();
+
+                            setTimeout(function () {
+                                Plugin.dataRender('sort');
+                                $(datatable).trigger(pfx + 'datatable--on-sort', meta);
+                            }, 300);
+                        }
+                    },
+                };
+                sortObj.init();
+            },
+
+            /**
+             * 更新本地数据的 排序,过滤,分页
+             * 在使用dataSet变量之前调用该方法
+             *
+             * @returns {*|null}
+             */
+            localDataUpdate: function () {
+                var params = Plugin.getDataSourceParam();
+                if (typeof datatable.originalDataSet === 'undefined') {
+                    datatable.originalDataSet = datatable.dataSet;
+                }
+
+                var field = Plugin.getObject('sort.field', params);
+                var sort = Plugin.getObject('sort.sort', params);
+                var column = Plugin.getColumnByField(field);
+                if (typeof column !== 'undefined' && Plugin.getOption('data.serverSorting') !== true) {
+                    if (typeof column.sortCallback === 'function') {
+                        datatable.dataSet = column.sortCallback(datatable.originalDataSet, sort, column);
+                    } else {
+                        datatable.dataSet = Plugin.sortCallback(datatable.originalDataSet, sort, column);
+                    }
+                } else {
+                    datatable.dataSet = datatable.originalDataSet;
+                }
+
+                // 如果启用服务端分页,不用在本地过滤
+                if (typeof params.query === 'object' && !Plugin.getOption('data.serverFiltering')) {
+                    params.query = params.query || {};
+
+                    var nestedSearch = function (obj) {
+                        for (var field in obj) {
+                            if (!obj.hasOwnProperty(field)) continue;
+                            if (typeof obj[field] === 'string') {
+                                if (obj[field].toLowerCase() == search || obj[field].toLowerCase().indexOf(search) !== -1) {
+                                    return true;
+                                }
+                            } else if (typeof obj[field] === 'number') {
+                                if (obj[field] === search) {
+                                    return true;
+                                }
+                            } else if (typeof obj[field] === 'object') {
+                                if (nestedSearch(obj[field])) {
+                                    return true;
+                                }
+                            }
+                        }
+                        return false;
+                    };
+                    // 获取查询条件
+                    // 获取查询条件
+                    $(Plugin.getOption('search.input')).each(function (index, element) {
+                        var search = $(element).val();
+                        var key = Plugin.getGeneralSearchKey(element);
+                        if (util.isNotBlank(key)) {
+                            if (util.isNotBlank(search)) {
+                                params.query[key] = search;
+                            } else {
+                                delete params.query[key];
+                            }
+                        }
+                    });
+
+                    // 移除数组中的空元素
+                    $.each(params.query, function (k, v) {
+                        if (v === '') {
+                            delete params.query[k];
+                        }
+                    });
+
+                    // 根据查询条件过滤
+                    datatable.dataSet = Plugin.filterArray(datatable.dataSet, params.query);
+
+                    // 重置数组index
+                    datatable.dataSet = datatable.dataSet.filter(function () {
+                        return true;
+                    });
+                }
+
+                return datatable.dataSet;
+            },
+
+            /**
+             * 过滤{key:value}数组
+             *
+             * @param list {array} 数组
+             * @param args 查询条件
+             * @param operator 关联(AND/OR/NOT)
+             * @returns {*}
+             */
+            filterArray: function (list, args, operator) {
+                if (typeof list !== 'object') {
+                    return [];
+                }
+
+                if (typeof operator === 'undefined') operator = 'AND';
+
+                if (typeof args !== 'object') {
+                    return list;
+                }
+
+                operator = operator.toUpperCase();
+
+                if ($.inArray(operator, ['AND', 'OR', 'NOT']) === -1) {
+                    return [];
+                }
+
+                var count = Object.keys(args).length;
+                var filtered = [];
+
+                $.each(list, function (key, obj) {
+                    var to_match = obj;
+
+                    var matched = 0;
+                    $.each(args, function (m_key, m_value) {
+                        m_value = m_value instanceof Array ? m_value : [m_value];
+                        var match_property = Plugin.getObject(m_key, to_match);
+                        if (typeof match_property !== 'undefined' && match_property) {
+                            var lhs = match_property.toString().toLowerCase();
+                            m_value.forEach(function (item, index) {
+                                if (item.toString().toLowerCase() == lhs || lhs.indexOf(item.toString().toLowerCase()) !== -1) {
+                                    matched++;
+                                }
+                            });
+                        }
+                    });
+
+                    if (('AND' === operator && matched == count) ||
+                        ('OR' === operator && matched > 0) ||
+                        ('NOT' === operator && 0 == matched)) {
+                        filtered[key] = obj;
+                    }
+                });
+
+                list = filtered;
+
+                return list;
+            },
+
+            /**
+             * 重置滚动条
+             */
+            resetScroll: function () {
+                if (typeof options.detail === 'undefined' && Plugin.getDepth() === 1) {
+                    $(datatable.table).find('.' + pfx + 'datatable__row').css('left', 0);
+                    $(datatable.table).find('.' + pfx + 'datatable__lock').css('top', 0);
+                    $(datatable.tableBody).scrollTop(0);
+                }
+            },
+
+            /**
+             * 根据列名获取列
+             *
+             * @param field 列名
+             * @returns {object}
+             */
+            getColumnByField: function (field) {
+                if (typeof field === 'undefined') return;
+                var result;
+                $.each(options.columns, function (i, column) {
+                    if (field === column.field) {
+                        result = column;
+                        return false;
+                    }
+                });
+                return result;
+            },
+
+            /**
+             * 获取默认排序列
+             */
+            getDefaultSortColumn: function () {
+                var result;
+                $.each(options.columns, function (i, column) {
+                    if (typeof column.sortable !== 'undefined'
+                        && $.inArray(column.sortable, ['asc', 'desc']) !== -1) {
+                        result = {sort: column.sortable, field: column.field};
+                        return false;
+                    }
+                });
+                return result;
+            },
+
+            /**
+             * 获取隐藏元素属性
+             * @param element {object} 元素
+             * @param includeMargin {boolean} 包括margin
+             * @returns {{width: number, height: number, innerWidth: number, innerHeight: number, outerWidth: number, outerHeight: number}}
+             */
+            getHiddenDimensions: function (element, includeMargin) {
+                var props = {
+                        position: 'absolute',
+                        visibility: 'hidden',
+                        display: 'block',
+                    },
+                    dim = {
+                        width: 0,
+                        height: 0,
+                        innerWidth: 0,
+                        innerHeight: 0,
+                        outerWidth: 0,
+                        outerHeight: 0,
+                    },
+                    hiddenParents = $(element).parents().addBack().not(':visible');
+                includeMargin = (typeof includeMargin === 'boolean')
+                    ? includeMargin
+                    : false;
+
+                var oldProps = [];
+                hiddenParents.each(function () {
+                    var old = {};
+
+                    for (var name in props) {
+                        old[name] = this.style[name];
+                        this.style[name] = props[name];
+                    }
+
+                    oldProps.push(old);
+                });
+
+                dim.width = $(element).width();
+                dim.outerWidth = $(element).outerWidth(includeMargin);
+                dim.innerWidth = $(element).innerWidth();
+                dim.height = $(element).height();
+                dim.innerHeight = $(element).innerHeight();
+                dim.outerHeight = $(element).outerHeight(includeMargin);
+
+                hiddenParents.each(function (i) {
+                    var old = oldProps[i];
+                    for (var name in props) {
+                        this.style[name] = old[name];
+                    }
+                });
+
+                return dim;
+            },
+            /**
+             * 获取查询条件元素的name/id
+             *
+             * @returns {*}
+             */
+            getGeneralSearchKey: function () {
+                var searchInput = $(Plugin.getOption('search.input'));
+                return $(searchInput).prop('name') || $(searchInput).prop('id');
+            },
+
+            /**
+             * 根据路径获取对象
+             *
+             * @param path {string} 属性路径
+             * @param object {object}
+             * @returns {*}
+             */
+            getObject: function (path, object) {
+                return path.split('.').reduce(function (obj, i) {
+                    return obj !== null && typeof obj[i] !== 'undefined' ? obj[i] : null;
+                }, object);
+            },
+
+            /**
+             * Extend object
+             * @param obj
+             * @param path
+             * @param value
+             * @returns {*}
+             */
+            extendObj: function (obj, path, value) {
+                var levels = path.split('.'),
+                    i = 0;
+
+                function createLevel(child) {
+                    var name = levels[i++];
+                    if (typeof child[name] !== 'undefined' && child[name] !== null) {
+                        if (typeof child[name] !== 'object' &&
+                            typeof child[name] !== 'function') {
+                            child[name] = {};
+                        }
+                    } else {
+                        child[name] = {};
+                    }
+                    if (i === levels.length) {
+                        child[name] = value;
+                    } else {
+                        createLevel(child[name]);
+                    }
+                }
+
+                createLevel(obj);
+                return obj;
+            },
+
+            rowEvenOdd: function () {
+                // row even class
+                $(datatable.tableBody).find('.' + pfx + 'datatable__row').removeClass(pfx + 'datatable__row--even');
+                if ($(datatable.wrap).hasClass(pfx + 'datatable--subtable')) {
+                    $(datatable.tableBody).find('.' + pfx + 'datatable__row:not(.' + pfx + 'datatable__row-detail):even').addClass(pfx + 'datatable__row--even');
+                } else {
+                    $(datatable.tableBody).find('.' + pfx + 'datatable__row:nth-child(even)').addClass(pfx + 'datatable__row--even');
+                }
+            },
+
+            /********************
+             ** 公开方法
+             ********************/
+
+            // 延迟时间
+            timer: 0,
+
+            /**
+             *重绘
+             * @returns {jQuery}
+             */
+            redraw: function () {
+                Plugin.adjustCellsWidth.call();
+                if (Plugin.isLocked()) {
+                    // fix hiding cell width issue
+                    Plugin.scrollbar();
+                    Plugin.resetScroll();
+                    Plugin.adjustCellsHeight.call();
+                }
+                Plugin.adjustLockContainer.call();
+                Plugin.initHeight.call();
+                return datatable;
+            },
+
+            /**
+             * 重新加载数据
+             *
+             * @returns {jQuery}
+             */
+            load: function () {
+                Plugin.reload();
+                return datatable;
+            },
+
+            /**
+             * 重新加载数据
+             *
+             * @returns {jQuery}
+             */
+            reload: function () {
+                var delay = (function () {
+                    return function (callback, ms) {
+                        clearTimeout(Plugin.timer);
+                        Plugin.timer = setTimeout(callback, ms);
+                    };
+                })();
+                delay(function () {
+                    // local only. remote pagination will skip this block
+                    if (!options.data.serverFiltering) {
+                        Plugin.localDataUpdate();
+                    }
+                    Plugin.dataRender();
+                    $(datatable).trigger(pfx + 'datatable--on-reloaded');
+                }, Plugin.getOption('search.delay'));
+                return datatable;
+            },
+
+            /**
+             * 根据数据id获取数据
+             *
+             * @param id {string} 数据id
+             * @returns {jQuery}
+             */
+            getRecord: function (id) {
+                if (typeof datatable.tableBody === 'undefined') datatable.tableBody = $(datatable.table).children('tbody');
+                $(datatable.tableBody).find('.' + pfx + 'datatable__cell:first-child').each(function (i, cell) {
+                    if (id == $(cell).text()) {
+                        var rowNumber = $(cell).closest('.' + pfx + 'datatable__row').index() + 1;
+                        datatable.API.record = datatable.API.value = Plugin.getOneRow(datatable.tableBody, rowNumber);
+                        return datatable;
+                    }
+                });
+                return datatable;
+            },
+
+            /**
+             * 根据列名获取列
+             *
+             * @param columnName {string} 列名
+             * @returns {jQuery}
+             */
+            getColumn: function (columnName) {
+                Plugin.setSelectedRecords();
+                datatable.API.value = $(datatable.API.record).find('[data-field="' + columnName + '"]');
+                return datatable;
+            },
+
+            /**
+             * 销毁并还原表格
+             *
+             * @returns {jQuery}
+             */
+            destroy: function () {
+                $(datatable).parent().find('.' + pfx + 'datatable__pager').remove();
+                var initialDatatable = $(datatable.initialDatatable).addClass(pfx + 'datatable--destroyed').show();
+                $(datatable).replaceWith(initialDatatable);
+                datatable = initialDatatable;
+                $(datatable).trigger(pfx + 'datatable--on-destroy');
+                Plugin.isInit = false;
+                initialDatatable = null;
+                return initialDatatable;
+            },
+
+            /**
+             * 根据指定列排序
+             *
+             * @param field {string} 列名
+             * @param sort {string} asc/desc 排序方式 (默认:asc)
+             */
+            sort: function (field, sort) {
+                // toggle sort
+                sort = typeof sort === 'undefined' ? 'asc' : sort;
+
+                Plugin.spinnerCallback(true);
+
+                // 更新排序方式
+                var meta = {field: field, sort: sort};
+                Plugin.setDataSourceParam('sort', meta);
+
+                setTimeout(function () {
+                    Plugin.dataRender('sort');
+                    $(datatable).trigger(pfx + 'datatable--on-sort', meta);
+                    $(datatable.tableHead).find('.' + pfx + 'datatable__cell > span > i').remove();
+                }, 300);
+
+                return datatable;
+            },
+
+            /**
+             * 获取当前选中数据值
+             *
+             * @returns {array}
+             */
+            getValue: function () {
+                return $(datatable.API.value).text();
+                // var ids = [];
+                // var selectedRecords = datatable.getSelectedRecords();
+                // if (selectedRecords != null && selectedRecords.length > 0) {
+                //     for (var i = 0; i < selectedRecords.length; i++) {
+                //         var _id = $(selectedRecords[i]).data('id');
+                //         if (typeof _id !== 'undefined') {
+                //             ids.push(_id);
+                //         }
+                //     }
+                // }
+                // return ids;
+            },
+
+            /**
+             * 根据CheckBox设置行选中
+             *
+             * @param cell {string|number|object} checkbox value / checkbox element
+             */
+            setActive: function (cell) {
+                if (typeof cell === 'string' || typeof cell === 'number') {
+                    // 根据CheckBox id
+                    cell = $(datatable.tableBody).find('.' + pfx + 'checkbox--single > [type="checkbox"][value="' + cell + '"]');
+                }
+
+                $(cell).prop('checked', true);
+
+                var ids = [];
+                $(cell).each(function (i, td) {
+                    // 查找选中行
+                    var row = $(td).closest('tr').addClass(pfx + 'datatable__row--active');
+                    var colIndex = $(row).index() + 1;
+
+                    // 锁定的列
+                    $(row).closest('tbody').find('tr:nth-child(' + colIndex + ')').not('.' + pfx + 'datatable__row-subtable').addClass(pfx + 'datatable__row--active');
+
+                    var id = $(td).attr('value');
+                    if (typeof id !== 'undefined') {
+                        ids.push(id);
+                    }
+                });
+
+                $(datatable).trigger(pfx + 'datatable--on-check', [ids]);
+            },
+
+            /**
+             * 根据CheckBox设置行不选中
+             *
+             * @param cell {string|number|object} checkbox value / checkbox element
+             */
+            setInactive: function (cell) {
+                if (typeof cell === 'string' || typeof cell === 'number') {
+                    // 根据CheckBox id
+                    cell = $(datatable.tableBody).find('.' + pfx + 'checkbox--single > [type="checkbox"][value="' + cell + '"]');
+                }
+
+                $(cell).prop('checked', false);
+
+                var ids = [];
+                $(cell).each(function (i, td) {
+                    // 获取选中行
+                    var row = $(td).closest('tr').removeClass(pfx + 'datatable__row--active');
+                    var colIndex = $(row).index() + 1;
+
+                    // 锁定列
+                    $(row).closest('tbody').find('tr:nth-child(' + colIndex + ')').not('.' + pfx + 'datatable__row-subtable').removeClass(pfx + 'datatable__row--active');
+
+                    var id = $(td).attr('value');
+                    if (typeof id !== 'undefined') {
+                        ids.push(id);
+                    }
+                });
+
+                $(datatable).trigger(pfx + 'datatable--on-uncheck', [ids]);
+            },
+
+            /**
+             * Set all checkboxes active or inactive
+             * @param active
+             */
+            setActiveAll: function (active) {
+                var checkboxes = $(datatable.table).find('> tbody, > thead').find('tr').not('.' + pfx + 'datatable__row-subtable').find('.' + pfx + 'datatable__cell--check [type="checkbox"]');
+                if (active) {
+                    Plugin.setActive(checkboxes);
+                } else {
+                    Plugin.setInactive(checkboxes);
+                }
+            },
+
+            /**
+             * @deprecated in v5.0.6
+             * Get selected rows which are active
+             * @returns {jQuery}
+             */
+            setSelectedRecords: function () {
+                datatable.API.record = $(datatable.tableBody).find('.' + pfx + 'datatable__row--active');
+                return datatable;
+            },
+
+            /**
+             * 获取选中记录
+             * @returns {null}
+             */
+            getSelectedRecords: function () {
+                // support old method
+                Plugin.setSelectedRecords();
+                datatable.API.record = datatable.rows('.' + pfx + 'datatable__row--active').nodes();
+                return datatable.API.record;
+            },
+
+            /**
+             * 获取选项
+             *
+             * @param path 属性路径
+             * @returns {object} 选项
+             */
+            getOption: function (path) {
+                return Plugin.getObject(path, options);
+            },
+
+            /**
+             * 设置选项
+             *
+             * @param path 属性路径
+             * @param object {object} 选项
+             */
+            setOption: function (path, object) {
+                options = Plugin.extendObj(options, path, object);
+            },
+
+            /**
+             * 查询数据
+             *
+             * @param value 值
+             * @param columns {array/string} 列名称
+             */
+            search: function (value, columns) {
+                if (typeof columns !== 'undefined') columns = $.makeArray(columns);
+                var delay = (function () {
+                    return function (callback, ms) {
+                        clearTimeout(Plugin.timer);
+                        Plugin.timer = setTimeout(callback, ms);
+                    };
+                })();
+
+                delay(function () {
+                    // 获取查询条件
+                    var query = Plugin.getDataSourceQuery();
+
+                    // 如果列名为空
+                    if (typeof columns === 'undefined' && typeof value !== 'undefined') {
+                        var key = Plugin.getGeneralSearchKey();
+                        query[key] = value;
+                    }
+
+                    // 根据指定列明搜索,支持多列名
+                    if (typeof columns === 'object') {
+                        $.each(columns, function (k, column) {
+                            query[column] = value;
+                        });
+                        // 移除空值
+                        $.each(query, function (k, v) {
+                            if (v === '' || $.isEmptyObject(v)) {
+                                delete query[k];
+                            }
+                        });
+                    }
+
+                    Plugin.setDataSourceQuery(query);
+
+                    // 如果是本地筛选
+                    if (!options.data.serverFiltering) {
+                        Plugin.localDataUpdate();
+                    }
+                    Plugin.dataRender('search');
+                }, Plugin.getOption('search.delay'));
+            },
+
+            /**
+             * 设置数据源中对象
+             *
+             * @param param {string} 对象名称
+             * @param value {object} 值
+             */
+            setDataSourceParam: function (param, value) {
+                datatable.API.params = $.extend({}, {
+                    pagination: {current: 1, size: Plugin.getOption('data.pageSize')},
+                    sort: Plugin.getDefaultSortColumn(),
+                    query: {}
+                }, datatable.API.params, Plugin.stateGet(Plugin.stateId));
+
+                datatable.API.params = Plugin.extendObj(datatable.API.params, param, value);
+
+                Plugin.stateKeep(Plugin.stateId, datatable.API.params);
+            },
+
+            /**
+             * 获取数据源中指定对象
+             *
+             * @param param {string|null} 对象名称
+             */
+            getDataSourceParam: function (param) {
+                datatable.API.params = $.extend({}, {
+                    page: {current: 1, size: Plugin.getOption('data.pageSize')},
+                    sort: Plugin.getDefaultSortColumn(),
+                    query: {}
+                }, datatable.API.params, Plugin.stateGet(Plugin.stateId));
+
+                if (typeof param === 'string') {
+                    return Plugin.getObject(param, datatable.API.params);
+                }
+
+                return datatable.API.params;
+            },
+
+            /**
+             * 获取查询条件
+             * 示例: datatable.getDataSourceParam('query');
+             *
+             * @returns {*}
+             */
+            getDataSourceQuery: function () {
+                return Plugin.getDataSourceParam('query') || {};
+            },
+
+            /**
+             * 设置查询条件
+             * 示例: datatable.setDataSourceParam('query', query);
+             *
+             * @param query {string} 查询条件
+             */
+            setDataSourceQuery: function (query) {
+                Plugin.setDataSourceParam('query', query);
+            },
+
+            /**
+             * 获取当前页
+             *
+             * @returns {number}
+             */
+            getCurrentPage: function () {
+                return $(datatable.table).siblings('.' + pfx + 'datatable__pager').last().find('.' + pfx + 'datatable__pager-nav').find('.' + pfx + 'datatable__pager-link.' + pfx + 'datatable__pager-link--active').data('page') || 1;
+            },
+
+            /**
+             * 获取当前选中页大小(默认10)
+             *
+             * @returns {*|number}
+             */
+            getPageSize: function () {
+                return $(datatable.table).siblings('.' + pfx + 'datatable__pager').last().find('select.' + pfx + 'datatable__pager-size').val() || 10;
+            },
+
+            /**
+             * 获取工具条
+             */
+            getTotalRows: function () {
+                return datatable.API.params.pagination.total;
+            },
+
+            /**
+             * 获取表格所有数据
+             *
+             * @returns {*|null|Array}
+             */
+            getDataSet: function () {
+                return datatable.originalDataSet;
+            },
+
+            /**
+             * @deprecated in v5.0.6
+             * Hide column by column's field name
+             * 根据列名隐藏列
+             * @param fieldName
+             */
+            hideColumn: function (fieldName) {
+                // add hide option for this column
+                $.map(options.columns, function (column) {
+                    if (fieldName === column.field) {
+                        column.responsive = {hidden: 'xl'};
+                    }
+                    return column;
+                });
+                // hide current displayed column
+                var tds = $.grep($(datatable.table).find('.' + pfx + 'datatable__cell'), function (n, i) {
+                    return fieldName === $(n).data('field');
+                });
+                $(tds).hide();
+            },
+
+            /**
+             * @deprecated in v5.0.6
+             * Show column by column's field name
+             * 根据列名显示列
+             * @param fieldName
+             */
+            showColumn: function (fieldName) {
+                // add hide option for this column
+                $.map(options.columns, function (column) {
+                    if (fieldName === column.field) {
+                        delete column.responsive;
+                    }
+                    return column;
+                });
+                // hide current displayed column
+                var tds = $.grep($(datatable.table).find('.' + pfx + 'datatable__cell'), function (n, i) {
+                    return fieldName === $(n).data('field');
+                });
+                $(tds).show();
+            },
+
+            nodeTr: [],
+            nodeTd: [],
+            nodeCols: [],
+            recentNode: [],
+
+            table: function () {
+                if (typeof datatable.table !== 'undefined') {
+                    return datatable.table;
+                }
+            },
+
+            /**
+             * 根据选择器查找第一行
+             *
+             * @param selector {string} 选择器
+             * @returns {jQuery}
+             */
+            row: function (selector) {
+                Plugin.rows(selector);
+                Plugin.nodeTr = Plugin.recentNode = $(Plugin.nodeTr).first();
+                return datatable;
+            },
+
+            /**
+             *
+             * 根据选择器查找多行
+             *
+             * @param selector {string} 选择器
+             * @returns {jQuery}
+             */
+            rows: function (selector) {
+                if (Plugin.isLocked()) {
+                    Plugin.nodeTr = Plugin.recentNode = t(datatable.tableBody).find(selector).filter('.' + pfx + 'datatable__lock--scroll > .' + pfx + 'datatable__row');
+                } else {
+                    Plugin.nodeTr = Plugin.recentNode = t(datatable.tableBody).find(selector).filter('.' + pfx + 'datatable__row');
+                }
+                return datatable;
+            },
+
+            /**
+             * Select a single column from the table
+             * 根据下标获取列
+             *
+             * @param index {int} 下标 从0开始
+             * @returns {jQuery}
+             */
+            column: function (index) {
+                Plugin.nodeCols = Plugin.recentNode = $(datatable.tableBody).find('.' + pfx + 'datatable__cell:nth-child(' + (index + 1) + ')');
+                return datatable;
+            },
+
+            /**
+             * Select multiple columns from the table
+             * 根据条件查询多列
+             *
+             * @param selector {String} 条件
+             * @returns {jQuery}
+             */
+            columns: function (selector) {
+                var context = datatable.table;
+                if (Plugin.nodeTr === Plugin.recentNode) {
+                    context = Plugin.nodeTr;
+                }
+                var columns = $(context).find('.' + pfx + 'datatable__cell[data-field="' + selector + '"]');
+                if (columns.length > 0) {
+                    Plugin.nodeCols = Plugin.recentNode = columns;
+                } else {
+                    Plugin.nodeCols = Plugin.recentNode = $(context).find(selector).filter('.' + pfx + 'datatable__cell');
+                }
+                return datatable;
+            },
+            /**
+             * 根据选择器查找第一个 cell
+             *
+             * @param selector {string} 选择器
+             * @returns {jQuery}
+             */
+            cell: function (selector) {
+                Plugin.cells(selector);
+                Plugin.nodeTd = Plugin.recentNode = $(Plugin.nodeTd).first();
+                return datatable;
+            },
+            /**
+             * 根据选择器查找 cells
+             *
+             * @param selector {string} 选择器
+             * @returns {jQuery}
+             */
+            cells: function (selector) {
+                var cells = $(datatable.tableBody).find('.' + pfx + 'datatable__cell');
+                if (typeof selector !== 'undefined') {
+                    cells = $(cells).filter(selector);
+                }
+                Plugin.nodeTd = Plugin.recentNode = cells;
+                return datatable;
+            },
+
+            /**
+             * 删除选中的行
+             *
+             * @returns {jQuery}
+             */
+            remove: function () {
+                if ($(Plugin.nodeTr.length) && Plugin.nodeTr === Plugin.recentNode) {
+                    $(Plugin.nodeTr).remove();
+                }
+                Plugin.layoutUpdate();
+                return datatable;
+            },
+            /**
+             * 删除指定的行
+
+             * @param rows {jquery} 要删除的行
+             * @returns {jQuery}
+             */
+            removeRows: function (rows) {
+                if (typeof rows !== 'undefined' && rows.length > 0) {
+                    rows.remove();
+                }
+                Plugin.layoutUpdate();
+                return datatable;
+            },
+            /**
+             * 显示或隐藏行或列
+             *
+             * @param bool {boolean} 显示/隐藏
+             */
+            visible: function (bool) {
+                if ($(Plugin.recentNode.length)) {
+                    var locked = Plugin.lockEnabledColumns();
+                    if (Plugin.recentNode === Plugin.nodeCols) {
+                        var index = Plugin.recentNode.index();
+
+                        if (Plugin.isLocked()) {
+                            var scrollColumns = $(Plugin.recentNode).closest('.' + pfx + 'datatable__lock--scroll').length;
+                            if (scrollColumns) {
+                                // is at center of scrollable area
+                                index += locked.left.length + 1;
+                            } else if ($(Plugin.recentNode).closest('.' + pfx + 'datatable__lock--right').length) {
+                                // is at the right locked table
+                                index += locked.left.length + scrollColumns + 1;
+                            }
+                        }
+                    }
+
+                    if (bool) {
+                        if (Plugin.recentNode === Plugin.nodeCols) {
+                            delete options.columns[index].responsive;
+                        }
+                        $(Plugin.recentNode).show();
+                    } else {
+                        if (Plugin.recentNode === Plugin.nodeCols) {
+                            Plugin.setOption('columns.' + index + '.responsive', {hidden: 'xl'});
+                        }
+                        $(Plugin.recentNode).hide();
+                    }
+                    Plugin.redraw();
+                }
+            },
+
+            /**
+             * 根据选择的行或者列获取DOM元素
+             *
+             * @returns {Array}
+             */
+            nodes: function () {
+                return Plugin.recentNode;
+            },
+
+            /**
+             * 获取datatable
+             *
+             * @returns {jQuery}
+             */
+            dataset: function () {
+                return datatable;
+            },
+
+            /**
+             * 跳转到指定页
+             * @param page {number} 页码
+             */
+            gotoPage: function (page) {
+                Plugin.pagingObject.openPage(page);
+            },
+            /**
+             * 新增一行数据
+             */
+            addRow: function () {
+                var colLength = options.columns.length;
+                var tr = document.createElement('tr');
+                util.addClass(tr, pfx + 'datatable__row');
+                for (var i = 0; i < colLength; i++) {
+                    var column = options.columns[i];
+                    var element = Plugin.getColumnElement(column);
+                    var td = document.createElement('td');
+                    td.setAttribute('data-field', column.field);
+                    util.addClass(td, pfx + 'datatable__cell ' + (typeof column.class != 'undefined' ? column.class : ''));
+                    td.appendChild(element);
+                    tr.appendChild(td);
+                }
+                datatable.tableBody.append(tr);
+
+                // 更新布局
+                Plugin.setupDOM(datatable.table);
+                Plugin.setupCellField([datatable.tableBody]);
+                Plugin.layoutUpdate();
+
+                if (datatable.hasClass('m-datatable--error')) {
+                    datatable.removeClass('m-datatable--error');
+                    datatable.find('span.m-datatable--error').remove();
+                }
+                $(tr).find('.table-actions').each(function () {
+                    app.initTooltip($(this));
+                });
+            },
+            /**
+             * 获取编辑表格列元素
+             *
+             * @param column {object} 列配置
+             * @param defaultVal {string} 默认值
+             * @returns {HTMLSpanElement | HTMLInputElement | HTMLSelectElement | HTMLButtonElement}
+             */
+            getColumnElement: function (column, defaultVal) {
+                var element;
+                if (typeof column.edit !== 'undefined') {
+                    switch (column.edit.tag) {
+                        case 'input':
+                            element = document.createElement('input');
+                            element.setAttribute('type', column.edit.type);
+                            util.addClass(element, 'form-control form-control-sm ' + column.edit.class);
+                            if (typeof defaultVal !== 'undefined') {
+                                element.value = defaultVal;
+                            }
+                            break;
+                        case 'select':
+                            element = document.createElement('select');
+                            util.addClass(element, 'form-control form-control-sm ' + column.edit.class);
+                            if (typeof column.edit.option !== 'undefined') {
+                                if (typeof defaultVal === 'undefined') {
+                                    defaultVal = column.edit.default;
+                                }
+                                for (var key in column.edit.option) {
+                                    var opt = document.createElement('option');
+                                    opt.setAttribute('value', key);
+                                    if (key === defaultVal) {
+                                        opt.setAttribute('selected', 'true');
+                                    }
+                                    opt.innerText = column.edit.option[key].name;
+                                    element.appendChild(opt);
+                                }
+                            }
+                            break;
+                        case 'button':
+                            element = document.createElement('button');
+                            element.setAttribute('type', 'button');
+                            element.setAttribute('title', column.edit.title);
+                            element.innerHTML = column.edit.text;
+                            util.addClass(element, tool.ACTIONS_SUCCESS);
+                            if (typeof column.edit.click == 'function') {
+                                element.onclick = function () {
+                                    column.edit.click($(this).parents('.' + pfx + 'datatable__row'), $(this).parents('.' + pfx + 'datatable__row').find('input, select').serializeArray());
+                                }
+                            }
+                            break;
+                        default:
+                            element = document.createElement('input');
+                            element.setAttribute('type', 'text');
+                            util.addClass(element, 'form-control form-control-sm ' + column.edit.class);
+                            if (typeof defaultVal !== 'undefined') {
+                                element.value = defaultVal;
+                            }
+                    }
+                    element.setAttribute('name', column.field);
+                    util.addClass(element, column.edit.classes);
+                } else {
+                    element = document.createElement('span');
+                    element.innerText = '#';
+                }
+                return element;
+            },
+            /**
+             * 编辑行
+             *
+             * @param element {object} 编辑按钮对象
+             */
+            editRow: function (element) {
+                var colLength = options.columns.length;
+                var tr = $(element).parents('.' + pfx + 'datatable__row');
+                var data = datatable.dataSet[Number(tr.data('row'))];
+                for (var i = 0; i < colLength; i++) {
+                    var column = options.columns[i];
+                    element = Plugin.getColumnElement(column, data[column.field]);
+                    var td = tr.find('td:eq(' + i + ')');
+                    if (td.hasClass('m-datatable__cell--check')) {
+                        td.find('span').append(element);
+                    } else {
+                        td.find('span').html(element);
+                    }
+                }
+                tr.find('.table-actions').each(function () {
+                    app.initTooltip($(this));
+                });
+            }
+        };
+
+        /**
+         * Public API methods can be used directly by datatable
+         */
+        $.each(Plugin, function (funcName, func) {
+            datatable[funcName] = func;
+        });
+
+        // 初始化插件
+        if (typeof options !== 'undefined') {
+            if (typeof options === 'string') {
+                var method = options;
+                datatable = $(this).data(pluginName);
+                if (typeof datatable !== 'undefined') {
+                    options = datatable.options;
+                    Plugin[method].apply(this, Array.prototype.slice.call(arguments, 1));
+                }
+            } else {
+                if (!datatable.data(pluginName) && !$(this).hasClass(pfx + 'datatable--loaded')) {
+                    datatable.dataSet = null;
+                    datatable.textAlign = {
+                        left: pfx + 'datatable__cell--left',
+                        center: pfx + 'datatable__cell--center',
+                        right: pfx + 'datatable__cell--right'
+                    };
+
+                    // 合并默认与自定义option
+                    options = $.extend(true, {}, $.fn[pluginName].defaults, options);
+
+                    datatable.options = options;
+
+                    // 初始化插件
+                    Plugin.init.apply(this, [options]);
+
+                    $(datatable.wrap).data(pluginName, datatable);
+                }
+            }
+        } else {
+            // 获取现有datatable
+            datatable = $(this).data(pluginName);
+            if (typeof datatable === 'undefined') {
+                $.error(pluginName + ' not initialized');
+            }
+            options = datatable.options;
+        }
+
+        return datatable;
+    };
+
+    // 默认设置
+    $.fn[pluginName].defaults = {
+        // 数据源
+        data: {
+            type: 'local',
+            source: null,
+            pageSize: 10, // 默认页大小
+            saveState: {
+                // 使用cookie/webstorage 保存表格状态(分页, 筛选, 排序)
+                cookie: false,
+                webstorage: true
+            },
+
+            serverPaging: false, // 在服务器分页
+            serverFiltering: false, // 在服务器进行数据过滤
+            serverSorting: false, // 在服务器进行排序
+
+            autoColumns: false, // 自动列
+            attr: {
+                rowProps: []
+            }
+        },
+
+        // 布局
+        layout: {
+            theme: 'default', // 主题
+            class: pfx + 'datatable--brand', // 容器 class
+            scroll: false, // 启用禁用垂直/水平滚动条
+            height: null, // 高度
+            minHeight: 300, // 最小高度
+            footer: false, // 显示/隐藏 footer
+            header: true, // 显示/隐藏 header
+            customScrollbar: true, // 自定义滚动条
+
+            // 等待提示样式
+            spinner: {
+                overlayColor: '#000',
+                opacity: 0,
+                type: 'loader',
+                state: 'brand',
+                message: true
+            },
+
+            // datatable 图标
+            icons: {
+                sort: {asc: 'flaticon2-arrow-up', desc: 'flaticon2-arrow-down'},
+                pagination: {
+                    next: 'flaticon2-next',
+                    prev: 'flaticon2-back',
+                    first: 'flaticon2-fast-back',
+                    last: 'flaticon2-fast-next',
+                    more: 'flaticon-more-1'
+                },
+                rowDetail: {expand: 'fa fa-caret-down', collapse: 'fa fa-caret-right'}
+            }
+        },
+
+        // 列滚动
+        sortable: true,
+        // 分页
+        pagination: true,
+
+        // 列配置
+        columns: [],
+
+        search: {
+            // 通过keyup事件搜索
+            onEnter: false,
+            // 搜索框中提示文字
+            input: null,
+            // 搜索延迟 单位: 毫秒
+            delay: 400
+        },
+
+        rows: {
+            // callback
+            callback: function () {
+            },
+            // 在拼接<tr>内容前调用
+            beforeTemplate: function () {
+            },
+            // 在拼接<tr>内容后调用
+            afterTemplate: function () {
+            },
+            // 如果列溢出,自动隐藏非锁定列
+            autoHide: true
+        },
+
+        // 工具条
+        toolbar: {
+            // 布局
+            layout: ['pagination', 'info'],
+
+            // 设置工具条位于底部还是顶部
+            placement: ['bottom'],  //'top', 'bottom'
+
+            // 工具条选项
+            items: {
+                // 分页
+                pagination: {
+                    // 分页类型(default or scroll)
+                    type: 'default',
+
+                    // 不同设备下页码按钮显示数量
+                    pages: {
+                        desktop: {
+                            layout: 'default',
+                            pagesNumber: 5
+                        },
+                        tablet: {
+                            layout: 'default',
+                            pagesNumber: 3
+                        },
+                        mobile: {
+                            layout: 'compact'
+                        }
+                    },
+
+                    // 导航按钮
+                    navigation: {
+                        prev: true, // 上一页
+                        next: true, // 下一页
+                        first: true, // 第一页
+                        last: true // 最后一页
+                    },
+
+                    // 页大小select
+                    pageSizeSelect: []
+                },
+
+                // 记录信息
+                info: true
+            }
+        },
+
+        // 自定义插件提示文字
+        translate: {
+            records: {
+                processing: '请稍候...',
+                noRecords: '未查找到数据'
+            },
+            toolbar: {
+                pagination: {
+                    items: {
+                        default: {
+                            first: '第一页',
+                            prev: '上一页',
+                            next: '下一页',
+                            last: '最后一页',
+                            more: '更多页码',
+                            input: '请输入页码',
+                            select: '每页显示',
+                            all: '全部'
+                        },
+                        info: '当前显示 {{start}} - {{end}} 共 {{total}} 条数据'
+                    }
+                }
+            }
+        },
+        extensions: {}
+    };
 }(jQuery));
 "use strict";
 (function($) {
@@ -12350,7 +12355,9 @@ var KTLayout = function() {
 
 	var pageStickyPortlet;
 
-	// Header
+	/**
+	 * Header
+	 */
 	var initHeader = function() {
 		var tmp;
 		var headerEl = KTUtil.get('kt_header');
@@ -12376,11 +12383,12 @@ var KTLayout = function() {
 		}
 
 		header = new KTHeader('kt_header', options);
-	}
+	};
 
-	// Header Menu
+	/**
+	 * 头部菜单
+	 */
 	var initHeaderMenu = function() {
-		// init aside left offcanvas
 		headerMenuOffcanvas = new KTOffcanvas('kt_header_menu_wrapper', {
 			overlay: true,
 			baseClass: 'kt-header-menu-wrapper',
@@ -12404,16 +12412,20 @@ var KTLayout = function() {
 		});
 	};
 
-	// Header Topbar
+	/**
+	 * 头部工具
+	 */
 	var initHeaderTopbar = function() {
 		asideToggler = new KTToggle('kt_header_mobile_topbar_toggler', {
 			target: 'body',
 			targetState: 'kt-header__topbar--mobile-on',
 			togglerState: 'kt-header-mobile__toolbar-topbar-toggler--active'
 		});
-	}
+	};
 
-	// Aside
+	/**
+	 * 侧边
+	 */
 	var initAside = function() {
 		// init aside left offcanvas
 		var asidBrandHover = false;
@@ -12498,7 +12510,9 @@ var KTLayout = function() {
 		}
 	}
 
-	// Aside menu
+	/**
+	 * 侧边菜单
+	 */
 	var initAsideMenu = function() {
 		// Init aside menu
 		var menu = KTUtil.get('kt_aside_menu');
@@ -12550,7 +12564,9 @@ var KTLayout = function() {
 		// asideMenu.setActiveItem($('a[href="?page=custom/pages/pricing/pricing-1&demo=demo1"]').closest('.kt-menu__item')[0]);
 	}
 
-	// Sidebar toggle
+	/**
+	 * 侧边栏切换
+	 */
 	var initAsideToggler = function() {
 		if (!KTUtil.get('kt_aside_toggler')) {
 			return;
@@ -12576,7 +12592,7 @@ var KTLayout = function() {
 			headerMenu.pauseDropdownHover(800);
 			asideMenu.pauseDropdownHover(800);
 
-			// Remember state in cookie
+			// 记住cookie中的状态
 			Cookies.set('kt_aside_toggle_state', toggle.getState());
 			// to set default minimized left aside use this cookie value in your 
 			// server side code and add "kt-brand--minimize kt-aside--minimize" classes to
@@ -12589,7 +12605,7 @@ var KTLayout = function() {
 				KTUtil.removeClass(body, 'kt-aside--minimize-hover');
 			}
 		});
-	}
+	};
 
 	// Aside secondary
 	var initAsideSecondary = function() {
@@ -12607,17 +12623,78 @@ var KTLayout = function() {
 				pageStickyPortlet.updateSticky();
 			}
 		});
-	}
+	};
+	var initFullScreen = function () {
+		/**
+		 * 全屏
+		 *
+		 * @param element {object} 要全屏的元素
+		 */
+		function launchFullScreen(element) {
+			if (element.requestFullscreen) {
+				element.requestFullscreen();
+			} else if (element.mozRequestFullScreen) {
+				element.mozRequestFullScreen();
+			} else if (element.webkitRequestFullscreen) {
+				element.webkitRequestFullscreen();
+			} else if (element.msRequestFullscreen) {
+				element.msRequestFullscreen();
+			}
+		}
 
-	// Scrolltop
+		/**
+		 * 退出全屏
+		 */
+		function exitFullscreen() {
+			if (document.exitFullscreen) {
+				document.exitFullscreen();
+			} else if (document.mozCancelFullScreen) {
+				document.mozCancelFullScreen();
+			} else if (document.webkitExitFullscreen) {
+				document.webkitExitFullscreen();
+			}
+		}
+		var icon = {
+			full: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">\n' +
+				'    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\n' +
+				'        <polygon id="Bound" points="0 0 24 0 24 24 0 24"/>\n' +
+				'        <path d="M6,18 L9,18 C9.66666667,18.1143819 10,18.4477153 10,19 C10,19.5522847 9.66666667,19.8856181 9,20 L4,20 L4,15 C4,14.3333333 4.33333333,14 5,14 C5.66666667,14 6,14.3333333 6,15 L6,18 Z M18,18 L18,15 C18.1143819,14.3333333 18.4477153,14 19,14 C19.5522847,14 19.8856181,14.3333333 20,15 L20,20 L15,20 C14.3333333,20 14,19.6666667 14,19 C14,18.3333333 14.3333333,18 15,18 L18,18 Z M18,6 L15,6 C14.3333333,5.88561808 14,5.55228475 14,5 C14,4.44771525 14.3333333,4.11438192 15,4 L20,4 L20,9 C20,9.66666667 19.6666667,10 19,10 C18.3333333,10 18,9.66666667 18,9 L18,6 Z M6,6 L6,9 C5.88561808,9.66666667 5.55228475,10 5,10 C4.44771525,10 4.11438192,9.66666667 4,9 L4,4 L9,4 C9.66666667,4 10,4.33333333 10,5 C10,5.66666667 9.66666667,6 9,6 L6,6 Z" id="Combined-Shape" fill="#000000" fill-rule="nonzero"/>\n' +
+				'    </g>\n' +
+				'</svg>',
+			cancel: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">\n' +
+				'    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\n' +
+				'        <polygon id="Bound" points="0 0 24 0 24 24 0 24"/>\n' +
+				'        <path d="M10,14 L5,14 C4.33333333,13.8856181 4,13.5522847 4,13 C4,12.4477153 4.33333333,12.1143819 5,12 L12,12 L12,19 C12,19.6666667 11.6666667,20 11,20 C10.3333333,20 10,19.6666667 10,19 L10,14 Z M15,9 L20,9 C20.6666667,9.11438192 21,9.44771525 21,10 C21,10.5522847 20.6666667,10.8856181 20,11 L13,11 L13,4 C13,3.33333333 13.3333333,3 14,3 C14.6666667,3 15,3.33333333 15,4 L15,9 Z" id="Combined-Shape" fill="#000000" fill-rule="nonzero"/>\n' +
+				'        <path d="M3.87867966,18.7071068 L6.70710678,15.8786797 C7.09763107,15.4881554 7.73079605,15.4881554 8.12132034,15.8786797 C8.51184464,16.2692039 8.51184464,16.9023689 8.12132034,17.2928932 L5.29289322,20.1213203 C4.90236893,20.5118446 4.26920395,20.5118446 3.87867966,20.1213203 C3.48815536,19.7307961 3.48815536,19.0976311 3.87867966,18.7071068 Z M16.8786797,5.70710678 L19.7071068,2.87867966 C20.0976311,2.48815536 20.7307961,2.48815536 21.1213203,2.87867966 C21.5118446,3.26920395 21.5118446,3.90236893 21.1213203,4.29289322 L18.2928932,7.12132034 C17.9023689,7.51184464 17.2692039,7.51184464 16.8786797,7.12132034 C16.4881554,6.73079605 16.4881554,6.09763107 16.8786797,5.70710678 Z" id="Combined-Shape" fill="#000000" opacity="0.3"/>\n' +
+				'    </g>\n' +
+				'</svg>'
+		};
+		$('#kt_full_screen').click(function () {
+			var isFullScreen = document.fullscreenElement || document.mozFullScreenElement ||document.webkitFullscreenElement
+			if (isFullScreen) {
+				$(this).find('.kt-header__topbar-icon').html(icon.full);
+				exitFullscreen();
+			} else {
+				$(this).find('.kt-header__topbar-icon').html(icon.cancel);
+				launchFullScreen(document.documentElement);
+			}
+		});
+	};
+	/**
+	 * 回到顶部
+	 */
 	var initScrolltop = function() {
 		var scrolltop = new KTScrolltop('kt_scrolltop', {
 			offset: 300,
 			speed: 600
 		});
-	}
+	};
 
-	// Init page sticky portlet
+	/**
+	 * 初始化固定头部的Portlet
+	 * Init page sticky portlet
+	 * @return {KTPortlet|KTPortlet|KTPortlet}
+	 */
 	var initPageStickyPortlet = function() {
 		var asideWidth = 255;
 		var asideMinimizeWidth = 78;
@@ -12687,9 +12764,12 @@ var KTLayout = function() {
 				}
 			}
 		});
-	}
+	};
 
-	// Calculate content available full height
+	/**
+	 * 获取页面可用高度
+	 * @return {number}
+	 */
 	var getContentHeight = function() {
 		var height;
 
@@ -12712,12 +12792,11 @@ var KTLayout = function() {
 		}
 
 		return height;
-	}
+	};
 
 	return {
 		init: function() {
 			body = KTUtil.get('body');
-
 			this.initHeader();
 			this.initAside();
 			this.initAsideSecondary();
@@ -12729,6 +12808,7 @@ var KTLayout = function() {
 			initHeaderMenu();
 			initHeaderTopbar();
 			initScrolltop();
+			initFullScreen();
 		},
 
 		initAside: function() {
@@ -12737,15 +12817,15 @@ var KTLayout = function() {
 			initAsideToggler();
 
 			this.onAsideToggle(function(e) {
-				// Update sticky portlet
+				// 更新固定头部的portlet
 				if (pageStickyPortlet) {
 					pageStickyPortlet.updateSticky();
 				}
 
-				// Reload datatable
-				var datatables = $('.kt-datatable');
-				if (datatables) {
-					datatables.each(function() {
+				// 重绘表格
+				var dataTables = $('.kt-datatable');
+				if (dataTables) {
+					dataTables.each(function() {
 						$(this).KTDatatable('redraw');
 					});
 				}

@@ -151,8 +151,8 @@ var mDistrictView = function () {
     var searchDistrict = function () {
         var permissionsTitle = $('#district-title').val();
         if (KTUtil.isNotBlank(permissionsTitle)) {
-            $('#district-tree').addClass('m--hide');
-            $('#search-permissions').removeClass('m--hide');
+            $('#district-tree').addClass('kt-hide');
+            $('#search-permissions').removeClass('kt-hide');
             KTUtil.ajax({
                 type: 'get',
                 wait: '#search-permissions',
@@ -371,8 +371,8 @@ var mDistrictView = function () {
             initDistrictTree();
             $('#search-district-btn').click(searchDistrict);
             $('.back-btn').click(function () {
-                $('#search-permissions').addClass('m--hide');
-                $('#district-tree').removeClass('m--hide');
+                $('#search-permissions').addClass('kt-hide');
+                $('#district-tree').removeClass('kt-hide');
                 $('#district-title').val('');
             });
             bindIconClick();

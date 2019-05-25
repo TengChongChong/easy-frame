@@ -10,8 +10,10 @@
             ${projectName()}
         @}
     </title>
+    ${plugins(plugin!, "css")}
     @include("base-styles.html"){}
     @include("base-scripts.html"){}
+    ${plugins(plugin!, "js")}
 </head>
 <!-- end::Head -->
 

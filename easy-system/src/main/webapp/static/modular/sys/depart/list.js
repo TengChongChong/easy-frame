@@ -31,8 +31,8 @@ var mDepartList = function () {
     var search = function () {
         var permissionsTitle = $('#depart-type-title').val();
         if (KTUtil.isNotBlank(permissionsTitle)) {
-            $('#depart-type-tree').addClass('m--hide');
-            $('#search-depart-type').removeClass('m--hide');
+            $('#depart-type-tree').addClass('kt-hide');
+            $('#search-depart-type').removeClass('kt-hide');
             KTUtil.ajax({
                 type: 'get',
                 wait: '#search-depart-type',
@@ -74,7 +74,7 @@ var mDepartList = function () {
             $('#typeCode').val(node.data);
             if (firstClick) {
                 initTable();
-                $('.kt-form').removeClass('m--hide');
+                $('.kt-form').removeClass('kt-hide');
                 firstClick = false;
             } else {
                 $('.btn-search').click();
@@ -176,8 +176,8 @@ var mDepartList = function () {
             initDepartTypeTree();
             $('#search-depart-type-btn').click(search);
             $('.back-btn').click(function () {
-                $('#search-depart-type').addClass('m--hide');
-                $('#depart-type-tree').removeClass('m--hide');
+                $('#search-depart-type').addClass('kt-hide');
+                $('#depart-type-tree').removeClass('kt-hide');
                 $('#depart-type-title').val('');
             });
         },

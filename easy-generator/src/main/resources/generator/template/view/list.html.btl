@@ -3,19 +3,21 @@
     <#portlet:head title="${config.businessName}" icon="la la-bars"/>
     <div class="kt-portlet__body">
         <form class="kt-form">
-            <div class="kt-stack kt-stack--ver kt-stack--general query-modular">
-                <div class="kt-stack__item kt-stack__item--fluid">
-                    <div class="row">
-                        <!--str:查询条件区域-->
-                        <% for(propertyName in config.searchOrder){ %>
-                        ${GeneratorHtmlUtil.generator(propertyName, config.fieldSets, 6, false, 'list')}
-                        <% } %>
-                        <!--end:查询条件区域-->
+            <div class="query-modular">
+                <div class="kt-stack kt-stack--ver kt-stack--general">
+                    <div class="kt-stack__item kt-stack__item--fluid">
+                        <div class="row">
+                            <!--str:查询条件区域-->
+                            <% for(propertyName in config.searchOrder){ %>
+                            ${GeneratorHtmlUtil.generator(propertyName, config.fieldSets, 7, false, 'list')}
+                            <% } %>
+                            <!--end:查询条件区域-->
+                        </div>
                     </div>
-                </div>
-                <div class="kt-stack__item query-btn-group">
-                    <#btn:search />
-                    <#btn:reset />
+                    <div class="kt-stack__item query-btn-group">
+                        <#btn:search />
+                        <#btn:reset />
+                    </div>
                 </div>
             </div>
             <div class="btn-row">
