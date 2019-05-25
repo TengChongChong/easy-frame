@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.frame.easy.common.constant.ImportConst;
 import com.frame.easy.common.constant.SysConfigConst;
 import com.frame.easy.config.properties.ProjectProperties;
+import com.frame.easy.core.beetl.function.PluginsFunction;
 import com.frame.easy.core.beetl.function.ProjectNameFunction;
 import com.frame.easy.core.beetl.function.ProjectVersionFunction;
 import com.frame.easy.core.beetl.function.SysConfigFunction;
@@ -41,6 +42,9 @@ public class BeetlConfiguration extends BeetlGroupUtilConfiguration {
 
         // 获取项目版本，也可使用 sysConfig(SysConfigConst.PROJECT_VERSION) 获取
         groupTemplate.registerFunction("projectName", new ProjectNameFunction());
+        // 获取插件html
+        groupTemplate.registerFunction("plugins", new PluginsFunction());
+
         // 系统参数常量
         groupTemplate.setSharedVars(getVars(SysConfigConst.class));
         groupTemplate.setSharedVars(getVars(ImportConst.class));
