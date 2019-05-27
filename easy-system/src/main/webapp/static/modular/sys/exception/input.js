@@ -18,7 +18,7 @@ var mSysExceptionInput = function () {
                 $trace.empty();
                 $(traces).each(function (index, _trace) {
                     if (_trace.indexOf(package) > -1) {
-                        $trace.append('<span class="kt--font-danger">' + _trace + '</span><br>');
+                        $trace.append('<span class="kt-font-danger">' + _trace + '</span><br>');
                     } else {
                         $trace.append(_trace + '<br>')
                     }

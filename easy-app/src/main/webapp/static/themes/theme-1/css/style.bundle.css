@@ -19788,6 +19788,7 @@ strong {
           color: #a7abc3; }
       .kt-portlet .kt-portlet__head .kt-portlet__head-label .kt-portlet__head-icon {
         padding-right: .75rem;
+        padding-top: 3px;
         font-size: 1.3rem;
         color: #a7abc3; }
     .kt-portlet .kt-portlet__head .kt-portlet__head-toolbar {
@@ -20938,6 +20939,13 @@ strong {
     vertical-align: middle;
     margin: 0;
     width: 100%; }
+
+.kt-form .form-control-static {
+  border: 0;
+  padding-left: 0;
+  padding-right: 0;
+  height: auto;
+}
 
 .kt-form .kt-form__actions.kt-form__actions--right {
   text-align: right; }
@@ -23228,7 +23236,7 @@ strong {
   .page-container .page-frame {
     display: none;
     width: 100%;
-    height: calc(100vh - 173px);
+    height: calc(100vh - 159px);
     overflow-x: hidden; }
   .page-container .page-frame.active {
     display: block; }
@@ -25254,12 +25262,16 @@ strong {
     border: 0; }
     .vakata-context li a,
     .vakata-context ul li a {
-      padding: 0 10px;
-      border: 0;
-      line-height: 2.2em; }
+      line-height: 1.5rem;
+      padding: .7rem 1.2rem;
+      color: #a7abc3;
+      border: 0; }
       .vakata-context li a i,
       .vakata-context ul li a i {
-        display: none; }
+        height: auto;
+        line-height: 1.5rem !important;
+        margin: 0;
+        display: inline-block; }
       .vakata-context li a .vakata-contextmenu-sep,
       .vakata-context ul li a .vakata-contextmenu-sep {
         display: none; }
@@ -25269,20 +25281,15 @@ strong {
       .vakata-context ul li a ins {
         display: none;
         border: 0 !important; }
-  .vakata-context .vakata-context-hover > a,
-  .vakata-context li a:hover,
-  .vakata-context ul .vakata-context-hover > a,
-  .vakata-context ul li a:hover {
-    margin: 0; }
-    .vakata-context .vakata-context-hover > a .span,
-    .vakata-context .vakata-context-hover > a .ins,
-    .vakata-context li a:hover .span,
-    .vakata-context li a:hover .ins,
-    .vakata-context ul .vakata-context-hover > a .span,
-    .vakata-context ul .vakata-context-hover > a .ins,
-    .vakata-context ul li a:hover .span,
-    .vakata-context ul li a:hover .ins {
-      border: 0 !important; }
+  .vakata-context .vakata-context-hover > a .span,
+  .vakata-context .vakata-context-hover > a .ins,
+  .vakata-context li a:hover .span,
+  .vakata-context li a:hover .ins,
+  .vakata-context ul .vakata-context-hover > a .span,
+  .vakata-context ul .vakata-context-hover > a .ins,
+  .vakata-context ul li a:hover .span,
+  .vakata-context ul li a:hover .ins {
+    border: 0 !important; }
 
 .vakata-context .vakata-context-separator a,
 .vakata-context-rtl .vakata-context-separator a {
@@ -25333,7 +25340,8 @@ strong {
 
 .vakata-context,
 .vakata-context ul {
-  background: #ebedf2;
+  padding: 1rem 0;
+  background: #fff;
   -webkit-box-shadow: 0 0 50px 0 rgba(82, 63, 105, 0.15);
   box-shadow: 0 0 50px 0 rgba(82, 63, 105, 0.15);
   border: 0; }
@@ -25341,8 +25349,8 @@ strong {
   .vakata-context li a:hover,
   .vakata-context ul .vakata-context-hover > a,
   .vakata-context ul li a:hover {
-    background: #ebedf2;
-    color: #a7abc3;
+    color: #6c7293;
+    background-color: #f7f8fa;
     -webkit-box-shadow: none;
     box-shadow: none; }
     .vakata-context .vakata-context-hover > a .span,
@@ -32530,7 +32538,7 @@ body {
   .kt-header--fixed .kt-wrapper {
     padding-top: 60px; }
   .kt-header--fixed.kt-subheader--fixed.kt-subheader--enabled .kt-wrapper {
-    padding-top: 114px; }
+    padding-top: 100px; }
   .kt-wrapper {
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease; }

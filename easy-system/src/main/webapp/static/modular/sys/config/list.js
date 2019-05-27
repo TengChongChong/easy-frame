@@ -36,7 +36,7 @@ var mSysConfigList = function () {
                 },
                 {
                     field: 'Actions',
-                    width: 70,
+                    width: 60,
                     title: '操作',
                     sortable: false,
                     overflow: 'visible',
@@ -77,7 +77,7 @@ var mSysConfigList = function () {
  *
  * @return {boolean} true/false
  */
-KTTabneedSubmitForm = function () {
+KTTab.needSubmitForm = function () {
     return true;
 };
 //== 初始化

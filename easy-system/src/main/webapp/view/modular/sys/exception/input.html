@@ -12,7 +12,7 @@
                             错误代码：
                         </label>
                         <div class="col-8">
-                            <span class="kt-form__control-static">${object.code}</span>
+                            <span class="form-control form-control-static">${object.code}</span>
                         </div>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
                             异常类型：
                         </label>
                         <div class="col-8">
-                            <span class="kt-form__control-static">${object.type}</span>
+                            <span class="form-control form-control-static">${object.type}</span>
                         </div>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                             请求地址：
                         </label>
                         <div class="col-md-10 col-8">
-                            <span class="kt-form__control-static">${object.url}</span>
+                            <span class="form-control form-control-static">${object.url}</span>
                         </div>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
                             错误信息：
                         </label>
                         <div class="col-md-10 col-8">
-                            <span class="kt-form__control-static">${object.message}</span>
+                            <span class="form-control form-control-static">${object.message}</span>
                         </div>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                         </label>
                         <div class="col-md-10 col-8">
                             <div class="kt-scrollable" data-scrollable="true" style="max-height: 400px;">
-                                <div id="trace" class="kt-form__control-static">
+                                <div id="trace" class="form-control form-control-static">
                                     ${strutil.replace(object.trace, '\n\t', '<br>')}
                                 </div>
                             </div>
@@ -66,7 +66,7 @@
                             触发用户：
                         </label>
                         <div class="col-8">
-                            <span class="kt-form__control-static">${object.nickname}</span>
+                            <span class="form-control form-control-static">${object.nickname}</span>
                         </div>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
                             触发时间：
                         </label>
                         <div class="col-8">
-                            <span class="kt-form__control-static">${object.triggerTime,dateFormat='yyyy-MM-dd HH:mm'}</span>
+                            <span class="form-control form-control-static">${object.triggerTime,dateFormat='yyyy-MM-dd HH:mm'}</span>
                         </div>
                     </div>
                 </div>

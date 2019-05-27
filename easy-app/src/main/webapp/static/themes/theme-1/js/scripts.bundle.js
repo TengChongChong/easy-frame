@@ -35,7 +35,7 @@ var KTApp = function() {
 
     var initTooltips = function() {
         // init bootstrap tooltips
-        $('[data-toggle="kt-tooltip"]').each(function() {
+        $('[data-toggle="kt-tooltip"], .kt-tooltip-auto').each(function() {
             initTooltip($(this));
         });
     }
@@ -555,16 +555,21 @@ var KTApp = function() {
         initAbsoluteDropdown: function(dropdown) {
             initAbsoluteDropdown(dropdown);
         },
-
+        /**
+         * 显示加载提示
+         *
+         * @param target {string} 选择器
+         * @param options {object} 选项
+         */
         block: function(target, options) {
             var el = $(target);
 
             options = $.extend(true, {
                 opacity: 0.03,
                 overlayColor: '#000000',
-                type: '',
+                type: 'loader',
+                state: 'success',
                 size: '',
-                state: 'brand',
                 centerX: true,
                 centerY: true,
                 message: '',
@@ -590,7 +595,7 @@ var KTApp = function() {
                 options.width = KTUtil.actualWidth(el) + 10;
                 KTUtil.remove(el);
 
-                if (target == 'body') {
+                if (target === 'body') {
                     html = '<div class="' + classes + '" style="margin-left:-' + (options.width / 2) + 'px;"><span>' + options.message + '</span><span>' + spinner + '</span></div>';
                 }
             } else {
@@ -623,7 +628,7 @@ var KTApp = function() {
                 }
             };
 
-            if (target == 'body') {
+            if (target === 'body') {
                 params.css.top = '50%';
                 $.blockUI(params);
             } else {
@@ -631,19 +636,38 @@ var KTApp = function() {
                 el.block(params);
             }
         },
-
+        /**
+         * 隐藏加载提示
+         *
+         * @param target {string} 选择器
+         */
         unblock: function(target) {
-            if (target && target != 'body') {
+            if (target && target !== 'body') {
                 $(target).unblock();
             } else {
                 $.unblockUI();
             }
         },
-
+        /**
+         * 显示页面级别加载提示
+         *
+         * @param options {object}
+         * @return {*|void}
+         */
         blockPage: function(options) {
+            if(options == null){
+                options = {
+                    message: '页面加载中，请稍候...'
+                }
+            }
             return KTApp.block('body', options);
         },
-
+        /**
+         * 隐藏页面级别加载提示
+         *
+         * @param options {object}
+         * @return {*|void}
+         */
         unblockPage: function() {
             return KTApp.unblock('body');
         },
@@ -2489,10 +2513,7 @@ var KTUtil = function() {
          */
         openWait: function (selector) {
             KTApp.block(selector, {
-                overlayColor: '#000000',
-                type: 'loader',
-                state: 'success',
-                message: 'Please wait...'
+                message: '请稍候...'
             });
         },
         /**
@@ -5360,14 +5381,13 @@ var KTTabPage = function (selector, options) {
         customCallback: function () {
             var iframe = defaultOptions.pageContainer.children('.active');
             if (iframe.length > 0) {
-                if(typeof iframe[0].contentWindow.EFTab !== 'undefined'){
+                if(typeof iframe[0].contentWindow.KTTab !== 'undefined'){
                     // 检查是否需要刷新页面
-                    if (util.isFunction(iframe[0].contentWindow.EFTab.needRefresh) && iframe[0].contentWindow.EFTab.needRefresh()) {
+                    if (util.isFunction(iframe[0].contentWindow.KTTab.needRefresh) && iframe[0].contentWindow.KTTab.needRefresh()) {
                         Plugin.refreshActivePage();
                     }
                     // 检查是否需要提交表单
-                    if (util.isFunction(iframe[0].contentWindow.EFTab.needSubmitForm) && iframe[0].contentWindow.EFTab.needSubmitForm()) {
-                        // var form_element = $($(iframe[0].contentDocument).find('.kt-form')[0]);
+                    if (util.isFunction(iframe[0].contentWindow.KTTab.needSubmitForm) && iframe[0].contentWindow.KTTab.needSubmitForm()) {
                         var $btn = $(iframe[0].contentDocument).find('.btn.btn-search');
                         if ($btn.length > 0) {
                             $btn.click();
@@ -8415,7 +8435,6 @@ var KTWizard = function(elementId, options) {
                                     }
                                 }
 
-
                                 var span = document.createElement('span');
                                 span.innerHTML = finalValue;
 
@@ -8427,6 +8446,11 @@ var KTWizard = function(elementId, options) {
                                     $(span).css('overflow', column.overflow);
                                     $(span).css('position', 'relative');
                                 }
+                            } else {
+                                // 给span设置title
+                                $(td).find('span').attr({
+                                    title: $(this).text()
+                                })
                             }
                         }
                     });

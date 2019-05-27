@@ -91,7 +91,7 @@ var mSampleGeneralList = function () {
  *
  * @return {boolean} true/false
  */
-KTTabneedSubmitForm = function () {
+KTTab.needSubmitForm = function () {
     return true;
 };
 //== 初始化

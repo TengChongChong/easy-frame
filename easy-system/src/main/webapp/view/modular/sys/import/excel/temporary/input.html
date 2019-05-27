@@ -52,9 +52,9 @@
                         </label>
                         <div class="col-8">
                             @if(ImportConst.VERIFICATION_STATUS_SUCCESS == object.verificationStatus){
-                            <span class="kt-form__control-static kt--font-success">验证通过</span>
+                            <span class="form-control form-control-static kt--font-success">验证通过</span>
                             @} else {
-                            <span class="kt-form__control-static kt--font-danger">${object.verificationResults}</span>
+                            <span class="form-control form-control-static kt-font-danger">${object.verificationResults}</span>
                             @}
                         </div>
                     </div>

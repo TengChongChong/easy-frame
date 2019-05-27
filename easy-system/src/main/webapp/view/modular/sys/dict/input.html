@@ -70,18 +70,15 @@
                             <select class="form-control kt-bootstrap-select select-picker"
                                     id="css" name="css" data-value="${object.css}">
                                 <option value="" selected></option>
-                                <option value="kt-badge kt-badge--metal kt-badge--wide"
-                                        data-content="<span class='m-badge kt-badge--metal kt-badge--wide'>灰色</span>"></option>
-                                <option value="kt-badge kt-badge--primary kt-badge--wide"
-                                        data-content="<span class='m-badge kt-badge--primary kt-badge--wide'>深蓝</span>"></option>
+                                <option value="kt-badge kt-badge--dark kt-badge--inline kt-badge--pill kt-badge--rounded" data-content="<span class='kt-badge kt-badge--dark kt-badge--inline kt-badge--pill kt-badge--rounded'>黑色</span>"></option>
                                 <option value="kt-badge kt-badge--info kt-badge--wide"
-                                        data-content="<span class='m-badge kt-badge--info kt-badge--wide'>蓝色</span>"></option>
-                                <option value="kt-badge kt-badge--success kt-badge--wide"
-                                        data-content="<span class='m-badge kt-badge--success kt-badge--wide'>绿色</span>"></option>
-                                <option value="kt-badge kt-badge--warning kt-badge--wide"
-                                        data-content="<span class='m-badge kt-badge--warning kt-badge--wide'>橙色</span>"></option>
-                                <option value="kt-badge kt-badge--danger kt-badge--wide"
-                                        data-content="<span class='m-badge kt-badge--danger kt-badge--wide'>红色</span>"></option>
+                                        data-content="<span class='kt-badge kt-badge--brand kt-badge--inline kt-badge--pill kt-badge--rounded'>蓝色</span>"></option>
+                                <option value="kt-badge kt-badge--brand kt-badge--inline kt-badge--pill kt-badge--rounded"
+                                        data-content="<span class='kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--rounded'>绿色</span>"></option>
+                                <option value="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--rounded"
+                                        data-content="<span class='kt-badge kt-badge--warning kt-badge--inline kt-badge--pill kt-badge--rounded'>黄色</span>"></option>
+                                <option value="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--rounded"
+                                        data-content="<span class='kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--rounded'>红色</span>"></option>
                             </select>
                         </div>
                     </div>
@@ -103,7 +100,7 @@
                                 <input type="text" class="form-control" id="icon" name="icon"
                                        aria-describedby="permissions-icon" value="${object.icon}">
                                 <div class="input-group-append">
-                                    <button class="btn btn-secondary" type="button" data-toggle="modal"
+                                    <button class="btn btn-secondary btn-icon" type="button" data-toggle="modal"
                                             data-target="#icon_modal">
                                         <i class="la la-search"></i>
                                     </button>
@@ -127,7 +124,7 @@
 <!-- begin:: 图标 -->
 <div class="modal fade icon_modal" id="icon_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">点击下方列表中的图标选择</h5>

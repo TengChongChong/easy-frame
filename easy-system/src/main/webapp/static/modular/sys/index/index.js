@@ -277,6 +277,11 @@ var mIndex = function () {
             }
             KTApp.openPage($menu.text(), url);
         });
+        $('.kt-menu-link').click(function() {
+            var $link = $(this);
+            var url = $link.data('url');
+            KTApp.openPage($link.text(), url);
+        });
     };
 
     return {

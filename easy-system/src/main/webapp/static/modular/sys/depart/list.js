@@ -123,7 +123,7 @@ var mDepartList = function () {
                 },
                 {
                     field: 'Actions',
-                    width: 110,
+                    width: 100,
                     title: '操作',
                     sortable: false,
                     overflow: 'visible',
@@ -197,7 +197,7 @@ var mDepartList = function () {
         }
     };
 }();
-KTTabneedSubmitForm = function () {
+KTTab.needSubmitForm = function () {
     return true;
 }
 //== 初始化

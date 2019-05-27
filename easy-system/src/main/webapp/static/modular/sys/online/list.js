@@ -56,7 +56,7 @@ var mOnlineList = function () {
                     template: function (row, index, datatable) {
                         var _btn = '';
                         if (KTTool.hasPermissions('sys:online:force')) {
-                            _btn += '<a href="#" onclick="mOnlineList.forceLogin(\'' + row.sessionId + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="下线">\
+                            _btn += '<a href="#" onclick="mOnlineList.forceLogin(this ,\'' + row.sessionId + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="下线">\
                                 <i class="la la-sign-out"></i>\
                             </a>';
                         }
@@ -76,13 +76,15 @@ var mOnlineList = function () {
     /**
      * 踢出指定会话
      *
+     * @param el
      * @param sessionId {string} 会话id
      */
-    var forceLogin = function (sessionId) {
+    var forceLogin = function (el, sessionId) {
         KTUtil.ajax({
             url: KTTool.getBaseUrl() + 'force/logout/' + sessionId,
             success: function (res) {
                 KTTool.successTip(KTTool.commonTips.success, '会话已踢出');
+                KTTool.selectData(el);
             }
         });
     };
@@ -95,10 +97,11 @@ var mOnlineList = function () {
         /**
          * 踢出指定会话
          *
+         * @param el
          * @param sessionId {string} 会话id
          */
-        forceLogin: function (sessionId) {
-            forceLogin(sessionId);
+        forceLogin: function (el, sessionId) {
+            forceLogin(el, sessionId);
         }
     };
 }();

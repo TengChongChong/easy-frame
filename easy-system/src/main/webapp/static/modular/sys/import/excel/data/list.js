@@ -103,7 +103,7 @@ var mImportData = function () {
                         },
                         template: function (row, index, datatable) {
                             if ('0' === row.verificationStatus) {
-                                return '<span class="kt--font-danger ell" title="' + row.verificationResults.replaceAll(';', ';\r\n') + '">' + row.verificationResults + '</span>';
+                                return '<span class="kt-font-danger ell" title="' + row.verificationResults.replaceAll(';', ';\r\n') + '">' + row.verificationResults + '</span>';
                             } else {
                                 return '<span class="kt--font-success">验证通过</span>';
                             }

@@ -36,14 +36,14 @@ var mDictInput = function () {
      * 用于选择字典图标
      */
     var bindIconClick = function f() {
-        $('#icon_modal').on('shown.bs.modal', function (e) {
-            $('.m-demo-icon').click(function () {
+        // $('#icon_modal').on('shown.bs.modal', function (e) {
+            $('.kt-demo-icon').click(function () {
                 var icon = $(this).find('i').attr('class');
                 $('#dict-icon > i').removeClass().addClass(icon);
                 $('#icon').val(icon);
                 $('#icon_modal').modal('hide');
             });
-        });
+        // });
     };
     /**
      * 绑定事件
@@ -60,7 +60,7 @@ var mDictInput = function () {
         init: function () {
             KTTool.setBaseUrl(basePath + '/auth/sys/dict/');
             bind();
-        },
+        }
     };
 }();
 

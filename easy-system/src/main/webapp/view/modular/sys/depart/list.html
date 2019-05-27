@@ -3,15 +3,15 @@
     <#portlet:head title="机构" icon="la la-bars"/>
     <div class="kt-portlet__body">
         <div class="row">
-            <div class="col-lg-3 col-md-4 col-12 border-right">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-12 border-right">
                 <form class="kt-form kt-padding-b-15">
                     <div class="input-group">
                         <input type="text" id="depart-type-title" class="form-control" placeholder="请输入关键字">
                         <div class="input-group-append">
                             <button id="search-depart-type-btn" class="btn btn-secondary" type="button">搜索</button>
                         </div>
-                        <div class="kt--margin-left-5">
-                            <#button btnType="default" btnClass="" name="机构类型维护" icon="la la-bars"
+                        <div class="input-group-append">
+                            <#button btnType="secondary" name="机构类型维护" icon="la la-bars"
                             click="KTApp.openPage('类型维护', '${ctxPath}/auth/sys/depart/type/view')" permission="sys:depart:type:select"/>
                         </div>
                     </div>
@@ -26,7 +26,7 @@
                     </button>
                 </div>
             </div>
-            <div class="col-lg-9 col-md-8 col-12">
+            <div class="col-xl-10 col-lg-9 col-md-8 col-12">
                 <form class="kt-form kt-hide">
                     <div class="query-modular">
                         <div class="kt-stack kt-stack--ver kt-stack--general">

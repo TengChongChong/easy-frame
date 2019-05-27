@@ -1,6 +1,4 @@
-@layout("/common/container.html", {"title" : "个人中心"}){
-@include("/common/plugins/css/cropper.html"){}
-@include("/common/plugins/js/cropper.html"){}
+@layout("/common/container.html", {"title" : "个人中心", plugin: "cropper"}){
 <style>
     .security-setting {
         list-style: none;
@@ -302,8 +300,8 @@
 </div>
 <!--end::密保手机-->
 
-
 <!--begin::页面脚本 -->
+
 <script src="${ctxPath}/static/modular/sys/user/personal/center/view.js?v=${version()}" type="text/javascript"></script>
 <!--end::页面脚本 -->
 @}

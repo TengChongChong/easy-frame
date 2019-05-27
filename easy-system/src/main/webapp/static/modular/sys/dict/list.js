@@ -29,7 +29,7 @@ var mDictList = function () {
                     width: 60,
                     template: function (row, index, datatable) {
                         if (KTUtil.isNotBlank(row.css)) {
-                            return '<span class="kt-badge ' + row.css + ' kt-badge--wide"></span>';
+                            return '<span class="' + row.css + '"></span>';
                         } else {
                             return '--';
                         }
@@ -49,7 +49,7 @@ var mDictList = function () {
                 },
                 {
                     field: 'Actions',
-                    width: 110,
+                    width: 100,
                     title: '操作',
                     sortable: false,
                     overflow: 'visible',
@@ -108,7 +108,7 @@ var mDictList = function () {
         }
     };
 }();
-KTTabneedSubmitForm = function () { return true; };
+KTTab.needSubmitForm = function () { return true; };
 //== 初始化
 $(document).ready(function () {
     mDictList.init();

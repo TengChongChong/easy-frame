@@ -113,6 +113,7 @@ var mUserList = function () {
                 KTUtil.ajax({
                     url: KTTool.getBaseUrl() + 'disable/user/' + ids,
                     success: function (res) {
+                        KTTool.successTip(KTTool.commonTips.success, '用户已禁用');
                         KTTool.selectData(el);
                     }
                 });
@@ -130,6 +131,7 @@ var mUserList = function () {
             KTUtil.ajax({
                 url: KTTool.getBaseUrl() + 'enable/user/' + ids,
                 success: function (res) {
+                    KTTool.successTip(KTTool.commonTips.success, '用户已启用');
                     KTTool.selectData(el);
                 }
             });
@@ -158,6 +160,10 @@ var mUserList = function () {
      * 初始化列表
      */
     var initTable = function () {
+        // 是否有修改任务权限
+        var hasSavePermissions = KTTool.hasPermissions('sys:user:save') ||
+            KTTool.hasPermissions('sys:user:disable') ||
+            KTTool.hasPermissions('sys:user:enable');
         var options = {
             // 列配置
             columns: [
@@ -190,7 +196,18 @@ var mUserList = function () {
                     field: 'status',
                     title: '状态',
                     width: 70,
-                    dictType: KTTool.commonDict // 这里设置机构类型名称{string}或机构{object}
+                    template: function (row) {
+                        if (hasSavePermissions) {
+                            return '<span class="kt-switch kt-switch--sm kt-switch--icon">\
+                                    <label>\
+                                        <input data-id="' + row.id + '" type="checkbox" ' + (1 === row.status ? 'checked="checked"' : '') + ' name="status">\
+                                        <span></span>\
+                                    </label>\
+                                </span>';
+                        } else {
+                            return KTTool.getDictElement(row.status, KTTool.commonDict);
+                        }
+                    }
                 },
                 {
                     field: 'lastLogin',
@@ -203,7 +220,7 @@ var mUserList = function () {
                 },
                 {
                     field: 'Actions',
-                    width: 130,
+                    width: 100,
                     title: '操作',
                     sortable: false,
                     overflow: 'visible',
@@ -227,16 +244,6 @@ var mUserList = function () {
                                 <i class="la la-refresh"></i>\
                             </a>';
                         }
-                        if (KTTool.hasPermissions('sys:user:disable')) {
-                            _btn += '<a href="#" onclick="mUserList.disableUser(this, ' + row.id + ')" class="' + KTTool.ACTIONS_WARN + '" title="禁用用户">\
-                                <i class="la la-ban"></i>\
-                            </a>';
-                        }
-                        if (KTTool.hasPermissions('sys:user:enable')) {
-                            _btn += '<a href="#" onclick="mUserList.enableUser(this, ' + row.id + ')" class="' + KTTool.ACTIONS_SUCCESS + '" title="启用用户">\
-                                <i class="la la-check"></i>\
-                            </a>';
-                        }
                         return _btn;
                     }
                 }
@@ -251,7 +258,18 @@ var mUserList = function () {
     var addUser = function () {
         KTApp.openPage('新增用户', KTTool.getBaseUrl() + 'add/' + $('#deptId').val());
     };
-
+    /**
+     * 绑定启用&禁用用户事件
+     */
+    var bindClickStatus = function () {
+        $('.kt_datatable').on('click', '[name="status"]', function () {
+            if ($(this).is(':checked')) {
+                enableUser(this, $(this).data('id'));
+            } else {
+                disableUser(this, $(this).data('id'));
+            }
+        });
+    };
     return {
         //== 初始化页面
         init: function () {
@@ -263,28 +281,13 @@ var mUserList = function () {
                 $('#depart-tree').removeClass('kt-hide');
                 $('#depart-title').val('');
             });
+            bindClickStatus();
         },
         /**
          * 新增
          */
         addUser: function () {
             addUser();
-        },
-        /**
-         * 禁用用户
-         *
-         * @param ids 用户ids
-         */
-        disableUser: function (el, ids) {
-            disableUser(el, ids);
-        },
-        /**
-         * 启用用户
-         *
-         * @param ids 用户ids
-         */
-        enableUser: function (el, ids) {
-            enableUser(el, ids);
         },
         /**
          * 重置密码
@@ -296,7 +299,7 @@ var mUserList = function () {
         }
     };
 }();
-KTTabneedSubmitForm = function () {
+KTTab.needSubmitForm = function () {
     return true;
 };
 //== 初始化

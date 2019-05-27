@@ -43,7 +43,7 @@ var mSchedulerJobList = function () {
                         if (hasSavePermissions) {
                             return '<span class="kt-switch kt-switch--sm kt-switch--icon">\
                                     <label>\
-                                        <input data-id="' + row.id + '" type="checkbox" ' + ('1' === row.status ? 'checked="checked"' : '') + ' name="status">\
+                                        <input data-id="' + row.id + '" type="checkbox" ' + (1 === row.status ? 'checked="checked"' : '') + ' name="status">\
                                         <span></span>\
                                     </label>\
                                 </span>';
@@ -177,7 +177,7 @@ var mSchedulerJobList = function () {
  *
  * @return {boolean} true/false
  */
-KTTabneedSubmitForm = function () {
+KTTab.needSubmitForm = function () {
     return true;
 };
 //== 初始化

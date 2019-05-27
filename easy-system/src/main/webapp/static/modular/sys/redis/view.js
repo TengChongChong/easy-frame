@@ -115,17 +115,17 @@ var mRedisView = function () {
             $redisKeys.empty();
             if (keys.length > 0) {
                 $(keys).each(function (index, key) {
-                    $redisKeys.append('<a href="javascript:;" class="kt-list-search__result-item" data-key="' + key + '">\
+                    $redisKeys.append('<li><a href="javascript:;" class="kt-list-search__result-item" data-key="' + key + '">\
                         <span class="kt-list-search__result-item-icon">\
                             <i class="la la-database kt--font-warning"></i>\
                         </span>\
                         <span class="kt-list-search__result-item-text">' + key + '</span>\
-                    </a>');
+                    </a></li>');
                 });
             } else {
-                $redisKeys.html('<a href="javascript:;" class="kt-list-search__result-item">\
+                $redisKeys.html('<li><a href="javascript:;" class="kt-list-search__result-item">\
                         <span class="kt-list-search__result-item-text">暂无数据</span>\
-                    </a>');
+                    </a></li>');
             }
         }
     };
@@ -161,7 +161,7 @@ var mRedisView = function () {
             selectKeys();
         });
 
-        $('.redis-keys').on('click', '.m-list-search__result-item', function () {
+        $('.redis-keys').on('click', '.kt-list-search__result-item', function () {
             getDetails($(this).data('key'));
         });
         $('.btn-delete').click(function () {
@@ -176,8 +176,8 @@ var mRedisView = function () {
             initPrefix();
             bind();
             var viewPort = KTUtil.getViewPort();
-            KTUtil.scrollerInit($('.redis-keys')[0], {height: viewPort.height - 270});
-            KTUtil.scrollerInit($('.redis-value')[0], {height: viewPort.height - 320});
+            KTUtil.scrollInit($('.redis-keys')[0], {height: viewPort.height - 270});
+            KTUtil.scrollInit($('.redis-value')[0], {height: viewPort.height - 320});
 
         }
     };
