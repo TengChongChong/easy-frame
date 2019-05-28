@@ -2987,6 +2987,20 @@ var KTDialog = function(options) {
 
     return the;
 };
+/**
+ * 为类型添加一些自定义方法
+ */
+
+/**
+ * 为string类型添加替换全部方法
+ *
+ * @param s1 {string} 替换前字符串
+ * @param s2 {string} 要替换为的字符串
+ * @return {string} 替换后的字符串
+ */
+String.prototype.replaceAll = function (s1, s2) {
+    return this.replace(new RegExp(s1, "gm"), s2);
+};
 "use strict";
 var KTHeader = function(elementId, options) {
     // Main object
@@ -5489,7 +5503,7 @@ var KTTabPage = function (selector, options) {
  */
 var KTTab = {
     /**
-     * 激活当前tab是否需要刷新当前页面
+     * 激活当前TAB是否需要刷新当前页面
      *
      * @returns {boolean}
      */
@@ -5744,7 +5758,7 @@ var KTTool = function () {
         httpCode: {
             success: 200, // 成功
             bad_request: 400, // 无效请求
-            unauthorized: 401, // 无权访问
+            unauthorized: 403, // 无权访问
             internalServerError: 500 // 异常
         },
         /**

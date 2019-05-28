@@ -31,7 +31,7 @@ var mGeneration = function () {
      */
     var initWizard = function () {
         //== 初始化
-        wizard = new mWizard('m_wizard', {
+        wizard = new KTWizard('m_wizard', {
             startStep: 1
         });
 

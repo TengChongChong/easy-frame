@@ -1,5 +1,5 @@
-@layout("/common/container.html", {"title" : "代码生成工具"}){
-<link href="${ctxPath}/static/vendors/custom/jquery-gridly/jquery-gridly.bundle.css" rel="stylesheet"/>
+@layout("/common/container.html", {"title" : "代码生成工具", "plugin": "jquery-gridly"}){
+<link href="${ctxPath}/static/themes/theme-1/css/pages/wizard/wizard-1.css?v=${version()}" rel="stylesheet"/>
 <style>
     .table-field-set thead th {
         font-weight: bold;
@@ -12,8 +12,8 @@
         text-align: center;
     }
 
-    .table-field-set .cell-list .m-checkbox,
-    .table-field-set .cell-input .m-checkbox {
+    .table-field-set .cell-list .kt-checkbox,
+    .table-field-set .cell-input .kt-checkbox {
         padding-left: 19px
     }
     .table-field-set th{
@@ -39,129 +39,94 @@
     .brick .form-group textarea{
         height: 31px;
     }
+    .kt-wizard-v1 .kt-wizard-v1__wrapper .kt-form {
+        width: 90%;
+        padding: 2rem 0;
+    }
 </style>
 <div class="kt-portlet" kt-portlet="true">
     <#portlet:head title="代码生成" icon="la la-code-fork"/>
     <div class="kt-portlet__body">
-        <!--begin: 表单向导-->
-        <div class="kt-wizard kt-wizard--1 kt-wizard--success" id="m_wizard">
-            <!--begin: 表单向导 Head -->
-            <div class="kt-wizard__head kt-portlet__padding-x">
-                <!--begin: 表单向导 Progress -->
-                <div class="kt-wizard__progress">
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                    </div>
-                </div>
-                <!--end: 表单向导 Progress -->
 
-                <!--begin: 表单向导 Nav -->
-                <div class="kt-wizard__nav">
-                    <div class="kt-wizard__steps">
-                        <div class="kt-wizard__step kt-wizard__step--current" kt-wizard-target="m_wizard_form_step_1">
-                            <div class="kt-wizard__step-info">
-                                <a href="#" class="kt-wizard__step-number">
-                                    <span>
-                                        <span>1</span>
-                                    </span>
-                                </a>
-                                <div class="kt-wizard__step-line">
-                                    <span></span>
+        <div class="kt-grid  kt-wizard-v1 kt-wizard-v1--white" id="m_wizard" data-ktwizard-state="first">
+            <div class="kt-grid__item">
+
+                <!--begin: Form Wizard Nav -->
+                <div class="kt-wizard-v1__nav">
+                    <div class="kt-wizard-v1__nav-items">
+                        <a class="kt-wizard-v1__nav-item" href="#" data-ktwizard-type="step" data-ktwizard-state="current">
+                            <div class="kt-wizard-v1__nav-body">
+                                <div class="kt-wizard-v1__nav-icon">
+                                    <i class="flaticon-bus-stop"></i>
                                 </div>
-                                <div class="kt-wizard__step-label">
-                                    基本信息
+                                <div class="kt-wizard-v1__nav-label">
+                                    1) 基本信息
                                 </div>
                             </div>
-                        </div>
-                        <div class="kt-wizard__step" kt-wizard-target="m_wizard_form_step_2">
-                            <div class="kt-wizard__step-info">
-                                <a href="#" class="kt-wizard__step-number">
-                                    <span>
-                                        <span>2</span>
-                                    </span>
-                                </a>
-                                <div class="kt-wizard__step-line">
-                                    <span></span>
+                        </a>
+                        <a class="kt-wizard-v1__nav-item" href="#" data-ktwizard-type="step" data-ktwizard-state="pending">
+                            <div class="kt-wizard-v1__nav-body">
+                                <div class="kt-wizard-v1__nav-icon">
+                                    <i class="flaticon-list"></i>
                                 </div>
-                                <div class="kt-wizard__step-label">
-                                    生成信息
+                                <div class="kt-wizard-v1__nav-label">
+                                    2) 生成信息
                                 </div>
                             </div>
-                        </div>
-                        <div class="kt-wizard__step" kt-wizard-target="m_wizard_form_step_3">
-                            <div class="kt-wizard__step-info">
-                                <a href="#" class="kt-wizard__step-number">
-                                    <span>
-                                        <span>3</span>
-                                    </span>
-                                </a>
-                                <div class="kt-wizard__step-line">
-                                    <span></span>
+                        </a>
+                        <a class="kt-wizard-v1__nav-item" href="#" data-ktwizard-type="step" data-ktwizard-state="pending">
+                            <div class="kt-wizard-v1__nav-body">
+                                <div class="kt-wizard-v1__nav-icon">
+                                    <i class="flaticon-responsive"></i>
                                 </div>
-                                <div class="kt-wizard__step-label">
-                                    字段信息
+                                <div class="kt-wizard-v1__nav-label">
+                                    3) 字段信息
                                 </div>
                             </div>
-                        </div>
-                        <div class="kt-wizard__step" kt-wizard-target="m_wizard_form_step_4">
-                            <div class="kt-wizard__step-info">
-                                <a href="#" class="kt-wizard__step-number">
-                                    <span>
-                                        <span>4</span>
-                                    </span>
-                                </a>
-                                <div class="kt-wizard__step-line">
-                                    <span></span>
+                        </a>
+                        <a class="kt-wizard-v1__nav-item" href="#" data-ktwizard-type="step" data-ktwizard-state="pending">
+                            <div class="kt-wizard-v1__nav-body">
+                                <div class="kt-wizard-v1__nav-icon">
+                                    <i class="flaticon-truck"></i>
                                 </div>
-                                <div class="kt-wizard__step-label">
-                                    list 页面布局
+                                <div class="kt-wizard-v1__nav-label">
+                                    4) list 页面布局
                                 </div>
                             </div>
-                        </div>
-                        <div class="kt-wizard__step" kt-wizard-target="m_wizard_form_step_5">
-                            <div class="kt-wizard__step-info">
-                                <a href="#" class="kt-wizard__step-number">
-                                    <span>
-                                        <span>5</span>
-                                    </span>
-                                </a>
-                                <div class="kt-wizard__step-line">
-                                    <span></span>
+                        </a>
+                        <a class="kt-wizard-v1__nav-item" href="#" data-ktwizard-type="step" data-ktwizard-state="pending">
+                            <div class="kt-wizard-v1__nav-body">
+                                <div class="kt-wizard-v1__nav-icon">
+                                    <i class="flaticon-globe"></i>
                                 </div>
-                                <div class="kt-wizard__step-label">
-                                    input 页面布局
+                                <div class="kt-wizard-v1__nav-label">
+                                    5) input 页面布局
                                 </div>
                             </div>
-                        </div>
-                        <div class="kt-wizard__step" kt-wizard-target="m_wizard_form_step_6">
-                            <div class="kt-wizard__step-info">
-                                <a href="#" class="kt-wizard__step-number">
-                                    <span>
-                                        <span>6</span>
-                                    </span>
-                                </a>
-                                <div class="kt-wizard__step-line">
-                                    <span></span>
+                        </a>
+                        <a class="kt-wizard-v1__nav-item" href="#" data-ktwizard-type="step" data-ktwizard-state="pending">
+                            <div class="kt-wizard-v1__nav-body">
+                                <div class="kt-wizard-v1__nav-icon">
+                                    <i class="flaticon-globe"></i>
                                 </div>
-                                <div class="kt-wizard__step-label">
-                                    完成
+                                <div class="kt-wizard-v1__nav-label">
+                                    6) 完成
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
-                <!--end: 表单向导 Nav -->
+                <!--end: Form Wizard Nav -->
             </div>
-            <!--end: 表单向导 Head -->
+            <div class="kt-grid__item kt-grid__item--fluid kt-wizard-v1__wrapper">
 
-            <!--begin: 表单向导 Form-->
-            <div class="kt-wizard__form">
-                <form class="kt-form kt-form--label-align-left- kt-form--state-" id="m_form">
+                <!--begin: Form Wizard Form-->
+                <form class="kt-form" id="kt_form" novalidate="novalidate">
+
                     <!--begin: Form Body -->
                     <div class="kt-portlet__body">
                         <!--begin: 表单向导 Step 1-->
-                        <div class="kt-wizard__form-step kt-wizard__form-step--current" id="m_wizard_form_step_1">
+                        <div class="kt-wizard-v1__content" data-ktwizard-type="step-content" data-ktwizard-state="current">
                             <div class="row">
                                 <div class="col-md-6 col-12">
                                     <#form:select id="dataSource" name="数据源" required="true"
@@ -213,7 +178,7 @@
                         <!--end: 表单向导 Step 1-->
 
                         <!--begin: 表单向导 Step 2-->
-                        <div class="kt-wizard__form-step" id="m_wizard_form_step_2">
+                        <div class="kt-wizard-v1__content" data-ktwizard-type="step-content" >
                             <div class="row">
                                 <div class="col-md-6 col-12">
                                     <#form:select id="generatorTemplate" name="生成模板"
@@ -284,7 +249,7 @@
                         <!--end: 表单向导 Step 2-->
 
                         <!--begin: 表单向导 Step 3-->
-                        <div class="kt-wizard__form-step" id="m_wizard_form_step_3">
+                        <div class="kt-wizard-v1__content" data-ktwizard-type="step-content" >
                             <div id="field-set-scrollable">
                                 <table id="field-set" class="table table-hover table-striped table-field-set">
                                     <thead>
@@ -339,7 +304,7 @@
                         <!--end: 表单向导 Step 3-->
 
                         <!--begin: 表单向导 Step 4-->
-                        <div class="kt-wizard__form-step" id="m_wizard_form_step_4">
+                        <div class="kt-wizard-v1__content" data-ktwizard-type="step-content" >
                             <div class="kt-portlet" kt-portlet="true">
                                 <div class="kt-portlet__head">
                                     <div class="kt-portlet__head-caption">
@@ -367,7 +332,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="btn-row">
+                                    <div class="btn-row kt-margin-b-5">
                                         <button type="button" class="btn btn-success btn-add">
                                             <i class="la la-plus"></i> 新增
                                         </button>
@@ -386,7 +351,7 @@
                         <!--end: 表单向导 Step 4-->
 
                         <!--begin: 表单向导 Step 5-->
-                        <div class="kt-wizard__form-step" id="m_wizard_form_step_5">
+                        <div class="kt-wizard-v1__content" data-ktwizard-type="step-content" >
                             <div class="kt-portlet" kt-portlet="true">
                                 <div class="kt-portlet__head">
                                     <div class="kt-portlet__head-caption">
@@ -403,7 +368,7 @@
                                 </div>
                                 <div class="kt-portlet__foot">
                                     <div class="kt-form__actions text-center">
-                                        <button type="button" class="btn btn-save">
+                                        <button type="button" class="btn btn-success btn-save">
                                             <i class="la la-save"></i> 保存
                                         </button>
                                     </div>
@@ -413,7 +378,7 @@
                         <!--end: 表单向导 Step 5-->
 
                         <!--begin: 表单向导 Step 6-->
-                        <div class="kt-wizard__form-step" id="m_wizard_form_step_6">
+                        <div class="kt-wizard-v1__content" data-ktwizard-type="step-content" >
                             <div class="kt-section kt-margin-b-5">
                                 <h3 class="kt-section__heading">
                                     即将生成以下文件
@@ -436,56 +401,33 @@
                     <!--end: Form Body -->
 
                     <!--begin: Form Actions -->
-                    <div class="kt-portlet__foot">
-                        <div class="kt-form__actions kt-form__actions">
-                            <div class="row">
-                                <div class="col-lg-2"></div>
-                                <div class="col-lg-4 col-md- kt-align-left">
-                                    <button class="btn btn-sm btn-secondary kt-btn kt-btn--custom kt-btn--icon"
-                                            data-wizard-action="prev">
-                                        <span>
-                                            <i class="la la-arrow-left"></i>
-                                            <span>上一步</span>
-                                        </span>
-                                    </button>
-                                </div>
-                                <div class="col-lg-4 col-md-6 kt-align-right">
-                                    <button class="btn btn-sm btn-success kt-btn kt-btn--custom kt-btn--icon"
-                                            data-wizard-action="submit">
-                                        <span>
-                                            <i class="la la-check"></i>
-                                            <span>生成</span>
-                                        </span>
-                                    </button>
-                                    <button class="btn btn-sm btn-info kt-btn kt-btn--custom kt-btn--icon"
-                                            data-wizard-action="next">
-                                        <span>
-                                            <span>下一步</span>
-                                            <i class="la la-arrow-right"></i>
-                                        </span>
-                                    </button>
-                                    <label class="kt-checkbox">
-                                        <input type="checkbox" name="replace" value="true">
-                                        覆盖已有文件
-                                        <span></span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-2">
-
-                                </div>
-                            </div>
+                    <div class="kt-form__actions">
+                        <div class="btn btn-default" data-ktwizard-type="action-prev">
+                            <i class="la la-arrow-left"></i>
+                            <span>上一步</span>
                         </div>
+                        <div class="btn btn-success" data-ktwizard-type="action-submit">
+                            <i class="la la-check"></i>
+                            <span>生成</span>
+                        </div>
+                        <div class="btn btn-info" data-ktwizard-type="action-next">
+                            <span>下一步</span>
+                            <i class="la la-arrow-right"></i>
+                        </div>
+                        <label class="kt-checkbox kt-margin-t-5 kt-margin-l-5">
+                            <input type="checkbox" name="replace" value="true">
+                            覆盖已有文件
+                            <span></span>
+                        </label>
                     </div>
                     <!--end: Form Actions -->
                 </form>
+                <!--end: Form Wizard Form-->
             </div>
-            <!--end: 表单向导 Form-->
         </div>
-        <!--end: 表单向导-->
     </div>
 </div>
 <!--begin::页面脚本 -->
-<script src="${ctxPath}/static/vendors/custom/jquery-gridly/jquery-gridly.bundle.js"></script>
 <script src="${ctxPath}/static/modular/generation/view.js?v=${version()}"></script>
 <script src="${ctxPath}/static/modular/generation/util.js?v=${version()}"></script>
 <!--end::页面脚本 -->
