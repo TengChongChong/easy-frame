@@ -100,7 +100,7 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
     public SchedulerJob add() {
         SchedulerJob object = new SchedulerJob();
         // 默认开启
-        object.setStatus(String.valueOf(SchedulerStatus.ENABLE.getCode()));
+        object.setStatus(SchedulerStatus.ENABLE.getCode());
         // 设置默认值
         return object;
     }

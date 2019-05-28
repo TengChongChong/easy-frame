@@ -9,10 +9,10 @@ var mPersonalCenter = function () {
         KTUtil.ajax({
             url: url,
             type: 'get',
-            wait: '#m-right-page',
+            wait: '#kt-right-page',
             dataType: 'html',
             success: function (res) {
-                $('#m-right-page').html(res);
+                $('#kt-right-page').html(res);
                 KTApp.initComponents();
             }
         });
@@ -21,7 +21,7 @@ var mPersonalCenter = function () {
      * 绑定事件
      */
     var bind = function () {
-        $('.m-nav__link').click(function () {
+        $('.kt-widget__item').click(function () {
             loadPage($(this).data('url'));
         });
     };
@@ -91,7 +91,7 @@ var mPersonalCenter = function () {
                 if ($userAvatarImg.length > 0) {
                     $userAvatarImg.attr('src', res.data);
                 } else {
-                    $userAvatar.find('.m-type').remove();
+                    $userAvatar.find('.kt-type').remove();
                     $userAvatar.append('<img src="' + res.data + '" alt=""/>');
                 }
                 refreshLocalCache();
@@ -137,7 +137,7 @@ var mPersonalCenter = function () {
             bind();
             bindPersonalSettings();
             // 打开默认页面
-            $('.m-nav__link.active').click();
+            $('.kt-widget__item.active').click();
             new Crop.CropAvatar($('.user-avatar'), function (data) {
                 saveUserAvatar(data);
             });

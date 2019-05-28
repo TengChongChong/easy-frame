@@ -89,9 +89,9 @@ public class ExceptionControllerAdvice {
     public Object unauthorizedException(HttpServletRequest request, UnauthorizedException e) {
         logger.debug("权限异常", e);
         if (Servlets.isAjaxRequest(request)) {
-            return new Tips(HttpStatus.UNAUTHORIZED.value(), "您无权限访问此资源", null);
+            return new Tips(HttpStatus.FORBIDDEN.value(), "您无权限访问此资源", null);
         } else {
-            return errorModelAndView(request.getRequestURI(), HttpStatus.UNAUTHORIZED.value(), "您无权限访问此资源", e);
+            return errorModelAndView(request.getRequestURI(), HttpStatus.FORBIDDEN.value(), "您无权限访问此资源", e);
         }
     }
 

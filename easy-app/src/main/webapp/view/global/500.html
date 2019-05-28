@@ -5,59 +5,53 @@
 <head>
     @include("../common/meta.html"){}
     <title>500 - ${projectName()}</title>
+    <link href="${ctxPath}/static/themes/theme-1/css/pages/error/error.css?v=${version()}" rel="stylesheet" type="text/css"/>
     @include("../common/base-styles.html"){}
 </head>
 <!-- end::Head -->
+
 <!-- begin::Body -->
-<body class="kt--skin- kt-header--fixed kt-header--fixed-mobile kt-aside-left--enabled kt-aside-left--skin-dark kt-aside-left--fixed kt-aside-left--offcanvas kt-footer--push kt-aside--offcanvas-default">
+<body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--loading">
 <!-- begin:: Page -->
-<div class="kt-grid kt-grid--hor kt-grid--root kt-page">
+<div class="kt-grid kt-grid--ver kt-grid--root">
     @if(isDev){
-    <div class="kt-portlet kt-portlet--tabs kt-portlet--danger kt-portlet--head-solid-bg kt-portlet--bordered">
+    <div class="kt-portlet">
         <div class="kt-portlet__head">
-            <div class="kt-portlet__head-caption">
-                <div class="kt-portlet__head-title">
-                    <h3 class="kt-portlet__head-text">
-                        500
-                    </h3>
-                </div>
+            <div class="kt-portlet__head-label">
+                <h3 class="kt-portlet__head-title">
+                    500
+                </h3>
             </div>
         </div>
         <div class="kt-portlet__body">
-            <div class="tab-content">
-                <div class="row">
-                    <div class="col-2">
-                        <p class="lead text-right">Url: </p>
-                    </div>
-                    <div class="col-10">
-                        <p class="lead">${path}</p>
-                    </div>
-                    <div class="col-2">
-                        <p class="lead text-right">Message: </p>
-                    </div>
-                    <div class="col-10">
-                        <p class="lead">${message}</p>
-                    </div>
-                    <div class="col-2">
-                        <p class="lead text-right">Trace: </p>
-                    </div>
-                    <div class="col-10">
-                        <p class="lead" id="trace">
-                            ${strutil.replace(trace, '\n\t', '<br>')}
-                        </p>
-                    </div>
+            <div class="row">
+                <div class="col-2">
+                    <p class="lead text-right">Url: </p>
                 </div>
-            </div>
+                <div class="col-10">
+                    <p class="lead">${path}</p>
+                </div>
+                <div class="col-2">
+                    <p class="lead text-right">Message: </p>
+                </div>
+                <div class="col-10">
+                    <p class="lead">${message}</p>
+                </div>
+                <div class="col-2">
+                    <p class="lead text-right">Trace: </p>
+                </div>
+                <div class="col-10">
+                    <p class="lead" id="trace">
+                        ${strutil.replace(trace, '\n\t', '<br>')}
+                    </p>
+                </div>
         </div>
     </div>
     @}else{
-    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-error-1"
-         style="background-image: url(${ctxPath}/static/app/media/img/error/bg-error.jpg);">
+    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-error-v6" style="background-image: url(${ctxPath}/static/media/error/error.svg);">
         <div class="kt-error_container">
-            <span class="kt-error_number">
-                <h1>500</h1>
-            </span>
-            <p class="kt-error_desc">
+            <div class="kt-error-icon" style="background-image: url(${ctxPath}/static/media/error/500.svg)"></div>
+            <p class="kt-error_description">
                 服务器开小差了，请等等再试吧！
             </p>
         </div>

@@ -95,7 +95,7 @@ Crop.CropAvatar.prototype = {
      */
     initPreview: function () {
         var url = this.$cropper.attr('src');
-        if (mUtil.isNotBlank(url)) {
+        if (KTUtil.isNotBlank(url)) {
             this.$cropperPreview.html('<img alt="预览" src="' + url + '">');
         }
     },
@@ -106,7 +106,7 @@ Crop.CropAvatar.prototype = {
         var _cropper = this;
         this.$cropperModal.modal('show').on('shown.bs.modal', function () {
             var _src = _cropper.$cropper.attr('src');
-            if (mUtil.isNotBlank(_src)) {
+            if (KTUtil.isNotBlank(_src)) {
                 if (_src.indexOf('?') > -1) {
                     _cropper.url = _cropper.$cropper.attr('src') + '&date=' + new Date().getTime();
                 } else {
@@ -236,6 +236,6 @@ Crop.CropAvatar.prototype = {
      * @param msg {string} 提示内容
      */
     alert: function (msg) {
-        mTool.warnTip('操作失败', msg);
+        KTTool.warnTip('操作失败', msg);
     }
 };

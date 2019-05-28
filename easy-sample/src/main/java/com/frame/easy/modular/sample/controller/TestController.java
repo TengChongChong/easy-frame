@@ -4,7 +4,6 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Console;
 import cn.hutool.poi.excel.sax.handler.RowHandler;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
-import com.frame.easy.modular.sys.model.SysDict;
 import com.frame.easy.modular.sys.service.SysDictService;
 import com.frame.easy.result.Tips;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,7 @@ public class TestController {
 ////        ExcelReader reader = ExcelUtil.getReader("/Users/tengchong/Downloads/test.xlsx");
 ////        List<List<Object>> readAll = reader.read();
 //        System.out.println("读取成功");
-        SysDict sysDict = sysDictService.getDictByCode("dataSource", "");
+//        SysDict sysDict = sysDictService.getDictByCode("dataSource", "");
         throw new MybatisPlusException("错了");
 //        return Tips.getSuccessTips(1/0);
     }

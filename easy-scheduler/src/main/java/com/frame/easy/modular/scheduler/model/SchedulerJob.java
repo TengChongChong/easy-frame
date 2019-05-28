@@ -60,7 +60,7 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
      * 状态
      */
     @NotBlank(message = "状态不能为空")
-    private String status;
+    private Integer status;
 
     /**
      * 上次执行时间
@@ -149,11 +149,11 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
         this.method = method;
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

@@ -30,9 +30,9 @@ public class GlobalController {
      *
      * @return view
      */
-    @RequestMapping("/401")
+    @RequestMapping("/403")
     public String err401() {
-        return PREFIX + "401";
+        return PREFIX + "403";
     }
 
     /**

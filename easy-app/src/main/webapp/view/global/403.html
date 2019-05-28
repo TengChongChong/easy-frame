@@ -4,11 +4,10 @@
 <!-- begin::Head -->
 <head>
     @include("../common/meta.html"){}
-    <title>404 - ${projectName()}</title>
+    <title>401 - ${projectName()}</title>
     <link href="${ctxPath}/static/themes/theme-1/css/pages/error/error.css?v=${version()}" rel="stylesheet" type="text/css"/>
     @include("../common/base-styles.html"){}
 </head>
-
 <!-- end::Head -->
 
 <!-- begin::Body -->
@@ -17,9 +16,9 @@
 <div class="kt-grid kt-grid--ver kt-grid--root">
     <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-error-v6" style="background-image: url(${ctxPath}/static/media/error/error.svg);">
         <div class="kt-error_container">
-            <div class="kt-error-icon" style="background-image: url(${ctxPath}/static/media/error/404.svg)"></div>
+            <div class="kt-error-icon" style="background-image: url(${ctxPath}/static/media/error/403.svg)"></div>
             <p class="kt-error_description">
-                抱歉，你访问的页面不存在
+                抱歉，你无权访问
             </p>
         </div>
     </div>
