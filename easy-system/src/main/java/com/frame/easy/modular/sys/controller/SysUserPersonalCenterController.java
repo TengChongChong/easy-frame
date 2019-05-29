@@ -50,11 +50,48 @@ public class SysUserPersonalCenterController extends BaseController {
      * @param model model
      * @return view
      */
+    @GetMapping("overview")
+    public String overview(Model model){
+        logger.debug("/auth/sys/user/personal/center/overview");
+        model.addAttribute("user", service.getCurrentUser());
+        return PREFIX + "overview";
+    }
+
+    /**
+     * 个人设置
+     *
+     * @param model model
+     * @return view
+     */
     @GetMapping("personal/settings")
     public String personalSettings(Model model){
         logger.debug("/auth/sys/user/personal/center/personal/settings");
         model.addAttribute("user", service.getCurrentUser());
         return PREFIX + "personal-settings";
+    }
+    /**
+     * 安全设置
+     *
+     * @param model model
+     * @return view
+     */
+    @GetMapping("security/settings")
+    public String securitySettings(Model model){
+        logger.debug("/auth/sys/user/personal/center/security/settings");
+        model.addAttribute("user", service.getCurrentUser());
+        return PREFIX + "security-settings";
+    }
+    /**
+     * 密码修改
+     *
+     * @param model model
+     * @return view
+     */
+    @GetMapping("change/password")
+    public String changePassword(Model model){
+        logger.debug("/auth/sys/user/personal/center/change/password");
+        model.addAttribute("user", service.getCurrentUser());
+        return PREFIX + "change-password";
     }
 
     /**

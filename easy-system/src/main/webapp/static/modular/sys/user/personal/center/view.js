@@ -137,7 +137,7 @@ var mPersonalCenter = function () {
             bind();
             bindPersonalSettings();
             // 打开默认页面
-            $('.kt-widget__item.active').click();
+            $('.kt-widget__item.kt-widget__item--active').click();
             new Crop.CropAvatar($('.user-avatar'), function (data) {
                 saveUserAvatar(data);
             });

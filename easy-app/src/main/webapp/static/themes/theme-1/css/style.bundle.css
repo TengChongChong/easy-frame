@@ -19789,8 +19789,11 @@ strong {
       .kt-portlet .kt-portlet__head .kt-portlet__head-label .kt-portlet__head-icon {
         padding-right: .75rem;
         padding-top: 3px;
-        font-size: 1.3rem;
+        font-size: 1.6rem;
+        line-height: 0;
         color: #a7abc3; }
+        .kt-portlet .kt-portlet__head .kt-portlet__head-label .kt-portlet__head-icon g [fill] {
+          fill: #a7abc3; }
     .kt-portlet .kt-portlet__head .kt-portlet__head-toolbar {
       display: -webkit-box;
       display: -ms-flexbox;
