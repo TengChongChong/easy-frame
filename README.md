@@ -31,7 +31,7 @@
 4. 全局异常处理
 5. 数据导入验证/在线编辑
 6. 拖拽式生成CRUD后端代码以及前端资源
-![代码生成](https://images.gitee.com/uploads/images/2019/0513/124457_07fcef0f_74191.gif "video.gif")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0529/111723_a8b1e58c_74191.gif "video.gif")
 
 ### 安装教程
 1. 执行/db/init.sql
@@ -66,14 +66,17 @@
 6. ...
 
 ### 预览图
-![登录](https://images.gitee.com/uploads/images/2019/0513/124414_16a2efc1_74191.png "登录页面.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0513/125601_09cd39e3_74191.png "菜单管理.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0513/125611_5dd2c572_74191.png "系统参数.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0513/125621_c7841a83_74191.png "机构管理.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0513/125629_e15523c0_74191.png "机构管理-详情.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0513/125638_51cf77f5_74191.png "缓存监控.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0513/125646_ce9d7000_74191.png "异常日志.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0513/125654_2ee87db6_74191.png "异常详情.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0529/110859_5838e3c0_74191.png "huaban (2).png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0529/110916_b164ecf3_74191.png "huaban.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0529/110942_5221382f_74191.png "huaban (1).png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0529/110953_7faa5cef_74191.png "huaban (3).png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0529/111001_b74ad875_74191.png "huaban (4).png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0529/111011_09d9dec2_74191.png "huaban (5).png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0529/111019_6719c63d_74191.png "huaban (6).png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0529/111027_0ada2520_74191.png "huaban (7).png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0529/111034_f6817b23_74191.png "huaban (8).png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0529/111043_60eed999_74191.png "huaban (9).png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0529/111049_afa66704_74191.png "huaban (10).png")
 ### 如有帮助请star
 
 ### QQ群
