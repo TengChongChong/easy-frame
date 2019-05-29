@@ -281,7 +281,8 @@ var mIndex = function () {
             e.preventDefault();
             var $link = $(this);
             var url = $link.data('url');
-            KTApp.openPage($link.text(), url);
+            var title = $link.data('title');
+            KTApp.openPage(title, url);
         });
     };
 
