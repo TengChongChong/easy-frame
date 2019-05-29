@@ -77,7 +77,7 @@ var template = {
      * @return {string} html
      */
     label: function (propertyName, label, labelGrid, isRequired) {
-        return '<label class="' + labelGrid + ' control-label" for="' + propertyName + '">' + (isRequired ? '<span class="required">*</span>' : '') + label + '</label>';
+        return '<label class="' + labelGrid + ' col-form-label" for="' + propertyName + '">' + (isRequired ? '<span class="required">*</span>' : '') + label + '：</label>';
     },
     input: {
         /**

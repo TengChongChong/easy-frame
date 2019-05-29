@@ -1,5 +1,5 @@
 @layout("/common/container.html", {"title" : "代码生成工具", "plugin": "jquery-gridly"}){
-<link href="${ctxPath}/static/themes/theme-1/css/pages/wizard/wizard-1.css?v=${version()}" rel="stylesheet"/>
+<link href="${ctxPath}/static/themes/theme-1/css/pages/wizard/wizard-3.css?v=${version()}" rel="stylesheet"/>
 <style>
     .table-field-set thead th {
         font-weight: bold;
@@ -39,368 +39,351 @@
     .brick .form-group textarea{
         height: 31px;
     }
-    .kt-wizard-v1 .kt-wizard-v1__wrapper .kt-form {
-        width: 90%;
-        padding: 2rem 0;
+    .kt-wizard-v3 .kt-wizard-v3__wrapper .kt-form {
+        width: 95%;
+        padding: 2rem 0 1rem;
+    }
+    .kt-wizard-v3 .kt-wizard-v3__nav .kt-wizard-v3__nav-items .kt-wizard-v3__nav-item{
+        flex: 0 0 16.67%;
     }
 </style>
-<div class="kt-portlet" kt-portlet="true">
+<div class="kt-portlet kt-mb-0" kt-portlet="true">
     <#portlet:head title="代码生成" icon="la la-code-fork"/>
     <div class="kt-portlet__body">
 
-        <div class="kt-grid  kt-wizard-v1 kt-wizard-v1--white" id="m_wizard" data-ktwizard-state="first">
+        <div class="kt-grid kt-wizard-v3 kt-wizard-v3--white" id="m_wizard" data-ktwizard-state="first">
             <div class="kt-grid__item">
-
-                <!--begin: Form Wizard Nav -->
-                <div class="kt-wizard-v1__nav">
-                    <div class="kt-wizard-v1__nav-items">
-                        <a class="kt-wizard-v1__nav-item" href="#" data-ktwizard-type="step" data-ktwizard-state="current">
-                            <div class="kt-wizard-v1__nav-body">
-                                <div class="kt-wizard-v1__nav-icon">
-                                    <i class="flaticon-bus-stop"></i>
+                <!--begin: 向导式表单-导航 -->
+                <div class="kt-wizard-v3__nav">
+                    <div class="kt-wizard-v3__nav-items">
+                        <a class="kt-wizard-v3__nav-item" href="#" data-ktwizard-type="step" data-ktwizard-state="current">
+                            <div class="kt-wizard-v3__nav-body">
+                                <div class="kt-wizard-v3__nav-label">
+                                    <span>1</span> 基本信息
                                 </div>
-                                <div class="kt-wizard-v1__nav-label">
-                                    1) 基本信息
-                                </div>
+                                <div class="kt-wizard-v3__nav-bar"></div>
                             </div>
                         </a>
-                        <a class="kt-wizard-v1__nav-item" href="#" data-ktwizard-type="step" data-ktwizard-state="pending">
-                            <div class="kt-wizard-v1__nav-body">
-                                <div class="kt-wizard-v1__nav-icon">
-                                    <i class="flaticon-list"></i>
+                        <a class="kt-wizard-v3__nav-item" href="#" data-ktwizard-type="step">
+                            <div class="kt-wizard-v3__nav-body">
+                                <div class="kt-wizard-v3__nav-label">
+                                    <span>2</span> 生成信息
                                 </div>
-                                <div class="kt-wizard-v1__nav-label">
-                                    2) 生成信息
-                                </div>
+                                <div class="kt-wizard-v3__nav-bar"></div>
                             </div>
                         </a>
-                        <a class="kt-wizard-v1__nav-item" href="#" data-ktwizard-type="step" data-ktwizard-state="pending">
-                            <div class="kt-wizard-v1__nav-body">
-                                <div class="kt-wizard-v1__nav-icon">
-                                    <i class="flaticon-responsive"></i>
+                        <a class="kt-wizard-v3__nav-item" href="#" data-ktwizard-type="step">
+                            <div class="kt-wizard-v3__nav-body">
+                                <div class="kt-wizard-v3__nav-label">
+                                    <span>3</span> 字段信息
                                 </div>
-                                <div class="kt-wizard-v1__nav-label">
-                                    3) 字段信息
-                                </div>
+                                <div class="kt-wizard-v3__nav-bar"></div>
                             </div>
                         </a>
-                        <a class="kt-wizard-v1__nav-item" href="#" data-ktwizard-type="step" data-ktwizard-state="pending">
-                            <div class="kt-wizard-v1__nav-body">
-                                <div class="kt-wizard-v1__nav-icon">
-                                    <i class="flaticon-truck"></i>
+                        <a class="kt-wizard-v3__nav-item" href="#" data-ktwizard-type="step">
+                            <div class="kt-wizard-v3__nav-body">
+                                <div class="kt-wizard-v3__nav-label">
+                                    <span>4</span> 列表页面
                                 </div>
-                                <div class="kt-wizard-v1__nav-label">
-                                    4) list 页面布局
-                                </div>
+                                <div class="kt-wizard-v3__nav-bar"></div>
                             </div>
                         </a>
-                        <a class="kt-wizard-v1__nav-item" href="#" data-ktwizard-type="step" data-ktwizard-state="pending">
-                            <div class="kt-wizard-v1__nav-body">
-                                <div class="kt-wizard-v1__nav-icon">
-                                    <i class="flaticon-globe"></i>
+                        <a class="kt-wizard-v3__nav-item" href="#" data-ktwizard-type="step">
+                            <div class="kt-wizard-v3__nav-body">
+                                <div class="kt-wizard-v3__nav-label">
+                                    <span>5</span> 详情页面
                                 </div>
-                                <div class="kt-wizard-v1__nav-label">
-                                    5) input 页面布局
-                                </div>
+                                <div class="kt-wizard-v3__nav-bar"></div>
                             </div>
                         </a>
-                        <a class="kt-wizard-v1__nav-item" href="#" data-ktwizard-type="step" data-ktwizard-state="pending">
-                            <div class="kt-wizard-v1__nav-body">
-                                <div class="kt-wizard-v1__nav-icon">
-                                    <i class="flaticon-globe"></i>
+                        <a class="kt-wizard-v3__nav-item" href="#" data-ktwizard-type="step">
+                            <div class="kt-wizard-v3__nav-body">
+                                <div class="kt-wizard-v3__nav-label">
+                                    <span>6</span> 完成
                                 </div>
-                                <div class="kt-wizard-v1__nav-label">
-                                    6) 完成
-                                </div>
+                                <div class="kt-wizard-v3__nav-bar"></div>
                             </div>
                         </a>
                     </div>
                 </div>
-                <!--end: Form Wizard Nav -->
+                <!--end: 向导式表单-导航 -->
             </div>
-            <div class="kt-grid__item kt-grid__item--fluid kt-wizard-v1__wrapper">
+            <div class="kt-grid__item kt-grid__item--fluid kt-wizard-v3__wrapper">
 
-                <!--begin: Form Wizard Form-->
+                <!--begin: 向导式表单-内容-->
                 <form class="kt-form" id="kt_form" novalidate="novalidate">
-
-                    <!--begin: Form Body -->
-                    <div class="kt-portlet__body">
-                        <!--begin: 表单向导 Step 1-->
-                        <div class="kt-wizard-v1__content" data-ktwizard-type="step-content" data-ktwizard-state="current">
-                            <div class="row">
-                                <div class="col-md-6 col-12">
-                                    <#form:select id="dataSource" name="数据源" required="true"
-                                    class="kt-bootstrap-select select-picker"
-                                    dataDictType='dataSource' other="data-live-search='true'"/>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <#form:select id="tableName" name="表名" required="true"
-                                    other="data-live-search='true'"/>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <#form:input id="businessName" name="业务名称" required="true"
-                                    tips="controller/entity/dao/service注释"/>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <#form:input id="modelName" name="实体类名称" required="true"/>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <#form:input id="author" name="作者" tips="注释中的 @author" required="true"/>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label" for="projectPath">
-                                            <span class="required">*</span>
-                                            项目路径：
-                                            <i data-toggle="kt-tooltip" data-placement="top"
-                                               data-original-title="idea中的项目绝对路径"
-                                               class="flaticon-questions-circular-button"></i>
-                                        </label>
-                                        <div class="col-10">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="projectPath"
-                                                       name="projectPath" required/>
-                                                <div class="input-group-append">
-                                                    <button type="button" class="btn btn-secondary dropdown-toggle"
-                                                            data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false">
-                                                        最近使用的路径
-                                                    </button>
-                                                    <div class="dropdown-menu" x-placement="bottom-start"
-                                                         id="lately-path"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                    <!--begin: 表单向导 Step 1-->
+                    <div class="kt-wizard-v3__content" data-ktwizard-type="step-content" data-ktwizard-state="current">
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <#form:select id="dataSource" name="数据源" required="true"
+                                class="kt-bootstrap-select select-picker"
+                                dataDictType='dataSource' other="data-live-search='true'"/>
                             </div>
-                        </div>
-                        <!--end: 表单向导 Step 1-->
-
-                        <!--begin: 表单向导 Step 2-->
-                        <div class="kt-wizard-v1__content" data-ktwizard-type="step-content" >
-                            <div class="row">
-                                <div class="col-md-6 col-12">
-                                    <#form:select id="generatorTemplate" name="生成模板"
-                                    required="true" class="kt-bootstrap-select select-picker"
-                                    value="default" dataDictType='generatorTemplate' tips=""/>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <#form:input id="menuName" name="菜单名称" tips="如填写会自动添加菜单及权限"/>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <#form:select id="module" name="所属模块" required="true"
-                                    class="kt-bootstrap-select select-picker"
-                                    dataDictType='module' tips="com.**.modular.模块名"/>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <#form:input id="permissionsCode" name="权限代码"
-                                    tips="Controller方法中的@RequiresPermissions值前缀"/>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <#form:input id="controllerMapping" name="@RequestMapping"
-                                    tips="Controller的@RequestMapping值"/>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <#form:input id="viewPath" name="页面路径" tips="*.html存放路径"/>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label" for="projectPath">
-                                            需要生成的方法：
-                                        </label>
-                                        <div class="col-10">
-                                            <div class="kt-checkbox-inline">
-                                                <#form:checkbox name="genAdd" text="add" value="true"/>
-                                                <#form:checkbox name="genDelete" text="delete" value="true"/>
-                                                <#form:checkbox name="genSave" text="save" value="true"/>
-                                                <#form:checkbox name="genSelect" text="select" value="true"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label" for="projectPath">
-                                            <span class="required">*</span> 需要生成的文件：
-                                        </label>
-                                        <div class="col-10">
-                                            <div class="kt-checkbox-inline">
-                                                <label class="kt-checkbox">
-                                                    <input type="checkbox" name="modelSwitch" value="true"
-                                                           required="true" checked onclick="return false;"> model
-                                                    <span></span>
-                                                </label>
-                                                <#form:checkbox name="daoSwitch" text="dao" value="true"/>
-                                                <#form:checkbox name="mappingSwitch" text="mapping" value="true"/>
-                                                <#form:checkbox name="serviceSwitch" text="service" value="true"/>
-                                                <#form:checkbox name="serviceImplSwitch" text="serviceImpl" value="true"/>
-                                                <#form:checkbox name="controllerSwitch" text="controller" value="true"/>
-                                                <#form:checkbox name="listSwitch" text="list.html" value="true"/>
-                                                <#form:checkbox name="listJsSwitch" text="list.js" value="true"/>
-                                                <#form:checkbox name="inputSwitch" text="input.html" value="true"/>
-                                                <#form:checkbox name="inputJsSwitch" text="input.js" value="true"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="col-md-6 col-12">
+                                <#form:select id="tableName" name="表名" required="true"
+                                other="data-live-search='true'"/>
                             </div>
-                        </div>
-                        <!--end: 表单向导 Step 2-->
-
-                        <!--begin: 表单向导 Step 3-->
-                        <div class="kt-wizard-v1__content" data-ktwizard-type="step-content" >
-                            <div id="field-set-scrollable">
-                                <table id="field-set" class="table table-hover table-striped table-field-set">
-                                    <thead>
-                                    <tr>
-                                        <th class="cell-base" colspan="6">字段</th>
-                                        <th class="cell-list" colspan="5">列表</th>
-                                        <th class="cell-input" colspan="7">表单</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="cell-base">序号</th>
-                                        <th class="cell-base">列名</th>
-                                        <th class="cell-base">字段类型</th>
-                                        <th class="cell-base">
-                                            <div style="max-width: 140px;">注释</div>
-                                        </th>
-                                        <th class="cell-base">属性</th>
-                                        <th class="cell-base">类型</th>
-                                        <th class="cell-list">显示</th>
-                                        <th class="cell-list">
-                                            <div style="width: 100px;">表格标题</div>
-                                        </th>
-                                        <th class="cell-list">查询</th>
-                                        <th class="cell-list">
-                                            <div style="width: 70px;">匹配方式</div>
-                                        </th>
-                                        <th class="cell-list">
-                                            <div style="width: 115px;">栅格</div>
-                                        </th>
-                                        <th class="cell-input">编辑</th>
-                                        <th class="cell-input">
-                                            <div style="width: 100px;">label</div>
-                                        </th>
-                                        <th class="cell-input">
-                                            <div style="width: 105px;">元素类型</div>
-                                        </th>
-                                        <th class="cell-input">
-                                            <div style="width: 115px;">栅格</div>
-                                        </th>
-                                        <th class="cell-input">
-                                            <div style="width: 115px;">字典类型</div>
-                                        </th>
-                                        <th class="cell-input">必填</th>
-                                        <th class="cell-input">
-                                            <div style="width: 180px;">字段验证</div>
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
+                            <div class="col-md-6 col-12">
+                                <#form:input id="businessName" name="业务名称" required="true"
+                                tips="controller/entity/dao/service注释"/>
                             </div>
-                        </div>
-                        <!--end: 表单向导 Step 3-->
-
-                        <!--begin: 表单向导 Step 4-->
-                        <div class="kt-wizard-v1__content" data-ktwizard-type="step-content" >
-                            <div class="kt-portlet" kt-portlet="true">
-                                <div class="kt-portlet__head">
-                                    <div class="kt-portlet__head-caption">
-                                        <div class="kt-portlet__head-title">
-                                            <h3 class="kt-portlet__head-text business-name">loading...</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="kt-portlet__body">
-                                    <div class="alert alert-info" role="alert">
-                                        <i class="la la-exclamation"></i> 可拖动蓝色虚线区域更改元素位置
-                                    </div>
-                                    <div class="query-modular">
-                                        <div class="kt-stack kt-stack--ver kt-stack--general">
-                                            <div class="kt-stack__item kt-stack__item--fluid">
-                                                <div class="gridly search-body" id="search-body"></div>
-                                            </div>
-                                            <div class="kt-stack__item query-btn-group">
-                                                <button type="button" class="btn btn-info">
-                                                    <i class="la la-search"></i> 查询
+                            <div class="col-md-6 col-12">
+                                <#form:input id="modelName" name="实体类名称" required="true"/>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <#form:input id="author" name="作者" tips="注释中的 @author" required="true"/>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label" for="projectPath">
+                                        <span class="required">*</span>
+                                        项目路径：
+                                        <i data-toggle="kt-tooltip" data-placement="top"
+                                           data-original-title="idea中的项目绝对路径"
+                                           class="flaticon-questions-circular-button"></i>
+                                    </label>
+                                    <div class="col-10">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="projectPath"
+                                                   name="projectPath" required/>
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-secondary dropdown-toggle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                    最近使用的路径
                                                 </button>
-                                                <button type="button" class="btn btn-info">
-                                                    <i class="la la-refresh"></i> 重置
-                                                </button>
+                                                <div class="dropdown-menu" x-placement="bottom-start"
+                                                     id="lately-path"></div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="btn-row kt-margin-b-5">
-                                        <button type="button" class="btn btn-success btn-add">
-                                            <i class="la la-plus"></i> 新增
-                                        </button>
-                                        <button type="button" class="btn btn-danger btn-delete">
-                                            <i class="la la-trash"></i> 删除
-                                        </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end: 表单向导 Step 1-->
+
+                    <!--begin: 表单向导 Step 2-->
+                    <div class="kt-wizard-v3__content" data-ktwizard-type="step-content" >
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <#form:select id="generatorTemplate" name="生成模板"
+                                required="true" class="kt-bootstrap-select select-picker"
+                                value="default" dataDictType='generatorTemplate' tips=""/>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <#form:input id="menuName" name="菜单名称" tips="如填写会自动添加菜单及权限"/>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <#form:select id="module" name="所属模块" required="true"
+                                class="kt-bootstrap-select select-picker"
+                                dataDictType='module' tips="com.**.modular.模块名"/>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <#form:input id="permissionsCode" name="权限代码"
+                                tips="Controller方法中的@RequiresPermissions值前缀"/>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <#form:input id="controllerMapping" name="@RequestMapping"
+                                tips="Controller的@RequestMapping值"/>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <#form:input id="viewPath" name="页面路径" tips="*.html存放路径"/>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label" for="projectPath">
+                                        需要生成的方法：
+                                    </label>
+                                    <div class="col-10">
+                                        <div class="kt-checkbox-inline">
+                                            <#form:checkbox name="genAdd" text="add" value="true"/>
+                                            <#form:checkbox name="genDelete" text="delete" value="true"/>
+                                            <#form:checkbox name="genSave" text="save" value="true"/>
+                                            <#form:checkbox name="genSelect" text="select" value="true"/>
+                                        </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label" for="projectPath">
+                                        <span class="required">*</span> 需要生成的文件：
+                                    </label>
+                                    <div class="col-10">
+                                        <div class="kt-checkbox-inline">
+                                            <label class="kt-checkbox">
+                                                <input type="checkbox" name="modelSwitch" value="true"
+                                                       required="true" checked onclick="return false;"> model
+                                                <span></span>
+                                            </label>
+                                            <#form:checkbox name="daoSwitch" text="dao" value="true"/>
+                                            <#form:checkbox name="mappingSwitch" text="mapping" value="true"/>
+                                            <#form:checkbox name="serviceSwitch" text="service" value="true"/>
+                                            <#form:checkbox name="serviceImplSwitch" text="serviceImpl" value="true"/>
+                                            <#form:checkbox name="controllerSwitch" text="controller" value="true"/>
+                                            <#form:checkbox name="listSwitch" text="list.html" value="true"/>
+                                            <#form:checkbox name="listJsSwitch" text="list.js" value="true"/>
+                                            <#form:checkbox name="inputSwitch" text="input.html" value="true"/>
+                                            <#form:checkbox name="inputJsSwitch" text="input.js" value="true"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end: 表单向导 Step 2-->
+
+                    <!--begin: 表单向导 Step 3-->
+                    <div class="kt-wizard-v3__content" data-ktwizard-type="step-content" >
+                        <div id="field-set-scrollable" data-scroll-x="true">
+                            <table id="field-set" class="table table-hover table-striped table-field-set">
+                                <thead>
+                                <tr>
+                                    <th class="cell-base" colspan="6">字段</th>
+                                    <th class="cell-list" colspan="5">列表</th>
+                                    <th class="cell-input" colspan="7">表单</th>
+                                </tr>
+                                <tr>
+                                    <th class="cell-base">序号</th>
+                                    <th class="cell-base">列名</th>
+                                    <th class="cell-base">字段类型</th>
+                                    <th class="cell-base">
+                                        <div style="max-width: 140px;">注释</div>
+                                    </th>
+                                    <th class="cell-base">属性</th>
+                                    <th class="cell-base">类型</th>
+                                    <th class="cell-list">显示</th>
+                                    <th class="cell-list">
+                                        <div style="width: 100px;">表格标题</div>
+                                    </th>
+                                    <th class="cell-list">查询</th>
+                                    <th class="cell-list">
+                                        <div style="width: 70px;">匹配方式</div>
+                                    </th>
+                                    <th class="cell-list">
+                                        <div style="width: 115px;">栅格</div>
+                                    </th>
+                                    <th class="cell-input">编辑</th>
+                                    <th class="cell-input">
+                                        <div style="width: 100px;">label</div>
+                                    </th>
+                                    <th class="cell-input">
+                                        <div style="width: 105px;">元素类型</div>
+                                    </th>
+                                    <th class="cell-input">
+                                        <div style="width: 115px;">栅格</div>
+                                    </th>
+                                    <th class="cell-input">
+                                        <div style="width: 115px;">字典类型</div>
+                                    </th>
+                                    <th class="cell-input">必填</th>
+                                    <th class="cell-input">
+                                        <div style="width: 180px;">字段验证</div>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!--end: 表单向导 Step 3-->
+
+                    <!--begin: 表单向导 Step 4-->
+                    <div class="kt-wizard-v3__content" data-ktwizard-type="step-content" >
+                        <div class="kt-portlet" kt-portlet="true">
+                            <div class="kt-portlet__head">
+                                <div class="kt-portlet__head-label">
+                                    <h3 class="kt-portlet__head-title business-name">
+                                        loading...
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="kt-portlet__body">
+                                <div class="alert alert-info" role="alert">
+                                    <i class="la la-exclamation"></i> 可拖动蓝色虚线区域更改元素位置
+                                </div>
+                                <div class="query-modular">
                                     <div class="kt-stack kt-stack--ver kt-stack--general">
                                         <div class="kt-stack__item kt-stack__item--fluid">
-                                            <div class="gridly list-body" id="list-body"></div>
+                                            <div class="gridly search-body" id="search-body"></div>
                                         </div>
+                                        <div class="kt-stack__item query-btn-group">
+                                            <button type="button" class="btn btn-info">
+                                                <i class="la la-search"></i> 查询
+                                            </button>
+                                            <button type="button" class="btn btn-info">
+                                                <i class="la la-refresh"></i> 重置
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="btn-row kt-margin-b-5">
+                                    <button type="button" class="btn btn-success btn-add">
+                                        <i class="la la-plus"></i> 新增
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-delete">
+                                        <i class="la la-trash"></i> 删除
+                                    </button>
+                                </div>
+                                <div class="kt-stack kt-stack--ver kt-stack--general">
+                                    <div class="kt-stack__item kt-stack__item--fluid">
+                                        <div class="gridly list-body" id="list-body"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!--end: 表单向导 Step 4-->
-
-                        <!--begin: 表单向导 Step 5-->
-                        <div class="kt-wizard-v1__content" data-ktwizard-type="step-content" >
-                            <div class="kt-portlet" kt-portlet="true">
-                                <div class="kt-portlet__head">
-                                    <div class="kt-portlet__head-caption">
-                                        <div class="kt-portlet__head-title">
-                                            <h3 class="kt-portlet__head-text business-name">loading...</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="kt-portlet__body">
-                                    <div class="alert alert-info" role="alert">
-                                        <i class="la la-exclamation"></i> 可拖动蓝色虚线区域更改元素位置
-                                    </div>
-                                    <div class="gridly input-body" id="input-body"></div>
-                                </div>
-                                <div class="kt-portlet__foot">
-                                    <div class="kt-form__actions text-center">
-                                        <button type="button" class="btn btn-success btn-save">
-                                            <i class="la la-save"></i> 保存
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--end: 表单向导 Step 5-->
-
-                        <!--begin: 表单向导 Step 6-->
-                        <div class="kt-wizard-v1__content" data-ktwizard-type="step-content" >
-                            <div class="kt-section kt-margin-b-5">
-                                <h3 class="kt-section__heading">
-                                    即将生成以下文件
-                                </h3>
-                                <div class="kt-section__content">
-                                    <!--begin::Preview-->
-                                    <div class="kt-demo">
-                                        <div class="kt-demo__preview">
-                                            <div class="kt-list-timeline" id="generation-file">
-                                                <div class="kt-list-timeline__items"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--end::Preview-->
-                                </div>
-                            </div>
-                        </div>
-                        <!--end: 表单向导 Step 6-->
                     </div>
-                    <!--end: Form Body -->
+                    <!--end: 表单向导 Step 4-->
 
-                    <!--begin: Form Actions -->
+                    <!--begin: 表单向导 Step 5-->
+                    <div class="kt-wizard-v3__content" data-ktwizard-type="step-content" >
+                        <div class="kt-portlet" kt-portlet="true">
+                            <div class="kt-portlet__head">
+                                <div class="kt-portlet__head-label">
+                                    <h3 class="kt-portlet__head-title business-name">
+                                        loading...
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="kt-portlet__body">
+                                <div class="alert alert-info" role="alert">
+                                    <i class="la la-exclamation"></i> 可拖动蓝色虚线区域更改元素位置
+                                </div>
+                                <div class="gridly input-body" id="input-body"></div>
+                            </div>
+                            <div class="kt-portlet__foot text-center">
+                                <button type="button" class="btn btn-success btn-save">
+                                    <i class="la la-save"></i> 保存
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end: 表单向导 Step 5-->
+
+                    <!--begin: 表单向导 Step 6-->
+                    <div class="kt-wizard-v3__content" data-ktwizard-type="step-content" >
+                        <div class="kt-section kt-margin-b-5">
+                            <h3 class="kt-section__heading">
+                                即将生成以下文件
+                            </h3>
+                            <div class="kt-section__content">
+                                <!--begin::Preview-->
+                                <div class="kt-demo">
+                                    <div class="kt-demo__preview">
+                                        <div class="kt-list-timeline" id="generation-file">
+                                            <div class="kt-list-timeline__items"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end::Preview-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--end: 表单向导 Step 6-->
+
+                    <!--begin: 按钮 -->
                     <div class="kt-form__actions">
                         <div class="btn btn-default" data-ktwizard-type="action-prev">
                             <i class="la la-arrow-left"></i>
@@ -420,9 +403,9 @@
                             <span></span>
                         </label>
                     </div>
-                    <!--end: Form Actions -->
+                    <!--end: 按钮 -->
                 </form>
-                <!--end: Form Wizard Form-->
+                <!--end: 向导式表单-内容-->
             </div>
         </div>
     </div>

@@ -115,6 +115,15 @@ var mGeneration = function () {
             isGoTo = false;
             // 每次切换,页面回到顶部
             KTUtil.scrollTop();
+            if (wizardObj.currentStep === 3) {
+                var $scrollable = $('#field-set-scrollable');
+                if(!$scrollable.hasClass('ps')){
+                    var viewPort = KTUtil.getViewPort();
+                    KTUtil.scrollInit($scrollable[0], {
+                        height: viewPort.height - 350
+                    });
+                }
+            }
             if (wizardObj.currentStep === 4) {
                 initStepList();
             }
@@ -272,7 +281,6 @@ var mGeneration = function () {
                         fieldSet.append(getConfigRow(index, field));
                     });
                     KTApp.initSelectPicker(fieldSet.find('[data-dict-type], .select-picker'));
-                    new PerfectScrollbar('#field-set-scrollable');
                 }
             });
         };
@@ -462,7 +470,7 @@ var mGeneration = function () {
             return $('[name="' + name + '"]').prop('checked');
         }
 
-        var generationFile = $('#generation-file > .m-list-timeline__items');
+        var generationFile = $('#generation-file > .kt-list-timeline__items');
         generationFile.empty();
         if (checkIsChecked('modelSwitch')) {
             generationFile.append('<div class="kt-list-timeline__item">\

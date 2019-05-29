@@ -20952,6 +20952,12 @@ strong {
 .kt-form .kt-form__actions.kt-form__actions--center {
   text-align: center; }
 
+.kt-form .required {
+  color: #fd397a; }
+
+.kt-form .col-form-label {
+  padding-right: 0; }
+
 @media (min-width: 1025px) {
   .kt-form .form-group label:not(.kt-checkbox):not(.kt-radio):not(.kt-option) {
     text-align: right; }
