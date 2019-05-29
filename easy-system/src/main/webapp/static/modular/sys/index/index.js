@@ -277,7 +277,8 @@ var mIndex = function () {
             }
             KTApp.openPage($menu.text(), url);
         });
-        $('.kt-menu-link').click(function() {
+        $('body').on('click', '.kt-menu-link, .kt-grid-nav__item', function(e) {
+            e.preventDefault();
             var $link = $(this);
             var url = $link.data('url');
             KTApp.openPage($link.text(), url);
