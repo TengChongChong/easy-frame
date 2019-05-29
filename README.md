@@ -31,7 +31,7 @@
 4. 全局异常处理
 5. 数据导入验证/在线编辑
 6. 拖拽式生成CRUD后端代码以及前端资源
-![代码生成](https://images.gitee.com/uploads/images/2019/0513/124457_07fcef0f_74191.gif "video.gif")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0529/111723_a8b1e58c_74191.gif "video.gif")
 
 ### 安装教程
 1. 执行/db/init.sql
