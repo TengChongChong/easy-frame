@@ -20375,8 +20375,10 @@ strong {
         .kt-datatable.kt-datatable--default > .kt-datatable__table > .kt-datatable__body .kt-datatable__row > .kt-datatable__cell,
         .kt-datatable.kt-datatable--default > .kt-datatable__table > .kt-datatable__foot .kt-datatable__row > .kt-datatable__cell {
           vertical-align: middle;
-          padding: 5px 10px;
-          font-size: 1rem; }
+          padding: 0 10px;
+          font-size: 1rem;
+          height: 40px;
+          min-height: 40px; }
           .kt-datatable.kt-datatable--default > .kt-datatable__table > .kt-datatable__head .kt-datatable__row > .kt-datatable__cell:first-child,
           .kt-datatable.kt-datatable--default > .kt-datatable__table > .kt-datatable__body .kt-datatable__row > .kt-datatable__cell:first-child,
           .kt-datatable.kt-datatable--default > .kt-datatable__table > .kt-datatable__foot .kt-datatable__row > .kt-datatable__cell:first-child {
