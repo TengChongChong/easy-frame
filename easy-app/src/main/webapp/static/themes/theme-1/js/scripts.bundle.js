@@ -5442,6 +5442,8 @@ var KTTabPage = function (selector, options) {
                 $($tabs).each(function () {
                     width += $(this).outerWidth(true);
                 });
+                // 有时会出现标签页换行问题,所以这里多加5px
+                width += 5;
                 return Math.ceil(width);
             }
             return 0;
