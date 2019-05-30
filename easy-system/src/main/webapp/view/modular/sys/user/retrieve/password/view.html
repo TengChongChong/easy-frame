@@ -5,6 +5,8 @@
     @include("/common/meta.html"){}
     <title>找回密码 - ${projectName()}</title>
     @include("/common/base-styles.html"){}
+    @include("/common/skins-default.html"){}
+    <link href="${ctxPath}/static/themes/theme-1/css/pages/wizard/wizard-3.css?v=${version()}" rel="stylesheet"/>
     <style>
         .logo {
             width: 50px;
@@ -43,8 +45,10 @@
             width: 5.6rem;
             text-align: center;
         }
-
-        .retrieve-model .model > .icon > i,
+        .retrieve-model .model > .icon > .kt-svg-icon {
+            height: 60px;
+            width: 40px;
+        }
         .retrieve-model .model > .arrow > i {
             font-size: 3.6rem;
             line-height: 4.5rem;
@@ -67,8 +71,19 @@
         .reset-success {
             font-size: 20px;
             text-align: center;
-            border: 4px solid #f7f7fa;
             padding: 30px;
+        }
+        .reset-success .kt-svg-icon{
+            height: 60px;
+            width: 60px;
+            margin-top: -6px;
+            margin-right: 10px;
+        }
+        .kt-footer--fixed .kt-footer{
+            left: 0;
+        }
+        .kt-wizard-v3__content{
+            width: 100%;
         }
     </style>
 </head>
@@ -79,306 +94,233 @@
 <!-- begin:: Page -->
 <div class="kt-grid kt-grid--hor kt-grid--root kt-page">
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white kt--box-shadows">
-        <img class="logo" src="${ctxPath}/static/app/media/img/logos/logo-fill-dark.png">
+        <img class="logo" src="${ctxPath}/static/media/logos/logo-fill-dark.png">
         <h3 class="my-0 mr-md-auto font-weight-normal">${projectName()}</h3>
         <a class="btn btn-outline-primary" href="${ctxPath}/login">登录</a>
     </div>
 
     <div class="container">
         <div class="kt-portlet kt-portlet--head-solid-bg">
-            <div class="kt-portlet__head">
-                <div class="kt-portlet__head-caption">
-                    <div class="kt-portlet__head-title">
-                        <h3 class="kt-portlet__head-text">找回密码</h3>
-                    </div>
-                </div>
-            </div>
+            <#portlet:head title="找回密码"/>
             <div class="kt-portlet__body">
-                <form class="kt-form">
-                    <!--begin: 表单向导-->
-                    <div class="kt-wizard kt-wizard--1 kt-wizard--success" id="m_wizard">
-                        <!--begin: 表单向导 Head -->
-                        <div class="kt-wizard__head kt-portlet__padding-x">
-                            <!--begin: 表单向导 Progress -->
-                            <div class="kt-wizard__progress">
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0"
-                                         aria-valuemax="100"></div>
+                    <div class="kt-grid kt-wizard-v3 kt-wizard-v3--white" id="m_wizard" data-ktwizard-state="first">
+                        <div class="kt-grid__item">
+                            <!--begin: 向导式表单-导航 -->
+                            <div class="kt-wizard-v3__nav">
+                                <div class="kt-wizard-v3__nav-items">
+                                    <a class="kt-wizard-v3__nav-item" href="#" data-ktwizard-type="step" data-ktwizard-state="current">
+                                        <div class="kt-wizard-v3__nav-body">
+                                            <div class="kt-wizard-v3__nav-label">
+                                                <span>1</span> 选择方式
+                                            </div>
+                                            <div class="kt-wizard-v3__nav-bar"></div>
+                                        </div>
+                                    </a>
+                                    <a class="kt-wizard-v3__nav-item" href="#" data-ktwizard-type="step">
+                                        <div class="kt-wizard-v3__nav-body">
+                                            <div class="kt-wizard-v3__nav-label">
+                                                <span>2</span> 填写账号
+                                            </div>
+                                            <div class="kt-wizard-v3__nav-bar"></div>
+                                        </div>
+                                    </a>
+                                    <a class="kt-wizard-v3__nav-item" href="#" data-ktwizard-type="step">
+                                        <div class="kt-wizard-v3__nav-body">
+                                            <div class="kt-wizard-v3__nav-label">
+                                                <span>3</span> 身份验证
+                                            </div>
+                                            <div class="kt-wizard-v3__nav-bar"></div>
+                                        </div>
+                                    </a>
+                                    <a class="kt-wizard-v3__nav-item" href="#" data-ktwizard-type="step">
+                                        <div class="kt-wizard-v3__nav-body">
+                                            <div class="kt-wizard-v3__nav-label">
+                                                <span>4</span> 设置新密码
+                                            </div>
+                                            <div class="kt-wizard-v3__nav-bar"></div>
+                                        </div>
+                                    </a>
+                                    <a class="kt-wizard-v3__nav-item" href="#" data-ktwizard-type="step">
+                                        <div class="kt-wizard-v3__nav-body">
+                                            <div class="kt-wizard-v3__nav-label">
+                                                <span>5</span> 完成
+                                            </div>
+                                            <div class="kt-wizard-v3__nav-bar"></div>
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
-                            <!--end: 表单向导 Progress -->
-
-                            <!--begin: 表单向导 Nav -->
-                            <div class="kt-wizard__nav">
-                                <div class="kt-wizard__steps">
-                                    <div class="kt-wizard__step kt-wizard__step--current"
-                                         kt-wizard-target="m_wizard_form_step_1">
-                                        <div class="kt-wizard__step-info">
-                                            <a href="#" class="kt-wizard__step-number">
-                                    <span>
-                                        <span>1</span>
-                                    </span>
-                                            </a>
-                                            <div class="kt-wizard__step-line">
-                                                <span></span>
-                                            </div>
-                                            <div class="kt-wizard__step-label">
-                                                选择方式
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="kt-wizard__step" kt-wizard-target="m_wizard_form_step_2">
-                                        <div class="kt-wizard__step-info">
-                                            <a href="#" class="kt-wizard__step-number">
-                                    <span>
-                                        <span>2</span>
-                                    </span>
-                                            </a>
-                                            <div class="kt-wizard__step-line">
-                                                <span></span>
-                                            </div>
-                                            <div class="kt-wizard__step-label">
-                                                填写账号
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="kt-wizard__step" kt-wizard-target="m_wizard_form_step_3">
-                                        <div class="kt-wizard__step-info">
-                                            <a href="#" class="kt-wizard__step-number">
-                                    <span>
-                                        <span>3</span>
-                                    </span>
-                                            </a>
-                                            <div class="kt-wizard__step-line">
-                                                <span></span>
-                                            </div>
-                                            <div class="kt-wizard__step-label">
-                                                身份验证
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="kt-wizard__step" kt-wizard-target="m_wizard_form_step_4">
-                                        <div class="kt-wizard__step-info">
-                                            <a href="#" class="kt-wizard__step-number">
-                                    <span>
-                                        <span>4</span>
-                                    </span>
-                                            </a>
-                                            <div class="kt-wizard__step-line">
-                                                <span></span>
-                                            </div>
-                                            <div class="kt-wizard__step-label">
-                                                设置新密码
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="kt-wizard__step" kt-wizard-target="m_wizard_form_step_5">
-                                        <div class="kt-wizard__step-info">
-                                            <a href="#" class="kt-wizard__step-number">
-                                    <span>
-                                        <span>5</span>
-                                    </span>
-                                            </a>
-                                            <div class="kt-wizard__step-line">
-                                                <span></span>
-                                            </div>
-                                            <div class="kt-wizard__step-label">
-                                                完成
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--end: 表单向导 Nav -->
+                            <!--end: 向导式表单-导航 -->
                         </div>
-                        <!--end: 表单向导 Head -->
+                        <div class="kt-grid__item kt-grid__item--fluid kt-wizard-v3__wrapper">
 
-                        <!--begin: 表单向导 Form-->
-                        <div class="kt-wizard__form">
-                            <div class="col-md-10 col-12 offset-md-1">
-                                <form class="kt-form kt-form--label-align-left- kt-form--state-" id="m_form"
-                                      autocomplete="off">
-                                    <!--begin: Form Body -->
-                                    <div class="kt-portlet__body">
-                                        <!--begin: 表单向导 Step 1-->
-                                        <div class="kt-wizard__form-step kt-wizard__form-step--current"
-                                             id="m_wizard_form_step_1">
-                                            <div class="chose-mode">
-                                                <ul class="retrieve-model">
-                                                    <li>
-                                                        <a href="javascript:;" class="model" data-type="mail">
-                                                            <div class="icon">
-                                                                <i class="la la-envelope"></i>
-                                                            </div>
-                                                            <div class="content">
-                                                                <h4>通过密保邮箱找回</h4>
-                                                                <p>您需要用密保邮箱进行邮箱验证</p>
-                                                            </div>
-                                                            <div class="arrow">
-                                                                <i class="kt-menu__ver-arrow la la-angle-right"></i>
-                                                            </div>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="javascript:;" class="model" data-type="phone">
-                                                            <div class="icon">
-                                                                <i class="la la-mobile"></i>
-                                                            </div>
-                                                            <div class="content">
-                                                                <h4>通过密保手机找回</h4>
-                                                                <p>您需要用密保手机进行短信验证</p>
-                                                            </div>
-                                                            <div class="arrow">
-                                                                <i class="kt-menu__ver-arrow la la-angle-right"></i>
-                                                            </div>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                            <!--begin: 向导式表单-内容-->
+                            <form class="kt-form" id="kt_form" novalidate="novalidate">
+                                <!--begin: 表单向导 Step 1-->
+                                <div class="kt-wizard-v3__content" data-ktwizard-type="step-content" data-ktwizard-state="current">
+                                    <div class="chose-mode">
+                                        <ul class="retrieve-model">
+                                            <li>
+                                                <a href="javascript:;" class="model" data-type="mail">
+                                                    <div class="icon">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <rect id="bound" x="0" y="0" width="24" height="24"/>
+                                                                <path d="M6,2 L18,2 C18.5522847,2 19,2.44771525 19,3 L19,12 C19,12.5522847 18.5522847,13 18,13 L6,13 C5.44771525,13 5,12.5522847 5,12 L5,3 C5,2.44771525 5.44771525,2 6,2 Z M7.5,5 C7.22385763,5 7,5.22385763 7,5.5 C7,5.77614237 7.22385763,6 7.5,6 L13.5,6 C13.7761424,6 14,5.77614237 14,5.5 C14,5.22385763 13.7761424,5 13.5,5 L7.5,5 Z M7.5,7 C7.22385763,7 7,7.22385763 7,7.5 C7,7.77614237 7.22385763,8 7.5,8 L10.5,8 C10.7761424,8 11,7.77614237 11,7.5 C11,7.22385763 10.7761424,7 10.5,7 L7.5,7 Z" id="Combined-Shape" fill="#000000" opacity="0.3"/>
+                                                                <path d="M3.79274528,6.57253826 L12,12.5 L20.2072547,6.57253826 C20.4311176,6.4108595 20.7436609,6.46126971 20.9053396,6.68513259 C20.9668779,6.77033951 21,6.87277228 21,6.97787787 L21,17 C21,18.1045695 20.1045695,19 19,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,6.97787787 C3,6.70173549 3.22385763,6.47787787 3.5,6.47787787 C3.60510559,6.47787787 3.70753836,6.51099993 3.79274528,6.57253826 Z" id="Combined-Shape" fill="#000000"/>
+                                                            </g>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="content">
+                                                        <h4>通过密保邮箱找回</h4>
+                                                        <p>您需要用密保邮箱进行邮箱验证</p>
+                                                    </div>
+                                                    <div class="arrow">
+                                                        <i class="kt-menu__ver-arrow la la-angle-right"></i>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;" class="model" data-type="phone">
+                                                    <div class="icon">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <rect id="bound" x="0" y="0" width="24" height="24"/>
+                                                                <path d="M8,2.5 C7.30964406,2.5 6.75,3.05964406 6.75,3.75 L6.75,20.25 C6.75,20.9403559 7.30964406,21.5 8,21.5 L16,21.5 C16.6903559,21.5 17.25,20.9403559 17.25,20.25 L17.25,3.75 C17.25,3.05964406 16.6903559,2.5 16,2.5 L8,2.5 Z" id="Combined-Shape" fill="#000000" opacity="0.3"/>
+                                                                <path d="M8,2.5 C7.30964406,2.5 6.75,3.05964406 6.75,3.75 L6.75,20.25 C6.75,20.9403559 7.30964406,21.5 8,21.5 L16,21.5 C16.6903559,21.5 17.25,20.9403559 17.25,20.25 L17.25,3.75 C17.25,3.05964406 16.6903559,2.5 16,2.5 L8,2.5 Z M8,1 L16,1 C17.5187831,1 18.75,2.23121694 18.75,3.75 L18.75,20.25 C18.75,21.7687831 17.5187831,23 16,23 L8,23 C6.48121694,23 5.25,21.7687831 5.25,20.25 L5.25,3.75 C5.25,2.23121694 6.48121694,1 8,1 Z M9.5,1.75 L14.5,1.75 C14.7761424,1.75 15,1.97385763 15,2.25 L15,3.25 C15,3.52614237 14.7761424,3.75 14.5,3.75 L9.5,3.75 C9.22385763,3.75 9,3.52614237 9,3.25 L9,2.25 C9,1.97385763 9.22385763,1.75 9.5,1.75 Z" id="Combined-Shape" fill="#000000" fill-rule="nonzero"/>
+                                                            </g>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="content">
+                                                        <h4>通过密保手机找回</h4>
+                                                        <p>您需要用密保手机进行短信验证</p>
+                                                    </div>
+                                                    <div class="arrow">
+                                                        <i class="kt-menu__ver-arrow la la-angle-right"></i>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!--end: 表单向导 Step 1-->
+
+                                <!--begin: 表单向导 Step 2-->
+                                <div class="kt-wizard-v3__content" data-ktwizard-type="step-content" >
+                                    <div class="form-group kt-form__group row">
+                                        <label class="col-md-3 col-form-label" for="username">用户名：</label>
+                                        <div class="col-md-6">
+                                            <input name="username" style="display:none">
+                                            <!-- for disable autocomplete on chrome -->
+                                            <input type="text" id="username" autocomplete="off"
+                                                   class="form-control kt-input" required placeholder="请输入用户名">
                                         </div>
-                                        <!--end: 表单向导 Step 1-->
-
-                                        <!--begin: 表单向导 Step 2-->
-                                        <div class="kt-wizard__form-step" id="m_wizard_form_step_2">
-                                            <div class="form-group kt-form__group row">
-                                                <label class="col-md-3 col-form-label" for="username">用户名：</label>
-                                                <div class="col-md-6">
-                                                    <input name="username" style="display:none">
-                                                    <!-- for disable autocomplete on chrome -->
-                                                    <input type="text" id="username" autocomplete="off"
-                                                           class="form-control kt-input" required placeholder="请输入用户名">
-                                                </div>
-                                            </div>
-                                            <div class="form-group kt-form__group row">
-                                                <label class="col-md-3 col-form-label" for="email">Email：</label>
-                                                <div class="col-md-6">
-                                                    <input name="email" style="display:none">
-                                                    <!-- for disable autocomplete on chrome -->
-                                                    <input type="email" id="email" autocomplete="off"
-                                                           class="form-control kt-input" required placeholder="请输入密保邮箱">
-                                                    <span class="kt-form__help">请输入账号绑定的密保邮箱地址</span>
-                                                </div>
-                                            </div>
-                                            <div class="text-center">
-                                                <button id="send-mail" type="button" class="btn btn-info">下一步 <i
-                                                        class="la la-arrow-right"></i></button>
-                                            </div>
+                                    </div>
+                                    <div class="form-group kt-form__group row">
+                                        <label class="col-md-3 col-form-label" for="email">Email：</label>
+                                        <div class="col-md-6">
+                                            <input name="email" style="display:none">
+                                            <!-- for disable autocomplete on chrome -->
+                                            <input type="email" id="email" autocomplete="off"
+                                                   class="form-control kt-input" required placeholder="请输入密保邮箱">
+                                            <span class="kt-form__help">请输入账号绑定的密保邮箱地址</span>
                                         </div>
-                                        <!--end: 表单向导 Step 2-->
-
-                                        <!--begin: 表单向导 Step 3-->
-                                        <div class="kt-wizard__form-step" id="m_wizard_form_step_3">
-                                            <div class="alert alert-info" role="alert">
-                                                <i class="la la-exclamation"></i>
-                                                请前往密保邮箱查看验证码
-                                            </div>
-                                            <div class="form-group kt-form__group row">
-                                                <label class="col-md-3 col-form-label"
-                                                       for="verificationCode">验证码：</label>
-                                                <div class="col-md-6">
-                                                    <input type="text" id="verificationCode" name="verificationCode"
-                                                           class="form-control kt-input" required placeholder="请输入验证码">
-                                                </div>
-                                            </div>
-                                            <div class="text-center">
-                                                <button id="verification-code" type="button" class="btn btn-info">下一步 <i
-                                                        class="la la-arrow-right"></i></button>
-                                            </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <button id="send-mail" type="button" class="btn btn-info">下一步 <i
+                                                class="la la-arrow-right"></i></button>
+                                    </div>
+                                </div>
+                                <!--end: 表单向导 Step 2-->
+                                <!--begin: 表单向导 Step 3-->
+                                <div class="kt-wizard-v3__content" data-ktwizard-type="step-content" >
+                                    <div class="alert alert-info" role="alert">
+                                        <div class="alert-icon">
+                                            <i class="la la-exclamation"></i>
                                         </div>
-                                        <!--end: 表单向导 Step 3-->
-
-                                        <!--begin: 表单向导 Step 4-->
-                                        <div class="kt-wizard__form-step" id="m_wizard_form_step_4">
-                                            <div class="form-group kt-form__group row">
-                                                <label class="col-md-3 col-form-label"
-                                                       for="verificationCode">密码：</label>
-                                                <div class="col-md-6">
-                                                    <div class="kt-input-icon kt-input-icon--right">
-                                                        <input name="password" style="display:none">
-                                                        <!-- for disable autocomplete on chrome -->
-                                                        <input type="password" id="password"
-                                                               class="form-control kt-input" autocomplete="off" required
-                                                               placeholder="请输入密码">
-                                                        <a id="show-password"
-                                                           class="kt-input-icon__icon kt-input-icon__icon--right btn">
+                                        请前往密保邮箱查看验证码
+                                    </div>
+                                    <div class="form-group kt-form__group row">
+                                        <label class="col-md-3 col-form-label"
+                                               for="verificationCode">验证码：</label>
+                                        <div class="col-md-6">
+                                            <input type="text" id="verificationCode" name="verificationCode"
+                                                   class="form-control kt-input" required placeholder="请输入验证码">
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <button id="verification-code" type="button" class="btn btn-info">下一步 <i
+                                                class="la la-arrow-right"></i></button>
+                                    </div>
+                                </div>
+                                <!--end: 表单向导 Step 3-->
+                                <!--begin: 表单向导 Step 4-->
+                                <div class="kt-wizard-v3__content" data-ktwizard-type="step-content" >
+                                    <div class="form-group kt-form__group row">
+                                        <label class="col-md-3 col-form-label"
+                                               for="verificationCode">密码：</label>
+                                        <div class="col-md-6">
+                                            <div class="kt-input-icon kt-input-icon--right">
+                                                <input name="password" style="display:none">
+                                                <!-- for disable autocomplete on chrome -->
+                                                <input type="password" id="password"
+                                                       class="form-control kt-input" autocomplete="off" required
+                                                       placeholder="请输入密码">
+                                                <a id="show-password"
+                                                   class="kt-input-icon__icon kt-input-icon__icon--right btn">
                                                             <span>
                                                                 <i class="la la-eye-slash"></i>
                                                             </span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="text-center">
-                                                <button id="reset-password" type="button" class="btn btn-info">下一步 <i
-                                                        class="la la-arrow-right"></i></button>
-                                            </div>
-                                        </div>
-                                        <!--end: 表单向导 Step 4-->
-
-                                        <!--begin: 表单向导 Step 5-->
-                                        <div class="kt-wizard__form-step" id="m_wizard_form_step_5">
-                                            <div class="reset-success">
-                                                <span class="kt-type kt--bg-success">
-                                                    <span class="kt--font-light">
-                                                        <i style="font-size: 2.2rem" class="la la-check"></i>
-                                                    </span>
-                                                </span>
-                                                密码重置成功
-                                            </div>
-                                        </div>
-                                        <!--end: 表单向导 Step 5-->
-                                    </div>
-                                    <!--end: Form Body -->
-
-                                    <!--begin: Form Actions -->
-                                    <div class="kt-portlet__foot kt-hide">
-                                        <div class="kt-form__actions kt-form__actions">
-                                            <div class="row">
-                                                <div class="col-lg-2"></div>
-                                                <div class="col-lg-4 col-md-6 kt-align-left">
-                                                    <button class="btn btn-sm btn-secondary kt-btn kt-btn--custom kt-btn--icon"
-                                                            data-wizard-action="prev">
-                                                <span>
-                                                    <i class="la la-arrow-left"></i>
-                                                    <span>上一步</span>
-                                                </span>
-                                                    </button>
-                                                </div>
-                                                <div class="col-lg-4 col-md-6 kt-align-right">
-                                                    <button class="btn btn-sm btn-success kt-btn kt-btn--custom kt-btn--icon"
-                                                            data-wizard-action="submit">
-                                                <span>
-                                                    <i class="la la-check"></i>
-                                                    <span>完成</span>
-                                                </span>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-info kt-btn kt-btn--custom kt-btn--icon"
-                                                            data-wizard-action="next">
-                                                <span>
-                                                    <span>下一步</span>
-                                                    <i class="la la-arrow-right"></i>
-                                                </span>
-                                                    </button>
-                                                </div>
-                                                <div class="col-lg-2">
-
-                                                </div>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
-                                    <!--end: Form Actions -->
-                                </form>
-                            </div>
+                                    <div class="text-center">
+                                        <button id="reset-password" type="button" class="btn btn-info">下一步 <i
+                                                class="la la-arrow-right"></i></button>
+                                    </div>
+                                </div>
+                                <!--end: 表单向导 Step 4-->
+                                <!--begin: 表单向导 Step 5-->
+                                <div class="kt-wizard-v3__content" data-ktwizard-type="step-content" >
+                                    <div class="reset-success">
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--success">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+                                                <circle id="Oval-5" fill="#000000" opacity="0.3" cx="12" cy="12" r="10"></circle>
+                                                <path d="M16.7689447,7.81768175 C17.1457787,7.41393107 17.7785676,7.39211077 18.1823183,7.76894473 C18.5860689,8.1457787 18.6078892,8.77856757 18.2310553,9.18231825 L11.2310553,16.6823183 C10.8654446,17.0740439 10.2560456,17.107974 9.84920863,16.7592566 L6.34920863,13.7592566 C5.92988278,13.3998345 5.88132125,12.7685345 6.2407434,12.3492086 C6.60016555,11.9298828 7.23146553,11.8813212 7.65079137,12.2407434 L10.4229928,14.616916 L16.7689447,7.81768175 Z" id="Path-92" fill="#000000" fill-rule="nonzero"></path>
+                                            </g>
+                                        </svg>
+                                        密码重置成功
+                                    </div>
+                                </div>
+                                <!--end: 表单向导 Step 5-->
+
+                                <!--begin: 按钮 -->
+                                <div class="kt-form__actions kt-hide">
+                                    <div class="btn btn-default" data-ktwizard-type="action-prev">
+                                        <i class="la la-arrow-left"></i>
+                                        <span>上一步</span>
+                                    </div>
+                                    <div class="btn btn-success" data-ktwizard-type="action-submit">
+                                        <i class="la la-check"></i>
+                                        <span>完成</span>
+                                    </div>
+                                    <div class="btn btn-info" data-ktwizard-type="action-next">
+                                        <span>下一步</span>
+                                        <i class="la la-arrow-right"></i>
+                                    </div>
+                                </div>
+                                <!--end: 按钮 -->
+                            </form>
+                            <!--end: 向导式表单-内容-->
                         </div>
-                        <!--end: 表单向导 Form-->
                     </div>
-                    <!--end: 表单向导-->
-                </form>
             </div>
         </div>
     </div>
-    @include("/common/modular/footer.html"){}
 </div>
+@include("/common/modular/footer.html"){}
 <!-- end:: Page -->
 @include("/common/base-scripts.html"){}
 <!--begin::页面脚本 -->

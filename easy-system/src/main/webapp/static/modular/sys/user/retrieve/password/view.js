@@ -1,15 +1,18 @@
 //== 找回密码
 var mRetrievePassword = function () {
+    // 当前激活向导页
+    var currentWizardSelector = '.kt-wizard-v3__content[data-ktwizard-state="current"]';
+
     var wizard;
     var initWizard = function () {
         //== 初始化
-        wizard = new mWizard('m_wizard', {
+        wizard = new KTWizard('m_wizard', {
             startStep: 1
         });
 
         //== 下一步
         wizard.on('beforeNext', function (wizardObj) {
-            var needValid = $('#m_wizard_form_step_' + wizardObj.currentStep).find('input,select');
+            var needValid = $(currentWizardSelector).find('input,select');
             if (needValid.length > 0) {
                 if (!needValid.valid()) {
                     // 表单验证失败 不跳转到下一步
@@ -22,7 +25,7 @@ var mRetrievePassword = function () {
      * 发送验证邮件
      */
     var sendMail = function () {
-        var needValid = $('#m_wizard_form_step_2').find('input');
+        var needValid = $(currentWizardSelector).find('input');
         if (needValid.length > 0) {
             if (needValid.valid()) {
                 KTUtil.ajax({
@@ -45,7 +48,7 @@ var mRetrievePassword = function () {
     var verifiesCode = function () {
         var username = $('#username').val();
         var code = $('#verificationCode').val();
-        var needValid = $('#m_wizard_form_step_3').find('input');
+        var needValid = $(currentWizardSelector).find('input');
         if (needValid.length > 0) {
             if (needValid.valid()) {
                 KTUtil.ajax({
@@ -61,19 +64,22 @@ var mRetrievePassword = function () {
     /**
      * 切换显示/隐藏密码
      */
-    var showPassword = function () {
-        var $password = $('#password').val();
+    var showPassword = function (el) {
+        var $el = $(el);
+        var $password = $('#password');
         if('password' === $password.attr('type')){
             $password.attr('type', 'text');
+            $el.find('i').removeClass().addClass('la la-eye');
         } else {
             $password.attr('type', 'password');
+            $el.find('i').removeClass().addClass('la la-eye-slash');
         }
     };
     /**
      * 重置密码
      */
     var resetPassword = function () {
-        var needValid = $('#m_wizard_form_step_4').find('input');
+        var needValid = $(currentWizardSelector).find('input');
         if (needValid.length > 0) {
             if (needValid.valid()) {
                 var username = $('#username').val();
@@ -104,7 +110,7 @@ var mRetrievePassword = function () {
      */
     var bindShowPassword = function () {
         $('#show-password').click(function () {
-            showPassword();
+            showPassword(this);
         });
     };
     /**
