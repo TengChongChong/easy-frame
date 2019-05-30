@@ -9607,7 +9607,7 @@ a.text-dark:hover, a.text-dark:focus {
     align-items: center;
     padding: 0 1.25rem 0 0; }
     .alert .alert-icon i {
-      font-size: 2.4rem; }
+      font-size: 1.2rem; }
     .alert .alert-icon.alert-icon-top {
       -webkit-box-align: start;
       -ms-flex-align: start;
@@ -23252,7 +23252,7 @@ strong {
 @media (min-width: 1025px) {
   .tab-page {
     margin-left: 265px; }
-  .m-aside-left--minimize .tab-page {
+  .kt-aside--minimize .tab-page, .kt-aside--minimize-hover .tab-page {
     margin-left: 70px; } }
 
 .btn [class^="la-"],
