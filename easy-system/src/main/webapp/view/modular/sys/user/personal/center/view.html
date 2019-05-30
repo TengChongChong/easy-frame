@@ -20,11 +20,10 @@
     .security-setting .icon {
         width: 120px;
     }
-
-    .security-setting .icon .m-type > span > i {
-        font-size: 2.5rem;
+    .security-setting .icon .kt-svg-icon{
+        height: 40px;
+        width: 40px;
     }
-
 </style>
 <div class="row">
     <div class="col-xl-3 col-lg-4">
@@ -43,17 +42,25 @@
                         </div>
                         <div class="kt-widget__content">
                             <div class="kt-widget__section">
-                                <a href="#" class="kt-widget__username">
+                                <span class="kt-widget__username">
                                     ${user.nickname}
-                                    <i class="flaticon2-correct kt-font-success"></i>
-                                </a>
+<!--                                    <i class="flaticon2-correct kt-font-success"></i>-->
+                                </span>
                                 <span class="kt-widget__subtitle">
                                     ${user.department.name}
                                 </span>
                             </div>
                             <div class="kt-widget__action">
-                                <button type="button" class="btn btn-info btn-sm">chat</button>&nbsp;
-                                <button type="button" class="btn btn-success btn-sm">follow</button>
+                                @if(user.sex == null) {
+                                    <span class="kt-badge kt-badge--unified-success kt-badge--rounded kt-badge--bold kt-badge--inline">-</span>&nbsp;
+                                @} else {
+                                    @if(SexConst.BOY == user.sex){
+                                        <span class="kt-badge kt-badge--unified-success kt-badge--rounded kt-badge--bold kt-badge--inline"><i class="la la-mars"></i></span>&nbsp;
+                                    @} else {
+                                        <span class="kt-badge kt-badge--unified-danger kt-badge--rounded kt-badge--bold kt-badge--inline"><i class="la la-mars-stroke"></i></span>&nbsp;
+                                    @}
+                                @}
+                                <span class="kt-badge kt-badge--unified-brand kt-badge--rounded kt-badge--bold kt-badge--inline">28岁</span>
                             </div>
                         </div>
                     </div>

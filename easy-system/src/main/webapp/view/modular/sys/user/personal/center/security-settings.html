@@ -21,11 +21,13 @@
                 <li>
                     <div class="kt-stack kt-stack--ver kt-stack--general">
                         <div class="kt-stack__item kt-stack__item--center kt-stack__item--middle icon">
-                                    <span class="kt-type kt-type--lg kt--bg-info">
-                                        <span class="kt--font-light">
-                                            <i class="la la-envelope"></i>
-                                        </span>
-                                    </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <rect id="bound" x="0" y="0" width="24" height="24"/>
+                                    <path d="M6,2 L18,2 C18.5522847,2 19,2.44771525 19,3 L19,12 C19,12.5522847 18.5522847,13 18,13 L6,13 C5.44771525,13 5,12.5522847 5,12 L5,3 C5,2.44771525 5.44771525,2 6,2 Z M7.5,5 C7.22385763,5 7,5.22385763 7,5.5 C7,5.77614237 7.22385763,6 7.5,6 L13.5,6 C13.7761424,6 14,5.77614237 14,5.5 C14,5.22385763 13.7761424,5 13.5,5 L7.5,5 Z M7.5,7 C7.22385763,7 7,7.22385763 7,7.5 C7,7.77614237 7.22385763,8 7.5,8 L10.5,8 C10.7761424,8 11,7.77614237 11,7.5 C11,7.22385763 10.7761424,7 10.5,7 L7.5,7 Z" id="Combined-Shape" fill="#000000" opacity="0.3"/>
+                                    <path d="M3.79274528,6.57253826 L12,12.5 L20.2072547,6.57253826 C20.4311176,6.4108595 20.7436609,6.46126971 20.9053396,6.68513259 C20.9668779,6.77033951 21,6.87277228 21,6.97787787 L21,17 C21,18.1045695 20.1045695,19 19,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,6.97787787 C3,6.70173549 3.22385763,6.47787787 3.5,6.47787787 C3.60510559,6.47787787 3.70753836,6.51099993 3.79274528,6.57253826 Z" id="Combined-Shape" fill="#000000"/>
+                                </g>
+                            </svg>
                         </div>
                         <div class="kt-stack__item kt-stack__item--middle kt-stack__item--fluid describe">
                             @if(strUtil.isNotBlank(user.email)){
@@ -46,17 +48,19 @@
                 <li>
                     <div class="kt-stack kt-stack--ver kt-stack--general">
                         <div class="kt-stack__item kt-stack__item--center kt-stack__item--middle icon">
-                                    <span class="kt-type kt-type--lg kt--bg-info">
-                                        <span class="kt--font-light">
-                                            <i class="la la-mobile"></i>
-                                        </span>
-                                    </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <rect id="bound" x="0" y="0" width="24" height="24"/>
+                                    <path d="M8,2.5 C7.30964406,2.5 6.75,3.05964406 6.75,3.75 L6.75,20.25 C6.75,20.9403559 7.30964406,21.5 8,21.5 L16,21.5 C16.6903559,21.5 17.25,20.9403559 17.25,20.25 L17.25,3.75 C17.25,3.05964406 16.6903559,2.5 16,2.5 L8,2.5 Z" id="Combined-Shape" fill="#000000" opacity="0.3"/>
+                                    <path d="M8,2.5 C7.30964406,2.5 6.75,3.05964406 6.75,3.75 L6.75,20.25 C6.75,20.9403559 7.30964406,21.5 8,21.5 L16,21.5 C16.6903559,21.5 17.25,20.9403559 17.25,20.25 L17.25,3.75 C17.25,3.05964406 16.6903559,2.5 16,2.5 L8,2.5 Z M8,1 L16,1 C17.5187831,1 18.75,2.23121694 18.75,3.75 L18.75,20.25 C18.75,21.7687831 17.5187831,23 16,23 L8,23 C6.48121694,23 5.25,21.7687831 5.25,20.25 L5.25,3.75 C5.25,2.23121694 6.48121694,1 8,1 Z M9.5,1.75 L14.5,1.75 C14.7761424,1.75 15,1.97385763 15,2.25 L15,3.25 C15,3.52614237 14.7761424,3.75 14.5,3.75 L9.5,3.75 C9.22385763,3.75 9,3.52614237 9,3.25 L9,2.25 C9,1.97385763 9.22385763,1.75 9.5,1.75 Z" id="Combined-Shape" fill="#000000" fill-rule="nonzero"/>
+                                </g>
+                            </svg>
                         </div>
                         <div class="kt-stack__item kt-stack__item--middle kt-stack__item--fluid describe">
                             @if(strUtil.isNotBlank(user.phone)){
-                            <h4 class="text-success">${user.phone} <a class="btn btn-sm btn-link change-phone" href="javascript:">更改</a></h4>
+                            <h4 class="text-success">${user.phone} <button type="button" disabled class="btn btn-sm btn-link change-phone">更改(开发中...)</button></h4>
                             @}else{
-                            <h4 class="text-warning">未绑定 <a class="btn btn-sm btn-link change-phone" href="javascript:">绑定</a></h4>
+                            <h4 class="text-warning">未绑定 <button type="button" disabled class="btn btn-sm btn-link change-phone">绑定(开发中...)</button></h4>
                             @}
                             <p>密保手机可以进行帐号登录、找回密码等敏感操作的安全验证，请勿随意泄露手机号、短信验证码，以防不法分子利用造成个人损失</p>
                         </div>

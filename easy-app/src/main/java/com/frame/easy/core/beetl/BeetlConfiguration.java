@@ -3,6 +3,7 @@ package com.frame.easy.core.beetl;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.frame.easy.common.constant.ImportConst;
+import com.frame.easy.common.constant.SexConst;
 import com.frame.easy.common.constant.SysConfigConst;
 import com.frame.easy.config.properties.ProjectProperties;
 import com.frame.easy.core.beetl.function.PluginsFunction;
@@ -47,8 +48,9 @@ public class BeetlConfiguration extends BeetlGroupUtilConfiguration {
 
         // 系统参数常量
         groupTemplate.setSharedVars(getVars(SysConfigConst.class));
+        // 其他常量
         groupTemplate.setSharedVars(getVars(ImportConst.class));
-
+        groupTemplate.setSharedVars(getVars(SexConst.class));
         groupTemplate.registerFunctionPackage("dateUtil", new DateUtil());
         groupTemplate.registerFunctionPackage("strUtil", new StrUtil());
 

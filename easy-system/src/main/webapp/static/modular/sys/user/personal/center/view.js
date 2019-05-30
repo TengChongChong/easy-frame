@@ -23,6 +23,8 @@ var mPersonalCenter = function () {
     var bind = function () {
         $('.kt-widget__item').click(function () {
             loadPage($(this).data('url'));
+            $(this).parent().find('.kt-widget__item').removeClass('kt-widget__item--active');
+            $(this).addClass('kt-widget__item--active');
         });
     };
     /**
