@@ -15,7 +15,10 @@
             <input type="hidden" id="hasLast" value="${hasLast}">
             <input type="hidden" id="path">
             <div class="alert alert-info" role="alert">
-                <i class="la la-exclamation"></i> 请先下载模板，填写完成后导入
+                <div class="alert-icon">
+                    <i class="la la-exclamation"></i>
+                </div>
+                请先下载模板，填写完成后导入
             </div>
             <div class="form-group kt-form__group row">
                 <div class="col-sm-12">
@@ -34,8 +37,12 @@
             @if(hasLast){
             <div class="alert alert-info alert-dismissible" id="last-tip" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true"><i class="la la-close"></i></span>
                 </button>
-                <i class="la la-exclamation"></i> 表格中为上次导入未确认数据，如要放弃请点击重新选择文件
+                <div class="alert-icon">
+                    <i class="la la-exclamation"></i>
+                </div>
+                表格中为上次导入未确认数据，如要放弃请点击重新选择文件
             </div>
             @}
             <div class="kt-hide" id="summary-info" role="alert">

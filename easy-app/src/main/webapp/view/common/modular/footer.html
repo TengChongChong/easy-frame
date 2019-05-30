@@ -1,30 +1,12 @@
-<footer class="kt-grid__item kt-footer ">
-    <div class="kt-container kt-container--fluid kt-container--full-height kt-page__container">
-        <div class="kt-stack kt-stack--flex-tablet-and-mobile kt-stack--ver kt-stack--desktop">
-            <div class="kt-stack__item kt-stack__item--left kt-stack__item--middle kt-stack__item--last">
-                <span class="kt-footer__copyright">
-                    ${trim(date(),'yyyy')} © ${projectName()}
-                </span>
-            </div>
-            <div class="kt-stack__item kt-stack__item--right kt-stack__item--middle kt-stack__item--first">
-                <ul class="kt-footer__nav kt-nav kt-nav--inline kt--pull-right">
-                    <li class="kt-nav__item">
-                        <a target="_blank" href="https://gitee.com/tcc/easy-frame/tree/master" class="kt-nav__link">
-                            <span class="kt-nav__link-text">源码下载</span>
-                        </a>
-                    </li>
-                    <li class="kt-nav__item">
-                        <a target="_blank" href="https://gitee.com/tcc/easy-frame/issues" class="kt-nav__link">
-                            <span class="kt-nav__link-text">问题反馈</span>
-                        </a>
-                    </li>
-                    <li class="kt-nav__item">
-                        <a target="_blank" href="https://gitee.com/tcc/easy-frame" class="kt-nav__link">
-                            <span class="kt-nav__link-text">在线文档</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+<!-- begin:: Footer -->
+<div class="kt-footer kt-grid__item kt-grid kt-grid--desktop kt-grid--ver-desktop" id="kt_footer">
+    <div class="kt-footer__copyright">
+        ${trim(date(),'yyyy')}&nbsp;©&nbsp;<a href="https://gitee.com/tcc/easy-frame/tree/master" target="_blank" class="kt-link">${projectName()}</a>
     </div>
-</footer>
+    <div class="kt-footer__menu">
+        <a href="https://gitee.com/tcc/easy-frame/tree/master" target="_blank" class="kt-footer__menu-link kt-link">源码下载</a>
+        <a href="https://gitee.com/tcc/easy-frame/issues" target="_blank" class="kt-footer__menu-link kt-link">问题反馈</a>
+        <a href="https://gitee.com/tcc/easy-frame/tree/master" target="_blank" class="kt-footer__menu-link kt-link">在线文档</a>
+    </div>
+</div>
+<!-- end:: Footer -->
