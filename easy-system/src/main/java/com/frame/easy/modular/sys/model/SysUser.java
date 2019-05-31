@@ -1,5 +1,6 @@
 package com.frame.easy.modular.sys.model;
 
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -149,6 +150,11 @@ public class SysUser extends Model<SysUser> implements Serializable, IModel {
      */
     @TableField(exist = false)
     private boolean mailIsVerifies = true;
+    /**
+     * 年龄
+     */
+    @TableField(exist = false)
+    private int age;
 
     public SysUser(String username) {
         this.username = username;
@@ -405,5 +411,12 @@ public class SysUser extends Model<SysUser> implements Serializable, IModel {
 
     public void setMailIsVerifies(boolean mailIsVerifies) {
         this.mailIsVerifies = mailIsVerifies;
+    }
+
+    public int getAge() {
+        if(this.birthday != null){
+            return DateUtil.age(this.birthday, new Date());
+        }
+        return 0;
     }
 }

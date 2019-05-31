@@ -33,7 +33,7 @@
                 <!--begin::Widget -->
                 <div class="kt-widget kt-widget--user-profile-1">
                     <div class="kt-widget__head">
-                        <div class="kt-widget__media">
+                        <div id="user-avatar" class="kt-widget__media" data-toggle="kt-tooltip" data-original-title="更改头像">
                             @if(strUtil.isNotBlank(user.avatar)){
                             <img src="${ctxPath}${user.avatar}" alt="用户头像"/>
                             @}else{
@@ -60,7 +60,7 @@
                                         <span class="kt-badge kt-badge--unified-danger kt-badge--rounded kt-badge--bold kt-badge--inline"><i class="la la-mars-stroke"></i></span>&nbsp;
                                     @}
                                 @}
-                                <span class="kt-badge kt-badge--unified-brand kt-badge--rounded kt-badge--bold kt-badge--inline">28岁</span>
+                                <span class="kt-badge kt-badge--unified-brand kt-badge--rounded kt-badge--bold kt-badge--inline">${user.age}岁</span>
                             </div>
                         </div>
                     </div>
