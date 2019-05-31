@@ -43,18 +43,18 @@ public class SysMailVerifiesServiceImpl extends ServiceImpl<SysMailVerifiesMappe
                     if (sysUser != null) {
                         // 更新用户表中的邮箱
                         if (sysUserService.setUserMail(sysUser.getId(), sysMailVerifies.getMail())) {
-                            remove(queryWrapper);
+//                            remove(queryWrapper);
                         } else {
                             throw new EasyException("更新用户信息失败，请重试");
                         }
                         return true;
                     } else {
-                        remove(queryWrapper);
+//                        remove(queryWrapper);
                         throw new EasyException("获取用户信息失败，请重新发送验证邮件");
                     }
                 } else {
                     // 删除过期校验信息
-                    remove(queryWrapper);
+//                    remove(queryWrapper);
                     throw new EasyException("校验码已过期，请重新发送验证邮件");
                 }
             }

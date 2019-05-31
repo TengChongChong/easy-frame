@@ -105,7 +105,7 @@ public class MailTemplate {
                 "                                <tr>\n" +
                 "                                    <td width=\"60\" align=\"left\" valign=\"middle\" class=\"img-wrapper\">\n" +
                 "                                        <a href=\"\" rel=\"noopener\" target=\"_blank\">\n" +
-                "                                            <img src=\"" + SysConst.projectProperties.getProjectUrl() + "/static/app/media/img/logos/logo-dark.png\"\n" +
+                "                                            <img src=\"" + SysConst.projectProperties.getProjectUrl() + "/static/media/logos/logo-dark.png\"\n" +
                 "                                                 style=\"width: 50px;height: auto;border: 0;\">\n" +
                 "                                        </a>\n" +
                 "                                    </td>\n" +
@@ -153,7 +153,7 @@ public class MailTemplate {
                 "                <tr>\n" +
                 "                    <td align=\"left\" style=\"padding-top:6px;padding-button:2px;\">\n" +
                 "                        <font style=\"font-size:12px; line-height:22px\" color=\"#5b5b5b\">\n" +
-                "                            <img src=\"" + SysConst.projectProperties.getProjectUrl() + "/static/app/media/img/icon/icon-warning.png\" width=\"12\">&nbsp;\n" +
+                "                            <img src=\"" + SysConst.projectProperties.getProjectUrl() + "/static/media/error/icon-warning.png\" width=\"12\">&nbsp;\n" +
                 "                            重要提醒：" + tip + "，请忽略此邮件！</font>\n" +
                 "                    </td>\n" +
                 "                </tr>\n" +

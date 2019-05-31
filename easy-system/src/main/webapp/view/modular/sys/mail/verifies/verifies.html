@@ -5,13 +5,20 @@
     @include("/common/meta.html"){}
     <title>验证邮箱 - ${projectName()}</title>
     @include("/common/base-styles.html"){}
+    @include("/common/skins-default.html"){}
     <style>
         .logo{
             width: 50px;
             margin-right: 15px;
         }
-        .m-portlet{
+        .kt-portlet{
             margin: 5rem 0;
+        }
+        .kt-footer--fixed .kt-footer{
+            left: 0;
+        }
+        .kt-font-success{
+            margin: 3rem 0;
         }
     </style>
 </head>
@@ -22,7 +29,7 @@
 <!-- begin:: Page -->
 <div class="kt-grid kt-grid--hor kt-grid--root kt-page">
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white kt--box-shadows">
-        <img class="logo" src="${ctxPath}/static/app/media/img/logos/logo-fill-dark.png">
+        <img class="logo" src="${ctxPath}/static/media/logos/logo-fill-dark.png">
         <h3 class="my-0 mr-md-auto font-weight-normal">${projectName()}</h3>
         <a class="btn btn-outline-primary" href="${ctxPath}/login">登录</a>
     </div>
@@ -34,33 +41,30 @@
         <div class="kt-portlet kt-portlet--danger kt-portlet--head-solid-bg">
         @}
             <div class="kt-portlet__head">
-                <div class="kt-portlet__head-caption">
-                    <div class="kt-portlet__head-title">
-                        @if(isSuccess){
-                        <span class="kt-portlet__head-icon">
-                    <i class="la la-check"></i>
-                </span>
-                        <h3 class="kt-portlet__head-text">
-                            验证成功
-                        </h3>
-                        @} else {
-                        <span class="kt-portlet__head-icon">
-                    <i class="la la-close"></i>
-                </span>
-                        <h3 class="kt-portlet__head-text">
-                            验证失败
-                        </h3>
-                        @}
-                    </div>
+                <div class="kt-portlet__head-label">
+                    @if(isSuccess){
+                    <span class="kt-portlet__head-icon">
+                        <i class="la la-check"></i>
+                    </span>
+                    <h3 class="kt-portlet__head-title">
+                        验证成功
+                    </h3>
+                    @} else {
+                    <span class="kt-portlet__head-icon">
+                        <i class="la la-close"></i>
+                    </span>
+                    <h3 class="kt-portlet__head-title">
+                        验证失败
+                    </h3>
+                    @}
                 </div>
             </div>
             <div class="kt-portlet__body text-center">
                 @if(isSuccess){
-                <h3 class="kt--font-success">验证成功</h3>
+                <h3 class="kt-font-success">验证成功</h3>
                 @} else {
                 <h3 class="kt-font-danger">${message!}</h3>
                 @}
-                <a class="btn btn-link" href="/${ctxPath}">返回首页</a>
             </div>
         </div>
     </div>
