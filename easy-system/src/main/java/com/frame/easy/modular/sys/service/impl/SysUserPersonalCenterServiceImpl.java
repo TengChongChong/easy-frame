@@ -15,6 +15,7 @@ import com.frame.easy.modular.sys.model.SysUserSetting;
 import com.frame.easy.modular.sys.service.SysMailVerifiesService;
 import com.frame.easy.modular.sys.service.SysUserPersonalCenterService;
 import com.frame.easy.modular.sys.service.SysUserService;
+import com.frame.easy.util.PasswordUtil;
 import com.frame.easy.util.SysConfigUtil;
 import com.frame.easy.util.file.FileUtil;
 import com.frame.easy.util.ShiroUtil;
@@ -159,5 +160,25 @@ public class SysUserPersonalCenterServiceImpl implements SysUserPersonalCenterSe
     @Override
     public boolean saveUserSetting(SysUserSetting setting) {
         return false;
+    }
+
+    @Override
+    public boolean changePassword(String oldPassword, String password) {
+        if (StrUtil.isBlank(oldPassword)) {
+            throw new EasyException("请输入当前密码");
+        }
+        if (StrUtil.isBlank(password)) {
+            throw new EasyException("请输入新密码");
+        }
+        SysUser sysUser = ShiroUtil.getCurrentUser();
+        if (sysUser == null) {
+            throw new EasyException("请登录后重试");
+        }
+        // 检查当前密码是否正确
+        if (!PasswordUtil.encryptedPasswords(oldPassword, sysUser.getSalt()).equals(sysUser.getPassword())) {
+            throw new EasyException("密码输入错误");
+        }
+        // 修改密码
+        return sysUserService.resetPassword(sysUser.getUsername(), password);
     }
 }

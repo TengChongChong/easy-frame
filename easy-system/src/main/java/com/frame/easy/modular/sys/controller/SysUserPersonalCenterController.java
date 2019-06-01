@@ -93,6 +93,19 @@ public class SysUserPersonalCenterController extends BaseController {
         model.addAttribute("user", service.getCurrentUser());
         return PREFIX + "change-password";
     }
+    /**
+     * 密码修改
+     *
+     * @return view
+     */
+    @PostMapping("change/password")
+    @ResponseBody
+    public Tips changePassword(@RequestParam(value = "oldPassword") String oldPassword,
+                               @RequestParam(value = "password")String password){
+        logger.debug("/auth/sys/user/personal/center/change/password");
+        return Tips.getSuccessTips(service.changePassword(oldPassword, password));
+    }
+
 
     /**
      * 待办任务

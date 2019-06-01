@@ -54,7 +54,7 @@ public class PluginsFunction implements Function {
         if (obj != null) {
             String[] plugins = ((String) objects[0]).split(CommonConst.SPLIT);
             for (String plugin : plugins) {
-                pluginsHtml.append(getPluginHtml(context, type, plugin));
+                pluginsHtml.append(getPluginHtml(context, type, plugin.trim()));
             }
         }
         return pluginsHtml.toString();
@@ -78,14 +78,14 @@ public class PluginsFunction implements Function {
                 File staticFile = new File(pluginRootPath + pluginName + JS_SUFFIX);
                 if (staticFile.exists()) {
                     String url = pluginRootUrl + pluginName + JS_SUFFIX;
-                    pluginHtml += "<script src=\"" + url + "?v=" + version + "\"></script>";
+                    pluginHtml += "<script src=\"" + url + "?v=" + version + "\"></script>\r\n";
                 }
             }
             if (TYPE_CSS.equals(type) || TYPE_ALL.equals(type)) {
                 File staticFile = new File(pluginRootPath + pluginName + CSS_SUFFIX);
                 if (staticFile.exists()) {
                     String url = pluginRootUrl + pluginName + CSS_SUFFIX;
-                    pluginHtml += "<link href=\"" + url + "?v=" + version + "\" rel=\"stylesheet\" type=\"text/css\"/>";
+                    pluginHtml += "<link href=\"" + url + "?v=" + version + "\" rel=\"stylesheet\" type=\"text/css\"/>\r\n";
                 }
             }
         }

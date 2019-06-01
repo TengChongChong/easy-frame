@@ -1,11 +1,61 @@
 //== 个人中心
 var mPersonalCenter = function () {
     /**
+     * 修改密码时密码的等级要求，分为0~5级
+     * 默认为3级
+     * @type {number}
+     */
+    var passwordSecurityLevel = 3;
+    /**
+     * 记录是否未输入过新密码
+     * @type {boolean}
+     */
+    var noPasswordEntered = true;
+    /**
      * 加载页面
      *
      * @param url {string} url
+     * @param type {string} 类型
      */
-    var loadPage = function (url) {
+    var loadPage = function (url, type) {
+        /**
+         * 初始化密码强度验证工具
+         */
+        var initPasswordValid = function () {
+            // 设置密码等级要求
+            var _passwordSecurityLevel = $('#passwordSecurityLevel').val();
+            if (KTUtil.isNotBlank(_passwordSecurityLevel)) {
+                try {
+                    _passwordSecurityLevel = Number(_passwordSecurityLevel);
+                    passwordSecurityLevel = _passwordSecurityLevel;
+                } catch (e) {
+                }
+            }
+            $('#password').pwstrength({
+                ui: {
+                    showVerdictsInsideProgressBar: true
+                },
+                common: {
+                    usernameField: '#username', // 设置用户名,如果密码包含用户名会不记用户名部分分数
+                    onKeyUp: function (evt, data) {
+                        var password = $('#password').val();
+                        if (data.verdictLevel >= passwordSecurityLevel) {
+                            $('#change-password-tip').removeClass('show');
+                            $('.change-password').removeAttr('disabled');
+                        } else {
+                            if (KTUtil.isNotBlank(password) && noPasswordEntered) {
+                                // 是否未输入过密码
+                                noPasswordEntered = false;
+                            }
+                            if (KTUtil.isNotBlank(password) && !noPasswordEntered) {
+                                $('#change-password-tip').addClass('show');
+                            }
+                            $('.change-password').attr('disabled', 'disabled');
+                        }
+                    }
+                }
+            });
+        };
         KTUtil.ajax({
             url: url,
             type: 'get',
@@ -14,6 +64,9 @@ var mPersonalCenter = function () {
             success: function (res) {
                 $('#kt-right-page').html(res);
                 KTApp.initComponents();
+                if ('change-password' === type) {
+                    initPasswordValid();
+                }
             }
         });
     };
@@ -21,10 +74,27 @@ var mPersonalCenter = function () {
      * 绑定事件
      */
     var bind = function () {
+        // 链接
         $('.kt-widget__item').click(function () {
-            loadPage($(this).data('url'));
+            loadPage($(this).data('url'), $(this).data('link-type'));
             $(this).parent().find('.kt-widget__item').removeClass('kt-widget__item--active');
             $(this).addClass('kt-widget__item--active');
+        });
+        var $body = $('body');
+        $body.on('click', '.change-mail', function () {
+            changeMail();
+        });
+        $body.on('click', '.mail-save', function () {
+            saveMail(this);
+        });
+        $body.on('click', '.change-phone', function () {
+            changePhone();
+        });
+        $body.on('click', '.show-password', function () {
+            showPassword(this);
+        });
+        $body.on('click', '.change-password', function () {
+            changePassword(this);
         });
     };
     /**
@@ -40,7 +110,7 @@ var mPersonalCenter = function () {
      */
     var saveMail = function (element) {
         var $form = $(element).parents('.kt-form');
-        if($form.valid()) {
+        if ($form.valid()) {
             KTUtil.ajax({
                 url: KTTool.getBaseUrl() + 'application/binding/mail',
                 data: {
@@ -60,20 +130,61 @@ var mPersonalCenter = function () {
         $('#change-phone').modal();
     };
     /**
-     * 绑定个人设置页面事件
+     * 切换显示/隐藏密码
      */
-    var bindPersonalSettings = function () {
-        var $body = $('body');
-        $body.on('click', '.change-mail', function () {
-            changeMail();
-        });
-        $body.on('click', '.mail-save', function () {
-            saveMail(this);
-        });
+    var showPassword = function (el) {
+        var $el = $(el);
+        var $password = $el.parents('.kt-input-icon').find('input');
+        if ('password' === $password.attr('type')) {
+            $password.attr('type', 'text');
+            $el.find('i').removeClass().addClass('la la-eye');
+        } else {
+            $password.attr('type', 'password');
+            $el.find('i').removeClass().addClass('la la-eye-slash');
+        }
+    };
+    /**
+     * 更改密码
+     *
+     * @param el
+     */
+    var changePassword = function (el) {
+        var $oldPassword = $('#oldPassword');
+        var $password = $('#password');
+        /**
+         * 发送修改密码请求
+         */
+        var requestChangePassword = function () {
+            KTUtil.ajax({
+                url: KTTool.getBaseUrl() + 'change/password',
+                wait: '.change-password-portlet',
+                type: 'post',
+                data: {
+                    oldPassword: $.md5($oldPassword.val()),
+                    password: $.md5($password.val())
+                },
+                success: function (res) {
+                    KTTool.successTip(KTTool.commonTips.success, '密码修改成功');
+                    // 清空密码
+                    $oldPassword.val('');
+                    $password.val('');
+                    noPasswordEntered = true;
+                }
+            });
+        };
 
-        $body.on('click', '.change-phone', function () {
-            changePhone();
-        });
+        // 修改密码前是否弹出密码让用户确认一下
+        var userConfirmationPassword = true;
+        var $form = $(el).parents('.kt-form');
+        if ($form.valid()) {
+            if (userConfirmationPassword) {
+                KTUtil.alertConfirm('确认要修改密码吗？', '确定要将密码修改为 ' + $password.val() + ' 吗?', function () {
+                    requestChangePassword();
+                });
+            } else {
+                requestChangePassword();
+            }
+        }
     };
     /**
      * 保存用户头像
@@ -137,7 +248,6 @@ var mPersonalCenter = function () {
             KTTool.setBaseUrl(basePath + '/auth/sys/user/personal/center/');
             // 绑定事件
             bind();
-            bindPersonalSettings();
             // 打开默认页面
             $('.kt-widget__item.kt-widget__item--active').click();
             new Crop.CropAvatar($('#user-avatar'), function (data) {

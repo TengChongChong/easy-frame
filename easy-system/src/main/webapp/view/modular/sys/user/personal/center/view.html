@@ -1,4 +1,4 @@
-@layout("/common/container.html", {"title" : "个人中心", plugin: "cropper"}){
+@layout("/common/container.html", {"title" : "个人中心", plugin: "cropper, pwstrength-bootstrap"}){
 <style>
     .security-setting {
         list-style: none;
@@ -128,7 +128,7 @@
                                     </span>
                                 </span>
                             </a>
-                            <a href="javascript:;" data-url="${ctxPath}/auth/sys/user/personal/center/change/password" class="kt-widget__item ">
+                            <a href="javascript:;" data-link-type="change-password" data-url="${ctxPath}/auth/sys/user/personal/center/change/password" class="kt-widget__item ">
                                 <span class="kt-widget__section">
                                     <span class="kt-widget__icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">

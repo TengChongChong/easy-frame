@@ -1,6 +1,5 @@
 package com.frame.easy.modular.sys.service;
 
-import com.frame.easy.modular.sys.dao.SysUserMapper;
 import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.model.SysUserSetting;
 
@@ -50,4 +49,13 @@ public interface SysUserPersonalCenterService {
      * @return true/false
      */
     boolean saveUserSetting(SysUserSetting setting);
+
+    /**
+     * 修改当前用户密码
+     *
+     * @param oldPassword 当前密码
+     * @param password 新密码
+     * @return true/false
+     */
+    boolean changePassword(String oldPassword, String password);
 }

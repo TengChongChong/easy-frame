@@ -57,6 +57,11 @@ public class SysConfigConst {
      */
     public static final String LOGIN_MULTIPOINT = "loginMultipoint";
 
+    /**
+     * 修改密码时密码的等级要求，分为0~5级，默认为3级
+     */
+    public static final String PASSWORD_SECURITY_LEVEL = "passwordSecurityLevel";
+
 
 
 }
