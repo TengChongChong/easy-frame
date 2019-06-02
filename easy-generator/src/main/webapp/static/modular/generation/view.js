@@ -139,7 +139,7 @@ var mGeneration = function () {
      * 初始化提交
      */
     var initSubmit = function () {
-        var btn = $('#m_form').find('[data-wizard-action="submit"]');
+        var btn = $('#kt_form').find('[data-ktwizard-type="action-submit"]');
         btn.on('click', function (e) {
             e.preventDefault();
 
@@ -150,8 +150,9 @@ var mGeneration = function () {
              */
             function getData() {
                 var data = {};
-                $('#m_wizard_form_step_1 input, #m_wizard_form_step_1 select,' +
-                    ' #m_wizard_form_step_2 input, #m_wizard_form_step_2 select, [name="replace"]').each(function (index, element) {
+                $('.kt-wizard-v3__content:eq(0) input, .kt-wizard-v3__content:eq(0) select, ' +
+                    '.kt-wizard-v3__content:eq(1) input, .kt-wizard-v3__content:eq(1) select, ' +
+                    '[name="replace"]').each(function (index, element) {
                     var $element = $(element);
                     if (KTUtil.isNotBlank($element.attr('name'))) {
                         if ('checkbox' === $element.attr('type')) {

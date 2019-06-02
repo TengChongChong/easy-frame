@@ -7,12 +7,14 @@ var preferenceSetting = {
     key: ['id'],
     list: {
         // 一般不会被搜索的字段
-        excludeSearch: ['id', 'pIds', 'tips', 'createUser', 'createDate', 'content', 'abstract', 'orderNo', 'describe'],
+        excludeSearch: ['id', 'pIds', 'tips', 'createUser', 'createDate', 'content',
+            'abstract', 'orderNo', 'describe', 'icon', 'version'],
         /**
          * 一般不显示以下字段
          * @type {Array}
          */
-        exclude: ['id', 'pId', 'pIds', 'tips', 'createUser', 'createDate', 'content', 'abstract', 'describe'],
+        exclude: ['id', 'pId', 'pIds', 'tips', 'createUser', 'createDate',
+            'content', 'abstract', 'describe', 'version'],
         /**
          * 默认匹配方式
          */
