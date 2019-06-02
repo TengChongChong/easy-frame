@@ -1,4 +1,24 @@
 @layout("/common/container.html", {"title" : "角色", "plugin": "jstree"}){
+<style>
+    .jstree .permissions-icon,
+    .jstree .kt-svg-icon{
+        display: inline-block;
+        width: 18px;
+        height: 24px;
+        line-height: 26px;
+        margin-right: 5px;
+        text-align: center;
+        vertical-align: top;
+        color: #c1bfd0;
+    }
+    .jstree .kt-svg-icon g [fill]{
+        fill: #c1bfd0;
+    }
+
+    .jstree .permissions-icon.la {
+        font-size: 1.5rem;
+    }
+</style>
 <div class="kt-portlet" kt-portlet="true">
     <#portlet:head title="角色" icon="la la-users"/>
     <div class="kt-portlet__body">
