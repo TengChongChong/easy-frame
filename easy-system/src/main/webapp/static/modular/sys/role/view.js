@@ -18,7 +18,7 @@ var mRoleView = function () {
                 data: {
                     url: function (node) {
                         var url = KTTool.getBaseUrl() + 'select/data';
-                        if ('#' != node.id) {
+                        if ('#' !== node.id) {
                             url += '?pId=' + node.id;
                         }
                         return url;
@@ -277,6 +277,9 @@ var mRoleView = function () {
                 $('#permissions-tree').jstree({
                     plugins: ['checkbox'],
                     core: {
+                        themes: {
+                            icons: false
+                        },
                         data: res.data
                     },
                     checkbox: {

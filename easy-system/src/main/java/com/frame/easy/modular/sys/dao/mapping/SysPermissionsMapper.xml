@@ -49,7 +49,9 @@
     <select id="selectData" resultMap="JsTree">
         select t.id,concat(t.icon, '',t.name) as text,
           (case when (select count(1) from sys_permissions where p_id = t.id) > 0 then 'true' else 'false' end ) as children
-        from sys_permissions t where t.p_id = #{pId} order by t.order_no
+        from sys_permissions t
+        where t.p_id = #{pId}
+        order by t.order_no
     </select>
     <select id="selectInfo" resultType="com.frame.easy.modular.sys.model.SysPermissions">
         select t.id,t.code,t.p_code,t.name,t.icon,t.url,t.levels,t.type,t.status,t.tips,t.p_id,t.color,p.name as pName
@@ -58,19 +60,27 @@
         where t.id= #{id}
     </select>
     <select id="selectOrderInfo" resultType="com.frame.easy.modular.sys.model.SysPermissions">
-        select t.id,t.name,t.order_no from sys_permissions t where t.p_id = #{pId} order by t.order_no
+        select t.id,t.name,t.order_no
+        from sys_permissions t
+        where t.p_id = #{pId} order by t.order_no
         <if test="str != null and length != null">
             limit #{str},#{length}
         </if>
     </select>
     <select id="search" resultType="com.frame.easy.common.jstree.JsTree">
         select t.id,concat(t.icon, '',t.name) as text
-        from sys_permissions t where t.name like #{title} order by t.p_id,t.order_no
+        from sys_permissions t
+        where t.name like #{title} order by t.p_id,t.order_no
     </select>
     <select id="getMaxOrderNo" resultType="java.lang.Integer">
-        select ifnull(max(order_no), 0) from sys_permissions t where t.p_id = #{pId}
+        select ifnull(max(order_no), 0)
+        from sys_permissions t
+        where t.p_id = #{pId}
     </select>
     <select id="selectAll" resultType="com.frame.easy.common.jstree.JsTree">
-        select t.id,t.name as text,t.icon,t.p_id as parent from sys_permissions t where t.status = #{status} order by t.levels, t.order_no
+        select t.id,concat(t.icon, '',t.name) as text,t.p_id as parent
+        from sys_permissions t
+        where t.status = #{status}
+        order by t.levels, t.order_no
     </select>
 </mapper>

@@ -65,8 +65,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
         State state = new State();
         jsTree.setId(JsTreeUtil.baseId);
         jsTree.setParent("#");
-        jsTree.setIcon(CommonConst.DEFAULT_FOLDER_ICON);
-        jsTree.setText(SysConfigUtil.getProjectName());
+        jsTree.setText("<i class=\"permissions-icon " + CommonConst.DEFAULT_FOLDER_ICON + "\"></i>" + SysConfigUtil.getProjectName());
         state.setOpened(true);
         jsTree.setState(state);
         jsTrees.add(jsTree);
