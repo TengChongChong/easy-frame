@@ -23,8 +23,9 @@
         </a>
     </p>
 </p>
+
 ### 演示地址
-http://47.99.218.99/easy-frame/login
+>地址:http://47.99.218.99/easy-frame
 账号:admin
 密码:123
 
