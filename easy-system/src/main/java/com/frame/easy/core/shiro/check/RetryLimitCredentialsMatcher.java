@@ -40,7 +40,7 @@ public class RetryLimitCredentialsMatcher extends SimpleCredentialsMatcher {
         // 更新最后登录时间
         shiroService.updateUserLastLoginDate(sysUser.getId());
         // 检查是否允许用户在多处登录
-        if (SysConst.projectProperties.getLoginMultipoint()) {
+        if (!SysConst.projectProperties.getLoginMultipoint()) {
             shiroService.kickOutSession(sysUser);
         }
         // 用户信息放在session里
