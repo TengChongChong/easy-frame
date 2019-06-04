@@ -25,7 +25,7 @@
 </p>
 
 ### 演示地址
->地址:http://www.easy-frame.top/easy-frame
+>地址:http://47.99.218.99/easy-frame
 账号:admin
 密码:123
 
