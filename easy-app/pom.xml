@@ -45,7 +45,7 @@
             <groupId>com.frame</groupId>
             <artifactId>easy-sample</artifactId>
         </dependency>
-        <!-- 定时任务(可选) -->
+        <!-- 定时任务(可选，仅在需要时引用) -->
         <dependency>
             <groupId>com.frame</groupId>
             <artifactId>easy-scheduler</artifactId>

@@ -5285,14 +5285,14 @@ var KTTabPage = function (selector, options) {
         /**
          * 刷新当前激活标签页
          */
-        refreshActivePage: function () {
-            // Plugin.showWaitTip();
-            var url = defaultOptions.conTabs.children('.active').find('a.btn').attr('data-url');
-            defaultOptions.pageContainer.find('iframe.page-frame[src="' + url + '"]').attr('src', url);
-            // 这里暂时写假的
-            // setTimeout(function () {
-            //     Plugin.hideWaitTip();
-            // }, 2000);
+        refreshActivePage: function (url) {
+            if(KTUtil.isBlank(url)){
+                url = defaultOptions.conTabs.children('.active').find('a.btn').attr('data-url');
+            }
+            var $iframe = defaultOptions.pageContainer.find('iframe.page-frame[src="' + url + '"]');
+            if($iframe.length){
+                $iframe.attr('src', url);
+            }
         },
         /**
          * 显示请等待提示
@@ -5479,21 +5479,29 @@ var KTTabPage = function (selector, options) {
     //////////////////////////
     /**
      * 添加Tab页
-     * @param name 标签页名称
-     * @param url 地址
-     * @param canClose 是否可以关闭
+     * @param name {string} 标签页名称
+     * @param url {string} 页面url
+     * @param canClose {boolean} 是否可以关闭
      */
     the.addTab = function (name, url, canClose) {
         return Plugin.addTab(name, url, canClose);
     };
     /**
      * 关闭指定url页面
-     * @param url 页面url
+     *
+     * @param url {string} 页面url
      */
     the.closeTabByUrl = function (url) {
         return Plugin.closeTabByUrl(url);
     };
-
+    /**
+     * 刷新指定页面
+     *
+     * @param url {string} 页面url
+     */
+    the.refresh = function (url) {
+        Plugin.refreshActivePage(url);
+    };
     //== Construct plugin
     Plugin.construct.apply(the, [options]);
 

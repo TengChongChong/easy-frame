@@ -4,8 +4,12 @@
 <head>
     @include("/common/meta.html"){}
     <title>首页 - ${projectName()}</title>
+    ${plugins("jquery-contextmenu", "css")}
     @include("/common/base-styles.html"){}
     @include("/common/skins-default.html"){}
+    <style>
+
+    </style>
 </head>
 <!-- end::Head -->
 
@@ -655,6 +659,7 @@
 </div>
 <!-- end::返回顶部 -->
 @include("/common/base-scripts.html"){}
+${plugins("jquery-contextmenu", "js")}
 <script src="${ctxPath}/static/modular/sys/index/index.js?v=${version()}"></script>
 <!-- end:: Page -->
 </body>
