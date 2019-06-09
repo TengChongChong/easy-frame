@@ -88,7 +88,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
             }
         }
         if (Validator.isEmpty(sysPermissions.getIcon())) {
-            sysPermissions.setIcon(JsTree.DEFAULT_ICON);
+            sysPermissions.setIcon("<i class=\"" + JsTree.DEFAULT_ICON + "\"></i>");
         }
         return sysPermissions;
     }
@@ -233,7 +233,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
     public SysPermissions saveData(SysPermissions object) {
         ToolUtil.checkParams(object);
         if (Validator.isEmpty(object.getIcon())) {
-            object.setIcon(JsTree.DEFAULT_ICON);
+            object.setIcon("<i class=\"" + JsTree.DEFAULT_ICON + "\"></i>");
         }
 
         if (object.getId() == null && object.getOrderNo() == null) {
