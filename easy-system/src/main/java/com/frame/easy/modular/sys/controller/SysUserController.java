@@ -1,9 +1,10 @@
 package com.frame.easy.modular.sys.controller;
 
 import com.frame.easy.base.controller.BaseController;
-import com.frame.easy.result.Tips;
+import com.frame.easy.common.page.Page;
 import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.service.SysUserService;
+import com.frame.easy.result.Tips;
 import com.frame.easy.util.ShiroUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,20 @@ public class SysUserController extends BaseController {
     public Object select(@RequestBody(required = false) SysUser object) {
         logger.debug("/auth/sys/user/select");
         return Tips.getSuccessTips(service.select(object));
+    }
+
+    /**
+     * 搜索用户
+     *
+     * @param keyword 关键字
+     * @return Tips
+     */
+    @RequestMapping("search")
+    @ResponseBody
+    @RequiresPermissions("sys:user:search")
+    public Object search(String keyword, Page page) {
+        logger.debug("/auth/sys/user/search");
+        return Tips.getSuccessTips(service.search(keyword, page));
     }
 
     /**

@@ -19,6 +19,13 @@ public interface SysUserService {
     Page select(SysUser object);
 
     /**
+     * 根据关键字搜索用户
+     *
+     * @param keyword 关键字
+     * @return Page
+     */
+    Page search(String keyword, Page page);
+    /**
      * 详情
      *
      * @param id id

@@ -45,5 +45,12 @@
           (select group_concat(role_id) from sys_user_role ur where ur.user_id = t.id) as roles
         from sys_user t where t.id = #{id}
     </select>
+    <select id="search" resultType="com.frame.easy.modular.sys.model.SysUser">
+        select u.id, u.username, u.nickname, u.email, u.phone, d.name as departName
+        from sys_user u
+            left join sys_department d on d.id = u.dept_id
+        where u.status = #{status}
+          and (u.username like #{keyword} or nickname like #{keyword} or d.name like #{keyword})
+    </select>
 
 </mapper>

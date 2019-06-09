@@ -9,20 +9,19 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.constant.SessionConst;
 import com.frame.easy.common.constant.SysConst;
+import com.frame.easy.common.page.Page;
 import com.frame.easy.common.redis.RedisPrefix;
 import com.frame.easy.common.status.UserStatus;
-import com.frame.easy.common.page.Page;
-import com.frame.easy.config.properties.ProjectProperties;
 import com.frame.easy.exception.EasyException;
-import com.frame.easy.util.PasswordUtil;
-import com.frame.easy.util.RedisUtil;
-import com.frame.easy.util.ShiroUtil;
-import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysUserMapper;
 import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.service.ShiroService;
 import com.frame.easy.modular.sys.service.SysUserRoleService;
 import com.frame.easy.modular.sys.service.SysUserService;
+import com.frame.easy.util.PasswordUtil;
+import com.frame.easy.util.RedisUtil;
+import com.frame.easy.util.ShiroUtil;
+import com.frame.easy.util.ToolUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,6 +73,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             }
         }
         return (Page) page(ToolUtil.getPage(sysUser), queryWrapper);
+    }
+
+    @Override
+    public Page search(String keyword, Page page) {
+        if(StrUtil.isBlank(keyword)){
+            throw new EasyException("请输入关键字");
+        }
+        page.setRecords(getBaseMapper().search(page, UserStatus.ENABLE.getCode(), "%" + keyword + "%"));
+        return page;
     }
 
     @Override

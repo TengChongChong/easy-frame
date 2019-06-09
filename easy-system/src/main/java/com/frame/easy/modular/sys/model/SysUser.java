@@ -91,14 +91,25 @@ public class SysUser extends Model<SysUser> implements Serializable, IModel {
      * 账号来源
      */
     private String source;
-
+    /**
+     * 创建人
+     */
     @TableField(fill = FieldFill.INSERT)
     private Long createUser;
+    /**
+     * 创建时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
     @TableField(fill = FieldFill.INSERT)
     private Date createDate;
+    /**
+     * 修改人
+     */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long editUser;
+    /**
+     * 修改时间
+     */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date editDate;
 
@@ -155,6 +166,10 @@ public class SysUser extends Model<SysUser> implements Serializable, IModel {
      */
     @TableField(exist = false)
     private int age;
+    /**
+     * 部门名称
+     */
+    private String departName;
 
     public SysUser(String username) {
         this.username = username;
@@ -418,5 +433,13 @@ public class SysUser extends Model<SysUser> implements Serializable, IModel {
             return DateUtil.age(this.birthday, new Date());
         }
         return 0;
+    }
+
+    public String getDepartName() {
+        return departName;
+    }
+
+    public void setDepartName(String departName) {
+        this.departName = departName;
     }
 }

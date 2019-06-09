@@ -25,6 +25,14 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     List<SysUser> select(Page page, @Param("ew") QueryWrapper<SysUser> queryWrapper);
 
     /**
+     * 根据关键字搜索用户
+     *
+     * @param keyword 关键字
+     * @return List<SysUser>
+     */
+    List<SysUser> search(Page page, @Param("status") int status, @Param("keyword") String keyword);
+
+    /**
      * 获取详情信息
      *
      * @param id 权限id
