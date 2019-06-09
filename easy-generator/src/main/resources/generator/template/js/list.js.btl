@@ -12,7 +12,7 @@ var ${config.modelName}List = function () {
                     title: '#',
                     sortable: false, // 禁用此列排序
                     width: 40,
-                    selector: {class: 'm-checkbox--solid m-checkbox--brand'},
+                    selector: {class: 'kt-checkbox--solid kt-checkbox--brand'},
                 },
                 <% for(propertyName in config.listOrder){ %>
                 ${GeneratorJsUtil.generator(propertyName, config.fieldSets, 4)}

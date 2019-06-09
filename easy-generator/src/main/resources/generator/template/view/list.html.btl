@@ -36,7 +36,7 @@
                 <% } %>
                 <% } %>
             </div>
-            <div class="m_datatable" id="${config.tableName}-list"></div>
+            <div class="kt_datatable" id="${config.tableName}-list"></div>
         </form>
     </div>
 </div>

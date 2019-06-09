@@ -91,7 +91,7 @@ public class GenerationServiceImpl implements GenerationService {
                                         object.getPermissionsCode() + ":save",
                                         null,
                                         2);
-                                savePermission.setIcon("la la-save");
+                                savePermission.setIcon("<i class=\"la la-save\"></i>");
                                 savePermission.setpId(basePermission.getId());
                                 sysPermissionsService.saveData(savePermission);
                             }
@@ -100,7 +100,7 @@ public class GenerationServiceImpl implements GenerationService {
                                         object.getPermissionsCode() + ":delete",
                                         null,
                                         2);
-                                savePermission.setIcon("la la-trash");
+                                savePermission.setIcon("<i class=\"la la-trash\"></i>");
                                 savePermission.setpId(basePermission.getId());
                                 sysPermissionsService.saveData(savePermission);
                             }
@@ -109,7 +109,7 @@ public class GenerationServiceImpl implements GenerationService {
                                         object.getPermissionsCode() + ":add",
                                         null,
                                         2);
-                                savePermission.setIcon("la la-plus");
+                                savePermission.setIcon("<i class=\"la la-plus\"></i>");
                                 savePermission.setpId(basePermission.getId());
                                 sysPermissionsService.saveData(savePermission);
                             }
