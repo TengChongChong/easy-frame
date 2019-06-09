@@ -14,6 +14,7 @@ var mSchedulerJobLogList = function () {
                 {
                     field: 'timeConsuming',
                     title: '耗时（单位：秒）',
+                    width: 120,
                     template: function (row, index, datatable) {
                         return row.timeConsuming / 1000.0
                     }
