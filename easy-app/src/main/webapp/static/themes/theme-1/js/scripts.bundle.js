@@ -523,6 +523,12 @@ var KTApp = function() {
             initRadio('.radio-dict');
             initDatePicker('.date-picker');
         },
+        initRadio: function(){
+            initRadio('.radio-dict');
+        },
+        initCheckbox: function(){
+            initCheckbox('.checkbox-dict');
+        },
 
         initTooltips: function() {
             initTooltips();
