@@ -21869,6 +21869,8 @@ strong {
 .kt-switch {
   display: inline-block;
   font-size: 1rem; }
+  .kt-switch > label {
+    margin-bottom: 0; }
   .kt-switch input:empty {
     margin-left: -999px;
     height: 0;
@@ -21919,7 +21921,7 @@ strong {
     content: ""; }
   .kt-switch input:empty ~ span {
     line-height: 30px;
-    margin: 2px 0;
+    margin: 0;
     height: 30px;
     width: 57px;
     border-radius: 15px; }
@@ -21941,7 +21943,7 @@ strong {
     margin-left: 26px; }
   .kt-switch.kt-switch--lg input:empty ~ span {
     line-height: 40px;
-    margin: 2px 0;
+    margin: 0;
     height: 40px;
     width: 75px;
     border-radius: 20px; }
@@ -21963,7 +21965,7 @@ strong {
     margin-left: 34px; }
   .kt-switch.kt-switch--sm input:empty ~ span {
     line-height: 24px;
-    margin: 2px 0;
+    margin: 0;
     height: 24px;
     width: 40px;
     border-radius: 12px; }
@@ -27582,19 +27584,19 @@ body.swal2-height-auto {
     color: #fd397a; }
   .kt-userpic.kt-userpic--sm img {
     width: 100%;
-    max-width: 27px;
-    height: 27px; }
+    max-width: 30px;
+    height: 30px; }
   .kt-userpic.kt-userpic--sm span {
-    width: 27px;
-    height: 27px;
+    width: 30px;
+    height: 30px;
     font-size: 0.8rem; }
   .kt-userpic.kt-userpic--lg img {
     width: 100%;
-    max-width: 65px;
-    height: 65px; }
+    max-width: 60px;
+    height: 60px; }
   .kt-userpic.kt-userpic--lg span {
-    width: 65px;
-    height: 65px;
+    width: 60px;
+    height: 60px;
     font-size: 1.3rem; }
   .kt-userpic.kt-userpic--xl img {
     width: 100%;
