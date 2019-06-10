@@ -1,0 +1,75 @@
+<form class="kt-form">
+    <div class="row">
+        <!-- str:表单区域 -->
+        <input type="hidden" id="id" name="id" value="${object.id}" />
+        <input type="hidden" id="input-status" name="status" value="${object.status}" />
+        <div class="col-12">
+            <div class="form-group row">
+                <label class="col-form-label col-md-2 col-4" for="receiver">
+                    <span class="required">*</span>
+                    收信人：
+                </label>
+                <div class="col-md-9 col-8">
+                    <select id="receiver" name="receiver" class="form-control kt-select2" multiple required>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group row">
+                <label class="col-form-label col-md-2 col-4" for="title">
+                    <span class="required">*</span>
+                    标题：
+                </label>
+                <div class="col-md-9 col-8">
+                    <input type="text" class="form-control " id="title" name="title" required>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group row">
+                <label class="col-form-label col-md-2 col-4" for="title">
+                    重要消息：
+                </label>
+                <div class="col-md-1 col-8">
+                    <span class="kt-switch kt-switch--sm kt-switch--icon">
+                        <label>
+                            <input type="checkbox"
+                                   @if(MessageConst.IMPORTANT_YES == object.important){
+                                   checked="checked"
+                                   @}
+                                   name="important" value="${MessageConst.IMPORTANT_YES}">
+                            <span></span>
+                        </label>
+                    </span>
+                </div>
+                <label class="col-form-label col-md-2 col-4" for="title">
+                    <span class="required">*</span>
+                    消息类型：
+                </label>
+                <div class="col-md-7 col-8">
+                    <div class="radio-dict" data-dict-type="messageType" data-value="${object.type}" data-name="type" data-required="true"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="form-group row">
+                <label class="col-form-label col-md-2 col-4" for="content">
+                    内容：
+                </label>
+                <div class="col-md-9 col-8">
+                    <textarea class="form-control summernote" id="content" name="content" style="" placeholder=""></textarea>
+                </div>
+            </div>
+        </div>
+        <!-- end:表单区域 -->
+    </div>
+    <div class="kt-form__actions text-center">
+        <#btn:save permission="sys:message:save"/>
+        <#button permission="sys:message:save" type="info" name="保存并发送" icon="la la-send" click="SysMessageInput.saveAndSend(this)"/>
+    </div>
+</form>
+<!--begin::页面脚本 -->
+<script src="${ctxPath}/static/modular/sys/message/input.js?v=${version()}" type="text/javascript"></script>
+<!--end::页面脚本 -->

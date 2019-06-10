@@ -12,7 +12,7 @@ var mSysExceptionList = function () {
                     title: '#',
                     sortable: false, // 禁用此列排序
                     width: 40,
-                    selector: {class: 'kt-checkbox--solid kt-checkbox--brand'},
+                    selector: {class: 'kt-checkbox--solid'},
                 },
                 {
                     field: 'code',

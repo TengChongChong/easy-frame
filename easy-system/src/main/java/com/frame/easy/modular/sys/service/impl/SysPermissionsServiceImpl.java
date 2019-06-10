@@ -114,7 +114,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
                     throw new EasyException("获取父权限等级失败，请重试");
                 }
             }
-            sysPermissions.setIcon(JsTree.DEFAULT_ICON);
+            sysPermissions.setIcon("<i class=\"" + JsTree.DEFAULT_ICON + "\"></i>");
             return sysPermissions;
         } else {
             throw new EasyException("获取父权限信息失败，请重试");

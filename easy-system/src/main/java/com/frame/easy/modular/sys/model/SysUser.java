@@ -169,6 +169,7 @@ public class SysUser extends Model<SysUser> implements Serializable, IModel {
     /**
      * 部门名称
      */
+    @TableField(exist = false)
     private String departName;
 
     public SysUser(String username) {

@@ -9,14 +9,12 @@ var mIndex = function () {
         var menus = currentUser.menus;
         if (typeof menus !== 'undefined') {
             var $menuNav = $('#kt_aside_menu > ul');
-
             // 水平菜单
             var $horizontalMenu = $('#kt_header_menu > ul');
             // 侧边菜单
             var $varMenu = $('#kt_aside_menu');
 
             if (menus.length > 0) {
-
                 menus = objectToArray(buildTree(menus));
                 // 初始化水平方向菜单
                 $horizontalMenu.html(initHorizontalMenu(menus));
@@ -33,7 +31,6 @@ var mIndex = function () {
                 );
             }
             // mLayout.init();
-            // bindMenuClick();
             setDefaultHorMenu();
         }
     };
@@ -79,7 +76,9 @@ var mIndex = function () {
             temp[list[i].id] = list[i];
         }
         for (var i in temp) {
-            if (temp[i].pId !== rootId || temp[temp[i].pId]) {
+            console.log(temp[i]);
+            // 不是根菜单&&没有父菜单
+            if (temp[i].pId !== rootId && temp[temp[i].pId]) {
                 if (!temp[temp[i].pId].children) {
                     temp[temp[i].pId].children = {};
                 }
@@ -242,32 +241,16 @@ var mIndex = function () {
         horMenuClick($menu);
     };
     /**
-     * 添加点击菜单事件
-     */
-    var bindMenuClick = function () {
-        KTLayout.getAsideMenu().on('click', function (obj, menu) {
-            var $menu = $(menu);
-            var url = $menu.data('url');
-            if (KTUtil.isBlank(url)) {
-                url = basePath + '/global/in-development';
-            }
-            KTApp.openPage($menu.text(), url);
-            return false;
-        });
-        KTLayout.getHeaderMenu().on('click', function (obj, menu) {
-            horMenuClick($(menu));
-            return false;
-        });
-    };
-    /**
      * 添加点击链接事件
      */
     var bindLinkClick = function () {
         var selector = '.kt-menu__item > .kt-menu__link:not(.kt-menu__toggle):not(.kt-menu__link--toggle-skip)';
+        // 横向菜单
         $('#kt_header_menu').on('click', selector, function (e) {
             e.preventDefault();
             horMenuClick($(this));
         });
+        // 侧边菜单
         $('#kt_aside_menu').on('click', selector, function (e) {
             e.preventDefault();
             var $menu = $(this);
@@ -277,6 +260,7 @@ var mIndex = function () {
             }
             KTApp.openPage($menu.text(), url);
         });
+        // 普通链接
         $('body').on('click', '.kt-menu-link, .kt-grid-nav__item', function (e) {
             e.preventDefault();
             var $link = $(this);
@@ -300,6 +284,7 @@ var mIndex = function () {
             var $tabs = null;
             switch (type) {
                 case 'closeOtherTabs':
+                    // 获取除当前选中标签页以外的所有标签页
                     $currentLi.addClass('current-chose');
                     $tabs = $currentLi.parent().children(':not(.current-chose)');
                     $currentLi.removeClass('current-chose');
@@ -314,6 +299,7 @@ var mIndex = function () {
                     $tabs = $currentLi.nextAll();
                     break;
                 default:
+                    // 默认关闭当前
                     $tabs = $currentLi;
             }
             $tabs.find('.tab-close').click();
@@ -341,24 +327,66 @@ var mIndex = function () {
         };
 
         return {
+            /**
+             * 关闭当前
+             *
+             * @param key {string} 菜单key
+             * @param opt {object} option
+             */
             closeCurrentTab: function (key, opt) {
                 batchCloseTabs(this, null);
             },
+            /**
+             * 关闭其他
+             *
+             * @param key {string} 菜单key
+             * @param opt {object} option
+             */
             closeOtherTabs: function (key, opt) {
                 batchCloseTabs(this, 'closeOtherTabs');
             },
+            /**
+             * 关闭全部
+             *
+             * @param key {string} 菜单key
+             * @param opt {object} option
+             */
             closeAllTabs: function (key, opt) {
                 batchCloseTabs(this, 'closeAllTabs');
             },
+            /**
+             * 关闭左边
+             *
+             * @param key {string} 菜单key
+             * @param opt {object} option
+             */
             closeLeftTabs: function (key, opt) {
                 batchCloseTabs(this, 'closeLeftTabs');
             },
+            /**
+             * 关闭右边
+             *
+             * @param key {string} 菜单key
+             * @param opt {object} option
+             */
             closeRightTabs: function (key, opt) {
                 batchCloseTabs(this, 'closeRightTabs');
             },
+            /**
+             * 刷新当前
+             *
+             * @param key {string} 菜单key
+             * @param opt {object} option
+             */
             refreshCurrentTabs: function (key, opt) {
                 refreshCurrentTabs(this, key, opt)
             },
+            /**
+             * 在新标签页打开
+             *
+             * @param key {string} 菜单key
+             * @param opt {object} option
+             */
             cardingOnTheNewTab: function (key, opt) {
                 cardingOnTheNewTab(this, key, opt);
             }
@@ -369,10 +397,10 @@ var mIndex = function () {
      * 初始化标签页右键菜单
      */
     var initTabsRightMenu = function () {
+        // 右键菜单绑定元素
         var defaultSelector = '.tab-page .con-tabs a.tab';
         /**
          * 菜单节点图标
-         * @type {{left: string, refresh: string, right: string, close: string, open: string}}
          */
         var icon = {
             close: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">\n' +
@@ -415,8 +443,6 @@ var mIndex = function () {
         };
         /**
          * 菜单节点
-         *
-         * @type {{closeRightTabs: {name: string, icon: (string|*), callback: callback, checkMenu: checkMenu, type: string}, closeAllTabs: {name: string, icon: (string|*), callback: callback, disabled: checkMenu, type: string}, closeLeftTabs: {name: string, icon: (string|*), callback: callback, disabled: checkMenu, type: string}, sep1: string, closeCurrentTab: {name: string, icon: (string|*), callback: callback, disabled: checkMenu, type: string}, closeOtherTabs: {name: string, icon: (string|*), callback: callback, disabled: checkMenu, type: string}, refreshCurrentTabs: {name: string, icon: (string|*), callback: callback, disabled: checkMenu, type: string}, CardingOnTheNewTab: {name: string, icon: (string|*), callback: callback, disabled: checkMenu, type: string}}}
          */
         var items = {
             closeCurrentTab: {
@@ -468,7 +494,6 @@ var mIndex = function () {
                 callback: menuCallback.cardingOnTheNewTab
             }
         };
-
         /**
          * 检查标签页是否可关闭
          *
@@ -478,11 +503,10 @@ var mIndex = function () {
         function checkCanClose($tab) {
             return $tab.find('.tab-close').length;
         }
-
         /**
          * 检查菜单节点是否 disabled
          *
-         * @param key
+         * @param key {string} 菜单节点key
          */
         function checkMenu(key) {
             var $currentLi = $(this).parent();
@@ -509,6 +533,7 @@ var mIndex = function () {
             } else if ('closeOtherTabs' === key || 'closeAllTabs' === key) {
                 var isCloseOtherTabs = 'closeOtherTabs' === key;
                 if(isCloseOtherTabs){
+                    // 如果是关闭其他,排除当前选中tab
                     $currentLi.addClass('current-chose');
                 }
                 var $tabs = $currentLi.parent().children(':not(.current-chose)');
@@ -527,6 +552,13 @@ var mIndex = function () {
             return false;
         }
 
+        /**
+         * 菜单节点格式化
+         *
+         * @param item {object} 节点属性
+         * @param opt {object} 菜单属性
+         * @param root
+         */
         $.contextMenu.types.format = function (item, opt, root) {
             $('<a class="dropdown-item" href="#">' + item.icon + item.name + '</a>').appendTo(this);
         };
@@ -535,6 +567,7 @@ var mIndex = function () {
             selector: defaultSelector,
             items: items,
             classNames: {
+                // 自定义菜单节点class
                 hover: '-hover',
                 visible: '-visible'
             }
@@ -546,9 +579,13 @@ var mIndex = function () {
         init: function () {
             // 更新缓存中的当前登录用户
             currentUser = KTTool.getUser(false);
+            // 初始化标签页
             KTApp.initTabs();
+            // 初始化标签页右键菜单
             initTabsRightMenu();
+            // 加载菜单
             loadMenu();
+            // 绑定菜单点击事件
             bindLinkClick();
         }
     };

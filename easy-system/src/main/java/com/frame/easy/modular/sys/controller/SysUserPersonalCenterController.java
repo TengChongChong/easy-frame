@@ -106,29 +106,6 @@ public class SysUserPersonalCenterController extends BaseController {
         return Tips.getSuccessTips(service.changePassword(oldPassword, password));
     }
 
-
-    /**
-     * 待办任务
-     *
-     * @return view
-     */
-    @GetMapping("task/to/do")
-    public String taskToDo(){
-        logger.debug("/auth/sys/user/personal/center/task/to/do");
-        return PREFIX + "task-to-do";
-    }
-
-    /**
-     * 我的消息
-     *
-     * @return view
-     */
-    @GetMapping("message")
-    public String message(){
-        logger.debug("/auth/sys/user/personal/center/message");
-        return PREFIX + "message";
-    }
-
     /**
      * 保存用户头像
      *

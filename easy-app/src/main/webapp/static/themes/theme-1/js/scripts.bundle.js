@@ -529,7 +529,6 @@ var KTApp = function() {
         initCheckbox: function(){
             initCheckbox('.checkbox-dict');
         },
-
         initTooltips: function() {
             initTooltips();
         },
@@ -2019,7 +2018,7 @@ var KTUtil = function() {
                 OAnimation: 'oAnimationEnd',
                 MozAnimation: 'mozAnimationEnd',
                 WebkitAnimation: 'webkitAnimationEnd',
-                msAnimation: 'msAnimationEnd',
+                msAnimation: 'msAnimationEnd'
             };
 
             for (var t in animations) {
@@ -5873,8 +5872,11 @@ var KTTool = function () {
             util.setButtonWait(element);
         }
         // 检查&获取请求地址
-        url = getUrl(url, 'add', pId);
-        if (util.isBlank(url)) return;
+        if(util.isBlank(url)){
+            url = getUrl(url, 'add', pId);
+            if (util.isBlank(url)) return;
+        }
+
         var params = getAutoParams(element);
         if (util.isNotBlank(params)) {
             url += '?' + params;
@@ -5935,11 +5937,14 @@ var KTTool = function () {
             util.setButtonWait(element);
             if (typeof needAlert === 'undefined') needAlert = true;
             // 检查&获取请求地址
-            url = getUrl(url, 'deleteById', id);
-            if (util.isBlank(url)) {
-                util.offButtonWait(element);
-                return;
+            if(util.isBlank(url)){
+                url = getUrl(url, 'deleteById', id);
+                if (util.isBlank(url)) {
+                    util.offButtonWait(element);
+                    return;
+                }
             }
+
 
             util.ajax({
                 url: url,
@@ -5986,8 +5991,10 @@ var KTTool = function () {
             var row = $(element).parents('tr.m-datatable__row');
             var $dataTable = $(element).parents('.kt-form').find('.kt_datatable');
             // 检查&获取请求地址
-            url = getUrl(url, 'deleteById', id);
-            if (util.isBlank(url)) return;
+            if(util.isBlank(url)){
+                url = getUrl(url, 'deleteById', id);
+                if (util.isBlank(url)) return;
+            }
             util.ajax({
                 wait: row,
                 // needAlert: false,
@@ -6150,9 +6157,12 @@ var KTTool = function () {
      */
     var initDataTable = function (options) {
         // 检查&获取请求地址
-        var url = getUrl(options.url, 'select', null);
-        delete options['url'];
-        if (util.isBlank(url)) return;
+        var url = options.url;
+        if(util.isBlank(url)){
+            url = getUrl(options.url, 'select', null);
+            delete options['url'];
+            if (util.isBlank(url)) return;
+        }
 
         /**
          * 默认设置
@@ -11706,29 +11716,12 @@ var defaults = {
 				prev: 'flaticon2-back',
 				first: 'flaticon2-fast-back',
 				last: 'flaticon2-fast-next',
-				more: 'flaticon-more-1',
+				more: 'flaticon-more-1'
 			},
-			rowDetail: {expand: 'fa fa-caret-down', collapse: 'fa fa-caret-right'},
+			rowDetail: {expand: 'fa fa-caret-down', collapse: 'fa fa-caret-right'}
 		}
 	}
 };
-
-if (KTUtil.isRTL()) {
-	defaults = {
-		layout: {
-			icons: {
-				pagination: {
-					next: 'flaticon2-back',
-					prev: 'flaticon2-next',
-					first: 'flaticon2-fast-next',
-					last: 'flaticon2-fast-back',
-				},
-				rowDetail: {collapse: 'fa fa-caret-down', expand: 'fa fa-caret-right'},
-			}
-		}
-	}
-}
-
 $.extend(true, $.fn.KTDatatable.defaults, defaults);
 "use strict";
 
