@@ -1,6 +1,6 @@
 package com.frame.easy.config.properties;
 
-import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.StrUtil;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,40 +8,65 @@ import java.util.Properties;
 
 /**
  * beetl 配置
+ *
  * @author tengchong
  */
 @Configuration
 @ConfigurationProperties(prefix = "beetl")
 public class BeetlProperties {
-
+    /**
+     * 页面文件Root目录
+     * 默认 /view
+     */
     private String prefix;
+    /**
+     * 文件后缀
+     * 默认 html
+     */
     private String suffix;
+    /**
+     * 开始标签
+     * 默认 @
+     */
     private String delimiterStatementStart;
+    /**
+     * 结束标签
+     * 默认 无
+     */
     private String delimiterStatementEnd;
-    private String resourceTagroot;
-    private String resourceTagsuffix;
+    /**
+     * 自定义标签文件Root目录
+     * 默认 /common/tags
+     */
+    private String resourceTagRoot;
+    /**
+     * 自定义标签文件后缀
+     * 默认 tag
+     */
+    private String resourceTagSuffix;
+    /**
+     * 是否检测文件变化
+     * 默认 开发环境 true 生产环境 false
+     */
     private String resourceAutoCheck;
 
     public Properties getProperties() {
         Properties properties = new Properties();
-        if (Validator.isNotEmpty(delimiterStatementStart)) {
-            if (delimiterStatementStart.startsWith("\\")) {
-                delimiterStatementStart = delimiterStatementStart.substring(1);
-            }
+        if (StrUtil.isNotBlank(delimiterStatementStart)) {
             properties.setProperty("DELIMITER_STATEMENT_START", delimiterStatementStart);
         }
-        if (Validator.isNotEmpty(delimiterStatementEnd)) {
+        if (StrUtil.isNotBlank(delimiterStatementEnd)) {
             properties.setProperty("DELIMITER_STATEMENT_END", delimiterStatementEnd);
         } else {
             properties.setProperty("DELIMITER_STATEMENT_END", "null");
         }
-        if (Validator.isNotEmpty(resourceTagroot)) {
-            properties.setProperty("RESOURCE.tagRoot", resourceTagroot);
+        if (StrUtil.isNotBlank(resourceTagRoot)) {
+            properties.setProperty("RESOURCE.tagRoot", resourceTagRoot);
         }
-        if (Validator.isNotEmpty(resourceTagsuffix)) {
-            properties.setProperty("RESOURCE.tagSuffix", resourceTagsuffix);
+        if (StrUtil.isNotBlank(resourceTagSuffix)) {
+            properties.setProperty("RESOURCE.tagSuffix", resourceTagSuffix);
         }
-        if (Validator.isNotEmpty(resourceAutoCheck)) {
+        if (StrUtil.isNotBlank(resourceAutoCheck)) {
             properties.setProperty("RESOURCE.autoCheck", resourceAutoCheck);
         }
         return properties;
@@ -79,20 +104,20 @@ public class BeetlProperties {
         this.delimiterStatementEnd = delimiterStatementEnd;
     }
 
-    public String getResourceTagroot() {
-        return resourceTagroot;
+    public String getResourceTagRoot() {
+        return resourceTagRoot;
     }
 
-    public void setResourceTagroot(String resourceTagroot) {
-        this.resourceTagroot = resourceTagroot;
+    public void setResourceTagRoot(String resourceTagRoot) {
+        this.resourceTagRoot = resourceTagRoot;
     }
 
-    public String getResourceTagsuffix() {
-        return resourceTagsuffix;
+    public String getResourceTagSuffix() {
+        return resourceTagSuffix;
     }
 
-    public void setResourceTagsuffix(String resourceTagsuffix) {
-        this.resourceTagsuffix = resourceTagsuffix;
+    public void setResourceTagSuffix(String resourceTagSuffix) {
+        this.resourceTagSuffix = resourceTagSuffix;
     }
 
     public String getResourceAutoCheck() {
