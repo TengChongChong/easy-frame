@@ -41,7 +41,7 @@ public class SysMessageDetailsServiceImpl extends ServiceImpl<SysMessageDetailsM
     }
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
-    public boolean saveData(Long messageId, String receiver) {
+    public boolean saveData(String messageId, String receiver) {
         List<SysMessageDetails> detailsList = new ArrayList<>();
         String[] receivers = receiver.split(CommonConst.SPLIT);
         for(String receiverUser: receivers){

@@ -16,7 +16,7 @@ public interface ImportService {
      * @param userId 用户id
      * @return true/false
      */
-    boolean beforeImport(Long templateId, Long userId);
+    boolean beforeImport(String templateId, String userId);
 
     /**
      * 导入后回调

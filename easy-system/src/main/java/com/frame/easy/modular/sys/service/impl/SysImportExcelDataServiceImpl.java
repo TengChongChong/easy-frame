@@ -77,14 +77,14 @@ public class SysImportExcelDataServiceImpl implements SysImportExcelDataService 
     private SysImportExcelDataMapper mapper;
 
     @Override
-    public boolean checkLastData(Long template) {
+    public boolean checkLastData(String template) {
         ToolUtil.checkParams(template);
         return importExcelTemporaryService.checkLastData(template);
     }
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public boolean analysis(Long templateId, String path) {
+    public boolean analysis(String templateId, String path) {
         ToolUtil.checkParams(templateId);
         ToolUtil.checkParams(path);
         // 检查模板信息
@@ -140,7 +140,7 @@ public class SysImportExcelDataServiceImpl implements SysImportExcelDataService 
     }
 
     @Override
-    public SysImportSummary selectSummary(Long templateId) {
+    public SysImportSummary selectSummary(String templateId) {
         ToolUtil.checkParams(templateId);
         return importExcelTemporaryService.selectImportSummary(templateId);
     }
@@ -382,7 +382,7 @@ public class SysImportExcelDataServiceImpl implements SysImportExcelDataService 
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public int insertData(Long templateId) {
+    public int insertData(String templateId) {
         ToolUtil.checkParams(templateId);
         SysUser sysUser = ShiroUtil.getCurrentUser();
         SysImportExcelTemplate importExcelTemplate = importExcelTemplateService.input(templateId);
@@ -438,7 +438,7 @@ public class SysImportExcelDataServiceImpl implements SysImportExcelDataService 
     }
 
     @Override
-    public ResponseEntity<FileSystemResource> exportVerificationFailData(Long templateId, HttpServletRequest request) {
+    public ResponseEntity<FileSystemResource> exportVerificationFailData(String templateId, HttpServletRequest request) {
         ToolUtil.checkParams(templateId);
         SysUser sysUser = ShiroUtil.getCurrentUser();
         SysImportExcelTemplate importExcelTemplate = importExcelTemplateService.input(templateId);

@@ -30,7 +30,7 @@ public interface SysMessageService {
      * @param id id
      * @return 详细信息
      */
-    SysMessage input(Long id);
+    SysMessage input(String id);
 
     /**
      * 新增

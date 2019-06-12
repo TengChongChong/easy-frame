@@ -64,7 +64,7 @@ public class SchedulerJobController extends BaseController {
      */
     @RequestMapping("/input/{id}")
     @RequiresPermissions("scheduler:job:select")
-    public String input(Model model, @PathVariable("id") Long id) {
+    public String input(Model model, @PathVariable("id") String id) {
         logger.debug("/auth/scheduler/job/input/" + id);
         model.addAttribute("object", service.input(id));
         return PREFIX + "input";
@@ -118,7 +118,7 @@ public class SchedulerJobController extends BaseController {
     @RequestMapping("/start/{ids}")
     @ResponseBody
     @RequiresPermissions("scheduler:job:save")
-    public Tips start(@PathVariable("ids") Long id) {
+    public Tips start(@PathVariable("ids") String id) {
         logger.debug("/auth/scheduler/job/start/" + id);
         service.start(id);
         return Tips.getSuccessTips();
@@ -132,7 +132,7 @@ public class SchedulerJobController extends BaseController {
     @RequestMapping("/pause/{ids}")
     @ResponseBody
     @RequiresPermissions("scheduler:job:save")
-    public Tips pause(@PathVariable("ids") Long id) {
+    public Tips pause(@PathVariable("ids") String id) {
         logger.debug("/auth/scheduler/job/pause/" + id);
         service.pause(id);
         return Tips.getSuccessTips();

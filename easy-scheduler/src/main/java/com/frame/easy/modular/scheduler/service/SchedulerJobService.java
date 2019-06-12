@@ -33,7 +33,7 @@ public interface SchedulerJobService {
      * @param id id
      * @return 详细信息
      */
-    SchedulerJob input(Long id);
+    SchedulerJob input(String id);
 
     /**
      * 新增
@@ -64,21 +64,21 @@ public interface SchedulerJobService {
      * @param id 数据id
      * @return true/false
      */
-    boolean updateLastRunDate(Long id);
+    boolean updateLastRunDate(String id);
 
     /**
      * 开始指定任务
      *
      * @param id 任务id
      */
-    void start(Long id);
+    void start(String id);
 
     /**
      * 暂停指定任务
      *
      * @param id 任务id
      */
-    void pause(Long id);
+    void pause(String id);
 
     /**
      * 开始全部任务

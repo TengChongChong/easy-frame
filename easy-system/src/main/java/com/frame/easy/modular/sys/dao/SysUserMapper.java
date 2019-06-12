@@ -27,6 +27,8 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     /**
      * 根据关键字搜索用户
      *
+     * @param page 分页
+     * @param status 状态
      * @param keyword 关键字
      * @return List<SysUser>
      */
@@ -36,9 +38,9 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * 获取详情信息
      *
      * @param id 权限id
-     * @return
+     * @return SysUser
      */
-    SysUser selectInfo(@Param("id") Long id);
+    SysUser selectInfo(@Param("id") String id);
 
     /**
      * 更新用户状态

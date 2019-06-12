@@ -56,9 +56,6 @@ public class SysOnlineServiceImpl implements SysUserOnlineService {
                     sysUserOnline.setStatus(1);
                 }
                 sysUserOnline.setTimeout(session.getTimeout());
-//                for(int i = 0;i< 3000;i++){
-//                    sysUserOnlineList.add(sysUserOnline);
-//                }
                 sysUserOnlineList.add(sysUserOnline);
             }
         }

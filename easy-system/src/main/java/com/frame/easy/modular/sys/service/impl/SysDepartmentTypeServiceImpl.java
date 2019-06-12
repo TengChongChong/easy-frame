@@ -47,7 +47,7 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
     private SysDepartmentService sysDepartmentService;
 
     @Override
-    public List<JsTree> selectData(Long pId) {
+    public List<JsTree> selectData(String pId) {
         List<JsTree> jsTrees;
         // 第一次请求,返回项目名称 + 一级节点 数据
         if (pId == null || pId.equals(JsTreeUtil.baseId)) {
@@ -78,7 +78,7 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
     }
 
     @Override
-    public SysDepartmentType input(Long id) {
+    public SysDepartmentType input(String id) {
         SysDepartmentType sysDepartmentType;
         // 表示点击的是根目录
         if (id == null || id.equals(JsTreeUtil.baseId)) {
@@ -95,7 +95,7 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
     }
 
     @Override
-    public SysDepartmentType add(Long pId) {
+    public SysDepartmentType add(String pId) {
         if (pId != null) {
             SysDepartmentType sysDepartmentType = new SysDepartmentType();
             sysDepartmentType.setpId(pId);
@@ -116,7 +116,7 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
 
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
-    public boolean delete(Long id) {
+    public boolean delete(String id) {
         ToolUtil.checkParams(id);
         // 检查是否有子机构类型
         QueryWrapper<SysDepartmentType> queryWrapper = new QueryWrapper<>();
@@ -167,14 +167,6 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
     public boolean setStatus(String ids, Integer status) {
         ToolUtil.checkParams(ids);
         ToolUtil.checkParams(status);
-//        List<SysDepartmentType> permissionsList = new ArrayList<>();
-//        SysDepartmentType sysDepartmentType;
-//        for (String id : ids.split(CommonConst.SPLIT)) {
-//            sysDepartmentType = new SysDepartmentType();
-//            sysDepartmentType.setId(Long.parseLong(id));
-//            sysDepartmentType.setStatus(status);
-//            permissionsList.add(sysDepartmentType);
-//        }
         UpdateWrapper<SysDepartmentType> updateWrapper = new UpdateWrapper<>();
         updateWrapper.in("id", ids.split(CommonConst.SPLIT));
         updateWrapper.set("status", status);
@@ -226,7 +218,7 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
 
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
-    public boolean move(Long id, Long parent, Long oldParent, Integer position, Integer oldPosition) {
+    public boolean move(String id, String parent, String oldParent, Integer position, Integer oldPosition) {
         if (Validator.isNotEmpty(id) && Validator.isNotEmpty(parent) && Validator.isNotEmpty(oldParent) &&
                 Validator.isNotEmpty(position) && Validator.isNotEmpty(oldPosition)) {
             // 如机构类型下有机构信息,不允许拖动

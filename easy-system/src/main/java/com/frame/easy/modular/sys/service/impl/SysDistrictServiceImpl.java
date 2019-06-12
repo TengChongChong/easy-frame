@@ -17,7 +17,6 @@ import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysDistrictMapper;
 import com.frame.easy.modular.sys.model.SysDistrict;
 import com.frame.easy.modular.sys.service.SysDistrictService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +34,7 @@ import java.util.List;
 public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDistrict> implements SysDistrictService {
 
     @Override
-    public List<JsTree> selectData(Long pId) {
+    public List<JsTree> selectData(String pId) {
         List<JsTree> jsTrees;
         // 第一次请求,返回行政区划 + 一级 数据
         if (pId == null || pId.equals(JsTreeUtil.baseId)) {
@@ -68,7 +67,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
     }
 
     @Override
-    public SysDistrict input(Long id) {
+    public SysDistrict input(String id) {
         SysDistrict sysDistrict;
         // 表示点击的是根目录
         if (id == null || id.equals(JsTreeUtil.baseId)) {
@@ -82,7 +81,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
     }
 
     @Override
-    public SysDistrict add(Long pId) {
+    public SysDistrict add(String pId) {
         if (pId != null) {
             SysDistrict sysDistrict = new SysDistrict();
             sysDistrict.setpId(pId);
@@ -94,7 +93,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
 
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
-    public boolean delete(Long id) {
+    public boolean delete(String id) {
         ToolUtil.checkParams(id);
         // 检查是否有子行政区划
         QueryWrapper<SysDistrict> queryWrapper = new QueryWrapper<>();
@@ -146,7 +145,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
 
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
-    public boolean move(Long id, Long parent, Long oldParent, Integer position, Integer oldPosition) {
+    public boolean move(String id, String parent, String oldParent, Integer position, Integer oldPosition) {
         if (Validator.isNotEmpty(id) && Validator.isNotEmpty(parent) && Validator.isNotEmpty(oldParent) &&
                 Validator.isNotEmpty(position) && Validator.isNotEmpty(oldPosition)) {
             boolean isSuccess;
@@ -225,9 +224,9 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
     }
 
     @Override
-    public List<Select> selectByPId(Long pId) {
+    public List<Select> selectByPId(String pId) {
         // 父id不是最顶级
-        if (pId != 0L) {
+        if (pId != "0") {
             SysDistrict district = getById(pId);
             if (district != null) {
                 return getBaseMapper().selectByPId(district.getpId());

@@ -36,7 +36,12 @@ public class EasyFrameMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        SysUser sysUser = ShiroUtil.getCurrentUser();
+        SysUser sysUser = null;
+        try{
+            sysUser = ShiroUtil.getCurrentUser();
+        }catch (Exception e){
+            // 如果获取不到用户则不设置用户类默认值
+        }
         if (sysUser != null) {
             // 设置创建人&编辑人
             this.setFieldValByName(CREATE_USER, sysUser.getId(), metaObject);

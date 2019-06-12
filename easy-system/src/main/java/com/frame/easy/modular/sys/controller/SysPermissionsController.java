@@ -46,7 +46,7 @@ public class SysPermissionsController extends BaseController {
      * @return view
      */
     @GetMapping("/add/{id}")
-    public String add(Model model, @PathVariable("id") Long pId) {
+    public String add(Model model, @PathVariable("id") String pId) {
         logger.debug("/auth/sys/permissions/add/" + pId);
         model.addAttribute("object", service.add(pId));
         return PREFIX + "input";
@@ -61,7 +61,7 @@ public class SysPermissionsController extends BaseController {
     @RequestMapping("/delete/{id}")
     @ResponseBody
     @RequiresPermissions("sys:permissions:delete")
-    public Object delete(@PathVariable("id") Long id) {
+    public Object delete(@PathVariable("id") String id) {
         logger.debug("/auth/sys/permissions/delete/" + id);
         return Tips.getSuccessTips(service.delete(id));
     }
@@ -105,7 +105,7 @@ public class SysPermissionsController extends BaseController {
     @RequestMapping("/copy/{nodeIds}/to/{targetId}")
     @ResponseBody
     @RequiresPermissions("sys:permissions:save")
-    public Object copyNodes(@PathVariable("nodeIds") String nodeIds, @PathVariable("targetId") Long targetId) {
+    public Object copyNodes(@PathVariable("nodeIds") String nodeIds, @PathVariable("targetId") String targetId) {
         logger.debug("/auth/sys/permissions/copy/" + nodeIds + "/to/" + targetId);
         return Tips.getSuccessTips(service.copyNode(nodeIds, targetId));
     }
@@ -131,7 +131,7 @@ public class SysPermissionsController extends BaseController {
      * @return view
      */
     @GetMapping("/input/{id}")
-    public String input(Model model, @PathVariable("id") Long id) {
+    public String input(Model model, @PathVariable("id") String id) {
         logger.debug("/auth/sys/permissions/input/" + id);
         model.addAttribute("object", service.input(id));
         return PREFIX + "input";
@@ -146,7 +146,7 @@ public class SysPermissionsController extends BaseController {
     @RequestMapping("/select/data")
     @ResponseBody
     @RequiresPermissions("sys:permissions:select")
-    public Object selectData(@RequestParam(name = "pId", required = false) Long pId) {
+    public Object selectData(@RequestParam(name = "pId", required = false) String pId) {
         logger.debug("/auth/sys/permissions/select/data");
         return service.selectData(pId);
     }
@@ -192,9 +192,9 @@ public class SysPermissionsController extends BaseController {
     @RequestMapping("/move")
     @ResponseBody
     @RequiresPermissions("sys:permissions:move")
-    public Object move(@RequestParam(name = "id", required = false) Long id,
-                       @RequestParam(name = "parent", required = false) Long parent,
-                       @RequestParam(name = "oldParent", required = false) Long oldParent,
+    public Object move(@RequestParam(name = "id", required = false) String id,
+                       @RequestParam(name = "parent", required = false) String parent,
+                       @RequestParam(name = "oldParent", required = false) String oldParent,
                        @RequestParam(name = "position", required = false) Integer position,
                        @RequestParam(name = "oldPosition", required = false) Integer oldPosition) {
         logger.debug("/auth/sys/permissions/move");

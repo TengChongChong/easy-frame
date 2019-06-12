@@ -89,10 +89,6 @@ public class JsTree {
         this.id = id;
     }
 
-    public void setId(Long id) {
-        this.id = String.valueOf(id);
-    }
-
     public String getIcon() {
 //        if (Validator.isNotEmpty(icon)) {
             return icon;

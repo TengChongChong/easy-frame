@@ -98,7 +98,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
      * @return 详细信息
      */
     @Override
-    public SysMessage input(Long id) {
+    public SysMessage input(String id) {
         ToolUtil.checkParams(id);
         return getById(id);
     }
@@ -144,7 +144,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
     @Override
     public SysMessage saveData(SysMessage object) {
         ToolUtil.checkParams(object);
-        boolean isAdd = object.getId() == null;
+        boolean isAdd = StrUtil.isBlank(object.getId());
         if(MessageConst.STATUS_HAS_BEEN_SENT == object.getStatus()){
             object.setSendDate(new Date());
         }

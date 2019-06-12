@@ -59,7 +59,7 @@ public class SysImportExcelTemporaryController extends BaseController {
      */
     @RequestMapping("/input/{id}")
     @RequiresPermissions("import:data")
-    public String input(Model model, @PathVariable("id") Long id) {
+    public String input(Model model, @PathVariable("id") String id) {
         logger.debug("/auth/sys/import/excel/temporary/input/" + id);
         SysImportExcelTemporary temporary = service.input(id);
         model.addAttribute("object", temporary);
@@ -103,7 +103,7 @@ public class SysImportExcelTemporaryController extends BaseController {
      */
     @RequestMapping("clean/my/import/{templateId}")
     @ResponseBody
-    public Tips cleanMyImport(@PathVariable("templateId") Long templateId){
+    public Tips cleanMyImport(@PathVariable("templateId") String templateId){
         return Tips.getSuccessTips(service.cleanMyImport(templateId));
     }
 }

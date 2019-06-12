@@ -20,7 +20,7 @@ public class SysLoginLog extends Model<SysLoginLog> {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id")
-    private Long id;
+    private String id;
     /**
      * 日志名称
      */
@@ -46,11 +46,11 @@ public class SysLoginLog extends Model<SysLoginLog> {
      */
     private String ip;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -7,12 +7,11 @@ import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.status.PermissionsStatus;
 import com.frame.easy.common.status.RoleStatus;
 import com.frame.easy.common.type.PermissionsType;
-import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysUserRoleMapper;
 import com.frame.easy.modular.sys.model.SysPermissions;
 import com.frame.easy.modular.sys.model.SysUserRole;
 import com.frame.easy.modular.sys.service.SysUserRoleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.frame.easy.util.ToolUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +29,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
 
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
-    public boolean saveUserRole(Long userId, String roles) {
+    public boolean saveUserRole(String userId, String roles) {
         ToolUtil.checkParams(userId);
         // 删除原权限
         remove(new QueryWrapper<SysUserRole>().eq("user_id", userId));
@@ -39,7 +38,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
             SysUserRole userRole;
             for (String roleId : roles.split(CommonConst.SPLIT)) {
                 userRole = new SysUserRole();
-                userRole.setRoleId(Long.parseLong(roleId));
+                userRole.setRoleId(roleId);
                 userRole.setUserId(userId);
                 userRoles.add(userRole);
             }
@@ -59,18 +58,18 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
     }
 
     @Override
-    public List<String> selectPermissionsByUserId(Long userId) {
+    public List<String> selectPermissionsByUserId(String userId) {
         return getBaseMapper().selectPermissionsByUserId(userId, PermissionsStatus.ENABLE.getCode());
     }
 
     @Override
-    public List<SysPermissions> selectMenusByUserId(Long userId) {
+    public List<SysPermissions> selectMenusByUserId(String userId) {
         return getBaseMapper().selectMenusByUserId(userId, PermissionsStatus.ENABLE.getCode(), PermissionsType.ENABLE.getCode());
     }
 
 
     @Override
-    public List<String> selectRoleByUserId(Long userId) {
+    public List<String> selectRoleByUserId(String userId) {
         return getBaseMapper().selectRoleByUserId(userId, RoleStatus.ENABLE.getCode());
     }
 }

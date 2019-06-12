@@ -1,5 +1,6 @@
 package com.frame.easy.modular.sys.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.frame.easy.modular.sys.dao.SysUserSettingMapper;
 import com.frame.easy.modular.sys.model.SysUserSetting;
@@ -27,7 +28,7 @@ public class SysUserSettingServiceImpl extends ServiceImpl<SysUserSettingMapper,
     @Override
     public SysUserSetting saveData(SysUserSetting object) {
         ToolUtil.checkParams(object);
-        if (object.getId() == null) {
+        if (StrUtil.isBlank(object.getId())) {
             // 新增,设置默认值
         }
         return (SysUserSetting) ToolUtil.checkResult(saveOrUpdate(object), object);

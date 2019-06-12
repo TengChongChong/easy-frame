@@ -18,5 +18,5 @@ public interface SysMailVerifiesMapper extends BaseMapper<SysMailVerifies> {
      * @param type 类型
      * @return
      */
-    String getMailByUserId(@Param("userId") Long userId, @Param("type") String type);
+    String getMailByUserId(@Param("userId") String userId, @Param("type") String type);
 }

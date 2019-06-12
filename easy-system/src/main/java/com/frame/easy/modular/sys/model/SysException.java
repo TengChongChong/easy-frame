@@ -23,17 +23,16 @@ public class SysException extends Model<SysException> implements IModel, Seriali
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id")
-    private Long id;
+    private String id;
 
     /**
      * 触发用户
      */
-    private Long userId;
+    private String userId;
 
     /**
      * 触发时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date triggerTime;
 
     /**
@@ -74,18 +73,18 @@ public class SysException extends Model<SysException> implements IModel, Seriali
     @TableField(exist=false)
     private String nickname;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
     public Date getTriggerTime() {

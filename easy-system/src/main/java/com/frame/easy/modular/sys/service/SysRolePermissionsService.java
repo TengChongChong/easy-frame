@@ -14,7 +14,7 @@ public interface SysRolePermissionsService {
      * @param permissions 权限ids 1,2,3,4,5
      * @return boolean
      */
-    boolean saveRolePermissions(Long roleId, String permissions);
+    boolean saveRolePermissions(String roleId, String permissions);
 
     /**
      * 删除角色中的权限

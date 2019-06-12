@@ -31,6 +31,6 @@ public interface SysExceptionMapper extends BaseMapper<SysException> {
      * @param id id
      * @return 数据列表
      */
-    SysException getById(@Param("id")Long id);
+    SysException getById(@Param("id")String id);
 
 }

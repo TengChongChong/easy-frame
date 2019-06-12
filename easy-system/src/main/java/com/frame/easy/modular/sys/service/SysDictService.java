@@ -42,7 +42,7 @@ public interface SysDictService {
      * @param id 字典id
      * @return SysDict
      */
-    SysDict input(Long id);
+    SysDict input(String id);
 
     /**
      * 根据编码查询字典信息
@@ -60,7 +60,7 @@ public interface SysDictService {
      * @param dictType 字典类型
      * @return SysDict
      */
-    SysDict add(Long pId, String dictType);
+    SysDict add(String pId, String dictType);
 
     /**
      * 删除

@@ -19,7 +19,7 @@ public interface SysDepartmentTypeService {
      * @param pId 父id
      * @return List<JsTree>
      */
-    List<JsTree> selectData(Long pId);
+    List<JsTree> selectData(String pId);
 
     /**
      * 获取所有数据
@@ -34,7 +34,7 @@ public interface SysDepartmentTypeService {
      * @param id id
      * @return SysDepartmentType
      */
-    SysDepartmentType input(Long id);
+    SysDepartmentType input(String id);
 
     /**
      * 新增
@@ -42,7 +42,7 @@ public interface SysDepartmentTypeService {
      * @param pId 上级id
      * @return SysDepartmentType
      */
-    SysDepartmentType add(Long pId);
+    SysDepartmentType add(String pId);
 
     /**
      * 删除
@@ -50,7 +50,7 @@ public interface SysDepartmentTypeService {
      * @param id 机构类型id
      * @return true/false
      */
-    boolean delete(Long id);
+    boolean delete(String id);
 
     /**
      * 批量删除
@@ -87,7 +87,7 @@ public interface SysDepartmentTypeService {
      * @param oldPosition 拖动后的下标
      * @return true/false
      */
-    boolean move(Long id, Long parent, Long oldParent, Integer position, Integer oldPosition);
+    boolean move(String id, String parent, String oldParent, Integer position, Integer oldPosition);
 
     /**
      * 根据关键字搜索

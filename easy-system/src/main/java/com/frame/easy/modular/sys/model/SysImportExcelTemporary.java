@@ -1,6 +1,5 @@
 package com.frame.easy.modular.sys.model;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -23,18 +22,18 @@ public class SysImportExcelTemporary extends Model<SysImportExcelTemporary> impl
 
     @TableId(value = "id")
     @NotNull(message = "id不能为空")
-    private Long id;
+    private String id;
 
     /**
      * 模板id
      */
     @NotNull(message = "模板id不能为空")
-    private Long templateId;
+    private String templateId;
 
     /**
      * 导入用户id
      */
-    private Long userId;
+    private String userId;
     /**
      * 验证状态
      */
@@ -301,25 +300,25 @@ public class SysImportExcelTemporary extends Model<SysImportExcelTemporary> impl
     @TableField(exist=false)
     private Page page;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
-    public Long getTemplateId() {
+    public String getTemplateId() {
         return templateId;
     }
 
-    public void setTemplateId(Long templateId) {
+    public void setTemplateId(String templateId) {
         this.templateId = templateId;
     }
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

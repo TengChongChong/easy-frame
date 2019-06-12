@@ -78,7 +78,7 @@ public class SysMessageController extends BaseController {
      */
     @RequestMapping("/input/{id}")
     @RequiresPermissions("sys:message:select")
-    public String input(Model model, @PathVariable("id") Long id) {
+    public String input(Model model, @PathVariable("id") String id) {
         logger.debug("/auth/sys/message/input/" + id);
         model.addAttribute("object", service.input(id));
         return PREFIX + "input";

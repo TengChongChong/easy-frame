@@ -65,7 +65,7 @@ public class QuartzFactory implements Job {
      *
      * @param id 任务id
      */
-    private void updateLastRunDate(Long id) {
+    private void updateLastRunDate(String id) {
         SchedulerJobService schedulerJobService = SpringContextHolder.getBean("schedulerJobServiceImpl");
         schedulerJobService.updateLastRunDate(id);
     }

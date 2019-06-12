@@ -76,7 +76,7 @@ public class SysUserController extends BaseController {
      * @return view
      */
     @GetMapping({"/add/{id}"})
-    public String add(Model model, @PathVariable(value = "id", required = false) Long deptId) {
+    public String add(Model model, @PathVariable(value = "id", required = false) String deptId) {
         logger.debug("/auth/sys/user/add/" + deptId);
         model.addAttribute("object", service.add(deptId));
         return PREFIX + "input";
@@ -159,7 +159,7 @@ public class SysUserController extends BaseController {
      * @return view
      */
     @GetMapping("/input/{id}")
-    public String input(Model model, @PathVariable("id") Long id) {
+    public String input(Model model, @PathVariable("id") String id) {
         logger.debug("/auth/sys/user/input/" + id);
         SysUser sysUser = service.input(id);
         model.addAttribute("object", sysUser);

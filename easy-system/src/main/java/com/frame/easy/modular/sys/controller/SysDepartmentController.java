@@ -36,7 +36,7 @@ public class SysDepartmentController extends BaseController {
     @RequestMapping("/select/data")
     @ResponseBody
     @RequiresPermissions("sys:depart:select")
-    public Object selectData(@RequestParam(name = "pId", required = false) Long pId) {
+    public Object selectData(@RequestParam(name = "pId", required = false) String pId) {
         logger.debug("/auth/sys/depart/type/select/data");
         return service.selectData(pId);
     }
@@ -85,7 +85,7 @@ public class SysDepartmentController extends BaseController {
      * @return view
      */
     @GetMapping({"/add/{id}", "/add"})
-    public String add(Model model, @PathVariable(value = "id", required = false) Long pId,
+    public String add(Model model, @PathVariable(value = "id", required = false) String pId,
                       @RequestParam(value = "typeCode", required = false) String typeCode) {
         logger.debug("/auth/sys/depart/add/" + pId);
         model.addAttribute("object", service.add(pId, typeCode));
@@ -128,7 +128,7 @@ public class SysDepartmentController extends BaseController {
      * @return view
      */
     @GetMapping("/input/{id}")
-    public String input(Model model, @PathVariable("id") Long id) {
+    public String input(Model model, @PathVariable("id") String id) {
         logger.debug("/auth/sys/depart/input/" + id);
         SysDepartment sysDepartment = service.input(id);
         model.addAttribute("object", sysDepartment);

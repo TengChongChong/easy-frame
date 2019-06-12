@@ -72,7 +72,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
      * @return 详细信息
      */
     @Override
-    public SysConfig input(Long id) {
+    public SysConfig input(String id) {
         ToolUtil.checkParams(id);
         return getById(id);
     }

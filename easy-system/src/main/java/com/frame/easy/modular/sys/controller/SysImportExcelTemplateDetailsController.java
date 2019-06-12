@@ -43,7 +43,7 @@ public class SysImportExcelTemplateDetailsController extends BaseController {
      * @return String
      */
     @RequestMapping("list/{templateId}")
-    public String list(Model model, @PathVariable("templateId") Long templateId) {
+    public String list(Model model, @PathVariable("templateId") String templateId) {
         model.addAttribute("templateId", templateId);
         model.addAttribute("object", sysImportExcelTemplateService.input(templateId));
         logger.debug("/auth/sys/import/excel/template/details/list/" + templateId);
@@ -59,7 +59,7 @@ public class SysImportExcelTemplateDetailsController extends BaseController {
     @RequestMapping("select/details/{templateId}")
     @ResponseBody
     @RequiresPermissions("sys:import:excel:template:save")
-    public Tips selectDetails(@PathVariable("templateId") Long templateId) {
+    public Tips selectDetails(@PathVariable("templateId") String templateId) {
         logger.debug("/auth/sys/import/excel/template/details/select");
         return Tips.getSuccessTips(service.selectDetails(templateId));
     }
@@ -73,7 +73,7 @@ public class SysImportExcelTemplateDetailsController extends BaseController {
     @RequestMapping("select/table/head/{templateId}")
     @ResponseBody
     @RequiresPermissions("import:data")
-    public Tips selectTableHeadByTemplateCode(@PathVariable("templateId") Long templateId){
+    public Tips selectTableHeadByTemplateCode(@PathVariable("templateId") String templateId){
         return Tips.getSuccessTips(service.selectTableHeadByTemplateCode(templateId));
     }
 
@@ -87,7 +87,7 @@ public class SysImportExcelTemplateDetailsController extends BaseController {
     @RequestMapping("/save/data/{templateId}")
     @ResponseBody
     @RequiresPermissions("sys:import:excel:template:save")
-    public Tips saveData(@PathVariable("templateId") Long templateId,
+    public Tips saveData(@PathVariable("templateId") String templateId,
                          @RequestBody(required = false) List<SysImportExcelTemplateDetails> list) {
         logger.debug("/auth/sys/import/excel/template/details/save/data");
         return Tips.getSuccessTips(service.saveData(templateId, list));

@@ -21,11 +21,11 @@ import java.util.Date;
 public class SysDepartmentType extends Model<SysDepartmentType> {
 
     @TableId(value = "id")
-    private Long id;
+    private String id;
     /**
      * 父id
      */
-    private Long pId;
+    private String pId;
     /**
      * 代码
      */
@@ -50,11 +50,11 @@ public class SysDepartmentType extends Model<SysDepartmentType> {
     @NotNull(message = "状态不能为空")
     private Integer status;
     @TableField(fill = FieldFill.INSERT)
-    private Long createUser;
+    private String createUser;
     @TableField(fill = FieldFill.INSERT)
     private Date createDate;
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Long editUser;
+    private String editUser;
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date editDate;
 
@@ -75,12 +75,12 @@ public class SysDepartmentType extends Model<SysDepartmentType> {
     public SysDepartmentType() {
     }
 
-    public SysDepartmentType(Long id, Integer orderNo) {
+    public SysDepartmentType(String id, Integer orderNo) {
         this.id = id;
         this.orderNo = orderNo;
     }
 
-    public SysDepartmentType(Long id, Long pId, Integer orderNo) {
+    public SysDepartmentType(String id, String pId, Integer orderNo) {
         this.id = id;
         this.pId = pId;
         this.orderNo = orderNo;
@@ -91,19 +91,19 @@ public class SysDepartmentType extends Model<SysDepartmentType> {
         return this.id;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getpId() {
+    public String getpId() {
         return pId;
     }
 
-    public void setpId(Long pId) {
+    public void setpId(String pId) {
         this.pId = pId;
     }
 
@@ -131,11 +131,11 @@ public class SysDepartmentType extends Model<SysDepartmentType> {
         this.tips = tips;
     }
 
-    public Long getCreateUser() {
+    public String getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(Long createUser) {
+    public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
 
@@ -147,11 +147,11 @@ public class SysDepartmentType extends Model<SysDepartmentType> {
         this.createDate = createDate;
     }
 
-    public Long getEditUser() {
+    public String getEditUser() {
         return editUser;
     }
 
-    public void setEditUser(Long editUser) {
+    public void setEditUser(String editUser) {
         this.editUser = editUser;
     }
 

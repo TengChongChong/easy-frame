@@ -21,12 +21,12 @@ public class SysMessageDetails extends Model<SysMessageDetails> implements Seria
      * id
      */
     @TableId(value = "id")
-    private Long id;
+    private String id;
 
     /**
      * 消息id
      */
-    private Long messageId;
+    private String messageId;
 
     /**
      * 接收人
@@ -49,18 +49,18 @@ public class SysMessageDetails extends Model<SysMessageDetails> implements Seria
 
     //
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
-    public Long getMessageId() {
+    public String getMessageId() {
         return messageId;
     }
 
-    public void setMessageId(Long messageId) {
+    public void setMessageId(String messageId) {
         this.messageId = messageId;
     }
     public String getReceiverUser() {

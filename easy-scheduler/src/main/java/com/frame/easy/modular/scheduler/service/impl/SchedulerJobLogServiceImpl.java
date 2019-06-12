@@ -1,18 +1,16 @@
 package com.frame.easy.modular.scheduler.service.impl;
 
+import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.frame.easy.common.page.Page;
+import com.frame.easy.modular.scheduler.dao.SchedulerJobLogMapper;
+import com.frame.easy.modular.scheduler.model.SchedulerJobLog;
+import com.frame.easy.modular.scheduler.service.SchedulerJobLogService;
 import com.frame.easy.util.ToolUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.Arrays;
-import java.util.List;
-import com.frame.easy.common.page.Page;
-import cn.hutool.core.lang.Validator;
-import com.frame.easy.modular.scheduler.model.SchedulerJobLog;
-import com.frame.easy.modular.scheduler.dao.SchedulerJobLogMapper;
-import com.frame.easy.modular.scheduler.service.SchedulerJobLogService;
 
 /**
  * 定时任务执行日志
@@ -52,7 +50,7 @@ public class SchedulerJobLogServiceImpl extends ServiceImpl<SchedulerJobLogMappe
      * @return 详细信息
      */
     @Override
-    public SchedulerJobLog input(Long id) {
+    public SchedulerJobLog input(String id) {
         ToolUtil.checkParams(id);
         return getById(id);
     }
@@ -67,7 +65,7 @@ public class SchedulerJobLogServiceImpl extends ServiceImpl<SchedulerJobLogMappe
     @Override
     public SchedulerJobLog saveData(SchedulerJobLog object) {
         ToolUtil.checkParams(object);
-        if (object.getId() == null) {
+        if (StrUtil.isBlank(object.getId())) {
             // 新增,设置默认值
         }
         return (SchedulerJobLog) ToolUtil.checkResult(saveOrUpdate(object), object);

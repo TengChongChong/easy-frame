@@ -23,7 +23,7 @@ public class SysDictType extends Model<SysDictType> implements IModel {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id")
-    private Long id;
+    private String id;
     /**
      * 类别名称
      */
@@ -48,11 +48,11 @@ public class SysDictType extends Model<SysDictType> implements IModel {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Page page;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

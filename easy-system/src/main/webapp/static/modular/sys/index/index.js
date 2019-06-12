@@ -1,6 +1,6 @@
 //== 首页
 var mIndex = function () {
-    var rootId = 0; // 根菜单id
+    var rootId = '0'; // 根菜单id
     var currentUser = null;
     /**
      * 加载菜单
@@ -255,7 +255,7 @@ var mIndex = function () {
             e.preventDefault();
             var $menu = $(this);
             var url = $menu.data('url');
-            if (KTUtil.isBlank(url)) {
+            if (KTUtil.isBlank(url) || basePath === url) {
                 url = basePath + '/global/in-development';
             }
             KTApp.openPage($menu.text(), url);
@@ -583,6 +583,7 @@ var mIndex = function () {
             KTApp.initTabs();
             // 初始化标签页右键菜单
             initTabsRightMenu();
+
             // 加载菜单
             loadMenu();
             // 绑定菜单点击事件

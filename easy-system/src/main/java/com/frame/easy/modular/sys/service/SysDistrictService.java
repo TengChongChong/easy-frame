@@ -20,7 +20,7 @@ public interface SysDistrictService {
      * @param pId 父id
      * @return List<JsTree>
      */
-    List<JsTree> selectData(Long pId);
+    List<JsTree> selectData(String pId);
 
     /**
      * 获取所有数据
@@ -35,7 +35,7 @@ public interface SysDistrictService {
      * @param id id
      * @return SysDistrict
      */
-    SysDistrict input(Long id);
+    SysDistrict input(String id);
 
     /**
      * 新增
@@ -43,7 +43,7 @@ public interface SysDistrictService {
      * @param pId 上级id
      * @return SysDistrict
      */
-    SysDistrict add(Long pId);
+    SysDistrict add(String pId);
 
     /**
      * 删除
@@ -51,7 +51,7 @@ public interface SysDistrictService {
      * @param id 行政区划id
      * @return true/false
      */
-    boolean delete(Long id);
+    boolean delete(String id);
 
     /**
      * 批量删除
@@ -79,7 +79,7 @@ public interface SysDistrictService {
      * @param oldPosition 拖动后的下标
      * @return true/false
      */
-    boolean move(Long id, Long parent, Long oldParent, Integer position, Integer oldPosition);
+    boolean move(String id, String parent, String oldParent, Integer position, Integer oldPosition);
 
     /**
      * 根据关键字搜索
@@ -95,5 +95,5 @@ public interface SysDistrictService {
      * @param pId 父id
      * @return List<Select>
      */
-    List<Select> selectByPId(Long pId);
+    List<Select> selectByPId(String pId);
 }

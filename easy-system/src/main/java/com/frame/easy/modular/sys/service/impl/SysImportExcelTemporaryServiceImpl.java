@@ -102,7 +102,7 @@ public class SysImportExcelTemporaryServiceImpl extends ServiceImpl<SysImportExc
     }
 
     @Override
-    public List<SysImportExcelTemporary> selectData(Long templateId, Long userId, String status) {
+    public List<SysImportExcelTemporary> selectData(String templateId, String userId, String status) {
 
         return null;
     }
@@ -114,7 +114,7 @@ public class SysImportExcelTemporaryServiceImpl extends ServiceImpl<SysImportExc
      * @return 详细信息
      */
     @Override
-    public SysImportExcelTemporary input(Long id) {
+    public SysImportExcelTemporary input(String id) {
         ToolUtil.checkParams(id);
         QueryWrapper<SysImportExcelTemporary> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", id);
@@ -137,7 +137,7 @@ public class SysImportExcelTemporaryServiceImpl extends ServiceImpl<SysImportExc
     }
 
     @Override
-    public boolean checkLastData(Long templateId) {
+    public boolean checkLastData(String templateId) {
         SysUser sysUser = ShiroUtil.getCurrentUser();
         QueryWrapper<SysImportExcelTemporary> selectLastData = new QueryWrapper<>();
         selectLastData.eq("user_id", sysUser.getId());
@@ -146,7 +146,7 @@ public class SysImportExcelTemporaryServiceImpl extends ServiceImpl<SysImportExc
     }
 
     @Override
-    public boolean cleanMyImport(Long templateId) {
+    public boolean cleanMyImport(String templateId) {
         ToolUtil.checkParams(templateId);
         SysUser sysUser = ShiroUtil.getCurrentUser();
         QueryWrapper<SysImportExcelTemporary> clean = new QueryWrapper<>();
@@ -156,7 +156,7 @@ public class SysImportExcelTemporaryServiceImpl extends ServiceImpl<SysImportExc
     }
 
     @Override
-    public boolean cleanSuccessData(Long templateId) {
+    public boolean cleanSuccessData(String templateId) {
         SysUser sysUser = ShiroUtil.getCurrentUser();
         // 删除已导入成功的数据
         QueryWrapper<SysImportExcelTemporary> deleteSuccess = new QueryWrapper<>();
@@ -175,7 +175,7 @@ public class SysImportExcelTemporaryServiceImpl extends ServiceImpl<SysImportExc
     }
 
     @Override
-    public SysImportSummary selectImportSummary(Long templateId) {
+    public SysImportSummary selectImportSummary(String templateId) {
         SysUser sysUser = ShiroUtil.getCurrentUser();
         List<SysImportExcelTemporary> temporaries = getBaseMapper().selectImportSummary(templateId, sysUser.getId());
         SysImportSummary summary = new SysImportSummary();

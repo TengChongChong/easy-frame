@@ -42,7 +42,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
     private SysRolePermissionsService sysRolePermissionsService;
 
     @Override
-    public List<JsTree> selectData(Long pId) {
+    public List<JsTree> selectData(String pId) {
         List<JsTree> jsTrees;
         // 第一次请求,返回项目名称 + 一级菜单 数据
         if (pId == null || pId.equals(JsTreeUtil.baseId)) {
@@ -73,7 +73,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
     }
 
     @Override
-    public SysPermissions input(Long id) {
+    public SysPermissions input(String id) {
         SysPermissions sysPermissions;
         // 表示点击的是根目录
         if (id == null || id.equals(JsTreeUtil.baseId)) {
@@ -94,7 +94,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
     }
 
     @Override
-    public SysPermissions add(Long pId) {
+    public SysPermissions add(String pId) {
         if (pId != null) {
             SysPermissions sysPermissions = new SysPermissions();
             sysPermissions.setpId(pId);
@@ -123,7 +123,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
 
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
-    public boolean delete(Long id) {
+    public boolean delete(String id) {
         ToolUtil.checkParams(id);
         // 检查是否有子权限
         QueryWrapper<SysPermissions> queryWrapper = new QueryWrapper<>();
@@ -169,7 +169,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
         SysPermissions sysPermissions;
         for (String id : ids.split(CommonConst.SPLIT)) {
             sysPermissions = new SysPermissions();
-            sysPermissions.setId(Long.parseLong(id));
+            sysPermissions.setId(id);
             sysPermissions.setStatus(status);
             permissionsList.add(sysPermissions);
         }
@@ -177,7 +177,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
     }
 
     @Override
-    public List<SysPermissions> copyNode(String nodeIds, Long targetId) {
+    public List<SysPermissions> copyNode(String nodeIds, String targetId) {
         ToolUtil.checkParams(nodeIds);
         ToolUtil.checkParams(targetId);
         // 查询复制的节点
@@ -236,7 +236,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
             object.setIcon("<i class=\"" + JsTree.DEFAULT_ICON + "\"></i>");
         }
 
-        if (object.getId() == null && object.getOrderNo() == null) {
+        if (StrUtil.isBlank(object.getId()) && object.getOrderNo() == null) {
             object.setOrderNo(getBaseMapper().getMaxOrderNo(object.getpId()) + 1);
         }
 
@@ -245,7 +245,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
 
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
-    public boolean move(Long id, Long parent, Long oldParent, Integer position, Integer oldPosition) {
+    public boolean move(String id, String parent, String oldParent, Integer position, Integer oldPosition) {
         if (Validator.isNotEmpty(id) && Validator.isNotEmpty(parent) && Validator.isNotEmpty(oldParent) &&
                 Validator.isNotEmpty(position) && Validator.isNotEmpty(oldPosition)) {
             boolean isSuccess;
@@ -318,7 +318,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
         }
     }
 
-    private void updateMenuLevels(Long parent, Long id) {
+    private void updateMenuLevels(String parent, String id) {
         int parentLev;
         if (JsTreeUtil.baseId.equals(parent)) {
             parentLev = 0;

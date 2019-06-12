@@ -42,7 +42,7 @@ public interface SysMailVerifiesService {
      * @param userId 用户id
      * @return 邮箱
      */
-    String getMailByUserId(Long userId);
+    String getMailByUserId(String userId);
 
     /**
      * 删除校验信息
@@ -51,11 +51,4 @@ public interface SysMailVerifiesService {
      * @return true/false
      */
     boolean remove(String code);
-    /**
-     * 删除校验信息
-     *
-     * @param id id
-     * @return true/false
-     */
-    boolean remove(Long id);
 }

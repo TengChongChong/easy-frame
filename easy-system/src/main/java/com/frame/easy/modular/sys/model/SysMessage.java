@@ -27,7 +27,7 @@ public class SysMessage extends Model<SysMessage> implements IModel, Serializabl
      * id
      */
     @TableId(value = "id")
-    private Long id;
+    private String id;
 
     /**
      * 标题
@@ -81,7 +81,7 @@ public class SysMessage extends Model<SysMessage> implements IModel, Serializabl
      * 创建人
      */
     @TableField(fill = FieldFill.INSERT)
-    private Long createUser;
+    private String createUser;
 
     /**
      * 创建时间
@@ -93,7 +93,7 @@ public class SysMessage extends Model<SysMessage> implements IModel, Serializabl
      * 更新人
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Long editUser;
+    private String editUser;
 
     /**
      * 更新时间
@@ -135,11 +135,11 @@ public class SysMessage extends Model<SysMessage> implements IModel, Serializabl
     @TableField(exist=false)
     private String receiver;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
     public String getTitle() {
@@ -205,11 +205,11 @@ public class SysMessage extends Model<SysMessage> implements IModel, Serializabl
     public void setVersion(Integer version) {
         this.version = version;
     }
-    public Long getCreateUser() {
+    public String getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(Long createUser) {
+    public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
     public Date getCreateDate() {
@@ -219,11 +219,11 @@ public class SysMessage extends Model<SysMessage> implements IModel, Serializabl
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
-    public Long getEditUser() {
+    public String getEditUser() {
         return editUser;
     }
 
-    public void setEditUser(Long editUser) {
+    public void setEditUser(String editUser) {
         this.editUser = editUser;
     }
     public Date getEditDate() {

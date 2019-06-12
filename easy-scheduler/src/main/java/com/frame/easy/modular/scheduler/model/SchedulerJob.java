@@ -1,14 +1,15 @@
 package com.frame.easy.modular.scheduler.model;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.frame.easy.base.model.IModel;
 import com.frame.easy.common.page.Page;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -26,7 +27,7 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
      * id
      */
     @TableId(value = "id")
-    private Long id;
+    private String id;
 
     /**
      * 名称
@@ -59,13 +60,12 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
     /**
      * 状态
      */
-    @NotBlank(message = "状态不能为空")
+    @NotNull(message = "状态不能为空")
     private Integer status;
 
     /**
      * 上次执行时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date lastRunDate;
 
     /**
@@ -76,23 +76,25 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
     /**
      * 创建人
      */
-    private Long createUser;
+    @TableField(fill = FieldFill.INSERT)
+    private String createUser;
 
     /**
      * 创建时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
+    @TableField(fill = FieldFill.INSERT)
     private Date createDate;
 
     /**
      * 修改人
      */
-    private Long editUser;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private String editUser;
 
     /**
      * 修改时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date editDate;
 
     //
@@ -109,11 +111,11 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
         this.code = code;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -165,11 +167,11 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
         this.version = version;
     }
 
-    public Long getCreateUser() {
+    public String getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(Long createUser) {
+    public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
 
@@ -181,11 +183,11 @@ public class SchedulerJob extends Model<SchedulerJob> implements IModel, Seriali
         this.createDate = createDate;
     }
 
-    public Long getEditUser() {
+    public String getEditUser() {
         return editUser;
     }
 
-    public void setEditUser(Long editUser) {
+    public void setEditUser(String editUser) {
         this.editUser = editUser;
     }
 

@@ -22,7 +22,7 @@ public interface SysDistrictMapper extends BaseMapper<SysDistrict> {
      * @param pId 父id
      * @return List<JsTree>
      */
-    List<JsTree> selectData(@Param("pId") Long pId);
+    List<JsTree> selectData(@Param("pId") String pId);
 
     /**
      * 获取所有数据
@@ -37,7 +37,7 @@ public interface SysDistrictMapper extends BaseMapper<SysDistrict> {
      * @param id 权限id
      * @return
      */
-    SysDistrict selectInfo(@Param("id") Long id);
+    SysDistrict selectInfo(@Param("id") String id);
 
     /**
      * 查询指定数据
@@ -47,7 +47,7 @@ public interface SysDistrictMapper extends BaseMapper<SysDistrict> {
      * @param length 长度
      * @return List<T>
      */
-    List<SysDistrict> selectOrderInfo(@Param("pId") Long pId, @Param("str") Integer str, @Param("length") Integer length);
+    List<SysDistrict> selectOrderInfo(@Param("pId") String pId, @Param("str") Integer str, @Param("length") Integer length);
 
     /**
      * 根据关键字搜索数据
@@ -63,12 +63,12 @@ public interface SysDistrictMapper extends BaseMapper<SysDistrict> {
      * @param pId 父Id
      * @return
      */
-    Integer getMaxOrderNo(@Param("pId") Long pId);
+    Integer getMaxOrderNo(@Param("pId") String pId);
 
     /**
      * 根据父id获取数据
      * @param pId 父id
      * @return List<Select>
      */
-    List<Select> selectByPId(@Param("pId") Long pId);
+    List<Select> selectByPId(@Param("pId") String pId);
 }

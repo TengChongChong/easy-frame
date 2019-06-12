@@ -20,6 +20,6 @@ public interface SysRolePermissionsMapper extends BaseMapper<SysRolePermissions>
      * @param  status 状态
      * @return List<SysPermissions> 权限集合
      */
-    List<SysPermissions> selectPermissionsByRoleId(@Param("roleId") Long roleId, @Param("status") int status);
+    List<SysPermissions> selectPermissionsByRoleId(@Param("roleId") String roleId, @Param("status") int status);
 
 }

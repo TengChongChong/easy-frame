@@ -19,7 +19,7 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
      * @param  status 状态
      * @return List<String> 权限集合
      */
-    List<String> selectPermissionsByUserId(@Param("userId") Long userId, @Param("status") int status);
+    List<String> selectPermissionsByUserId(@Param("userId") String userId, @Param("status") int status);
 
     /**
      * 根据用户id获取菜单集合
@@ -29,7 +29,7 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
      * @param type 类型
      * @return List<String> 权限集合
      */
-    List<SysPermissions> selectMenusByUserId(@Param("userId") Long userId, @Param("status") int status, @Param("type") int type);
+    List<SysPermissions> selectMenusByUserId(@Param("userId") String userId, @Param("status") int status, @Param("type") int type);
 
     /**
      * 根据角色id获取角色集合
@@ -38,6 +38,6 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
      * @param  status 状态
      * @return List<String> 角色集合
      */
-    List<String> selectRoleByUserId(@Param("userId") Long userId, @Param("status") int status);
+    List<String> selectRoleByUserId(@Param("userId") String userId, @Param("status") int status);
 
 }

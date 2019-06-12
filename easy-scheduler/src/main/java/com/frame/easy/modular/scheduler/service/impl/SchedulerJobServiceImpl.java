@@ -86,7 +86,7 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
      * @return 详细信息
      */
     @Override
-    public SchedulerJob input(Long id) {
+    public SchedulerJob input(String id) {
         ToolUtil.checkParams(id);
         return getById(id);
     }
@@ -144,7 +144,7 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
         String jobJobCode = null;
         object.setEditDate(new Date());
         object.setEditUser(currentUser.getId());
-        if (object.getId() == null) {
+        if (StrUtil.isBlank(object.getId())) {
             // 新增,设置默认值
             object.setCreateDate(new Date());
             object.setCreateUser(currentUser.getId());
@@ -158,13 +158,16 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
             if (StrUtil.isNotBlank(jobJobCode)) {
                 quartzService.operateJob(new SchedulerJob(jobJobCode), SchedulerStatus.DELETE);
             }
-            quartzService.addJob(object);
+            if(SchedulerStatus.ENABLE.getCode() == object.getStatus()){
+                // 如果保存后是启用状态,添加到任务里
+                quartzService.addJob(object);
+            }
         }
         return (SchedulerJob) ToolUtil.checkResult(isSuccess, object);
     }
 
     @Override
-    public boolean updateLastRunDate(Long id) {
+    public boolean updateLastRunDate(String id) {
         if (id != null) {
             UpdateWrapper<SchedulerJob> updateWrapper = new UpdateWrapper<>();
             updateWrapper.set("last_run_date", new Date());
@@ -175,7 +178,7 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
     }
 
     @Override
-    public void start(Long id) {
+    public void start(String id) {
         ToolUtil.checkParams(id);
         boolean updateSuccess = updateJobStatus(SchedulerStatus.ENABLE.getCode(), String.valueOf(id));
         if (updateSuccess) {
@@ -186,7 +189,7 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
     }
 
     @Override
-    public void pause(Long id) {
+    public void pause(String id) {
         ToolUtil.checkParams(id);
         boolean updateSuccess = updateJobStatus(SchedulerStatus.DISABLE.getCode(), String.valueOf(id));
         if (updateSuccess) {

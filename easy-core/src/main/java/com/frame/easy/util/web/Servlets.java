@@ -24,7 +24,7 @@ public class Servlets {
      * @param request 请求
      * @return boolean
      */
-    public static boolean isAjaxRequest(HttpServletRequest request){
+    public static boolean isAjaxRequest(HttpServletRequest request) {
         String accept = request.getHeader("accept");
         String xRequestedWith = request.getHeader("X-Requested-With");
         return ((accept != null && accept.contains("application/json") ||
@@ -33,12 +33,13 @@ public class Servlets {
 
     /**
      * 获取当前请求
+     *
      * @return HttpServletRequest
      */
-    public static HttpServletRequest getRequest(){
-        try{
+    public static HttpServletRequest getRequest() {
+        try {
             return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
         return null;
@@ -50,10 +51,10 @@ public class Servlets {
      * @param uri 请求地址
      * @return true/false
      */
-    public static boolean isStaticRequest(String uri){
+    public static boolean isStaticRequest(String uri) {
         String[] staticFileSuffix = CommonConst.STATIC_FILE_SUFFIX;
-        for(String suffix: staticFileSuffix){
-            if(uri.endsWith(suffix)){
+        for (String suffix : staticFileSuffix) {
+            if (uri.endsWith(suffix)) {
                 return true;
             }
         }

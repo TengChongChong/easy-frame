@@ -21,6 +21,7 @@ public interface SysUserService {
     /**
      * 根据关键字搜索用户
      *
+     * @param page 分页
      * @param keyword 关键字
      * @return Page
      */
@@ -31,7 +32,7 @@ public interface SysUserService {
      * @param id id
      * @return SysUser
      */
-    SysUser input(Long id);
+    SysUser input(String id);
 
     /**
      * 新增
@@ -39,7 +40,7 @@ public interface SysUserService {
      * @param deptId 机构id
      * @return SysUser
      */
-    SysUser add(Long deptId);
+    SysUser add(String deptId);
 
     /**
      * 删除
@@ -113,7 +114,7 @@ public interface SysUserService {
      * @param userId 用户id
      * @return true/false
      */
-    boolean updateUserLastLoginDate(Long userId);
+    boolean updateUserLastLoginDate(String userId);
 
     /**
      * 获取当前登录用户
@@ -144,6 +145,6 @@ public interface SysUserService {
      * @param mail 邮箱
      * @return true/false
      */
-    boolean setUserMail(Long userId, String mail);
+    boolean setUserMail(String userId, String mail);
 
 }

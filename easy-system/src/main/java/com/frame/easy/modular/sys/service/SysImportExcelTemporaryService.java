@@ -28,14 +28,14 @@ public interface SysImportExcelTemporaryService {
      * @param status 状态
      * @return 数据列表
      */
-    List<SysImportExcelTemporary> selectData(Long templateId, Long userId, String status);
+    List<SysImportExcelTemporary> selectData(String templateId, String userId, String status);
     /**
      * 详情
      *
      * @param id id
      * @return 详细信息
      */
-    SysImportExcelTemporary input(Long id);
+    SysImportExcelTemporary input(String id);
     /**
      * 删除
      *
@@ -49,14 +49,14 @@ public interface SysImportExcelTemporaryService {
      * @param templateId 模板id
      * @return true/false
      */
-    boolean checkLastData(Long templateId);
+    boolean checkLastData(String templateId);
     /**
      * 清空指定导入代码中数据
      *
      * @param templateId 模板id
      * @return true/false
      */
-    boolean cleanMyImport(Long templateId);
+    boolean cleanMyImport(String templateId);
 
     /**
      * 删除验证成功的数据,用于保存数据后删除数据
@@ -64,7 +64,7 @@ public interface SysImportExcelTemporaryService {
      * @param templateId 模板id
      * @return true/false
      */
-    boolean cleanSuccessData(Long templateId);
+    boolean cleanSuccessData(String templateId);
 
     /**
      * 清空指定模板ids数据
@@ -80,7 +80,7 @@ public interface SysImportExcelTemporaryService {
      * @param templateId 模板id
      * @return 导入汇总
      */
-    SysImportSummary selectImportSummary(Long templateId);
+    SysImportSummary selectImportSummary(String templateId);
     /**
      * 保存
      *

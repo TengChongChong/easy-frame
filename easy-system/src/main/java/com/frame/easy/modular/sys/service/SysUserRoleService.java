@@ -18,7 +18,7 @@ public interface SysUserRoleService {
      * @param roles 角色ids 1,2,3,4,5
      * @return boolean
      */
-    boolean saveUserRole(Long userId, String roles);
+    boolean saveUserRole(String userId, String roles);
 
     /**
      * 删除用户拥有的角色
@@ -43,7 +43,7 @@ public interface SysUserRoleService {
      * @param userId 用户id
      * @return 权限集合
      */
-    List<String> selectPermissionsByUserId(Long userId);
+    List<String> selectPermissionsByUserId(String userId);
 
     /**
      * 根据用户id获取菜单集合
@@ -51,7 +51,7 @@ public interface SysUserRoleService {
      * @param userId 用户id
      * @return 菜单集合
      */
-    List<SysPermissions> selectMenusByUserId(Long userId);
+    List<SysPermissions> selectMenusByUserId(String userId);
 
     /**
      * 根据角色id获取角色集合
@@ -59,5 +59,5 @@ public interface SysUserRoleService {
      * @param userId 用户id
      * @return 角色集合
      */
-    List<String> selectRoleByUserId(Long userId);
+    List<String> selectRoleByUserId(String userId);
 }

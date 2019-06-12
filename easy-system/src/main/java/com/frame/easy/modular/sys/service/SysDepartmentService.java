@@ -20,7 +20,7 @@ public interface SysDepartmentService {
      * @param pId 父id
      * @return List<JsTree>
      */
-    List<JsTree> selectData(Long pId);
+    List<JsTree> selectData(String pId);
 
     /**
      * 根据关键字搜索
@@ -44,7 +44,7 @@ public interface SysDepartmentService {
      * @param id id
      * @return SysDepartment
      */
-    SysDepartment input(Long id);
+    SysDepartment input(String id);
 
     /**
      * 新增
@@ -53,7 +53,7 @@ public interface SysDepartmentService {
      * @param departType 类型
      * @return SysDepartment
      */
-    SysDepartment add(Long pId, String departType);
+    SysDepartment add(String pId, String departType);
 
     /**
      * 删除
@@ -95,7 +95,7 @@ public interface SysDepartmentService {
      * @param departType 类型
      * @return option
      */
-    List<Select> selectDepartmentTypeOption(Long pId, String departType);
+    List<Select> selectDepartmentTypeOption(String pId, String departType);
 
     /**
      * 新增/修改页面获取父机构option
@@ -104,5 +104,5 @@ public interface SysDepartmentService {
      * @param departType 机构类型
      * @return List<Select>
      */
-    List<Select> selectUpDepartmentOption(Long pId, String departType);
+    List<Select> selectUpDepartmentOption(String pId, String departType);
 }

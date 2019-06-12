@@ -1,10 +1,10 @@
 package com.frame.easy.modular.sys.model;
 
-import java.io.Serializable;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+
+import java.io.Serializable;
 
 /**
  * 用户偏好设置
@@ -20,7 +20,7 @@ public class SysUserSetting extends Model<SysUserSetting> implements Serializabl
      * 用户id
      */
     @TableId(value = "id")
-    private Long id;
+    private String id;
 
     /**
      * 提示类型
@@ -54,11 +54,11 @@ public class SysUserSetting extends Model<SysUserSetting> implements Serializabl
 
     //
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
     public String getTipType() {

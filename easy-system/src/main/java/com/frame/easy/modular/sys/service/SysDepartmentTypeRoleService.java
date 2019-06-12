@@ -18,7 +18,7 @@ public interface SysDepartmentTypeRoleService {
      * @param roles      角色ids 1,2,3,4,5
      * @return true/false
      */
-    boolean saveDepartTypeRole(Long deptTypeId, String roles);
+    boolean saveDepartTypeRole(String deptTypeId, String roles);
 
     /**
      * 删除机构类型可选择的角色

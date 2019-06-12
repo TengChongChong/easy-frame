@@ -74,8 +74,8 @@ public class RedisSessionDAO extends AbstractSessionDAO {
             if (Servlets.isStaticRequest(uri)) {
                 return null;
             }
+            logger.debug("readSession(" + request.getServletPath() + "):", sessionId.toString());
         }
-        logger.debug("readSession(" + request.getServletPath() + "):", sessionId.toString());
         // 从缓存中获取session
         return (Session) RedisUtil.get(getKey(sessionId.toString()));
     }

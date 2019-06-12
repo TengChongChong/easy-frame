@@ -41,7 +41,7 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
     private SysUserService sysUserService;
 
     @Override
-    public List<JsTree> selectData(Long pId) {
+    public List<JsTree> selectData(String pId) {
         List<JsTree> jsTrees;
         // 第一次请求,返回项目名称 + 一级节点 数据
         if (pId == null || pId.equals(JsTreeUtil.baseId)) {
@@ -91,13 +91,13 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
     }
 
     @Override
-    public SysDepartment input(Long id) {
+    public SysDepartment input(String id) {
         ToolUtil.checkParams(id);
         return getById(id);
     }
 
     @Override
-    public SysDepartment add(Long pId, String departType) {
+    public SysDepartment add(String pId, String departType) {
         if (Validator.isNotEmpty(pId) || Validator.isNotEmpty(departType)) {
             SysDepartment object = new SysDepartment();
             if (Validator.isNotEmpty(pId)) {
@@ -186,7 +186,7 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
     }
 
     @Override
-    public List<Select> selectDepartmentTypeOption(Long pId, String departType) {
+    public List<Select> selectDepartmentTypeOption(String pId, String departType) {
         List<Select> option = new ArrayList<>();
         // 获取当前机构下级机构类型
         if (Validator.isNotEmpty(pId) && !pId.equals(JsTreeUtil.baseId)) {
@@ -201,7 +201,7 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
     }
 
     @Override
-    public List<Select> selectUpDepartmentOption(Long pId, String departType) {
+    public List<Select> selectUpDepartmentOption(String pId, String departType) {
         List<Select> option = new ArrayList<>();
         // 获取当前机构下级机构类型
         if (Validator.isNotEmpty(pId) && !pId.equals(JsTreeUtil.baseId)) {

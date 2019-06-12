@@ -45,7 +45,7 @@ public class SysDistrictController extends BaseController {
      * @return view
      */
     @GetMapping("/add/{id}")
-    public String add(Model model, @PathVariable("id") Long pId) {
+    public String add(Model model, @PathVariable("id") String pId) {
         logger.debug("/auth/sys/district/add/" + pId);
         model.addAttribute("object", service.add(pId));
         model.addAttribute("parentSelect", service.selectByPId(pId));
@@ -61,7 +61,7 @@ public class SysDistrictController extends BaseController {
     @RequestMapping("/delete/{id}")
     @ResponseBody
     @RequiresPermissions("sys:district:delete")
-    public Tips delete(@PathVariable("id") Long id) {
+    public Tips delete(@PathVariable("id") String id) {
         logger.debug("/auth/sys/district/delete/" + id);
         return Tips.getSuccessTips(service.delete(id));
     }
@@ -101,7 +101,7 @@ public class SysDistrictController extends BaseController {
      * @return view
      */
     @GetMapping("/input/{id}")
-    public String input(Model model, @PathVariable("id") Long id) {
+    public String input(Model model, @PathVariable("id") String id) {
         logger.debug("/auth/sys/district/input/" + id);
         SysDistrict object = service.input(id);
         model.addAttribute("object", object);
@@ -118,7 +118,7 @@ public class SysDistrictController extends BaseController {
     @RequestMapping("/select/data")
     @ResponseBody
     @RequiresPermissions("sys:district:select")
-    public Object selectData(@RequestParam(name = "pId", required = false) Long pId) {
+    public Object selectData(@RequestParam(name = "pId", required = false) String pId) {
         logger.debug("/auth/sys/district/select/data");
         return service.selectData(pId);
     }
@@ -164,9 +164,9 @@ public class SysDistrictController extends BaseController {
     @RequestMapping("/move")
     @ResponseBody
     @RequiresPermissions("sys:district:move")
-    public Object move(@RequestParam(name = "id", required = false) Long id,
-                       @RequestParam(name = "parent", required = false) Long parent,
-                       @RequestParam(name = "oldParent", required = false) Long oldParent,
+    public Object move(@RequestParam(name = "id", required = false) String id,
+                       @RequestParam(name = "parent", required = false) String parent,
+                       @RequestParam(name = "oldParent", required = false) String oldParent,
                        @RequestParam(name = "position", required = false) Integer position,
                        @RequestParam(name = "oldPosition", required = false) Integer oldPosition) {
         logger.debug("/auth/sys/district/move");

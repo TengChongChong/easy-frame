@@ -42,7 +42,7 @@ public class SysRoleController extends BaseController {
     @RequestMapping("/select/data")
     @ResponseBody
     @RequiresPermissions("sys:role:select")
-    public Object selectData(@RequestParam(name = "pId", required = false) Long pId) {
+    public Object selectData(@RequestParam(name = "pId", required = false) String pId) {
         logger.debug("/auth/sys/roles/select/data");
         return service.selectData(pId);
     }
@@ -67,7 +67,7 @@ public class SysRoleController extends BaseController {
      * @return view
      */
     @GetMapping("/add/{id}")
-    public String add(Model model, @PathVariable("id") Long pId) {
+    public String add(Model model, @PathVariable("id") String pId) {
         logger.debug("/auth/sys/role/add/" + pId);
         model.addAttribute("object", service.add(pId));
         return PREFIX + "input";
@@ -82,7 +82,7 @@ public class SysRoleController extends BaseController {
     @RequestMapping("/delete/{id}")
     @ResponseBody
     @RequiresPermissions("sys:role:delete")
-    public Object delete(@PathVariable("id") Long id) {
+    public Object delete(@PathVariable("id") String id) {
         logger.debug("/auth/sys/role/delete/" + id);
         return Tips.getSuccessTips(service.delete(id));
     }
@@ -137,7 +137,7 @@ public class SysRoleController extends BaseController {
      * @return view
      */
     @GetMapping("/input/{id}")
-    public String input(Model model, @PathVariable("id") Long id) {
+    public String input(Model model, @PathVariable("id") String id) {
         logger.debug("/auth/sys/role/input/" + id);
         model.addAttribute("object", service.input(id));
         return PREFIX + "input";
@@ -171,9 +171,9 @@ public class SysRoleController extends BaseController {
     @RequestMapping("/move")
     @ResponseBody
     @RequiresPermissions("sys:role:move")
-    public Object move(@RequestParam(name = "id", required = false) Long id,
-                       @RequestParam(name = "parent", required = false) Long parent,
-                       @RequestParam(name = "oldParent", required = false) Long oldParent,
+    public Object move(@RequestParam(name = "id", required = false) String id,
+                       @RequestParam(name = "parent", required = false) String parent,
+                       @RequestParam(name = "oldParent", required = false) String oldParent,
                        @RequestParam(name = "position", required = false) Integer position,
                        @RequestParam(name = "oldPosition", required = false) Integer oldPosition) {
         logger.debug("/auth/sys/role/move");

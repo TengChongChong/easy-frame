@@ -18,7 +18,7 @@ public interface SysPermissionsService {
      * @param pId 父id
      * @return List<JsTree>
      */
-    List<JsTree> selectData(Long pId);
+    List<JsTree> selectData(String pId);
 
     /**
      * 获取所有数据
@@ -33,7 +33,7 @@ public interface SysPermissionsService {
      * @param id 权限id
      * @return SysPermissions
      */
-    SysPermissions input(Long id);
+    SysPermissions input(String id);
 
     /**
      * 新增
@@ -41,7 +41,7 @@ public interface SysPermissionsService {
      * @param pId 上级id
      * @return SysPermissions
      */
-    SysPermissions add(Long pId);
+    SysPermissions add(String pId);
 
     /**
      * 删除
@@ -49,7 +49,7 @@ public interface SysPermissionsService {
      * @param id 权限id
      * @return true/false
      */
-    boolean delete(Long id);
+    boolean delete(String id);
 
     /**
      * 批量删除
@@ -72,10 +72,10 @@ public interface SysPermissionsService {
      * 复制节点到目标id
      *
      * @param nodeIds  String 复制的节点ids [1,2,3]
-     * @param targetId Long 目标节点id
+     * @param targetId String 目标节点id
      * @return List<SysPermissions>
      */
-    List<SysPermissions> copyNode(String nodeIds, Long targetId);
+    List<SysPermissions> copyNode(String nodeIds, String targetId);
 
     /**
      * 保存
@@ -95,7 +95,7 @@ public interface SysPermissionsService {
      * @param oldPosition 拖动后的下标
      * @return true/false
      */
-    boolean move(Long id, Long parent, Long oldParent, Integer position, Integer oldPosition);
+    boolean move(String id, String parent, String oldParent, Integer position, Integer oldPosition);
 
     /**
      * 根据关键字搜索

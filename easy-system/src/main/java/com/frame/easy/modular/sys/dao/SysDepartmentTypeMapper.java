@@ -21,7 +21,7 @@ public interface SysDepartmentTypeMapper extends BaseMapper<SysDepartmentType> {
      * @param pId 父id
      * @return List<JsTree>
      */
-    List<JsTree> selectData(@Param("pId") Long pId);
+    List<JsTree> selectData(@Param("pId") String pId);
 
     /**
      * 获取所有数据
@@ -36,7 +36,7 @@ public interface SysDepartmentTypeMapper extends BaseMapper<SysDepartmentType> {
      * @param id 权限id
      * @return SysDepartmentType
      */
-    SysDepartmentType selectInfo(@Param("id") Long id);
+    SysDepartmentType selectInfo(@Param("id") String id);
 
     /**
      * 查询指定数据
@@ -46,7 +46,7 @@ public interface SysDepartmentTypeMapper extends BaseMapper<SysDepartmentType> {
      * @param length 长度
      * @return List<T>
      */
-    List<SysDepartmentType> selectOrderInfo(@Param("pId") Long pId, @Param("str") Integer str, @Param("length") Integer length);
+    List<SysDepartmentType> selectOrderInfo(@Param("pId") String pId, @Param("str") Integer str, @Param("length") Integer length);
 
     /**
      * 根据关键字搜索数据
@@ -62,7 +62,7 @@ public interface SysDepartmentTypeMapper extends BaseMapper<SysDepartmentType> {
      * @param id 父Id
      * @return
      */
-    Integer getMaxOrderNo(@Param("pId") Long id);
+    Integer getMaxOrderNo(@Param("pId") String id);
 
     /**
      * 根据同级代码获取类型数据

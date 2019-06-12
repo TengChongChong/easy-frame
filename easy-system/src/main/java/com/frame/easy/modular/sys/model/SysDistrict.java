@@ -17,7 +17,7 @@ public class SysDistrict extends Model<SysDictType> {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id")
-    private Long id;
+    private String id;
     /**
      * 名称
      */
@@ -26,7 +26,7 @@ public class SysDistrict extends Model<SysDictType> {
     /**
      * 父 ID
      */
-    private Long pId;
+    private String pId;
     /**
      * 拼音首字母
      */
@@ -64,16 +64,16 @@ public class SysDistrict extends Model<SysDictType> {
     public SysDistrict() {
     }
 
-    public SysDistrict(Long id) {
+    public SysDistrict(String id) {
         this.id = id;
     }
 
-    public SysDistrict(Long id, Integer orderNo) {
+    public SysDistrict(String id, Integer orderNo) {
         this.id = id;
         this.orderNo = orderNo;
     }
 
-    public SysDistrict(Long id, Long pId, Integer orderNo) {
+    public SysDistrict(String id, String pId, Integer orderNo) {
         this.id = id;
         this.pId = pId;
         this.orderNo = orderNo;
@@ -84,11 +84,11 @@ public class SysDistrict extends Model<SysDictType> {
         return this.id;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -100,11 +100,11 @@ public class SysDistrict extends Model<SysDictType> {
         this.name = name;
     }
 
-    public Long getpId() {
+    public String getpId() {
         return pId;
     }
 
-    public void setpId(Long pId) {
+    public void setpId(String pId) {
         this.pId = pId;
     }
 

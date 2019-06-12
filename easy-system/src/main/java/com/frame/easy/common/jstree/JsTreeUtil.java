@@ -14,7 +14,7 @@ public class JsTreeUtil {
     /**
      * 根节点id
      */
-    public static Long baseId = 0L;
+    public static String baseId = "0";
 
     /**
      * 获取根节点

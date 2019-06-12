@@ -66,7 +66,7 @@ public class SampleGeneralController extends BaseController {
      */
     @RequestMapping("/input/{id}")
     @RequiresPermissions("sample:general:select")
-    public String input(Model model, @PathVariable("id") Long id) {
+    public String input(Model model, @PathVariable("id") String id) {
         logger.debug("/auth/sample/general/input/" + id);
         model.addAttribute("object", service.input(id));
         return PREFIX + "input";

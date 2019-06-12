@@ -252,7 +252,7 @@ public class ShiroServiceImpl implements ShiroService {
     }
 
     @Override
-    public void updateUserLastLoginDate(Long userId) {
+    public void updateUserLastLoginDate(String userId) {
 //        sysUserService.updateUserLastLoginDate(userId); // sysUserService 未注入
         SysUser sysUser = new SysUser();
         sysUser.setId(userId);

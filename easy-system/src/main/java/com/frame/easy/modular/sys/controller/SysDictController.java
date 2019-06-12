@@ -90,7 +90,7 @@ public class SysDictController extends BaseController {
      * @return view
      */
     @GetMapping({"/add/{id}", "/add"})
-    public String add(Model model, @PathVariable(value = "id", required = false) Long pId,
+    public String add(Model model, @PathVariable(value = "id", required = false) String pId,
                       @RequestParam(value = "dictType", required = false) String dictType) {
         logger.debug("/auth/sys/dict/add/" + pId);
         model.addAttribute("dictTypes", service.getDictType());
@@ -133,7 +133,7 @@ public class SysDictController extends BaseController {
      * @return view
      */
     @GetMapping("/input/{id}")
-    public String input(Model model, @PathVariable("id") Long id) {
+    public String input(Model model, @PathVariable("id") String id) {
         logger.debug("/auth/sys/dict/input/" + id);
         model.addAttribute("object", service.input(id));
         model.addAttribute("dictTypes", service.getDictType());

@@ -23,7 +23,7 @@ public interface SchedulerJobLogService {
      * @param id id
      * @return 详细信息
      */
-    SchedulerJobLog input(Long id);
+    SchedulerJobLog input(String id);
 
     /**
      * 保存

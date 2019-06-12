@@ -85,13 +85,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public SysUser input(Long id) {
+    public SysUser input(String id) {
         ToolUtil.checkParams(id);
         return getBaseMapper().selectInfo(id);
     }
 
     @Override
-    public SysUser add(Long deptId) {
+    public SysUser add(String deptId) {
         ToolUtil.checkParams(deptId);
         SysUser sysUser = new SysUser();
         sysUser.setDeptId(deptId);
@@ -129,7 +129,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             }
         }
         // 新增时密码如果为空,则使用默认密码
-        if (object.getId() == null && Validator.isEmpty(object.getPassword())) {
+        if (StrUtil.isBlank(object.getId()) && Validator.isEmpty(object.getPassword())) {
             // 生成随机的盐
             object.setSalt(RandomUtil.randomString(10));
             object.setPassword(PasswordUtil.generatingPasswords(SysConst.projectProperties.getDefaultPassword(), object.getSalt()));
@@ -221,7 +221,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public boolean updateUserLastLoginDate(Long userId) {
+    public boolean updateUserLastLoginDate(String userId) {
         SysUser sysUser = new SysUser();
         sysUser.setId(userId);
         sysUser.setLastLogin(new Date());
@@ -259,7 +259,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public boolean setUserMail(Long userId, String mail) {
+    public boolean setUserMail(String userId, String mail) {
         // 解绑该邮箱以前绑定的账号
         UpdateWrapper<SysUser> untyingMail = new UpdateWrapper<>();
         untyingMail.eq("email", mail);

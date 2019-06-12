@@ -26,12 +26,10 @@ public class SysUserOnline extends SysUser{
     /**
      * session创建时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date startTimestamp;
     /**
      * session最后访问时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date lastAccessTime;
     /**
      * 超时时间

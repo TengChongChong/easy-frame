@@ -81,7 +81,7 @@ public class GenerationServiceImpl implements GenerationService {
                                 object.getPermissionsCode() + ":select",
                                 "/auth/" + object.getControllerMapping() + "/list",
                                 1);
-                        basePermission.setpId(0L);
+                        basePermission.setpId("0");
                         basePermission.setType(PermissionsType.ENABLE.getCode());
                         sysPermissionsService.saveData(basePermission);
                         if (StrUtil.isNotBlank(object.getPermissionsCode())) {

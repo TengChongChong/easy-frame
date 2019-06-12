@@ -25,7 +25,7 @@ public class SampleImportDataServiceImpl extends ServiceImpl<SampleGeneralMapper
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public boolean beforeImport(Long templateId, Long userId) {
+    public boolean beforeImport(String templateId, String userId) {
         logger.debug("templateId:" + templateId);
         logger.debug("userId:" + userId);
         logger.debug("beforeImport");

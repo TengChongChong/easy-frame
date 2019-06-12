@@ -61,7 +61,7 @@ public class ${config.modelName}Controller extends BaseController {
     <% if(config.permissionsCode != null && config.permissionsCode != '') { %>
     @RequiresPermissions("${config.permissionsCode}:select")
     <% } %>
-    public String input(Model model, @PathVariable("id") Long id) {
+    public String input(Model model, @PathVariable("id") String id) {
         logger.debug("/auth/${config.controllerMapping}/input/" + id);
         model.addAttribute("object", service.input(id));
         return PREFIX + "input";

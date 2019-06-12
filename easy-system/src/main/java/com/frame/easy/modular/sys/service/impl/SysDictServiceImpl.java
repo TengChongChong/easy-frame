@@ -79,7 +79,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     }
 
     @Override
-    public SysDict input(Long id) {
+    public SysDict input(String id) {
         ToolUtil.checkParams(id);
         return getBaseMapper().selectById(id);
     }
@@ -93,7 +93,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     }
 
     @Override
-    public SysDict add(Long pId, String dictType) {
+    public SysDict add(String pId, String dictType) {
         SysDict object = new SysDict();
         object.setStatus(CommonStatus.ENABLE.getCode());
         object.setDictType(dictType);

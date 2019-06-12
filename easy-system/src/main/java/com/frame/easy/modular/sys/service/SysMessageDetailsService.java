@@ -23,5 +23,5 @@ public interface SysMessageDetailsService {
      * @param receiver 收信人
      * @return true/false
      */
-    boolean saveData(Long messageId, String receiver);
+    boolean saveData(String messageId, String receiver);
 }

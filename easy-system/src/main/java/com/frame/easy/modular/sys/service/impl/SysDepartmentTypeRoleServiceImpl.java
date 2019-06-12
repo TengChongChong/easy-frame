@@ -5,11 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.jstree.JsTree;
-import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysDepartmentTypeRoleMapper;
 import com.frame.easy.modular.sys.model.SysDepartmentTypeRole;
 import com.frame.easy.modular.sys.service.SysDepartmentTypeRoleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.frame.easy.util.ToolUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +26,7 @@ public class SysDepartmentTypeRoleServiceImpl extends ServiceImpl<SysDepartmentT
 
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
-    public boolean saveDepartTypeRole(Long deptTypeId, String roles) {
+    public boolean saveDepartTypeRole(String deptTypeId, String roles) {
         ToolUtil.checkParams(deptTypeId);
         // 删除原权限
         remove(new QueryWrapper<SysDepartmentTypeRole>().eq("dept_type_id", deptTypeId));
@@ -36,7 +35,7 @@ public class SysDepartmentTypeRoleServiceImpl extends ServiceImpl<SysDepartmentT
             SysDepartmentTypeRole sysDepartmentTypeRole;
             for (String roleId : roles.split(CommonConst.SPLIT)) {
                 sysDepartmentTypeRole = new SysDepartmentTypeRole();
-                sysDepartmentTypeRole.setRoleId(Long.parseLong(roleId));
+                sysDepartmentTypeRole.setRoleId(roleId);
                 sysDepartmentTypeRole.setDeptTypeId(deptTypeId);
                 sysDepartmentTypeRoles.add(sysDepartmentTypeRole);
             }

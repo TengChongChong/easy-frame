@@ -26,7 +26,7 @@ public class SysDict extends Model<SysDict> implements IModel {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id")
-    private Long id;
+    private String id;
     /**
      * 排序值
      */
@@ -70,9 +70,9 @@ public class SysDict extends Model<SysDict> implements IModel {
     @TableField(fill = FieldFill.INSERT)
     private Date createDate;
     @TableField(fill = FieldFill.INSERT)
-    private Long createUser;
+    private String createUser;
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Long editUser;
+    private String editUser;
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date editDate;
 
@@ -94,11 +94,11 @@ public class SysDict extends Model<SysDict> implements IModel {
         return this.id;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -165,19 +165,19 @@ public class SysDict extends Model<SysDict> implements IModel {
         this.createDate = createDate;
     }
 
-    public Long getCreateUser() {
+    public String getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(Long createUser) {
+    public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
 
-    public Long getEditUser() {
+    public String getEditUser() {
         return editUser;
     }
 
-    public void setEditUser(Long editUser) {
+    public void setEditUser(String editUser) {
         this.editUser = editUser;
     }
 

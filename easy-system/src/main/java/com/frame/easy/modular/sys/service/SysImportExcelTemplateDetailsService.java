@@ -18,7 +18,7 @@ public interface SysImportExcelTemplateDetailsService {
      * @param templateId 导入模板id
      * @return 数据列表
      */
-    List<SysImportExcelTemplateDetails> selectDetails(Long templateId);
+    List<SysImportExcelTemplateDetails> selectDetails(String templateId);
 
     /**
      * 根据模板代码获取表格表头
@@ -26,7 +26,7 @@ public interface SysImportExcelTemplateDetailsService {
      * @param templateId 模板id
      * @return heads
      */
-    List<Column> selectTableHeadByTemplateCode(Long templateId);
+    List<Column> selectTableHeadByTemplateCode(String templateId);
 
     /**
      * 保存
@@ -35,7 +35,7 @@ public interface SysImportExcelTemplateDetailsService {
      * @param list       表单内容
      * @return true/false
      */
-    boolean saveData(Long templateId, List<SysImportExcelTemplateDetails> list);
+    boolean saveData(String templateId, List<SysImportExcelTemplateDetails> list);
 
     /**
      * 根据模板ids删除规则

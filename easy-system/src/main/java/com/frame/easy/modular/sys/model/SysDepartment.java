@@ -26,11 +26,11 @@ public class SysDepartment extends Model<SysDepartment> implements IModel {
     private static final long serialVersionUID = 1L;
 
     @TableId(value="id")
-    private Long id;
+    private String id;
     /**
      * 父id
      */
-    private Long pId;
+    private String pId;
     /**
      * 父级ids
      */
@@ -71,11 +71,11 @@ public class SysDepartment extends Model<SysDepartment> implements IModel {
      */
     private Integer version;
     @TableField(fill = FieldFill.INSERT)
-    private Long createUser;
+    private String createUser;
     @TableField(fill = FieldFill.INSERT)
     private Date createDate;
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Long editUser;
+    private String editUser;
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date editDate;
 
@@ -101,19 +101,19 @@ public class SysDepartment extends Model<SysDepartment> implements IModel {
         return this.id;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getpId() {
+    public String getpId() {
         return pId;
     }
 
-    public void setpId(Long pId) {
+    public void setpId(String pId) {
         this.pId = pId;
     }
 
@@ -165,11 +165,11 @@ public class SysDepartment extends Model<SysDepartment> implements IModel {
         this.version = version;
     }
 
-    public Long getCreateUser() {
+    public String getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(Long createUser) {
+    public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
 
@@ -181,11 +181,11 @@ public class SysDepartment extends Model<SysDepartment> implements IModel {
         this.createDate = createDate;
     }
 
-    public Long getEditUser() {
+    public String getEditUser() {
         return editUser;
     }
 
-    public void setEditUser(Long editUser) {
+    public void setEditUser(String editUser) {
         this.editUser = editUser;
     }
 

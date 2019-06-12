@@ -27,7 +27,7 @@ public interface SysImportExcelTemplateService {
      * @param id id
      * @return 详细信息
      */
-    SysImportExcelTemplate input(Long id);
+    SysImportExcelTemplate input(String id);
 
     /**
      * 根据模板代码获取导入信息
@@ -62,6 +62,7 @@ public interface SysImportExcelTemplateService {
      * 下载导入模板
      *
      * @param importCode 模板代码
+     * @param request request
      * @return ResponseEntity
      */
     ResponseEntity<FileSystemResource> downloadTemplate(String importCode, HttpServletRequest request);

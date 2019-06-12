@@ -39,8 +39,8 @@ public interface SysImportExcelDataMapper {
     int insert(@Param("table") String table,
                @Param("fields") String fields,
                @Param("tempFields") String tempFields,
-               @Param("templateId") Long templateId,
-               @Param("userId") Long userId,
+               @Param("templateId") String templateId,
+               @Param("userId") String userId,
                @Param("verificationStatusSuccess") String verificationStatusSuccess);
 
     /**

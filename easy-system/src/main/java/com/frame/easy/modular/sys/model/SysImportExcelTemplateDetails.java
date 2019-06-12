@@ -25,13 +25,13 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id")
-    private Long id;
+    private String id;
 
     /**
      * 模板id
      */
     @NotNull(message = "模板id不能为空")
-    private Long templateId;
+    private String templateId;
 
     /**
      * 数据库字段名
@@ -94,9 +94,9 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     @TableField(fill = FieldFill.INSERT)
     private Date createDate;
     @TableField(fill = FieldFill.INSERT)
-    private Long createUser;
+    private String createUser;
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Long editUser;
+    private String editUser;
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date editDate;
     /**
@@ -121,19 +121,19 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
     @TableField(exist = false)
     private boolean isNumber;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getTemplateId() {
+    public String getTemplateId() {
         return templateId;
     }
 
-    public void setTemplateId(Long templateId) {
+    public void setTemplateId(String templateId) {
         this.templateId = templateId;
     }
 
@@ -250,19 +250,19 @@ public class SysImportExcelTemplateDetails extends Model<SysImportExcelTemplateD
         this.createDate = createDate;
     }
 
-    public Long getCreateUser() {
+    public String getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(Long createUser) {
+    public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
 
-    public Long getEditUser() {
+    public String getEditUser() {
         return editUser;
     }
 
-    public void setEditUser(Long editUser) {
+    public void setEditUser(String editUser) {
         this.editUser = editUser;
     }
 

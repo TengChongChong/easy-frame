@@ -23,7 +23,7 @@ public interface SampleGeneralService {
      * @param id id
      * @return 详细信息
      */
-    SampleGeneral input(Long id);
+    SampleGeneral input(String id);
     /**
      * 新增
      *

@@ -38,7 +38,7 @@ public class ${config.modelName}ServiceImpl extends ServiceImpl<${config.modelNa
      * @return 详细信息
      */
     @Override
-    public ${config.modelName} input(Long id) {
+    public ${config.modelName} input(String id) {
         ToolUtil.checkParams(id);
         return getById(id);
     }

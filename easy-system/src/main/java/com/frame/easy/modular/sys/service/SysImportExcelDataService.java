@@ -20,7 +20,7 @@ public interface SysImportExcelDataService {
      * @param template 模板id
      * @return true/false
      */
-    boolean checkLastData(Long template);
+    boolean checkLastData(String template);
 
     /**
      * 验证并解析文件
@@ -29,7 +29,7 @@ public interface SysImportExcelDataService {
      * @param path       excel文件路径
      * @return true/false
      */
-    boolean analysis(Long templateId, String path);
+    boolean analysis(String templateId, String path);
 
     /**
      * 查询指定导入汇总信息
@@ -37,7 +37,7 @@ public interface SysImportExcelDataService {
      * @param templateId 模板id
      * @return 导入汇总
      */
-    SysImportSummary selectSummary(Long templateId);
+    SysImportSummary selectSummary(String templateId);
 
     /**
      * 插入验证成功数据
@@ -45,7 +45,7 @@ public interface SysImportExcelDataService {
      * @param templateId 模板id
      * @return true/false
      */
-    int insertData(Long templateId);
+    int insertData(String templateId);
 
     /**
      * 导出验证失败数据
@@ -54,5 +54,5 @@ public interface SysImportExcelDataService {
      * @param request    request
      * @return 文件
      */
-    ResponseEntity<FileSystemResource> exportVerificationFailData(Long templateId, HttpServletRequest request);
+    ResponseEntity<FileSystemResource> exportVerificationFailData(String templateId, HttpServletRequest request);
 }

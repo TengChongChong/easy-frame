@@ -29,11 +29,11 @@ public class SysUser extends Model<SysUser> implements Serializable, IModel {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id")
-    private Long id;
+    private String id;
     /**
      * 部门id
      */
-    private Long deptId;
+    private String deptId;
     /**
      * 用户名
      */
@@ -95,7 +95,7 @@ public class SysUser extends Model<SysUser> implements Serializable, IModel {
      * 创建人
      */
     @TableField(fill = FieldFill.INSERT)
-    private Long createUser;
+    private String createUser;
     /**
      * 创建时间
      */
@@ -106,7 +106,7 @@ public class SysUser extends Model<SysUser> implements Serializable, IModel {
      * 修改人
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Long editUser;
+    private String editUser;
     /**
      * 修改时间
      */
@@ -184,11 +184,11 @@ public class SysUser extends Model<SysUser> implements Serializable, IModel {
         return this.id;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -256,11 +256,11 @@ public class SysUser extends Model<SysUser> implements Serializable, IModel {
         this.birthday = birthday;
     }
 
-    public Long getDeptId() {
+    public String getDeptId() {
         return deptId;
     }
 
-    public void setDeptId(Long deptId) {
+    public void setDeptId(String deptId) {
         this.deptId = deptId;
     }
 
@@ -320,19 +320,19 @@ public class SysUser extends Model<SysUser> implements Serializable, IModel {
         this.source = source;
     }
 
-    public Long getCreateUser() {
+    public String getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(Long createUser) {
+    public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
 
-    public Long getEditUser() {
+    public String getEditUser() {
         return editUser;
     }
 
-    public void setEditUser(Long editUser) {
+    public void setEditUser(String editUser) {
         this.editUser = editUser;
     }
 

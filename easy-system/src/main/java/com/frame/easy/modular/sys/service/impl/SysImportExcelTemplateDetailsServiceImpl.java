@@ -34,7 +34,7 @@ public class SysImportExcelTemplateDetailsServiceImpl extends ServiceImpl<SysImp
      * @return 数据列表
      */
     @Override
-    public List<SysImportExcelTemplateDetails> selectDetails(Long templateId) {
+    public List<SysImportExcelTemplateDetails> selectDetails(String templateId) {
         ToolUtil.checkParams(templateId);
         QueryWrapper<SysImportExcelTemplateDetails> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("template_id", templateId);
@@ -43,7 +43,7 @@ public class SysImportExcelTemplateDetailsServiceImpl extends ServiceImpl<SysImp
     }
 
     @Override
-    public List<Column> selectTableHeadByTemplateCode(Long templateId) {
+    public List<Column> selectTableHeadByTemplateCode(String templateId) {
         ToolUtil.checkParams(templateId);
         List<Column> columns = getBaseMapper().selectTableHeadByTemplateId(templateId);
         int columnsLength = columns.size();
@@ -62,7 +62,7 @@ public class SysImportExcelTemplateDetailsServiceImpl extends ServiceImpl<SysImp
      */
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
-    public boolean saveData(Long templateId, List<SysImportExcelTemplateDetails> list) {
+    public boolean saveData(String templateId, List<SysImportExcelTemplateDetails> list) {
         ToolUtil.checkParams(list);
         QueryWrapper<SysImportExcelTemplateDetails> deleteOld = new QueryWrapper<>();
         deleteOld.eq("template_id", templateId);

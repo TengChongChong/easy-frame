@@ -39,7 +39,7 @@ public class SysMailVerifiesServiceImpl extends ServiceImpl<SysMailVerifiesMappe
             if (sysMailVerifies != null) {
                 if (sysMailVerifies.getExpired().getTime() > System.currentTimeMillis()) {
                     // 校验码未过期
-                    SysUser sysUser = sysUserService.input(Long.parseLong(sysMailVerifies.getUserId()));
+                    SysUser sysUser = sysUserService.input(sysMailVerifies.getUserId());
                     if (sysUser != null) {
                         // 更新用户表中的邮箱
                         if (sysUserService.setUserMail(sysUser.getId(), sysMailVerifies.getMail())) {
@@ -96,7 +96,7 @@ public class SysMailVerifiesServiceImpl extends ServiceImpl<SysMailVerifiesMappe
     }
 
     @Override
-    public String getMailByUserId(Long userId) {
+    public String getMailByUserId(String userId) {
         return getBaseMapper().getMailByUserId(userId, MailConst.MAIL_BINDING_MAIL);
     }
 
@@ -105,10 +105,5 @@ public class SysMailVerifiesServiceImpl extends ServiceImpl<SysMailVerifiesMappe
         QueryWrapper<SysMailVerifies> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("code", code);
         return remove(queryWrapper);
-    }
-
-    @Override
-    public boolean remove(Long id) {
-        return remove(id);
     }
 }

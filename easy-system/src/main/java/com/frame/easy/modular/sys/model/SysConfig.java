@@ -23,7 +23,7 @@ public class SysConfig extends Model<SysConfig> implements IModel, Serializable{
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id")
-    private Long id;
+    private String id;
 
     /**
      * key
@@ -58,7 +58,7 @@ public class SysConfig extends Model<SysConfig> implements IModel, Serializable{
      * 创建人
      */
     @TableField(fill = FieldFill.INSERT)
-    private Long createUser;
+    private String createUser;
 
     /**
      * 编辑时间
@@ -70,7 +70,7 @@ public class SysConfig extends Model<SysConfig> implements IModel, Serializable{
      * 编辑人
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Long editUser;
+    private String editUser;
 
     //
     /**
@@ -79,11 +79,11 @@ public class SysConfig extends Model<SysConfig> implements IModel, Serializable{
     @TableField(exist=false)
     private Page page;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
     public String getSysKey() {
@@ -121,11 +121,11 @@ public class SysConfig extends Model<SysConfig> implements IModel, Serializable{
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
-    public Long getCreateUser() {
+    public String getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(Long createUser) {
+    public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
     public Date getEditDate() {
@@ -135,11 +135,11 @@ public class SysConfig extends Model<SysConfig> implements IModel, Serializable{
     public void setEditDate(Date editDate) {
         this.editDate = editDate;
     }
-    public Long getEditUser() {
+    public String getEditUser() {
         return editUser;
     }
 
-    public void setEditUser(Long editUser) {
+    public void setEditUser(String editUser) {
         this.editUser = editUser;
     }
     @Override

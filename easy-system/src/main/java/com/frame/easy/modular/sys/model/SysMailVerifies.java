@@ -19,7 +19,7 @@ public class SysMailVerifies extends Model<SysMailVerifies> implements Serializa
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id")
-    private Long id;
+    private String id;
 
     /**
      * 用户标识/user_id/username
@@ -46,11 +46,11 @@ public class SysMailVerifies extends Model<SysMailVerifies> implements Serializa
      */
     private String type;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
     public String getUserId() {

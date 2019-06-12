@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.frame.easy.base.model.IModel;
 import com.frame.easy.common.page.Page;
 
@@ -25,17 +24,16 @@ public class SchedulerJobLog extends Model<SchedulerJobLog> implements IModel, S
      * id
      */
     @TableId(value = "id")
-    private Long id;
+    private String id;
 
     /**
      * 任务id
      */
-    private Long jobId;
+    private String jobId;
 
     /**
      * 执行时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date runDate;
 
     /**
@@ -53,24 +51,24 @@ public class SchedulerJobLog extends Model<SchedulerJobLog> implements IModel, S
     public SchedulerJobLog() {
     }
 
-    public SchedulerJobLog(Long jobId, Date runDate, Long timeConsuming) {
+    public SchedulerJobLog(String jobId, Date runDate, Long timeConsuming) {
         this.jobId = jobId;
         this.runDate = runDate;
         this.timeConsuming = timeConsuming;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
-    public Long getJobId() {
+    public String getJobId() {
         return jobId;
     }
 
-    public void setJobId(Long jobId) {
+    public void setJobId(String jobId) {
         this.jobId = jobId;
     }
     public Date getRunDate() {

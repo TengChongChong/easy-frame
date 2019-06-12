@@ -22,7 +22,7 @@ public interface SysImportExcelTemporaryMapper extends BaseMapper<SysImportExcel
      * @param userId     用户id
      * @return 导入汇总
      */
-    List<SysImportExcelTemporary> selectImportSummary(@Param("templateId") Long templateId, @Param("userId") Long userId);
+    List<SysImportExcelTemporary> selectImportSummary(@Param("templateId") String templateId, @Param("userId") String userId);
 
     /**
      * 查询临时表数据

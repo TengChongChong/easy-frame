@@ -32,7 +32,7 @@ public interface SysDepartmentMapper extends BaseMapper<SysDepartment> {
      * @param pId 父id
      * @return List<JsTree>
      */
-    List<JsTree> selectData(@Param("pId") Long pId);
+    List<JsTree> selectData(@Param("pId") String pId);
 
     /**
      * 获取列表数据

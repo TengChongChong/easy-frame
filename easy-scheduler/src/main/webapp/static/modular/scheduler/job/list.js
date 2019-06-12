@@ -68,7 +68,7 @@ var mSchedulerJobList = function () {
                     template: function (row, index, datatable) {
                         var _btn = '';
                         if (KTTool.hasPermissions('scheduler:job:save')) {
-                            _btn += '<a href="#" onclick="KTTool.editById(this, \'' + row.id + '\', \'' + row.name + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="编辑">\
+                            _btn += '<a href="#" onclick="KTTool.editById(this, \'' + row.id + '\', \'' + row.name + '\')" class="' + KTTool.ACTIONS_INFO + '" title="编辑">\
                                 <i class="la la-edit"></i>\
                             </a>';
                         }

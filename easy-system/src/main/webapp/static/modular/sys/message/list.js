@@ -59,8 +59,9 @@ var SysMessageList = function () {
                 KTApp.animateCSS('ul.kt-nav.message-type', KTApp.getAnimate('in'), function () {
                     $messageTypeUl.removeClass('kt-hide');
                 });
-                // 清空类型筛选
+                // 恢复默认类型筛选
                 $messageTypeUl.find('.kt-nav__item').removeClass('active');
+                $messageTypeUl.find('.kt-nav__item:eq(0)').addClass('active');
                 $('#type').val('');
             }
 
@@ -146,7 +147,7 @@ var SysMessageList = function () {
                         return '\
                         <div class="kt-user-card-v2">\
                             <div class="kt-user-card-v2__pic">\
-                                <img src="'+row.avatar+'" alt="photo">\
+                                <img src="' + row.avatar + '" alt="photo">\
                             </div>\
                             <div class="kt-user-card-v2__details">\
                                 <a href="#" class="kt-user-card-v2__name">' +
@@ -205,78 +206,96 @@ var SysMessageList = function () {
             // 已发送
             $status.val(STATUS_HAS_BEEN_SENT);
         }
-        // 刷新表格数据
-        initTable({
-            url: KTTool.getBaseUrl() + 'select',
-            columns: [
-                {
-                    field: 'id',
-                    title: '#',
-                    sortable: false, // 禁用此列排序
-                    width: 40,
-                    selector: {class: 'kt-checkbox--solid'}
-                },
-                {
-                    field: 'title',
-                    title: '标题',
-                    width: 460,
-                    template: function (row) {
-                        return '\
+        var columns = [
+            {
+                field: 'id',
+                title: '#',
+                sortable: false, // 禁用此列排序
+                width: 40,
+                selector: {class: 'kt-checkbox--solid'}
+            },
+            {
+                field: 'title',
+                title: '标题',
+                width: 460,
+                template: function (row) {
+                    return '\
                         <div class="kt-user-card-v2">\
                             <div class="kt-user-card-v2__pic">\
-                                <img src="'+row.avatar+'" alt="photo">\
+                                <img src="' + row.avatar + '" alt="photo">\
                             </div>\
                             <div class="kt-user-card-v2__details">\
                                 <a href="#" class="kt-user-card-v2__name">' +
-                            (row.important === 1 ? '<span class="kt-badge kt-badge--danger kt-badge--inline kt-badge--unified-danger">重要</span> ' : '') +
-                            row.title + '</a>\
+                        (row.important === 1 ? '<span class="kt-badge kt-badge--danger kt-badge--inline kt-badge--unified-danger">重要</span> ' : '') +
+                        row.title + '</a>\
                                 <span class="kt-user-card-v2__email">' + row.nickname + '</span>\
                             </div>\
                         </div>';
-                    }
-                },
-                {
-                    field: 'sendDate',
-                    title: '发送时间',
-                    width: 100,
-                    template: function (row) {
-                        var typeDicts = KTTool.getSysDictsObject('messageType');
-                        return '\
+                }
+            },
+            {
+                field: 'sendDate',
+                title: '发送时间',
+                width: 100,
+                template: function (row) {
+                    var typeDicts = KTTool.getSysDictsObject('messageType');
+                    return '\
                         <div class="kt-user-card-v2">\
                             <div class="kt-user-card-v2__details">\
                                 <a href="#" class="kt-user-card-v2__name">' + KTTool.getDictElement(row.type, typeDicts) + '</a>\
-                                '+(row.sendDate ? '<span class="kt-user-card-v2__email">' + row.sendDate + '</span>' : '')+'\
+                                ' + (row.sendDate ? '<span class="kt-user-card-v2__email">' + row.sendDate + '</span>' : '') + '\
                             </div>\
                         </div>';
-                    }
-                },
-                {
-                    field: 'status',
-                    title: '状态'
-                },
-                {
-                    field: 'Actions',
-                    width: 110,
-                    title: '操作',
-                    sortable: false,
-                    overflow: 'visible',
-                    template: function (row, index, datatable) {
-                        var _btn = '';
-                        if (KTTool.hasPermissions('sys:message:save')) {
-                            _btn += '<a href="#" onclick="KTTool.editById(this, \'' + row.id + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="编辑">\
+                }
+            },
+            {
+                field: 'status',
+                title: '状态'
+            }
+        ];
+        if($status.val() !== STATUS_HAS_BEEN_SENT){
+            columns.push({
+                field: 'Actions',
+                width: 110,
+                title: '操作',
+                sortable: false,
+                overflow: 'visible',
+                template: function (row, index, datatable) {
+                    var _btn = '';
+                    if (KTTool.hasPermissions('sys:message:save')) {
+                        _btn += '<a href="#" onclick="KTTool.editById(this, \'' + row.id + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="编辑">\
                                 <i class="la la-edit"></i>\
                             </a>';
-                        }
-                        if (KTTool.hasPermissions('sys:message:delete')) {
-                            _btn += '<a href="#" onclick="KTTool.deleteById(this, \'' + row.id + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="删除">\
+                    }
+                    if (KTTool.hasPermissions('sys:message:delete')) {
+                        _btn += '<a href="#" onclick="KTTool.deleteById(this, \'' + row.id + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="删除">\
                                 <i class="la la-trash"></i>\
                             </a>';
-                        }
-                        return _btn;
                     }
+                    if (KTTool.hasPermissions('sys:message:save')) {
+                        _btn += '<a href="#" onclick="KTTool.deleteById(this, \'' + row.id + '\')" class="' + KTTool.ACTIONS_INFO + '" title="发送">\
+                                <i class="la la-trash"></i>\
+                            </a>';
+                    }
+                    return _btn;
                 }
-            ]
+            });
+        }
+        // 刷新表格数据
+        initTable({
+            url: KTTool.getBaseUrl() + 'select',
+            columns: columns
         });
+    };
+    /**
+     * 根据类型过滤信息
+     *
+     * @param $element 触发的按钮
+     */
+    var filterByType = function ($element) {
+        $('#type').val($element.data('data-type'));
+        // 重新加载数据
+        SysMessageList.dataTable.reload();
     };
 
     return {
@@ -300,6 +319,14 @@ var SysMessageList = function () {
          */
         initSend: function ($element) {
             initSend($element);
+        },
+        /**
+         * 根据类型过滤信息
+         *
+         * @param $element 触发的按钮
+         */
+        filterByType: function ($element) {
+            filterByType($element);
         }
     };
 }();

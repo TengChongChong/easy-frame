@@ -1,6 +1,7 @@
 package com.frame.easy.modular.sample.service.impl;
 
 import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.frame.easy.common.page.Page;
@@ -65,7 +66,7 @@ public class SampleGeneralServiceImpl extends ServiceImpl<SampleGeneralMapper, S
      * @return 详细信息
      */
     @Override
-    public SampleGeneral input(Long id) {
+    public SampleGeneral input(String id) {
         ToolUtil.checkParams(id);
         return getById(id);
     }
@@ -106,7 +107,7 @@ public class SampleGeneralServiceImpl extends ServiceImpl<SampleGeneralMapper, S
     @Override
     public SampleGeneral saveData(SampleGeneral object) {
         ToolUtil.checkParams(object);
-        if (object.getId() == null) {
+        if (StrUtil.isBlank(object.getId())) {
             // 新增,设置默认值
             object.setStatus("1");
         }

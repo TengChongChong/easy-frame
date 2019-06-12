@@ -23,7 +23,7 @@ public interface SysConfigService {
      * @param id id
      * @return 详细信息
      */
-    SysConfig input(Long id);
+    SysConfig input(String id);
     /**
      * 新增
      *

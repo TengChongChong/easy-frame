@@ -64,7 +64,7 @@ public class SysConfigController extends BaseController {
      */
     @RequestMapping("/input/{id}")
     @RequiresPermissions("sys:config:select")
-    public String input(Model model, @PathVariable("id") Long id) {
+    public String input(Model model, @PathVariable("id") String id) {
         logger.debug("/auth/sys/config/input/" + id);
         model.addAttribute("object", service.input(id));
         return PREFIX + "input";

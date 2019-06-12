@@ -2,7 +2,6 @@ package com.frame.easy.modular.sys.model;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.io.Serializable;
@@ -20,37 +19,37 @@ public class SysRolePermissions extends Model<SysRolePermissions> {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id")
-    private Long id;
+    private String id;
     /**
      * 角色id
      */
-    private Long roleId;
+    private String roleId;
     /**
      * 权限id
      */
-    private Long permissionsId;
+    private String permissionsId;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getRoleId() {
+    public String getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Long roleId) {
+    public void setRoleId(String roleId) {
         this.roleId = roleId;
     }
 
-    public Long getPermissionsId() {
+    public String getPermissionsId() {
         return permissionsId;
     }
 
-    public void setPermissionsId(Long permissionsId) {
+    public void setPermissionsId(String permissionsId) {
         this.permissionsId = permissionsId;
     }
 

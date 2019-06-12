@@ -23,7 +23,7 @@ public class SampleGeneral extends Model<SampleGeneral> implements IModel, Seria
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id")
-    private Long id;
+    private String id;
 
     /**
      * 姓名
@@ -52,7 +52,7 @@ public class SampleGeneral extends Model<SampleGeneral> implements IModel, Seria
      * 创建人
      */
     @TableField(fill = FieldFill.INSERT)
-    private Long createUser;
+    private String createUser;
 
     /**
      * 创建时间
@@ -64,7 +64,7 @@ public class SampleGeneral extends Model<SampleGeneral> implements IModel, Seria
      * 编辑人
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Long editUser;
+    private String editUser;
 
     /**
      * 编辑时间
@@ -89,11 +89,11 @@ public class SampleGeneral extends Model<SampleGeneral> implements IModel, Seria
     @TableField(exist=false)
     private Page page;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
     public String getName() {
@@ -124,11 +124,11 @@ public class SampleGeneral extends Model<SampleGeneral> implements IModel, Seria
     public void setAddress(String address) {
         this.address = address;
     }
-    public Long getCreateUser() {
+    public String getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(Long createUser) {
+    public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
     public Date getCreateDate() {
@@ -138,11 +138,11 @@ public class SampleGeneral extends Model<SampleGeneral> implements IModel, Seria
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
-    public Long getEditUser() {
+    public String getEditUser() {
         return editUser;
     }
 
-    public void setEditUser(Long editUser) {
+    public void setEditUser(String editUser) {
         this.editUser = editUser;
     }
     public Date getEditDate() {

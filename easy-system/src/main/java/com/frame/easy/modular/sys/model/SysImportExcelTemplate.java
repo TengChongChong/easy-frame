@@ -23,19 +23,13 @@ public class SysImportExcelTemplate extends Model<SysImportExcelTemplate> implem
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id")
-    private Long id;
+    private String id;
 
     /**
      * 导入模板名称
      */
     @NotBlank(message = "名称不能为空")
     private String name;
-
-    /**
-     * 数据源
-     */
-    @NotBlank(message = "数据源不能为空")
-    private String dataSource;
 
     /**
      * 导入表
@@ -69,9 +63,9 @@ public class SysImportExcelTemplate extends Model<SysImportExcelTemplate> implem
     @TableField(fill = FieldFill.INSERT)
     private Date createDate;
     @TableField(fill = FieldFill.INSERT)
-    private Long createUser;
+    private  String createUser;
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Long editUser;
+    private  String editUser;
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date editDate;
 
@@ -82,11 +76,11 @@ public class SysImportExcelTemplate extends Model<SysImportExcelTemplate> implem
     @TableField(exist=false)
     private Page page;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
     public String getName() {
@@ -141,19 +135,19 @@ public class SysImportExcelTemplate extends Model<SysImportExcelTemplate> implem
         this.createDate = createDate;
     }
 
-    public Long getCreateUser() {
+    public  String getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(Long createUser) {
+    public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
 
-    public Long getEditUser() {
+    public String getEditUser() {
         return editUser;
     }
 
-    public void setEditUser(Long editUser) {
+    public void setEditUser(String editUser) {
         this.editUser = editUser;
     }
 
@@ -163,14 +157,6 @@ public class SysImportExcelTemplate extends Model<SysImportExcelTemplate> implem
 
     public void setEditDate(Date editDate) {
         this.editDate = editDate;
-    }
-
-    public String getDataSource() {
-        return dataSource;
-    }
-
-    public void setDataSource(String dataSource) {
-        this.dataSource = dataSource;
     }
 
     @Override

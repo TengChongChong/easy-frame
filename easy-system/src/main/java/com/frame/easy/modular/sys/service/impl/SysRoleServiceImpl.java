@@ -14,13 +14,11 @@ import com.frame.easy.exception.EasyException;
 import com.frame.easy.exception.ExceptionEnum;
 import com.frame.easy.modular.sys.dao.SysRoleMapper;
 import com.frame.easy.modular.sys.model.SysRole;
-import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.service.SysDepartmentTypeRoleService;
 import com.frame.easy.modular.sys.service.SysRolePermissionsService;
 import com.frame.easy.modular.sys.service.SysRoleService;
 import com.frame.easy.modular.sys.service.SysUserRoleService;
 import com.frame.easy.util.RedisUtil;
-import com.frame.easy.util.ShiroUtil;
 import com.frame.easy.util.SysConfigUtil;
 import com.frame.easy.util.ToolUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,7 +48,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     private SysDepartmentTypeRoleService sysDepartmentTypeRoleService;
 
     @Override
-    public List<JsTree> selectData(Long pId) {
+    public List<JsTree> selectData(String pId) {
         List<JsTree> jsTrees;
         // 第一次请求,返回项目名称 + 一级角色 数据
         if (pId == null || pId.equals(JsTreeUtil.baseId)) {
@@ -82,7 +79,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    public SysRole input(Long id) {
+    public SysRole input(String id) {
         SysRole sysRole;
         // 表示点击的是根目录
         if (id == null || id.equals(JsTreeUtil.baseId)) {
@@ -99,7 +96,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    public SysRole add(Long pId) {
+    public SysRole add(String pId) {
         if (pId != null) {
             SysRole sysRole = new SysRole();
             sysRole.setpId(pId);
@@ -122,7 +119,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
-    public boolean delete(Long id) {
+    public boolean delete(String id) {
         ToolUtil.checkParams(id);
         // 检查是否有子节点
         QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>();
@@ -171,7 +168,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         SysRole sysRole;
         for (String id : ids.split(CommonConst.SPLIT)) {
             sysRole = new SysRole();
-            sysRole.setId(Long.parseLong(id));
+            sysRole.setId(id);
             sysRole.setStatus(status);
             roleList.add(sysRole);
         }
@@ -197,7 +194,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
-    public boolean move(Long id, Long parent, Long oldParent, Integer position, Integer oldPosition) {
+    public boolean move(String id, String parent, String oldParent, Integer position, Integer oldPosition) {
         if (Validator.isNotEmpty(id) && Validator.isNotEmpty(parent) && Validator.isNotEmpty(oldParent) &&
                 Validator.isNotEmpty(position) && Validator.isNotEmpty(oldPosition)) {
             boolean isSuccess;

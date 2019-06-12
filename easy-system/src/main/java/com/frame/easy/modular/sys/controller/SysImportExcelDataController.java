@@ -62,7 +62,7 @@ public class SysImportExcelDataController extends BaseController {
      */
     @RequestMapping("analysis/{templateId}")
     @ResponseBody
-    public Tips analysis(@PathVariable("templateId") Long templateId, String path) {
+    public Tips analysis(@PathVariable("templateId") String templateId, String path) {
         return Tips.getSuccessTips(service.analysis(templateId, path));
     }
 
@@ -74,7 +74,7 @@ public class SysImportExcelDataController extends BaseController {
      */
     @RequestMapping("select/summary/{templateId}")
     @ResponseBody
-    public Tips selectSummary(@PathVariable("templateId") Long templateId) {
+    public Tips selectSummary(@PathVariable("templateId") String templateId) {
         return Tips.getSuccessTips(service.selectSummary(templateId));
     }
 
@@ -86,7 +86,7 @@ public class SysImportExcelDataController extends BaseController {
      */
     @RequestMapping("insert/data/{templateId}")
     @ResponseBody
-    public Tips insertData(@PathVariable("templateId") Long templateId) {
+    public Tips insertData(@PathVariable("templateId") String templateId) {
         return Tips.getSuccessTips(service.insertData(templateId));
     }
 
@@ -99,7 +99,7 @@ public class SysImportExcelDataController extends BaseController {
      */
     @RequestMapping("export/verification/fail/data/{templateId}")
     @ResponseBody
-    public ResponseEntity<FileSystemResource> exportVerificationFailData(@PathVariable("templateId") Long templateId,
+    public ResponseEntity<FileSystemResource> exportVerificationFailData(@PathVariable("templateId") String templateId,
                                                                          HttpServletRequest request) {
         return service.exportVerificationFailData(templateId, request);
     }

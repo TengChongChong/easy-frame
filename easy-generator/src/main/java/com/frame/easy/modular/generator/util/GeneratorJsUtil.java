@@ -89,7 +89,7 @@ public class GeneratorJsUtil {
                 if (StrUtil.isNotBlank(generator.getPermissionsCode())) {
                     js += GeneratorUtil.getTab(tab + 2) + "if (KTTool.hasPermissions('" + generator.getPermissionsCode() + ":save')) {\n";
                 }
-                js += GeneratorUtil.getTab(tab + 3) + "_btn += '<a href=\"#\" onclick=\"KTTool.editById(this, \\\'' + row.id + '\\\')\" class=\"' + KTTool.ACTIONS_DANGER + '\" title=\"编辑\">\\\n" +
+                js += GeneratorUtil.getTab(tab + 3) + "_btn += '<a href=\"#\" onclick=\"KTTool.editById(this, \\\'' + row.id + '\\\')\" class=\"' + KTTool.ACTIONS_INFO + '\" title=\"编辑\">\\\n" +
                         GeneratorUtil.getTab(tab + 3) + "    <i class=\"la la-edit\"></i>\\\n" +
                         GeneratorUtil.getTab(tab + 3) + "</a>';\n";
                 if (StrUtil.isNotBlank(generator.getPermissionsCode())) {

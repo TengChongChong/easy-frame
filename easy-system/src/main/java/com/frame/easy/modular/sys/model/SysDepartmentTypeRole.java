@@ -16,39 +16,39 @@ import java.io.Serializable;
 public class SysDepartmentTypeRole extends Model<SysDepartmentTypeRole> {
 
     @TableId(value = "id")
-    private Long id;
+    private String id;
     /**
      * 部门类型id
      */
-    private Long deptTypeId;
+    private String deptTypeId;
     /**
      * 角色id
      */
-    private Long roleId;
+    private String roleId;
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getDeptTypeId() {
+    public String getDeptTypeId() {
         return deptTypeId;
     }
 
-    public void setDeptTypeId(Long deptTypeId) {
+    public void setDeptTypeId(String deptTypeId) {
         this.deptTypeId = deptTypeId;
     }
 
-    public Long getRoleId() {
+    public String getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Long roleId) {
+    public void setRoleId(String roleId) {
         this.roleId = roleId;
     }
 

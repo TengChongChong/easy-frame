@@ -43,7 +43,7 @@ public interface ShiroService {
      *
      * @param userId 用户id
      */
-    void updateUserLastLoginDate(Long userId);
+    void updateUserLastLoginDate(String userId);
 
     /**
      * 根据用户获取相同账号会话

@@ -18,7 +18,7 @@ public interface SysPermissionsMapper extends BaseMapper<SysPermissions> {
      * @param pId 父id
      * @return List<JsTree>
      */
-    List<JsTree> selectData(@Param("pId") Long pId);
+    List<JsTree> selectData(@Param("pId") String pId);
 
     /**
      * 获取所有数据
@@ -33,7 +33,7 @@ public interface SysPermissionsMapper extends BaseMapper<SysPermissions> {
      * @param id 权限id
      * @return SysPermissions
      */
-    SysPermissions selectInfo(@Param("id") Long id);
+    SysPermissions selectInfo(@Param("id") String id);
 
     /**
      * 查询指定数据
@@ -43,7 +43,7 @@ public interface SysPermissionsMapper extends BaseMapper<SysPermissions> {
      * @param length 长度
      * @return List<T>
      */
-    List<SysPermissions> selectOrderInfo(@Param("pId") Long pId, @Param("str") Integer str, @Param("length") Integer length);
+    List<SysPermissions> selectOrderInfo(@Param("pId") String pId, @Param("str") Integer str, @Param("length") Integer length);
 
     /**
      * 更改数据等级
@@ -51,7 +51,7 @@ public interface SysPermissionsMapper extends BaseMapper<SysPermissions> {
      * @param levels 等级
      * @param id 数据id
      */
-    void updateLevels(@Param("levels") int levels, @Param("id") Long id);
+    void updateLevels(@Param("levels") int levels, @Param("id") String id);
 
     /**
      * 根据关键字搜索数据
@@ -67,5 +67,5 @@ public interface SysPermissionsMapper extends BaseMapper<SysPermissions> {
      * @param id 父Id
      * @return Integer
      */
-    Integer getMaxOrderNo(@Param("pId") Long id);
+    Integer getMaxOrderNo(@Param("pId") String id);
 }

@@ -23,7 +23,7 @@ public interface SysExceptionService {
      * @param id id
      * @return 详细信息
      */
-    SysException input(Long id);
+    SysException input(String id);
     /**
      * 删除
      *

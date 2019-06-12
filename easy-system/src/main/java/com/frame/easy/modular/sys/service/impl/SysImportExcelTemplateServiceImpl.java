@@ -75,7 +75,7 @@ public class SysImportExcelTemplateServiceImpl extends ServiceImpl<SysImportExce
      * @return 详细信息
      */
     @Override
-    public SysImportExcelTemplate input(Long id) {
+    public SysImportExcelTemplate input(String id) {
         ToolUtil.checkParams(id);
         return getById(id);
     }

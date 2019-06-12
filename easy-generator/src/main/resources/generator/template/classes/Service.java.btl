@@ -25,7 +25,7 @@ public interface ${config.modelName}Service {
      * @param id id
      * @return 详细信息
      */
-    ${config.modelName} input(Long id);
+    ${config.modelName} input(String id);
     <% } %>
     <% if(config.genAdd){ %>
 

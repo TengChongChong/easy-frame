@@ -20,7 +20,7 @@ public interface SchedulerJobMapper extends BaseMapper<SchedulerJob> {
      * @param id 任务id
      * @return 任务名称
      */
-    String getJobCodeById(@Param("id") Long id);
+    String getJobCodeById(@Param("id") String id);
 
     /**
      * 根据查询条件查询任务代码
