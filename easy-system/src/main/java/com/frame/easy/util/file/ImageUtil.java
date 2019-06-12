@@ -1,5 +1,6 @@
 package com.frame.easy.util.file;
 
+import cn.hutool.core.img.ImgUtil;
 import cn.hutool.core.io.FileTypeUtil;
 import com.frame.easy.exception.EasyException;
 import org.slf4j.Logger;
@@ -46,8 +47,8 @@ public class ImageUtil {
      */
     public static boolean isImage(File file) {
         String fileType = FileTypeUtil.getType(file);
-        return cn.hutool.core.util.ImageUtil.IMAGE_TYPE_JPG.equals(fileType) || cn.hutool.core.util.ImageUtil.IMAGE_TYPE_PNG.equals(fileType) ||
-                cn.hutool.core.util.ImageUtil.IMAGE_TYPE_GIF.equals(fileType) || cn.hutool.core.util.ImageUtil.IMAGE_TYPE_BMP.equals(fileType);
+        return ImgUtil.IMAGE_TYPE_JPG.equals(fileType) || ImgUtil.IMAGE_TYPE_PNG.equals(fileType) ||
+                ImgUtil.IMAGE_TYPE_GIF.equals(fileType) || ImgUtil.IMAGE_TYPE_BMP.equals(fileType);
 
     }
 
@@ -86,7 +87,7 @@ public class ImageUtil {
                 String destImagePath = file.getParent() + File.separator + getThumbnailName(file.getName(), size);
                 BufferedImage bufferedImage = ImageIO.read(file);
                 float scale = (float) size / bufferedImage.getWidth();
-                cn.hutool.core.util.ImageUtil.scale(file, new File(destImagePath), size, (int) (bufferedImage.getHeight() * scale), null);
+                ImgUtil.scale(file, new File(destImagePath), size, (int) (bufferedImage.getHeight() * scale), null);
                 return destImagePath;
             } catch (IOException e) {
                 logger.warn("生成缩略图发生异常" + e.getMessage());
