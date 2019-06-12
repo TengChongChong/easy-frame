@@ -8084,6 +8084,9 @@ var KTWizard = function(elementId, options) {
                                         $(this).appendTo(rowScroll);
                                     }
                                 });
+                                rowLeft.attr('data-id', $(this).data('id'));
+                                rowScroll.attr('data-id', $(this).data('id'));
+                                rowRight.attr('data-id', $(this).data('id'));
                                 // 移除旧row
                                 $(this).remove();
                             });
@@ -8980,6 +8983,9 @@ var KTWizard = function(elementId, options) {
                 $.each(datatable.dataSet, function (rowIndex, row) {
                     var tr = document.createElement('tr');
                     tr.setAttribute('data-row', rowIndex);
+                    if (typeof row.id !== 'undefined') {
+                        tr.setAttribute('data-id', row.id);
+                    }
                     // 设置tr上的data-obj
                     $(tr).data('obj', row);
 
@@ -10632,18 +10638,17 @@ var KTWizard = function(elementId, options) {
              * @returns {array}
              */
             getValue: function () {
-                return $(datatable.API.value).text();
-                // var ids = [];
-                // var selectedRecords = datatable.getSelectedRecords();
-                // if (selectedRecords != null && selectedRecords.length > 0) {
-                //     for (var i = 0; i < selectedRecords.length; i++) {
-                //         var _id = $(selectedRecords[i]).data('id');
-                //         if (typeof _id !== 'undefined') {
-                //             ids.push(_id);
-                //         }
-                //     }
-                // }
-                // return ids;
+                var ids = [];
+                var selectedRecords = datatable.getSelectedRecords();
+                if (selectedRecords != null && selectedRecords.length > 0) {
+                    for (var i = 0; i < selectedRecords.length; i++) {
+                        var _id = $(selectedRecords[i]).data('id');
+                        if (typeof _id !== 'undefined') {
+                            ids.push(_id);
+                        }
+                    }
+                }
+                return ids;
             },
 
             /**
@@ -10975,9 +10980,9 @@ var KTWizard = function(elementId, options) {
              */
             rows: function (selector) {
                 if (Plugin.isLocked()) {
-                    Plugin.nodeTr = Plugin.recentNode = t(datatable.tableBody).find(selector).filter('.' + pfx + 'datatable__lock--scroll > .' + pfx + 'datatable__row');
+                    Plugin.nodeTr = Plugin.recentNode = $(datatable.tableBody).find(selector).filter('.' + pfx + 'datatable__lock--scroll > .' + pfx + 'datatable__row');
                 } else {
-                    Plugin.nodeTr = Plugin.recentNode = t(datatable.tableBody).find(selector).filter('.' + pfx + 'datatable__row');
+                    Plugin.nodeTr = Plugin.recentNode = $(datatable.tableBody).find(selector).filter('.' + pfx + 'datatable__row');
                 }
                 return datatable;
             },
