@@ -6345,7 +6345,7 @@ var KTTool = function () {
         if (util.isBlank(type)) {
             type = 'success';
         }
-        return 'btn btn-sm btn-clean btn-icon btn-icon-md';
+        return 'table-actions btn btn-sm btn-icon btn-icon-md btn-light-hover-' + type;
     };
     /**
      * 根据路径获取对象
@@ -8501,6 +8501,7 @@ var KTWizard = function(elementId, options) {
                         afterTemplate($(tr), obj, tri);
                     }
                 });
+
                 $(tablePart).find('.table-actions').each(function () {
                     app.initTooltip($(this));
                 });
