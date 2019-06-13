@@ -1,8 +1,400 @@
-@layout("/common/container.html", {"title" : "个人中心"}){
-<div class="kt-portlet" kt-portlet="true">
-    <#portlet:head title="个人中心" icon="la la-bars"/>
+@layout("/common/container.html", {"title" : "首页"}){
+<div class="kt-portlet kt-portlet--height-fluid">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">
+                简介
+            </h3>
+        </div>
+    </div>
     <div class="kt-portlet__body">
+        <div class="row">
+            <div class="col-md-6 col-12">
+                <h3 class="kt-font-dark">Easy Frame
+                    <small style="font-size: 14px">通用管理系统快速开发框架</small>
+                </h3>
+                <p>
+                    Easy Frame基于Springboot2、Druid、Mybatis Plus、Shiro、Beetl、Quartz等开源框架开发，
+                    内置权限、部门、参数、字典、定时任务、代码生成等模块。分模块、代码简洁、注释详细。
+                </p>
+                <div class="kt-list-timeline">
+                    <div class="kt-list-timeline__items">
+                        <div class="kt-list-timeline__item">
+                            <span class="kt-list-timeline__badge"></span>
+                            <span class="kt-list-timeline__text">
+                                    权限配置到具体方法
+                                </span>
+                        </div>
+                        <div class="kt-list-timeline__item">
+                            <span class="kt-list-timeline__badge"></span>
+                            <span class="kt-list-timeline__text">
+                                    Beetl封装常用标签（/easy-app/src/main/webapp/view/common/tags）
+                                </span>
+                        </div>
+                        <div class="kt-list-timeline__item">
+                            <span class="kt-list-timeline__badge"></span>
+                            <span class="kt-list-timeline__text">
+                                    集群定时任务
+                                </span>
+                        </div>
+                        <div class="kt-list-timeline__item">
+                            <span class="kt-list-timeline__badge"></span>
+                            <span class="kt-list-timeline__text">
+                                    全局异常处理
+                                </span>
+                        </div>
+                        <div class="kt-list-timeline__item">
+                            <span class="kt-list-timeline__badge"></span>
+                            <span class="kt-list-timeline__text">
+                                    数据导入验证/在线编辑
+                                </span>
+                        </div>
+                        <div class="kt-list-timeline__item">
+                            <span class="kt-list-timeline__badge"></span>
+                            <span class="kt-list-timeline__text">
+                                    js提供公用的增删改查以及常用的工具方法
+                                </span>
+                        </div>
+                        <div class="kt-list-timeline__item">
+                            <span class="kt-list-timeline__badge"></span>
+                            <span class="kt-list-timeline__text">
+                                    拖拽式生成CRUD后端代码以及前端资源，预设偏好设置自动匹配元素类型、是否会被搜索、一般不显示哪些字段、匹配方式、一般不填写哪些字段等；并根据字段类型匹配元素类型
+                                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-12">
+                <h5>技术架构</h5>
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <h6>后端</h6>
+                        <div class="kt-list-timeline">
+                            <div class="kt-list-timeline__items">
+                                <div class="kt-list-timeline__item">
+                                    <span class="kt-list-timeline__badge kt-list-timeline__badge--success"></span>
+                                    <span class="kt-list-timeline__text">
+                                        主框架：SpringBoot、Apache Shiro
+                                    </span>
+                                </div>
+                                <div class="kt-list-timeline__item">
+                                    <span class="kt-list-timeline__badge kt-list-timeline__badge--info"></span>
+                                    <span class="kt-list-timeline__text">
+                                        持久层：Alibaba Druid、MyBatis Plus
+                                    </span>
+                                </div>
+                                <div class="kt-list-timeline__item">
+                                    <span class="kt-list-timeline__badge kt-list-timeline__badge--brand"></span>
+                                    <span class="kt-list-timeline__text">
+                                        模板引擎：Beetl
+                                    </span>
+                                </div>
+                                <div class="kt-list-timeline__item">
+                                    <span class="kt-list-timeline__badge kt-list-timeline__badge--warning"></span>
+                                    <span class="kt-list-timeline__text">
+                                        缓存：Redis
+                                    </span>
+                                </div>
+                                <div class="kt-list-timeline__item">
+                                    <span class="kt-list-timeline__badge kt-list-timeline__badge--danger"></span>
+                                    <span class="kt-list-timeline__text">
+                                        工具：HuTool
+                                    </span>
+                                </div>
+                                <div class="kt-list-timeline__item">
+                                    <span class="kt-list-timeline__badge kt-list-timeline__badge--invalid"></span>
+                                    <span class="kt-list-timeline__text">
+                                        定时任务：quartz
+                                    </span>
+                                </div>
+                                <div class="kt-list-timeline__item">
+                                    <span class="kt-list-timeline__badge kt-list-timeline__badge--primary"></span>
+                                    <span class="kt-list-timeline__text">
+                                        其他：Mybatis Plus Generator、Swagger2
+                                    </span>
+                                </div>
+                                <div class="kt-list-timeline__item">
+                                    <span class="kt-list-timeline__badge kt-list-timeline__badge--dark"></span>
+                                    <span class="kt-list-timeline__text">
+                                        ...
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <h6>前端</h6>
+                        <div class="kt-list-timeline">
+                            <div class="kt-list-timeline__items">
+                                <div class="kt-list-timeline__item">
+                                    <span class="kt-list-timeline__badge kt-list-timeline__badge--success"></span>
+                                    <span class="kt-list-timeline__text">
+                                        BootStrap
+                                    </span>
+                                </div>
+                                <div class="kt-list-timeline__item">
+                                    <span class="kt-list-timeline__badge kt-list-timeline__badge--info"></span>
+                                    <span class="kt-list-timeline__text">
+                                        jQuery
+                                    </span>
+                                </div>
+                                <div class="kt-list-timeline__item">
+                                    <span class="kt-list-timeline__badge kt-list-timeline__badge--brand"></span>
+                                    <span class="kt-list-timeline__text">
+                                        jQuery BlockUI
+                                    </span>
+                                </div>
+                                <div class="kt-list-timeline__item">
+                                    <span class="kt-list-timeline__badge kt-list-timeline__badge--warning"></span>
+                                    <span class="kt-list-timeline__text">
+                                        jQuery Validation
+                                    </span>
+                                </div>
+                                <div class="kt-list-timeline__item">
+                                    <span class="kt-list-timeline__badge kt-list-timeline__badge--danger"></span>
+                                    <span class="kt-list-timeline__text">
+                                        Bootstrap Select
+                                    </span>
+                                </div>
+                                <div class="kt-list-timeline__item">
+                                    <span class="kt-list-timeline__badge kt-list-timeline__badge--invalid"></span>
+                                    <span class="kt-list-timeline__text">
+                                        Select2
+                                    </span>
+                                </div>
+                                <div class="kt-list-timeline__item">
+                                    <span class="kt-list-timeline__badge kt-list-timeline__badge--primary"></span>
+                                    <span class="kt-list-timeline__text">
+                                        Bootstrap Datetime Picker
+                                    </span>
+                                </div>
+                                <div class="kt-list-timeline__item">
+                                    <span class="kt-list-timeline__badge kt-list-timeline__badge--dark"></span>
+                                    <span class="kt-list-timeline__text">
+                                        ...
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 col-12">
+        <div class="kt-portlet kt-portlet--height-fluid">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        版本升级
+                    </h3>
+                </div>
+            </div>
+            <div class="kt-portlet__body">
+                <div class="kt-timeline-v2">
+                    <div class="kt-timeline-v2__items  kt-padding-top-25 kt-padding-bottom-30">
+                        <div class="kt-timeline-v2__item">
+                            <span class="kt-timeline-v2__item-time">v0.1.4</span>
+                            <div class="kt-timeline-v2__item-cricle">
+                                <i class="fa fa-genderless kt-font-danger"></i>
+                            </div>
+                            <div class="kt-timeline-v2__item-text kt-padding-top-5">
+                                <h6>2019-06-20(预计发布时间)</h6>
+                                <ul>
+                                    <li>消息</li>
+                                    <li>任务</li>
+                                    <li>菜单搜索</li>
+                                    <li>修改部分bug</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="kt-timeline-v2__item">
+                            <span class="kt-timeline-v2__item-time">v0.1.3</span>
+                            <div class="kt-timeline-v2__item-cricle">
+                                <i class="fa fa-genderless kt-font-success"></i>
+                            </div>
+                            <div class="kt-timeline-v2__item-text  kt-padding-top-5">
+                                <h6>2019-06-13</h6>
+                                <ul>
+                                    <li>添加全屏</li>
+                                    <li>标签页添加右键菜单</li>
+                                    <li>添加多数据源</li>
+                                    <li>主键策略改为uuid</li>
+                                    <li>添加首页页面</li>
+                                    <li>修改部分bug</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="kt-timeline-v2__item">
+                            <span class="kt-timeline-v2__item-time">v0.1.2</span>
+                            <div class="kt-timeline-v2__item-cricle">
+                                <i class="fa fa-genderless kt-font-success"></i>
+                            </div>
+                            <div class="kt-timeline-v2__item-text  kt-padding-top-5">
+                                <h6>2019-05-30</h6>
+                                <ul>
+                                    <li>行政区划</li>
+                                    <li>在线用户</li>
+                                    <li>异常日志</li>
+                                    <li>添加首页</li>
+                                    <li>优化静态资源</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="kt-timeline-v2__item">
+                            <span class="kt-timeline-v2__item-time">v0.1.1</span>
+                            <div class="kt-timeline-v2__item-cricle">
+                                <i class="fa fa-genderless kt-font-success"></i>
+                            </div>
+                            <div class="kt-timeline-v2__item-text  kt-padding-top-5">
+                                <h6>2019-05-10</h6>
+                            </div>
+                        </div>
+                        <div class="kt-timeline-v2__item">
+                            <span class="kt-timeline-v2__item-time">v0.1.1</span>
+                            <div class="kt-timeline-v2__item-cricle">
+                                <i class="fa fa-genderless kt-font-success"></i>
+                            </div>
+                            <div class="kt-timeline-v2__item-text  kt-padding-top-5">
+                                <h6>2019-05-10</h6>
+                            </div>
+                        </div>
+                        <div class="kt-timeline-v2__item">
+                            <span class="kt-timeline-v2__item-time">v0.1.0</span>
+                            <div class="kt-timeline-v2__item-cricle">
+                                <i class="fa fa-genderless kt-font-success"></i>
+                            </div>
+                            <div class="kt-timeline-v2__item-text  kt-padding-top-5">
+                                <h6>2019-05-05</h6>
+                            </div>
+                        </div>
+                        <div class="kt-timeline-v2__item">
+                            <span class="kt-timeline-v2__item-time">v0.0.3</span>
+                            <div class="kt-timeline-v2__item-cricle">
+                                <i class="fa fa-genderless kt-font-success"></i>
+                            </div>
+                            <div class="kt-timeline-v2__item-text  kt-padding-top-5">
+                                <h6>2019-04-30</h6>
+                            </div>
+                        </div>
+                        <div class="kt-timeline-v2__item">
+                            <span class="kt-timeline-v2__item-time">v0.0.2</span>
+                            <div class="kt-timeline-v2__item-cricle">
+                                <i class="fa fa-genderless kt-font-success"></i>
+                            </div>
+                            <div class="kt-timeline-v2__item-text  kt-padding-top-5">
+                                <h6>2019-04-15</h6>
+                            </div>
+                        </div>
+                        <div class="kt-timeline-v2__item">
+                            <span class="kt-timeline-v2__item-time">v0.0.1</span>
+                            <div class="kt-timeline-v2__item-cricle">
+                                <i class="fa fa-genderless kt-font-success"></i>
+                            </div>
+                            <div class="kt-timeline-v2__item-text  kt-padding-top-5">
+                                <h6>2019-03</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="col-md-4 col-12">
+        <div class="kt-portlet">
+            <form class="kt-form kt-form--label-align-right">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">
+                            联系信息
+                        </h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body">
+                    <form class="kt-form kt-form--label-align-right">
+                        <div class="form-group kt-form__group row">
+                            <label class="col-4 col-form-label"><i class="la la-link"></i> 官网：</label>
+                            <div class="col-8">
+                                <a href="http://www.easy-frame.top" target="_blank"
+                                   class="form-control form-control-static kt-link">
+                                    http://www.easy-frame.top
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-group kt-form__group row">
+                            <label class="col-4 col-form-label"><i class="la la-qq"></i> QQ群：</label>
+                            <div class="col-8">
+                                <span class="form-control form-control-static">
+                                    760730508
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group kt-form__group row">
+                            <label class="col-4 col-form-label"><i class="la la-qq"></i> QQ：</label>
+                            <div class="col-8">
+                                <span class="form-control form-control-static">
+                                    26172583
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group kt-form__group row">
+                            <label class="col-4 col-form-label"><i class="la la-wechat"></i> 微信：</label>
+                            <div class="col-8">
+                                <span class="form-control form-control-static">
+                                    T26172583
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-4 col-12">
+        <div class="kt-portlet">
+            <form class="kt-form kt-form--label-align-right">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">
+                            社区
+                        </h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body">
+                    <form class="kt-form kt-form--label-align-right">
+                        <div class="form-group kt-form__group row">
+                            <label class="col-4 col-form-label"><i class="la la-code"></i> 源码下载：</label>
+                            <div class="col-8">
+                                <a href="https://gitee.com/tcc/easy-frame" target="_blank"
+                                   class="form-control form-control-static kt-link">
+                                    https://gitee.com/tcc/easy-frame
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-group kt-form__group row">
+                            <label class="col-4 col-form-label"><i class="la la-question"></i> 问题反馈：</label>
+                            <div class="col-8">
+                                <a href="https://gitee.com/tcc/easy-frame/issues" target="_blank"
+                                   class="form-control form-control-static kt-link">
+                                    https://gitee.com/tcc/easy-frame/issues
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-group kt-form__group row">
+                            <label class="col-4 col-form-label"><i class="la la-book"></i> 在线文档：</label>
+                            <div class="col-8">
+                                <span class="form-control form-control-static">
+                                    编写中...
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 @}
