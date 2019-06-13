@@ -33,6 +33,26 @@
 
 >服务器1M带宽，第一次访问速度比较慢。后期会优化js/css资源提高页面加载速度*
 ---
+### 项目结构
+```
+├─db             数据库
+│
+├─easy-app       项目入口
+│
+├─easy-business  业务（空模块）
+│
+├─easy-core      公共代码
+│
+├─easy-generator 代码生成
+│
+├─easy-sample    示例
+│
+├─easy-scheduler 定时任务
+│
+├─easy-system    系统
+│  
+└─pom.xml
+```
 ### 项目特点
 1. 权限配置到具体方法
 2. Beetl封装常用标签（/easy-app/src/main/webapp/view/common/tags）
