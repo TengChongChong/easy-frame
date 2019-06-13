@@ -34,14 +34,6 @@ public class SysConfigUtil {
     }
 
     /**
-     * 获取项目版本号
-     *
-     * @return 版本号
-     */
-    public static String getProjectVersion() {
-        return (String) SysConfigUtil.get(SysConfigConst.PROJECT_VERSION);
-    }
-    /**
      * 获取项目名称
      *
      * @return 名称

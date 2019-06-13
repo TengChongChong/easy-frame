@@ -23,11 +23,6 @@ public class SysConfigConst {
     public static final String PROJECT_NAME = "projectName";
 
     /**
-     * 系统版本号
-     */
-    public static final String PROJECT_VERSION = "projectVersion";
-
-    /**
      * session失效时间 单位：秒
      */
     public static final String SESSION_INVALIDATE_TIME = "sessionInvalidateTime";

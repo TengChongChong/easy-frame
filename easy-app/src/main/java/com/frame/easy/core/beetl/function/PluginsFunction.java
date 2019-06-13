@@ -1,7 +1,7 @@
 package com.frame.easy.core.beetl.function;
 
 import com.frame.easy.common.constant.CommonConst;
-import com.frame.easy.util.SysConfigUtil;
+import com.frame.easy.common.constant.SysConst;
 import org.beetl.core.Context;
 import org.beetl.core.Function;
 import org.slf4j.Logger;
@@ -71,7 +71,7 @@ public class PluginsFunction implements Function {
         }
         String pluginHtml = "";
         if (root.exists()) {
-            String version = SysConfigUtil.getProjectVersion();
+            String version = SysConst.projectProperties.getVersion();
             String pluginRootUrl = ctxPath + "/" + ROOT_PATH + "/" + pluginName + "/";
             String pluginRootPath = root.getPath() + File.separator + pluginName + File.separator;
             if (TYPE_JS.equals(type) || TYPE_ALL.equals(type)) {
