@@ -1,6 +1,6 @@
 package com.frame.easy.core.beetl.function;
 
-import com.frame.easy.util.SysConfigUtil;
+import com.frame.easy.common.constant.SysConst;
 import org.beetl.core.Context;
 import org.beetl.core.Function;
 
@@ -14,6 +14,6 @@ public class ProjectVersionFunction implements Function {
 
     @Override
     public Object call(Object[] objects, Context context) {
-        return SysConfigUtil.getProjectVersion();
+        return SysConst.projectProperties.getVersion();
     }
 }

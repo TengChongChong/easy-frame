@@ -17,6 +17,12 @@ import java.io.File;
  */
 @Configuration
 public class ProjectProperties {
+    /**
+     * 版本号
+     */
+    @Value("${project.version}")
+    private String version;
+
     @Value("${project.url}")
     private String projectUrl;
     /**
@@ -219,5 +225,13 @@ public class ProjectProperties {
 
     public void setProjectUrl(String projectUrl) {
         this.projectUrl = projectUrl;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }
