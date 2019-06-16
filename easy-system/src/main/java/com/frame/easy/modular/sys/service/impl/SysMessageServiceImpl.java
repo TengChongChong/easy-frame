@@ -3,7 +3,9 @@ package com.frame.easy.modular.sys.service.impl;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.constant.MessageConst;
 import com.frame.easy.common.page.Page;
 import com.frame.easy.modular.sys.dao.SysMessageMapper;
@@ -67,9 +69,13 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
             if (object.getStar() != null) {
                 queryWrapper.eq("d.star", object.getStar());
             }
-            if(StrUtil.isNotBlank(object.getDetailsStatus())){
+            if (StrUtil.isNotBlank(object.getDetailsStatus())) {
                 queryWrapper.eq("d.status", object.getDetailsStatus());
             }
+        }
+        if (object == null || StrUtil.isBlank(object.getDetailsStatus())) {
+            // 默认查询收信
+            queryWrapper.ne("d.status", MessageConst.RECEIVE_STATUS_DELETED);
         }
         Page page = ToolUtil.getPage(object);
         page.setRecords(getBaseMapper().selectReceive(page, queryWrapper));
@@ -81,7 +87,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
         if (object != null) {
             // 标题
             if (Validator.isNotEmpty(object.getTitle())) {
-                queryWrapper.eq("m.title", object.getTitle());
+                queryWrapper.like("m.title", object.getTitle());
             }
             // 类型
             if (Validator.isNotEmpty(object.getType())) {
@@ -100,7 +106,12 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
     @Override
     public SysMessage input(String id) {
         ToolUtil.checkParams(id);
-        return getById(id);
+        SysMessage sysMessage = getById(id);
+        if(sysMessage != null){
+            // 查询收信人信息
+            sysMessage.setReceiverUserList(sysMessageDetailsService.selectReceiverUser(id));
+        }
+        return sysMessage;
     }
 
     /**
@@ -145,12 +156,12 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
     public SysMessage saveData(SysMessage object) {
         ToolUtil.checkParams(object);
         boolean isAdd = StrUtil.isBlank(object.getId());
-        if(MessageConst.STATUS_HAS_BEEN_SENT == object.getStatus()){
+        if (MessageConst.STATUS_HAS_BEEN_SENT == object.getStatus()) {
             object.setSendDate(new Date());
         }
         boolean isSuccess = saveOrUpdate(object);
-        if(isSuccess){
-            if(!isAdd){
+        if (isSuccess) {
+            if (!isAdd) {
                 // 清空上次设置的收信人
                 sysMessageDetailsService.delete(String.valueOf(object.getId()));
             }
@@ -158,5 +169,18 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
             sysMessageDetailsService.saveData(object.getId(), object.getReceiver());
         }
         return object;
+    }
+
+    @Override
+    public boolean send(String ids) {
+        ToolUtil.checkParams(ids);
+        List<String> idList = Arrays.asList(ids.split(CommonConst.SPLIT));
+        UpdateWrapper<SysMessage> send = new UpdateWrapper<>();
+        send.set("status", MessageConst.STATUS_HAS_BEEN_SENT);
+        send.set("send_date", new Date());
+        send.in("id", idList);
+        // 只能发送自己写的
+        send.eq("create_user", ShiroUtil.getCurrentUser().getId());
+        return update(send);
     }
 }

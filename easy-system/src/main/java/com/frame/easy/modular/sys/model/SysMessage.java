@@ -12,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 通知 
@@ -134,6 +135,26 @@ public class SysMessage extends Model<SysMessage> implements IModel, Serializabl
     @NotBlank(message = "收信人不能为空")
     @TableField(exist=false)
     private String receiver;
+
+    /**
+     * 收信人列表
+     * 用于修改的时候显示收信人信息
+     */
+    @TableField(exist=false)
+    private List<SysUser> receiverUserList;
+
+    /**
+     * 收信->id
+     */
+    @TableField(exist=false)
+    private String messageId;
+
+    /**
+     * 收信->阅读时间
+     */
+    @TableField(exist=false)
+    private String readDate;
+
 
     public String getId() {
         return id;
@@ -280,5 +301,29 @@ public class SysMessage extends Model<SysMessage> implements IModel, Serializabl
 
     public void setReceiver(String receiver) {
         this.receiver = receiver;
+    }
+
+    public String getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
+    }
+
+    public String getReadDate() {
+        return readDate;
+    }
+
+    public void setReadDate(String readDate) {
+        this.readDate = readDate;
+    }
+
+    public List<SysUser> getReceiverUserList() {
+        return receiverUserList;
+    }
+
+    public void setReceiverUserList(List<SysUser> receiverUserList) {
+        this.receiverUserList = receiverUserList;
     }
 }

@@ -3,14 +3,17 @@
     .mail-tool {
         width: 260px;
     }
-
+    .unread {
+        font-weight: bold !important;
+        color: #333 !important;
+    }
 </style>
 <div class="kt-portlet" kt-portlet="true">
     <div class="kt-portlet__body">
         <div class="kt-stack kt-stack--ver kt-stack--general">
             <div class="kt-stack__item mail-tool border-right">
                 <div class="kt-section__content kt-section__content--border kt-section__content--fit">
-                    <ul class="kt-nav kt-nav--bold kt-nav--md-space kt-nav--v3">
+                    <ul class="kt-nav kt-nav--bold kt-nav--md-space kt-nav--v3 data-type">
                         <li class="kt-nav__item">
                             <a class="kt-nav__link" data-type="html" data-url="${ctxPath}/auth/sys/message/add" href="#">
                                 <span class="kt-nav__link-icon">
@@ -156,6 +159,21 @@
                 <div id="list-view">
                     <form class="kt-form">
                         <div class="query-modular">
+                            <div class="row kt-margin-b-10 kt-margin-0">
+                                <div class="col-lg-9 col-md-8 col-12">
+                                    <#button type="success" btnClass="btn-delete" icon="la la-trash" name="删除" click="SysMessageList.deleteData(null, false)" />
+                                    <#button type="success" btnClass="btn-delete-completely" icon="la la-trash" name="彻底删除" click="SysMessageList.deleteData(null, true)" />
+                                    <#button type="success" btnClass="btn-all-read" icon="la la-check" name="标记已读" click="SysMessageList.setRead()" />
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12">
+                                    <div class="input-group">
+                                        <input id="title" name="title" type="search" class="form-control" placeholder="请输入主题搜索">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-default btn-search" type="button">搜索</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <input type="hidden" id="star" name="star" value="">
                             <input type="hidden" id="type" name="type" value="">
                             <input type="hidden" id="status" name="status" value="">
@@ -163,7 +181,6 @@
                         </div>
                         <div class="kt_datatable" id="message-list"></div>
                     </form>
-
                 </div>
                 <form class="kt-form">
                     <div id="input-view" class="kt-hide"></div>
@@ -191,9 +208,9 @@
 
     //==== 收信状态
     // 已标星
-    var STAR_YES = '${MessageConst.STAR_YES}';
+    var STAR_YES = ${MessageConst.STAR_YES};
     // 已删除
-    var RECEIVE_STATUS_DELETED = '${MessageConst.RECEIVE_STATUS_DELETED}';
+    var RECEIVE_STATUS_DELETED = ${MessageConst.RECEIVE_STATUS_DELETED};
 
 </script>
 <script src="${ctxPath}/static/modular/sys/message/list.js?v=${version()}" type="text/javascript"></script>

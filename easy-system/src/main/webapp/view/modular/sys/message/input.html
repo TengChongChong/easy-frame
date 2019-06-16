@@ -11,6 +11,12 @@
                 </label>
                 <div class="col-md-9 col-8">
                     <select id="receiver" name="receiver" class="form-control kt-select2" multiple required>
+                        @if(object.receiverUserList != null){
+                            @for(user in object.receiverUserList){
+                                <option value="${user.id}" selected>${user.username}</option>
+                            @}
+                        @}
+
                     </select>
                 </div>
             </div>
@@ -19,10 +25,10 @@
             <div class="form-group row">
                 <label class="col-form-label col-md-2 col-4" for="input-title">
                     <span class="required">*</span>
-                    标题：
+                    主题：
                 </label>
                 <div class="col-md-9 col-8">
-                    <input type="text" class="form-control" id="input-title" name="title" required>
+                    <input type="text" class="form-control" id="input-title" name="title" required value="${object.title}">
                 </div>
             </div>
         </div>
@@ -59,7 +65,7 @@
                     内容：
                 </label>
                 <div class="col-md-9 col-8">
-                    <textarea class="form-control summernote" id="content" name="content" style="" placeholder=""></textarea>
+                    <textarea class="form-control summernote" id="content" name="content" style="" placeholder="">${object.content}</textarea>
                 </div>
             </div>
         </div>

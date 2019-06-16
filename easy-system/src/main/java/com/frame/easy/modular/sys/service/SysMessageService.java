@@ -54,4 +54,13 @@ public interface SysMessageService {
      * @return 保存后信息
      */
     SysMessage saveData(SysMessage object);
+
+    /**
+     * 发送
+     *
+     * @param ids 消息ids
+     * @return true/false
+     */
+    boolean send(String ids);
+
 }

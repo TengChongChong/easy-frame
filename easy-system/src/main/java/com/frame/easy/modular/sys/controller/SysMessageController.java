@@ -1,6 +1,7 @@
 package com.frame.easy.modular.sys.controller;
 
 import com.frame.easy.base.controller.BaseController;
+import com.frame.easy.modular.sys.service.SysMessageDetailsService;
 import com.frame.easy.result.Tips;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.frame.easy.modular.sys.model.SysMessage;
 import com.frame.easy.modular.sys.service.SysMessageService;
+
 import javax.validation.Valid;
 
 /**
@@ -31,13 +33,16 @@ public class SysMessageController extends BaseController {
     @Autowired
     private SysMessageService service;
 
+    @Autowired
+    private SysMessageDetailsService sysMessageDetailsService;
+
     /**
      * 列表
      *
      * @return String
      */
     @RequestMapping("list")
-    public String list(){
+    public String list() {
         logger.debug("/auth/sys/message/list");
         return PREFIX + "list";
     }
@@ -51,7 +56,7 @@ public class SysMessageController extends BaseController {
     @RequestMapping("select")
     @ResponseBody
     @RequiresPermissions("sys:message:select")
-    public Tips select(@RequestBody(required = false) SysMessage object){
+    public Tips select(@RequestBody(required = false) SysMessage object) {
         logger.debug("/auth/sys/message/select");
         return Tips.getSuccessTips(service.select(object));
     }
@@ -65,7 +70,7 @@ public class SysMessageController extends BaseController {
     @RequestMapping("select/receive")
     @ResponseBody
     @RequiresPermissions("sys:message:select")
-    public Tips selectReceive(@RequestBody(required = false) SysMessage object){
+    public Tips selectReceive(@RequestBody(required = false) SysMessage object) {
         logger.debug("/auth/sys/message/select");
         return Tips.getSuccessTips(service.selectReceive(object));
     }
@@ -85,6 +90,25 @@ public class SysMessageController extends BaseController {
     }
 
     /**
+     * 阅读消息
+     *
+     * @param id        消息 id
+     * @param messageId 收信id
+     * @return String
+     */
+    @RequestMapping("/info/{id}/{messageId}")
+    @RequiresPermissions("sys:message:select")
+    public String info(Model model, @PathVariable("id") String id,
+                        @PathVariable("messageId") String messageId) {
+        logger.debug("/auth/sys/message/info/" + id + "/" + messageId);
+        // 获取消息详情
+        model.addAttribute("object", service.input(id));
+        // 标记一度
+        sysMessageDetailsService.setRead(messageId);
+        return PREFIX + "info";
+    }
+
+    /**
      * 新增
      *
      * @return String
@@ -96,6 +120,7 @@ public class SysMessageController extends BaseController {
         model.addAttribute("object", service.add());
         return PREFIX + "input";
     }
+
     /**
      * 删除
      *
@@ -109,6 +134,7 @@ public class SysMessageController extends BaseController {
         logger.debug("/auth/sys/message/delete/" + ids);
         return Tips.getSuccessTips(service.delete(ids));
     }
+
     /**
      * 保存
      *
@@ -118,8 +144,22 @@ public class SysMessageController extends BaseController {
     @RequestMapping("/save/data")
     @ResponseBody
     @RequiresPermissions("sys:message:save")
-    public Tips saveData(@Valid SysMessage object){
+    public Tips saveData(@Valid SysMessage object) {
         logger.debug("/auth/sys/message/save/data");
         return Tips.getSuccessTips(service.saveData(object));
+    }
+
+    /**
+     * 发送
+     *
+     * @param ids 消息ids
+     * @return Tips
+     */
+    @RequestMapping("/send/{ids}")
+    @ResponseBody
+    @RequiresPermissions("sys:message:save")
+    public Tips send(@PathVariable("ids") String ids) {
+        logger.debug("/auth/sys/message/send/" + ids);
+        return Tips.getSuccessTips(service.send(ids));
     }
 }
