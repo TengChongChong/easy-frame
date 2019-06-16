@@ -54,5 +54,5 @@ spring:
                     password: 123456
 # beetl
 beetl:
-    #是否检测文件变化,生成环境勿配置
+    #是否检测文件变化,生产环境勿配置
     resource-auto-check: true
