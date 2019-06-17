@@ -25,7 +25,7 @@
 </p>
 
 ### 演示地址
->地址:http://47.99.218.99/easy-frame
+>地址:http://www.easy-frame.top/easy-frame
 账号:admin
 密码:123
 
@@ -41,7 +41,7 @@
 │
 ├─easy-business  业务（空模块）
 │
-├─easy-core      公共代码
+├─easy-core      公共模块
 │
 ├─easy-generator 代码生成
 │
