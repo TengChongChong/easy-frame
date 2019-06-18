@@ -57,6 +57,10 @@ public class SysConfigConst {
      */
     public static final String PASSWORD_SECURITY_LEVEL = "passwordSecurityLevel";
 
+    /**
+     * 新消息检查间隔时长 默认10s
+     */
+    public static final String MESSAGE_CHECK_INTERVAL = "messageCheckInterval";
 
 
 }

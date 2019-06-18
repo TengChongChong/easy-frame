@@ -2,6 +2,14 @@
 var mIndex = function () {
     var rootId = '0'; // 根菜单id
     var currentUser = null;
+    // 第一次加载消息
+    var isFirstLoadMessage = true;
+    /**
+     * 上次查询消息时的未读消息数量
+     * 如此数量未发生变化就算有未读消息也不刷新消息列表
+     * @type {number}
+     */
+    var lastSelectUnreadMessageCount = 0;
     /**
      * 加载菜单
      */
@@ -593,11 +601,9 @@ var mIndex = function () {
     };
 
     /**
-     * 加载消息
-     * 首页这里只显示7天内的消息
-     * 并且每种类型最多显示 {size} 条
+     * 消息
      */
-    var initMessage = function () {
+    var sysMessage = function () {
         // 每种类型最多只显示20条
         var size = 20;
 
@@ -619,6 +625,7 @@ var mIndex = function () {
                 }),
                 success: function (res) {
                     var $container = $('#message-' + type + ' > .kt-scroll');
+                    $container.empty();
                     if (res.data.records.length > 0) {
                         $(res.data.records).each(function (index, message) {
                             $container.append(
@@ -651,13 +658,51 @@ var mIndex = function () {
                 }
             });
         };
-        // 通知
-        selectMessage(TYPE_NOTICE);
-        // 事件
-        selectMessage(TYPE_EVENT);
-        // 日志
-        selectMessage(TYPE_JOURNAL);
-    };
+
+        /**
+         * 加载消息
+         */
+        var loadMessage = function () {
+            // 通知
+            selectMessage(TYPE_NOTICE);
+            // 事件
+            selectMessage(TYPE_EVENT);
+            // 日志
+            selectMessage(TYPE_JOURNAL);
+        };
+        /**
+         * 获取当前登录用户查询未读消息数量
+         */
+        var selectUnreadCount = function(){
+            KTUtil.ajax({
+                url: basePath + '/auth/sys/message/select/unread/count',
+                success: function (res) {
+                    if((res.data > 0 && lastSelectUnreadMessageCount !== res.data) || isFirstLoadMessage){
+                        // 记录上次更新消息时的未读消息数量
+                        lastSelectUnreadMessageCount = res.data;
+                        isFirstLoadMessage = false;
+                        // 有新消息,刷新消息列表
+                        loadMessage();
+                        // 更新消息提示
+                        $('.unread-count').html(res.data);
+                        if (res.data > 0) {
+                            $('.new-message-tip, .unread-count').removeClass('kt-hide');
+                        } else {
+                            $('.new-message-tip, .unread-count').addClass('kt-hide');
+                        }
+                    }
+                }
+            });
+        };
+        return {
+            /**
+             * 检查消息是否需要更新,如果需要则刷新
+             */
+            selectUnreadCount: function(){
+                selectUnreadCount();
+            }
+        }
+    }();
 
     /**
      * 读消息
@@ -695,8 +740,11 @@ var mIndex = function () {
             loadMenu();
             // 绑定菜单点击事件
             bindLinkClick();
-            // 初始化消息
-            initMessage();
+            // 初始化消息定时检查
+            setInterval(sysMessage.selectUnreadCount, messageCheckInterval);
+            // 页面加载完后马上查询一次消息
+            sysMessage.selectUnreadCount();
+
             // 绑定消息事件
             bindMessage();
         }

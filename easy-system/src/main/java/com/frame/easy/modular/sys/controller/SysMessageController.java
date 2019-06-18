@@ -170,4 +170,19 @@ public class SysMessageController extends BaseController {
         logger.debug("/auth/sys/message/send/" + ids);
         return Tips.getSuccessTips(service.send(ids));
     }
+
+    /**
+     * 获取当前登录用户查询未读消息数量
+     *
+     * @return 未读消息数量
+     */
+    @RequestMapping("/select/unread/count")
+    @ResponseBody
+    @RequiresPermissions("sys:message:select")
+    public Tips selectUnreadCount() {
+        logger.debug("/select/unread/count");
+        return Tips.getSuccessTips(service.selectUnreadCount());
+    }
+
+
 }

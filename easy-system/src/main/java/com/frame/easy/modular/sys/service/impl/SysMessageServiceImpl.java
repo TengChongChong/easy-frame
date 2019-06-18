@@ -183,4 +183,17 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
         send.eq("create_user", ShiroUtil.getCurrentUser().getId());
         return update(send);
     }
+
+    @Override
+    public int selectUnreadCount() {
+        // 查询条件
+        QueryWrapper<SysMessage> queryWrapper = new QueryWrapper<>();
+        // 只查询接收人为自己的
+        queryWrapper.eq("d.receiver_user", ShiroUtil.getCurrentUser().getId());
+        // 已发送
+        queryWrapper.eq("m.status", MessageConst.STATUS_HAS_BEEN_SENT);
+        // 未读
+        queryWrapper.eq("d.status", MessageConst.RECEIVE_STATUS_UNREAD);
+        return getBaseMapper().selectUnreadCount(queryWrapper);
+    }
 }

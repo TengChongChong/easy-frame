@@ -33,4 +33,12 @@ public interface SysMessageMapper extends BaseMapper<SysMessage> {
      */
     List<SysMessage> selectReceive(Page page, @Param("ew") QueryWrapper<SysMessage> queryWrapper);
 
+    /**
+     * 查询未读消息数量
+     *
+     * @param queryWrapper 查询条件
+     * @return 未读消息数量
+     */
+    int selectUnreadCount(@Param("ew") QueryWrapper<SysMessage> queryWrapper);
+
 }

@@ -153,17 +153,17 @@
                                         fill="#cfd8fe"/><path
                                         d="M664.743778 887.895318a138.447831 138.447831 0 0 1-142.472477 136.033043 138.447831 138.447831 0 0 1-142.874942-136.033043z"
                                         fill="#5f7cfb"/></svg>
-                                <!--<span class="kt-pulse__ring"></span>-->
+<!--                                <span class="kt-pulse__ring"></span>-->
                             </span>
-                            <span class="kt-badge kt-badge--dot kt-badge--notify kt-badge--sm kt-badge--brand"></span>
+                            <span class="kt-badge kt-badge--dot kt-badge--notify kt-badge--sm kt-badge--danger new-message-tip kt-hide"></span>
                         </div>
                         <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-lg">
                             <form>
                                 <!--begin: Head -->
                                 <div class="kt-head kt-head--skin-dark kt-head--fit-x kt-head--fit-b" style="background-image: url(${ctxPath}/static/media/misc/bg-1.jpg)">
                                     <h3 class="kt-head__title">
-                                        消息
-                                        <span class="btn btn-success btn-sm btn-bold btn-font-md unread-count">23 未读</span>
+                                        最新消息
+                                        <span class="kt-badge kt-badge--danger kt-badge--sm kt-badge--rounded kt-badge--bolder unread-count kt-hide"></span>
                                     </h3>
                                     <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-success kt-notification-item-padding-x" role="tablist">
                                         <li class="nav-item">
@@ -182,16 +182,21 @@
                                 <div class="tab-content message-container">
                                     <div class="tab-pane active show" id="message-${MessageConst.TYPE_NOTICE}" role="tabpanel">
                                         <div class="kt-notification kt-margin-t-10 kt-margin-b-10 kt-scroll"
-                                             data-scroll="true" data-height="300" data-mobile-height="200"></div>
+                                             data-scroll="true" data-height="260" data-mobile-height="200"></div>
                                     </div>
                                     <div class="tab-pane" id="message-${MessageConst.TYPE_EVENT}" role="tabpanel">
                                         <div class="kt-notification kt-margin-t-10 kt-margin-b-10 kt-scroll"
-                                             data-scroll="true" data-height="300" data-mobile-height="200"></div>
+                                             data-scroll="true" data-height="260" data-mobile-height="200"></div>
                                     </div>
                                     <div class="tab-pane" id="message-${MessageConst.TYPE_JOURNAL}" role="tabpanel">
                                         <div class="kt-notification kt-margin-t-10 kt-margin-b-10 kt-scroll"
-                                             data-scroll="true" data-height="300" data-mobile-height="200"></div>
+                                             data-scroll="true" data-height="260" data-mobile-height="200"></div>
                                     </div>
+                                </div>
+                                <div class="text-center kt-padding-10 border-top">
+                                    <a href="javascript:;" onclick="KTApp.openPage('消息', '${ctxPath}/auth/sys/message/list')" class="kt-link">
+                                        查看全部
+                                    </a>
                                 </div>
                             </form>
                         </div>
@@ -367,7 +372,7 @@
                                         </div>
                                         <div class="kt-notification__item-time">
                                             通知、事件、日志等消息
-                                            <span class="kt-badge kt-badge--unified-danger kt-badge--sm kt-badge--rounded kt-badge--bolder">5</span>
+                                            <span class="kt-badge kt-badge--unified-danger kt-badge--sm kt-badge--rounded kt-badge--bolder unread-count kt-hide"></span>
                                         </div>
                                     </div>
                                 </a>
@@ -616,6 +621,9 @@ ${plugins("jquery-contextmenu", "js")}
     var TYPE_EVENT = '${MessageConst.TYPE_EVENT}';
     // 消息类型-日志
     var TYPE_JOURNAL = '${MessageConst.TYPE_JOURNAL}';
+
+    // 新消息检查间隔时长 20s
+    var messageCheckInterval = ${sysConfig(SysConfigConst.MESSAGE_CHECK_INTERVAL)} * 1000;
 </script>
 <script src="${ctxPath}/static/modular/sys/index/index.js?v=${version()}"></script>
 <!-- end:: Page -->

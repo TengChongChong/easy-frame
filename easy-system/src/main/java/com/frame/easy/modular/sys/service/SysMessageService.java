@@ -63,4 +63,11 @@ public interface SysMessageService {
      */
     boolean send(String ids);
 
+    /**
+     * 获取当前登录用户查询未读消息数量
+     *
+     * @return 未读消息数量
+     */
+    int selectUnreadCount();
+
 }

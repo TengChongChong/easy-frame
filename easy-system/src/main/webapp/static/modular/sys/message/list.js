@@ -354,6 +354,17 @@ var SysMessageList = function () {
         });
     };
     /**
+     * 删除按钮对应的tooltip
+     *
+     * @param element 按钮
+     */
+    var hideBtnTip = function (element) {
+        var tooltipId = $(element).attr('aria-describedby');
+        if(KTUtil.isNotBlank(tooltipId)){
+            $('#' + tooltipId).remove();
+        }
+    };
+    /**
      * 移至回收站/彻底删除
      *
      * @param element {object} 触发按钮
@@ -387,6 +398,7 @@ var SysMessageList = function () {
                 _delete(element);
             });
         } else {
+            hideBtnTip(element);
             _delete(element);
         }
     };
@@ -398,6 +410,7 @@ var SysMessageList = function () {
      */
     var reduction = function (element) {
         var $element = $(element);
+        hideBtnTip(element);
         KTUtil.ajax({
             url: KTTool.getBaseUrl() + 'details/reduction/' + $element.data('id'),
             success: function (res) {
@@ -444,6 +457,7 @@ var SysMessageList = function () {
      */
     var send = function (element) {
         KTUtil.alertConfirm('发送消息', '发送后无法撤销，确定要发送吗？', function () {
+            hideBtnTip(element);
             var $element = $(element);
             KTUtil.ajax({
                 url: KTTool.getBaseUrl() + 'send/' + $element.data('id'),
