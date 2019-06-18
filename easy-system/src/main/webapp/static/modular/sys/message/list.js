@@ -125,6 +125,7 @@ var SysMessageList = function () {
 
         if (INBOX === messageType) {
             // 收信箱
+            selectUnreadCount();
             $('.btn-delete, .btn-delete-completely, .btn-all-read').removeClass('kt-hide');
         } else if (INSTAR_SIGNBOX === messageType) {
             $('.btn-delete, .btn-delete-completely, .btn-all-read').removeClass('kt-hide');
@@ -469,6 +470,22 @@ var SysMessageList = function () {
         })
     };
 
+    /**
+     * 获取当前登录用户查询未读消息数量
+     */
+    var selectUnreadCount = function(){
+        KTUtil.ajax({
+            url: KTTool.getBaseUrl() + 'select/unread/count',
+            success: function (res) {
+                if (res.data > 0) {
+                    $('.unread-count').removeClass('kt-hide').html(res.data);
+                } else {
+                    $('.unread-count').addClass('kt-hide').html(res.data);
+                }
+            }
+        });
+    };
+
     return {
         //== 初始化页面
         init: function () {
@@ -476,6 +493,7 @@ var SysMessageList = function () {
             bindNavClick();
             // 加载默认菜单
             $('.kt-nav.data-type .kt-nav__item.active > a').click();
+            selectUnreadCount();
         },
         /**
          * 初始化收信表格

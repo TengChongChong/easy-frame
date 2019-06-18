@@ -677,7 +677,7 @@ var mIndex = function () {
             KTUtil.ajax({
                 url: basePath + '/auth/sys/message/select/unread/count',
                 success: function (res) {
-                    if((res.data > 0 && lastSelectUnreadMessageCount !== res.data) || isFirstLoadMessage){
+                    if(lastSelectUnreadMessageCount !== res.data || isFirstLoadMessage){
                         // 记录上次更新消息时的未读消息数量
                         lastSelectUnreadMessageCount = res.data;
                         isFirstLoadMessage = false;
