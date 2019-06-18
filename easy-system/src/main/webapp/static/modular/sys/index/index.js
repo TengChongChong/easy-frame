@@ -76,7 +76,6 @@ var mIndex = function () {
             temp[list[i].id] = list[i];
         }
         for (var i in temp) {
-            console.log(temp[i]);
             // 不是根菜单&&没有父菜单
             if (temp[i].pId !== rootId && temp[temp[i].pId]) {
                 if (!temp[temp[i].pId].children) {
@@ -574,6 +573,114 @@ var mIndex = function () {
         });
     };
 
+    /**
+     * 消息图标
+     */
+    var messageIcon = {
+        read: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--invalid">\n' +
+            '    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\n' +
+            '        <rect id="bound" x="0" y="0" width="24" height="24"/>\n' +
+            '        <path d="M6,2 L18,2 C18.5522847,2 19,2.44771525 19,3 L19,12 C19,12.5522847 18.5522847,13 18,13 L6,13 C5.44771525,13 5,12.5522847 5,12 L5,3 C5,2.44771525 5.44771525,2 6,2 Z M7.5,5 C7.22385763,5 7,5.22385763 7,5.5 C7,5.77614237 7.22385763,6 7.5,6 L13.5,6 C13.7761424,6 14,5.77614237 14,5.5 C14,5.22385763 13.7761424,5 13.5,5 L7.5,5 Z M7.5,7 C7.22385763,7 7,7.22385763 7,7.5 C7,7.77614237 7.22385763,8 7.5,8 L10.5,8 C10.7761424,8 11,7.77614237 11,7.5 C11,7.22385763 10.7761424,7 10.5,7 L7.5,7 Z" id="Combined-Shape" fill="#000000" opacity="0.3"/>\n' +
+            '        <path d="M3.79274528,6.57253826 L12,12.5 L20.2072547,6.57253826 C20.4311176,6.4108595 20.7436609,6.46126971 20.9053396,6.68513259 C20.9668779,6.77033951 21,6.87277228 21,6.97787787 L21,17 C21,18.1045695 20.1045695,19 19,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,6.97787787 C3,6.70173549 3.22385763,6.47787787 3.5,6.47787787 C3.60510559,6.47787787 3.70753836,6.51099993 3.79274528,6.57253826 Z" id="Combined-Shape" fill="#000000"/>\n' +
+            '    </g>\n' +
+            '</svg>',
+        unread: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">\n' +
+            '    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\n' +
+            '        <rect id="bound" x="0" y="0" width="24" height="24"/>\n' +
+            '        <path d="M5,6 L19,6 C20.1045695,6 21,6.8954305 21,8 L21,17 C21,18.1045695 20.1045695,19 19,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,8 C3,6.8954305 3.8954305,6 5,6 Z M18.1444251,7.83964668 L12,11.1481833 L5.85557487,7.83964668 C5.4908718,7.6432681 5.03602525,7.77972206 4.83964668,8.14442513 C4.6432681,8.5091282 4.77972206,8.96397475 5.14442513,9.16035332 L11.6444251,12.6603533 C11.8664074,12.7798822 12.1335926,12.7798822 12.3555749,12.6603533 L18.8555749,9.16035332 C19.2202779,8.96397475 19.3567319,8.5091282 19.1603533,8.14442513 C18.9639747,7.77972206 18.5091282,7.6432681 18.1444251,7.83964668 Z" id="Combined-Shape" fill="#000000"/>\n' +
+            '    </g>\n' +
+            '</svg>'
+    };
+
+    /**
+     * 加载消息
+     * 首页这里只显示7天内的消息
+     * 并且每种类型最多显示 {size} 条
+     */
+    var initMessage = function () {
+        // 每种类型最多只显示20条
+        var size = 20;
+
+        /**
+         * 根据类型获取消息
+         *
+         * @param type {string} 消息类型
+         */
+        var selectMessage = function (type) {
+            KTUtil.ajax({
+                url: basePath + '/auth/sys/message/select/receive',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    type: type,
+                    page: {
+                        size: size
+                    }
+                }),
+                success: function (res) {
+                    var $container = $('#message-' + type + ' > .kt-scroll');
+                    if (res.data.records.length > 0) {
+                        $(res.data.records).each(function (index, message) {
+                            $container.append(
+                                '<a href="javascript:;" data-url="' + basePath + '/auth/sys/message/info/' + message.messageId + '/' + message.id + '" class="kt-notification__item">\
+                                    <div class="kt-notification__item-icon">\
+                                    ' + (message.readDate ? messageIcon.read : messageIcon.unread) + '\
+                                    </div>\
+                                    <div class="kt-notification__item-details">\
+                                        <div class="kt-notification__item-title ' + (message.readDate ? '' : ' unread') + '">\
+                                            ' + message.title + '\
+                                        </div>\
+                                        <div class="kt-notification__item-time" title="' + message.sendDate + '">\
+                                            ' + (moment(message.sendDate, 'YYYY-MM-DD HH:mm:ss').fromNow()) + '\
+                                        </div>\
+                                    </div>\
+                                </a>'
+                            )
+                        });
+                    } else {
+                        $container.html(
+                            '<div class="kt-grid kt-grid--ver" style="min-height: 200px;">\
+                                <div class="kt-grid kt-grid--hor kt-grid__item kt-grid__item--fluid kt-grid__item--middle">\
+                                    <div class="kt-grid__item kt-grid__item--middle kt-align-center">\
+                                        暂无消息\
+                                    </div>\
+                                </div>\
+                            </div>'
+                        );
+                    }
+                }
+            });
+        };
+        // 通知
+        selectMessage(TYPE_NOTICE);
+        // 事件
+        selectMessage(TYPE_EVENT);
+        // 日志
+        selectMessage(TYPE_JOURNAL);
+    };
+
+    /**
+     * 读消息
+     *
+     * @param element {object} 消息链接
+     */
+    var readMessage = function (element) {
+        var $link = $(element);
+        // 移除未读class
+        $link.find('.kt-notification__item-title').removeClass('unread');
+        // 更改消息图标
+        $link.find('.kt-notification__item-icon').html(messageIcon.read);
+        // 打开页面
+        KTApp.openPage($link.text(), $link.data('url'));
+    };
+    /**
+     * 给消息绑定事件
+     */
+    var bindMessage = function () {
+        $('.message-container').on('click', '[data-url]', function () {
+            readMessage(this);
+        });
+    };
     return {
         //== 初始化页面
         init: function () {
@@ -588,6 +695,10 @@ var mIndex = function () {
             loadMenu();
             // 绑定菜单点击事件
             bindLinkClick();
+            // 初始化消息
+            initMessage();
+            // 绑定消息事件
+            bindMessage();
         }
     };
 }();

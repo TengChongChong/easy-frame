@@ -8,7 +8,10 @@
     @include("/common/base-styles.html"){}
     @include("/common/skins-default.html"){}
     <style>
-
+        .unread {
+            font-weight: bold !important;
+            color: #333 !important;
+        }
     </style>
 </head>
 <!-- end::Head -->
@@ -140,7 +143,7 @@
                     </div>
                     <!--end: 搜索 -->
 
-                    <!--begin: 通知 -->
+                    <!--begin: 消息 -->
                     <div class="kt-header__topbar-item dropdown">
                         <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="30px,0px" aria-expanded="true">
                             <span class="kt-header__topbar-icon kt-pulse kt-pulse--brand">
@@ -156,102 +159,44 @@
                         </div>
                         <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-lg">
                             <form>
-
                                 <!--begin: Head -->
                                 <div class="kt-head kt-head--skin-dark kt-head--fit-x kt-head--fit-b" style="background-image: url(${ctxPath}/static/media/misc/bg-1.jpg)">
                                     <h3 class="kt-head__title">
                                         消息
-                                        <span class="btn btn-success btn-sm btn-bold btn-font-md">23 new</span>
+                                        <span class="btn btn-success btn-sm btn-bold btn-font-md unread-count">23 未读</span>
                                     </h3>
                                     <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-success kt-notification-item-padding-x" role="tablist">
                                         <li class="nav-item">
-                                            <a class="nav-link active show" data-toggle="tab" href="#topbar_notifications_notifications" role="tab" aria-selected="true">通知</a>
+                                            <a class="nav-link active show" data-toggle="tab" href="#message-${MessageConst.TYPE_NOTICE}" role="tab" aria-selected="true">通知</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" data-toggle="tab" href="#topbar_notifications_events" role="tab" aria-selected="false">事件</a>
+                                            <a class="nav-link" data-toggle="tab" href="#message-${MessageConst.TYPE_EVENT}" role="tab" aria-selected="false">事件</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" data-toggle="tab" href="#topbar_notifications_logs" role="tab" aria-selected="false">日志</a>
+                                            <a class="nav-link" data-toggle="tab" href="#message-${MessageConst.TYPE_JOURNAL}" role="tab" aria-selected="false">日志</a>
                                         </li>
                                     </ul>
                                 </div>
 
                                 <!--end: Head -->
-                                <div class="tab-content">
-                                    <div class="tab-pane active show" id="topbar_notifications_notifications" role="tabpanel">
-                                        <div class="kt-notification kt-margin-t-10 kt-margin-b-10 kt-scroll" data-scroll="true" data-height="300" data-mobile-height="200">
-                                            <a href="#" class="kt-notification__item">
-                                                <div class="kt-notification__item-icon">
-                                                    <i class="la la-exclamation-circle kt-font-warning"></i>
-                                                </div>
-                                                <div class="kt-notification__item-details">
-                                                    <div class="kt-notification__item-title">
-                                                        账号在异地[江苏省]登录
-                                                    </div>
-                                                    <div class="kt-notification__item-time">
-                                                        10 分钟前
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="kt-notification__item">
-                                                <div class="kt-notification__item-icon">
-                                                    <i class="la la-cloud-upload kt-font-success"></i>
-                                                </div>
-                                                <div class="kt-notification__item-details">
-                                                    <div class="kt-notification__item-title">
-                                                        数据导入完成
-                                                    </div>
-                                                    <div class="kt-notification__item-time">
-                                                        1 小时前
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
+                                <div class="tab-content message-container">
+                                    <div class="tab-pane active show" id="message-${MessageConst.TYPE_NOTICE}" role="tabpanel">
+                                        <div class="kt-notification kt-margin-t-10 kt-margin-b-10 kt-scroll"
+                                             data-scroll="true" data-height="300" data-mobile-height="200"></div>
                                     </div>
-                                    <div class="tab-pane" id="topbar_notifications_events" role="tabpanel">
-                                        <div class="kt-notification kt-margin-t-10 kt-margin-b-10 kt-scroll" data-scroll="true" data-height="300" data-mobile-height="200">
-                                            <a href="#" class="kt-notification__item">
-                                                <div class="kt-notification__item-icon">
-                                                    <i class="la la-check kt-font-success"></i>
-                                                </div>
-                                                <div class="kt-notification__item-details">
-                                                    <div class="kt-notification__item-title">
-                                                        请假申请已通过
-                                                    </div>
-                                                    <div class="kt-notification__item-time">
-                                                        1小时前
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="kt-notification__item">
-                                                <div class="kt-notification__item-icon">
-                                                    <i class="la la-exclamation-circle kt-font-warning"></i>
-                                                </div>
-                                                <div class="kt-notification__item-details">
-                                                    <div class="kt-notification__item-title">
-                                                        加班申请被拒绝
-                                                    </div>
-                                                    <div class="kt-notification__item-time">
-                                                        2小时前
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
+                                    <div class="tab-pane" id="message-${MessageConst.TYPE_EVENT}" role="tabpanel">
+                                        <div class="kt-notification kt-margin-t-10 kt-margin-b-10 kt-scroll"
+                                             data-scroll="true" data-height="300" data-mobile-height="200"></div>
                                     </div>
-                                    <div class="tab-pane" id="topbar_notifications_logs" role="tabpanel">
-                                        <div class="kt-grid kt-grid--ver" style="min-height: 200px;">
-                                            <div class="kt-grid kt-grid--hor kt-grid__item kt-grid__item--fluid kt-grid__item--middle">
-                                                <div class="kt-grid__item kt-grid__item--middle kt-align-center">
-                                                    暂无日志
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="tab-pane" id="message-${MessageConst.TYPE_JOURNAL}" role="tabpanel">
+                                        <div class="kt-notification kt-margin-t-10 kt-margin-b-10 kt-scroll"
+                                             data-scroll="true" data-height="300" data-mobile-height="200"></div>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
-                    <!--end: 通知 -->
+                    <!--end: 消息 -->
 
                     <!--begin: 快捷功能 -->
                     <div class="kt-header__topbar-item dropdown">
@@ -663,6 +608,15 @@
 <!-- end::返回顶部 -->
 @include("/common/base-scripts.html"){}
 ${plugins("jquery-contextmenu", "js")}
+<script>
+    // 一些需要用到的常量
+    // 消息类型-通知
+    var TYPE_NOTICE = '${MessageConst.TYPE_NOTICE}';
+    // 消息类型-事件
+    var TYPE_EVENT = '${MessageConst.TYPE_EVENT}';
+    // 消息类型-日志
+    var TYPE_JOURNAL = '${MessageConst.TYPE_JOURNAL}';
+</script>
 <script src="${ctxPath}/static/modular/sys/index/index.js?v=${version()}"></script>
 <!-- end:: Page -->
 </body>

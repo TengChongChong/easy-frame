@@ -1,12 +1,9 @@
-//== 通知 -列表页
+//== 通知 - 列表页
 var SysMessageList = function () {
     /**
      * 初始化列表
      */
     var initTable = function (options) {
-        options.layout = {
-            // header: false
-        };
         if (SysMessageList.dataTable != null) {
             // 销毁表格
             SysMessageList.dataTable.destroy();
@@ -183,7 +180,7 @@ var SysMessageList = function () {
                         </div>\
                         <div class="kt-user-card-v2__details">\
                             <a href="#" data-url="' + KTTool.getBaseUrl() + 'info/' + row.messageId + '/' + row.id + '" class="kt-user-card-v2__name message-link' + (row.readDate ? '' : ' unread') + '">' +
-                            (row.important === 1 ? '<span class="kt-badge kt-badge--danger kt-badge--inline kt-badge--unified-danger">重要</span> ' : '') +
+                            (row.important === IMPORTANT_YES ? '<span class="kt-badge kt-badge--danger kt-badge--inline kt-badge--unified-danger">重要</span> ' : '') +
                             row.title + '</a>\
                             <span class="kt-user-card-v2__email">' + row.nickname + '</span>\
                         </div>\
@@ -201,7 +198,7 @@ var SysMessageList = function () {
                         <div class="kt-user-card-v2">\
                             <div class="kt-user-card-v2__details">\
                                 <a href="#" class="kt-user-card-v2__name">' + KTTool.getDictElement(row.type, typeDicts) + '</a>\
-                                <span class="kt-user-card-v2__email">' + row.sendDate + '</span>\
+                                <span class="kt-user-card-v2__email" title="' + row.sendDate + '">' + (moment(row.sendDate, 'YYYY-MM-DD HH:mm:ss').fromNow()) + '</span>\
                             </div>\
                         </div>';
             }

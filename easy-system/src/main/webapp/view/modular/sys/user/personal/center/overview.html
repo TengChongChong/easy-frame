@@ -1,5 +1,11 @@
+<style>
+    .unread {
+        font-weight: bold !important;
+        color: #333 !important;
+    }
+</style>
 <div class="row">
-    <div class="col-lg-6 col-12">
+    <div class="col-xl-6 col-lg-12">
         <div class="kt-portlet">
             <form class="kt-form kt-form--label-align-right">
                 <div class="kt-portlet__head">
@@ -23,13 +29,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="kt-portlet__body">
-
+                <div class="kt-portlet__body" id="message-body">
+                    <div class="kt_datatable" id="message-list"></div>
                 </div>
             </form>
         </div>
     </div>
-    <div class="col-lg-6 col-12">
+    <div class="col-xl-6 col-lg-12">
         <div class="kt-portlet">
             <form class="kt-form kt-form--label-align-right">
                 <div class="kt-portlet__head">
@@ -60,3 +66,12 @@
         </div>
     </div>
 </div>
+<!--begin::页面脚本 -->
+<script>
+    // 已发送
+    var STATUS_HAS_BEEN_SENT = '${MessageConst.STATUS_HAS_BEEN_SENT}';
+    // 重要
+    var IMPORTANT_YES = ${MessageConst.IMPORTANT_YES};
+</script>
+<script src="${ctxPath}/static/modular/sys/user/personal/center/overview.js?v=${version()}" type="text/javascript"></script>
+<!--end::页面脚本 -->

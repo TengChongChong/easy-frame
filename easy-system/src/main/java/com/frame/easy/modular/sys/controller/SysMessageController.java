@@ -3,6 +3,7 @@ package com.frame.easy.modular.sys.controller;
 import com.frame.easy.base.controller.BaseController;
 import com.frame.easy.modular.sys.service.SysMessageDetailsService;
 import com.frame.easy.result.Tips;
+import com.frame.easy.util.web.Servlets;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import com.frame.easy.modular.sys.model.SysMessage;
 import com.frame.easy.modular.sys.service.SysMessageService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -99,13 +101,19 @@ public class SysMessageController extends BaseController {
     @RequestMapping("/info/{id}/{messageId}")
     @RequiresPermissions("sys:message:select")
     public String info(Model model, @PathVariable("id") String id,
-                        @PathVariable("messageId") String messageId) {
+                       @PathVariable("messageId") String messageId,
+                       HttpServletRequest request) {
         logger.debug("/auth/sys/message/info/" + id + "/" + messageId);
         // 获取消息详情
         model.addAttribute("object", service.input(id));
         // 标记一度
         sysMessageDetailsService.setRead(messageId);
-        return PREFIX + "info";
+        if (Servlets.isAjaxRequest(request)) {
+            // 如果是ajax请求只返回内容部分(用于消息页面)
+            return PREFIX + "info";
+        } else {
+            return PREFIX + "full-info";
+        }
     }
 
     /**
