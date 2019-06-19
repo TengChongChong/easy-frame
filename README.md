@@ -80,6 +80,8 @@
 ##### 持久层
 1. Alibaba Druid
 2. MyBatis Plus
+#### 模板引擎
+1. Beetl
 ##### 缓存
 1. Redis
 ##### 工具
