@@ -374,7 +374,7 @@ public class GeneratorHtmlUtil {
      * @return html
      */
     private static String date(FieldSet fieldSet, boolean value, String pageType) {
-        return "<#form:input class=\"date-picker\" dataFormat=\"YYYY-MM-DD\" " + getCommonProperty(fieldSet, value, pageType) + " />";
+        return "<#form:input class=\"date-picker\" dataFormat=\"yyyy-mm-dd\" " + getCommonProperty(fieldSet, value, pageType) + " />";
     }
 
     /**
@@ -386,7 +386,7 @@ public class GeneratorHtmlUtil {
      * @return html
      */
     private static String datetime(FieldSet fieldSet, boolean value, String pageType) {
-        return "<#form:input class=\"date-picker\" dataFormat=\"YYYY-MM-DD HH:mm:ss\"" + getCommonProperty(fieldSet, value, pageType) + " />";
+        return "<#form:input class=\"date-picker\" dataFormat=\"yyyy-mm-dd hh:ii:ss\"" + getCommonProperty(fieldSet, value, pageType) + " />";
     }
 
     /**
