@@ -6,7 +6,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 /**
  * web 容器下启动类
- * war包方式部署情况下使用
+ * war 方式部署情况下使用
  *
  * @author tengchong
  * @date 2018/11/22
