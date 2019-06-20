@@ -4,8 +4,8 @@
  * @class KApp
  */
 
-var KTApp = function() {
-    /** @type {object} colors State colors **/
+var KTApp = function () {
+    // 状态色
     var colors = {};
     /**
      * 全局动画设置
@@ -17,12 +17,14 @@ var KTApp = function() {
         // 消失动画
         out: 'fadeOut'
     };
-
-    var initTooltip = function(el) {
+    /**
+     * 初始化 tooltips
+     * @param el {object} 元素
+     */
+    var initTooltip = function (el) {
         var skin = el.data('skin') ? 'tooltip-' + el.data('skin') : '';
-        var width = el.data('width') == 'auto' ? 'tooltop-auto-width' : '';
+        var width = el.data('width') === 'auto' ? 'tooltop-auto-width' : '';
         var triggerValue = el.data('trigger') ? el.data('trigger') : 'hover';
-        var placement = el.data('placement') ? el.data('placement') : 'left';
 
         el.tooltip({
             trigger: triggerValue,
@@ -31,16 +33,21 @@ var KTApp = function() {
                 <div class="tooltip-inner"></div>\
             </div>'
         });
-    }
-
-    var initTooltips = function() {
-        // init bootstrap tooltips
-        $('[data-toggle="kt-tooltip"], .kt-tooltip-auto').each(function() {
+    };
+    /**
+     * 初始化 tooltips
+     */
+    var initTooltips = function () {
+        $('[data-toggle="kt-tooltip"], .kt-tooltip-auto').each(function () {
             initTooltip($(this));
         });
-    }
-
-    var initPopover = function(el) {
+    };
+    /**
+     * 初始化 popover
+     *
+     * @param el {object} 元素
+     */
+    var initPopover = function (el) {
         var skin = el.data('skin') ? 'popover-' + el.data('skin') : '';
         var triggerValue = el.data('trigger') ? el.data('trigger') : 'hover';
 
@@ -53,49 +60,46 @@ var KTApp = function() {
                 <div class="popover-body"></div>\
             </div>'
         });
-    }
-
-    var initPopovers = function() {
-        // init bootstrap popover
-        $('[data-toggle="kt-popover"]').each(function() {
+    };
+    /**
+     * 初始化 popover
+     */
+    var initPopovers = function () {
+        $('[data-toggle="kt-popover"]').each(function () {
             initPopover($(this));
         });
-    }
-
-    var initFileInput = function() {
-        // init bootstrap popover
-        $('.custom-file-input').on('change', function() {
-            var fileName = $(this).val();
-            $(this).next('.custom-file-label').addClass("selected").html(fileName);
-        });
-    }
-
-    var initPortlet = function(el, options) {
-        // init portlet tools
-        var el = $(el);
-        var portlet = new KTPortlet(el[0], options);
-    }
-
-    var initPortlets = function() {
-        // init portlet tools
-        $('[data-ktportlet="true"]').each(function() {
-            var el = $(this);
-
-            if (el.data('data-ktportlet-initialized') !== true) {
-                initPortlet(el, {});
-                el.data('data-ktportlet-initialized', true);
+    };
+    /**
+     * 初始化 portlet
+     * @param el {object} 元素
+     * @param options {object} 选项
+     */
+    var initPortlet = function (el, options) {
+        new KTPortlet(el, options);
+    };
+    /**
+     * 初始化 portlet
+     */
+    var initPortlets = function () {
+        $('[data-ktportlet="true"]').each(function () {
+            var $el = $(this);
+            if ($el.data('data-kt-portlet-initialized') !== true) {
+                initPortlet(this, {});
+                $el.data('data-kt-portlet-initialized', true);
             }
         });
-    }
-
-    var initScroll = function() {
-        $('[data-scroll="true"], .kt-scrollable').each(function() {
+    };
+    /**
+     * 初始化滚动条
+     */
+    var initScroll = function () {
+        $('[data-scroll="true"], .kt-scrollable').each(function () {
             var el = $(this);
             KTUtil.scrollInit(this, {
                 mobileNativeScroll: true,
                 handleWindowResize: true,
-                rememberPosition: (el.data('remember-position') == 'true' ? true : false),
-                height: function() {
+                rememberPosition: el.data('remember-position'),
+                height: function () {
                     if (KTUtil.isInResponsiveRange('tablet-and-mobile') && el.data('mobile-height')) {
                         return el.data('mobile-height');
                     } else {
@@ -104,27 +108,34 @@ var KTApp = function() {
                 }
             });
         });
-    }
-
-    var initAlerts = function() {
-        // init bootstrap popover
-        $('body').on('click', '[data-close=alert]', function() {
+    };
+    /**
+     * 初始化 alert
+     */
+    var initAlerts = function () {
+        $('body').on('click', '[data-close=alert]', function () {
             $(this).closest('.alert').hide();
         });
-    }
-
-    var initSticky = function() {
-        var sticky = new Sticky('[data-sticky="true"]');
-    }
-
-    var initAbsoluteDropdown = function(dropdown) {
+    };
+    /**
+     * 初始化 sticky
+     */
+    var initSticky = function () {
+        new Sticky('[data-sticky="true"]');
+    };
+    /**
+     * 初始化 dropdown
+     *
+     * @param dropdown {object} 元素
+     */
+    var initAbsoluteDropdown = function (dropdown) {
         var dropdownMenu;
 
         if (!dropdown) {
             return;
         }
 
-        dropdown.on('show.bs.dropdown', function(e) {
+        dropdown.on('show.bs.dropdown', function (e) {
             dropdownMenu = $(e.target).find('.dropdown-menu');
             $('body').append(dropdownMenu.detach());
             dropdownMenu.css('display', 'block');
@@ -135,20 +146,23 @@ var KTApp = function() {
             });
         });
 
-        dropdown.on('hide.bs.dropdown', function(e) {
+        dropdown.on('hide.bs.dropdown', function (e) {
             $(e.target).append(dropdownMenu.detach());
             dropdownMenu.hide();
         });
-    }
-
-    var initAbsoluteDropdowns = function() {
-        $('body').on('show.bs.dropdown', function(e) {
-            if ( $(e.target).find("[data-attach='body']").length === 0) {
+    };
+    /**
+     * 初始化 dropdown
+     */
+    var initAbsoluteDropdowns = function () {
+        var $body = $('body');
+        $body.on('show.bs.dropdown', function (e) {
+            if ($(e.target).find("[data-attach='body']").length === 0) {
                 return;
             }
 
             var dropdownMenu = $(e.target).find('.dropdown-menu');
-            
+
             $('body').append(dropdownMenu.detach());
             dropdownMenu.css('display', 'block');
             dropdownMenu.position({
@@ -158,19 +172,19 @@ var KTApp = function() {
             });
         });
 
-        $('body').on('hide.bs.dropdown', function(e) {
-            if ( $(e.target).find("[data-attach='body']").length === 0) {
+        $body.on('hide.bs.dropdown', function (e) {
+            if ($(e.target).find("[data-attach='body']").length === 0) {
                 return;
             }
 
             var dropdownMenu = $(e.target).find('.dropdown-menu');
-            
+
             $(e.target).append(dropdownMenu.detach());
             dropdownMenu.hide();
         });
     };
     /**
-     * 初始化tab工具条
+     * 初始化标签页
      */
     var initTabs = function () {
         window.tabPage = new KTTabPage();
@@ -356,7 +370,7 @@ var KTApp = function() {
                 return 4;
             } else if (format.length === 'yyyy-mm'.length) {
                 return 3;
-            }else if(format.length === 'yyyy-mm-dd'.length){
+            } else if (format.length === 'yyyy-mm-dd'.length) {
                 return 2;
             } else {
                 return 0;
@@ -439,7 +453,7 @@ var KTApp = function() {
      * @param animationName {string} 动画名称
      * @param callback {function} 回调函数
      */
-    var animateCSS = function(selector, animationName, callback) {
+    var animateCSS = function (selector, animationName, callback) {
         var node = document.querySelector(selector);
         node.classList.add('animated', animationName);
 
@@ -447,10 +461,11 @@ var KTApp = function() {
             node.classList.remove('animated', animationName);
             node.removeEventListener('animationend', handleAnimationEnd);
 
-            if (KTUtil.isFunction(callback)){
+            if (KTUtil.isFunction(callback)) {
                 callback();
             }
         }
+
         node.addEventListener('animationend', handleAnimationEnd);
     };
     /**
@@ -478,7 +493,7 @@ var KTApp = function() {
             dictMaxFilesExceeded: Dropzone.dictMaxFilesExceeded
         };
         var option = $.extend(true, {}, _defaultOptions, options);
-        if (EFUtil.isFunction(options.success)) {
+        if (KTUtil.isFunction(options.success)) {
             option.success = function (file) {
                 options.success($.parseJSON(file.xhr.response), file);
                 if (file.previewElement) {
@@ -486,7 +501,7 @@ var KTApp = function() {
                 }
             }
         }
-        if (EFUtil.isFunction(options.complete)) {
+        if (KTUtil.isFunction(options.complete)) {
             option.complete = function (file) {
                 options.complete($.parseJSON(file.xhr.response), file);
                 if (file._removeLink) {
@@ -501,7 +516,7 @@ var KTApp = function() {
     };
 
     return {
-        init: function(options) {
+        init: function (options) {
             if (options && options.colors) {
                 colors = options.colors;
             }
@@ -509,13 +524,12 @@ var KTApp = function() {
             KTApp.initComponents();
         },
 
-        initComponents: function() {
+        initComponents: function () {
             initScroll();
             initTooltips();
             initPopovers();
             initAlerts();
             initPortlets();
-            // initFileInput();
             initSticky();
             initAbsoluteDropdowns();
             initSelectPicker('.select-picker');
@@ -523,41 +537,41 @@ var KTApp = function() {
             initRadio('.radio-dict');
             initDatePicker('.date-picker');
         },
-        initRadio: function(){
+        initRadio: function () {
             initRadio('.radio-dict');
         },
-        initCheckbox: function(){
+        initCheckbox: function () {
             initCheckbox('.checkbox-dict');
         },
-        initTooltips: function() {
+        initTooltips: function () {
             initTooltips();
         },
 
-        initTooltip: function(el) {
+        initTooltip: function (el) {
             initTooltip(el);
         },
 
-        initPopovers: function() {
+        initPopovers: function () {
             initPopovers();
         },
 
-        initPopover: function(el) {
+        initPopover: function (el) {
             initPopover(el);
         },
 
-        initPortlet: function(el, options) {
+        initPortlet: function (el, options) {
             initPortlet(el, options);
         },
 
-        initPortlets: function() {
+        initPortlets: function () {
             initPortlets();
         },
 
-        initSticky: function() {
+        initSticky: function () {
             initSticky();
         },
 
-        initAbsoluteDropdown: function(dropdown) {
+        initAbsoluteDropdown: function (dropdown) {
             initAbsoluteDropdown(dropdown);
         },
         /**
@@ -566,7 +580,7 @@ var KTApp = function() {
          * @param target {string} 选择器
          * @param options {object} 选项
          */
-        block: function(target, options) {
+        block: function (target, options) {
             var el = $(target);
 
             options = $.extend(true, {
@@ -625,7 +639,7 @@ var KTApp = function() {
                     cursor: 'wait',
                     zIndex: '10'
                 },
-                onUnblock: function() {
+                onUnblock: function () {
                     if (el && el[0]) {
                         KTUtil.css(el[0], 'position', '');
                         KTUtil.css(el[0], 'zoom', '');
@@ -646,7 +660,7 @@ var KTApp = function() {
          *
          * @param target {string} 选择器
          */
-        unblock: function(target) {
+        unblock: function (target) {
             if (target && target !== 'body') {
                 $(target).unblock();
             } else {
@@ -657,51 +671,66 @@ var KTApp = function() {
          * 显示页面级别加载提示
          *
          * @param options {object}
-         * @return {*|void}
          */
-        blockPage: function(options) {
-            if(options == null){
+        blockPage: function (options) {
+            if (options == null) {
                 options = {
                     message: '页面加载中，请稍候...'
                 }
             }
-            return KTApp.block('body', options);
+            KTApp.block('body', options);
         },
         /**
          * 隐藏页面级别加载提示
-         *
-         * @param options {object}
-         * @return {*|void}
          */
-        unblockPage: function() {
+        unblockPage: function () {
             return KTApp.unblock('body');
         },
-
-        progress: function(target, options) {
+        /**
+         * 在按钮上面显示加载中图标
+         *
+         * @param target {string} 选择器
+         * @param options {object} 选项
+         */
+        progress: function (target, options) {
             var skin = (options && options.skin) ? options.skin : 'light';
             var alignment = (options && options.alignment) ? options.alignment : 'right';
             var size = (options && options.size) ? 'kt-spinner--' + options.size : '';
-            var classes = 'kt-spinner ' + 'kt-spinner--' + skin + ' kt-spinner--' + alignment + ' kt-spinner--' + size; 
+            var classes = 'kt-spinner ' + 'kt-spinner--' + skin + ' kt-spinner--' + alignment + ' kt-spinner--' + size;
 
             KTApp.unprogress(target);
 
             $(target).addClass(classes);
             $(target).data('progress-classes', classes);
         },
-
-        unprogress: function(target) {
+        /**
+         * 隐藏按钮上面显示加载中图标
+         * @param target {string} 选择器
+         */
+        unprogress: function (target) {
             $(target).removeClass($(target).data('progress-classes'));
         },
-
-        getStateColor: function(name) {
+        /**
+         * 根据状态名称获取颜色
+         *
+         * @param name {string} 状态名称
+         * @return {string} 颜色
+         */
+        getStateColor: function (name) {
             return colors["state"][name];
         },
-
-        getBaseColor: function(type, level) {
+        /**
+         * 获取base color
+         *
+         * @param type {string} 类型
+         * @param level {number} 级别
+         * @return {string} 颜色
+         */
+        getBaseColor: function (type, level) {
             return colors["base"][type][level - 1];
         },
         /**
-         * 初始化tab工具条
+         * 初始化标签页
          */
         initTabs: function () {
             initTabs();
@@ -758,22 +787,20 @@ var KTApp = function() {
          * @param animationName {string} 动画名称
          * @param callback {function} 回调函数
          */
-        animateCSS: function(selector, animationName, callback) {
+        animateCSS: function (selector, animationName, callback) {
             animateCSS(selector, animationName, callback);
         }
     };
 }();
 
 //== 页面加载完毕初始化App
-$(document).ready(function() {
+$(document).ready(function () {
     KTApp.init(appOptions);
 });
 "use strict";
 /**
- * @class KTUtil  base utilize class that privides helper functions
+ * @class KTUtil  工具类
  */
-// Polyfill
-// matches polyfill
 this.Element && function(ElementPrototype) {
     ElementPrototype.matches = ElementPrototype.matches ||
         ElementPrototype.matchesSelector ||
@@ -822,15 +849,6 @@ this.Element && function(ElementPrototype) {
         }
 }(Element.prototype);
 
-//
-// requestAnimationFrame polyfill by Erik Möller.
-//  With fixes from Paul Irish and Tino Zijdel
-//
-//  http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-//  http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
-//
-//  MIT license
-//
 (function() {
     var lastTime = 0;
     var vendors = ['webkit', 'moz'];
@@ -857,7 +875,6 @@ this.Element && function(ElementPrototype) {
         };
 }());
 
-// Source: https://github.com/jserz/js_piece/blob/master/DOM/ParentNode/prepend()/prepend().md
 (function(arr) {
     arr.forEach(function(item) {
         if (item.hasOwnProperty('prepend')) {
@@ -882,7 +899,7 @@ this.Element && function(ElementPrototype) {
     });
 })([Element.prototype, Document.prototype, DocumentFragment.prototype]);
 
-// Global variables 
+// 全局变量
 window.KTUtilElementDataStore = {};
 window.KTUtilElementDataStoreID = 0;
 window.KTUtilDelegatedEventHandlers = {};
@@ -891,7 +908,9 @@ var KTUtil = function() {
 
     var resizeHandlers = [];
 
-    /** @type {object} breakpoints The device width breakpoints **/
+    /**
+     * 响应式配置
+     */
     var breakpoints = {
         sm: 544, // Small screen / phone           
         md: 768, // Medium screen / tablet            
@@ -902,8 +921,8 @@ var KTUtil = function() {
     };
 
     /**
-     * Handle window resize event with some 
-     * delay to attach event handlers upon resize complete 
+     * 处理窗口大小调整事件
+     * 完成调整大小后延迟附加事件处理程序
      */
     var _windowResizeHandler = function() {
         var _runResizeHandlers = function() {
@@ -914,26 +933,24 @@ var KTUtil = function() {
             }
         };
 
-        var timeout = false; // holder for timeout id
-        var delay = 250; // delay after event is "complete" to run callback
+        var timeout = false; // timeout
+        var delay = 250; // 延迟时间
 
         window.addEventListener('resize', function() {
             clearTimeout(timeout);
             timeout = setTimeout(function() {
                 _runResizeHandlers();
-            }, delay); // wait 50ms until window resize finishes.
+            }, delay);
         });
     };
 
     return {
         /**
-         * Class main initializer.
-         * @param {object} options.
-         * @returns null
+         * 初始化
          */
-        //main function to initiate the theme
         init: function(options) {
             if (options && options.breakpoints) {
+                // 指定了响应式配置
                 breakpoints = options.breakpoints;
             }
 
@@ -941,16 +958,16 @@ var KTUtil = function() {
         },
 
         /**
-         * Adds window resize event handler.
-         * @param {function} callback function.
+         * 添加窗口大小调整事件处理
+         * @param callback {function} 回调函数
          */
         addResizeHandler: function(callback) {
             resizeHandlers.push(callback);
         },
 
         /**
-         * Removes window resize event handler.
-         * @param {function} callback function.
+         * 移除窗口大小调整事件处理
+         * @param callback {function} 回调函数
          */
         removeResizeHandler: function(callback) {
             for (var i = 0; i < resizeHandlers.length; i++) {
@@ -961,7 +978,7 @@ var KTUtil = function() {
         },
 
         /**
-         * Trigger window resize handlers.
+         * 触发窗口大小调整事件
          */
         runResizeHandlers: function() {
             _runResizeHandlers();
@@ -969,21 +986,20 @@ var KTUtil = function() {
 
         resize: function() {
             if (typeof(Event) === 'function') {
-                // modern browsers
                 window.dispatchEvent(new Event('resize'));
             } else {
-                // for IE and other old browsers
-                // causes deprecation warning on modern browsers
-                var evt = window.document.createEvent('UIEvents'); 
+                // IE 或其他老版本浏览器
+                var evt = window.document.createEvent('UIEvents');
                 evt.initUIEvent('resize', true, false, window, 0); 
                 window.dispatchEvent(evt);
             }
         },
 
         /**
-         * Get GET parameter value from URL.
-         * @param {string} paramName Parameter name.
-         * @returns {string}  
+         * 从url中获取参数
+         *
+         * @param {string} paramName 参数名
+         * @returns {string|null}
          */
         getURLParam: function(paramName) {
             var searchString = window.location.search.substring(1),
@@ -991,7 +1007,7 @@ var KTUtil = function() {
 
             for (i = 0; i < params.length; i++) {
                 val = params[i].split("=");
-                if (val[0] == paramName) {
+                if (val[0] === paramName) {
                     return unescape(val[1]);
                 }
             }
@@ -1000,25 +1016,27 @@ var KTUtil = function() {
         },
 
         /**
-         * Checks whether current device is mobile touch.
-         * @returns {boolean}  
+         * 根据窗口判断是否属于触摸设备(宽度小于lg)
+         *
+         * @returns {boolean}
          */
         isMobileDevice: function() {
-            return (this.getViewPort().width < this.getBreakpoint('lg') ? true : false);
+            return this.getViewPort().width < this.getBreakpoint('lg');
         },
 
         /**
-         * Checks whether current device is desktop.
-         * @returns {boolean}  
+         * 根据窗口判断是否属于电脑(宽度大于lg)
+         *
+         * @returns {boolean}
          */
         isDesktopDevice: function() {
-            return KTUtil.isMobileDevice() ? false : true;
+            return !KTUtil.isMobileDevice();
         },
 
         /**
-         * Gets browser window viewport size. Ref:
-         * http://andylangton.co.uk/articles/javascript/get-viewport-size-javascript/
-         * @returns {object}  
+         * 获取浏览器窗口大小
+         *
+         * @returns {object}
          */
         getViewPort: function() {
             var e = window,
@@ -1035,9 +1053,9 @@ var KTUtil = function() {
         },
 
         /**
-         * Checks whether given device mode is currently activated.
-         * @param {string} mode Responsive mode name(e.g: desktop,
-         *     desktop-and-tablet, tablet, tablet-and-mobile, mobile)
+         * 检查当前窗口是否为指定模式
+         *
+         * @param {string} mode 窗口模式(e.g: desktop, desktop-and-tablet, tablet, tablet-and-mobile, mobile)
          * @returns {boolean}  
          */
         isInResponsiveRange: function(mode) {
@@ -1067,17 +1085,19 @@ var KTUtil = function() {
         },
 
         /**
-         * Generates unique ID for give prefix.
-         * @param {string} prefix Prefix for generated ID
-         * @returns {boolean}  
+         * 生成一个指定前缀的 unique ID
+         *
+         * @param {string} prefix {string} 前缀
+         * @returns {string}
          */
         getUniqueID: function(prefix) {
             return prefix + Math.floor(Math.random() * (new Date()).getTime());
         },
 
         /**
-         * Gets window width for give breakpoint mode.
-         * @param {string} mode Responsive mode name(e.g: xl, lg, md, sm)
+         * 根据模式获取尺寸
+         *
+         * @param {string} 响应式模式前缀 (e.g: xl, lg, md, sm)
          * @returns {number}  
          */
         getBreakpoint: function(mode) {
@@ -1085,9 +1105,10 @@ var KTUtil = function() {
         },
 
         /**
-         * Checks whether object has property matchs given key path.
-         * @param {object} obj Object contains values paired with given key path
-         * @param {string} keys Keys path seperated with dots
+         * 检查对象是否具有与给定键路径匹配的属性
+         *
+         * @param {object} obj 要检查的变量
+         * @param {string} keys 路径
          * @returns {object}  
          */
         isset: function(obj, keys) {
@@ -1120,25 +1141,18 @@ var KTUtil = function() {
         },
 
         /**
-         * Gets highest z-index of the given element parents
-         * @param {object} el jQuery element object
-         * @returns {number}  
+         * 获取父级最高z-index
+         * @param {object} el 元素
+         * @returns {number|null}
          */
         getHighestZindex: function(el) {
             var elem = KTUtil.get(el),
                 position, value;
 
             while (elem && elem !== document) {
-                // Ignore z-index if position is set to a value where z-index is ignored by the browser
-                // This makes behavior of this function consistent across browsers
-                // WebKit always returns auto if the element is positioned
                 position = KTUtil.css(elem, 'position');
 
                 if (position === "absolute" || position === "relative" || position === "fixed") {
-                    // IE returns 0 when zIndex is not specified
-                    // other browsers return a string
-                    // we ignore the case of nested elements with an explicit value of 0
-                    // <div style="z-index: -10;"><div style="z-index: 0;"></div></div>
                     value = parseInt(KTUtil.css(elem, 'z-index'));
 
                     if (!isNaN(value) && value !== 0) {
@@ -1153,15 +1167,16 @@ var KTUtil = function() {
         },
 
         /**
-         * Checks whether the element has any parent with fixed positionfreg
-         * @param {object} el jQuery element object
+         * 检查父级是否有fixed定位
+         *
+         * @param {object} el 元素
          * @returns {boolean}  
          */
         hasFixedPositionedParent: function(el) {
             while (el && el !== document) {
                 var position = KTUtil.css(el, 'position');
 
-                if (position === "fixed") {
+                if (position === 'fixed') {
                     return true;
                 }
 
@@ -1172,33 +1187,14 @@ var KTUtil = function() {
         },
 
         /**
-         * Simulates delay
-         */
-        sleep: function(milliseconds) {
-            var start = new Date().getTime();
-            for (var i = 0; i < 1e7; i++) {
-                if ((new Date().getTime() - start) > milliseconds) {
-                    break;
-                }
-            }
-        },
-
-        /**
-         * Gets randomly generated integer value within given min and max range
-         * @param {number} min Range start value
-         * @param {number} max Range end value
+         * 获取指定的最小和最大范围内随机生成的整数值
+         *
+         * @param {number} min 最小
+         * @param {number} max 最大
          * @returns {number}
          */
         getRandomInt: function(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
-        },
-
-        /**
-         * Checks whether Angular library is included
-         * @returns {boolean}  
-         */
-        isAngularVersion: function() {
-            return window.Zone !== undefined ? true : false;
         },
 
         // jQuery Workarounds
@@ -2200,7 +2196,12 @@ var KTUtil = function() {
 
         // 
 
-        // Scroller
+        /**
+         * 初始化滚动条
+         *
+         * @param element {object} 元素
+         * @param options {object} 选项
+         */
         scrollInit: function(element, options) {
             if(!element) return;
             // Define init function
@@ -2255,10 +2256,10 @@ var KTUtil = function() {
                     ps = new PerfectScrollbar(element, {
                         wheelSpeed: 0.5,
                         swipeEasing: true,
-                        wheelPropagation: (options.windowScroll === false ? false : true),
+                        wheelPropagation: options.windowScroll !== false,
                         minScrollbarLength: 40,
                         maxScrollbarLength: 300, 
-                        suppressScrollX: KTUtil.attr(element, 'data-scroll-x') != 'true' ? true : false
+                        suppressScrollX: KTUtil.attr(element, 'data-scroll-x') !== 'true'
                     });
 
                     KTUtil.data(element).set('ps', ps);
@@ -2316,16 +2317,10 @@ var KTUtil = function() {
         },
 
         setHTML: function(el, html) {
-            if (KTUtil.get(el)) {
-                KTUtil.get(el).innerHTML = html;
-            }
+            $(el).html(html);
         },
 
-        getHTML: function(el) {
-            if (KTUtil.get(el)) {
-                return KTUtil.get(el).innerHTML;
-            }
-        },
+
         /**
          * 是否为空
          * @param str
@@ -12196,7 +12191,7 @@ $(document).ready(function() {
 });
 "use strict";
 
-var KTQuickSearch = function() {
+var KTQuickSearch = function () {
     var target;
     var form;
     var input;
@@ -12207,24 +12202,28 @@ var KTQuickSearch = function() {
     var inputGroup;
     var query = '';
 
-    var hasResult = false; 
-    var timeout = false; 
+    var hasResult = false;
+    var timeout = false;
     var isProcessing = false;
     var requestTimeout = 200; // ajax request fire timeout in milliseconds 
     var spinnerClass = 'kt-spinner kt-spinner--input kt-spinner--sm kt-spinner--brand kt-spinner--right';
     var resultClass = 'kt-quick-search--has-result';
     var minLength = 2;
-
-    var showProgress = function() {
+    /**
+     * 显示等待状态
+     */
+    var showProgress = function () {
         isProcessing = true;
-        KTUtil.addClass(inputGroup, spinnerClass); 
+        KTUtil.addClass(inputGroup, spinnerClass);
 
         if (closeIcon) {
             KTUtil.hide(closeIcon);
-        }       
-    }
-
-    var hideProgress = function() {
+        }
+    };
+    /**
+     * 隐藏等待状态
+     */
+    var hideProgress = function () {
         isProcessing = false;
         KTUtil.removeClass(inputGroup, spinnerClass);
 
@@ -12233,75 +12232,115 @@ var KTQuickSearch = function() {
                 KTUtil.hide(closeIcon);
             } else {
                 KTUtil.show(closeIcon, 'flex');
-            }            
+            }
         }
-    }
-
-    var showDropdown = function() {
+    };
+    /**
+     * 显示搜索
+     */
+    var showDropdown = function () {
         if (resultDropdownToggle && !KTUtil.hasClass(resultDropdown, 'show')) {
             $(resultDropdownToggle).dropdown('toggle');
-            $(resultDropdownToggle).dropdown('update'); 
+            $(resultDropdownToggle).dropdown('update');
         }
-    }
-
-    var hideDropdown = function() {
+    };
+    /**
+     * 隐藏搜索
+     */
+    var hideDropdown = function () {
         if (resultDropdownToggle && KTUtil.hasClass(resultDropdown, 'show')) {
             $(resultDropdownToggle).dropdown('toggle');
         }
-    }
-
-    var processSearch = function() {
-        if (hasResult && query === input.value) {  
+    };
+    /**
+     * 执行搜索
+     */
+    var processSearch = function () {
+        // 如果有结果并且查询条件=当前输入条件
+        if (hasResult && query === input.value) {
             hideProgress();
             KTUtil.addClass(target, resultClass);
             showDropdown();
-            KTUtil.scrollUpdate(resultWrapper);
-
+            KTUtil.scrollUpdate(resultWrapper[0]);
             return;
         }
-
+        // 查询条件
         query = input.value;
 
         KTUtil.removeClass(target, resultClass);
         showProgress();
-
-        setTimeout(function() {
-            $.ajax({
-                url: 'inc/api/quick_search.php',
-                data: {
-                    query: query
-                },
-                dataType: 'html',
-                success: function(res) {
-                    hasResult = true;
-                    hideProgress();
-                    KTUtil.addClass(target, resultClass);
-                    KTUtil.setHTML(resultWrapper, res);
-                    showDropdown();
-                    KTUtil.scrollUpdate(resultWrapper);
-                },
-                error: function(res) {
-                    hasResult = false;
-                    hideProgress();
-                    KTUtil.addClass(target, resultClass);
-                    KTUtil.setHTML(resultWrapper, '<span class="kt-quick-search__message">Connection error. Pleae try again later.</div>');
-                    showDropdown();
-                    KTUtil.scrollUpdate(resultWrapper);
+        // 这里暂时只对菜单进行搜索
+        var result = searchMenu(query);
+        resultWrapper.empty();
+        if (result.length > 0) {
+            hasResult = true;
+            // 加载数据到搜索结果中
+            $(result).each(function (index, menu) {
+                resultWrapper.append(
+                    '<a href="javascript:;" data-title="' + menu.relName + '" data-url="' + basePath + menu.url + '" class="kt-notification__item kt-menu-link">\
+                        <div class="kt-notification__item-icon">' + menu.icon + '</div>\
+                        <div class="kt-notification__item-details">\
+                            <div class="kt-notification__item-title">' + menu.name + '</div>\
+                        </div>\
+                    </a>'
+                );
+            });
+        } else {
+            hasResult = false;
+            resultWrapper.html(
+                '<div class="kt-grid kt-grid--ver" style="min-height: 200px;">\
+                    <div class="kt-grid kt-grid--hor kt-grid__item kt-grid__item--fluid kt-grid__item--middle">\
+                        <div class="kt-grid__item kt-grid__item--middle kt-align-center">\
+                            暂无数据\
+                        </div>\
+                    </div>\
+                </div>'
+            );
+        }
+        hideProgress();
+        KTUtil.addClass(target, resultClass);
+        showDropdown();
+        KTUtil.scrollUpdate(resultWrapper[0]);
+    };
+    /**
+     * 根据关键字搜索菜单
+     *
+     * @param query {string} 关键字
+     * @return {Array} 菜单列表
+     */
+    var searchMenu = function (query) {
+        var result = [];
+        if(KTUtil.isNotBlank(query)){
+            // query = query.toUpperCase();
+            var menus = KTTool.getUser(true).menus;
+            $(menus).each(function (index, menu) {
+                if (KTUtil.isNotBlank(menu.url) && menu.name.indexOf(query) > -1) {
+                    result.push({
+                        name: menu.name.replaceAll(query, '<span class="kt-font-danger">' + query + '</span>'),
+                        relName: menu.name,
+                        icon: menu.icon,
+                        url: menu.url
+                    })
                 }
             });
-        }, 1000);       
-    }
-
-    var handleCancel = function(e) {
+        }
+        return result;
+    };
+    /**
+     * 取消
+     *
+     * @param e
+     */
+    var handleCancel = function (e) {
         input.value = '';
         query = '';
         hasResult = false;
         KTUtil.hide(closeIcon);
         KTUtil.removeClass(target, resultClass);
         hideDropdown();
-    }
+    };
 
-    var handleSearch = function() {
+    var handleSearch = function () {
         if (input.value.length < minLength) {
             hideProgress();
             hideDropdown();
@@ -12309,7 +12348,7 @@ var KTQuickSearch = function() {
             return;
         }
 
-        if (isProcessing == true) {
+        if (isProcessing === true) {
             return;
         }
 
@@ -12317,57 +12356,52 @@ var KTQuickSearch = function() {
             clearTimeout(timeout);
         }
 
-        timeout = setTimeout(function() {
+        timeout = setTimeout(function () {
             processSearch();
-        }, requestTimeout);     
-    }
+        }, requestTimeout);
+    };
 
-    return {     
-        init: function(element) { 
+    return {
+        init: function (element) {
             // Init
             target = element;
             form = KTUtil.find(target, '.kt-quick-search__form');
             input = KTUtil.find(target, '.kt-quick-search__input');
             closeIcon = KTUtil.find(target, '.kt-quick-search__close');
-            resultWrapper = KTUtil.find(target, '.kt-quick-search__wrapper');
-            resultDropdown = KTUtil.find(target, '.dropdown-menu'); 
+            resultDropdown = KTUtil.find(target, '.dropdown-menu');
             resultDropdownToggle = KTUtil.find(target, '[data-toggle="dropdown"]');
-            inputGroup = KTUtil.find(target, '.input-group');           
+            inputGroup = KTUtil.find(target, '.input-group');
+            resultWrapper = $(target).find('.kt-quick-search__wrapper');
 
             // Attach input keyup handler
             KTUtil.addEvent(input, 'keyup', handleSearch);
             KTUtil.addEvent(input, 'focus', handleSearch);
 
-            // Prevent enter click
-            form.onkeypress = function(e) {
-                var key = e.charCode || e.keyCode || 0;     
-                if (key == 13) {
+            // 按回车
+            form.onkeypress = function (e) {
+                var key = e.charCode || e.keyCode || 0;
+                if (key === 13) {
                     e.preventDefault();
                 }
-            }
-           
-            KTUtil.addEvent(closeIcon, 'click', handleCancel);     
+            };
 
-            // Auto-focus on the form input on dropdown form open
+            KTUtil.addEvent(closeIcon, 'click', handleCancel);
+
+            // 打开搜索将焦点放到input上
             var toggle = KTUtil.getByID('kt_quick_search_toggle');
             if (toggle) {
                 $(toggle).on('shown.bs.dropdown', function () {
                     input.focus();
                 });
-            }  
+            }
         }
     };
 };
 
-var KTQuickSearchMobile = KTQuickSearch;
-
-$(document).ready(function() {
-    if (KTUtil.get('kt_quick_search_default')) {
-        KTQuickSearch().init(KTUtil.get('kt_quick_search_default'));
-    }
-
-    if (KTUtil.get('kt_quick_search_inline')) {
-        KTQuickSearchMobile().init(KTUtil.get('kt_quick_search_inline'));
+$(document).ready(function () {
+    var $quickSearch = $('#kt_quick_search_inline');
+    if ($quickSearch.length) {
+        KTQuickSearch().init($quickSearch[0]);
     }
 });
 var appOptions = {
