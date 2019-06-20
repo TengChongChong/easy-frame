@@ -9,13 +9,15 @@ package com.frame.easy.exception;
 public interface EasyServiceException {
     /**
      * 错误代码
-     * @return
+     *
+     * @return 错误代码
      */
     Integer getCode();
 
     /**
      * 错误提示
-     * @return
+     *
+     * @return 错误提示
      */
     String getMessage();
 }
