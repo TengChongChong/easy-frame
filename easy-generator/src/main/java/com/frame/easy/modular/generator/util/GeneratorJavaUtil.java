@@ -26,9 +26,11 @@ public class GeneratorJavaUtil {
      * @return 验证注解
      */
     public static String generatorVerification(String propertyName, List<FieldSet> list) {
-        for (FieldSet fieldSet : list) {
-            if (propertyName.equals(fieldSet.getPropertyName())) {
-                return generatorVerification(fieldSet);
+        if(list != null){
+            for (FieldSet fieldSet : list) {
+                if (propertyName.equals(fieldSet.getPropertyName())) {
+                    return generatorVerification(fieldSet);
+                }
             }
         }
         return null;
