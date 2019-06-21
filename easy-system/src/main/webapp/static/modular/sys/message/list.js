@@ -177,7 +177,7 @@ var SysMessageList = function () {
                 return '\
                     <div class="kt-user-card-v2">\
                         <div class="kt-user-card-v2__pic">\
-                            <img src="' + row.avatar + '" alt="photo">\
+                            <img src="' + basePath + row.avatar + '" alt="photo">\
                         </div>\
                         <div class="kt-user-card-v2__details">\
                             <a href="#" data-url="' + KTTool.getBaseUrl() + 'info/' + row.messageId + '/' + row.id + '" class="kt-user-card-v2__name message-link' + (row.readDate ? '' : ' unread') + '">' +
