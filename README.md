@@ -65,12 +65,52 @@
 8. 文档待大部分功能开发完成后会逐步完善...
 
 ### 安装教程
-1. 执行/db/init.sql
-2. 修改/easy-app/src/main/resources/application-dev.yml中数据库/redis配置
-
-### 账号
-用户名: admin
-密  码: 123
+#### 数据库
+1. 新建数据库
+2. 导入数据库脚本 执行 `/easy-frame/db/easy-frame.sql`、`/easy-frame/db/quartz.sql`
+3. 修改 `/easy-frame/easy-app/src/main/resources/application-dev.yml` 中以下配置
+```yml
+spring:
+  datasource:
+      dynamic:
+          datasource:
+              master:
+                  # 驱动类
+                  driver-class-name: com.mysql.cj.jdbc.Driver
+                  # url
+                  url: jdbc:mysql://localhost:3306/easy-frame?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMulQueries=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+                  # 用户名
+                  username: root
+                  # 密码
+                  password: 123456
+```
+::: tip
+集成了多数据源，所以数据源配置中有 `dynamic.datasource.master`
+:::
+#### Redis
+1. 安装Redis
+3. 修改 `/easy-frame/easy-app/src/main/resources/application-dev.yml` 中以下配置
+```yml
+spring:
+    redis:
+        # Redis数据库索引（默认为0）
+        database: 0
+        # Redis服务器地址
+        host: 127.0.0.1
+        # Redis服务器连接端口MybatisPlusConfig
+        port: 6379
+        # Redis服务器连接密码（默认为空）
+        password:
+```
+#### 文件上传目录
+```yml
+project:
+    # 文件上传路径(不要写以~开头的路径会导致无法访问)
+    file-upload-path: /Users/tengchong/Development/upload/easy-frame
+```
+#### 启动
+1. 执行 `com.frame.easy.Application`
+2. 启动成功后访问[http://127.0.0.1:9080](http://127.0.0.1:9080 "访问地址") 默认账号/密码 `admin/123`
 
 ### 技术架构
 #### 后端
