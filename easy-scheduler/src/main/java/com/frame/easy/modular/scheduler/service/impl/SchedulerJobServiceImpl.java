@@ -144,6 +144,16 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
         String jobJobCode = null;
         object.setEditDate(new Date());
         object.setEditUser(currentUser.getId());
+        //
+        QueryWrapper<SchedulerJob> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("code", object.getCode());
+        if (object.getId() != null) {
+            queryWrapper.ne("id", object.getId());
+        }
+        if (count(queryWrapper) > 0) {
+            throw new EasyException("code[" + object.getCode() + "]已存在");
+        }
+
         if (StrUtil.isBlank(object.getId())) {
             // 新增,设置默认值
             object.setCreateDate(new Date());
