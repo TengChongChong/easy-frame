@@ -37,6 +37,9 @@ public class ShiroUtil {
 
     /**
      * 将数据放到session中
+     *
+     * @param key key
+     * @param value value
      */
     public static void setAttribute(String key, Object value) {
         try {
