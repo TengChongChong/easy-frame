@@ -11,7 +11,7 @@
                             <button id="search-depart-type-btn" class="btn btn-secondary" type="button">搜索</button>
                         </div>
                         <div class="input-group-append">
-                            <#button btnType="secondary" name="机构类型维护" icon="la la-bars"
+                            <#btn btnType="secondary" name="机构类型维护" icon="la la-bars"
                             click="KTApp.openPage('类型维护', '${ctxPath}/auth/sys/depart/type/view')" permission="sys:depart:type:select"/>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     <div class="btn-row">
-                        <#button btnType="success" click="mDepartList.addDepart()" icon="la la-plus" name="新增" permission="sys:depart:save" />
+                        <#btn btnType="success" click="mDepartList.addDepart()" icon="la la-plus" name="新增" permission="sys:depart:save" />
                         <#btn:delete permission="sys:permissions:delete"/>
                     </div>
                     <div class="kt_datatable" id="depart-list"></div>

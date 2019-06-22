@@ -55,15 +55,15 @@
     <div class="row">
         <div class="col text-center">
             @if(isSysDistrict){
-            <#button btnType="success" name="保存" icon="la la-save" click="mDistrictView.saveData(this)"
+            <#btn btnType="success" name="保存" icon="la la-save" click="mDistrictView.saveData(this)"
             permission="sys:district:save"/>
             @}
             @if(isNotEmpty(object.id)){
             @if(isSysDistrict){
-            <#button btnType="danger" name="删除" icon="la la-remove" click="mDistrictView.deleteDistrict(this)"
+            <#btn btnType="danger" name="删除" icon="la la-remove" click="mDistrictView.deleteDistrict(this)"
             permission="sys:district:delete"/>
             @}
-            <#button btnType="info" name="新增下级" icon="la la-plus" click="mDistrictView.addDistrict()"
+            <#btn btnType="info" name="新增下级" icon="la la-plus" click="mDistrictView.addDistrict()"
             permission="sys:district:add"/>
             @}
         </div>

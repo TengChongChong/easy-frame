@@ -1,6 +1,4 @@
-@layout("/common/container.html", {"title" : "数据导入"}){
-@include("/common/plugins/css/dropzone.html"){}
-@include("/common/plugins/js/dropzone.html"){}
+@layout("/common/container.html", {"title" : "数据导入", plugin: "dropzone"}){
 <style>
     .dropzone .dz-preview .dz-image {
         width: 220px;
@@ -22,7 +20,7 @@
             </div>
             <div class="form-group kt-form__group row">
                 <div class="col-sm-12">
-                    <div class="kt-dropzone dropzone kt-dropzone--success" id="upload-excel">
+                    <div class="kt-dropzone dropzone" id="upload-excel">
                         <div class="kt-dropzone__msg dz-message needsclick">
                             <h3 class="kt-dropzone__msg-title">拖动文件到这里或者点击选择文件</h3>
                             <span class="kt-dropzone__msg-desc">仅允许上传xlsx、xls文件</span>
@@ -30,8 +28,8 @@
                     </div>
                 </div>
             </div>
-            <#button id="download-template" btnType="info" icon="la la-cloud-download" name="下载模板" />
-            <#button id="import-data" btnType="success" icon="la la-cloud-upload" name="导入数据" />
+            <#btn id="download-template" btnType="info" icon="la la-cloud-download" name="下载模板" />
+            <#btn id="import-data" btnType="success" icon="la la-cloud-upload" name="导入数据" />
         </form>
         <form class="kt-form kt-hide animated" id="temporary-list">
             @if(hasLast){
@@ -46,13 +44,15 @@
             </div>
             @}
             <div class="kt-hide" id="summary-info" role="alert">
-                <i class="la la-bar-chart"></i>
+                <div class="alert-icon">
+                    <i class="la la-bar-chart"></i>
+                </div>
             </div>
             <div class="btn-row">
-                <#button id="save-formal" btnType="success" icon="la la-save" name="保存正确数据到正式表" />
-                <#button id="export-fail" btnType="info" icon="la la-cloud-download" name="导出错误数据" />
-                <#button id="re-selection" btnType="warning" icon="la la-cloud-upload" name="重新选择文件" />
-                <div class="col-md-3 col-12 kt--pull-right">
+                <#btn id="save-formal" btnType="success" icon="la la-save" name="保存正确数据到正式表" />
+                <#btn id="export-fail" btnType="info" icon="la la-cloud-download" name="导出错误数据" />
+                <#btn id="re-selection" btnType="warning" icon="la la-cloud-upload" name="重新选择文件" />
+                <div class="col-md-3 col-12 kt- pull-right">
                     <div class="query-modular">
                         <div class="row">
                             <input type="hidden" name="templateId" value="${object.id}">

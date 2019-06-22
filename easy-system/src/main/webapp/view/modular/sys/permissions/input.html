@@ -87,15 +87,15 @@
     <div class="row">
         <div class="col text-center">
             @if(isSysPermissions){
-                <#button btnType="success" name="保存" icon="la la-save" click="mPermissionsView.saveData(this)" permission="sys:permissions:save"/>
+                <#btn btnType="success" name="保存" icon="la la-save" click="mPermissionsView.saveData(this)" permission="sys:permissions:save"/>
             @}
             @if(isNotEmpty(object.id)){
                 @if(isSysPermissions){
-                    <#button btnType="danger" name="删除" icon="la la-remove" click="mPermissionsView.deletePermission(this)" permission="sys:permissions:delete"/>
+                    <#btn btnType="danger" name="删除" icon="la la-remove" click="mPermissionsView.deletePermission(this)" permission="sys:permissions:delete"/>
                 @}
 
                 @if(object.levels < 4){
-                    <#button btnType="info" name="新增下级" icon="la la-plus" click="mPermissionsView.addPermission()" permission="sys:permissions:add"/>
+                    <#btn btnType="info" name="新增下级" icon="la la-plus" click="mPermissionsView.addPermission()" permission="sys:permissions:add"/>
                 @}
             @}
         </div>

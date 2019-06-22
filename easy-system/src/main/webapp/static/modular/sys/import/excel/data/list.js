@@ -154,7 +154,7 @@ var mImportData = function () {
                         $summaryInfo.addClass('alert alert-warning');
                         html = '验证通过 ' + res.data.success + ' 条，验证失败 ' + res.data.fail + ' 条，共 ' + res.data.total + ' 条数据';
                     }
-                    $summaryInfo.append('<i class="la la-bar-chart"></i> ' + html);
+                    $summaryInfo.append('<div class="alert-icon"><i class="la la-bar-chart"></i></div> ' + html);
                 } else {
                     // 如果全部导入成功了,就返回选择文件页面
                     showSelectionFileView();
@@ -199,7 +199,9 @@ var mImportData = function () {
         $('#summary-info, #temporary-list').addClass('kt-hide');
         $('#import-temporary, #export-fail, #save-formal').removeClass('kt-hide');
         KTApp.animateCSS('#import-temporary', KTApp.getAnimate('in'), null);
-        mDropZone.removeAllFiles();
+        if(mDropZone){
+            mDropZone.removeAllFiles();
+        }
     };
     /**
      * 保存数据到正式表

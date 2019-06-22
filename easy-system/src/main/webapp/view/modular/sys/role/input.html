@@ -17,10 +17,7 @@
                         角色状态：
                     </label>
                     <div class="col-8">
-                        <div class="kt-radio-inline">
-                            <#form:radio name="status" text="启用" value="1" checked="${object.status}" required="true"/>
-                            <#form:radio name="status" text="禁用" value="2" checked="${object.status}"/>
-                        </div>
+                        <div class="radio-dict" data-dict-type="commonStatus" data-value="${object.status}" data-name="status" data-required="true"></div>
                     </div>
                 </div>
                 <#form:input id="slug" name="角色标识" value="${object.code}" tips="controller中定义的角色标识"/>
@@ -52,14 +49,14 @@
     <div class="row">
         <div class="col text-center">
             @if(isSysRole){
-                <#button btnType="success" btnClass="" name="保存" icon="la la-save" click="mRoleView.saveData(this)" permission="sys:role:save"/>
+                <#btn btnType="success" btnClass="" name="保存" icon="la la-save" click="mRoleView.saveData(this)" permission="sys:role:save"/>
             @}
 
             @if(isNotEmpty(object.id)){
                 @if(isSysRole){
-                    <#button btnType="danger" btnClass="" name="删除" icon="la la-remove" click="mRoleView.deleteRole(this, '${object.id}')" permission="sys:role:delete"/>
+                    <#btn btnType="danger" btnClass="" name="删除" icon="la la-remove" click="mRoleView.deleteRole(this, '${object.id}')" permission="sys:role:delete"/>
                 @}
-                <#button btnType="info" btnClass="" name="新增下级" icon="la la-plus" click="mRoleView.addRole()" permission="sys:role:add"/>
+                <#btn btnType="info" btnClass="" name="新增下级" icon="la la-plus" click="mRoleView.addRole()" permission="sys:role:add"/>
             @}
         </div>
     </div>

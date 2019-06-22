@@ -19,10 +19,7 @@
                             状态：
                         </label>
                         <div class="col-8">
-                            <div class="kt-radio-inline">
-                                <#form:radio name="status" text="启用" value="1" checked="${object.status}" required="true"/>
-                                <#form:radio name="status" text="禁用" value="2" checked="${object.status}"/>
-                            </div>
+                            <div class="radio-dict" data-dict-type="commonStatus" data-value="${object.status}" data-name="status" data-required="true"></div>
                         </div>
                     </div>
                 </div>
@@ -42,7 +39,7 @@
         </div>
         <div class="kt-portlet__foot">
             <div class="kt-form__actions text-center">
-                <#button btnType="success" btnClass="" name="保存" icon="la la-save" click="mUserInput.save(this)" permission="sys:user:save"/>
+                <#btn btnType="success" btnClass="" name="保存" icon="la la-save" click="mUserInput.save(this)" permission="sys:user:save"/>
             </div>
         </div>
     </div>

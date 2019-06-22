@@ -59,10 +59,7 @@
                             状态：
                         </label>
                         <div class="col-8">
-                            <div class="kt-radio-inline">
-                                <#form:radio name="status" text="启用" value="1" checked="${object.status}" required="true"/>
-                                <#form:radio name="status" text="禁用" value="2" checked="${object.status}"/>
-                            </div>
+                            <div class="radio-dict" data-dict-type="commonStatus" data-value="${object.status}" data-name="status" data-required="true"></div>
                         </div>
                     </div>
                 </div>

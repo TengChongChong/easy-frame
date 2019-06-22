@@ -32,8 +32,8 @@
             <div class="btn-row">
                 <#btn:add permission="scheduler:job:add"/>
                 <#btn:delete permission="scheduler:job:delete"/>
-                <#button btnType="success" click="mSchedulerJobList.startJob(this)" icon="la la-check" name="全部开启" permission="scheduler:job:save"/>
-                <#button btnType="warning" click="mSchedulerJobList.pauseJob(this)" icon="la la-ban" name="全部暂停" permission="scheduler:job:save"/>
+                <#btn btnType="success" click="mSchedulerJobList.startJob(this)" icon="la la-check" name="全部开启" permission="scheduler:job:save"/>
+                <#btn btnType="warning" click="mSchedulerJobList.pauseJob(this)" icon="la la-ban" name="全部暂停" permission="scheduler:job:save"/>
             </div>
             <div class="kt_datatable" id="scheduler_job-list"></div>
         </form>

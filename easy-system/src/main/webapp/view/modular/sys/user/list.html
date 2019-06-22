@@ -58,11 +58,11 @@
                         </div>
                     </div>
                     <div class="btn-row">
-                        <#button btnType="success" click="mUserList.addUser()" icon="la la-plus" name="新增" permission="sys:user:add" />
+                        <#btn btnType="success" click="mUserList.addUser()" icon="la la-plus" name="新增" permission="sys:user:add" />
                         <#btn:delete permission="sys:user:delete"/>
-                        <#button btnType="warning" click="mUserList.resetPassword(this)" icon="la la-refresh" name="重置密码" permission="sys:user:reset:password" />
-                        <#button btnType="warning" click="mUserList.disableUser(this)" icon="la la-ban" name="禁用用户" permission="sys:user:disable" />
-                        <#button btnType="success" click="mUserList.enableUser(this)" icon="la la-check" name="启用用户" permission="sys:user:enable" />
+                        <#btn btnType="warning" click="mUserList.resetPassword(this)" icon="la la-refresh" name="重置密码" permission="sys:user:reset:password" />
+                        <#btn btnType="warning" click="mUserList.disableUser(this)" icon="la la-ban" name="禁用用户" permission="sys:user:disable" />
+                        <#btn btnType="success" click="mUserList.enableUser(this)" icon="la la-check" name="启用用户" permission="sys:user:enable" />
 
                     </div>
                     <div class="kt_datatable" id="user-list"></div>
