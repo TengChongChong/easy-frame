@@ -1,4 +1,5 @@
 @/*
+    属性说明:
     portlet head
     icon : 图标
     title: 标题

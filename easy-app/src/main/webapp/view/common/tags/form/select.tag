@@ -1,15 +1,17 @@
 @/*
-    select标签中各个参数的说明:
-    name    : label名称
-    id      : select的id
-    class   : class
-    value   : 默认值
-    required: 必填
-    validate: 验证
-    other   : 其他属性(支持多个,用空格隔开)
-    tips    : 提示文字
-    readonly: 只读
-    disabled: 禁用
+    属性说明:
+    name         : label名称
+    id           : select的id
+    class        : class
+    value        : 默认值
+    required     : 必填
+    validateRule : 表单验证
+    dataDictType : 字典类型
+    validate     : 验证 true/false
+    other        : 其他属性(支持多个,用空格隔开)
+    tips         : 提示文字
+    readonly     : 只读
+    disabled     : 禁用
 @*/
 
 @validateRule = null;
@@ -41,7 +43,7 @@
         @}
     </label>
     <div class="col-8">
-        <select class="form-control ${class!}" id="${id}" name="${id}" ${validateRule!} data-dict-type="${dataDictType!}" ${other!} data-value="${value!}"
+        <select class="form-control select-picker ${class!}" id="${id}" name="${id}" ${validateRule!} data-dict-type="${dataDictType!}" ${other!} data-value="${value!}"
                 @if(isNotEmpty(readonly)){
                 readonly="${readonly}"
                 @}

@@ -1,13 +1,13 @@
 @/*
-    表单中checkbox标签中各个参数的说明:
-
-    id      : checkbox id
-    name    : checkbox 名称
-    value   : checkbox 值
-    checked : checkbox 选中的值
-    required: 必填
-    validate: 验证
-    class   : 附加的class属性
+    属性说明:
+    id           : radio id
+    name         : radio 名称
+    value        : radio 值
+    checked      : radio 选中的值
+    required     : 必填  true/false
+    validateRule : 表单验证
+    validate     : 验证
+    class        : 附加的class属性
 @*/
 @validateRule = null;
 

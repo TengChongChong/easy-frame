@@ -1,7 +1,7 @@
 @/*
     按钮标签
 
-    参数的说明:
+    属性说明:
     btnType   : 按钮的类型(secondary-白色,primary-蓝色,success-绿色,info-淡蓝色,warning-黄色,danger-红色)
     btnClass  : 自定义class
     click     : 点击按钮所执行的方法
@@ -16,11 +16,9 @@
 @}
 @if((isEmpty(permission) && isEmpty(role)) || (isNotEmpty(permission) && isEmpty(role) && shiro.hasPermission(permission)) || (isNotEmpty(role) && isEmpty(permission) && shiro.hasRole(role)) || (shiro.hasPermission(permission) && shiro.hasRole(role))){
     <button type="button" class="btn btn-${btnType} ${btnClass!}" onclick="${click!}" id="${id!}">
-        <span>
         @if(isNotEmpty(icon)){
             <i class="${icon}"></i>&nbsp;
         @}
         ${name}
-        </span>
     </button>
 @}
