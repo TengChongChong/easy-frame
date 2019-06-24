@@ -5,19 +5,15 @@
  */
 var preferenceSetting = {
     key: ['id'],
+    // 列表页面
     list: {
         // 一般不会被搜索的字段
         excludeSearch: ['id', 'pIds', 'tips', 'createUser', 'createDate', 'content',
             'abstract', 'orderNo', 'describe', 'icon', 'version'],
-        /**
-         * 一般不显示以下字段
-         * @type {Array}
-         */
+        // 一般不显示以下字段
         exclude: ['id', 'pId', 'pIds', 'tips', 'createUser', 'createDate',
             'content', 'abstract', 'describe', 'version'],
-        /**
-         * 默认匹配方式
-         */
+        // 默认匹配方式
         matching: {
             // 一般使用 = 匹配的字段
             eq: ['status', 'state', 'typeCode', 'type'],
@@ -25,19 +21,13 @@ var preferenceSetting = {
             like: ['name', 'simpleName', 'tips', 'code', 'content', 'url']
         }
     },
+    // 详情页面
     input: {
-        /**
-         * 一般隐藏以下字段
-         *
-         * @type {Array}
-         */
+        // 一般隐藏以下字段
         hide: ['id'],
-        /**
-         * 一般不填写以下字段
-         * @type {Array}
-         */
+        // 一般不填写以下字段
         exclude: ['createUser', 'createDate', 'editUser', 'editDate', 'version', 'pIds'],
-        // == 以下为各种类型输入框对应的常用字段名
+        // 以下为各种类型输入框对应的常用字段名
         type: {
             text: ['name', 'simpleName', 'title', 'subtitle', 'code', 'typeCode', 'username', 'author',
                 'tableName', 'businessName', 'menuName', 'departName', 'deptName', 'path', 'typeName', 'IDNumber',
