@@ -38,5 +38,4 @@ public class IndexController extends BaseController {
     public String dashboard() {
         return PREFIX + "dashboard";
     }
-
 }
