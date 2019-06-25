@@ -12,7 +12,7 @@ var mSampleGeneralList = function () {
                     title: '#',
                     sortable: false, // 禁用此列排序
                     width: 40,
-                    selector: {class: 'kt-checkbox--solid'},
+                    selector: {class: 'kt-checkbox--solid'}
                 },
                 {
                     field: 'name',
