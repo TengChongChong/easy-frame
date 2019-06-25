@@ -16,26 +16,31 @@ var mIndex = function () {
     var loadMenu = function () {
         var menus = currentUser.menus;
         if (typeof menus !== 'undefined') {
-            var $menuNav = $('#kt_aside_menu > ul');
             // 水平菜单
-            var $horizontalMenu = $('#kt_header_menu > ul');
+            var $horizontalMenu = $('#kt_header_menu > ul').empty();
             // 侧边菜单
-            var $varMenu = $('#kt_aside_menu');
+            var $varMenu = $('#kt_aside_menu').empty();
 
             if (menus.length > 0) {
                 menus = objectToArray(buildTree(menus));
-                // 初始化水平方向菜单
-                $horizontalMenu.html(initHorizontalMenu(menus));
-
-                // 初始化侧边菜单
-                // $menuNav.append(initMenu(menus, true));
-                $varMenu.append(initVarMenu(menus));
+                if (preferenceSettings.enableHorizontalMenu()) {
+                    // 初始化水平方向菜单
+                    $horizontalMenu.html(initHorizontalMenu(menus));
+                    // 初始化侧边菜单
+                    $varMenu.append(initVarMenu(menus));
+                } else {
+                    var $menuNav = $varMenu.html('<ul class="kt-menu__nav"></ul>').find('ul');
+                    // 初始化侧边菜单
+                    $menuNav.append(initMenu(menus, true));
+                }
             } else {
-                $menuNav.append(
-                    '<li class="kt-menu__section ">\
-                        <h4 class="kt-menu__section-text">用户暂无菜单</h4>\
-                        <i class="kt-menu__section-icon flaticon-more-v2"></i>\
-                    </li>'
+                $varMenu.html(
+                    '<ul class="kt-menu__nav">\
+                               <li class="kt-menu__section ">\
+                                   <h4 class="kt-menu__section-text">用户暂无菜单</h4>\
+                                   <i class="kt-menu__section-icon flaticon-more-v2"></i>\
+                               </li>\
+                           </ul>'
                 );
             }
             // mLayout.init();
@@ -74,8 +79,8 @@ var mIndex = function () {
     };
     /**
      * 将一维的扁平数组转换为多层级对象
-     * @param  {[type]} list 一维数组，数组中每一个元素需包含id和pId两个属性
-     * @return {[type]} tree 多层级树状结构
+     * @param  {array} list 一维数组，数组中每一个元素需包含id和pId两个属性
+     * @return {object} tree 多层级树状结构
      */
     var buildTree = function (list) {
         var temp = {};
@@ -501,6 +506,7 @@ var mIndex = function () {
                 callback: menuCallback.cardingOnTheNewTab
             }
         };
+
         /**
          * 检查标签页是否可关闭
          *
@@ -510,6 +516,7 @@ var mIndex = function () {
         function checkCanClose($tab) {
             return $tab.find('.tab-close').length;
         }
+
         /**
          * 检查菜单节点是否 disabled
          *
@@ -539,17 +546,17 @@ var mIndex = function () {
                 return true;
             } else if ('closeOtherTabs' === key || 'closeAllTabs' === key) {
                 var isCloseOtherTabs = 'closeOtherTabs' === key;
-                if(isCloseOtherTabs){
+                if (isCloseOtherTabs) {
                     // 如果是关闭其他,排除当前选中tab
                     $currentLi.addClass('current-chose');
                 }
                 var $tabs = $currentLi.parent().children(':not(.current-chose)');
-                if(isCloseOtherTabs){
+                if (isCloseOtherTabs) {
                     $currentLi.removeClass('current-chose');
                 }
                 $($tabs).each(function (index, li) {
                     // 可以关闭
-                    if(checkCanClose($(li))){
+                    if (checkCanClose($(li))) {
                         canClose = true;
                         return;
                     }
@@ -673,11 +680,11 @@ var mIndex = function () {
         /**
          * 获取当前登录用户查询未读消息数量
          */
-        var selectUnreadCount = function(){
+        var selectUnreadCount = function () {
             KTUtil.ajax({
                 url: basePath + '/auth/sys/message/select/unread/count',
                 success: function (res) {
-                    if(lastSelectUnreadMessageCount !== res.data || isFirstLoadMessage){
+                    if (lastSelectUnreadMessageCount !== res.data || isFirstLoadMessage) {
                         // 记录上次更新消息时的未读消息数量
                         lastSelectUnreadMessageCount = res.data;
                         isFirstLoadMessage = false;
@@ -698,7 +705,7 @@ var mIndex = function () {
             /**
              * 检查消息是否需要更新,如果需要则刷新
              */
-            selectUnreadCount: function(){
+            selectUnreadCount: function () {
                 selectUnreadCount();
             }
         }
@@ -726,9 +733,165 @@ var mIndex = function () {
             readMessage(this);
         });
     };
+
+    /**
+     * 用户偏好设置
+     */
+    var preferenceSettings = function () {
+        // 缓存中的key
+        var cacheKey = 'preference-settings';
+
+        // 皮肤文件根目录
+        var baseSkinsPath = basePath + '/static/themes/theme-1/css/skins/';
+
+        /**
+         * 获取设置
+         *
+         * @return {object} 偏好设置
+         */
+        var getSettings = function () {
+            return $('.preference-settings').serializeObject();
+        };
+        /**
+         * 应用设置
+         *
+         * @param settings {object} 配置项
+         * @param update {boolean} 是否更新缓存配置
+         */
+        var setSettings = function (settings, update) {
+            var oldEnableHorizontalMenu = preferenceSettings.enableHorizontalMenu();
+            if (update) {
+                KTTool.setCache(cacheKey, settings);
+            }
+            if (settings != null) {
+                updateCheckbox(settings);
+                updateSkins(settings);
+                if (settings.pickUpTheMenu) {
+                    // 设置菜单收起状态
+                    setAsideMin();
+                }
+                // 隐藏footer
+                if (settings.hideFooter) {
+                    $('body').addClass('hide-footer');
+                } else {
+                    $('body').removeClass('hide-footer');
+                }
+                // 启用快捷菜单
+                if (settings.enableShortcutMenu) {
+                    $('.shortcut-menu').removeClass('kt-hide')
+                } else {
+                    $('.shortcut-menu').addClass('kt-hide');
+                }
+
+                // 检查横向菜单配置是否发生更改
+                if (settings.enableHorizontalMenu !== oldEnableHorizontalMenu) {
+                    // 如果发生更改了,则更新菜单
+                    loadMenu();
+                }
+            }
+        };
+        /**
+         * 应用皮肤
+         *
+         * @param settings {object} 配置项
+         */
+        var updateSkins = function (settings) {
+            var skinsHeaderBase = $('#skins-header-base');
+            var skinsHeaderMenu = $('#skins-header-menu');
+            var skinsBrand = $('#skins-brand');
+            var skinsAside = $('#skins-aside');
+
+            if (settings.darkHead) {
+                // 启用暗色头部
+                skinsHeaderBase.attr('href', baseSkinsPath + 'header/base/dark.css');
+                skinsHeaderMenu.attr('href', baseSkinsPath + 'header/menu/dark.css');
+            } else {
+                skinsHeaderBase.attr('href', baseSkinsPath + 'header/base/light.css');
+                skinsHeaderMenu.attr('href', baseSkinsPath + 'header/menu/light.css');
+            }
+
+            if (settings.darkBrand) {
+                skinsBrand.attr('href', baseSkinsPath + 'brand/dark.css');
+            } else {
+                skinsBrand.attr('href', baseSkinsPath + 'brand/light.css');
+            }
+
+            if (settings.darkAside) {
+                // 启用暗色侧边
+                skinsAside.attr('href', baseSkinsPath + 'aside/dark.css');
+            } else {
+                skinsAside.attr('href', baseSkinsPath + 'aside/light.css');
+            }
+        };
+        /**
+         * 更改checkbox状态
+         *
+         * @param settings {object} 配置
+         */
+        var updateCheckbox = function (settings) {
+            $('.preference-settings').find('input[type="checkbox"]:not([disabled])').each(function () {
+                var $checkbox = $(this);
+                if (settings[$checkbox.attr('name')]) {
+                    $checkbox.prop('checked', true);
+                } else {
+                    $checkbox.prop('checked', false);
+                }
+            });
+        };
+        /**
+         * 设置左侧菜单收起状态
+         */
+        var setAsideMin = function () {
+            $('body').addClass('kt-aside--minimize');
+        };
+        return {
+            /**
+             * 初始化
+             */
+            init: function () {
+                // 应用当前用户设置
+                var settings = preferenceSettings.getPreferenceSettings();
+                if (settings) {
+                    setSettings(settings, false);
+                }
+                // 绑定更改偏好设置事件
+                $('.preference-settings').find('input[type="checkbox"]').change(function () {
+                    setSettings(getSettings(), true);
+                });
+            },
+            /**
+             * 获取缓存中的配置
+             * @return {object} 配置
+             */
+            getPreferenceSettings: function () {
+                var cacheSettings = KTTool.getCache(cacheKey);
+                var settings = null;
+                if (KTUtil.isNotBlank(cacheSettings)) {
+                    settings = $.parseJSON(cacheSettings);
+                }
+                return settings
+            },
+            /**
+             * 是否启用横向菜单
+             *
+             * @return {boolean} true/false
+             */
+            enableHorizontalMenu: function () {
+                var enableHorizontalMenu = true;
+                var settings = preferenceSettings.getPreferenceSettings();
+                if (settings) {
+                    enableHorizontalMenu = settings.enableHorizontalMenu;
+                }
+                return enableHorizontalMenu;
+            }
+        };
+    }();
+
     return {
         //== 初始化页面
         init: function () {
+            // 初始化偏好设置
+            preferenceSettings.init();
             // 更新缓存中的当前登录用户
             currentUser = KTTool.getUser(false);
             // 初始化标签页

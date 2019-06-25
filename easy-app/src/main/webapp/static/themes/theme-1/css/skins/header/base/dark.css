@@ -1,5 +1,6 @@
 @media (min-width: 1025px) {
   .kt-header {
+    background-color: #1e1e2d;
     -webkit-box-shadow: 0 0 40px 0 rgba(82, 63, 105, 0.1);
     box-shadow: 0 0 40px 0 rgba(82, 63, 105, 0.1); }
     .kt-header .kt-header-menu .kt-menu__nav > .kt-menu__item > .kt-menu__link {

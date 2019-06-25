@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * @class KApp
+ * UI 工具类
  */
 
 var KTApp = function () {
@@ -386,7 +386,7 @@ var KTApp = function () {
                 pickerPosition: $element.data('position'),
                 format: $element.data('format'),
                 todayBtn: $element.data('today-btn'),
-                startView: $element.data('start-View'),
+                startView: $element.data('start-view'),
                 minView: $element.data('min-view')
             };
             if (KTUtil.isBlank(config.pickerPosition)) {
@@ -516,6 +516,11 @@ var KTApp = function () {
     };
 
     return {
+        /**
+         * 初始化
+         *
+         * @param options {object} 配置
+         */
         init: function (options) {
             if (options && options.colors) {
                 colors = options.colors;
@@ -523,7 +528,9 @@ var KTApp = function () {
 
             KTApp.initComponents();
         },
-
+        /**
+         * 初始化插件
+         */
         initComponents: function () {
             initScroll();
             initTooltips();
@@ -537,43 +544,76 @@ var KTApp = function () {
             initRadio('.radio-dict');
             initDatePicker('.date-picker');
         },
+        /**
+         * 初始化radio
+         */
         initRadio: function () {
             initRadio('.radio-dict');
         },
+        /**
+         * 初始化checkbox
+         */
         initCheckbox: function () {
             initCheckbox('.checkbox-dict');
         },
+        /**
+         * 初始化tooltips
+         */
         initTooltips: function () {
             initTooltips();
         },
-
+        /**
+         * 初始化tooltip
+         *
+         * @param el {object} 要初始化的元素
+         */
         initTooltip: function (el) {
             initTooltip(el);
         },
-
+        /**
+         * 初始化popovers
+         */
         initPopovers: function () {
             initPopovers();
         },
-
+        /**
+         * 初始化popover
+         *
+         * @param el {object} 要初始化的元素
+         */
         initPopover: function (el) {
             initPopover(el);
         },
-
-        initPortlet: function (el, options) {
-            initPortlet(el, options);
-        },
-
+        /**
+         * 初始化portlets
+         */
         initPortlets: function () {
             initPortlets();
         },
-
+        /**
+         * 初始化portlet
+         *
+         * @param el {object} 要初始化的元素
+         * @param options {object} 设置
+         */
+        initPortlet: function (el, options) {
+            initPortlet(el, options);
+        },
+        /**
+         * 初始化sticky
+         */
         initSticky: function () {
             initSticky();
         },
-
+        /**
+         * 初始化AbsoluteDropdown
+         *
+         * @param dropdown {object} 要初始化的元素
+         */
         initAbsoluteDropdown: function (dropdown) {
             initAbsoluteDropdown(dropdown);
         },
+
         /**
          * 显示加载提示
          *
@@ -584,7 +624,7 @@ var KTApp = function () {
             var el = $(target);
 
             options = $.extend(true, {
-                opacity: 0.03,
+                opacity: 0.2,
                 overlayColor: '#000000',
                 type: 'loader',
                 state: 'success',
@@ -683,7 +723,7 @@ var KTApp = function () {
         /**
          * 隐藏页面级别加载提示
          */
-        unblockPage: function () {
+        too: function () {
             return KTApp.unblock('body');
         },
         /**
@@ -2293,33 +2333,43 @@ var KTUtil = function() {
                 });
             }
         },
-
+        /**
+         * 更新滚动条
+         *
+         * @param element {object} html element
+         */
         scrollUpdate: function(element) {
             var ps;
             if (ps = KTUtil.data(element).get('ps')) {
                 ps.update();
             }
         },
-
-        scrollUpdateAll: function(parent) {
-            var scrollers = KTUtil.findAll(parent, '.ps');
-            for (var i = 0, len = scrollers.length; i < len; i++) {
-                KTUtil.scrollerUpdate(scrollers[i]);
-            }
+        /**
+         * 更新滚动条
+         *
+         * @param selector {string} 要更新滚动条所在父元素选择器
+         */
+        scrollUpdateAll: function(selector) {
+            $(selector).find('.ps').each(function () {
+                KTUtil.scrollerUpdate(this);
+            });
         },
-
+        /**
+         * 销毁滚动条
+         *
+         * @param element {object} html element
+         */
         scrollDestroy: function(element) {
-            var ps;
-            if (ps = KTUtil.data(element).get('ps')) {
+            var ps = KTUtil.data(element).get('ps');
+            if (ps) {
                 ps.destroy();
-                ps = KTUtil.data(element).remove('ps');
+                KTUtil.data(element).remove('ps');
             }
         },
 
         setHTML: function(el, html) {
             $(el).html(html);
         },
-
 
         /**
          * 是否为空
@@ -2399,69 +2449,69 @@ var KTUtil = function() {
          * 弹出提示 (级别: 信息)
          *
          * @param title 标题
-         * @param subTitle 副标题
+         * @param subtitle 副标题
          */
-        alertInfo: function (title, subTitle) {
+        alertInfo: function (title, subtitle) {
             if (KTUtil.isTopPage()) {
-                window.parent.KTUtil.alertInfo(title, subTitle);
+                window.parent.KTUtil.alertInfo(title, subtitle);
             } else {
-                swal.fire(title, subTitle, 'info');
+                swal.fire(title, subtitle, 'info');
             }
         },
         /**
          * 弹出提示 (级别: 成功)
          *
          * @param title 标题
-         * @param subTitle 副标题
+         * @param subtitle 副标题
          */
-        alertSuccess: function (title, subTitle) {
+        alertSuccess: function (title, subtitle) {
             if (KTUtil.isTopPage()) {
-                window.parent.KTUtil.alertSuccess(title, subTitle);
+                window.parent.KTUtil.alertSuccess(title, subtitle);
             } else {
-                swal.fire(title, subTitle, 'success');
+                swal.fire(title, subtitle, 'success');
             }
         },
         /**
          * 弹出提示 (级别: 错误)
          *
          * @param title 标题
-         * @param subTitle 副标题
+         * @param subtitle 副标题
          */
-        alertError: function (title, subTitle) {
+        alertError: function (title, subtitle) {
             if (KTUtil.isTopPage()) {
-                window.parent.KTUtil.alertError(title, subTitle);
+                window.parent.KTUtil.alertError(title, subtitle);
             } else {
-                swal.fire(title, subTitle, "error");
+                swal.fire(title, subtitle, "error");
             }
         },
         /**
          * 弹出提示 (级别: 警告)
          *
          * @param title 标题
-         * @param subTitle 副标题
+         * @param subtitle 副标题
          */
-        alertWarning: function (title, subTitle) {
+        alertWarning: function (title, subtitle) {
             if (KTUtil.isTopPage()) {
-                window.parent.KTUtil.alertWarning(title, subTitle);
+                window.parent.KTUtil.alertWarning(title, subtitle);
             } else {
-                swal.fire(title, subTitle, "warning");
+                swal.fire(title, subtitle, "warning");
             }
         },
         /**
          * 询问框
          *
          * @param title 标题
-         * @param subTitle 副标题
+         * @param subtitle 副标题
          * @param okCallback 点击确定回调
          * @param cancelCallback 点击取消回调
          */
-        alertConfirm: function (title, subTitle, okCallback, cancelCallback) {
+        alertConfirm: function (title, subtitle, okCallback, cancelCallback) {
             if (KTUtil.isTopPage()) {
-                window.parent.KTUtil.alertConfirm(title, subTitle, okCallback, cancelCallback);
+                window.parent.KTUtil.alertConfirm(title, subtitle, okCallback, cancelCallback);
             } else {
                 swal.fire({
                     title: title,
-                    text: subTitle,
+                    text: subtitle,
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#DD6B55',
@@ -2653,157 +2703,6 @@ KTUtil.ready(function() {
 // 页面加载完毕移除加载提示
 window.onload = function() {
     $('body').removeClass('kt-page--loading');
-};
-// plugin setup
-var KTAvatar = function(elementId, options) {
-    // Main object
-    var the = this;
-    var init = false;
-
-    // Get element object
-    var element = KTUtil.get(elementId);
-    var body = KTUtil.get('body');
-
-    if (!element) {
-        return; 
-    }
-
-    // Default options
-    var defaultOptions = {
-    };
-
-    ////////////////////////////
-    // ** Private Methods  ** //
-    ////////////////////////////
-
-    var Plugin = {
-        /**
-         * Construct
-         */
-
-        construct: function(options) {
-            if (KTUtil.data(element).has('avatar')) {
-                the = KTUtil.data(element).get('avatar');
-            } else {
-                // reset menu
-                Plugin.init(options);
-
-                // build menu
-                Plugin.build();
-
-                KTUtil.data(element).set('avatar', the);
-            }
-
-            return the;
-        },
-
-        /**
-         * Init avatar
-         */
-        init: function(options) {
-            the.element = element;
-            the.events = [];
-
-            the.input = KTUtil.find(element, 'input[type="file"]');
-            the.holder = KTUtil.find(element, '.kt-avatar__holder');
-            the.cancel = KTUtil.find(element, '.kt-avatar__cancel');
-            the.src = KTUtil.css(the.holder, 'backgroundImage');
-
-            // merge default and user defined options
-            the.options = KTUtil.deepExtend({}, defaultOptions, options);
-        },
-
-        /**
-         * Build Form Wizard
-         */
-        build: function() {
-            // Handle avatar change
-            KTUtil.addEvent(the.input, 'change', function(e) {
-                e.preventDefault();
-
-	            if (the.input && the.input.files && the.input.files[0]) {
-	                var reader = new FileReader();
-	                reader.onload = function(e) {
-	                    KTUtil.css(the.holder, 'background-image', 'url('+e.target.result +')');
-	                }
-	                reader.readAsDataURL(the.input.files[0]);
-
-	                KTUtil.addClass(the.element, 'kt-avatar--changed');
-	            }
-            });
-
-            // Handle avatar cancel
-            KTUtil.addEvent(the.cancel, 'click', function(e) {
-                e.preventDefault();
-
-	            KTUtil.removeClass(the.element, 'kt-avatar--changed');
-	            KTUtil.css(the.holder, 'background-image', the.src);
-	            the.input.value = "";
-            });
-        },
-
-        /**
-         * Trigger events
-         */
-        eventTrigger: function(name) {
-            //KTUtil.triggerCustomEvent(name);
-            for (var i = 0; i < the.events.length; i++) {
-                var event = the.events[i];
-                if (event.name == name) {
-                    if (event.one == true) {
-                        if (event.fired == false) {
-                            the.events[i].fired = true;
-                            event.handler.call(this, the);
-                        }
-                    } else {
-                        event.handler.call(this, the);
-                    }
-                }
-            }
-        },
-
-        addEvent: function(name, handler, one) {
-            the.events.push({
-                name: name,
-                handler: handler,
-                one: one,
-                fired: false
-            });
-
-            return the;
-        }
-    };
-
-    //////////////////////////
-    // ** Public Methods ** //
-    //////////////////////////
-
-    /**
-     * Set default options 
-     */
-
-    the.setDefaults = function(options) {
-        defaultOptions = options;
-    };
-    
-    /**
-     * Attach event
-     */
-    the.on = function(name, handler) {
-        return Plugin.addEvent(name, handler);
-    };
-
-    /**
-     * Attach event that will be fired once
-     */
-    the.one = function(name, handler) {
-        return Plugin.addEvent(name, handler, true);
-    };
-
-    // Construct plugin
-    Plugin.construct.apply(the, [options]);
-
-    return the;
 };
 "use strict";
 
@@ -3000,6 +2899,24 @@ var KTDialog = function(options) {
  */
 String.prototype.replaceAll = function (s1, s2) {
     return this.replace(new RegExp(s1, "gm"), s2);
+};
+/**
+ * 序列化表单获取json数据
+ */
+$.fn.serializeObject = function () {
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function () {
+        if (o[this.name]) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
 };
 "use strict";
 var KTHeader = function(elementId, options) {
@@ -5760,9 +5677,7 @@ var KTToggle = function(elementId, options) {
 var KTTool = function () {
     var util = KTUtil;
     var app = KTApp;
-    /**
-     * 默认设置
-     */
+    // 默认设置
     var defaultOptions = {
         currentUser: 'current_user', // 缓存中当前登录用户key
         httpCode: {
@@ -5843,9 +5758,7 @@ var KTTool = function () {
             }
         }
     };
-    /**
-     * controller 根路径
-     */
+    // controller 根路径
     var baseUrl = null;
     /**
      * 设置业务通用url部分
@@ -6470,7 +6383,7 @@ var KTTool = function () {
      * 用户是否没有指定权限标识
      *
      * @param code 权限标识
-     * @return
+     * @return {boolean} true/false
      */
     var notHasPermissions = function (code) {
         return !hasPermissions(code);
@@ -6489,7 +6402,7 @@ var KTTool = function () {
      * 用户是否不属于指定角色标识
      *
      * @param code 角色标识
-     * @return
+     * @return {boolean}
      */
     var notHasRole = function (code) {
         return !hasRole(code);
@@ -6721,10 +6634,10 @@ var KTTool = function () {
      * @param subtitle {string} 副标题
      */
     var infoTip = function (title, subtitle) {
-        if (isAlert()) {
-            util.alertInfo(title, subtitle);
-        } else {
+        if (useSimpleTip()) {
             toastr.info(subtitle, title);
+        } else {
+            util.alertInfo(title, subtitle);
         }
     };
 
@@ -6736,10 +6649,10 @@ var KTTool = function () {
      * @param subtitle {string} 副标题
      */
     var successTip = function (title, subtitle) {
-        if (isAlert()) {
-            util.alertSuccess(title, subtitle);
-        } else {
+        if (useSimpleTip()) {
             toastr.success(subtitle, title);
+        } else {
+            util.alertSuccess(title, subtitle);
         }
     };
     /**
@@ -6750,10 +6663,10 @@ var KTTool = function () {
      * @param subtitle {string} 副标题
      */
     var warnTip = function (title, subtitle) {
-        if (isAlert()) {
-            util.alertWarning(title, subtitle);
-        } else {
+        if (useSimpleTip()) {
             toastr.warning(subtitle, title);
+        } else {
+            util.alertWarning(title, subtitle);
         }
     };
     /**
@@ -6764,10 +6677,10 @@ var KTTool = function () {
      * @param subtitle {string} 副标题
      */
     var errorTip = function (title, subtitle) {
-        if (isAlert()) {
-            util.alertError(title, subtitle);
-        } else {
+        if (useSimpleTip()) {
             toastr.error(subtitle, title);
+        } else {
+            util.alertError(title, subtitle);
         }
     };
     /**
@@ -6775,9 +6688,14 @@ var KTTool = function () {
      *
      * @returns {boolean}
      */
-    var isAlert = function () {
+    var useSimpleTip = function () {
+        var simpleTip = true;
+        var cacheSettings = KTTool.getCache('preference-settings');
+        if (KTUtil.isNotBlank(cacheSettings)) {
+            simpleTip = $.parseJSON(cacheSettings)['simpleTip'];
+        }
         // 暂时默认false
-        return false;
+        return simpleTip;
     };
     /**
      * 输出警告信息
@@ -7125,7 +7043,7 @@ var KTTool = function () {
          * 用户是否没有指定权限标识
          *
          * @param code 权限标识
-         * @return
+         * @return {boolean}
          */
         notHasPermissions: function (code) {
             return notHasPermissions(code);
@@ -7143,7 +7061,7 @@ var KTTool = function () {
          * 用户是否不属于指定角色标识
          *
          * @param code 角色标识
-         * @return
+         * @return {boolean}
          */
         notHasRole: function (code) {
             return notHasRole(code);
@@ -7207,6 +7125,7 @@ var KTTool = function () {
         },
         /**
          * 下载文件
+         *
          * @param url {string} 下载地址
          */
         downloadFile: function(url) {
@@ -7283,21 +7202,21 @@ var KTTool = function () {
             checkNodes(tree, values);
         },
         /**
-         * jsTree 全选
+         * 设置jsTree checkbox 全选
          * @param tree {object|string} 选择器或者jsTree对象
          */
         checkAll: function (tree) {
             checkAll(tree);
         },
         /**
-         * jsTree 全不选
+         * 设置jsTree checkbox 全不选
          * @param tree {object|string} 选择器或者jsTree对象
          */
         unCheckAll: function (tree) {
             unCheckAll(tree);
         },
         /**
-         * 获取选中数据
+         * 获取表格中选中的数据
          *
          * @param $dataTable {object} dataTable 对象
          * @returns {Array}

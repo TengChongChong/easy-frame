@@ -19,6 +19,13 @@
 <!-- begin::Body -->
 <body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--loading">
 
+<!-- begin::加载中 -->
+<div class="kt-page-loader kt-page-loader--logo">
+    <img alt="Logo" src="${ctxPath}/static/media/logos/logo-dark.png">
+    <div class="kt-spinner kt-spinner--brand"></div>
+</div>
+<!-- end::加载中 -->
+
 <!-- begin:: Page -->
 
 <!-- begin:: Header Mobile -->
@@ -77,9 +84,7 @@
 
             <!-- begin:: 侧边菜单 -->
             <div class="kt-aside-menu-wrapper kt-grid__item kt-grid__item--fluid" id="kt_aside_menu_wrapper">
-                <div id="kt_aside_menu" class="kt-aside-menu " data-ktmenu-vertical="1" data-ktmenu-scroll="1" data-ktmenu-dropdown-timeout="500">
-                    <ul class="kt-menu__nav "></ul>
-                </div>
+                <div id="kt_aside_menu" class="kt-aside-menu " data-ktmenu-vertical="1" data-ktmenu-scroll="1" data-ktmenu-dropdown-timeout="500"></div>
             </div>
             <!-- end:: 侧边菜单 -->
         </div>
@@ -204,7 +209,7 @@
                     <!--end: 消息 -->
 
                     <!--begin: 快捷功能 -->
-                    <div class="kt-header__topbar-item dropdown">
+                    <div class="kt-header__topbar-item dropdown shortcut-menu">
                         <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="30px,0px" aria-expanded="true">
                             <span class="kt-header__topbar-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
@@ -516,25 +521,49 @@
     <div class="kt-quick-panel__content">
         <div class="tab-content">
             <div class="tab-pane kt-quick-panel__content-padding-x fade kt-scroll show active" id="kt_quick_panel_tab_settings" role="tabpanel">
-                <form class="kt-form">
+                <form class="kt-form preference-settings">
                     <div class="kt-heading kt-heading--sm kt-heading--space-sm">主题</div>
                     <div class="form-group form-group-xs row">
-                        <label class="col-8 col-form-label">使用暗色风格：</label>
+                        <label class="col-8 col-form-label">使用暗色头部：</label>
                         <div class="col-4 kt-align-right">
-                            <span class="kt-switch kt-switch--success kt-switch--sm">
+                            <span class="kt-switch kt-switch--sm">
                                 <label>
-                                    <input type="checkbox" checked="checked" name="quick_panel_notifications_1">
+                                    <input type="checkbox" name="darkHead" value="true">
                                     <span></span>
                                 </label>
                             </span>
                         </div>
                     </div>
                     <div class="form-group form-group-xs row">
+                        <label class="col-8 col-form-label">使用暗色Logo：</label>
+                        <div class="col-4 kt-align-right">
+                            <span class="kt-switch kt-switch--sm">
+                                <label>
+                                    <input type="checkbox" checked="checked" name="darkBrand" value="true">
+                                    <span></span>
+                                </label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-xs row">
+                        <label class="col-8 col-form-label">使用暗色侧边：</label>
+                        <div class="col-4 kt-align-right">
+                            <span class="kt-switch kt-switch--sm">
+                                <label>
+                                    <input type="checkbox" checked="checked" name="darkAside" value="true">
+                                    <span></span>
+                                </label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="kt-separator kt-separator--space-md kt-separator--border-dashed"></div>
+                    <div class="kt-heading kt-heading--sm kt-heading--space-sm">偏好设置</div>
+                    <div class="form-group form-group-xs row">
                         <label class="col-8 col-form-label">使用简单提示：</label>
                         <div class="col-4 kt-align-right">
-                            <span class="kt-switch kt-switch--success kt-switch--sm">
+                            <span class="kt-switch kt-switch--sm">
                                 <label>
-                                    <input type="checkbox" name="quick_panel_notifications_2">
+                                    <input type="checkbox" checked="checked" name="simpleTip" value="true">
                                     <span></span>
                                 </label>
                             </span>
@@ -543,33 +572,20 @@
                     <div class="form-group form-group-last form-group-xs row">
                         <label class="col-8 col-form-label">使用标签页模式：</label>
                         <div class="col-4 kt-align-right">
-                            <span class="kt-switch kt-switch--success kt-switch--sm">
+                            <span class="kt-switch kt-switch--sm">
                                 <label>
-                                    <input type="checkbox" checked="checked" name="quick_panel_notifications_2">
+                                    <input type="checkbox" checked="checked" name="enableTabPage" value="true" disabled>
                                     <span></span>
                                 </label>
                             </span>
                         </div>
                     </div>
-                    <div class="kt-separator kt-separator--space-md kt-separator--border-dashed"></div>
-                    <div class="kt-heading kt-heading--sm kt-heading--space-sm">偏好设置</div>
                     <div class="form-group form-group-last form-group-xs row">
                         <label class="col-8 col-form-label">默认收起菜单：</label>
                         <div class="col-4 kt-align-right">
-                            <span class="kt-switch kt-switch--info kt-switch--sm">
+                            <span class="kt-switch kt-switch--sm">
                                 <label>
-                                    <input type="checkbox" checked="checked" name="quick_panel_notifications_2">
-                                    <span></span>
-                                </label>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group form-group-last form-group-xs row">
-                        <label class="col-8 col-form-label">隐藏底部版权信息：</label>
-                        <div class="col-4 kt-align-right">
-                            <span class="kt-switch kt-switch--info kt-switch--sm">
-                                <label>
-                                    <input type="checkbox" checked="checked" name="quick_panel_notifications_2">
+                                    <input type="checkbox" name="pickUpTheMenu" value="true">
                                     <span></span>
                                 </label>
                             </span>
@@ -580,9 +596,9 @@
                     <div class="form-group form-group-last form-group-xs row">
                         <label class="col-8 col-form-label">启用横向菜单：</label>
                         <div class="col-4 kt-align-right">
-                            <span class="kt-switch kt-switch--danger kt-switch--sm">
+                            <span class="kt-switch kt-switch--sm">
                                 <label>
-                                    <input type="checkbox" checked="checked" name="quick_panel_notifications_2">
+                                    <input type="checkbox" checked="checked" name="enableHorizontalMenu" value="true">
                                     <span></span>
                                 </label>
                             </span>
@@ -591,9 +607,20 @@
                     <div class="form-group form-group-last form-group-xs row">
                         <label class="col-8 col-form-label">启用快捷菜单：</label>
                         <div class="col-4 kt-align-right">
-                            <span class="kt-switch kt-switch--danger kt-switch--sm">
+                            <span class="kt-switch kt-switch--sm">
                                 <label>
-                                    <input type="checkbox" checked="checked" name="quick_panel_notifications_2">
+                                    <input type="checkbox" checked="checked" name="enableShortcutMenu" value="true">
+                                    <span></span>
+                                </label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-last form-group-xs row">
+                        <label class="col-8 col-form-label">隐藏底部版权信息：</label>
+                        <div class="col-4 kt-align-right">
+                            <span class="kt-switch kt-switch--sm">
+                                <label>
+                                    <input type="checkbox" name="hideFooter" value="true">
                                     <span></span>
                                 </label>
                             </span>

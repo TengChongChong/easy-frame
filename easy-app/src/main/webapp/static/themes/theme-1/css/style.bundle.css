@@ -23610,6 +23610,9 @@ strong {
   .page-container .page-frame.active {
     display: block; }
 
+body.hide-footer .page-container .page-frame {
+  height: calc(100vh - 100px); }
+
 @media (min-width: 1025px) {
   .tab-page {
     margin-left: 265px; }
@@ -33783,6 +33786,9 @@ body {
     padding: 10px; }
     .kt-subheader--enabled.kt-subheader--transparent .kt-content {
       padding-top: 0; } }
+
+body.hide-footer .kt-footer {
+  display: none !important; }
 
 .kt-footer {
   display: -webkit-box;
