@@ -1,6 +1,6 @@
 <p align="center">
     <p align="center">
-        Easy Frame基于Springboot2、Druid、Mybatis Plus、Shiro、Beetl、Quartz等开源框架开发，内置权限、部门、参数、字典、定时任务、代码生成等模块。分模块、代码简洁、注释详细。目前处于开发阶段，Mysql已测试其他数据库待功能开发完成后逐步测试
+        Easy Frame基于Springboot2、Druid、Mybatis Plus、Shiro、Beetl、Quartz等开源框架开发，内置权限、部门、参数、字典、定时任务、代码生成等模块。分模块、代码简洁、注释详细。Mysql已测试其他数据库待功能开发完成后逐步测试
         <br>      
         <br>
         <a href="https://getbootstrap.com">
