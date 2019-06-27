@@ -28,7 +28,7 @@ public class FileUtil {
      * 临时文件存放路径
      * 每天0点会清空前天的临时文件
      */
-    private static final String TEMPORARY_PATH = SysConst.projectProperties.getFileUploadPath() + TEMPORARY + File.separator;
+    public static final String TEMPORARY_PATH = SysConst.projectProperties.getFileUploadPath() + TEMPORARY + File.separator;
 
     /**
      * 正式文件存放路径
