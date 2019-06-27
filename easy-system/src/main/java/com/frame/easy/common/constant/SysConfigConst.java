@@ -62,5 +62,9 @@ public class SysConfigConst {
      */
     public static final String MESSAGE_CHECK_INTERVAL = "messageCheckInterval";
 
+    /**
+     * 清理多少天前异常日志 单位: 天
+     */
+    public static final String CLEAN_EXCEPTION_LOG = "cleanExceptionLog";
 
 }

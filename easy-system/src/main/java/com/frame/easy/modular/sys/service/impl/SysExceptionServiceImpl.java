@@ -1,18 +1,22 @@
 package com.frame.easy.modular.sys.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.frame.easy.common.constant.SysConfigConst;
 import com.frame.easy.common.page.Page;
 import com.frame.easy.modular.sys.dao.SysExceptionMapper;
 import com.frame.easy.modular.sys.model.SysException;
 import com.frame.easy.modular.sys.service.SysExceptionService;
+import com.frame.easy.util.SysConfigUtil;
 import com.frame.easy.util.ToolUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -112,5 +116,13 @@ public class SysExceptionServiceImpl extends ServiceImpl<SysExceptionMapper, Sys
             }
         }
         return (SysException) ToolUtil.checkResult(saveOrUpdate(object), object);
+    }
+
+    @Override
+    public boolean clean() {
+        QueryWrapper<SysException> clean = new QueryWrapper<>();
+        Date cleanDate = DateUtil.offsetDay(new Date(), (int) SysConfigUtil.get(SysConfigConst.CLEAN_EXCEPTION_LOG) * -1);
+        clean.lt("trigger_time", cleanDate);
+        return remove(clean);
     }
 }

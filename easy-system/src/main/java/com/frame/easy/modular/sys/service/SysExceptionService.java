@@ -38,4 +38,10 @@ public interface SysExceptionService {
      * @return 保存后信息
      */
     SysException saveData(SysException object);
+
+    /**
+     * 清理异常日志表里的数据
+     * @return true/false
+     */
+    boolean clean();
 }
