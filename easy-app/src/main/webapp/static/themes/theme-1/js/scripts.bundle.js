@@ -7718,7 +7718,7 @@ var KTWizard = function(elementId, options) {
         // 开启调试?
         // 1) 每次刷新时将清除状态
         // 2) 输出一些日志
-        datatable.debug = true;
+        datatable.debug = false;
 
         datatable.API = {
             record: null,
