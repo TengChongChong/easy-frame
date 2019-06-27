@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
  * @date 2019-05-11
  */
 @Component
+@Order(10)
 public class InitSchedulerJob implements CommandLineRunner {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());

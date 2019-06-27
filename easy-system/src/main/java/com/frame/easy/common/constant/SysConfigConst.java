@@ -67,4 +67,9 @@ public class SysConfigConst {
      */
     public static final String CLEAN_EXCEPTION_LOG = "cleanExceptionLog";
 
+    /**
+     * 清理多少天前访问日志 单位: 天
+     */
+    public static final String CLEAN_SYS_LOG = "cleanSysLog";
+
 }

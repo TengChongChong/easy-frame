@@ -1,6 +1,7 @@
 package com.frame.easy.modular.sys.controller;
 
 import com.frame.easy.base.controller.BaseController;
+import com.frame.easy.core.annotation.SysLog;
 import com.frame.easy.util.ShiroUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -24,6 +25,7 @@ public class IndexController extends BaseController {
 
     @GetMapping(value = "/")
     @RequiresPermissions("sys:index")
+    @SysLog(modular = "首页")
     public String index(Model model) {
         logger.debug("/");
         if (SecurityUtils.getSubject().isAuthenticated() || SecurityUtils.getSubject().isRemembered()) {

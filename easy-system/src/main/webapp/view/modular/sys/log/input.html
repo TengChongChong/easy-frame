@@ -1,0 +1,107 @@
+@layout("/common/container.html", {"title" : "日志 "}){
+<form class="kt-form">
+    <div class="kt-portlet" kt-portlet="true">
+        <#portlet:head title="日志 " icon="la la-bars"/>
+        <div class="kt-portlet__body">
+            <div class="row">
+                <!-- str:表单区域 -->
+                <input type="hidden" id="id" name="id" value="${object.id}" />
+                <div class="col-lg-6 col-12">
+                    <div class="form-group kt-form__group row">
+                        <label class="col-4 col-form-label">
+                            模块：
+                        </label>
+                        <div class="col-8">
+                            <span class="form-control form-control-static">${object.modular}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <div class="form-group kt-form__group row">
+                        <label class="col-4 col-form-label">
+                            方法：
+                        </label>
+                        <div class="col-8">
+                            <span class="form-control form-control-static">${object.method}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <div class="form-group kt-form__group row">
+                        <label class="col-4 col-form-label">
+                            url：
+                        </label>
+                        <div class="col-8">
+                            <span class="form-control form-control-static">${object.url}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <div class="form-group kt-form__group row">
+                        <label class="col-4 col-form-label">
+                            uri：
+                        </label>
+                        <div class="col-8">
+                            <span class="form-control form-control-static">${object.uri}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <div class="form-group kt-form__group row">
+                        <label class="col-4 col-form-label">
+                            操作人：
+                        </label>
+                        <div class="col-8">
+                            <span class="form-control form-control-static">${object.operationUser}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <div class="form-group kt-form__group row">
+                        <label class="col-4 col-form-label">
+                            操作时间：
+                        </label>
+                        <div class="col-8">
+                            <span class="form-control form-control-static">${object.operationDate,dateFormat='yyyy-MM-dd HH:mm:ss'}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <div class="form-group kt-form__group row">
+                        <label class="col-4 col-form-label">
+                            ip：
+                        </label>
+                        <div class="col-8">
+                            <span class="form-control form-control-static">${object.ip}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group kt-form__group row">
+                        <label class="col-2 col-form-label">
+                            class：
+                        </label>
+                        <div class="col-10">
+                            <span class="form-control form-control-static">${object.clazz}.${object.methodName}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group kt-form__group row">
+                        <label class="col-2 col-form-label">
+                            参数：
+                        </label>
+                        <div class="col-10">
+                            <span class="form-control form-control-static">${object.params}</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- end:表单区域 -->
+            </div>
+        </div>
+    </div>
+</form>
+<!--begin::页面脚本 -->
+<script src="${ctxPath}/static/modular/sys/log/input.js?v=${version()}" type="text/javascript"></script>
+<!--end::页面脚本 -->
+@}
