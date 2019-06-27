@@ -37,12 +37,7 @@ public class Servlets {
      * @return HttpServletRequest
      */
     public static HttpServletRequest getRequest() {
-        try {
-            return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
     }
 
     /**
