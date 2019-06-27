@@ -54,7 +54,8 @@ var mSchedulerJobList = function () {
                 },
                 {
                     field: 'lastRunDate',
-                    title: '上次执行时间'
+                    title: '上次执行时间',
+                    width: 140
                 },
                 {
                     field: 'Actions',
