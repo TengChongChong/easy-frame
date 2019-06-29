@@ -1,12 +1,13 @@
     <!--begin::全局Style -->
-    <link href="${ctxPath}/static/vendors/global/vendors.bundle.css?v=${version()}" rel="stylesheet" type="text/css"/>
+    <link href="${ctxPath}/static/vendors/global/vendors.bundle${min}.css?v=${version()}" rel="stylesheet" type="text/css"/>
     <!--end::全局Style -->
     <!--begin::主题Style -->
-    <link href="${ctxPath}/static/themes/theme-1/css/style.bundle.css?v=${version()}" rel="stylesheet" type="text/css"/>
+    <link href="${ctxPath}/static/themes/theme-1/css/style.bundle${min}.css?v=${version()}" rel="stylesheet" type="text/css"/>
     <!--end::主题Style -->
     <link rel="shortcut icon" href="${ctxPath}/static/media/logos/favicon.ico"/>
     <link rel="bookmark" href="${ctxPath}/static/media/logos/favicon.ico"/>
 
     <script>
         var basePath = '${ctxPath}';
+        var staticMin = '${min}';
     </script>

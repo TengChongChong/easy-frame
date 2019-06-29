@@ -803,24 +803,24 @@ var mIndex = function () {
 
             if (settings.darkHead) {
                 // 启用暗色头部
-                skinsHeaderBase.attr('href', baseSkinsPath + 'header/base/dark.css');
-                skinsHeaderMenu.attr('href', baseSkinsPath + 'header/menu/dark.css');
+                skinsHeaderBase.attr('href', baseSkinsPath + 'header/base/dark' + staticMin + '.css');
+                skinsHeaderMenu.attr('href', baseSkinsPath + 'header/menu/dark' + staticMin + '.css');
             } else {
-                skinsHeaderBase.attr('href', baseSkinsPath + 'header/base/light.css');
-                skinsHeaderMenu.attr('href', baseSkinsPath + 'header/menu/light.css');
+                skinsHeaderBase.attr('href', baseSkinsPath + 'header/base/light' + staticMin + '.css');
+                skinsHeaderMenu.attr('href', baseSkinsPath + 'header/menu/light' + staticMin + '.css');
             }
 
             if (settings.darkBrand) {
-                skinsBrand.attr('href', baseSkinsPath + 'brand/dark.css');
+                skinsBrand.attr('href', baseSkinsPath + 'brand/dark' + staticMin + '.css');
             } else {
-                skinsBrand.attr('href', baseSkinsPath + 'brand/light.css');
+                skinsBrand.attr('href', baseSkinsPath + 'brand/light' + staticMin + '.css');
             }
 
             if (settings.darkAside) {
                 // 启用暗色侧边
-                skinsAside.attr('href', baseSkinsPath + 'aside/dark.css');
+                skinsAside.attr('href', baseSkinsPath + 'aside/dark' + staticMin + '.css');
             } else {
-                skinsAside.attr('href', baseSkinsPath + 'aside/light.css');
+                skinsAside.attr('href', baseSkinsPath + 'aside/light' + staticMin + '.css');
             }
         };
         /**

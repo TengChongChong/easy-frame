@@ -25,10 +25,14 @@ public class PluginsFunction implements Function {
      */
     private static final String ROOT_PATH = "static/vendors/custom";
     /**
+     * 生产环境使用min
+     */
+    private static final String MIN = SysConst.IS_PROD ? ".min" : "";
+    /**
      * 文件后缀
      */
-    private static final String JS_SUFFIX = ".bundle.js";
-    private static final String CSS_SUFFIX = ".bundle.css";
+    private static final String JS_SUFFIX = ".bundle" + MIN + ".js";
+    private static final String CSS_SUFFIX = ".bundle" + MIN + ".css";
     /**
      * 获取资源类型 - 只获取js
      */

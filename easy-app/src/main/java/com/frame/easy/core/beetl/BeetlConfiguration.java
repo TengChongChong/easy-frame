@@ -2,10 +2,7 @@ package com.frame.easy.core.beetl;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
-import com.frame.easy.common.constant.ImportConst;
-import com.frame.easy.common.constant.MessageConst;
-import com.frame.easy.common.constant.SexConst;
-import com.frame.easy.common.constant.SysConfigConst;
+import com.frame.easy.common.constant.*;
 import com.frame.easy.config.properties.ProjectProperties;
 import com.frame.easy.core.beetl.function.PluginsFunction;
 import com.frame.easy.core.beetl.function.ProjectNameFunction;
@@ -53,9 +50,25 @@ public class BeetlConfiguration extends BeetlGroupUtilConfiguration {
         groupTemplate.setSharedVars(getVars(ImportConst.class));
         groupTemplate.setSharedVars(getVars(SexConst.class));
         groupTemplate.setSharedVars(getVars(MessageConst.class));
+        groupTemplate.setSharedVars(getVars(SysConst.class));
         groupTemplate.registerFunctionPackage("dateUtil", new DateUtil());
         groupTemplate.registerFunctionPackage("strUtil", new StrUtil());
 
+
+        // 是否使用min资源
+        groupTemplate.setSharedVars(getOtherVars());
+
+    }
+
+    /**
+     * 获取其他共享变量
+     *
+     * @return map
+     */
+    private Map<String, Object> getOtherVars(){
+        Map<String, Object> property = new HashMap<>();
+        property.put("min", SysConst.IS_PROD ? ".min" : "");
+        return property;
     }
 
     /**
