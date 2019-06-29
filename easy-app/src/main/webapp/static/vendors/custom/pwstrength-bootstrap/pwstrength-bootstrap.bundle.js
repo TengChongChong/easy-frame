@@ -19,21 +19,21 @@ var i18n = {};
     'use strict';
 
     i18n.fallback = {
-        "wordMinLength": "您的密码太短",
-        "wordMaxLength": "您的密码太长",
-        "wordInvalidChar": "您的密码包含无效字符",
-        "wordNotEmail": "不要使用电子邮件作为密码",
-        "wordSimilarToUsername": "您的密码不能包含您的用户名",
-        "wordTwoCharacterClasses": "使用不同的字元类型 例如: 大小写混合",
-        "wordRepetitions": "太多的重复。例如:1111",
-        "wordSequences": "你的密码包含连续英/数字 例如:123 or abc",
-        "errorList": "错误：",
-        "veryWeak": "非常弱",
-        "weak": "弱",
-        "normal": "普通",
-        "medium": "中等",
-        "strong": "强",
-        "veryStrong": "非常强"
+        "wordMinLength": "Your password is too short",
+        "wordMaxLength": "Your password is too long",
+        "wordInvalidChar": "Your password contains an invalid character",
+        "wordNotEmail": "Do not use your email as your password",
+        "wordSimilarToUsername": "Your password cannot contain your username",
+        "wordTwoCharacterClasses": "Use different character classes",
+        "wordRepetitions": "Too many repetitions",
+        "wordSequences": "Your password contains sequences",
+        "errorList": "Errors:",
+        "veryWeak": "Very Weak",
+        "weak": "Weak",
+        "normal": "Normal",
+        "medium": "Medium",
+        "strong": "Strong",
+        "veryStrong": "Very Strong"
     };
 
     i18n.t = function (key) {
@@ -417,13 +417,13 @@ defaultOptions.ui = {};
 defaultOptions.ui.bootstrap2 = false;
 defaultOptions.ui.bootstrap3 = false;
 defaultOptions.ui.colorClasses = [
-    "danger", "danger", "warning", "warning", "success", "success"
+    "danger", "danger", "danger", "warning", "warning", "success"
 ];
 defaultOptions.ui.showProgressBar = true;
 defaultOptions.ui.progressBarEmptyPercentage = 1;
 defaultOptions.ui.progressBarMinWidth = 1;
 defaultOptions.ui.progressBarMinPercentage = 1;
-defaultOptions.ui.progressExtraCssClasses = 'pwstrength-progress';
+defaultOptions.ui.progressExtraCssClasses = '';
 defaultOptions.ui.progressBarExtraCssClasses = '';
 defaultOptions.ui.showPopover = false;
 defaultOptions.ui.popoverPlacement = "bottom";

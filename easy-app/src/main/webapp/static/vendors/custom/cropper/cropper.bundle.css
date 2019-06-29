@@ -20,6 +20,8 @@
   user-select: none; }
 
 .cropper-container img {
+  /*Avoid margin top issue (Occur only when margin-top <= -height)
+ */
   display: block;
   height: 100%;
   image-orientation: 0deg;
@@ -29,14 +31,19 @@
   min-width: 0 !important;
   width: 100%; }
 
-.cropper-canvas, .cropper-crop-box, .cropper-drag-box, .cropper-modal, .cropper-wrap-box {
+.cropper-wrap-box,
+.cropper-canvas,
+.cropper-drag-box,
+.cropper-crop-box,
+.cropper-modal {
   bottom: 0;
   left: 0;
   position: absolute;
   right: 0;
   top: 0; }
 
-.cropper-canvas, .cropper-wrap-box {
+.cropper-wrap-box,
+.cropper-canvas {
   overflow: hidden; }
 
 .cropper-drag-box {
@@ -86,9 +93,10 @@
   top: 50%;
   width: 0; }
 
-.cropper-center:after, .cropper-center:before {
+.cropper-center:before,
+.cropper-center:after {
   background-color: #eee;
-  content: " ";
+  content: ' ';
   display: block;
   position: absolute; }
 
@@ -104,7 +112,9 @@
   top: -3px;
   width: 1px; }
 
-.cropper-face, .cropper-line, .cropper-point {
+.cropper-face,
+.cropper-line,
+.cropper-point {
   display: block;
   height: 100%;
   opacity: .1;
@@ -215,7 +225,7 @@
 .cropper-point.point-se:before {
   background-color: #39f;
   bottom: -50%;
-  content: " ";
+  content: ' ';
   display: block;
   height: 200%;
   opacity: 0;
@@ -244,5 +254,8 @@
 .cropper-crop {
   cursor: crosshair; }
 
-.cropper-disabled .cropper-drag-box, .cropper-disabled .cropper-face, .cropper-disabled .cropper-line, .cropper-disabled .cropper-point {
+.cropper-disabled .cropper-drag-box,
+.cropper-disabled .cropper-face,
+.cropper-disabled .cropper-line,
+.cropper-disabled .cropper-point {
   cursor: not-allowed; }
