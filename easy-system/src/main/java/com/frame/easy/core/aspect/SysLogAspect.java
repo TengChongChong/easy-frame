@@ -86,7 +86,11 @@ public class SysLogAspect {
             sysLog.setUrl(request.getRequestURL().toString());
             sysLog.setIp(IpUtil.getIpAddress(request));
         }
-        service.saveData(sysLog);
+        try {
+            service.saveData(sysLog);
+        } catch (RuntimeException e) {
+            logger.info("保存日志信息失败", e);
+        }
     }
 
 }
