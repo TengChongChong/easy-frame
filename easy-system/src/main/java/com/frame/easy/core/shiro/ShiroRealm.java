@@ -1,8 +1,9 @@
 package com.frame.easy.core.shiro;
 
-import com.frame.easy.util.ShiroUtil;
 import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.service.ShiroService;
+import com.frame.easy.util.ShiroUtil;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -12,8 +13,6 @@ import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Arrays;
 
 /**
  * 自定义 Realm
@@ -51,12 +50,15 @@ public class ShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         logger.info("=============> 授权");
+        // 当前登录用户
+        SysUser currentUser = (SysUser) principalCollection.getPrimaryPrincipal();
+        if (SecurityUtils.getSubject().isRemembered()) {
+            // 如果通过记住密码方式登录,从数据库中重新查询用户信息,防止用户信息变更cookie里保存的信息是旧的
+            ShiroUtil.setCurrentUser(shiroService.getSysUserByUserName(currentUser.getUsername()));
+        }
 
-        // 由于修改用户角色或者修改角色权限导致权限变动,所以每次授权都要重新查询 2018-12-17 改
-        SysUser sysUser = shiroService.queryUserPermissions((SysUser) principalCollection.getPrimaryPrincipal());
-
-        // 会导致用户在线时,修改权限无法立即生效
-        // SysUser sysUser = (SysUser) principalCollection.getPrimaryPrincipal();
+        // 由于修改用户角色或者修改角色权限导致权限变动,所以每次授权都要重新查询
+        SysUser sysUser = shiroService.queryUserPermissions(currentUser);
 
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         // 赋予权限
