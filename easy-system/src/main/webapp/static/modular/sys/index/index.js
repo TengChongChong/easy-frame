@@ -626,6 +626,7 @@ var mIndex = function () {
                 contentType: 'application/json',
                 data: JSON.stringify({
                     type: type,
+                    ignore: 1,
                     page: {
                         size: size
                     }
@@ -683,6 +684,9 @@ var mIndex = function () {
         var selectUnreadCount = function () {
             KTUtil.ajax({
                 url: basePath + '/auth/sys/message/select/unread/count',
+                data:{
+                    ignore: 1
+                },
                 success: function (res) {
                     if (lastSelectUnreadMessageCount !== res.data || isFirstLoadMessage) {
                         // 记录上次更新消息时的未读消息数量

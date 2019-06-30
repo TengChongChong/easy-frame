@@ -36,6 +36,11 @@ public class RedisSessionDAO extends AbstractSessionDAO {
     }
 
     /**
+     * 请求不更新session最后访问时间
+     */
+    private static final String IGNORE = "1";
+
+    /**
      * 创建会话
      *
      * @param session 会话
@@ -99,14 +104,19 @@ public class RedisSessionDAO extends AbstractSessionDAO {
         if (checkSession(session)) {
             logger.debug("updateSession:", session.getId().toString());
             HttpServletRequest request = Servlets.getRequest();
+            String ignore = null;
             if (request != null) {
                 String uri = request.getServletPath();
                 if (Servlets.isStaticRequest(uri)) {
                     return;
                 }
+                ignore = request.getParameter("ignore");
             }
-            String key = getKey(session.getId().toString());
-            RedisUtil.set(key, session, SysConst.projectProperties.getSessionInvalidateTime());
+            if (!IGNORE.equals(ignore)) {
+                // 如请求必须要更新session会话有效期,请在url中传入ignore=1
+                String key = getKey(session.getId().toString());
+                RedisUtil.set(key, session, SysConst.projectProperties.getSessionInvalidateTime());
+            }
         }
     }
 
