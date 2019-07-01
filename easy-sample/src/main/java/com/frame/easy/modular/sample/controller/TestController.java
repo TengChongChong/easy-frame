@@ -3,7 +3,7 @@ package com.frame.easy.modular.sample.controller;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Console;
 import cn.hutool.poi.excel.sax.handler.RowHandler;
-import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
+import com.frame.easy.core.annotation.SysLog;
 import com.frame.easy.modular.sys.service.SysDictService;
 import com.frame.easy.result.Tips;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +27,16 @@ public class TestController {
 
     @RequestMapping(value="/test")
     @ResponseBody
-    public Tips testException(){
+    @SysLog(modular = "测试模块", method = "测试方法")
+    public Tips testException(String name){
 //        ExcelUtil.readBySax("/Users/tengchong/Downloads/导出数据示例-2019-04-26.xlsx", 2, createRowHandler());
 //
 ////        ExcelReader reader = ExcelUtil.getReader("/Users/tengchong/Downloads/test.xlsx");
 ////        List<List<Object>> readAll = reader.read();
 //        System.out.println("读取成功");
 //        SysDict sysDict = sysDictService.getDictByCode("dataSource", "");
-        throw new MybatisPlusException("错了");
-//        return Tips.getSuccessTips(1/0);
+//        throw new MybatisPlusException("错了");
+        return Tips.getSuccessTips();
     }
     private boolean save(List<Object[]> dataList){
         System.out.println("保存数据:" + DateUtil.now() + dataList.size());
