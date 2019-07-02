@@ -15,9 +15,10 @@
     <description>代码生成</description>
 
     <packaging>jar</packaging>
-
+    <properties>
+        <quartz.version>2.3.1</quartz.version>
+    </properties>
     <dependencies>
-
         <dependency>
             <groupId>com.frame</groupId>
             <artifactId>easy-core</artifactId>
@@ -43,6 +44,10 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/webapp</directory>
                 <filtering>true</filtering>
             </resource>
             <resource>
