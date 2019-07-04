@@ -224,8 +224,7 @@ var mPermissionsView = function () {
                         KTTool.saveNode('#permissions-tree', {
                             id: _node.id,
                             pId: _node.pId,
-                            text: _node.name,
-                            icon: _node.icon
+                            text: _node.icon + _node.name
                         });
                     });
                 }
