@@ -43,21 +43,31 @@ public class QuartzServiceImpl implements QuartzService {
     @Override
     public void addJob(SchedulerJob schedulerJob) {
         if (checkJob(schedulerJob)) {
-            // 创建触发器
-            Trigger trigger = TriggerBuilder.newTrigger().withIdentity(schedulerJob.getCode())
-                    .withSchedule(CronScheduleBuilder.cronSchedule(schedulerJob.getCron()))
-                    .startNow()
-                    .build();
-            // 创建任务
-            JobDetail jobDetail = JobBuilder.newJob(QuartzFactory.class)
-                    .withIdentity(schedulerJob.getCode())
-                    .build();
-            // 传入调度任务对象
-            jobDetail.getJobDataMap().put(SchedulerConst.SCHEDULER_JOB_KEY, schedulerJob);
+            // 添加之前检查是否已经添加该任务
+            JobKey jobKey = new JobKey(schedulerJob.getCode());
+            JobDetail jobDetail = null;
             try {
-                scheduler.scheduleJob(jobDetail, trigger);
+                jobDetail = scheduler.getJobDetail(jobKey);
             } catch (SchedulerException e) {
-                logger.warn("创建定时任务失败", e);
+                logger.debug("获取任务失败["+schedulerJob.getCode()+"]", e);
+            }
+            if (jobDetail == null) {
+                // 创建触发器
+                Trigger trigger = TriggerBuilder.newTrigger().withIdentity(schedulerJob.getCode())
+                        .withSchedule(CronScheduleBuilder.cronSchedule(schedulerJob.getCron()))
+                        .startNow()
+                        .build();
+                // 创建任务
+                jobDetail = JobBuilder.newJob(QuartzFactory.class)
+                        .withIdentity(schedulerJob.getCode())
+                        .build();
+                // 传入调度任务对象
+                jobDetail.getJobDataMap().put(SchedulerConst.SCHEDULER_JOB_KEY, schedulerJob);
+                try {
+                    scheduler.scheduleJob(jobDetail, trigger);
+                } catch (SchedulerException e) {
+                    logger.warn("创建定时任务失败", e);
+                }
             }
         }
     }
