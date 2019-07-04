@@ -17,7 +17,9 @@
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${log.path}/${log.name}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 单个日志文件不超过2MB -->
             <maxFileSize>2MB</maxFileSize>
+            <!-- 最多保留30天 -->
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
@@ -32,12 +34,12 @@
 
     <!-- 测试环境+开发环境. -->
     <springProfile name="test,dev">
-        <logger name="com.frame.easy" level="debug" />
+        <logger name="com.frame.easy" level="DEBUG" />
     </springProfile>
 
     <!-- 生产环境 -->
     <springProfile name="prod">
-        <logger name="com.frame.easy" level="ERROR"/>
+        <logger name="*" level="INFO"/>
     </springProfile>
 
 </configuration>
