@@ -217,4 +217,21 @@ public class Page<T> implements IPage<T> {
         this.isSearchCount = isSearchCount;
         return this;
     }
+
+    /**
+     * 获取开始记录
+     *
+     * @return long
+     */
+    public long getPageStart() {
+        return (this.current - 1) * this.size;
+    }
+    /**
+     * 获取结束记录
+     *
+     * @return long
+     */
+    public long getPageEnd() {
+        return this.current * this.size;
+    }
 }
