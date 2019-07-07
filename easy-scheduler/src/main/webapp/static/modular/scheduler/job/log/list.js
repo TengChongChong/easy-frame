@@ -9,7 +9,8 @@ var mSchedulerJobLogList = function () {
             columns: [
                 {
                     field: 'runDate',
-                    title: '执行时间'
+                    title: '执行时间',
+                    sortable: 'desc'
                 },
                 {
                     field: 'timeConsuming',
