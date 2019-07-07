@@ -69,7 +69,9 @@ public class SchedulerJobServiceImpl extends ServiceImpl<SchedulerJobMapper, Sch
                 queryWrapper.eq("status", object.getStatus());
             }
         }
-        return (Page) page(ToolUtil.getPage(object), queryWrapper);
+        Page page = ToolUtil.getPage(object);
+        page.setDefaultDesc("createDate");
+        return (Page) page(page, queryWrapper);
     }
 
     @Override

@@ -40,7 +40,9 @@ public class SchedulerJobLogServiceImpl extends ServiceImpl<SchedulerJobLogMappe
                 queryWrapper.eq("run_date", object.getRunDate());
             }
         }
-        return (Page)page(ToolUtil.getPage(object), queryWrapper);
+        Page page = ToolUtil.getPage(object);
+        page.setDefaultDesc("runDate");
+        return (Page)page(page, queryWrapper);
     }
 
     /**
