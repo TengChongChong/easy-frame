@@ -1,9 +1,11 @@
 package com.frame.easy.common.page;
 
+import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.frame.easy.common.constant.PageConst;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -34,11 +36,11 @@ public class Page<T> implements IPage<T> {
      */
     private long current = 1;
     /**
-     * SQL 排序 ASC 数组
+     * Sql 排序 ASC
      */
     private String[] ascs;
     /**
-     * SQL 排序 DESC 数组
+     * Sql 排序 DESC
      */
     private String[] descs;
 
@@ -47,6 +49,16 @@ public class Page<T> implements IPage<T> {
      */
     @JsonIgnore
     private boolean isSearchCount = true;
+
+    /**
+     * Sql默认 Asc 排序
+     */
+    private String[] defaultAscs;
+    /**
+     * Sql默认 Desc 排序
+     */
+    private String[] defaultDescs;
+
 
     public Page() {
         // to do nothing
@@ -131,11 +143,30 @@ public class Page<T> implements IPage<T> {
      * 根据 mybatis-plus.configuration.map-underscore-to-camel-case 配置
      * 处理字段驼峰/下划线
      *
-     * @param columns [column1,column2,column3]
+     * @param columns [column1,column2,column3] 排序字段
      * @return [column1, column2, column3]
      */
-    private String[] initOrderColumn(String[] columns) {
-//        if (columns != null && projectProperties.getUnderscoreToCamelCase()) {
+    private String[] initOrderColumn(String[] columns, String type) {
+        if (Validator.isEmpty(this.ascs) && Validator.isEmpty(this.descs)) {
+            String[] defaultFields;
+            if (PageConst.ORDER_ASC.equals(type)) {
+                defaultFields = this.defaultAscs;
+            } else {
+                defaultFields = this.defaultDescs;
+            }
+            return toUnderlineCase(defaultFields);
+        } else {
+            return toUnderlineCase(columns);
+        }
+    }
+
+    /**
+     * 字段名转为驼峰
+     *
+     * @param columns [column1,column2,column3] 排序字段
+     * @return [column1, column2, column3]
+     */
+    private String[] toUnderlineCase(String[] columns) {
         if (columns != null) {
             for (int i = 0; i < columns.length; i++) {
                 columns[i] = StrUtil.toUnderlineCase(columns[i]);
@@ -143,7 +174,6 @@ public class Page<T> implements IPage<T> {
             return columns;
         }
         return columns;
-
     }
 
     /**
@@ -153,7 +183,7 @@ public class Page<T> implements IPage<T> {
      */
     @Override
     public String[] descs() {
-        return initOrderColumn(this.descs);
+        return initOrderColumn(this.descs, PageConst.ORDER_DESC);
     }
 
     /**
@@ -163,7 +193,7 @@ public class Page<T> implements IPage<T> {
      */
     @Override
     public String[] ascs() {
-        return initOrderColumn(this.ascs);
+        return initOrderColumn(this.ascs, PageConst.ORDER_ASC);
     }
 
     /**
@@ -226,6 +256,7 @@ public class Page<T> implements IPage<T> {
     public long getPageStart() {
         return (this.current - 1) * this.size;
     }
+
     /**
      * 获取结束记录
      *
@@ -234,4 +265,23 @@ public class Page<T> implements IPage<T> {
     public long getPageEnd() {
         return this.current * this.size;
     }
+
+    public void setDefaultAscs(String[] defaultAscs) {
+        this.defaultAscs = defaultAscs;
+    }
+
+    public void setDefaultDescs(String[] defaultDescs) {
+        this.defaultDescs = defaultDescs;
+    }
+
+    public void setDefaultAsc(String defaultAscs) {
+        this.defaultAscs = new String[]{defaultAscs};
+    }
+
+    public void setDefaultDesc(String defaultDescs) {
+        this.defaultDescs = new String[]{defaultDescs};
+    }
+
+
+
 }
