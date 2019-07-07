@@ -85,7 +85,7 @@ public class GenerationServiceImpl implements GenerationService {
                         basePermission.setType(PermissionsType.ENABLE.getCode());
                         sysPermissionsService.saveData(basePermission);
                         if (StrUtil.isNotBlank(object.getPermissionsCode())) {
-                            // 如果权限代码不为空,保存方法权限
+                            // 如果权限标识不为空,保存方法权限
                             if (object.getGenSave()) {
                                 SysPermissions savePermission = getNewMenu("保存/修改",
                                         object.getPermissionsCode() + ":save",
@@ -128,7 +128,7 @@ public class GenerationServiceImpl implements GenerationService {
      * 获取菜单/权限对象
      *
      * @param name 名称
-     * @param code 权限代码
+     * @param code 权限标识
      * @param url  访问地址
      * @param lev  级别
      * @return SysPermissions

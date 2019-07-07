@@ -49,7 +49,7 @@
             <div class="btn-row">
                 <#btn:add permission="sys:dict:delete"/>
                 <#btn:delete permission="sys:dict:delete"/>
-                <#btn btnType="info" name="字典类别维护" icon="la la-bars" click="KTApp.openPage('字典类别维护', '${ctxPath}/auth/sys/dict/type/list')" permission="sys:dict:type:select"/>
+                <#btn btnType="info" name="字典类型维护" icon="la la-bars" click="KTApp.openPage('字典类型维护', '${ctxPath}/auth/sys/dict/type/list')" permission="sys:dict:type:select"/>
                 <#btn btnType="info" name="生成静态文件" icon="la la-code" click="mDictList.generateDictData()" role="sys:admin"/>
             </div>
             <div class="kt_datatable" id="dict-list"></div>

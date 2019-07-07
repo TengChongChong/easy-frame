@@ -78,7 +78,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
         }
         int count = getBaseMapper().selectCount(queryWrapper);
         if (count > 0) {
-            throw new EasyException("字典类别代码 " + object.getType() + " 已存在");
+            throw new EasyException("字典类型代码 " + object.getType() + " 已存在");
         }
         return (SysDictType) ToolUtil.checkResult(saveOrUpdate(object), object);
     }

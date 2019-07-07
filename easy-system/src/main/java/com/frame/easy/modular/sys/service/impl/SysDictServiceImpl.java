@@ -100,7 +100,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         if (pId != null) {
             SysDict parentDict = getBaseMapper().selectById(pId);
             object.setpCode(parentDict.getCode());
-            // 如果点击的是新增下级字典,字典类别默认为父字典的字典类型
+            // 如果点击的是新增下级字典,字典类型默认为父字典的字典类型
             object.setDictType(parentDict.getDictType());
         }
         if (Validator.isNotEmpty(object.getDictType())) {

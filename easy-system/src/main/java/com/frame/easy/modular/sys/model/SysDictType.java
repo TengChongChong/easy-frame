@@ -30,7 +30,7 @@ public class SysDictType extends Model<SysDictType> implements IModel {
     @NotBlank(message = "名称不能为空")
     private String name;
     /**
-     * 字典类别
+     * 字典类型
      */
     @NotBlank(message = "类型不能为空")
     private String type;

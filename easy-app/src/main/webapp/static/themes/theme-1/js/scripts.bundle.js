@@ -813,6 +813,14 @@ var KTApp = function () {
             return initSelectPicker(selector);
         },
         /**
+         * 初始化日期插件
+         *
+         * @param selector {string} 选择器
+         */
+        initDatePicker: function (selector) {
+            initDatePicker(selector);
+        },
+        /**
          * 初始化文件上传
          *
          * @param options 参数
@@ -5359,7 +5367,7 @@ var KTTabPage = function (selector, options) {
                 $($tabs).each(function () {
                     width += $(this).outerWidth(true);
                 });
-                // 有时会出现标签页换行问题,所以这里多加5px
+                // 有时会出现标签页换行问题,所以这里多加30px
                 width += 30;
                 return Math.ceil(width);
             }
@@ -10166,7 +10174,6 @@ var KTWizard = function(elementId, options) {
                         }
                         return false;
                     };
-                    // 获取查询条件
                     // 获取查询条件
                     $(Plugin.getOption('search.input')).each(function (index, element) {
                         var search = $(element).val();

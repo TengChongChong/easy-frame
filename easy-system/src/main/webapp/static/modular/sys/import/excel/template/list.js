@@ -25,7 +25,7 @@ var mSysImportExcelTemplateList = function () {
                 },
                 {
                     field: 'permissionCode',
-                    title: '权限代码'
+                    title: '权限标识'
                 },
                 {
                     field: 'dataSource',

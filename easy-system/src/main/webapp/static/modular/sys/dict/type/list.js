@@ -76,7 +76,7 @@ var mDictTypeList = function () {
         mDictTypeList.dataTable = KTTool.initDataTable(options)
     };
     /**
-     * 保存字典类别
+     * 保存字典类型
      *
      * @param row {element} 数据所在行
      * @param data {object} 数据
@@ -99,14 +99,14 @@ var mDictTypeList = function () {
         KTUtil.ajax(ajaxParams);
     };
     /**
-     * 添加字典类别
+     * 添加字典类型
      */
     var addDictType = function () {
         mDictTypeList.dataTable.addRow();
     };
 
     /**
-     * 添加字典类别
+     * 添加字典类型
      *
      * @param element {object} 编辑按钮
      */
@@ -116,7 +116,7 @@ var mDictTypeList = function () {
     };
 
     /**
-     * 删除字典类别
+     * 删除字典类型
      *
      * @param element {object} 删除按钮
      * @param id {string} 要删除的数据id
@@ -148,19 +148,19 @@ var mDictTypeList = function () {
             initTable();
         },
         /**
-         * 添加字典类别
+         * 添加字典类型
          */
         addDictType: function () {
             addDictType();
         },
         /**
-         * 添加字典类别
+         * 添加字典类型
          */
         editDictType: function (element) {
             editDictType(element);
         },
         /**
-         * 删除字典类别
+         * 删除字典类型
          *
          * @param element {objct} 删除按钮
          * @param id {string} 要删除的数据id

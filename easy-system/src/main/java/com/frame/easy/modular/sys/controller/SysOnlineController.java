@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/auth/sys/online")
-@Api(description = "会话管理")
+@Api(value = "会话管理")
 public class SysOnlineController extends BaseController {
 
     private static String PREFIX = "modular/sys/online/";

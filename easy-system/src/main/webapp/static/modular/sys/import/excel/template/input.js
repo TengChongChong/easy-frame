@@ -45,7 +45,7 @@ var mSysImportExcelTemplateInput = function () {
                             $importCode.val(_importCode);
                             mSysImportExcelTemplateInput.lastTimeCode = _importCode;
                         }
-                        // 检查是否需要用表名自动填充导入权限代码
+                        // 检查是否需要用表名自动填充导入权限标识
                         var $permissionCode = $('#permissionCode');
                         var permissionCode = $permissionCode.val();
                         if (KTUtil.isBlank(permissionCode) || permissionCode === mSysImportExcelTemplateInput.lastTimePermissionCode) {

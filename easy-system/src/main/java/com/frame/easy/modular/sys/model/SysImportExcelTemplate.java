@@ -54,10 +54,10 @@ public class SysImportExcelTemplate extends Model<SysImportExcelTemplate> implem
     private String importCode;
 
     /**
-     * 权限代码
+     * 权限标识
      * 用于检查当前登录用户是否允许使用此模板
      */
-    @NotBlank(message = "权限代码不能为空")
+    @NotBlank(message = "权限标识不能为空")
     private String permissionCode;
 
     @TableField(fill = FieldFill.INSERT)

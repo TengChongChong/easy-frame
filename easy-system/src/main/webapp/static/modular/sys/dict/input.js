@@ -3,7 +3,7 @@ var mDictInput = function () {
     /**
      * 加载上级字典列表
      *
-     * @param dictType 字典类别
+     * @param dictType 字典类型
      */
     var loadUpDicts = function (dictType) {
         var $pCode = $('#pCode');
