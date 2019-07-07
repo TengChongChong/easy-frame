@@ -21,7 +21,8 @@ var mDictList = function () {
                 },
                 {
                     field: 'dictType',
-                    title: '字典类型'
+                    title: '字典类型',
+                    sortable: 'asc'
                 },
                 {
                     field: 'css',

@@ -35,7 +35,7 @@ var mOnlineList = function () {
                 {
                     field: 'startTimestamp',
                     title: '登录时间',
-                    sortable: 'asc'
+                    sortable: 'desc'
                 },
                 {
                     field: 'timeout',

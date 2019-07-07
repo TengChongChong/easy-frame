@@ -61,10 +61,8 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
             }
         }
         Page page = ToolUtil.getPage(object);
-        // 默认根据操作时间降序排列
-        if(Validator.isEmpty(page.ascs()) && Validator.isEmpty(page.descs())){
-            page.setDesc("operationDate");
-        }
+        // 设置默认排序
+        page.setDefaultDesc("operationDate");
         page.setRecords(getBaseMapper().select(page, queryWrapper));
         return page;
     }

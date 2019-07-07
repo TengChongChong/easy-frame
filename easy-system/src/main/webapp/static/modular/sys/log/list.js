@@ -37,7 +37,8 @@ var SysLogList = function () {
                 },
                 {
                     field: 'operationDate',
-                    title: '操作时间'
+                    title: '操作时间',
+                    sortable: 'desc'
                 },
                 {
                     field: 'Actions',

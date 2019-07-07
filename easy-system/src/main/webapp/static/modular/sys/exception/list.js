@@ -41,6 +41,7 @@ var mSysExceptionList = function () {
                 {
                     field: 'triggerTime',
                     title: '触发时间',
+                    sortable: 'desc',
                     width: 150,
                     locked: {
                         right: 'md'

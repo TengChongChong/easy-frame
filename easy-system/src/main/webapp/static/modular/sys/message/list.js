@@ -193,6 +193,7 @@ var SysMessageList = function () {
             field: 'sendDate',
             title: '类型/时间',
             width: 120,
+            sortable: 'desc',
             template: function (row) {
                 var typeDicts = KTTool.getSysDictsObject('messageType');
                 return '\

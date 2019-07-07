@@ -21,6 +21,7 @@ var mSysImportExcelTemplateList = function () {
                 {
                     field: 'importCode',
                     title: '模板代码',
+                    sortable: 'asc',
                     width: 200
                 },
                 {

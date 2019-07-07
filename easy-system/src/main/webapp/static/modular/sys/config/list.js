@@ -16,7 +16,8 @@ var mSysConfigList = function () {
                 },
                 {
                     field: 'sysKey',
-                    title: 'key'
+                    title: 'key',
+                    sortable: 'asc'
                 },
                 {
                     field: 'value',

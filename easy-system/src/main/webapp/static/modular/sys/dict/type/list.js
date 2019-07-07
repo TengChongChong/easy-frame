@@ -19,6 +19,7 @@ var mDictTypeList = function () {
                 {
                     field: 'type',
                     title: '字典类型',
+                    sortable: 'asc',
                     edit: {
                         tag: 'input',
                         type: 'text'
