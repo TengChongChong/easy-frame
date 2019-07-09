@@ -54,6 +54,7 @@ public class RedisConfig extends CachingConfigurerSupport {
     @Bean
     public JedisConnectionFactory jedisConnectionFactory(){
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+        // 设置连接信息
         redisStandaloneConfiguration.setHostName(redisProperties.getHost());
         redisStandaloneConfiguration.setPassword(RedisPassword.of(redisProperties.getPassword()));
         redisStandaloneConfiguration.setPort(redisProperties.getPort());

@@ -34,7 +34,7 @@ public class KickOutSessionFilter extends AccessControlFilter {
      *
      * @param servletRequest
      * @param servletResponse
-     * @param o [urls]配置中拦截器参数部分
+     * @param o               [urls]配置中拦截器参数部分
      * @return
      * @throws Exception
      */
@@ -44,8 +44,8 @@ public class KickOutSessionFilter extends AccessControlFilter {
     }
 
     /**
-     *  表示当访问拒绝时是否已经处理了
-     *  如果返回true表示需要继续处理,如果返回false表示该拦截器实例已经处理了
+     * 表示当访问拒绝时是否已经处理了
+     * 如果返回true表示需要继续处理,如果返回false表示该拦截器实例已经处理了
      *
      * @param servletRequest
      * @param servletResponse
@@ -60,12 +60,15 @@ public class KickOutSessionFilter extends AccessControlFilter {
             return true;
         }
         Subject subject = getSubject(servletRequest, servletResponse);
-        if(subject.isAuthenticated() || (SysConst.projectProperties.getLoginRemember() && subject.isRemembered())){
+        // 是否认证
+        boolean isAuthenticated = subject.isAuthenticated() || (SysConst.projectProperties.getLoginRemember() && subject.isRemembered());
+        if (isAuthenticated) {
             // 已认证或系统开启记住密我并且通过记住我登录
             // 记住密码或已登录,检查账户是否被挤掉或者踢出
             Session session = (Session) RedisUtil.get(RedisPrefix.SHIRO_SESSION + subject.getSession().getId());
             // 判断是否被踢出
             if (session.getAttribute(SessionConst.FORCE_LOGOUT) != null && (boolean) session.getAttribute(SessionConst.FORCE_LOGOUT)) {
+                logger.debug("管理员踢出会话[" + session.getId() + "]");
                 RedisUtil.del(RedisPrefix.SHIRO_SESSION + session.getId());
                 String loginUrl = getLoginUrl() + (getLoginUrl().contains("?") ? "&" : "?") + SessionConst.FORCE_LOGOUT + "=1";
                 // 重定向到登录
@@ -75,6 +78,7 @@ public class KickOutSessionFilter extends AccessControlFilter {
 
             // 判断是否在他处登录
             if (session.getAttribute(SessionConst.LOGIN_ELSEWHERE) != null && (boolean) session.getAttribute(SessionConst.LOGIN_ELSEWHERE)) {
+                logger.debug("用户在其他地方登录会话[" + session.getId() + "]被踢出");
                 RedisUtil.del(RedisPrefix.SHIRO_SESSION + session.getId());
                 String loginUrl = getLoginUrl() + (getLoginUrl().contains("?") ? "&" : "?") + SessionConst.LOGIN_ELSEWHERE + "=1";
                 // 重定向到登录

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 系统参数
+ * 获取系统参数中设置的参数内容
  *
  * @author tengchong
  * @date 2019-03-03
@@ -30,11 +31,13 @@ public class SysConfigUtil {
      * @return value
      */
     public static Object get(String key) {
+        logger.debug("SysConfigUtil.get(" + key + ")");
         return transferType(sysConfigService.getByKey(key));
     }
 
     /**
      * 获取项目名称
+     * 获取key为projectName的值
      *
      * @return 名称
      */
@@ -49,7 +52,7 @@ public class SysConfigUtil {
      * @return value
      */
     private static Object transferType(SysConfig config) {
-        if(config != null){
+        if (config != null) {
             if (DataTypeConst.STRING.equals(config.getType())) {
                 return config.getValue();
             } else if (DataTypeConst.INTEGER.equals(config.getType())) {
@@ -59,7 +62,7 @@ public class SysConfigUtil {
             } else {
                 return config.getValue();
             }
-        }else{
+        } else {
             return null;
         }
     }

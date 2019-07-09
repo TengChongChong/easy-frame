@@ -44,11 +44,11 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
     public List<JsTree> selectData(String pId) {
         List<JsTree> jsTrees;
         // 第一次请求,返回项目名称 + 一级节点 数据
-        if (pId == null || pId.equals(JsTreeUtil.baseId)) {
+        if (pId == null || pId.equals(JsTreeUtil.BASE_ID)) {
             jsTrees = new ArrayList<>();
             // 根节点
             JsTree jsTree = JsTreeUtil.getBaseNode();
-            jsTree.setChildren(getBaseMapper().selectData(JsTreeUtil.baseId));
+            jsTree.setChildren(getBaseMapper().selectData(JsTreeUtil.BASE_ID));
             jsTrees.add(jsTree);
         } else {
             jsTrees = getBaseMapper().selectData(pId);
@@ -154,7 +154,7 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
             }
         }
         if (object.getpId() == null) {
-            object.setpId(JsTreeUtil.baseId);
+            object.setpId(JsTreeUtil.BASE_ID);
         }
         if (object.getOrderNo() == null) {
             object.setOrderNo(getBaseMapper().getMaxOrderNo(object.getTypeCode()) + 1);
@@ -189,7 +189,7 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
     public List<Select> selectDepartmentTypeOption(String pId, String departType) {
         List<Select> option = new ArrayList<>();
         // 获取当前机构下级机构类型
-        if (Validator.isNotEmpty(pId) && !pId.equals(JsTreeUtil.baseId)) {
+        if (Validator.isNotEmpty(pId) && !pId.equals(JsTreeUtil.BASE_ID)) {
             SysDepartment sysDepartment = getById(pId);
             option = sysDepartmentTypeService.selectOptionByParentCode(sysDepartment.getTypeCode());
         }
@@ -204,7 +204,7 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
     public List<Select> selectUpDepartmentOption(String pId, String departType) {
         List<Select> option = new ArrayList<>();
         // 获取当前机构下级机构类型
-        if (Validator.isNotEmpty(pId) && !pId.equals(JsTreeUtil.baseId)) {
+        if (Validator.isNotEmpty(pId) && !pId.equals(JsTreeUtil.BASE_ID)) {
             SysDepartment sysDepartment = getById(pId);
             option = getBaseMapper().selectOptionByTypeCode(sysDepartment.getTypeCode());
         }

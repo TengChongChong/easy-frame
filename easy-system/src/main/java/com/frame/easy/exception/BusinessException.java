@@ -102,16 +102,8 @@ public enum BusinessException implements EasyServiceException{
         return code;
     }
 
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
     @Override
     public String getMessage() {
         return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 }

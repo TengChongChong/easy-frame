@@ -1,7 +1,7 @@
 package com.frame.easy.exception;
 
 /**
- * 接口
+ * 封装异常接口
  *
  * @Author tengchong
  * @date 2019-01-20

@@ -7,6 +7,7 @@ import com.frame.easy.exception.ExceptionEnum;
 
 /**
  * 工具类
+ * 封装框架里常用的方法
  *
  * @author tengchong
  * @date 2018/9/4

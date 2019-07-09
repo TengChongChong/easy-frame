@@ -4,8 +4,9 @@ import com.frame.easy.common.status.ResultStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
- * 返回数据提示
- * json格式
+ * 封装返回数据
+ * 注: 1. 状态码仅表示请求是否成功,请将业务处理结果放到data中
+ *     2. 请规范使用状态码,按照 cn.hutool.http.HttpStatus 或 com.frame.easy.common.status.ResultStatus
  *
  * @author tengchong
  * @date 2018/10/22
@@ -17,6 +18,7 @@ public class Tips {
     private int code;
     /**
      * 提示文字
+     * 注: 如处理失败,务必返回原因
      */
     private String message;
     @JsonInclude(JsonInclude.Include.NON_NULL)

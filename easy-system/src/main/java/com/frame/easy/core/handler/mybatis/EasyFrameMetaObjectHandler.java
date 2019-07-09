@@ -20,19 +20,19 @@ public class EasyFrameMetaObjectHandler implements MetaObjectHandler {
     /**
      * 创建人
      */
-    private final String CREATE_USER = "createUser";
+    private static final String CREATE_USER = "createUser";
     /**
      * 创建时间
      */
-    private final String CREATE_DATE = "createDate";
+    private static final String CREATE_DATE = "createDate";
     /**
      * 编辑人
      */
-    private final String EDIT_USER = "editUser";
+    private static final String EDIT_USER = "editUser";
     /**
      * 编辑时间
      */
-    private final String EDIT_DATE = "editDate";
+    private static final String EDIT_DATE = "editDate";
 
     @Override
     public void insertFill(MetaObject metaObject) {

@@ -37,13 +37,13 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
     public List<JsTree> selectData(String pId) {
         List<JsTree> jsTrees;
         // 第一次请求,返回行政区划 + 一级 数据
-        if (pId == null || pId.equals(JsTreeUtil.baseId)) {
+        if (pId == null || pId.equals(JsTreeUtil.BASE_ID)) {
             jsTrees = new ArrayList<>();
             // 根节点
             JsTree jsTree = JsTreeUtil.getBaseNode();
             // 项目名称
             jsTree.setText("行政区划");
-            jsTree.setChildren(getBaseMapper().selectData(JsTreeUtil.baseId));
+            jsTree.setChildren(getBaseMapper().selectData(JsTreeUtil.BASE_ID));
             jsTrees.add(jsTree);
         } else {
             jsTrees = getBaseMapper().selectData(pId);
@@ -56,7 +56,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
         List<JsTree> jsTrees = getBaseMapper().selectAll();
         JsTree jsTree = new JsTree();
         State state = new State();
-        jsTree.setId(JsTreeUtil.baseId);
+        jsTree.setId(JsTreeUtil.BASE_ID);
         jsTree.setParent("#");
         jsTree.setIcon(CommonConst.DEFAULT_FOLDER_ICON);
         jsTree.setText("行政区划");
@@ -70,9 +70,9 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
     public SysDistrict input(String id) {
         SysDistrict sysDistrict;
         // 表示点击的是根目录
-        if (id == null || id.equals(JsTreeUtil.baseId)) {
+        if (id == null || id.equals(JsTreeUtil.BASE_ID)) {
             sysDistrict = new SysDistrict();
-            sysDistrict.setId(JsTreeUtil.baseId);
+            sysDistrict.setId(JsTreeUtil.BASE_ID);
             sysDistrict.setName("行政区划");
         } else {
             sysDistrict = getBaseMapper().selectInfo(id);
@@ -226,7 +226,7 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
     @Override
     public List<Select> selectByPId(String pId) {
         // 父id不是最顶级
-        if (pId != "0") {
+        if (!JsTreeUtil.BASE_ID.equals(pId)) {
             SysDistrict district = getById(pId);
             if (district != null) {
                 return getBaseMapper().selectByPId(district.getpId());

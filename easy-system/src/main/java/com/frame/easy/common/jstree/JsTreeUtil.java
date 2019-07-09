@@ -14,7 +14,7 @@ public class JsTreeUtil {
     /**
      * 根节点id
      */
-    public static String baseId = "0";
+    public final static String BASE_ID = "0";
 
     /**
      * 获取根节点
@@ -25,7 +25,7 @@ public class JsTreeUtil {
         JsTree jsTree = new JsTree();
         // 项目名称
         jsTree.setText(SysConfigUtil.getProjectName());
-        jsTree.setId(baseId);
+        jsTree.setId(BASE_ID);
         jsTree.setIcon(CommonConst.DEFAULT_FOLDER_ICON);
         State state = new State();
         state.setOpened(true);

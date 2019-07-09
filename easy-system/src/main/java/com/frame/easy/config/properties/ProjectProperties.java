@@ -4,6 +4,8 @@ import cn.hutool.core.lang.Validator;
 import com.frame.easy.common.constant.SysConfigConst;
 import com.frame.easy.util.SysConfigUtil;
 import com.frame.easy.util.ToolUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,6 +19,8 @@ import java.io.File;
  */
 @Configuration
 public class ProjectProperties {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     /**
      * 版本号
      */
@@ -98,7 +102,9 @@ public class ProjectProperties {
             }
             File file = new File(fileUploadPath);
             if (!file.exists()) {
-                file.mkdirs();
+                if(!file.mkdirs()){
+                    logger.warn("创建文件上传保存目录失败");
+                }
             }
             return fileUploadPath;
         } else {

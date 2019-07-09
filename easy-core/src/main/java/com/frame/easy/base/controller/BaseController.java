@@ -18,7 +18,13 @@ public class BaseController {
      */
     protected static Tips SUCCESS_TIPS = Tips.getSuccessTips();
 
+    /**
+     * redirect
+     */
     protected static String REDIRECT = "redirect:";
+    /**
+     * FORWARD
+     */
     protected static String FORWARD = "forward:";
 
 }

@@ -49,7 +49,7 @@ public class SysTaskServiceImpl extends ServiceImpl<SysTaskMapper, SysTask> impl
         queryWrapper.eq("receiver", ShiroUtil.getCurrentUser().getId());
         // 已发布
         queryWrapper.eq("status", TaskConst.HAS_BEEN_SENT);
-        Page page = object.getPage();
+        Page page = ToolUtil.getPage(object);
         return (Page) page(page, queryWrapper);
     }
 

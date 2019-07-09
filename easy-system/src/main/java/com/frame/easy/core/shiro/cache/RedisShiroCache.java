@@ -26,7 +26,6 @@ public class RedisShiroCache<K, V> implements Cache<K, V> {
 
     private RedisProperties redisProperties;
 
-    private RedisConfig redisConfig;
 
     private String cacheKey;
 
@@ -34,7 +33,6 @@ public class RedisShiroCache<K, V> implements Cache<K, V> {
 
     @SuppressWarnings("rawtypes")
     public RedisShiroCache(String name, RedisTemplate client, RedisConfig redisConfig, RedisProperties redisProperties) {
-        this.redisConfig = redisConfig;
         this.cacheKey = RedisPrefix.SHIRO_AUTHORIZATION;
         this.redisTemplate = client;
         this.redisProperties = redisProperties;

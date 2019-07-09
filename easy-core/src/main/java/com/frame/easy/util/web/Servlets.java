@@ -33,6 +33,7 @@ public class Servlets {
 
     /**
      * 获取当前请求
+     * 注: 可能会抛出空指针异常
      *
      * @return HttpServletRequest
      */
@@ -41,7 +42,8 @@ public class Servlets {
     }
 
     /**
-     * 判断请求是否为静态文件
+     * 判断请求是否为静态文件用于减少session读写频率
+     * 注: 仅根据CommonConst.STATIC_FILE_SUFFIX配置的后缀判断
      *
      * @param uri 请求地址
      * @return true/false

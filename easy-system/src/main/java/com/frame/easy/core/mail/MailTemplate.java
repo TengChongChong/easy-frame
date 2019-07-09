@@ -1,9 +1,7 @@
 package com.frame.easy.core.mail;
 
 import com.frame.easy.common.constant.SysConst;
-import com.frame.easy.config.properties.ProjectProperties;
 import com.frame.easy.util.SysConfigUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 邮件模板
@@ -167,10 +165,5 @@ public class MailTemplate {
                 "    </tr>\n" +
                 "    </tbody>\n" +
                 "</table>";
-    }
-
-    @Autowired
-    public void setProjectProperties(ProjectProperties projectProperties) {
-        projectProperties = projectProperties;
     }
 }

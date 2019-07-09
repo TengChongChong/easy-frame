@@ -51,11 +51,11 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public List<JsTree> selectData(String pId) {
         List<JsTree> jsTrees;
         // 第一次请求,返回项目名称 + 一级角色 数据
-        if (pId == null || pId.equals(JsTreeUtil.baseId)) {
+        if (pId == null || pId.equals(JsTreeUtil.BASE_ID)) {
             jsTrees = new ArrayList<>();
             // 根节点
             JsTree jsTree = JsTreeUtil.getBaseNode();
-            jsTree.setChildren(getBaseMapper().selectData(JsTreeUtil.baseId));
+            jsTree.setChildren(getBaseMapper().selectData(JsTreeUtil.BASE_ID));
             jsTrees.add(jsTree);
         } else {
             jsTrees = getBaseMapper().selectData(pId);
@@ -68,7 +68,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         List<JsTree> jsTrees = getBaseMapper().selectAll(CommonStatus.ENABLE.getCode());
         JsTree jsTree = new JsTree();
         State state = new State();
-        jsTree.setId(JsTreeUtil.baseId);
+        jsTree.setId(JsTreeUtil.BASE_ID);
         jsTree.setParent("#");
         jsTree.setIcon(CommonConst.DEFAULT_FOLDER_ICON);
         jsTree.setText(SysConfigUtil.getProjectName());
@@ -82,13 +82,13 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public SysRole input(String id) {
         SysRole sysRole;
         // 表示点击的是根目录
-        if (id == null || id.equals(JsTreeUtil.baseId)) {
+        if (id == null || id.equals(JsTreeUtil.BASE_ID)) {
             sysRole = new SysRole();
-            sysRole.setId(JsTreeUtil.baseId);
+            sysRole.setId(JsTreeUtil.BASE_ID);
             sysRole.setName(SysConfigUtil.getProjectName());
         } else {
             sysRole = getBaseMapper().selectInfo(id);
-            if (sysRole != null && sysRole.getpId().equals(JsTreeUtil.baseId)) {
+            if (sysRole != null && sysRole.getpId().equals(JsTreeUtil.BASE_ID)) {
                 sysRole.setpName(SysConfigUtil.getProjectName());
             }
         }
@@ -101,7 +101,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             SysRole sysRole = new SysRole();
             sysRole.setpId(pId);
             sysRole.setStatus(CommonStatus.ENABLE.getCode());
-            if (JsTreeUtil.baseId.equals(pId)) {
+            if (JsTreeUtil.BASE_ID.equals(pId)) {
                 sysRole.setpName(SysConfigUtil.getProjectName());
             } else {
                 SysRole parentSysRole = getBaseMapper().selectInfo(pId);

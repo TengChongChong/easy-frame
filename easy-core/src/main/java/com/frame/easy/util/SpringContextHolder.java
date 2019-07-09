@@ -43,7 +43,7 @@ public class SpringContextHolder implements ApplicationContextAware {
     /**
      * 通过Class获取Bean
      *
-     * @param requiredType class
+     * @param requiredType class eg: Sample.class
      * @return bean
      */
     public static <T> T getBean(Class<T> requiredType) {

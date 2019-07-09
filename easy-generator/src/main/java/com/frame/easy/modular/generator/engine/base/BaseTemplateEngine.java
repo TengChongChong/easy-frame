@@ -1,6 +1,7 @@
 package com.frame.easy.modular.generator.engine.base;
 
 import com.alibaba.fastjson.JSONObject;
+import com.frame.easy.exception.EasyException;
 import com.frame.easy.modular.generator.util.GeneratorHtmlUtil;
 import com.frame.easy.modular.generator.util.GeneratorJavaUtil;
 import com.frame.easy.modular.generator.util.GeneratorJsUtil;
@@ -84,9 +85,11 @@ public abstract class BaseTemplateEngine extends AbstractTemplateEngine {
         File file = new File(filePath);
         File parentFile = file.getParentFile();
         if (!parentFile.exists()) {
-            parentFile.mkdirs();
+            if (parentFile.mkdirs()) {
+                throw new EasyException("文件夹创建失败[" + parentFile.getPath() + "]");
+            }
         }
-        if(super.generator.getReplace() || !file.exists()){
+        if (super.generator.getReplace() || !file.exists()) {
             // 如果勾选了"覆盖已有文件" 或 文件不存在
             FileOutputStream fileOutputStream = null;
             try {
@@ -96,7 +99,9 @@ public abstract class BaseTemplateEngine extends AbstractTemplateEngine {
                 e.printStackTrace();
             } finally {
                 try {
-                    fileOutputStream.close();
+                    if (fileOutputStream != null) {
+                        fileOutputStream.close();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

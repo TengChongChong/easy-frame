@@ -5,30 +5,27 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.frame.easy.common.constant.CommonConst;
-import com.frame.easy.common.status.CommonStatus;
 import com.frame.easy.common.jstree.JsTree;
 import com.frame.easy.common.jstree.JsTreeUtil;
 import com.frame.easy.common.jstree.State;
 import com.frame.easy.common.select.Select;
+import com.frame.easy.common.status.CommonStatus;
 import com.frame.easy.exception.BusinessException;
 import com.frame.easy.exception.EasyException;
 import com.frame.easy.exception.ExceptionEnum;
-import com.frame.easy.util.ShiroUtil;
-import com.frame.easy.util.SysConfigUtil;
-import com.frame.easy.util.ToolUtil;
 import com.frame.easy.modular.sys.dao.SysDepartmentTypeMapper;
 import com.frame.easy.modular.sys.model.SysDepartmentType;
-import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.service.SysDepartmentService;
 import com.frame.easy.modular.sys.service.SysDepartmentTypeRoleService;
 import com.frame.easy.modular.sys.service.SysDepartmentTypeService;
+import com.frame.easy.util.SysConfigUtil;
+import com.frame.easy.util.ToolUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,11 +47,11 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
     public List<JsTree> selectData(String pId) {
         List<JsTree> jsTrees;
         // 第一次请求,返回项目名称 + 一级节点 数据
-        if (pId == null || pId.equals(JsTreeUtil.baseId)) {
+        if (pId == null || pId.equals(JsTreeUtil.BASE_ID)) {
             jsTrees = new ArrayList<>();
             // 根节点
             JsTree jsTree = JsTreeUtil.getBaseNode();
-            jsTree.setChildren(getBaseMapper().selectData(JsTreeUtil.baseId));
+            jsTree.setChildren(getBaseMapper().selectData(JsTreeUtil.BASE_ID));
             jsTrees.add(jsTree);
         } else {
             jsTrees = getBaseMapper().selectData(pId);
@@ -67,7 +64,7 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
         List<JsTree> jsTrees = getBaseMapper().selectAll(CommonStatus.ENABLE.getCode());
         JsTree jsTree = new JsTree();
         State state = new State();
-        jsTree.setId(JsTreeUtil.baseId);
+        jsTree.setId(JsTreeUtil.BASE_ID);
         jsTree.setParent("#");
         jsTree.setIcon(CommonConst.DEFAULT_FOLDER_ICON);
         jsTree.setText(SysConfigUtil.getProjectName());
@@ -81,13 +78,13 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
     public SysDepartmentType input(String id) {
         SysDepartmentType sysDepartmentType;
         // 表示点击的是根目录
-        if (id == null || id.equals(JsTreeUtil.baseId)) {
+        if (id == null || id.equals(JsTreeUtil.BASE_ID)) {
             sysDepartmentType = new SysDepartmentType();
-            sysDepartmentType.setId(JsTreeUtil.baseId);
+            sysDepartmentType.setId(JsTreeUtil.BASE_ID);
             sysDepartmentType.setName(SysConfigUtil.getProjectName());
         } else {
             sysDepartmentType = getBaseMapper().selectInfo(id);
-            if (sysDepartmentType != null && sysDepartmentType.getpId().equals(JsTreeUtil.baseId)) {
+            if (sysDepartmentType != null && sysDepartmentType.getpId().equals(JsTreeUtil.BASE_ID)) {
                 sysDepartmentType.setpName(SysConfigUtil.getProjectName());
             }
         }
@@ -100,7 +97,7 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
             SysDepartmentType sysDepartmentType = new SysDepartmentType();
             sysDepartmentType.setpId(pId);
             sysDepartmentType.setStatus(CommonStatus.ENABLE.getCode());
-            if (JsTreeUtil.baseId.equals(pId)) {
+            if (JsTreeUtil.BASE_ID.equals(pId)) {
                 sysDepartmentType.setpName(SysConfigUtil.getProjectName());
             } else {
                 SysDepartmentType parentSysDepartmentType = getById(pId);
@@ -181,7 +178,6 @@ public class SysDepartmentTypeServiceImpl extends ServiceImpl<SysDepartmentTypeM
         // 是否是修改了编码
         boolean isModifyCode = false;
         SysDepartmentType oldDepartType = null;
-        SysUser sysUser = ShiroUtil.getCurrentUser();
         if (object.getId() != null) {
             oldDepartType = getById(object.getId());
             isModifyCode = !oldDepartType.getCode().equals(object.getCode());

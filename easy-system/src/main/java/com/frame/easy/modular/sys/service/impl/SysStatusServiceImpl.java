@@ -2,7 +2,6 @@ package com.frame.easy.modular.sys.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.frame.easy.common.constant.SysConst;
-import com.frame.easy.config.properties.ProjectProperties;
 import com.frame.easy.modular.sys.service.SysStatusService;
 import com.frame.easy.util.SysConfigUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +59,7 @@ public class SysStatusServiceImpl implements SysStatusService {
         JSONObject rtStatus = new JSONObject();
         JSONObject jvm = new JSONObject();
         JSONObject cpu = new JSONObject();
-        JSONObject memory = new JSONObject();
+//        JSONObject memory = new JSONObject();
 
         //jvm
         jvm.put("max", getMetricsVal("jvm.memory.max"));

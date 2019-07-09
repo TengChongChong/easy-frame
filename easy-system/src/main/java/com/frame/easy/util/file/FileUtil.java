@@ -2,9 +2,9 @@ package com.frame.easy.util.file;
 
 import cn.hutool.core.date.DateUtil;
 import com.frame.easy.common.constant.SysConst;
-import com.frame.easy.config.properties.ProjectProperties;
 import com.frame.easy.exception.EasyException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
@@ -15,6 +15,8 @@ import java.io.File;
  * @date 2019-03-08
  */
 public class FileUtil {
+
+    private static Logger logger = LoggerFactory.getLogger(FileUtil.class);
 
     /**
      * 临时
@@ -36,15 +38,26 @@ public class FileUtil {
     private static final String FORMAL_PATH = SysConst.projectProperties.getFileUploadPath() + FORMAL + File.separator;
 
     /**
+     * 检查文件夹是否存在,如不存在则新建
+     * @param file 文件
+     */
+    private static void checkDirs(File file){
+        if (!file.exists()) {
+            if (!file.mkdirs()) {
+                logger.debug("文件创建失败[" + file.getPath() + "]");
+                throw new EasyException("文件创建失败[" + file.getPath() + "]");
+            }
+        }
+    }
+
+    /**
      * 获取临时文件存放路径
      *
      * @return 临时路径/yyyy/mm/dd/
      */
     public static String getTemporaryPath() {
         File file = new File(TEMPORARY_PATH + DateUtil.today().replaceAll("-", File.separator));
-        if (!file.exists()) {
-            file.mkdirs();
-        }
+        checkDirs(file);
         return file.getPath() + File.separator;
     }
 
@@ -58,9 +71,7 @@ public class FileUtil {
         File src = new File(path);
         if (src.exists()) {
             File file = new File(FORMAL_PATH + DateUtil.today().replaceAll("-", File.separator));
-            if (!file.exists()) {
-                file.mkdirs();
-            }
+            checkDirs(file);
             File dest = new File(file.getPath() + File.separator + src.getName());
             cn.hutool.core.io.FileUtil.move(src, dest, true);
             return dest.getPath();
@@ -107,6 +118,7 @@ public class FileUtil {
     public static boolean del(String url) {
         return delByPath(SysConst.projectProperties.getFileUploadPath() + url.replaceAll("/static/", ""));
     }
+
     /**
      * 根据文件路径删除
      *
@@ -115,11 +127,5 @@ public class FileUtil {
      */
     public static boolean delByPath(String path) {
         return cn.hutool.core.io.FileUtil.del(path);
-    }
-
-
-    @Autowired
-    public void setProjectProperties(ProjectProperties projectProperties) {
-        projectProperties = projectProperties;
     }
 }

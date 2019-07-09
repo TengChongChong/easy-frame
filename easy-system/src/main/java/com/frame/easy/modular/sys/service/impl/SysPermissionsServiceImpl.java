@@ -45,12 +45,12 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
     public List<JsTree> selectData(String pId) {
         List<JsTree> jsTrees;
         // 第一次请求,返回项目名称 + 一级菜单 数据
-        if (pId == null || pId.equals(JsTreeUtil.baseId)) {
+        if (pId == null || pId.equals(JsTreeUtil.BASE_ID)) {
             jsTrees = new ArrayList<>();
             // 根节点
             JsTree jsTree = JsTreeUtil.getBaseNode();
             jsTree.setText("<i class=\"permissions-icon " + jsTree.getIcon() + "\"></i>" + jsTree.getText());
-            jsTree.setChildren(getBaseMapper().selectData(JsTreeUtil.baseId));
+            jsTree.setChildren(getBaseMapper().selectData(JsTreeUtil.BASE_ID));
             jsTrees.add(jsTree);
         } else {
             jsTrees = getBaseMapper().selectData(pId);
@@ -63,7 +63,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
         List<JsTree> jsTrees = getBaseMapper().selectAll(PermissionsStatus.ENABLE.getCode());
         JsTree jsTree = new JsTree();
         State state = new State();
-        jsTree.setId(JsTreeUtil.baseId);
+        jsTree.setId(JsTreeUtil.BASE_ID);
         jsTree.setParent("#");
         jsTree.setText("<i class=\"permissions-icon " + CommonConst.DEFAULT_FOLDER_ICON + "\"></i>" + SysConfigUtil.getProjectName());
         state.setOpened(true);
@@ -76,18 +76,18 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
     public SysPermissions input(String id) {
         SysPermissions sysPermissions;
         // 表示点击的是根目录
-        if (id == null || id.equals(JsTreeUtil.baseId)) {
+        if (id == null || id.equals(JsTreeUtil.BASE_ID)) {
             sysPermissions = new SysPermissions();
-            sysPermissions.setId(JsTreeUtil.baseId);
+            sysPermissions.setId(JsTreeUtil.BASE_ID);
             sysPermissions.setLevels(1);
             sysPermissions.setName(SysConfigUtil.getProjectName());
         } else {
             sysPermissions = getBaseMapper().selectInfo(id);
-            if (sysPermissions != null && sysPermissions.getpId().equals(JsTreeUtil.baseId)) {
+            if (sysPermissions != null && sysPermissions.getpId().equals(JsTreeUtil.BASE_ID)) {
                 sysPermissions.setpName(SysConfigUtil.getProjectName());
             }
         }
-        if (Validator.isEmpty(sysPermissions.getIcon())) {
+        if (sysPermissions != null && Validator.isEmpty(sysPermissions.getIcon())) {
             sysPermissions.setIcon("<i class=\"" + JsTree.DEFAULT_ICON + "\"></i>");
         }
         return sysPermissions;
@@ -100,7 +100,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
             sysPermissions.setpId(pId);
             sysPermissions.setStatus(PermissionsStatus.ENABLE.getCode());
             sysPermissions.setType(PermissionsType.ENABLE.getCode());
-            if (JsTreeUtil.baseId.equals(pId)) {
+            if (JsTreeUtil.BASE_ID.equals(pId)) {
                 sysPermissions.setLevels(1);
                 sysPermissions.setpName(SysConfigUtil.getProjectName());
             } else {
@@ -320,7 +320,7 @@ public class SysPermissionsServiceImpl extends ServiceImpl<SysPermissionsMapper,
 
     private void updateMenuLevels(String parent, String id) {
         int parentLev;
-        if (JsTreeUtil.baseId.equals(parent)) {
+        if (JsTreeUtil.BASE_ID.equals(parent)) {
             parentLev = 0;
         } else {
             parentLev = getBaseMapper().selectById(parent).getLevels();

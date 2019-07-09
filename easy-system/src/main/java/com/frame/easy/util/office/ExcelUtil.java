@@ -85,7 +85,9 @@ public class ExcelUtil {
             }
         }
         // 设置表格标题
-        writer.writeHeadRow(Arrays.asList(head));
+        if(head != null){
+            writer.writeHeadRow(Arrays.asList(head));
+        }
         // 设置内容
         if (body != null) {
             //写出内容

@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/auth/generation")
 public class GenerationController extends BaseController {
 
-    public static String PREFIX = "modular/generation/";
+    private final static String PREFIX = "modular/generation/";
 
     @Autowired
     private GenerationService service;

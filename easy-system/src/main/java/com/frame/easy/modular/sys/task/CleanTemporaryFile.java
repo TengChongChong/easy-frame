@@ -48,13 +48,14 @@ public class CleanTemporaryFile {
     private void clean(File[] subdirectories, int lev) {
         if (subdirectories != null && subdirectories.length > 0) {
             for (File file : subdirectories) {
-                if (file.isDirectory()) {
+                if (file != null && file.isDirectory()) {
                     if (INSPECTION_DEPTH == lev) {
                         // 到达检查深度目录
                         clean(file);
                     } else {
                         clean(file.listFiles(), lev + 1);
-                        if(file.listFiles() == null || file.listFiles().length == 0){
+                        File[] listFiles = file.listFiles();
+                        if(listFiles == null || listFiles.length == 0){
                             cn.hutool.core.io.FileUtil.del(file);
                         }
                     }

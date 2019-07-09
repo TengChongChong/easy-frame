@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Shiro工具类
+ * 封装一些关于会话/权限的方法
  *
  * @author tengchong
  * @date 2018/9/11
@@ -30,7 +31,7 @@ public class ShiroUtil {
             Subject subject = SecurityUtils.getSubject();
             session = subject.getSession();
         } catch (Exception e) {
-            logger.warn("获取当前用户session发生异常", e);
+            logger.info("获取当前用户session发生异常", e);
         }
         return session;
     }
@@ -46,7 +47,7 @@ public class ShiroUtil {
             Session session = getSession();
             session.setAttribute(key, value);
         } catch (Exception e) {
-            logger.warn("将放key:" + key + "到session中发生异常", e);
+            logger.info("将放key:" + key + "到session中发生异常", e);
             throw e;
         }
     }
@@ -58,12 +59,12 @@ public class ShiroUtil {
      * @return Object
      */
     public static Object getAttribute(Object key) {
-        Object value = null;
+        Object value;
         try {
             Session session = getSession();
             value = session.getAttribute(key);
         } catch (Exception e) {
-            logger.warn("从session获取key:" + key + "发生异常", e);
+            logger.info("从session获取key:" + key + "发生异常", e);
             throw e;
         }
         return value;
@@ -79,7 +80,7 @@ public class ShiroUtil {
             Session session = getSession();
             session.removeAttribute(key);
         } catch (Exception e) {
-            logger.warn("从session删除key:" + key + "发生异常", e);
+            logger.info("从session删除key:" + key + "发生异常", e);
             throw e;
         }
     }
