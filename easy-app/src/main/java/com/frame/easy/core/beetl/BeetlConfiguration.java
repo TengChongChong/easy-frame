@@ -66,7 +66,7 @@ public class BeetlConfiguration extends BeetlGroupUtilConfiguration {
      * @return map
      */
     private Map<String, Object> getOtherVars(){
-        Map<String, Object> property = new HashMap<>();
+        Map<String, Object> property = new HashMap<>(1);
         property.put("min", SysConst.IS_PROD ? ".min" : "");
         return property;
     }

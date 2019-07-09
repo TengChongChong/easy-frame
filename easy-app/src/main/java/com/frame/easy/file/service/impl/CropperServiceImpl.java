@@ -30,28 +30,30 @@ public class CropperServiceImpl implements CropperService {
 
     @Override
     public File cropper(byte[] imageByte) {
-        if(imageByte.length > 0){
-            String imageData = new String(imageByte, StandardCharsets.UTF_8);
-            String name = UUID.randomUUID() + SUFFIX;
-            String path = FileUtil.getTemporaryPath() + name;
-            File res = new File();
-            res.setUrl(FileUtil.getUrl(path));
-            res.setSuffix(SUFFIX);
-            res.setPath(path);
-            res.setName(name);
-            try {
-                BASE64Decoder decoder = new BASE64Decoder();
-                imageByte = decoder.decodeBuffer(imageData.replaceAll("%2F", "/"));
-                res.setLength(imageByte.length);
-                OutputStream out = new FileOutputStream(path);
-                out.write(imageByte);
-                out.flush();
-                out.close();
-            } catch (IOException e) {
-                throw new EasyException("读取图片数据失败[错误代码02]");
-            }
-            return res;
+        if (imageByte.length <= 0) {
+            throw new EasyException("读取图片数据失败[错误代码01]");
         }
-        throw new EasyException("读取图片数据失败[错误代码01]");
+        String imageData = new String(imageByte, StandardCharsets.UTF_8);
+        String name = UUID.randomUUID() + SUFFIX;
+        String path = FileUtil.getTemporaryPath() + name;
+        File res = new File();
+        res.setUrl(FileUtil.getUrl(path));
+        res.setSuffix(SUFFIX);
+        res.setPath(path);
+        res.setName(name);
+        try {
+            BASE64Decoder decoder = new BASE64Decoder();
+            imageByte = decoder.decodeBuffer(imageData.replaceAll("%2F", "/"));
+            res.setLength(imageByte.length);
+            OutputStream out = new FileOutputStream(path);
+            out.write(imageByte);
+            out.flush();
+            out.close();
+            logger.debug("图片截取成功" + path);
+        } catch (IOException e) {
+            logger.info("读取图片数据失败[错误代码02]", e);
+            throw new EasyException("读取图片数据失败[错误代码02]");
+        }
+        return res;
     }
 }
