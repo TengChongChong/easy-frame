@@ -85,7 +85,7 @@ public abstract class BaseTemplateEngine extends AbstractTemplateEngine {
         File file = new File(filePath);
         File parentFile = file.getParentFile();
         if (!parentFile.exists()) {
-            if (parentFile.mkdirs()) {
+            if (!parentFile.mkdirs()) {
                 throw new EasyException("文件夹创建失败[" + parentFile.getPath() + "]");
             }
         }
