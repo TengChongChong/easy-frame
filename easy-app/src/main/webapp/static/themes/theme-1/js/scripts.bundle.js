@@ -240,12 +240,16 @@ var KTApp = function () {
 
                 // 指定了字典类型
                 if (typeof $element.data('dict-type') !== 'undefined') {
-                    $element.append('<option value=""></option>');
+                    if($element.data('no-empty') !== true){
+                        $element.append('<option value=""></option>');
+                    }
                     initDictSelect($element);
                 }
                 // 指定了 data-url 属性,ajax请求接口获取下拉菜单
                 if (typeof $element.data('url') !== 'undefined') {
-                    $element.append('<option value=""></option>');
+                    if($element.data('no-empty') !== true){
+                        $element.append('<option value=""></option>');
+                    }
                     initSelectByUrl($element);
                 }
                 if (KTUtil.isNotBlank($element.data('value'))) {
@@ -7141,7 +7145,6 @@ var KTTool = function () {
         },
         ACTIONS_INFO: getActionsBtnClass('info'),
         ACTIONS_SUCCESS: getActionsBtnClass('success'),
-        ACTIONS_ACCENT: getActionsBtnClass('accent'),
         ACTIONS_WARN: getActionsBtnClass('warning'),
         ACTIONS_DANGER: getActionsBtnClass('danger'),
         /******************** jsTree ********************/
@@ -8372,11 +8375,13 @@ var KTWizard = function(elementId, options) {
                             return $(td).data('field') === n.field;
                         })[0];
                         if (typeof column !== 'undefined') {
-                            if (typeof column.dictType !== 'undefined' && util.isNotBlank(column.dictType)) {
+                            if (typeof column.dictType !== 'undefined') {
                                 column.template = function (row) {
                                     var dicts = null;
                                     if (typeof column.dictType === 'string') {
                                         dicts = tool.getSysDictsObject(column.dictType);
+                                    } else if (util.isFunction(column.dictType)) {
+                                        dicts = tool.getSysDictsObject(column.dictType(row, tdi, datatable));
                                     } else {
                                         dicts = column.dictType;
                                     }
@@ -10900,11 +10905,12 @@ var KTWizard = function(elementId, options) {
              * @returns {jQuery}
              */
             rows: function (selector) {
-                if (Plugin.isLocked()) {
-                    Plugin.nodeTr = Plugin.recentNode = $(datatable.tableBody).find(selector).filter('.' + pfx + 'datatable__lock--scroll > .' + pfx + 'datatable__row');
-                } else {
-                    Plugin.nodeTr = Plugin.recentNode = $(datatable.tableBody).find(selector).filter('.' + pfx + 'datatable__row');
-                }
+                // if (Plugin.isLocked()) {
+                //     Plugin.nodeTr = Plugin.recentNode = $(datatable.tableBody).find(selector).filter('.' + pfx + 'datatable__lock--scroll > .' + pfx + 'datatable__row');
+                // } else {
+                //     Plugin.nodeTr = Plugin.recentNode = $(datatable.tableBody).find(selector).filter('.' + pfx + 'datatable__row');
+                // }
+                Plugin.nodeTr = Plugin.recentNode = $(datatable.tableBody).find(selector);
                 return datatable;
             },
 
