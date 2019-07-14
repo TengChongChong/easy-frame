@@ -230,17 +230,17 @@ var mUserList = function () {
                     template: function (row, index, datatable) {
                         var _btn = '';
                         if (KTTool.hasPermissions('sys:user:save')) {
-                            _btn += '<a href="#" onclick="KTTool.editById(this, ' + row.id + ', \'' + row.username + '\')" class="' + KTTool.ACTIONS_ACCENT + '" title="编辑">\
+                            _btn += '<a href="#" onclick="KTTool.editById(this,\'' + row.id + '\', \'' + row.username + '\')" class="' + KTTool.ACTIONS_INFO + '" title="编辑">\
                                 <i class="la la-edit"></i>\
                             </a>';
                         }
                         if (KTTool.hasPermissions('sys:user:delete')) {
-                            _btn += '<a href="#" onclick="KTTool.deleteById(this, ' + row.id + ')" class="' + KTTool.ACTIONS_DANGER + '" title="删除">\
+                            _btn += '<a href="#" onclick="KTTool.deleteById(this,\'' + row.id + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="删除">\
                                 <i class="la la-trash"></i>\
                             </a>';
                         }
                         if (KTTool.hasPermissions('sys:user:reset:password')) {
-                            _btn += '<a href="#" onclick="mUserList.resetPassword(this, ' + row.id + ')" class="' + KTTool.ACTIONS_WARN + '" title="重置密码">\
+                            _btn += '<a href="#" onclick="mUserList.resetPassword(this,\'' + row.id + '\')" class="' + KTTool.ACTIONS_WARN + '" title="重置密码">\
                                 <i class="la la-refresh"></i>\
                             </a>';
                         }

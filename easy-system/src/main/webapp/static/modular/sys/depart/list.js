@@ -133,15 +133,15 @@ var mDepartList = function () {
                     template: function (row, index, datatable) {
                         var _btn = '';
                         if (KTTool.hasPermissions('sys:depart:save')) {
-                            _btn += '<a href="#" onclick="KTTool.addData(this, \'新增机构\', null,  ' + row.id + ')" class="' + KTTool.ACTIONS_SUCCESS + '" title="新增下级">\
+                            _btn += '<a href="#" onclick="KTTool.addData(this, \'新增机构\', null, \'' + row.id + '\')" class="' + KTTool.ACTIONS_SUCCESS + '" title="新增下级">\
                                 <i class="la la-plus"></i>\
                             </a>\
-                            <a href="#" onclick="KTTool.editById(this, ' + row.id + ', \'' + row.name + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="编辑">\
+                            <a href="#" onclick="KTTool.editById(this,\'' + row.id + '\', \'' + row.name + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="编辑">\
 							    <i class="la la-edit"></i>\
 						    </a>';
                         }
                         if (KTTool.hasPermissions('sys:depart:delete')) {
-                            _btn += '<a href="#" onclick="KTTool.deleteById(this, ' + row.id + ')" class="' + KTTool.ACTIONS_DANGER + '" title="删除">\
+                            _btn += '<a href="#" onclick="KTTool.deleteById(this,\'' + row.id + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="删除">\
                                 <i class="la la-trash"></i>\
                             </a>';
                         }

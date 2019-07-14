@@ -66,7 +66,7 @@ var mDictTypeList = function () {
                             </a>';
                         }
                         if (KTTool.hasPermissions('sys:dict:type:delete')) {
-                            _btn += '<a href="#" onclick="mDictTypeList.deleteDictType(this, ' + row.id + ')" class="' + KTTool.ACTIONS_DANGER + '" title="删除">\
+                            _btn += '<a href="#" onclick="mDictTypeList.deleteDictType(this,\'' + row.id + '\')" class="' + KTTool.ACTIONS_DANGER + '" title="删除">\
                                 <i class="la la-trash"></i>\
                             </a>';
                         }
