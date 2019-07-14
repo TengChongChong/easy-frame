@@ -11,5 +11,12 @@ import ${import};
  * @date ${config.date}
  */
 public interface ${config.modelName}Mapper extends BaseMapper<${config.modelName}> {
-
+    /**
+     * 获取列表数据
+     *
+     * @param page 分页
+     * @param queryWrapper 查询条件
+     * @return 数据列表
+     */
+    List<${config.modelName}> select(Page page, @Param("ew") QueryWrapper<${config.modelName}> queryWrapper);
 }

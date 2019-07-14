@@ -1,5 +1,5 @@
 //== ${config.businessName}-详情页
-var ${config.modelName}Input = function () {
+var ${GeneratorJsUtil.capitalLowercase(config.modelName)}Input = function () {
 
     return {
         //== 初始化页面
@@ -10,5 +10,5 @@ var ${config.modelName}Input = function () {
 }();
 //== 初始化
 ${config.jquery}(document).ready(function () {
-    ${config.modelName}Input.init();
+    ${GeneratorJsUtil.capitalLowercase(config.modelName)}Input.init();
 });

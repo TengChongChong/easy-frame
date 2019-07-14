@@ -1,6 +1,7 @@
 package com.frame.easy.modular.sys.service.impl;
 
 import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.frame.easy.common.constant.CommonConst;
@@ -153,7 +154,7 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
                 throw new EasyException("已存在编码为[" + object.getCode() + "]的机构，请修改后重试");
             }
         }
-        if (object.getpId() == null) {
+        if (StrUtil.isBlank(object.getpId())) {
             object.setpId(JsTreeUtil.BASE_ID);
         }
         if (object.getOrderNo() == null) {

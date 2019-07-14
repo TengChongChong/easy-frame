@@ -28,7 +28,9 @@ public class ${config.modelName}ServiceImpl extends ServiceImpl<${config.modelNa
             ${GeneratorJavaUtil.generator(propertyName, config.fieldSets, 3)}
             <% } %>
         }
-        return (Page)page(ToolUtil.getPage(object), queryWrapper);
+        Page page = ToolUtil.getPage(object);
+        page.setRecords(getBaseMapper().select(page, queryWrapper));
+        return page;
     }
 
     /**
@@ -85,7 +87,7 @@ public class ${config.modelName}ServiceImpl extends ServiceImpl<${config.modelNa
     @Override
     public ${config.modelName} saveData(${config.modelName} object) {
         ToolUtil.checkParams(object);
-        if (object.getId() == null) {
+        if (StrUtil.isNotBlank(object.getId())) {
             // 新增,设置默认值
         }
         return (${config.modelName}) ToolUtil.checkResult(saveOrUpdate(object), object);

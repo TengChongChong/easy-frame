@@ -7,19 +7,19 @@
             <img src="https://img.shields.io/badge/Bootstrap-4-blue.svg" alt="bootstrap">
         </a> 
         <a href="https://spring.io/projects/spring-boot">
-            <img src="https://img.shields.io/badge/spring--boot-2.1.1-green.svg" alt="spring-boot">
+            <img src="https://img.shields.io/badge/SpringBoot-2.1.1-green.svg" alt="spring-boot">
         </a>
         <a href="https://github.com/alibaba/druid">
-            <img src="https://img.shields.io/badge/druid-1.1.10-red.svg" alt="druid">
+            <img src="https://img.shields.io/badge/Druid-1.1.10-red.svg" alt="druid">
         </a>
         <a href="http://mp.baomidou.com">
-            <img src="https://img.shields.io/badge/mybatis--plus-3.1.0-yellowgreen.svg" alt="mybatis-plus">
+            <img src="https://img.shields.io/badge/MybatisPlus-3.1.0-yellowgreen.svg" alt="mybatis-plus">
         </a>  
         <a href="https://shiro.apache.org">
-            <img src="https://img.shields.io/badge/shiro-1.4.0-brightgreen.svg" alt="shiro">
+            <img src="https://img.shields.io/badge/Shiro-1.4.0-brightgreen.svg" alt="shiro">
         </a>
         <a href="http://ibeetl.com">
-            <img src="https://img.shields.io/badge/beetl-2.8.5-orange.svg" alt="beetl">
+            <img src="https://img.shields.io/badge/beetl-2.9.10-orange.svg" alt="beetl">
         </a>
     </p>
 </p>
@@ -161,7 +161,3 @@ project:
 
 ### 版权声明
 您可以随意下载，学习，或商业使用，但禁止二次包装出售。
-
-### 使用说明
-待完善
-

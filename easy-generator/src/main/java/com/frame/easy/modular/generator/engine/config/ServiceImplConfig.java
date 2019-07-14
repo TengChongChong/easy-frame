@@ -37,6 +37,7 @@ public class ServiceImplConfig {
         imports.add("java.util.List");
         imports.add("com.frame.easy.common.page.Page");
         imports.add("cn.hutool.core.lang.Validator");
+        imports.add("cn.hutool.core.util.StrUtil");
         imports.add(generator.getModelPackage() + Const.PACKAGE_SPLIT + generator.getModelName());
         imports.add(generator.getDaoPackage() + Const.PACKAGE_SPLIT + generator.getModelName() + "Mapper");
         imports.add(generator.getServicePackage() + Const.PACKAGE_SPLIT + generator.getModelName() + "Service");
