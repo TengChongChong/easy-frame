@@ -51,14 +51,14 @@
             <artifactId>easy-scheduler</artifactId>
         </dependency>
         <!-- 工作流(可选，开发中) -->
-<!--        <dependency>-->
-<!--            <groupId>com.frame</groupId>-->
-<!--            <artifactId>easy-activiti</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.frame</groupId>
+            <artifactId>easy-activiti</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
-        <finalName>${artifactId}</finalName>
+        <finalName>easy-frame</finalName>
         <resources>
             <resource>
                 <directory>src/main/webapp</directory>
@@ -80,7 +80,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <warSourceDirectory>null</warSourceDirectory>
-                    <warName>${artifactId}</warName>
+                    <warName>easy-frame</warName>
                 </configuration>
             </plugin>
             <plugin>
