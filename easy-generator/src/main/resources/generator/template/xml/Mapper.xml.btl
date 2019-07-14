@@ -13,9 +13,12 @@
         <% } %>
     </resultMap>
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        ${tableInfo.fieldNames}
-    </sql>
+    <select id="select" resultType="${config.modelPackage}.${config.modelName}">
+        select ${tableInfo.fieldNames}
+        from ${tableInfo.name}
+        <where>
+            ${ew.sqlSegment}
+        </where>
+    </select>
 
 </mapper>

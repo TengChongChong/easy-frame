@@ -1,5 +1,5 @@
 //== ${config.businessName}-列表页
-var ${config.modelName}List = function () {
+var ${GeneratorJsUtil.capitalLowercase(config.modelName)}List = function () {
     /**
      * 初始化列表
      */
@@ -41,5 +41,5 @@ KTTab.needSubmitForm = function () {
 };
 //== 初始化
 ${config.jquery}(document).ready(function () {
-    ${config.modelName}List.init();
+    ${GeneratorJsUtil.capitalLowercase(config.modelName)}List.init();
 });

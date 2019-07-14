@@ -28,7 +28,13 @@ public class DaoConfig {
     public void init() {
         ArrayList<String> imports = new ArrayList<>();
         imports.add(generator.getModelPackage() + Const.PACKAGE_SPLIT + generator.getModelName());
+        imports.add("com.baomidou.mybatisplus.core.conditions.query.QueryWrapper");
         imports.add("com.baomidou.mybatisplus.core.mapper.BaseMapper");
+        imports.add("com.frame.easy.common.page.Page");
+        imports.add("io.lettuce.core.dynamic.annotation.Param");
+        imports.add(generator.getModelPackage() + Const.PACKAGE_SPLIT + generator.getModelName());
+        imports.add("java.util.List");
+
         this.imports = imports;
         this.path = Const.JAVA_PATH +
                 generator.getDaoPackage().replace(".", File.separator) + File.separator +

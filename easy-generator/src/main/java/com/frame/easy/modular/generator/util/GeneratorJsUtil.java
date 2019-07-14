@@ -33,6 +33,16 @@ public class GeneratorJsUtil {
     }
 
     /**
+     * 首字母小写
+     *
+     * @param str str
+     * @return str
+     */
+    public static String capitalLowercase(String str){
+        return StrUtil.lowerFirst(str);
+    }
+
+    /**
      * 获取list.js中表格列对象
      *
      * @param fieldSet 配置
