@@ -2,6 +2,8 @@ package com.frame.easy.core.beetl.function;
 
 import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.constant.SysConst;
+import com.frame.easy.common.redis.RedisPrefix;
+import com.frame.easy.util.RedisUtil;
 import org.beetl.core.Context;
 import org.beetl.core.Function;
 import org.slf4j.Logger;
@@ -79,20 +81,41 @@ public class PluginsFunction implements Function {
             String pluginRootUrl = ctxPath + "/" + ROOT_PATH + "/" + pluginName + "/";
             String pluginRootPath = root.getPath() + File.separator + pluginName + File.separator;
             if (TYPE_JS.equals(type) || TYPE_ALL.equals(type)) {
-                File staticFile = new File(pluginRootPath + pluginName + JS_SUFFIX);
-                if (staticFile.exists()) {
+                if (checkExists(pluginName + JS_SUFFIX, pluginRootPath + pluginName + JS_SUFFIX)) {
                     String url = pluginRootUrl + pluginName + JS_SUFFIX;
                     pluginHtml += "<script src=\"" + url + "?v=" + version + "\"></script>\r\n";
                 }
             }
             if (TYPE_CSS.equals(type) || TYPE_ALL.equals(type)) {
-                File staticFile = new File(pluginRootPath + pluginName + CSS_SUFFIX);
-                if (staticFile.exists()) {
+                if (checkExists(pluginName + CSS_SUFFIX, pluginRootPath + pluginName + CSS_SUFFIX)) {
                     String url = pluginRootUrl + pluginName + CSS_SUFFIX;
                     pluginHtml += "<link href=\"" + url + "?v=" + version + "\" rel=\"stylesheet\" type=\"text/css\"/>\r\n";
                 }
             }
         }
         return pluginHtml;
+    }
+
+    /**
+     * 检查文件是否存在
+     * 为避免频繁调用File.exists()对性能造成损耗, 这里将检查结果放到redis中
+     *
+     * @param plugin 插件名称 eg: cropper.bundle.min.css
+     * @param path   文件路径
+     * @return true/false
+     */
+    private boolean checkExists(String plugin, String path) {
+        boolean isExists;
+        String key = RedisPrefix.PLUGIN_CHECK + plugin;
+        Object temp = RedisUtil.get(key);
+        if (temp != null) {
+            isExists = (boolean) temp;
+        } else {
+            File staticFile = new File(path);
+            isExists = staticFile.exists();
+            // 放到redis里
+            RedisUtil.set(key, isExists);
+        }
+        return isExists;
     }
 }
