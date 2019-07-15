@@ -37,4 +37,9 @@ public class RedisPrefix {
      * 找回密码验证码
      */
     public static final String RESET_PASSWORD_VERIFICATION_CODE = "reset:password:verification:code:";
+
+    /**
+     * 插件js/css资源是否存在
+     */
+    public static final String PLUGIN_CHECK = "plugin:check:";
 }
