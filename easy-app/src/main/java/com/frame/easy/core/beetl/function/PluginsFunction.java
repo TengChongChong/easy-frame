@@ -8,10 +8,9 @@ import org.beetl.core.Context;
 import org.beetl.core.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.ResourceUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 /**
  * 获取插件js资源
@@ -68,29 +67,25 @@ public class PluginsFunction implements Function {
 
     private String getPluginHtml(Context context, String type, String pluginName) {
         String ctxPath = (String) context.getGlobal("ctxPath");
-        File root;
-        try {
-            root = new File(ResourceUtils.getURL("classpath:").getPath() + ROOT_PATH);
-        } catch (FileNotFoundException e) {
-            logger.warn("获取资源根目录失败", e);
-            return "<span class=\"kt-font-danger kt-font-bold\">获取资源根目录失败</span>";
-        }
         String pluginHtml = "";
-        if (root.exists()) {
-            String version = SysConst.projectProperties.getVersion();
-            String pluginRootUrl = ctxPath + "/" + ROOT_PATH + "/" + pluginName + "/";
-            String pluginRootPath = root.getPath() + File.separator + pluginName + File.separator;
-            if (TYPE_JS.equals(type) || TYPE_ALL.equals(type)) {
-                if (checkExists(pluginName + JS_SUFFIX, pluginRootPath + pluginName + JS_SUFFIX)) {
-                    String url = pluginRootUrl + pluginName + JS_SUFFIX;
-                    pluginHtml += "<script src=\"" + url + "?v=" + version + "\"></script>\r\n";
-                }
+        // 版本号
+        String version = SysConst.projectProperties.getVersion();
+        // url
+        String pluginRootUrl = ctxPath + "/" + ROOT_PATH + "/" + pluginName + "/";
+        // 插件目录
+        String pluginRootPath = ROOT_PATH + File.separator + pluginName + File.separator;
+        // js
+        if (TYPE_JS.equals(type) || TYPE_ALL.equals(type)) {
+            if (checkExists(pluginName + JS_SUFFIX, pluginRootPath + pluginName + JS_SUFFIX)) {
+                String url = pluginRootUrl + pluginName + JS_SUFFIX;
+                pluginHtml += "<script src=\"" + url + "?v=" + version + "\"></script>\r\n";
             }
-            if (TYPE_CSS.equals(type) || TYPE_ALL.equals(type)) {
-                if (checkExists(pluginName + CSS_SUFFIX, pluginRootPath + pluginName + CSS_SUFFIX)) {
-                    String url = pluginRootUrl + pluginName + CSS_SUFFIX;
-                    pluginHtml += "<link href=\"" + url + "?v=" + version + "\" rel=\"stylesheet\" type=\"text/css\"/>\r\n";
-                }
+        }
+        // css
+        if (TYPE_CSS.equals(type) || TYPE_ALL.equals(type)) {
+            if (checkExists(pluginName + CSS_SUFFIX, pluginRootPath + pluginName + CSS_SUFFIX)) {
+                String url = pluginRootUrl + pluginName + CSS_SUFFIX;
+                pluginHtml += "<link href=\"" + url + "?v=" + version + "\" rel=\"stylesheet\" type=\"text/css\"/>\r\n";
             }
         }
         return pluginHtml;
@@ -111,8 +106,10 @@ public class PluginsFunction implements Function {
         if (temp != null) {
             isExists = (boolean) temp;
         } else {
-            File staticFile = new File(path);
-            isExists = staticFile.exists();
+            // 检查文件是否存在
+            InputStream stream = getClass().getClassLoader().getResourceAsStream(path);
+            isExists = stream != null;
+            logger.debug("检查文件[" + path + "]是否存在[" + isExists + "]");
             // 放到redis里
             RedisUtil.set(key, isExists);
         }
