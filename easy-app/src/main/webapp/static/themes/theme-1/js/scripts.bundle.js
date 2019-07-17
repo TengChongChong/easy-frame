@@ -733,7 +733,7 @@ var KTApp = function () {
         /**
          * 在按钮上面显示加载中图标
          *
-         * @param target {string} 选择器
+         * @param target {string|object} 选择器
          * @param options {object} 选项
          */
         progress: function (target, options) {
@@ -743,16 +743,15 @@ var KTApp = function () {
             var classes = 'kt-spinner ' + 'kt-spinner--' + skin + ' kt-spinner--' + alignment + ' kt-spinner--' + size;
 
             KTApp.unprogress(target);
-
-            $(target).addClass(classes);
-            $(target).data('progress-classes', classes);
+            var $btns = $(target);
+            $btns.attr('disabled', 'disabled').addClass(classes).data('progress-classes', classes);
         },
         /**
          * 隐藏按钮上面显示加载中图标
          * @param target {string} 选择器
          */
         unprogress: function (target) {
-            $(target).removeClass($(target).data('progress-classes'));
+            $(target).removeAttr('disabled').removeClass($(target).data('progress-classes'));
         },
         /**
          * 根据状态名称获取颜色
@@ -2592,7 +2591,7 @@ var KTUtil = function() {
          * @param el {object} html 元素对象 (必要)
          */
         setButtonWait: function (el) {
-            $(el).addClass('m-loader m-loader--right m-loader--light').attr('disabled', true);
+            KTApp.progress(el);
         },
         /**
          * 取消按钮为处理中状态
@@ -2600,7 +2599,7 @@ var KTUtil = function() {
          * @param el {object} html 元素对象 (必要)
          */
         offButtonWait: function (el) {
-            $(el).removeClass('m-loader m-loader--right m-loader--light').attr('disabled', false);
+            KTApp.unprogress(el);
         },
         /**
          * 封装jquery.ajax方法
@@ -11087,6 +11086,8 @@ var KTWizard = function(elementId, options) {
                     datatable.removeClass('m-datatable--error');
                     datatable.find('span.m-datatable--error').remove();
                 }
+                datatable.tableBody.scrollTop = datatable.tableBody.scrollHeight;
+
                 $(tr).find('.table-actions').each(function () {
                     app.initTooltip($(this));
                 });
