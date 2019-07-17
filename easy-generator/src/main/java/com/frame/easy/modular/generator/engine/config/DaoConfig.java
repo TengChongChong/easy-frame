@@ -31,7 +31,7 @@ public class DaoConfig {
         imports.add("com.baomidou.mybatisplus.core.conditions.query.QueryWrapper");
         imports.add("com.baomidou.mybatisplus.core.mapper.BaseMapper");
         imports.add("com.frame.easy.common.page.Page");
-        imports.add("io.lettuce.core.dynamic.annotation.Param");
+        imports.add("org.apache.ibatis.annotations.Param");
         imports.add(generator.getModelPackage() + Const.PACKAGE_SPLIT + generator.getModelName());
         imports.add("java.util.List");
 
