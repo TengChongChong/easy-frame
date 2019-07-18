@@ -9,6 +9,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,11 +53,17 @@ public class ShiroRealm extends AuthorizingRealm {
         logger.info("=============> 授权");
         // 当前登录用户
         SysUser currentUser = (SysUser) principalCollection.getPrimaryPrincipal();
-        if (SecurityUtils.getSubject().isRemembered()) {
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isRemembered()) {
             // 如果通过记住密码方式登录,从数据库中重新查询用户信息,防止用户信息变更cookie里保存的信息是旧的
-            ShiroUtil.setCurrentUser(shiroService.getSysUserByUserName(currentUser.getUsername()));
+            SysUser dbUser = shiroService.getSysUserByUserName(currentUser.getUsername());
+            // 检查密码是否正确,如果错误则退出,防止用户修改密码后在其他电脑以自动方式登录依然可以登录
+            if (dbUser.getPassword().equals(currentUser.getPassword())) {
+                ShiroUtil.setCurrentUser(dbUser);
+            } else {
+                subject.logout();
+            }
         }
-
         // 由于修改用户角色或者修改角色权限导致权限变动,所以每次授权都要重新查询
         SysUser sysUser = shiroService.queryUserPermissions(currentUser);
 
