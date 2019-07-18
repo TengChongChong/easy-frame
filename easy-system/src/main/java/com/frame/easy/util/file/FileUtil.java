@@ -62,6 +62,16 @@ public class FileUtil {
     }
 
     /**
+     * 检查文件是否在临时目录
+     *
+     * @param path 文件路径
+     * @return true/false
+     */
+    public static boolean inTemporaryPath(String path){
+        return path.contains(TEMPORARY);
+    }
+
+    /**
      * 将临时目录下的文件移动到正式目录
      *
      * @param path 文件路径
