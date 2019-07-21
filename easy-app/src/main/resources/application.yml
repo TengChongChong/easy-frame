@@ -1,6 +1,6 @@
 project:
     # 版本号
-    version: 0.10.4
+    version: 0.10.5
     cache-type: redis
 spring:
     profiles:

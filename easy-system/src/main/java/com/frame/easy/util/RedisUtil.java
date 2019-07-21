@@ -1,6 +1,7 @@
 package com.frame.easy.util;
 
 import com.frame.easy.config.properties.RedisProperties;
+import com.frame.easy.exception.EasyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -41,10 +42,17 @@ public class RedisUtil {
      *
      * @param key    键
      * @param val    值
-     * @param expire 过期时间 单位: 秒
+     * @param expire 过期时间 单位: 秒 如需永不过期请传入0
      */
     public static void set(String key, Object val, long expire) {
-        redisTemplate.opsForValue().set(key, val, expire, TimeUnit.SECONDS);
+        if (expire > 0) {
+            redisTemplate.opsForValue().set(key, val, expire, TimeUnit.SECONDS);
+        } else if (expire == 0) {
+            redisTemplate.opsForValue().set(key, val, redisProperties.getExpire(), TimeUnit.SECONDS);
+            redisTemplate.persist(key);
+        } else {
+            throw new EasyException("过期时间必须≥0");
+        }
     }
 
     /**
@@ -96,16 +104,22 @@ public class RedisUtil {
      * 根据key设置缓存过期时间
      *
      * @param key    键
-     * @param expire 过期时间 单位: 秒
+     * @param expire 过期时间 单位: 秒 如需永不过期请传入0
      */
     public static void setExpire(String key, long expire) {
-        redisTemplate.expire(key, expire, TimeUnit.SECONDS);
+        if (expire > 0) {
+            redisTemplate.expire(key, expire, TimeUnit.SECONDS);
+        } else if (expire == 0) {
+            redisTemplate.persist(key);
+        } else {
+            throw new EasyException("过期时间必须≥0");
+        }
     }
 
     /**
      * 递增
      *
-     * @param key
+     * @param key       键
      * @param increment 递增数
      */
     public static void increment(String key, int increment) {
@@ -115,7 +129,7 @@ public class RedisUtil {
     /**
      * redis中是否有指定key
      *
-     * @param key
+     * @param key 键
      * @return true/false
      */
     public static boolean hasKey(String key) {
@@ -125,8 +139,8 @@ public class RedisUtil {
     /**
      * 获取指定key有效期剩余时间
      *
-     * @param key
-     * @return
+     * @param key 键
+     * @return 过期时间 单位:秒
      */
     public static long getExpire(String key) {
         return redisTemplate.getExpire(key);

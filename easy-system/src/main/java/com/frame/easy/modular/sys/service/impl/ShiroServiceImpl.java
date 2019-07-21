@@ -192,6 +192,7 @@ public class ShiroServiceImpl implements ShiroService {
     public SysUser validateUser(String username, String password) {
         // 检查验证码
         if (checkVerificationCode()) {
+            // 检查尝试次数
             int retryCount = getRetryCount(username);
             if (retryCount >= 0) {
                 SysUser sysUser = getSysUserByUserName(username);

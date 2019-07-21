@@ -167,7 +167,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
      */
     private void updateCache(SysConfig config) {
         if (config != null) {
-            RedisUtil.set(getRedisKey(config.getSysKey()), config, 30 * 24 * 60 * 60);
+            RedisUtil.set(getRedisKey(config.getSysKey()), config, 0);
         }
     }
 
