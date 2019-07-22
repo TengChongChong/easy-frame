@@ -129,6 +129,13 @@ public class SysImportExcelDataServiceImpl implements SysImportExcelDataService 
                     if (!insertData(sysUser, importExcelTemplate, configs, data)) {
                         throw new EasyException(BusinessException.IMPORT_INSERT_FAIL);
                     }
+                    if (StrUtil.isNotBlank(importExcelTemplate.getCallback())) {
+                        ImportService importService = SpringContextHolder.getBean(importExcelTemplate.getCallback());
+                        boolean isSuccess = importService.verificationData(templateId, sysUser.getId());
+                        if (!isSuccess) {
+                            throw new EasyException("执行验证数据回调失败");
+                        }
+                    }
                     return true;
                 } else {
                     // 模板不匹配，请重新下载模板
