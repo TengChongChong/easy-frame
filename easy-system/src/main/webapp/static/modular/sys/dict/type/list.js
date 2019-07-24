@@ -49,7 +49,6 @@ var mDictTypeList = function () {
                     width: 110,
                     title: '操作',
                     sortable: false,
-                    overflow: 'visible',
                     edit: {
                         tag: 'button',
                         title: '保存',

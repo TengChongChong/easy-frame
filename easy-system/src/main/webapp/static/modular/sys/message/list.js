@@ -210,7 +210,6 @@ var SysMessageList = function () {
             width: 110,
             title: '操作',
             sortable: false,
-            overflow: 'visible',
             template: function (row, index, datatable) {
                 var _btn = '';
                 if (KTTool.hasPermissions('sys:message:delete')) {
@@ -302,7 +301,6 @@ var SysMessageList = function () {
                 width: 110,
                 title: '操作',
                 sortable: false,
-                overflow: 'visible',
                 template: function (row, index, datatable) {
                     var _btn = '';
                     if (KTTool.hasPermissions('sys:message:save')) {

@@ -52,7 +52,6 @@ var mSysExceptionList = function () {
                     width: 50,
                     title: '操作',
                     sortable: false,
-                    overflow: 'visible',
                     locked: {
                         right: 'md'
                     },

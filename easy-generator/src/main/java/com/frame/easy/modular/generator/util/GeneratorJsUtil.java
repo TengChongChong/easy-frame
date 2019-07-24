@@ -89,7 +89,6 @@ public class GeneratorJsUtil {
                     GeneratorUtil.getTab(tab) + "    width: 110,\n" +
                     GeneratorUtil.getTab(tab) + "    title: '操作',\n" +
                     GeneratorUtil.getTab(tab) + "    sortable: false,\n" +
-                    GeneratorUtil.getTab(tab) + "    overflow: 'visible',\n" +
                     GeneratorUtil.getTab(tab) + "    locked: {\n" +
                     GeneratorUtil.getTab(tab) + "        right: 'md'\n" +
                     GeneratorUtil.getTab(tab) + "    },\n" +

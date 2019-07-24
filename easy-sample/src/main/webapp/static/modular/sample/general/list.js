@@ -53,7 +53,6 @@ var mSampleGeneralList = function () {
                     width: 110,
                     title: '操作',
                     sortable: false,
-                    overflow: 'visible',
                     locked: {
                         right: 'md'
                     },
