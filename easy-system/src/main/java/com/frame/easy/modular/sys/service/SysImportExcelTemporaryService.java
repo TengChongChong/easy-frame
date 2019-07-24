@@ -21,15 +21,6 @@ public interface SysImportExcelTemporaryService {
     Page select(SysImportExcelTemporary object);
 
     /**
-     * 查询数据
-     *
-     * @param templateId 模板id
-     * @param userId 用户id
-     * @param status 状态
-     * @return 数据列表
-     */
-    List<SysImportExcelTemporary> selectData(String templateId, String userId, String status);
-    /**
      * 详情
      *
      * @param id id
@@ -96,4 +87,13 @@ public interface SysImportExcelTemporaryService {
      * @return true/false
      */
     boolean saveBatch(List<SysImportExcelTemporary> list);
+
+    /**
+     * 更新重复数据状态
+     *
+     * @param field      唯一约束字段
+     * @param templateId 导入模板id
+     * @param userId     用户id
+     */
+    void updateDuplicateData(String field, String templateId, String userId);
 }

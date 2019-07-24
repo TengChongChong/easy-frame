@@ -1,5 +1,7 @@
 package com.frame.easy.common.table;
 
+import cn.hutool.core.util.StrUtil;
+
 /**
  * 表格标题
  *
@@ -41,7 +43,11 @@ public class Column {
     }
 
     public String getDictType() {
-        return dictType;
+        if (StrUtil.isNotBlank(dictType)) {
+            return dictType;
+        } else {
+            return null;
+        }
     }
 
     public void setDictType(String dictType) {

@@ -40,7 +40,6 @@ var mSysConfigList = function () {
                     width: 60,
                     title: '操作',
                     sortable: false,
-                    overflow: 'visible',
                     locked: {
                         right: 'md'
                     },

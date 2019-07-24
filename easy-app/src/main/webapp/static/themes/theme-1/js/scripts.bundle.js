@@ -8374,7 +8374,7 @@ var KTWizard = function(elementId, options) {
                             return $(td).data('field') === n.field;
                         })[0];
                         if (typeof column !== 'undefined') {
-                            if (typeof column.dictType !== 'undefined') {
+                            if (typeof column.dictType !== 'undefined' && column.dictType != null) {
                                 column.template = function (row) {
                                     var dicts = null;
                                     if (typeof column.dictType === 'string') {

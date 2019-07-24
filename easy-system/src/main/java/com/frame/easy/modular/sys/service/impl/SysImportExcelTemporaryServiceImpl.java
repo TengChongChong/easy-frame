@@ -4,7 +4,6 @@ import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.frame.easy.common.constant.CommonConst;
 import com.frame.easy.common.constant.ImportConst;
 import com.frame.easy.common.page.Page;
 import com.frame.easy.exception.EasyException;
@@ -14,14 +13,18 @@ import com.frame.easy.modular.sys.model.SysImportExcelTemporary;
 import com.frame.easy.modular.sys.model.SysImportSummary;
 import com.frame.easy.modular.sys.model.SysUser;
 import com.frame.easy.modular.sys.service.SysImportExcelTemplateDetailsService;
-import com.frame.easy.modular.sys.service.SysImportExcelTemplateService;
 import com.frame.easy.modular.sys.service.SysImportExcelTemporaryService;
 import com.frame.easy.util.ShiroUtil;
 import com.frame.easy.util.ToolUtil;
+import com.frame.easy.util.office.ImportExportUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,8 +37,7 @@ import java.util.List;
 @Service
 public class SysImportExcelTemporaryServiceImpl extends ServiceImpl<SysImportExcelTemporaryMapper, SysImportExcelTemporary> implements SysImportExcelTemporaryService {
 
-    @Autowired
-    private SysImportExcelTemplateService importExcelTemplateService;
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private SysImportExcelTemplateDetailsService importExcelTemplateDetailsService;
@@ -55,35 +57,10 @@ public class SysImportExcelTemporaryServiceImpl extends ServiceImpl<SysImportExc
             // 必须指定模板id
             throw new EasyException("未指定模板id");
         }
-        // 查询导入规则,用户翻译转换后的字段
+        // 查询导入规则,翻译转换后的字段(此处不翻译字典)
         List<SysImportExcelTemplateDetails> configs = importExcelTemplateDetailsService.selectDetails(object.getTemplateId());
-        StringBuilder selectFields = new StringBuilder();
-        StringBuilder leftJoinTables = new StringBuilder();
-        for (int i = 0; i < configs.size(); i++) {
-            // 如果设置了转换表,除了字典表数据在前端处理,其他表从数据库查询
-            if (StrUtil.isNotBlank(configs.get(i).getReplaceTable()) &&
-                    !ImportConst.SYS_DICT.equals(configs.get(i).getReplaceTable())) {
-                // 替换表
-                String tableName = configs.get(i).getReplaceTable();
-                // 表别名
-                String tableSlug = configs.get(i).getReplaceTable() + configs.get(i).getOrderNo();
-                // 拼接查询字段
-                selectFields.append("(case when ").append(tableSlug).append(".").append(configs.get(i).getReplaceTableFieldName())
-                        .append(" is null then temp.field").append(i + 1).append(" else ")
-                        .append(tableSlug).append(".").append(configs.get(i).getReplaceTableFieldName())
-                        .append(" end) as field").append(i + 1);
-                // 拼接left join
-                leftJoinTables.append("left join ").append(tableName).append(" ").append(tableSlug)
-                        .append(" on ")
-                        .append(tableSlug).append(".").append(configs.get(i).getReplaceTableFieldValue())
-                        .append(" = temp.field").append(i + 1).append(" ");
-            } else {
-                // 没有设置转换表,直接查询
-                selectFields.append("temp.field").append(i + 1);
-            }
-            // 始终在最后添加 , 因为后面还有个verification_results字段
-            selectFields.append(CommonConst.SPLIT);
-        }
+        String selectFields = ImportExportUtil.getSelectFields(configs, true);
+        String leftJoinTables = ImportExportUtil.getLeftJoinTables(configs, true);
         // 查询条件
         // 模板id
         if (Validator.isNotEmpty(object.getTemplateId())) {
@@ -97,14 +74,8 @@ public class SysImportExcelTemporaryServiceImpl extends ServiceImpl<SysImportExc
         if (Validator.isEmpty(page.ascs()) && Validator.isEmpty(page.descs())) {
             page.setAsc("verification_status");
         }
-        page.setRecords(baseMapper.select(page, selectFields.toString(), leftJoinTables.toString(), queryWrapper));
+        page.setRecords(baseMapper.select(page, selectFields, leftJoinTables, queryWrapper));
         return page;
-    }
-
-    @Override
-    public List<SysImportExcelTemporary> selectData(String templateId, String userId, String status) {
-
-        return null;
     }
 
     /**
@@ -117,9 +88,15 @@ public class SysImportExcelTemporaryServiceImpl extends ServiceImpl<SysImportExc
     public SysImportExcelTemporary input(String id) {
         ToolUtil.checkParams(id);
         QueryWrapper<SysImportExcelTemporary> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("id", "template_id");
         queryWrapper.eq("id", id);
         queryWrapper.eq("user_id", ShiroUtil.getCurrentUser().getId());
-        return getOne(queryWrapper);
+        SysImportExcelTemporary object = getOne(queryWrapper);
+        // 查询导入规则,翻译转换后的字段(此处不翻译字典)
+        List<SysImportExcelTemplateDetails> configs = importExcelTemplateDetailsService.selectDetails(object.getTemplateId());
+        String selectFields = ImportExportUtil.getSelectFields(configs, true);
+        String leftJoinTables = ImportExportUtil.getLeftJoinTables(configs, true);
+        return baseMapper.getOne(selectFields, leftJoinTables, id);
     }
 
     /**
@@ -200,11 +177,118 @@ public class SysImportExcelTemporaryServiceImpl extends ServiceImpl<SysImportExc
         // 保存之前检查数据状态
         List<SysImportExcelTemplateDetails> configs = importExcelTemplateDetailsService.selectDetails(object.getTemplateId());
         if (configs != null && configs.size() > 0) {
+            Class temporaryClass = ImportExportUtil.getTemporaryClass();
             for (int i = 0; i < configs.size(); i++) {
-                
+                String value;
+                // 获取当前校验值
+                try {
+                    Method method = temporaryClass.getMethod("getField" + (i + 1));
+                    value = (String) method.invoke(object);
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                    logger.debug("导入数据数据校验失败", e);
+                    throw new EasyException("数据数据校验失败" + e.getMessage());
+                }
+                // 校验数据, 如失败直接抛异常到前端
+                // 基本校验
+                baseVerificationData(value, configs.get(i));
+                // 替换校验
+                String replaceValue = getReplaceTableFieldValue(value, configs.get(i));
+                try {
+                    Method method = temporaryClass.getMethod("setField" + (i + 1), String.class);
+                    method.invoke(object, replaceValue);
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                    logger.debug("设置替换值失败", e);
+                    throw new EasyException("设置替换值失败" + e.getMessage());
+                }
+                if (ImportConst.IS_ONLY == configs.get(i).getIsOnly()) {
+                    /**
+                     * 唯一校验, 这里只检查临时表中是否唯一,在正式表中是否唯一请在导入前回调中检查
+                     * 因为此处校验无意义,正式表中数据可能会发生变动导致校验过时
+                     */
+                    int count = getBaseMapper().count("field" + (i + 1), replaceValue, object.getId());
+                    if (count > 0) {
+                        throw new EasyException("数据中已存在[" + configs.get(i).getTitle() + "=" + value + "]的数据，请勿重复导入");
+                    }
+                }
             }
         }
+        object.setVerificationResults("");
+        object.setVerificationStatus(ImportConst.VERIFICATION_STATUS_SUCCESS);
         return (SysImportExcelTemporary) ToolUtil.checkResult(updateById(object), object);
+    }
+
+    /**
+     * 根据规则校验值是否正确
+     *
+     * @param value  值
+     * @param config 规则
+     */
+    private void baseVerificationData(String value, SysImportExcelTemplateDetails config) {
+        StringBuffer verificationResults = new StringBuffer();
+        // 非空
+        if (Validator.isEmpty(value) && ImportConst.REQUIRED == config.getRequired()) {
+            verificationResults.append(config.getTitle()).append("不能为空;");
+        }
+        // 数据类型以及长度
+        try {
+            ImportExportUtil.verificationData(value, config);
+        } catch (EasyException e) {
+            verificationResults.append(e.getMessage());
+        }
+        if (StrUtil.isNotBlank(verificationResults.toString())) {
+            throw new EasyException(verificationResults.toString());
+        }
+    }
+
+    /**
+     * 获取替换值
+     *
+     * @param value  值
+     * @param config 规则
+     * @return 替换值
+     */
+    private String getReplaceTableFieldValue(String value, SysImportExcelTemplateDetails config) {
+        String replaceValue;
+        if (StrUtil.isNotBlank(value) &&
+                StrUtil.isNotBlank(config.getReplaceTable()) &&
+                StrUtil.isNotBlank(config.getReplaceTableFieldValue()) &&
+                StrUtil.isNotBlank(config.getReplaceTableFieldName())) {
+            // 如果设置了替换信息, 先判断value是否已经是替换后的值,如果不是在替换
+            if (ImportConst.SYS_DICT.equals(config.getReplaceTable())) {
+                // 字典表中有字典类型 单独处理
+                replaceValue = getBaseMapper().getDictReplaceTableFieldValue(
+                        config.getReplaceTable(),
+                        config.getReplaceTableFieldValue(),
+                        config.getReplaceTableFieldValue(),
+                        value, config.getReplaceTableDictType());
+                if (StrUtil.isBlank(replaceValue)) {
+                    // 字典表中有字典类型 单独处理
+                    replaceValue = getBaseMapper().getDictReplaceTableFieldValue(
+                            config.getReplaceTable(),
+                            config.getReplaceTableFieldName(),
+                            config.getReplaceTableFieldValue(),
+                            value, config.getReplaceTableDictType());
+                }
+            } else {
+                replaceValue = getBaseMapper().getReplaceTableFieldValue(
+                        config.getReplaceTable(),
+                        config.getReplaceTableFieldValue(),
+                        config.getReplaceTableFieldValue(),
+                        value);
+                if (StrUtil.isBlank(replaceValue)) {
+                    replaceValue = getBaseMapper().getReplaceTableFieldValue(
+                            config.getReplaceTable(),
+                            config.getReplaceTableFieldName(),
+                            config.getReplaceTableFieldValue(),
+                            value);
+                }
+            }
+            if (StrUtil.isBlank(replaceValue)) {
+                throw new EasyException(config.getTitle() + "转换失败;");
+            }
+            return replaceValue;
+        }
+        return value;
     }
 
     @Override
@@ -212,4 +296,8 @@ public class SysImportExcelTemporaryServiceImpl extends ServiceImpl<SysImportExc
         return super.saveBatch(list);
     }
 
+    @Override
+    public void updateDuplicateData(String field, String templateId, String userId) {
+        baseMapper.updateDuplicateData(field, templateId, userId, ImportConst.VERIFICATION_STATUS_FAIL);
+    }
 }

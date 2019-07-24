@@ -1,6 +1,6 @@
 @layout("/common/container.html", {"title" : "详情信息"}){
 <form class="kt-form">
-    <div class="kt-portlet" kt-portlet="true">
+    <div class="kt-portlet">
         <#portlet:head title="详情信息" icon="la la-file-text-o"/>
         <div class="kt-portlet__body">
             <input type="hidden" name="id" value="${object.id}">
@@ -22,7 +22,7 @@
                             @if(strUtil.isNotBlank(detail.replaceTable)){
                                 @if(ImportConst.SYS_DICT == detail.replaceTable){
                                     <select class="form-control kt-bootstrap-select select-picker" data-value="${object['field' + index]}"
-                                            id="field${index}" name="field${index}" data-dict-type="${detail.replaceTableDictType}">
+                                            id="field${index}" name="field${index}" data-dict-type="${detail.replaceTableDictType}" ${required}>
                                     </select>
                                 @} else {
                                     <input type="text" class="form-control " id="field${index}" name="field${index}"
@@ -52,9 +52,9 @@
                         </label>
                         <div class="col-8">
                             @if(ImportConst.VERIFICATION_STATUS_SUCCESS == object.verificationStatus){
-                            <span class="form-control form-control-static kt--font-success">验证通过</span>
+                            <span id="verification-results" class="form-control form-control-static kt-font-success">验证通过</span>
                             @} else {
-                            <span class="form-control form-control-static kt-font-danger">${object.verificationResults}</span>
+                            <span id="verification-results" class="form-control form-control-static kt-font-danger">${object.verificationResults}</span>
                             @}
                         </div>
                     </div>
@@ -63,7 +63,9 @@
         </div>
         <div class="kt-portlet__foot">
             <div class="kt-form__actions text-center">
-                <#btn:save/>
+                <button type="button" class="btn btn-success btn-save" onclick="KTTool.saveData(this, null, null, null, temporaryInput.saveCallback)">
+                    <i class="la la-save"></i> 保存
+                </button>
             </div>
         </div>
     </div>

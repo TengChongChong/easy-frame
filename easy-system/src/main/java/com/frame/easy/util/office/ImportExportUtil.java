@@ -204,6 +204,67 @@ public class ImportExportUtil {
         return obj;
     }
 
+    //====================================== str: 查询语句 ======================================/
+    /**
+     * 获取查询语句中的查询字段
+     *
+     * @param configs 导入规则
+     * @param ignoreDict 是否忽略字典翻译
+     * @return sql
+     */
+    public static String getSelectFields(List<SysImportExcelTemplateDetails> configs, boolean ignoreDict){
+        StringBuilder selectFields = new StringBuilder();
+        for (int i = 0; i < configs.size(); i++) {
+            // 如果指定了忽略字典并且替换表是sys_dict,则当做常规处理
+            boolean ignore = ignoreDict && ImportConst.SYS_DICT.equals(configs.get(i).getReplaceTable());
+            if(ignore || StrUtil.isBlank(configs.get(i).getReplaceTable())){
+                // 没有设置转换表,直接查询
+                selectFields.append("temp.field").append(i + 1);
+            }else{
+                // 表别名
+                String tableSlug = configs.get(i).getReplaceTable() + configs.get(i).getOrderNo();
+                // 拼接查询字段
+                selectFields.append("(case when ").append(tableSlug).append(".").append(configs.get(i).getReplaceTableFieldName())
+                        .append(" is null then temp.field").append(i + 1).append(" else ")
+                        .append(tableSlug).append(".").append(configs.get(i).getReplaceTableFieldName())
+                        .append(" end) as field").append(i + 1);
+            }
+            // 始终在最后添加 , 因为后面还有个verification_results字段
+            selectFields.append(CommonConst.SPLIT);
+        }
+        return selectFields.toString();
+    }
+
+    /**
+     * 获取查询语句中的left关联
+     *
+     * @param configs 导入规则
+     * @param ignoreDict 是否忽略字典翻译
+     * @return sql
+     */
+    public static String getLeftJoinTables(List<SysImportExcelTemplateDetails> configs, boolean ignoreDict){
+        StringBuilder leftJoinTables = new StringBuilder();
+        for (int i = 0; i < configs.size(); i++) {
+            boolean ignore = ignoreDict && ImportConst.SYS_DICT.equals(configs.get(i).getReplaceTable());
+            if(!ignore && StrUtil.isNotBlank(configs.get(i).getReplaceTable())){
+                // 替换表
+                String tableName = configs.get(i).getReplaceTable();
+                // 表别名
+                String tableSlug = configs.get(i).getReplaceTable() + configs.get(i).getOrderNo();
+                // 拼接left join
+                leftJoinTables.append("left join ").append(tableName).append(" ").append(tableSlug)
+                        .append(" on ")
+                        .append(tableSlug).append(".").append(configs.get(i).getReplaceTableFieldValue())
+                        .append(" = temp.field").append(i + 1).append(" ");
+                if (ImportConst.SYS_DICT.equals(configs.get(i).getReplaceTable())) {
+                    leftJoinTables.append(" and ").append(tableSlug).append(".dict_type = '").append(configs.get(i).getReplaceTableDictType()).append("' ");
+                }
+            }
+        }
+        return leftJoinTables.toString();
+    }
+    //====================================== end: 查询语句 ======================================/
+
 
     //====================================== str: 数据类型&长度验证 ======================================/
     /**
