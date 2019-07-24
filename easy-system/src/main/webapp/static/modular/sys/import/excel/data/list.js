@@ -97,15 +97,14 @@ var mImportData = function () {
                         field: 'verificationResults',
                         width: 200,
                         title: '效验结果',
-                        overflow: 'visible',
                         locked: {
                             right: 'md'
                         },
                         template: function (row, index, datatable) {
                             if ('0' === row.verificationStatus) {
-                                return '<span class="kt-font-danger ell" title="' + row.verificationResults.replaceAll(';', ';\r\n') + '">' + row.verificationResults + '</span>';
+                                return '<span class="kt-font-danger ell" title="' + (row.verificationResults ? row.verificationResults.replaceAll(';', ';\r\n') : '') + '">' + row.verificationResults + '</span>';
                             } else {
-                                return '<span class="kt--font-success">验证通过</span>';
+                                return '<span class="kt-font-success">验证通过</span>';
                             }
                         }
                     });
@@ -114,7 +113,6 @@ var mImportData = function () {
                         width: 40,
                         title: '操作',
                         sortable: false,
-                        overflow: 'visible',
                         locked: {
                             right: 'md'
                         },

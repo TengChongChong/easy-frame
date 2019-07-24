@@ -6,9 +6,7 @@ import com.frame.easy.common.table.Column;
 import com.frame.easy.modular.sys.dao.SysImportExcelTemplateDetailsMapper;
 import com.frame.easy.modular.sys.model.SysImportExcelTemplateDetails;
 import com.frame.easy.modular.sys.service.SysImportExcelTemplateDetailsService;
-import com.frame.easy.modular.sys.service.SysImportExcelTemplateService;
 import com.frame.easy.util.ToolUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,9 +21,6 @@ import java.util.List;
  */
 @Service
 public class SysImportExcelTemplateDetailsServiceImpl extends ServiceImpl<SysImportExcelTemplateDetailsMapper, SysImportExcelTemplateDetails> implements SysImportExcelTemplateDetailsService {
-
-    @Autowired
-    private SysImportExcelTemplateService importExcelTemplateService;
 
     /**
      * 获取已配置字段

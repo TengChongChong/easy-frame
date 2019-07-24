@@ -46,7 +46,6 @@ var mSysImportExcelTemplateList = function () {
                     width: 130,
                     title: '操作',
                     sortable: false,
-                    overflow: 'visible',
                     locked: {
                         right: 'md'
                     },
