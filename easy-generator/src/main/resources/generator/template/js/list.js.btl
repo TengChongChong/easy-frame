@@ -20,7 +20,7 @@ var ${GeneratorJsUtil.capitalLowercase(config.modelName)}List = function () {
                 ${GeneratorJsUtil.getActions(config, 4)}
             ]
         };
-        ${config.modelName}List.dataTable = KTTool.initDataTable(options);
+        ${GeneratorJsUtil.capitalLowercase(config.modelName)}List.dataTable = KTTool.initDataTable(options);
     };
 
     return {
