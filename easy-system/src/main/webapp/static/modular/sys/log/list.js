@@ -42,7 +42,7 @@ var SysLogList = function () {
                 },
                 {
                     field: 'Actions',
-                    width: 30,
+                    width: 60,
                     title: '操作',
                     sortable: false,
                     overflow: 'visible',

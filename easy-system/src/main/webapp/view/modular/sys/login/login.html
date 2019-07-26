@@ -8,7 +8,7 @@
     @include("/common/skins-default.html"){}
 
     <!--begin::页面 Styles -->
-    <link href="${ctxPath}/static/themes/theme-1/css/pages/login/login.css" rel="stylesheet" type="text/css" />
+    <link href="${ctxPath}/static/themes/theme-1/css/pages/login/login.css?v=${version()}" rel="stylesheet" type="text/css" />
     <!--end::页面 Styles -->
 
 </head>
@@ -160,7 +160,7 @@
 @include("/common/base-scripts.html"){}
 
 <!--begin::Page Scripts -->
-<script src="${ctxPath}/static/modular/sys/login/login.js" type="text/javascript"></script>
+<script src="${ctxPath}/static/modular/sys/login/login.js?v=${version()}" type="text/javascript"></script>
 <!--end::Page Scripts -->
 </body>
 <!-- end::Body -->
