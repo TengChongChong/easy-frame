@@ -17,7 +17,7 @@
         select ${tableInfo.fieldNames}
         from ${tableInfo.name}
         <where>
-            ${ew.sqlSegment}
+            ${config.jquery}{ew.sqlSegment}{ew.sqlSegment}
         </where>
     </select>
 
