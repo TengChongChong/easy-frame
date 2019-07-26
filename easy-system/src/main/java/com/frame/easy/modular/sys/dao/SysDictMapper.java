@@ -3,6 +3,7 @@ package com.frame.easy.modular.sys.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.frame.easy.common.page.Page;
+import com.frame.easy.common.select.Select;
 import com.frame.easy.modular.sys.model.SysDict;
 import org.apache.ibatis.annotations.Param;
 
@@ -30,7 +31,7 @@ public interface SysDictMapper extends BaseMapper<SysDict> {
      * @param status 状态
      * @return
      */
-    List<SysDict> dictTypeDicts(@Param("dictType") String dictType, @Param("status") int status);
+    List<Select> dictTypeDicts(@Param("dictType") String dictType, @Param("status") int status);
 
     /**
      * 获取指定字典类型最大排序值
