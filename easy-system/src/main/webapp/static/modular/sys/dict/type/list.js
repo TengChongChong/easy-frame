@@ -154,7 +154,7 @@ var mDictTypeList = function () {
             addDictType();
         },
         /**
-         * 添加字典类型
+         * 修改字典类型
          */
         editDictType: function (element) {
             editDictType(element);
@@ -162,7 +162,7 @@ var mDictTypeList = function () {
         /**
          * 删除字典类型
          *
-         * @param element {objct} 删除按钮
+         * @param element {object} 删除按钮
          * @param id {string} 要删除的数据id
          */
         deleteDictType: function (element, id) {
