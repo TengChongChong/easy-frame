@@ -104,7 +104,7 @@ public class GeneratorJavaUtil {
                 query.append(fieldSet.getMatchingMode());
                 break;
         }
-        query.append("(\"").append(fieldSet.getColumnName()).append("\", ")
+        query.append("(\"").append("t.").append(fieldSet.getColumnName()).append("\", ")
                 .append("object.get").append(StrUtil.upperFirst(fieldSet.getPropertyName()))
                 .append("());\n").append(GeneratorUtil.getTab(tab)).append("}");
         return query.toString();

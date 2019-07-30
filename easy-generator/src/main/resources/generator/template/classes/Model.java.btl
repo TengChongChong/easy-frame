@@ -47,6 +47,11 @@ public class ${config.modelName} extends Model<${config.modelName}> implements <
     private Page page;
     <% } %>
 
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
+
     <% for(field in tableInfo.fields){ %>
     public ${field.propertyType} get${field.capitalName}() {
         return ${field.propertyName};

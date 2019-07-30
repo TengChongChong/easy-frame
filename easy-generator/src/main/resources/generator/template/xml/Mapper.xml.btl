@@ -15,7 +15,7 @@
 
     <select id="select" resultType="${config.modelPackage}.${config.modelName}">
         select ${tableInfo.fieldNames}
-        from ${tableInfo.name}
+        from ${tableInfo.name} t
         <where>
             ${config.jquery}{ew.sqlSegment}{ew.sqlSegment}
         </where>

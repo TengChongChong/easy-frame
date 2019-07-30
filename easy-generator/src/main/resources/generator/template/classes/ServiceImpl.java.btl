@@ -87,7 +87,7 @@ public class ${config.modelName}ServiceImpl extends ServiceImpl<${config.modelNa
     @Override
     public ${config.modelName} saveData(${config.modelName} object) {
         ToolUtil.checkParams(object);
-        if (StrUtil.isNotBlank(object.getId())) {
+        if (StrUtil.isBlank(object.getId())) {
             // 新增,设置默认值
         }
         return (${config.modelName}) ToolUtil.checkResult(saveOrUpdate(object), object);
