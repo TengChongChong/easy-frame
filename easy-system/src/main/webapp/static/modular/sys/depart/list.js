@@ -123,7 +123,7 @@ var mDepartList = function () {
                 },
                 {
                     field: 'Actions',
-                    width: 100,
+                    width: 110,
                     title: '操作',
                     sortable: false,
                     locked: {

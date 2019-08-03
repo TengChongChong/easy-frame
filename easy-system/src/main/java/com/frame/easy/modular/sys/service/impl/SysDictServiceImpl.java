@@ -62,7 +62,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     }
 
     @Override
-    public List<SysDict> dictTypeDicts(String dictType) {
+    public List<Select> dictTypeDicts(String dictType) {
         ToolUtil.checkParams(dictType);
         return getBaseMapper().dictTypeDicts(dictType, CommonStatus.ENABLE.getCode());
     }

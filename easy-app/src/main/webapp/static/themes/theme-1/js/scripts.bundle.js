@@ -829,7 +829,7 @@ var KTApp = function () {
          * @param options 参数
          */
         initDropzone: function (options) {
-            initDropzone(options);
+            return initDropzone(options);
         },
         /**
          * animate.css 工具
@@ -6762,11 +6762,11 @@ var KTTool = function () {
     var getSysDictObjectByQuery = function (dictType, code) {
         var dicts = getSysDictArrayByDictType(dictType);
         if (dicts != null && dicts.length > 0) {
-            $(dicts).each(function (index, dict) {
-                if (dict.code === code) {
-                    return dict;
+            for(var i = 0;i < dicts.length;i++){
+                if (dicts[i].code === code) {
+                    return dicts[i];
                 }
-            })
+            }
         }
         return null;
     };
@@ -6797,7 +6797,7 @@ var KTTool = function () {
             // 如果没有对应的字典,检查已知字典是否设置了css
             if (dict != null && dict.length > 0 && util.isNotBlank(dict[0].css)) {
                 cur_dict = {
-                    css: 'm-badge m-badge--success m-badge--wide',
+                    css: 'kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--rounded',
                     name: code
                 }
             }
@@ -10163,7 +10163,7 @@ var KTWizard = function(elementId, options) {
                         for (var field in obj) {
                             if (!obj.hasOwnProperty(field)) continue;
                             if (typeof obj[field] === 'string') {
-                                if (obj[field].toLowerCase() == search || obj[field].toLowerCase().indexOf(search) !== -1) {
+                                if (obj[field].toLowerCase() === search || obj[field].toLowerCase().indexOf(search) !== -1) {
                                     return true;
                                 }
                             } else if (typeof obj[field] === 'number') {
@@ -10248,7 +10248,7 @@ var KTWizard = function(elementId, options) {
                         if (typeof match_property !== 'undefined' && match_property) {
                             var lhs = match_property.toString().toLowerCase();
                             m_value.forEach(function (item, index) {
-                                if (item.toString().toLowerCase() == lhs || lhs.indexOf(item.toString().toLowerCase()) !== -1) {
+                                if (item.toString().toLowerCase() === lhs || lhs.indexOf(item.toString().toLowerCase()) !== -1) {
                                     matched++;
                                 }
                             });
@@ -10321,7 +10321,7 @@ var KTWizard = function(elementId, options) {
                 var props = {
                         position: 'absolute',
                         visibility: 'hidden',
-                        display: 'block',
+                        display: 'block'
                     },
                     dim = {
                         width: 0,
@@ -10329,7 +10329,7 @@ var KTWizard = function(elementId, options) {
                         innerWidth: 0,
                         innerHeight: 0,
                         outerWidth: 0,
-                        outerHeight: 0,
+                        outerHeight: 0
                     },
                     hiddenParents = $(element).parents().addBack().not(':visible');
                 includeMargin = (typeof includeMargin === 'boolean')
@@ -10437,7 +10437,7 @@ var KTWizard = function(elementId, options) {
             timer: 0,
 
             /**
-             *重绘
+             * 重绘
              * @returns {jQuery}
              */
             redraw: function () {
@@ -10511,7 +10511,6 @@ var KTWizard = function(elementId, options) {
              * @returns {jQuery}
              */
             getColumn: function (columnName) {
-                Plugin.setSelectedRecords();
                 datatable.API.value = $(datatable.API.record).find('[data-field="' + columnName + '"]');
                 return datatable;
             },
@@ -10565,6 +10564,9 @@ var KTWizard = function(elementId, options) {
             getValue: function () {
                 var ids = [];
                 var selectedRecords = datatable.getSelectedRecords();
+                if(datatable.hasClass(pfx + 'datatable--lock')){
+                    selectedRecords = selectedRecords.filter('.' + pfx + 'datatable__lock--scroll > .' + pfx + 'datatable__row');
+                }
                 if (selectedRecords != null && selectedRecords.length > 0) {
                     for (var i = 0; i < selectedRecords.length; i++) {
                         var _id = $(selectedRecords[i]).data('id');
@@ -10652,22 +10654,10 @@ var KTWizard = function(elementId, options) {
             },
 
             /**
-             * @deprecated in v5.0.6
-             * Get selected rows which are active
-             * @returns {jQuery}
-             */
-            setSelectedRecords: function () {
-                datatable.API.record = $(datatable.tableBody).find('.' + pfx + 'datatable__row--active');
-                return datatable;
-            },
-
-            /**
              * 获取选中记录
              * @returns {null}
              */
             getSelectedRecords: function () {
-                // support old method
-                Plugin.setSelectedRecords();
                 datatable.API.record = datatable.rows('.' + pfx + 'datatable__row--active').nodes();
                 return datatable.API.record;
             },
@@ -10904,11 +10894,6 @@ var KTWizard = function(elementId, options) {
              * @returns {jQuery}
              */
             rows: function (selector) {
-                // if (Plugin.isLocked()) {
-                //     Plugin.nodeTr = Plugin.recentNode = $(datatable.tableBody).find(selector).filter('.' + pfx + 'datatable__lock--scroll > .' + pfx + 'datatable__row');
-                // } else {
-                //     Plugin.nodeTr = Plugin.recentNode = $(datatable.tableBody).find(selector).filter('.' + pfx + 'datatable__row');
-                // }
                 Plugin.nodeTr = Plugin.recentNode = $(datatable.tableBody).find(selector);
                 return datatable;
             },
@@ -11082,12 +11067,12 @@ var KTWizard = function(elementId, options) {
                 Plugin.setupCellField([datatable.tableBody]);
                 Plugin.layoutUpdate();
 
-                if (datatable.hasClass('m-datatable--error')) {
-                    datatable.removeClass('m-datatable--error');
-                    datatable.find('span.m-datatable--error').remove();
+                if (datatable.hasClass( pfx + 'datatable--error')) {
+                    datatable.removeClass(pfx + 'datatable--error');
+                    datatable.find('span.' + pfx + 'datatable--error').remove();
                 }
+                // 滚动到新增行
                 datatable.tableBody.scrollTop = datatable.tableBody.scrollHeight;
-
                 $(tr).find('.table-actions').each(function () {
                     app.initTooltip($(this));
                 });

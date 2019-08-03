@@ -45,6 +45,7 @@ public class ModelConfig {
             imports.add("javax.validation.constraints.NotBlank");
             imports.add("javax.validation.constraints.NotNull");
         }
+        imports.add("java.io.Serializable");
 
         this.imports = imports;
         this.path = Const.JAVA_PATH +

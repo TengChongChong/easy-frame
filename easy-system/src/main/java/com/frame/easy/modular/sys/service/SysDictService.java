@@ -25,9 +25,9 @@ public interface SysDictService {
      * 根据字典类型获取字典
      *
      * @param dictType 字典类型
-     * @return List<SysDict>
+     * @return List<Select>
      */
-    List<SysDict> dictTypeDicts(String dictType);
+    List<Select> dictTypeDicts(String dictType);
     /**
      * 根据字典类型获取字典
      *
